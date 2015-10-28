@@ -104,6 +104,7 @@
 
                 <bean id="alterDueDate-closeButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
                 jq.fancybox.close();
+                jq('#checkoutItem_control').focus();
                 jq('.loanedItemCBClass').removeAttr('checked');
                 jq('.loaningItemCBClass').removeAttr('checked');" p:style="float:left;margin-left:2em" p:actionLabel="Close"  />
 

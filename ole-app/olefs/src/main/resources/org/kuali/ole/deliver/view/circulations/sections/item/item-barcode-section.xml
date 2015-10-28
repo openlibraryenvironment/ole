@@ -43,11 +43,10 @@
                 if(e.which==13){
                     e.preventDefault();
                     if(jq('#checkoutItem_control').val() !== ''){
-                        submitForm('lookupItemAndSaveLoan',null,null,true,
-                            function (){jq('#checkoutItem_control').focus();}
-                        );
+                        submitForm('lookupItemAndSaveLoan',null,null,true,function(){
+                        });
                     }
-                };" />
+                }" />
             </bean>
         </property>
         <property name="quickfinder">

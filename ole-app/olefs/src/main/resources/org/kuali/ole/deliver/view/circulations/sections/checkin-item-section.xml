@@ -53,11 +53,6 @@
                     if(jq.trim(jq('#checkIn-Item_control').val())!='' &amp; jq('#checkinCustomDueDate_control').valid() &amp; validCheckinTime){
                         submitForm('refresh',null,null,true,
                             function (){
-                                submitForm('refreshUI',null,null,true,
-                                    function (){
-                                        jq('#checkIn-Item_control').focus();
-                                        validateCheckInDate();
-                                    });
                         });
                     }
                 };" />

@@ -86,6 +86,14 @@ public class CheckoutItemController extends CircFastAddItemController {
             resetItemInfoForNextTrans(circForm);
         }
 
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String itemLightBoxScript = lightBoxScript + "jq('#checkoutItem_control').blur();";
+            circForm.setLightboxScript(itemLightBoxScript);
+        }
+
         return getUIFModelAndView(circForm);
     }
 
@@ -127,6 +135,13 @@ public class CheckoutItemController extends CircFastAddItemController {
         } else {
             resetItemInfoForNextTrans(circForm);
         }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String itemLightBoxScript = lightBoxScript + "jq('#checkoutItem_control').blur();";
+            circForm.setLightboxScript(itemLightBoxScript);
+        }
         return getUIFModelAndView(circForm);
     }
 
@@ -165,6 +180,13 @@ public class CheckoutItemController extends CircFastAddItemController {
         } else {
             resetItemInfoForNextTrans(circForm);
         }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String itemLightBoxScript = lightBoxScript + "jq('#checkoutItem_control').blur();";
+            circForm.setLightboxScript(itemLightBoxScript);
+        }
         return getUIFModelAndView(circForm);
     }
 
@@ -200,6 +222,13 @@ public class CheckoutItemController extends CircFastAddItemController {
             }
         } else {
             resetItemInfoForNextTrans(circForm);
+        }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String itemLightBoxScript = lightBoxScript + "jq('#checkoutItem_control').blur();";
+            circForm.setLightboxScript(itemLightBoxScript);
         }
         return getUIFModelAndView(circForm);
     }
@@ -273,6 +302,13 @@ public class CheckoutItemController extends CircFastAddItemController {
             }
         } else {
             resetItemInfoForNextTrans(circForm);
+        }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String itemLightBoxScript = lightBoxScript + "jq('#checkoutItem_control').blur();";
+            circForm.setLightboxScript(itemLightBoxScript);
         }
         return getUIFModelAndView(circForm);
     }

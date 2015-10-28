@@ -143,7 +143,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         } else {
             droolsResponse = new DroolsResponse();
-            droolsResponse.getErrorMessage().setErrorMessage("Invalid item barcode!");
+            droolsResponse.getErrorMessage().setErrorMessage("Invalid item barcode : " + itemBarcode);
             droolsResponse.getErrorMessage().setErrorCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
         }
 

@@ -85,9 +85,9 @@
                       var missingPieceMatchValue = jq('#checkInMissingPiece-matchCheck_control').val();
                       var isChecked = false;
                       isChecked = jq('#checkinMissingPiece-record-Note_control_0').is(':checked');
-                      var missingPieceCountEntered = jq('#checkInMissingPiece-count_control').val();
+                      var missingPieceCountEntered = parseInt(jq('#checkInMissingPiece-count_control').val());
                       var missingPieceNoteEntered = jq('#checkInMissingPiece-note_control').val();
-                      var missingPieceNoOfPieces = jq('#checkinMissingPiece-NoOfPieces_control').val();
+                      var missingPieceNoOfPieces = parseInt(jq('#checkinMissingPiece-NoOfPieces_control').val());
                       var dialogErrorMessage = '';
                       if(missingPieceMatchValue == 'mismatched'){
                         if(missingPieceCountEntered &lt; 1){

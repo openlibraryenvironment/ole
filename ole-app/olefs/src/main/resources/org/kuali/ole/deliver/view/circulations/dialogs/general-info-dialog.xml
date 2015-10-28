@@ -51,7 +51,7 @@
         <property name="items">
             <list>
                 <bean id="btnOKGeneralInfo" parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:style="width:50px"
-                      p:actionScript="jq.fancybox.close(); jq('#checkoutItem_control').val('');"/>
+                      p:actionScript="jq.fancybox.close(); jq('#checkoutItem_control').val(''); jq('#checkoutItem_control').focus();"/>
             </list>
         </property>
     </bean>

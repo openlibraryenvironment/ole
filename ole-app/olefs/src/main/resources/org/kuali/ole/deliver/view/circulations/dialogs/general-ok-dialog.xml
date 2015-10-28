@@ -50,7 +50,7 @@
     <bean id="btnGeneralLayoutSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="btnOkCircDesk" parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:style="width:50px"
+                <bean id="btnOkClearUI" parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:style="width:50px"
                       p:methodToCall="clearUI" p:ajaxSubmit="true"
                       p:successCallback="jq.fancybox.close();"/>
             </list>

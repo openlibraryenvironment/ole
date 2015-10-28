@@ -119,6 +119,7 @@ public class CircBaseController extends OLEUifControllerBase{
                                 HttpServletRequest request, HttpServletResponse response) {
         CircForm circForm = (CircForm) form;
         circForm.resetAll();
+        circForm.setLightboxScript("jq('#barcodeFieldSection_control').focus();");
         return getUIFModelAndView(form, "circViewPage");
     }
 

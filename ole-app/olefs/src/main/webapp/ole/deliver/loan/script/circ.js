@@ -44,7 +44,9 @@ function alterDueDate(){
         alterDueDateObjects.push(alterDueDateObject);
     }
     jq.fancybox.close();
-    submitForm('alterDueDate',{alterDueDateObjectValues:JSON.stringify(alterDueDateObjects)},null,null,null);
+    submitForm('alterDueDate',{alterDueDateObjectValues:JSON.stringify(alterDueDateObjects)},null,true,function(){
+        jq('#checkoutItem_control').focus();
+    });
 }
 
 jq("#pageSizeProxy").live("change", function () {

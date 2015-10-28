@@ -62,7 +62,7 @@
                         />
                 <bean id="customDueDatedDoNotLoanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Loan"
                       p:style="width:100px"
-                      p:actionScript="jq('#checkoutItem_control').val('');jq.fancybox.close();"/>
+                      p:actionScript="jq('#checkoutItem_control').val('');jq.fancybox.close();jq('#checkoutItem_control').focus();"/>
             </list>
         </property>
     </bean>

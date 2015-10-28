@@ -52,7 +52,9 @@
             <list>
                 <bean id="btnOKGeneralInfoWithRefresh" parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:style="width:50px"
                       p:actionScript="jq.fancybox.close(); jq('#checkoutItem_control').val('');
-                      submitForm('refreshScreen',null,null,null,null);"/>
+                      submitForm('refreshScreen',null,null,true,function(){
+                      jq('#checkoutItem_control').focus();
+                      });"/>
             </list>
         </property>
     </bean>

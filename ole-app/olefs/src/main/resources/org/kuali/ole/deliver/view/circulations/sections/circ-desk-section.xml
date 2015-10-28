@@ -25,7 +25,8 @@
     <bean id="circDeskSection" parent="Loan-Uif-InputField" p:propertyName="selectedCirculationDesk"
           p:style="float:right;margin-top:0%;margin-right:13%"
           p:label="Circulation Desk" p:required="false"
-          p:onChangeScript="submitForm('changeCirculationDeskLocation', null, null, null, null);">
+          p:onChangeScript="submitForm('changeCirculationDeskLocation', null, null, true, function(){
+          });">
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>

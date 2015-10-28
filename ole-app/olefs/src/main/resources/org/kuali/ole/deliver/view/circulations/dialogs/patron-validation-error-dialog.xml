@@ -40,7 +40,7 @@
     <bean id="patronValidationErrorBtnLayoutSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="loanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Loan" p:style="width:50px"
+                <bean id="loan_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Loan" p:style="width:50px"
                       p:methodToCall="validateOveridePermission" p:ajaxSubmit="true"
                       p:onClickScript="jq.fancybox.close();"
                       p:successCallback="jq('#checkoutItem_control').focus();"/>

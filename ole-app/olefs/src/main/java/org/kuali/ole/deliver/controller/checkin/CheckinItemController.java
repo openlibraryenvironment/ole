@@ -125,6 +125,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
             showDialog("checkinGeneralInfoMessageDialog", checkinForm, request, response);
         }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("submitForm('refreshUI',null,null,true,function (){ jq('#checkIn-Item_control').focus(); validateCheckInDate(); });");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -147,6 +150,9 @@ public class CheckinItemController extends OLEUifControllerBase {
         } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
             handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
         }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -167,6 +173,9 @@ public class CheckinItemController extends OLEUifControllerBase {
         } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
             handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
         }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -185,6 +194,9 @@ public class CheckinItemController extends OLEUifControllerBase {
         } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
             handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
         }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -202,6 +214,9 @@ public class CheckinItemController extends OLEUifControllerBase {
         }else {
             checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
             showDialog("checkinGeneralInfoMessageDialog", checkinForm, request, response);
+        }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
         }
         return getUIFModelAndView(checkinForm);
     }
@@ -225,6 +240,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             postCheckInNoteProcess(checkinForm, result, request, response);
         }
         checkinForm.reset();
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -246,6 +264,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             }
         }
         checkinForm.reset();
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -258,6 +279,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             if (null != droolsExchangeContext.get(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR)) {
                 showDialog("checkinRouteToDialog", checkinForm, request, response);
             }
+        }
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
         }
         return getUIFModelAndView(checkinForm);
     }
@@ -352,7 +376,11 @@ public class CheckinItemController extends OLEUifControllerBase {
     @RequestMapping(params = "methodToCall=changeCirculationDeskLocation")
     public ModelAndView changeCirculationDeskLocation(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                       HttpServletRequest request, HttpServletResponse response) {
-        return showDialog("circDeskChangeDialog", form, request, response);
+        showDialog("circDeskChangeDialog", form, request, response);
+        String lightBoxScript = form.getLightboxScript();
+        String circDeskLightBoxScript = lightBoxScript + "jq('#btnOkCircDesk').focus();";
+        form.setLightboxScript(circDeskLightBoxScript);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=setPreviousCircDeskToCurrentlySelectedValue")

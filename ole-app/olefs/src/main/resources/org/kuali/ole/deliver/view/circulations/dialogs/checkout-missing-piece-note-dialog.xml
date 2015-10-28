@@ -53,7 +53,8 @@
                       jq.fancybox.close();
                       submitForm('processCheckoutAfterPreValidations', {recordNoteForMissingPieceCheck:isChecked}, null, true, null);"
                       p:actionLabel="Continue"/>
-                <bean id="checkout-missingPieceNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('resetItemForNextTrans',null,null,null,null)"/>
+                <bean id="checkout-missingPieceNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('resetItemForNextTrans',null,null,true,function(){
+                jq('#checkoutItem_control').focus();})"/>
             </list>
         </property>
     </bean>

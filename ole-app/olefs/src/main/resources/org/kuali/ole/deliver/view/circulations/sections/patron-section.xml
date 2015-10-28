@@ -75,7 +75,8 @@
                 <property name="onKeyPressScript" value="
                 if(e.which==13){
                     e.preventDefault();
-                    submitForm('searchPatron',null,null,null,null);};" />
+                    submitForm('searchPatron',null,null,true,function(){
+                    });}" />
             </bean>
         </property>
 

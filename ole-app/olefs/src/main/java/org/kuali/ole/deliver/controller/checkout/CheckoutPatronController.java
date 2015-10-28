@@ -67,6 +67,14 @@ public class CheckoutPatronController extends CheckoutItemController {
         } else {
             return handleProxyPatronsIfExists(circForm, result, request, response);
         }
+
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String patronLightBoxScript = lightBoxScript + "jq('#barcodeFieldSection_control').blur();";
+            circForm.setLightboxScript(patronLightBoxScript);
+        }
         return getUIFModelAndView(circForm, "circViewPage");
     }
 
@@ -82,7 +90,6 @@ public class CheckoutPatronController extends CheckoutItemController {
             if (!proxyPatrons) {
                 setProceedWithCheckoutFlag(circForm);
                 circForm.setProxyCheckDone(true);
-                circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
             } else {
                 String overrideParameters = "{closeBtn:false,autoSize : false}";
                 showDialogWithOverrideParameters("proxyListCheckoutDialog", circForm,overrideParameters);
@@ -94,6 +101,13 @@ public class CheckoutPatronController extends CheckoutItemController {
             showDialog("patronUserNotesDialog", circForm, request, response);
         } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
             return lookupItemAndSaveLoan(circForm,result,request,response);
+        }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String patronLightBoxScript = lightBoxScript + "jq('#barcodeFieldSection_control').blur();";
+            circForm.setLightboxScript(patronLightBoxScript);
         }
         return getUIFModelAndView(form);
     }
@@ -114,6 +128,13 @@ public class CheckoutPatronController extends CheckoutItemController {
             } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
                 return lookupItemAndSaveLoan(circForm,result,request,response);
             }
+        }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String patronLightBoxScript = lightBoxScript + "jq('#barcodeFieldSection_control').blur();";
+            circForm.setLightboxScript(patronLightBoxScript);
         }
         return getUIFModelAndView(circForm);
     }
@@ -158,7 +179,6 @@ public class CheckoutPatronController extends CheckoutItemController {
         circForm.setProceedWithCheckout(true);
         circForm.getErrorMessage().setErrorCode(null);
         circForm.getErrorMessage().setErrorMessage(null);
-        circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
     }
 
     public boolean checkForPatronUserNotes(DroolsExchange droolsExchange) {

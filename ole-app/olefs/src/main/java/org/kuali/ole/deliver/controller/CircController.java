@@ -137,7 +137,11 @@ public class CircController extends CheckoutValidationController {
     @RequestMapping(params = "methodToCall=changeCirculationDeskLocation")
     public ModelAndView changeCirculationDeskLocation(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                       HttpServletRequest request, HttpServletResponse response) {
-        return showDialog("circDeskChangeDialog", form, request, response);
+        showDialog("circDeskChangeDialog", form, request, response);
+        String lightBoxScript = form.getLightboxScript();
+        String circDeskLightBoxScript = lightBoxScript + "jq('#btnOkCircDesk').focus();";
+        form.setLightboxScript(circDeskLightBoxScript);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=revertCircDeskLocationSelection")
@@ -707,7 +711,7 @@ public class CircController extends CheckoutValidationController {
         if (null != circForm.getErrorMessage() && StringUtils.isNotBlank(circForm.getErrorMessage().getErrorMessage())) {
             showDialog("generalInfoDialog", circForm, request, response);
         } else {
-            executeCustomScriptAfterClosingLightBox(circForm, "jq.fancybox.close();");
+            executeCustomScriptAfterClosingLightBox(circForm, "jq.fancybox.close(); jq('#checkoutItem_control').focus();");
         }
         circForm.getLoanDocumentsForRenew().clear();
         return getUIFModelAndView(circForm);
