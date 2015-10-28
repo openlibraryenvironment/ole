@@ -246,11 +246,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 saveDamagedItemNote(oleForm);
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                String billPayment = generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, getCustomDueDateMap(oleForm), itemFineRate);
-                if (StringUtils.isNotBlank(billPayment)) {
-                    getCheckedInItem(oleForm).setBillName(billPayment);
-
-                }
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, getCustomDueDateMap(oleForm), itemFineRate);
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -334,7 +330,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
     private DroolsResponse checkForMissingPieceNote(ItemRecord itemRecord) {
         int noOfPieces = StringUtils.isNotBlank(itemRecord.getNumberOfPieces()) ? Integer.parseInt(itemRecord.getNumberOfPieces()) : 0;
-        if (itemRecord.isMissingPieceFlag() && noOfPieces > 1) {
+        if (noOfPieces > 1) {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_MISSING_PIECE);
             droolsResponse.addErrorMessage(OLEConstants.VERIFY_PIECES + itemRecord.getNumberOfPieces() + OLEConstants.PIECES_RETURNED + OLEConstants.BREAK + "Total No of Pieces :      "
