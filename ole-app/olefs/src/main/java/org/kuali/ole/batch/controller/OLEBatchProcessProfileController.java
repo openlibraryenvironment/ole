@@ -3,6 +3,7 @@ package org.kuali.ole.batch.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.*;
+import org.kuali.ole.batch.service.impl.OLEBatchProcessProfileDocumentServiceImpl;
 import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.batch.bo.xstream.OLEBatchProcessProfileRecordProcessor;
@@ -14,10 +15,7 @@ import org.kuali.ole.service.OleOrderRecordService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -1371,6 +1369,37 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
             oleBatchProcessProfileConstantsBo.setAttributeValueText("0.0");
         }
         return getUIFModelAndView(form);
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=maintenanceCopy")
+    public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = super.maintenanceCopy(form, result, request, response);
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
+        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) document.getNewMaintainableObject().getDataObject();
+        oleBatchProcessProfileBo.setBatchProcessProfileName(null);
+        oleBatchProcessProfileBo.setBatchProcessProfileDesc(null);
+
+        for (OLEBatchProcessProfileMatchPoint oleBatchProcessProfileMatchPoint : oleBatchProcessProfileBo.getOleBatchProcessProfileMatchPointList()) {
+            if(oleBatchProcessProfileMatchPoint.getMatchPointType() != null && oleBatchProcessProfileMatchPoint.getMatchPointType().equalsIgnoreCase("bibliographic")) {
+                oleBatchProcessProfileBo.getOleBatchProcessProfileBibliographicMatchPointList().add(oleBatchProcessProfileMatchPoint);
+            } else if(oleBatchProcessProfileMatchPoint.getMatchPointType() != null && oleBatchProcessProfileMatchPoint.getMatchPointType().equalsIgnoreCase("holdings")) {
+                oleBatchProcessProfileBo.getOleBatchProcessProfileHoldingMatchPointList().add(oleBatchProcessProfileMatchPoint);
+            } else if(oleBatchProcessProfileMatchPoint.getMatchPointType() != null && oleBatchProcessProfileMatchPoint.getMatchPointType().equalsIgnoreCase("item")) {
+                oleBatchProcessProfileBo.getOleBatchProcessProfileItemMatchPointList().add(oleBatchProcessProfileMatchPoint);
+            } else if(oleBatchProcessProfileMatchPoint.getMatchPointType() != null && oleBatchProcessProfileMatchPoint.getMatchPointType().equalsIgnoreCase("eHoldings")) {
+                oleBatchProcessProfileBo.getOleBatchProcessProfileEholdingMatchPointList().add(oleBatchProcessProfileMatchPoint);
+            }
+        }
+        return modelAndView;
+    }
+
+
+    @Override
+    protected MaintenanceDocumentService getMaintenanceDocumentService() {
+        return (OLEBatchProcessProfileDocumentServiceImpl)SpringContext.getBean("oleBatchProcessProfileMaintenanceDocumentService");
     }
 
 }

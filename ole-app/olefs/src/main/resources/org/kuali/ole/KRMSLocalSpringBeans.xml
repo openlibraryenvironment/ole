@@ -807,4 +807,11 @@
         <property name="businessObjectService" ref="businessObjectService"/>
     </bean>
 
+    <bean id="oleBatchProcessProfileMaintenanceDocumentService"
+          class="org.kuali.ole.batch.service.impl.OLEBatchProcessProfileDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
 </beans>

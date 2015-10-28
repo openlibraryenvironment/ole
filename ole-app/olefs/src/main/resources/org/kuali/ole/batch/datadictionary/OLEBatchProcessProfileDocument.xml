@@ -735,6 +735,17 @@
                     <property name="render"
                               value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
                 </bean>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="copy"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceCopy</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceNewOrCopyAction() and view.showMaintenanceLinks}"/>
+                </bean>
                 <bean parent="Uif-ActionLink">
                     <property name="actionLabel" value="Return Value"/>
                     <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
