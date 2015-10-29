@@ -9,6 +9,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/oleDeliverNoticeController?viewId=OLEDeliverNoticeView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true"   title="Edit Patron Bills"
                        url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.PatronBillPayment&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
+    <portal:portalLink displayTitle="true" title="Deliver Notices Search"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/deliverNoticeSearchController?viewId=OLEDeliverNoticeSearchView&methodToCall=start"/> <br/>
     <%--<portal:portalLink displayTitle="true" title="MyAccount"
                        url="${ConfigProperties.application.url}/ole-kr-krad/myaccountcontroller?viewId=RenewalItemView&methodToCall=start"/> <br/><br/>--%>
 
