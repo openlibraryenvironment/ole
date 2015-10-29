@@ -15,7 +15,7 @@ public class OLEBatchProcessProfileMatchPoint extends PersistableBusinessObjectB
     private String matchPoint;
     private String matchPointType;
     private String batchProcessProfileId;
-    private String cascadingMatchPoint ;
+    private String cascadingMatchPoint = "";
     private OLEBatchProcessProfileBo oleBatchProcessProfileBo;
 
     public String getMatchPointId() {
