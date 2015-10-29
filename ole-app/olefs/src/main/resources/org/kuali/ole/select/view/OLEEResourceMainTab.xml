@@ -28,11 +28,11 @@
                 <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:30em">
                     <property name="items">
                         <list>
-                            <bean id="refreshVendor" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshVendor" p:actionLabel="Save" p:performClientSideValidation="false"
-                                  p:render="true" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:hidden="true"/>
+                            <bean id="refreshVendor" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshVendor"  p:performClientSideValidation="false"
+                                  p:render="true"  p:hidden="true"/>
 
-                            <bean id="refreshPublisher" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshPublisher" p:actionLabel="Save" p:performClientSideValidation="false"
-                                  p:render="true" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:hidden="true"/>
+                            <bean id="refreshPublisher" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshPublisher"  p:performClientSideValidation="false"
+                                  p:render="true"  p:hidden="true"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
