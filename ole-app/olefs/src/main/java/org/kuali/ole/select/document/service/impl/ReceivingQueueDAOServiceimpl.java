@@ -9,6 +9,7 @@ import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -26,6 +27,7 @@ import java.util.Map;
  */
 public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc implements org.kuali.ole.select.document.service.ReceivingQueueDAOService{
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingQueueDAOServiceimpl.class);
     private String dbVendor = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.DB_VENDOR);
 
 
@@ -34,7 +36,8 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         String query = "SELECT PO.FDOC_NBR AS FDOC_NBR,PO.PO_ID AS PO_ID,PO.VNDR_NM AS VNDR_NM ,DHR.DOC_HDR_STAT_CD AS DOC_HDR_STAT_CD,POITM.OLE_DOCUMENT_UUID as BIBID " +
                 ",PO.PO_CRTE_DT AS PO_CRTE_DT,POITM.PO_ITM_ID AS PO_ITM_ID,POITM.ITM_UNIT_PRC AS ITM_UNIT_PRC,POITM.ITM_ORD_QTY AS ITM_ORD_QTY,POITM.OLE_DNT_CLM AS OLE_DNT_CLM" +
                 ",POITM.ITM_DESC AS ITM_DESC,POITM.OLE_NUM_PRTS AS OLE_NUM_PRTS,POITM.OLE_CLM_DT AS OLE_CLM_DT " +
-                ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
+                ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,POITM.OLE_FOR_UNT_CST AS OLE_FOR_UNT_CST" +
+                ",(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
                 ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD "+
                 "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM " +
                 "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR  " +
@@ -54,7 +57,9 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 getResultSetLimit();
                 //" LIMIT 1000";
                 //+"AND PO.VNDR_NM='"+vendorName+"'";
-        System.out.println("query ----->"+query);
+        if (LOG.isInfoEnabled()) {
+            LOG.info("receiving climbing query ----->"+query);
+        }
         return getSimpleJdbcTemplate().queryForList(query);
     }
 
@@ -125,10 +130,15 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             olePurchaseOrderDocument.setPurapDocumentIdentifier(Integer.parseInt(resultSet.get("PO_ID").toString()));
             OlePurchaseOrderItem olePurchaseOrderItem = new OlePurchaseOrderItem();
             olePurchaseOrderItem.setItemIdentifier(Integer.parseInt(resultSet.get("PO_ITM_ID").toString()));
-            olePurchaseOrderItem.setItemTitleId(resultSet.get("BIBID").toString());
-            olePurchaseOrderItem.setItemDescription(resultSet.get("ITM_DESC").toString());
-            olePurchaseOrderItem.setDoNotClaim(Boolean.parseBoolean(resultSet.get("OLE_DNT_CLM").toString()));
-            //olePurchaseOrderItem.setClaimDate();
+            if (resultSet.get("BIBID")!=null) {//For EResoruce bibid will be null
+                olePurchaseOrderItem.setItemTitleId(resultSet.get("BIBID").toString());
+            }
+            if (resultSet.get("ITM_DESC")!=null) {
+                olePurchaseOrderItem.setItemDescription(resultSet.get("ITM_DESC").toString());
+            }
+            if (resultSet.get("OLE_DNT_CLM")!=null) {
+                olePurchaseOrderItem.setDoNotClaim(Boolean.parseBoolean(resultSet.get("OLE_DNT_CLM").toString()));
+            }
             if (resultSet.get("ITM_UNIT_PRC")!=null) {
                 olePurchaseOrderItem.setItemUnitPrice(new BigDecimal(resultSet.get("ITM_UNIT_PRC").toString()));
             }
@@ -144,6 +154,9 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             if(resultSet.get("OLE_REQ_RCPT_STATUS_ID")!=null){
                 olePurchaseOrderItem.setReceiptStatusId(Integer.parseInt(resultSet.get("OLE_REQ_RCPT_STATUS_ID").toString()));
             }
+            if(resultSet.get("OLE_FOR_UNT_CST")!=null){
+                olePurchaseOrderItem.setItemForeignUnitCost(new KualiDecimal(new Double(resultSet.get("OLE_FOR_UNT_CST").toString()).intValue()));
+            }
             if(resultSet.get("REPSTATCD")!=null){
                 if(resultSet.get("REPSTATCD").toString().equals(org.kuali.ole.sys.OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED)){
                     GlobalVariables.clear();
@@ -152,8 +165,6 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 }
             }
             olePurchaseOrderItem.setItemPoQty(new KualiInteger(new Double(resultSet.get("ITM_ORD_QTY").toString()).intValue()));
-            //olePurchaseOrderItem.setPoAdded(true);
-            //olePurchaseOrderItem.setItemQuantity(new KualiDecimal(resultSet.get("ITM_ORD_QTY").toString()));
             olePurchaseOrderItemList.add(olePurchaseOrderItem);
             olePurchaseOrderDocument.setOlePurchaseOrderItemList(olePurchaseOrderItemList);
             olePurchaseOrderDocument.setItems(olePurchaseOrderItemList);

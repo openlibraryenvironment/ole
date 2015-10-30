@@ -17,6 +17,7 @@ package org.kuali.ole.select.document;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.joda.time.DateTime;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -964,12 +965,10 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         try {
             String criteriaDate = null;
             if (ObjectUtils.isNotNull(this.beginDate)) {
-                //criteriaDate=getFormattedDateForQuery(this.beginDate);
-                queryCriteriaMap.put("poCreateFromDate",this.beginDate);
+                queryCriteriaMap.put("poCreateFromDate",getFormattedDateForQuery(this.beginDate));
             }
             if (ObjectUtils.isNotNull(this.endDate)) {
-                //criteriaDate=getFormattedDateForQuery(this.endDate);
-                queryCriteriaMap.put("poCreateToDate",this.endDate);
+                queryCriteriaMap.put("poCreateToDate",getFormattedDateForQuery(this.endDate));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1016,6 +1015,9 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             String inputDateFormat = "MM/dd/yyyy";
             simpleDateFormat = new SimpleDateFormat(inputDateFormat);
             Date inputDate=simpleDateFormat.parse(dateString);
+            inputDate=DateUtils.addDays(inputDate,1);//Incremented date, in sql if the input date is alone passed it will fetch the record till the previous day,
+            // so one day needs to be added inorder to bring the records till input date
+            System.out.println("inputDate--->"+inputDate);
             String outputDateFormat = "yyyy-MM-dd";
             simpleDateFormat = new SimpleDateFormat(outputDateFormat);
             outputDate = simpleDateFormat.format(inputDate);
