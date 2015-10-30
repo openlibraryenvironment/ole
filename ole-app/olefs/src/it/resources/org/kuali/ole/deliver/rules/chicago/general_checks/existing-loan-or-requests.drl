@@ -16,8 +16,9 @@ rule "Available Item by same patron with an existing request"
  activation-group "request-or-existing-loan-checks"
  when
  $p : OlePatronDocument()
- $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in  ("Loaned"))
+ $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in  ("LOANED"))
  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId())
+ $l : OleLoanDocument(!isRequestPatron())
  $d : DroolsResponse()
 
  then
@@ -25,6 +26,37 @@ rule "Available Item by same patron with an existing request"
   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
  end
+
+ rule "Available Item by same patron with an existing request and recall request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId())
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is available and it has Recall Request, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+  rule "Available Item with an existing recall request"
+    agenda-group "request-or-existing-loan-checks"
+    activation-group "request-or-existing-loan-checks"
+    when
+     $p : OlePatronDocument()
+     $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId())
+     $l : OleLoanDocument(isRequestPatron())
+     $d : DroolsResponse()
+
+    then
+     $d.addErrorMessage("The Item has an existing Recall Request and the due date will be truncated accordingly.");
+     $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
+    end
 
  rule "Loaned Item by same patron with an existing request by a differnt patron"
   agenda-group "request-or-existing-loan-checks"

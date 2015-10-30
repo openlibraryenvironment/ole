@@ -161,6 +161,7 @@ public class DroolsConstants {
     public static final String REQUEST_EXITS_FOR_AVAIL_ITEM = "REQUEST_EXITS_FOR_AVAIL_ITEM";
     public static final String REQUEST_EXITS_FOR_LOANED_ITEM = "REQUEST_EXITS_FOR_LOANED_ITEM";
     public static final String LOANED_BY_DIFFERENT_PATRON = "loaned_to_different_patron";
+    public static final String DUE_DATE_TRUNCATED= "DUE_DATE_TRUNCATED";
 
 
     public static final String ITS_ADP_LOANS_NOTICE_CONFIG = "its_adp_loans_notice_config";

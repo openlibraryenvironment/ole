@@ -77,6 +77,9 @@ public class CheckoutItemController extends CircFastAddItemController {
                 handleDamagedItemProcess(request, response, circForm, droolsResponse);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.ITEM_MISSING_PIECE)){
                 handleMissingPieceProcess(request, response, circForm, droolsResponse);
+            }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+                showDialog("dueDateTruncated",circForm,request,response);
             }else {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 circForm.setItemOverride(true);
@@ -127,6 +130,9 @@ public class CheckoutItemController extends CircFastAddItemController {
                 handleMissingPieceProcess(request, response, circForm, droolsResponse);
             } else if (null!= droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
                 handleDamagedItemProcess(request, response, circForm, droolsResponse);
+            }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+                showDialog("dueDateTruncated",circForm,request,response);
             } else {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 circForm.setItemOverride(true);
@@ -172,6 +178,9 @@ public class CheckoutItemController extends CircFastAddItemController {
                 showDialog("generalInfoDialog", circForm, request, response);
             } else if(null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
                 handleMissingPieceProcess(request, response, circForm, droolsResponse);
+            } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+                showDialog("dueDateTruncated",circForm,request,response);
             } else {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 circForm.setItemOverride(true);
@@ -215,6 +224,9 @@ public class CheckoutItemController extends CircFastAddItemController {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 resetItemInfoForNextTrans(circForm);
                 showDialog("generalInfoDialog", circForm, request, response);
+            } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+                showDialog("dueDateTruncated",circForm,request,response);
             } else {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 circForm.setItemOverride(true);

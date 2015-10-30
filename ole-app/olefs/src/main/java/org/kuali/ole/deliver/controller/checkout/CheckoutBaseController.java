@@ -293,7 +293,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
 
         currentLoanDocument = getCurrentLoanDocument(itemRecord.getBarCode());
-        if (subsequentRequestExistsForItem(oleItemRecordForCirc)) {
+        if (subsequentRequestExistsForItem(oleItemRecordForCirc, getCurrentBorrower(oleForm))) {
             currentLoanDocument.setRequestPatron(true);
         }
 
@@ -332,7 +332,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
 
         currentLoanDocument = getCurrentLoanDocument(itemRecord.getBarCode());
-        if (subsequentRequestExistsForItem(oleItemRecordForCirc)) {
+        if (subsequentRequestExistsForItem(oleItemRecordForCirc, getCurrentBorrower(oleForm))) {
             currentLoanDocument.setRequestPatron(true);
         }
 
@@ -505,15 +505,19 @@ public abstract class CheckoutBaseController extends CircUtilController {
         return parameterValues;
     }
 
-    private boolean subsequentRequestExistsForItem(OleItemRecordForCirc oleItemRecordForCirc) {
+    private boolean subsequentRequestExistsForItem(OleItemRecordForCirc oleItemRecordForCirc, OlePatronDocument currentBorrower) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("itemId", oleItemRecordForCirc.getItemRecord().getBarCode());
         List<OleDeliverRequestBo> matching = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, map);
         if (CollectionUtils.isNotEmpty(matching)) {
             for (Iterator<OleDeliverRequestBo> iterator = matching.iterator(); iterator.hasNext(); ) {
                 OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+                OlePatronDocument olePatronDocument = oleDeliverRequestBo.getOlePatron();
                 if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL)){
-                    return true;
+                    if(null != olePatronDocument && null != currentBorrower && StringUtils.isNotBlank(currentBorrower.getOlePatronId()) &&
+                            !(currentBorrower.getOlePatronId().equals(olePatronDocument.getOlePatronId()))) {
+                        return true;
+                    }
                 }
             }
         }
