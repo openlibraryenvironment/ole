@@ -461,10 +461,10 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 BigDecimal discount = BigDecimal.ZERO;
                 if(oleInvoiceItem.getItemDiscount() != null) {
-                    if(oleInvoiceItem.getItemDiscountType().equals("%")) {
+                    if((oleInvoiceItem.getItemDiscountType() != null && oleInvoiceItem.getItemDiscountType().equals("%")) || (oleInvoiceItem.getItemForeignDiscountType() != null && oleInvoiceItem.getItemForeignDiscountType().equals("%"))) {
                         discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
                         totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
-                    } else {
+                    }  else {
                         discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(oleInvoiceItem.getItemDiscount().bigDecimalValue())));
                         totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
                     }
