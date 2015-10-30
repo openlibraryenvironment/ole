@@ -66,19 +66,14 @@ public class OLEInitializeListener extends KualiInitializeListener {
 
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
-        //documentService.setWorkflowDocumentService((WorkflowDocumentService)SpringContext.getBean("workflowDocumentService"));
         if (ConfigContext.getCurrentContextConfig().getProperty("autoIngestDefaults").equals("true")) {
             LoadDefaultPatronsBean loadDefaultPatronsBean = GlobalResourceLoader.getService("loadDefaultPatronsBean");
-            LoadDefaultCirculationPoliciesBean loadDefaultCirculationPoliciesBean = GlobalResourceLoader.getService("loadDefaultCirculationPoliciesBean");
             LoadDefaultLicensesBean loadDefaultLicensesBean = GlobalResourceLoader.getService("loadDefaultLicensesBean");
             LoadDefaultEResourceBean loadDefaultEResourceBean = GlobalResourceLoader.getService("loadDefaultEResourcesBean");
-            LoadDefaultIngestProfileBean loadDefaultIngestProfileBean = GlobalResourceLoader.getService("loadDefaultIngestProfileBean");
             try {
                 loadDefaultPatronsBean.loadDefaultPatrons(false);
-                loadDefaultCirculationPoliciesBean.loadDefaultCircPolicies(false);
                 loadDefaultLicensesBean.loadDefaultLicenses(false);
                 loadDefaultEResourceBean.loadDefaultEResource(false);
-                loadDefaultIngestProfileBean.loadDefaultIngestProfile(false);
             } catch (Exception e) {
                 LOG.error(e, e);
             }

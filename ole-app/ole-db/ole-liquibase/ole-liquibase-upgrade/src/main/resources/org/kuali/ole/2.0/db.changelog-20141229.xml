@@ -5207,4 +5207,9 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="DELETE_KRCR_PARM_T">
+        <delete tableName="KRCR_PARM_T">
+            <where>PARM_NM IN ('LOAD_DEFAULT_CIRCULATION_POLICIES_IND','LOAD_DEFAULT_INGEST_POLICIES_IND')</where>
+        </delete>
+    </changeSet>
 </databaseChangeLog>
