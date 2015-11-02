@@ -65,7 +65,7 @@
                     />
                 <bean id="closeBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Close"
                       p:style="width:120px"
-                      p:methodToCall="clearUI" p:ajaxSubmit="true" p:successCallback="jq.fancybox.close();"/>
+                      p:methodToCall="resetItemForNextTrans" p:ajaxSubmit="true" p:successCallback="jq.fancybox.close();jq('#checkoutItem_control').focus();"/>
             </list>
         </property>
     </bean>

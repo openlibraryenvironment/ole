@@ -72,7 +72,8 @@ when
 
 $c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
-$s: getItemStatusRecord(),null != $s, $s.getCode() in ("RECENTLY-RETURNED", "AVAILABLE"))
+$r: getOleDeliverRequestBo(), null == $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 $d : DroolsResponse()
 
 
@@ -90,7 +91,8 @@ activation-group "checkin-validation-for-no-loan"
 when
 
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
- $s: getItemStatusRecord(),null != $s, $s.getCode() not in ("INTRANSIT"))
+$r: getOleDeliverRequestBo(), null == $r,
+$s: getItemStatusRecord(),null != $s, $s.getCode() not in ("INTRANSIT"))
 $d : DroolsResponse()
 
 
@@ -102,24 +104,6 @@ $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
  end
 
 
- rule "In transit check for item without a loan"
-agenda-group "checkin-validation-for-no-loan"
-activation-group "checkin-validation-for-no-loan"
-
-when
-
-$c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
-$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
-$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT"))
-$d : DroolsResponse()
-
-
-then
-$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
-$i.updateInHouseCheckinCount();
-$d.setRuleMatched(true);
- end
-
  rule "In transit check for item without a loan for shelving lag time equal to 0"
 agenda-group "checkin-validation-for-no-loan"
 activation-group "checkin-validation-for-no-loan"
@@ -127,7 +111,8 @@ activation-group "checkin-validation-for-no-loan"
 when
 $c: OleCirculationDesk(getShelvingLagTimeInt() == 0)
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
-$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT"))
+$r: getOleDeliverRequestBo(), null == $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 $d : DroolsResponse()
 
 

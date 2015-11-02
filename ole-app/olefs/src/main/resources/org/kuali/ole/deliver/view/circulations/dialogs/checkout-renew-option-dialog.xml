@@ -49,9 +49,9 @@
                       "/>
                 <bean id="checkoutRenewOptionDoNotProceed" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Proceed"
                       p:style="width:120px"
-                      p:methodToCall="clearUI" p:ajaxSubmit="true" p:successCallback="
+                      p:methodToCall="resetItemForNextTrans" p:ajaxSubmit="true" p:successCallback="
                       jq.fancybox.close();
-                      jq('#barcodeFieldSection_control').focus();
+                      jq('#checkoutItem_control').focus();
                       jq('.loanedItemCBClass').removeAttr('checked');
                       jq('.loaningItemCBClass').removeAttr('checked');"/>
             </list>
