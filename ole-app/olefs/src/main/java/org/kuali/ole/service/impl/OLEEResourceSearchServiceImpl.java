@@ -1608,7 +1608,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                             Integer poCreatedYear = olePurchaseOrderDocument.getPostingYear();
-                            Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                           // Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                            Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
                             if (currentYear.compareTo(poCreatedYear) == 0) {
                                 oleeResourcePO.setPaidAmountCurrentFY(olePurchaseOrderItem.getItemInvoicedTotalAmount().intValue());
                             } else if (currentYear.compareTo(poCreatedYear) == 1) {
