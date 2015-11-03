@@ -437,6 +437,11 @@ public class WorkEInstanceOlemlEditor
                     try {
                         tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
                         tempDocument.seteInstanceFlag(true);
+                        Map<String, String> eInsMap = new HashMap<>();
+                        eInsMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, tempDocument.getOleERSIdentifier());
+                        eInsMap.put(OLEConstants.INSTANCE_ID, editorForm.getDocId());
+                        List<OLEEResourceInstance> oleERSInstances = (List<OLEEResourceInstance>)KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceInstance.class, eInsMap);
+                        tempDocument.setOleERSInstances(oleERSInstances);
                         for (OLEEResourceInstance oleeResourceInstance : tempDocument.getOleERSInstances()) {
                             if (oleeResourceInstance.getInstanceId().equals(editorForm.getDocId())) {
                                 processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
