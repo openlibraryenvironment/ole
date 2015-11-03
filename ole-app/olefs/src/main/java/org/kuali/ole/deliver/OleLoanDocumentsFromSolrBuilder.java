@@ -257,7 +257,7 @@ public class OleLoanDocumentsFromSolrBuilder {
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("checkOutDateTime")) {
                             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
                             Date date = formatter.parse(searchResultField.getFieldValue());
-                            oleLoanDocument.setCreateDate(date);
+                            oleLoanDocument.setCreateDate(new Timestamp(date.getTime()));
                         }
                     }
                 }
