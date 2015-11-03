@@ -2123,8 +2123,12 @@ public class OLEEResourceHelperService {
         List<Principal> principals = null;
         String mailId = null;
         boolean emailNotification = oleAccessActivationConfiguration.isMailNotification();
-        if(oleAccessActivationConfiguration.getRecipientRoleId()==null && oleAccessActivationConfiguration.getRecipientUserId()==null && oleAccessActivationConfiguration.getMailId()==null){
+        if(oleAccessActivationConfiguration.getRecipientRoleId()==null && oleAccessActivationConfiguration.getRecipientUserId()==null && StringUtils.isEmpty(oleAccessActivationConfiguration.getMailId())){
             updateActionList(documentRouteHeaderValue.getDocumentId(),documentRouteHeaderValue.getDocumentType().getName(),documentRouteHeaderValue.getRoutedByPrincipalId(),oleAccessActivationConfiguration.getMailContent(),documentRouteHeaderValue.getRoutedByPrincipalId());
+       if(emailNotification){
+           mailId = getHomeEmail(documentRouteHeaderValue.getRoutedByPrincipal().getEntityId());
+          sendMail(mailId,oleAccessActivationConfiguration.getMailContent(),eResourceName);
+       }
         }else if(oleAccessActivationConfiguration.getRecipientRoleId()!=null){
             principals = getPrincipals(oleAccessActivationConfiguration.getRecipientRoleId());
             for(Principal principal : principals){
@@ -2146,7 +2150,7 @@ public class OLEEResourceHelperService {
                 }
                 updateActionList(documentRouteHeaderValue.getDocumentId(),documentRouteHeaderValue.getDocumentType().getName(),principal.getPrincipalId(),oleAccessActivationConfiguration.getMailContent(),GlobalVariables.getUserSession().getPrincipalId());
             }
-        }else if(oleAccessActivationConfiguration.getMailId()!=null){
+        }else if(StringUtils.isNotEmpty(oleAccessActivationConfiguration.getMailId())){
             if(emailNotification){
                 sendMail(oleAccessActivationConfiguration.getMailId(),oleAccessActivationConfiguration.getMailContent(),eResourceName);
             }
@@ -2187,9 +2191,6 @@ public class OLEEResourceHelperService {
         oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(mailId), new EmailSubject("Workflow Completion Alert"), new EmailBody(processedMailContent), true);
 
     }
-
-
-
 
 
 

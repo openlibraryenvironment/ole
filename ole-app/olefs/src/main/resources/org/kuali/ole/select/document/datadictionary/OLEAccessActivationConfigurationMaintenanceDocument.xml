@@ -71,11 +71,11 @@
         <property name="headerText" value="Mail Configuration" />
         <property name="items">
         <list>
-            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10" p:style="float:left;margin-left:3em;width:400px">
+            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10">
             <property name="items">
                 <list>
-                    <bean id="selectRequest-MaintenanceViews-notifierSelector" parent="Uif-InputField"
-                          p:propertyName="selector" p:label="Selector" >
+                    <bean id="selectRequest-MaintenanceViews-notifier" parent="Uif-InputField"
+                          p:propertyName="notificationSelector" p:label="Selector" >
                         <property name="optionsFinder">
                             <bean class="org.kuali.ole.select.keyvalue.OLEEResourceNotifierKeyValues"/>
                         </property>
@@ -83,8 +83,24 @@
                             <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                         </property>
                     </bean>
-                    <ref bean="selectRequest-MaintenanceViews-recipientRoleName"/>
-                    <ref bean="selectRequest-MaintenanceViews-recipientUserName"/>
+                    <bean id="selectRequest-MaintenanceViews-recipientRoleName" parent="Uif-InputField"
+                          p:propertyName="recipientRoleName" p:label="Recipient Role Name"
+                          p:enableAutoDirectInquiry="false">
+                        <property name="quickfinder">
+                            <bean parent="Uif-QuickFinder"
+                                  p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
+                                  p:fieldConversions="name:recipientRoleName,id:recipientRoleId"
+                                  p:lookupParameters="recipientRoleName:name,recipientRoleId:id"/>
+                        </property>
+
+                    </bean>
+                    <bean id="selectRequest-MaintenanceViews-recipientUserName" p:propertyName="recipientUserName" parent="Uif-InputField" p:label="Recipient User Name" >
+                        <property name="quickfinder">
+                            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                                  p:fieldConversions="principalName:recipientUserName,principalId:recipientUserId"
+                                  p:lookupParameters="recipientUserName:principalName,recipientUserId:principalId" />
+                        </property>
+                    </bean>
                     <bean id="create_mailId"  parent="Uif-InputField" p:propertyName="mailId">
                     <property name="validCharactersConstraint">
                         <bean parent="EmailAddressPatternConstraint" />
@@ -120,6 +136,7 @@
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
         <property name="businessRulesClass" value="org.kuali.ole.select.rule.OLEAccessActivationConfigurationRule"/>
+        <property name="maintainableClass" value="org.kuali.ole.select.maintenance.OleAccessActivationConfigurationMaintenanceImpl"/>
         <property name="lockingKeys">
             <list>
                 <value>accessActivationConfigurationId</value>
@@ -186,25 +203,9 @@
 
 
 
-    <bean id="selectRequest-MaintenanceViews-recipientUserName" p:propertyName="recipientUserName" parent="Uif-InputField" p:label="Recipient User Name" >
-        <property name="quickfinder">
-            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-                  p:fieldConversions="principalName:recipientUserName,principalId:recipientUserId"
-                  p:lookupParameters="recipientUserName:principalName,recipientUserId:principalId" />
-        </property>
-    </bean>
 
 
-    <bean id="selectRequest-MaintenanceViews-recipientRoleName" parent="Uif-InputField"
-          p:propertyName="recipientRoleName" p:label="Recipient Role Name"
-          p:enableAutoDirectInquiry="false">
-        <property name="quickfinder">
-            <bean parent="Uif-QuickFinder"
-                  p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
-                  p:fieldConversions="name:recipientRoleName,id:recipientRoleId"
-                  p:lookupParameters="recipientRoleName:name,recipientRoleId:id"/>
-        </property>
 
-    </bean>
+
 
 </beans>

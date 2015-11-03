@@ -11,6 +11,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRuleBase {
 
     private PersonService personService;
+    private BusinessObjectService businessObjectService;
 
     public PersonService getPersonService() {
     if(personService == null){
@@ -32,7 +35,12 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
     }
         return personService;
     }
-
+    public BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null){
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
@@ -46,6 +54,9 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         isValid &= validateUniqueAccessName(accessConfiguration);
         isValid &= validateAccessActivationWorkflows(accessConfiguration);
         isValid &= validateUniqueStatus(accessConfiguration);
+        processNotificationUser(accessConfiguration);
+        isValid &= validateRole(accessConfiguration);
+        isValid &= validatePerson(accessConfiguration);
         return isValid;
     }
 
@@ -108,5 +119,122 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
 
         }
         return isValid;
+    }
+
+
+    private void processNotificationUser(OLEAccessActivationConfiguration oleAccessActivationConfiguration){
+        if(oleAccessActivationConfiguration!=null){
+            if(oleAccessActivationConfiguration.getNotificationSelector().equals("Role")){
+               oleAccessActivationConfiguration.setRecipientUserName(null);
+                oleAccessActivationConfiguration.setRecipientUserId(null);
+                oleAccessActivationConfiguration.setMailId(null);
+            }
+            else if(oleAccessActivationConfiguration.getNotificationSelector().equals("Person")){
+                oleAccessActivationConfiguration.setRecipientRoleName(null);
+                oleAccessActivationConfiguration.setRecipientRoleId(null);
+                oleAccessActivationConfiguration.setMailId(null);
+            }
+            else if (oleAccessActivationConfiguration.getNotificationSelector().equals("mail")){
+                oleAccessActivationConfiguration.setRecipientUserName(null);
+                oleAccessActivationConfiguration.setRecipientUserId(null);
+                oleAccessActivationConfiguration.setRecipientRoleName(null);
+                oleAccessActivationConfiguration.setRecipientRoleId(null);
+            }
+        }
+
+    }
+
+
+
+
+    private boolean validateRole(OLEAccessActivationConfiguration oleAccessActivationConfiguration){
+        Map<String, String> criteria = new HashMap<String, String>();
+        List<RoleBo> dataSourceNameInDatabaseroleName;
+        RoleBo roleBo;
+        boolean validRole = true;
+
+        if (StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
+            criteria.put(OLEConstants.ACCESS_ROLE_ID, oleAccessActivationConfiguration.getRecipientRoleId());
+            criteria.put(OLEConstants.ACCESS_ROLE_NAME, oleAccessActivationConfiguration.getRecipientRoleName());
+            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService().findMatching(RoleBo.class, criteria);
+            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
+                validRole = true;
+            } else {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_ID_NAME);
+                validRole = false;
+            }
+        } else if (StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
+            criteria = new HashMap<String, String>();
+            criteria.put(OLEConstants.ACCESS_ROLE_NAME, oleAccessActivationConfiguration.getRecipientRoleName());
+            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
+                    .findMatching(RoleBo.class, criteria);
+            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
+                roleBo = dataSourceNameInDatabaseroleName.get(0);
+                oleAccessActivationConfiguration.setRecipientRoleId(roleBo.getId());
+                validRole = true;
+            } else {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_NAME);
+                validRole = false;
+            }
+        } else if (StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
+            criteria = new HashMap<String, String>();
+            criteria.put(OLEConstants.ACCESS_ROLE_ID, oleAccessActivationConfiguration.getRecipientRoleId());
+            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
+                    .findMatching(RoleBo.class, criteria);
+            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
+                roleBo = dataSourceNameInDatabaseroleName.get(0);
+                oleAccessActivationConfiguration.setRecipientRoleName(roleBo.getName());
+                validRole = true;
+            } else {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_ID);
+                validRole = false;
+            }
+        }
+
+
+        return validRole ;
+    }
+
+
+    private boolean validatePerson(OLEAccessActivationConfiguration oleAccessActivationConfiguration){
+        boolean validPerson = true;
+        if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+            Map<String,String> criteriaMap = new HashMap<String,String>();
+            criteriaMap.put("principalId",oleAccessActivationConfiguration.getRecipientUserId());
+            criteriaMap.put("principalName",oleAccessActivationConfiguration.getRecipientUserName());
+            List<Person> personList = getPersonService().findPeople(criteriaMap);
+            if(personList.size()>0){
+                validPerson = true;
+            }else {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_ID_NAME);
+                validPerson = false;
+            }
+        } else if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+            Person person = getPersonService().getPerson(oleAccessActivationConfiguration.getRecipientUserId());
+            if(person!=null){
+                validPerson =true;
+                oleAccessActivationConfiguration.setRecipientUserName(person.getName());
+            }else{
+                validPerson = false;
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_ID);
+            }
+
+        }
+        else if(StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+            Person person = getPersonService().getPersonByPrincipalName(oleAccessActivationConfiguration.getRecipientUserName());
+            if(person!=null){
+                validPerson =true;
+                oleAccessActivationConfiguration.setRecipientUserId(person.getPrincipalId());
+            }else{
+                validPerson = false;
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_NAME);
+            }
+
+        }
+        if(StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+            oleAccessActivationConfiguration.setRecipientUserName(null);
+            validPerson=true;
+        }
+        return validPerson;
     }
 }

@@ -26,6 +26,7 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
     private List<OLEAccessActivationWorkFlow> accessActivationWorkflowList = new ArrayList<OLEAccessActivationWorkFlow>();
     private boolean active;
     private String selector;
+    private String notificationSelector;
 
     public String getAccessActivationConfigurationId() {
         return accessActivationConfigurationId;
@@ -144,5 +145,13 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
 
     public void setMailNotification(boolean mailNotification) {
         this.mailNotification = mailNotification;
+    }
+
+    public String getNotificationSelector() {
+        return notificationSelector;
+    }
+
+    public void setNotificationSelector(String notificationSelector) {
+        this.notificationSelector = notificationSelector;
     }
 }

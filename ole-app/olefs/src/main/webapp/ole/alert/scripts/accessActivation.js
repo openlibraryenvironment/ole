@@ -36,47 +36,47 @@ jq(document).ready(function() {
 
 
 
-    if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Role") {
+    if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "Role") {
         jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
-        jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+        jq("#selectRequest-MaintenanceViews-recipientUserName").hide();
         jq("#create_mailId_control").val("");
-        jq("#create_mailId_control").hide();
-        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").show();
-    } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Person") {
+        jq("#create_mailId").hide();
+        jq("#selectRequest-MaintenanceViews-recipientRoleName").show();
+    } else if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "Person") {
         jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
-        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
-        jq("#selectRequest-MaintenanceViews-recipientUserName_control").show();
+        jq("#selectRequest-MaintenanceViews-recipientRoleName").hide();
+        jq("#selectRequest-MaintenanceViews-recipientUserName").show();
         jq("#create_mailId_control").val("");
-        jq("#create_mailId_control").hide();
-    } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "mail") {
+        jq("#create_mailId").hide();
+    } else if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "mail") {
         jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
-        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+        jq("#selectRequest-MaintenanceViews-recipientRoleName").hide();
         jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
-        jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
-        jq("#create_mailId_control").show();
+        jq("#selectRequest-MaintenanceViews-recipientUserName").hide();
+        jq("#create_mailId").show();
     }
 
 
 
-    jq("#selectRequest-MaintenanceViews-notifierSelector_control").change(function() {
-        if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Role") {
+    jq("#selectRequest-MaintenanceViews-notifier_control").change(function() {
+        if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "Role") {
             jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
-            jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+            jq("#selectRequest-MaintenanceViews-recipientUserName").hide();
             jq("#create_mailId_control").val("");
-            jq("#create_mailId_control").hide();
-            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").show();
-        } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Person") {
+            jq("#create_mailId").hide();
+            jq("#selectRequest-MaintenanceViews-recipientRoleName").show();
+        } else if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "Person") {
             jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
-            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
-            jq("#selectRequest-MaintenanceViews-recipientUserName_control").show();
+            jq("#selectRequest-MaintenanceViews-recipientRoleName").hide();
+            jq("#selectRequest-MaintenanceViews-recipientUserName").show();
             jq("#create_mailId_control").val("");
-            jq("#create_mailId_control").hide();
-        } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "mail") {
+            jq("#create_mailId").hide();
+        } else if(jq("#selectRequest-MaintenanceViews-notifier_control").val() == "mail") {
             jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
-            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+            jq("#selectRequest-MaintenanceViews-recipientRoleName").hide();
             jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
-            jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
-            jq("#create_mailId_control").show();
+            jq("#selectRequest-MaintenanceViews-recipientUserName").hide();
+            jq("#create_mailId").show();
         }
     });
 
