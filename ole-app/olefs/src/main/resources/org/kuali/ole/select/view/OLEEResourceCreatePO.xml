@@ -18,6 +18,7 @@
                             <ref bean="EResourcePOSection"/>
                             <ref bean="InstancePOSection"/>
                             <ref bean="Uif-E-Res-CreatePO-DocumentPageFooter"/>
+                            <ref bean= "accountingLineDisclosureFlag"/>
                             <bean id="hiddenIndex" parent="Uif-InputField" p:hidden="true" p:propertyName="index"/>
                         </list>
                     </property>
@@ -269,10 +270,21 @@
                         <bean parent="Uif-TextControl" p:size="15" p:maxLength="15" p:onKeyPressScript="
                                     if(e.which==13){
                                        e.preventDefault();
-                                       if(jq('#createPOForInstanceFundCodeLookup_line0_control').val() !== ''){
+                                       var obj = this.id;
+                                        var id = '#'+obj;
+                                        var index = id.substring(id.indexOf('_line'),id.length).replace('_line','').replace('_control','');
+                                        if(jq(id).val() != ''){
                                             submitForm('populateAccountingLinesToInstance',null,null,true,
                                             function (){
-                                            jq('#createPOForInstanceFundCodeLookup_control').focus();});
+                                             var detailLinkId = '#InstancePOSection_detLink_line'+index;
+                                             jq(detailLinkId).focus().click();
+                                              if( jq('#accountingLineDisclosureFlag_control').val() == 'false') {
+                                               var accLineId = '#EResourcePOView-InstanceAccountingLines_line'+index+'_toggle_col';
+                                                jq(accLineId).focus().click();
+                                                jq('#accountingLineDisclosureFlag_control').val('true');
+                                             }
+                                            });
+                                            return false;
                                         }else{
                                             return false;
                                         }
@@ -301,10 +313,19 @@
                                     <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="
                                     if(e.which==13){
                                        e.preventDefault();
-                                       if(jq('#createPOForEResourceFundCodeLookup_line0_control').val() !== ''){
+                                        var obj = this.id;
+                                        var id = '#'+obj;
+                                        var index = id.substring(id.indexOf('_line'),id.length).replace('_line','').replace('_control','');
+                                        if(jq(id).val() != ''){
                                             submitForm('populateAccountingLinesForFundCode',null,null,true,
-                                            function (){
-                                            jq('#createPOForEResourceFundCodeLookup_control').focus();
+                                            function(){
+                                             var detailLinkId = '#EResourcePOSection_detLink_line'+index;
+                                             jq(detailLinkId).focus().click();
+                                             if( jq('#accountingLineDisclosureFlag_control').val() == 'false') {
+                                             var accLineId = '#EResourcePOView-EResourceAccountingLines_line'+index+'_toggle_col';
+                                                jq(accLineId).focus().click();
+                                                jq('#accountingLineDisclosureFlag_control').val('true');
+                                             }
                                             });
                                             return false;
                                         }else{
@@ -321,7 +342,7 @@
     </bean>
 
     <bean id="EResourcePOView-EResourceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;"  p:disclosure.defaultOpen="@{document.accountingLineDisclosureFlag}">
         <property name="headerText" value="Accounting Lines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
         <property name="propertyName" value="accountingLines"/>
@@ -420,7 +441,7 @@
     </bean>
 
     <bean id="EResourcePOView-InstanceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="@{document.accountingLineDisclosureFlag}">
         <property name="headerText" value="Accounting Lines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
         <property name="propertyName" value="accountingLines"/>
@@ -515,6 +536,12 @@
             <list>
                 <bean parent="Uif-DeleteLineAction"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="accountingLineDisclosureFlag"  parent="Uif-InputField" p:propertyName="accountingLineDisclosureFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
 

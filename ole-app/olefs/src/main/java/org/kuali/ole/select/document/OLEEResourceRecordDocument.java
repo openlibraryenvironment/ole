@@ -242,6 +242,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String publisherLink;
 
     private boolean saveValidationFlag;
+    private boolean accountingLineDisclosureFlag = false;
 
     public String getWorkflowStatus() {
         return workflowStatus;
@@ -2074,5 +2075,13 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setSaveValidationFlag(boolean saveValidationFlag) {
         this.saveValidationFlag = saveValidationFlag;
+    }
+
+    public boolean isAccountingLineDisclosureFlag() {
+        return accountingLineDisclosureFlag;
+    }
+
+    public void setAccountingLineDisclosureFlag(boolean accountingLineDisclosureFlag) {
+        this.accountingLineDisclosureFlag = accountingLineDisclosureFlag;
     }
 }

@@ -2512,40 +2512,43 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleEResourceRecordForm.setPoErrorMessage(null);
         List<OLECreatePO> oleCreatePOList = oleEResourceRecordForm.geteResourcePOs();
 
-        OLECreatePO oleCreatePO = oleCreatePOList.get(0);
-        String fundCode = oleCreatePO.getFundCode();
-        if (fundCode != null) {
-            if (StringUtils.isBlank(fundCode)) {
-                oleEResourceRecordForm.setPoErrorMessage("Fund Code is required.");
-                return getUIFModelAndView(oleEResourceRecordForm);
-            } else {
-                Map fundMap = new HashMap();
-                fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
-                OleFundCode oleFundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
-                if (oleFundCode == null) {
-                    oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
+        //OLECreatePO oleCreatePO = oleCreatePOList.get(0);
+
+        for (OLECreatePO oleCreatePO : oleCreatePOList) {
+            String fundCode = oleCreatePO.getFundCode();
+            if (fundCode != null && StringUtils.isNotEmpty(fundCode)) {
+              /*  if (StringUtils.isBlank(fundCode)) {
+                    oleEResourceRecordForm.setPoErrorMessage("Fund Code is required.");
                     return getUIFModelAndView(oleEResourceRecordForm);
-                } else {
-                    if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
-                        if (oleCreatePO != null) {
-                            oleCreatePO.setFundCode(null);
-                            for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
-                                OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
-                                oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
-                                oleCretePOAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
-                                oleCretePOAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
-                                oleCretePOAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
-                                oleCretePOAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
-                                oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
-                                oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
-                                oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
-                                oleCreatePO.getAccountingLines().add(oleCretePOAccountingLine);
+                } else {*/
+                    Map fundMap = new HashMap();
+                    fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                    OleFundCode oleFundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
+                    if (oleFundCode == null) {
+                        oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
+                        return getUIFModelAndView(oleEResourceRecordForm);
+                    } else {
+                        if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
+                            if (oleCreatePO != null) {
+                                oleCreatePO.setFundCode(null);
+                                for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
+                                    OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
+                                    oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                                    oleCretePOAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                                    oleCretePOAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                                    oleCretePOAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                                    oleCretePOAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                                    oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
+                                    oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                                    oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                                    oleCreatePO.getAccountingLines().add(oleCretePOAccountingLine);
+                                }
                             }
                         }
                     }
-                }
+                //}
             }
-        }
+    }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 
@@ -2556,40 +2559,36 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleEResourceRecordForm.setPoSuccessMessage(null);
         oleEResourceRecordForm.setPoErrorMessage(null);
         List<OLECreatePO> oleCreatePOList = oleEResourceRecordForm.getInstancePOs();
-        OLECreatePO oleCreatePOInstance = oleCreatePOList.get(0);
-        String oleFundCode = oleCreatePOInstance.getFundCode();
-        if (oleFundCode != null) {
-            if (StringUtils.isBlank(oleFundCode)) {
-                oleEResourceRecordForm.setPoErrorMessage("Fund Code is required.");
+        for( OLECreatePO oleCreatePOInstance : oleCreatePOList) {
+            String oleFundCode = oleCreatePOInstance.getFundCode();
+        if (oleFundCode != null && StringUtils.isNotEmpty(oleFundCode)) {
+            Map fundMap = new HashMap();
+            fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleFundCode);
+            OleFundCode fundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
+            if (fundCode == null) {
+                oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
                 return getUIFModelAndView(oleEResourceRecordForm);
             } else {
-                Map fundMap = new HashMap();
-                fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleFundCode);
-                OleFundCode fundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
-                if (fundCode == null) {
-                    oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
-                    return getUIFModelAndView(oleEResourceRecordForm);
-                } else {
-                    if (fundCode.getOleFundCodeAccountingLineList() != null) {
-                     if (oleCreatePOInstance != null) {
-                            oleCreatePOInstance.setFundCode(null);
-                            for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCode.getOleFundCodeAccountingLineList()) {
-                                OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
-                                oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
-                                oleCretePOAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
-                                oleCretePOAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
-                                oleCretePOAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
-                                oleCretePOAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
-                                oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
-                                oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
-                                oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
-                                oleCreatePOInstance.getAccountingLines().add(oleCretePOAccountingLine);
-                            }
+                if (fundCode.getOleFundCodeAccountingLineList() != null) {
+                    if (oleCreatePOInstance != null) {
+                        oleCreatePOInstance.setFundCode(null);
+                        for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCode.getOleFundCodeAccountingLineList()) {
+                            OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
+                            oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                            oleCretePOAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                            oleCretePOAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                            oleCretePOAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                            oleCretePOAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                            oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
+                            oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                            oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                            oleCreatePOInstance.getAccountingLines().add(oleCretePOAccountingLine);
                         }
                     }
                 }
             }
         }
+    }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 

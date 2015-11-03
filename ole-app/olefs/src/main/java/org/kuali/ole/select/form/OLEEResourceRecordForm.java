@@ -42,6 +42,7 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
     private String selectedPOType;
     private List<OLECreatePO> instancePOs = new ArrayList<>();
     private List<OLECreatePO> eResourcePOs = new ArrayList<>();
+    private boolean accountingLineDisclosureFlag = false;
 
     List<OLEEResourceInstance> oleeResourceInstances = new ArrayList<>();
 
@@ -733,5 +734,13 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
 
     public void setPageSize(String pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public boolean isAccountingLineDisclosureFlag() {
+        return accountingLineDisclosureFlag;
+    }
+
+    public void setAccountingLineDisclosureFlag(boolean accountingLineDisclosureFlag) {
+        this.accountingLineDisclosureFlag = accountingLineDisclosureFlag;
     }
 }
