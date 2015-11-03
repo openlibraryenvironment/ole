@@ -18,9 +18,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.sql.Timestamp;
 import java.util.*;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OverdueNoticesExecutorTest {
 
@@ -50,37 +49,29 @@ public class OverdueNoticesExecutorTest {
                         ("CONTENT");
 
         List<OleLoanDocument> loanDocuments = new ArrayList<>();
-        OverdueNoticesExecutor overdueNoticesExecutor = new OverdueNoticesExecutor(loanDocuments);
+        Map overdueMap = new HashMap();
+        overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Overdue");
+        overdueMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocuments);
+        OverdueNoticesExecutor overdueNoticesExecutor = new OverdueNoticesExecutor(overdueMap);
 
         overdueNoticesExecutor.setNoticeMailContentFormatter(mockNoticeMailContentFormatter);
 
         OleLoanDocument oleLoanDocument = new OleLoanDocument();
-        OLEDeliverNotice oleDeliverNotice = new OLEDeliverNotice();
 
         OlePatronDocument olePatron = new OlePatronDocument();
         olePatron.setBarcode("123125");
         EntityBo entity = new EntityBo();
-        ArrayList<EntityNameBo> entityNameBos = new ArrayList<EntityNameBo>();
+        ArrayList<EntityNameBo> entityNameBos = new ArrayList<>();
         EntityNameBo entityNameBo = new EntityNameBo();
         entityNameBo.setFirstName("FirtName");
         entityNameBos.add(entityNameBo);
         entity.setNames(entityNameBos);
-        ArrayList<EntityTypeContactInfoBo> entityTypeContactInfos = new ArrayList<EntityTypeContactInfoBo>();
+        ArrayList<EntityTypeContactInfoBo> entityTypeContactInfos = new ArrayList<>();
         entityTypeContactInfos.add(new EntityTypeContactInfoBo());
         entity.setEntityTypeContactInfos(entityTypeContactInfos);
         olePatron.setEntity(entity);
 
         oleLoanDocument.setOlePatron(olePatron);
-
-//
-//        deliverNoticesExecutor.setLoanProcessor(mockLoanProcessor);
-//        deliverNoticesExecutor.setOleDeliverRequestDocumentHelperService(mockOleDeliverRequestDocumentHelperServiceImpl);
-//        deliverNoticesExecutor.setSimpleDateFormat(new SimpleDateFormat());
-//        deliverNoticesExecutor.setUrlProperty("http://localhost:8080/olefs");
-//
-//
-//        String fileName = deliverNoticesExecutor.generateOverDueNoticeContent(oleLoanDocument);
-//        assertNotNull(fileName);
     }
 
     @Test
@@ -113,7 +104,10 @@ public class OverdueNoticesExecutorTest {
     @Test
     public void generateOverDueNotices() throws Exception {
         ArrayList<OleLoanDocument> loanDocuments = new ArrayList<>();
-        OverdueNoticesExecutor overdueNoticesExecutor = new OverdueNoticesExecutor(loanDocuments);
+        Map overdueMap = new HashMap();
+        overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Overdue");
+        overdueMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocuments);
+        OverdueNoticesExecutor overdueNoticesExecutor = new OverdueNoticesExecutor(overdueMap);
         overdueNoticesExecutor.setBusinessObjectService(mockBusinessObjectService);
 //        deliverNoticesExecutor.setParameterResolverInstance(mockParameterResolverInstance);
         OleLoanDocument loanDocument = new OleLoanDocument();
@@ -125,14 +119,33 @@ public class OverdueNoticesExecutorTest {
     @Test
     public void generateAndSendOverdueNoticesToPatron() throws Exception {
         ArrayList<OleLoanDocument> loanDocuments = new ArrayList<>();
-        OleLoanDocument loanDocument = new OleLoanDocument();
-        loanDocuments.add(loanDocument);
-        OverdueNoticesExecutor overdueNoticesExecutor = new OverdueNoticesExecutor(loanDocuments);
-        overdueNoticesExecutor.setBusinessObjectService(mockBusinessObjectService);
-//        deliverNoticesExecutor.setParameterResolverInstance(mockParameterResolverInstance);
-        overdueNoticesExecutor.setNoticeMailContentFormatter(mockNoticeMailContentFormatter);
-//        deliverNoticesExecutor.generateAndSendOverdueNoticesToPatron(loanDocuments);
+        OleLoanDocument oleLoanDocument = new OleLoanDocument();
 
+        OlePatronDocument olePatron = new OlePatronDocument();
+        olePatron.setBarcode("123125");
+        EntityBo entity = new EntityBo();
+        ArrayList<EntityNameBo> entityNameBos = new ArrayList<>();
+        EntityNameBo entityNameBo = new EntityNameBo();
+        entityNameBo.setFirstName("FirtName");
+        entityNameBos.add(entityNameBo);
+        entity.setNames(entityNameBos);
+        ArrayList<EntityTypeContactInfoBo> entityTypeContactInfos = new ArrayList<>();
+        entityTypeContactInfos.add(new EntityTypeContactInfoBo());
+        entity.setEntityTypeContactInfos(entityTypeContactInfos);
+        olePatron.setEntity(entity);
+
+        oleLoanDocument.setOlePatron(olePatron);
+
+        loanDocuments.add(oleLoanDocument);
+
+        int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
+        ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+
+        Map overdueMap = new HashMap();
+        overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Overdue");
+        overdueMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocuments);
+        Runnable deliverOverDueNoticesExecutor = new MockOverdueNoticesExecutor(overdueMap);
+        overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
     }
 
     @Test
@@ -155,7 +168,10 @@ public class OverdueNoticesExecutorTest {
         loanDocuments.add(oleLoanDocument1);
         loanDocuments.add(oleLoanDocument2);
         loanDocuments.add(oleLoanDocument3);
-        OverdueNoticesExecutor overdueNoticesExecutor = new MockOverdueNoticesExecutor(loanDocuments);
+        Map overdueMap = new HashMap();
+        overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Overdue");
+        overdueMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocuments);
+        OverdueNoticesExecutor overdueNoticesExecutor = new MockOverdueNoticesExecutor(overdueMap);
         //deliverNoticesExecutor.buildNoticesForDeletion(loanDocuments);
 
 
@@ -163,8 +179,13 @@ public class OverdueNoticesExecutorTest {
 
     class MockOverdueNoticesExecutor extends OverdueNoticesExecutor {
 
-        MockOverdueNoticesExecutor(List<OleLoanDocument> loanDocuments) {
-            super(loanDocuments);
+        MockOverdueNoticesExecutor(Map overdueMap) {
+            super(overdueMap);
+        }
+
+        @Override
+        public BusinessObjectService getBusinessObjectService() {
+            return mockBusinessObjectService;
         }
 
         @Override

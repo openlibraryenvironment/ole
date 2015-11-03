@@ -61,7 +61,7 @@ public abstract class RequestEmailContentFormatter {
     public List<OleNoticeBo> initialiseOleNoticeBos(List<OleDeliverRequestBo> oleDeliverRequestBos,OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
         if(oleDeliverRequestBos!=null && oleDeliverRequestBos.size()>0){
-            OlePatronDocument olePatron = oleDeliverRequestBos.get(0).getOlePatron();
+            OlePatronDocument olePatron = getOlePatron(oleDeliverRequestBos.get(0));
             for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
                 OleNoticeBo oleNoticeBo = new OleNoticeBo();
                 oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
@@ -185,6 +185,8 @@ public abstract class RequestEmailContentFormatter {
     }
 
     protected abstract void processCustomNoticeInfo(OleDeliverRequestBo oleDeliverRequestBo, OleNoticeBo oleNoticeBo);
+
+    protected abstract OlePatronDocument getOlePatron(OleDeliverRequestBo oleDeliverRequestBo);
 
     public BusinessObjectService getBusinessObjectService() {
         if(null == businessObjectService){

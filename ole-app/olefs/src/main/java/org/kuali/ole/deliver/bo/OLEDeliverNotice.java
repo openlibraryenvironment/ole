@@ -1,6 +1,5 @@
 package org.kuali.ole.deliver.bo;
 
-import org.kuali.ole.OLEConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.math.BigDecimal;
@@ -20,6 +19,7 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
     private OleLoanDocument oleLoanDocument;
     private String requestId;
     private String itemBarcode;
+    private String noticeContentConfigName;
     private OleDeliverRequestBo oleDeliverRequestBo;
 
     public String getId() {
@@ -108,5 +108,13 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
 
     public void setOleDeliverRequestBo(OleDeliverRequestBo oleDeliverRequestBo) {
         this.oleDeliverRequestBo = oleDeliverRequestBo;
+    }
+
+    public String getNoticeContentConfigName() {
+        return noticeContentConfigName;
+    }
+
+    public void setNoticeContentConfigName(String noticeContentConfigName) {
+        this.noticeContentConfigName = noticeContentConfigName;
     }
 }

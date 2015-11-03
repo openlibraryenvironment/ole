@@ -3,8 +3,8 @@ package org.kuali.ole.deliver.notice.executors;
 import org.apache.log4j.Logger;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
-import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
@@ -21,13 +21,15 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
 
     private static final Logger LOG = Logger.getLogger(LoanNoticesExecutor.class);
     protected List<OleLoanDocument> loanDocuments;
+    protected String noticeContentConfigName;
     protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
     protected OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
 
-    public LoanNoticesExecutor(List<OleLoanDocument> loanDocuments) {
-        this.loanDocuments = loanDocuments;
+    public LoanNoticesExecutor(Map loanNoticeMap) {
+        this.loanDocuments = (List<OleLoanDocument>) loanNoticeMap.get(OLEConstants.LOAN_DOCUMENTS);
+        this.noticeContentConfigName = (String) loanNoticeMap.get(OLEConstants.NOTICE_CONTENT_CONFIG_NAME);
     }
 
     @Override

@@ -35,6 +35,7 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
             if (null != loanDueDate) {
                 /* Overdue notice process start */
                 String overdueIntervals = (String) overdueMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE);
+                String noticeContentConfigurationName = (String) overdueMap.get(OLEConstants.OVERDUE_NOTICE_CONTENT_CONFIG_NAME);
                 StringTokenizer intervalTokenizer = new StringTokenizer(overdueIntervals,",");
                 int tokenCounts = intervalTokenizer.countTokens();
                 if((Integer.valueOf(numberOfOverDueNoticeToBeSent) +1)  == tokenCounts){
@@ -48,6 +49,7 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
                             overdueNotice.setNoticeType(OLEConstants.OVERDUE_NOTICE);
                             overdueNotice.setPatronId(oleLoanDocument.getPatronId());
                             overdueNotice.setLoanId(oleLoanDocument.getLoanId());
+                            overdueNotice.setNoticeContentConfigName(noticeContentConfigurationName);
                             overdueAndLostNotices.add(overdueNotice);
                         } catch (NumberFormatException numberFormatException) {
                             LOG.error("Invalid Interval given for Overdue notice.");
@@ -86,17 +88,15 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
         lostNotice.setNoticeSendType(DroolsConstants.EMAIL);
         lostNotice.setPatronId(loanDocument.getPatronId());
 
-        Map<String, Object> overdueMap = new HashMap<String, Object>();
-        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE);
-        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
-        }
+        Map<String, Object> lostMap = getLostNoticeMap(noticeInfo);
 
         Date dateToSentLostNotice = calculateNoticeDueDate(loanDocument.getLoanDueDate(), interval, noticeInfo.getIntervalType());
         lostNotice.setNoticeToBeSendDate(new Timestamp(dateToSentLostNotice.getTime()));
-        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) overdueMap.get(DroolsConstants
+        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) lostMap.get(DroolsConstants
                 .REPLACEMENT_BILL_AMT))));
+
+        String noticeContentConfigurationName = (String) lostMap.get(OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME);
+        lostNotice.setNoticeContentConfigName(noticeContentConfigurationName);
 
         oleDeliverNotices.add(lostNotice);
         return oleDeliverNotices;
@@ -110,5 +110,10 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
     protected String getNumberOfOverDueNoticeToSent(NoticeInfo noticeInfo){
         return (String) noticeInfo.getNoticeInfoForTypeMap().get
                 (OLEConstants.OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT);
+    }
+
+    @Override
+    public Map<String, Object> getLostNoticeMap(NoticeInfo noticeInfo) {
+        return noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.LOST_NOTICE);
     }
 }

@@ -22,4 +22,9 @@ public class RequestExpirationEmailContentFormatter extends RequestEmailContentF
     protected void processCustomNoticeInfo(OleDeliverRequestBo oleDeliverRequestBo, OleNoticeBo oleNoticeBo) {
 
     }
+
+    @Override
+    protected OlePatronDocument getOlePatron(OleDeliverRequestBo oleDeliverRequestBo) {
+        return oleDeliverRequestBo.getOlePatron();
+    }
 }

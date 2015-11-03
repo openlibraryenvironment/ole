@@ -8,9 +8,7 @@ import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
-import org.kuali.ole.describe.bo.OleInstanceItemType;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -22,8 +20,8 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(OverdueNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
 
-    public OverdueNoticesExecutor(List<OleLoanDocument> loanDocuments) {
-        super(loanDocuments);
+    public OverdueNoticesExecutor(Map overdueMap) {
+        super(overdueMap);
     }
 
     @Override
@@ -79,6 +77,7 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.OVERDUE_NOTICE);
+        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);

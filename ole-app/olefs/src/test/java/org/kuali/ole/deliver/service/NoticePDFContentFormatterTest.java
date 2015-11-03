@@ -19,10 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -77,7 +74,10 @@ public class NoticePDFContentFormatterTest {
                 .thenReturn
                         ("dd/MM/yyyy hh:mm a;");
         List<OleLoanDocument> loanDocuments = new ArrayList<>();
-        mockDeliverNoticesExecutor = new OverdueNoticesExecutor(loanDocuments);
+        Map overdueMap = new HashMap();
+        overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Overdue");
+        overdueMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocuments);
+        mockDeliverNoticesExecutor = new OverdueNoticesExecutor(overdueMap);
 
         OlePatronDocument olePatron = new OlePatronDocument();
         olePatron.setBarcode("123125");

@@ -29,4 +29,9 @@ public class RecallOverDueAndLostNoticeDueDateProcessor extends OverDueAndLostNo
         return (String) noticeInfo.getNoticeInfoForTypeMap().get
                 (OLEConstants.RECALL_OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT);
     }
+
+    @Override
+    public Map<String, Object> getLostNoticeMap(NoticeInfo noticeInfo) {
+        return noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_LOST_NOTICE);
+    }
 }

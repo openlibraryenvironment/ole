@@ -86,10 +86,9 @@
             <bean parent="Uif-DocumentPageFooter">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route"
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                               p:actionLabel="submit" p:performClientSideValidation="true"
-                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
-                              p:successCallback="printResponseString()"/>
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                         <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="false" p:actionLabel="Cancel" p:methodToCall="cancel"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]} "/>
                     </list>
@@ -103,7 +102,7 @@
         <property name="documentTypeName" value="OLE_NOTC_CNTNT_CNFG_MD"/>
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        <!--<property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleCirculationDeskRule"/>-->
+        <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleNoticeContentConfigurationRule"/>
         <property name="lockingKeys">
             <list>
                 <value>oleNoticeContentConfigurationId</value>

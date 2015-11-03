@@ -15,6 +15,10 @@ public class OleDroolsHoldResponseBo {
     private int numberOfOverdueToBeSent;
     private int intervalToGenerateOverdueNotice;
     private int replacementBill;
+    private String recallNoticeContentConfigName;
+    private String requestExpirationNoticeContentConfigName;
+    private String OnHoldNoticeContentConfigName;
+    private String OnHoldExpirationNoticeContentConfigName;
 
     public boolean isRuleMatched() {
         return ruleMatched;
@@ -78,5 +82,37 @@ public class OleDroolsHoldResponseBo {
 
     public void setReplacementBill(int replacementBill) {
         this.replacementBill = replacementBill;
+    }
+
+    public String getRecallNoticeContentConfigName() {
+        return recallNoticeContentConfigName;
+    }
+
+    public void setRecallNoticeContentConfigName(String recallNoticeContentConfigName) {
+        this.recallNoticeContentConfigName = recallNoticeContentConfigName;
+    }
+
+    public String getRequestExpirationNoticeContentConfigName() {
+        return requestExpirationNoticeContentConfigName;
+    }
+
+    public void setRequestExpirationNoticeContentConfigName(String requestExpirationNoticeContentConfigName) {
+        this.requestExpirationNoticeContentConfigName = requestExpirationNoticeContentConfigName;
+    }
+
+    public String getOnHoldNoticeContentConfigName() {
+        return OnHoldNoticeContentConfigName;
+    }
+
+    public void setOnHoldNoticeContentConfigName(String onHoldNoticeContentConfigName) {
+        OnHoldNoticeContentConfigName = onHoldNoticeContentConfigName;
+    }
+
+    public String getOnHoldExpirationNoticeContentConfigName() {
+        return OnHoldExpirationNoticeContentConfigName;
+    }
+
+    public void setOnHoldExpirationNoticeContentConfigName(String onHoldExpirationNoticeContentConfigName) {
+        OnHoldExpirationNoticeContentConfigName = onHoldExpirationNoticeContentConfigName;
     }
 }

@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.notice.noticeFormatters;
 
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OlePatronDocument;
 
 import java.util.Map;
 
@@ -13,5 +14,10 @@ public class OnHoldRequestEmailContentFormatter extends RequestEmailContentForma
     @Override
     protected void processCustomNoticeInfo(OleDeliverRequestBo oleDeliverRequestBo, OleNoticeBo oleNoticeBo) {
 
+    }
+
+    @Override
+    protected OlePatronDocument getOlePatron(OleDeliverRequestBo oleDeliverRequestBo) {
+        return oleDeliverRequestBo.getOlePatron();
     }
 }

@@ -17,7 +17,7 @@ public class LoanWithNoticesDAO extends PlatformAwareDaoBaseJdbc {
 
     private DateTimeService dateTimeService;
 
-    public List<String> getLoanIdsForOverudeNotices(String noticeToSendDate,String noticeType) {
+    public List<String> getLoanIdsForNoticesByNoticeType(String noticeToSendDate, String noticeType) {
         String date = null;
         String query = null;
         String dbVendor = getProperty("db.vendor");

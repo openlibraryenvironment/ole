@@ -34,4 +34,9 @@ public abstract class NoticeDueDateProcessor {
         }
         return noticeDueDate;
     }
+
+    public Map<String,Object> getLostNoticeMap(NoticeInfo noticeInfo){
+        // Need to override if lost notice map required
+        return null;
+    }
 }

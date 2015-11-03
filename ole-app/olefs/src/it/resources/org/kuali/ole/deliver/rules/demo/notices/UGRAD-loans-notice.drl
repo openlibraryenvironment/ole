@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.checkout
+package org.kuali.ole.deliver.rules.demo.notices
 
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OlePatronDocument
@@ -17,5 +17,6 @@ $n: NoticeInfo(getNoticeType() == DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG)
 $i: ItemRecord(getDueDateTime()!= null)
 then
 $n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "3");
+$n.addInfo(OLEConstants.COURTESY_NOTICE, OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME,"Courtesy Notice");
 $n.setIntervalType("D");
  end

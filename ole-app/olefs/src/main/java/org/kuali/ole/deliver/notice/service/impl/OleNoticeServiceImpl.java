@@ -9,9 +9,6 @@ import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.util.NoticeUtil;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -60,6 +57,18 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         oleDeliverNotice.setPatronId(oleDeliverRequestBo.getBorrowerId());
         if(noticeToBeSendDate!=null){
         oleDeliverNotice.setNoticeToBeSendDate(noticeToBeSendDate);
+        }
+        if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_NOTICE)){
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getRecallNoticeContentConfigName());
+        }
+        else if (noticeType.equalsIgnoreCase(OLEConstants.REQUEST_EXPIRATION_NOTICE)){
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getRequestExpirationNoticeContentConfigName());
+        }
+        else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldExpirationNoticeContentConfigName());
+        }
+        else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_NOTICE)){
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldNoticeContentConfigName());
         }
         oleDeliverNotice.setItemBarcode(oleDeliverRequestBo.getItemId());
         oleDeliverNotice.setNoticeType(noticeType);

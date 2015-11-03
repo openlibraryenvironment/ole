@@ -3,10 +3,8 @@ package org.kuali.ole.deliver.notice.executors;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
-import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 
@@ -20,8 +18,8 @@ import java.util.Map;
 public class RecallNoticesExecutor extends RequestNoticesExecutor {
 
 
-    public RecallNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
-        super(deliverNotices);
+    public RecallNoticesExecutor(Map requestMap) {
+        super(requestMap);
     }
 
     @Override
@@ -48,6 +46,7 @@ public class RecallNoticesExecutor extends RequestNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.RECALL_NOTICE);
+        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)){
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);

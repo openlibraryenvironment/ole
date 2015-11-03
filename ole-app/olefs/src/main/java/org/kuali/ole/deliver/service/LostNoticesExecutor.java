@@ -5,7 +5,6 @@ import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.BibTrees;
@@ -39,8 +38,8 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         return itemOlemlRecordProcessor;
     }
 
-    public LostNoticesExecutor(List<OleLoanDocument> loanDocuments) {
-        super(loanDocuments);
+    public LostNoticesExecutor(Map lostMap) {
+        super(lostMap);
     }
 
     @Override
@@ -170,6 +169,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_LOST);
+        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);

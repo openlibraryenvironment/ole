@@ -6,9 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.noticeFormatters.OnHoldRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 
@@ -21,8 +19,8 @@ import java.util.*;
 public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
 
 
-    public OnHoldNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
-        super(deliverNotices);
+    public OnHoldNoticesExecutor(Map requestMap) {
+        super(requestMap);
     }
 
     @Override
@@ -52,6 +50,11 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
                 oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(date.getTime()));
             }
             oleDeliverRequestBo.setOnHoldNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
+            for(OLEDeliverNotice oleDeliverNotice: oleDeliverRequestBo.getDeliverNotices()){
+                if (oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
+                    oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(oleDeliverRequestBo.getOnHoldNoticeSentDate().getTime()));
+                }
+            }
             return true;
         }
         return false;
@@ -68,6 +71,7 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.ONHOLD_NOTICE);
+        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)){
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);

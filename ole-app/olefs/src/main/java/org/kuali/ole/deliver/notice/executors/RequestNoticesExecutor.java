@@ -12,7 +12,6 @@ import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatte
 import org.kuali.ole.deliver.service.NoticesExecutor;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -21,6 +20,7 @@ import java.util.*;
 public abstract class RequestNoticesExecutor extends NoticesExecutor {
     private static final Logger LOG = Logger.getLogger(RequestNoticesExecutor.class);
     protected List<OLEDeliverNotice> deliverNotices;
+    protected String noticeContentConfigName;
     protected List<OLEDeliverNotice> filteredDeliverNotices = new ArrayList<OLEDeliverNotice>();
     protected RequestEmailContentFormatter requestEmailContentFormatter;
     protected List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
@@ -34,8 +34,9 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         this.requestEmailContentFormatter = requestEmailContentFormatter;
     }
 
-    public RequestNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
-        this.deliverNotices = deliverNotices;
+    public RequestNoticesExecutor(Map requestMap) {
+        this.deliverNotices = (List<OLEDeliverNotice>) requestMap.get(OLEConstants.DELIVER_NOTICES);
+        this.noticeContentConfigName = (String) requestMap.get(OLEConstants.NOTICE_CONTENT_CONFIG_NAME);
     }
 
     public abstract RequestEmailContentFormatter getRequestEmailContentFormatter();

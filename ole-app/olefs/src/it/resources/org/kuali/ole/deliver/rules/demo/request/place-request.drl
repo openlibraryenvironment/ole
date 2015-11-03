@@ -23,6 +23,10 @@ $d.getDroolsExchange().addToContext("requestExpirationDays",45);
 $n.setNoticeType(OLEConstants.NOTICE_RECALL);
 $d.getDroolsExchange().addToContext("minimumLoanPeriod","1-D");
 $d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+$d.getDroolsExchange().addToContext(OLEConstants.RECALL_NOTICE_CONTENT_CONFIG_NAME,"Recall Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
 end
 
 
@@ -40,6 +44,9 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
 end
 
 
@@ -59,6 +66,9 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
 end
 
 rule "Circulation Policy Set 1 Validation for Request for copy"
@@ -66,7 +76,7 @@ agenda-group "place-request"
 when
 $p : OlePatronDocument(getBorrowerTypeCode() in ("UGRAD","GRAD"))
 $dr: OleDeliverRequestBo(getItemType() in ("BOOK","MAGAZINE"),
-getRequestTypeCode() in ("Page/Hold Request","Page/Delivery Request"),
+getRequestTypeCode() in ("Copy/Hold Request","Copy/Delivery Request"),
     getItemLibrary() in ("B-EDUC", "JRL", "B-HPER", "B-BUSSPEA", "ASR"))
 
 
@@ -75,6 +85,9 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
 end
 
 rule "Circulation Policy Set 1 Validation for Request for ASR"
@@ -90,6 +103,9 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
 end
 
 

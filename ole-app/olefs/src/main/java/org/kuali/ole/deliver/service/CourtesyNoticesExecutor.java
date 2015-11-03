@@ -18,8 +18,9 @@ import java.util.*;
 public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(CourtesyNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
-    public CourtesyNoticesExecutor(List<OleLoanDocument> loanDocuments) {
-        super(loanDocuments);
+
+    public CourtesyNoticesExecutor(Map courtesyMap) {
+        super(courtesyMap);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.COURTESY_NOTICE);
+        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
        if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
            oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);

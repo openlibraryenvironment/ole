@@ -1668,6 +1668,7 @@
         <field-descriptor name="requestId" column="RQST_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeType" column="NTC_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeContentConfigName" column="NTC_CNTNT_CONFIG_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
         <field-descriptor name="replacementFeeAmount" column="RPLCMNT_FEE_AMNT" jdbc-type="DECIMAL" />
         <field-descriptor name="noticeToBeSendDate" column="NTC_TO_SND_DT" jdbc-type="TIMESTAMP"></field-descriptor>

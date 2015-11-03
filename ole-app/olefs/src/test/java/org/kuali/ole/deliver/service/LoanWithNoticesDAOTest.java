@@ -16,7 +16,7 @@ public class LoanWithNoticesDAOTest {
     @Test
     public void getLoanIdsForOverudeNoticesForMySQL() throws Exception {
         LoanWithNoticesDAO loanWithNoticesDAO = new MockLoanWithNoticesDAOForMySQL();
-        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForOverudeNotices("3/3/2015", "Overdue Notice");
+        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType("3/3/2015", "Overdue Notice");
         assertNotNull(overdueNotice);
         assertTrue(overdueNotice.isEmpty());
     }
@@ -24,7 +24,7 @@ public class LoanWithNoticesDAOTest {
     @Test
     public void getLoanIdsForOverudeNoticesForMySQLWithNullDate() throws Exception {
         LoanWithNoticesDAO loanWithNoticesDAO = new MockLoanWithNoticesDAOForMySQL();
-        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForOverudeNotices(null, "Overdue Notice");
+        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(null, "Overdue Notice");
         assertNotNull(overdueNotice);
         assertTrue(overdueNotice.isEmpty());
     }
@@ -32,7 +32,7 @@ public class LoanWithNoticesDAOTest {
     @Test
     public void MockLoanWithNoticesDAOForOracle() throws Exception {
         LoanWithNoticesDAO loanWithNoticesDAO = new MockLoanWithNoticesDAOForOracle();
-        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForOverudeNotices("3/3/2015", "Overdue Notice");
+        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType("3/3/2015", "Overdue Notice");
         assertNotNull(overdueNotice);
         assertTrue(overdueNotice.isEmpty());
     }
@@ -40,7 +40,7 @@ public class LoanWithNoticesDAOTest {
     @Test
     public void MockLoanWithNoticesDAOForOracleWithNullDate() throws Exception {
         LoanWithNoticesDAO loanWithNoticesDAO = new MockLoanWithNoticesDAOForOracle();
-        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForOverudeNotices(null, "Overdue Notice");
+        List<String> overdueNotice = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(null, "Overdue Notice");
         assertNotNull(overdueNotice);
         assertTrue(overdueNotice.isEmpty());
     }

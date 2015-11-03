@@ -34,14 +34,16 @@ public class CourtseyNoticeDueDateProcessor extends NoticeDueDateProcessor {
 
             try {
                 int intervalToGenerateCourtseyNotice = Integer.parseInt((String) courtesyMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY));
-                OLEDeliverNotice courtseyNotice = new OLEDeliverNotice();
-                courtseyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
-                courtseyNotice.setNoticeSendType(DroolsConstants.EMAIL);
+                String noticeContentConfigName = (String) courtesyMap.get(OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME);
+                OLEDeliverNotice courtesyNotice = new OLEDeliverNotice();
+                courtesyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
+                courtesyNotice.setNoticeSendType(DroolsConstants.EMAIL);
                 Date dateToSent = calculateNoticeDueDate(loanDueDate, -intervalToGenerateCourtseyNotice, noticeInfo.getIntervalType());
-                courtseyNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
-                courtseyNotice.setLoanId(loanId);
-                courtseyNotice.setPatronId(oleLoanDocument.getPatronId());
-                courtseyNotices.add(courtseyNotice);
+                courtesyNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
+                courtesyNotice.setLoanId(loanId);
+                courtesyNotice.setPatronId(oleLoanDocument.getPatronId());
+                courtesyNotice.setNoticeContentConfigName(noticeContentConfigName);
+                courtseyNotices.add(courtesyNotice);
             } catch (NumberFormatException numberFormatException) {
                 LOG.error("Invalid Interval given for courtsey notice.");
             } catch (Exception e) {

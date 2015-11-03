@@ -121,6 +121,10 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String onHoldRequestForPatronMessage;
     private boolean requestTypePopulated = true;
 
+    private String recallNoticeContentConfigName;
+    private String requestExpirationNoticeContentConfigName;
+    private String OnHoldNoticeContentConfigName;
+    private String OnHoldExpirationNoticeContentConfigName;
     public String getItemInstitution() {
         return itemInstitution;
     }
@@ -1100,5 +1104,37 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setRequestTypePopulated(boolean requestTypePopulated) {
         this.requestTypePopulated = requestTypePopulated;
+    }
+
+    public String getRecallNoticeContentConfigName() {
+        return recallNoticeContentConfigName;
+    }
+
+    public void setRecallNoticeContentConfigName(String recallNoticeContentConfigName) {
+        this.recallNoticeContentConfigName = recallNoticeContentConfigName;
+    }
+
+    public String getRequestExpirationNoticeContentConfigName() {
+        return requestExpirationNoticeContentConfigName;
+    }
+
+    public void setRequestExpirationNoticeContentConfigName(String requestExpirationNoticeContentConfigName) {
+        this.requestExpirationNoticeContentConfigName = requestExpirationNoticeContentConfigName;
+    }
+
+    public String getOnHoldNoticeContentConfigName() {
+        return OnHoldNoticeContentConfigName;
+    }
+
+    public void setOnHoldNoticeContentConfigName(String onHoldNoticeContentConfigName) {
+        OnHoldNoticeContentConfigName = onHoldNoticeContentConfigName;
+    }
+
+    public String getOnHoldExpirationNoticeContentConfigName() {
+        return OnHoldExpirationNoticeContentConfigName;
+    }
+
+    public void setOnHoldExpirationNoticeContentConfigName(String onHoldExpirationNoticeContentConfigName) {
+        OnHoldExpirationNoticeContentConfigName = onHoldExpirationNoticeContentConfigName;
     }
 }

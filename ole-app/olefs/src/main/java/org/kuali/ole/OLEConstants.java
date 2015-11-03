@@ -2141,6 +2141,7 @@ public class OLEConstants {
     public static final String COURTESY_NOTICE = "Courtesy Notice";
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
+    public static final String LOST_NOTICE = "Lost Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
     public static final String NOTICE_RECALL = "RecallNotice";
     public static final String PICKUP_NOTICE = "Pickup Notice";
@@ -2152,6 +2153,13 @@ public class OLEConstants {
     public static final String PICKUP_NOTICE_START_CONTENT = "The item you requested is available for pickup from the ";
     public static final String PICKUP_NOTICE_MIDDLE_CONTENT = ". It will be held until ";
     public static final String PICKUP_NOTICE_FINAL_CONTENT = ". Please pick it up at your earliest convenience.";
+    public static final String COURTESY_NOTICE_CONTENT_CONFIG_NAME = "Courtesy Notice Content Config Name";
+    public static final String OVERDUE_NOTICE_CONTENT_CONFIG_NAME = "Overdue Notice Content Config Name";
+    public static final String LOST_NOTICE_CONTENT_CONFIG_NAME = "Lost Notice Content Config Name";
+    public static final String RECALL_NOTICE_CONTENT_CONFIG_NAME = "Recall Notice Content Config Name";
+    public static final String REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME = "Request Expiration Notice Content Config Name";
+    public static final String ON_HOLD_NOTICE_CONTENT_CONFIG_NAME = "On Hold Notice Content Config Name";
+    public static final String ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME = "On Hold Expiration Notice Content Config Name";
 
     public static final int DEFAULT_NOTICE_THREAD_POOL_SIZE = 20;
 
@@ -2205,6 +2213,7 @@ public class OLEConstants {
     }
 
     public static final String ERROR_DUPLICATE_CODE = "error.duplicate.code";
+    public static final String ERROR_DUPLICATE_NAME = "error.duplicate.name";
     public static final String ERROR_DUPLICATE_ORDER_NO="error.order.no";
     public static final String ERROR_DUPLICATE_ORDER_NO_FOUND="error.duplicate.order.no";
     public static final String ERROR_EMPTY_ORDER_NO="empty.order.no";
@@ -2234,6 +2243,11 @@ public class OLEConstants {
     public static final String ERROR_EMPTY_ROLE_PERSON_GROUP = "error.empty.role.person.group";
     public static final String NO_USER_FOR_GROUP = "error.no.user.group";
     public static final String NO_USER_FOR_ROLE = "error.no.user.role";
+
+    public static final class OleNoticeContentConfigurationRule {
+        public static final String NOTICE_NAME_FIELD = "dataObject.noticeName";
+        public static final String NOTICE_NAME = "noticeName";
+    }
 
     public static final class OleAgreementDocTypeRule {
         public static final String AGR_DOC_TYPE_NAME_FIELD = "dataObject.agreementDocTypeName";
@@ -3668,6 +3682,7 @@ public class OLEConstants {
     public static final String MAX_NO_OF_THREAD_FOR_RENEW_SERVICE = "MAX_NO_OF_THREAD_FOR_RENEW_SERVICE";
     public static final String  RECALL_COURTESY_NOTICE = "RECALL_COURTESY_NOTICE";
     public static final String  RECALL_OVERDUE_NOTICE = "RECALL_OVERDUE_NOTICE";
+    public static final String  RECALL_LOST_NOTICE = "RECALL_LOST_NOTICE";
 
     public static final String ADDRESS_SOURCE_CD = "oleAddressSourceCode";
     public static final String CREATE = "create";
@@ -3703,5 +3718,9 @@ public class OLEConstants {
 
     public static final String SEND_ONHOLD_NOTICE_WHILE_CHECKIN = "SEND_ONHOLD_NOTICE_WHILE_CHECKIN";
     public static final String CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX = "CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX";
+
+    public static final String LOAN_DOCUMENTS = "loanDocuments";
+    public static final String DELIVER_NOTICES = "deliverNotices";
+    public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
 
 }

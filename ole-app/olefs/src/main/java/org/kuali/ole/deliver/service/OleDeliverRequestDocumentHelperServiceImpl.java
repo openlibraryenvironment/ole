@@ -19,18 +19,16 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
-import org.kuali.ole.deliver.notice.executors.HoldExpirationNoticesExecutor;
-import org.kuali.ole.deliver.notice.executors.OnHoldNoticesExecutor;
-import org.kuali.ole.deliver.notice.executors.RequestExpirationNoticesExecutor;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.executors.*;
+import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
+import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.processor.LoanProcessor;
-import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
 import org.kuali.ole.deliver.util.DroolsResponse;
-import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.deliver.util.NoticeInfo;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
@@ -47,7 +45,6 @@ import org.kuali.ole.ingest.pojo.MatchBo;
 import org.kuali.ole.ncip.bo.OLEPlaceRequest;
 import org.kuali.ole.ncip.converter.OLEPlaceRequestConverter;
 import org.kuali.ole.service.OleCirculationPolicyService;
-import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
@@ -72,7 +69,6 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.dao.impl.PersistenceDaoOjb;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -1315,127 +1311,69 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return oleDeliverRequestBo;
     }
 
-
     public OleDeliverRequestBo generateRecallNotice(OleDeliverRequestBo oleDeliverRequestBo) throws Exception {
-        Map<String, String> loanMap = new HashMap<String, String>();
-        loanMap.put(OLEConstants.ITEM_UUID, oleDeliverRequestBo.getItemUuid());
-        List<OleLoanDocument> loanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, loanMap);
-        List<OlePatronDocument> patronDocumentList = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(loanDocuments)) {
-            OleLoanDocument oleLoanDocument = loanDocuments.get(0);
-            Map<String, String> patronMap = new HashMap<String, String>();
-            patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, oleLoanDocument.getPatronId());
-            patronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
-        }
-        OleNoticeBo oleNoticeBo = new OleNoticeBo();
-        Item item;
-        if (patronDocumentList != null && patronDocumentList.size() > 0) {
-            OlePatronDocument olePatronDocument = patronDocumentList.get(0);
-            EntityTypeContactInfoBo entityTypeContactInfoBo = olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
-            oleNoticeBo.setPatronName(olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName());
-            oleNoticeBo.setPatronAddress(getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "");
-            oleNoticeBo.setPatronEmailAddress(getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "");
-            oleNoticeBo.setPatronPhoneNumber(getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
-        }
-        oleNoticeBo.setAuthor(oleDeliverRequestBo.getAuthor() != null ? oleDeliverRequestBo.getAuthor() : "");
-        oleNoticeBo.setCirculationDeskAddress("");
-        oleNoticeBo.setCirculationDeskName("");
-        oleNoticeBo.setCirculationDeskEmailAddress("");
-        oleNoticeBo.setCirculationDeskPhoneNumber("");
-        oleNoticeBo.setItemCallNumber(oleDeliverRequestBo.getCallNumber() != null ? oleDeliverRequestBo.getCallNumber() : "");
-        oleNoticeBo.setItemShelvingLocation(oleDeliverRequestBo.getShelvingLocation() != null ? oleDeliverRequestBo.getShelvingLocation() : "");
-        oleNoticeBo.setItemId(oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "");
-        oleNoticeBo.setTitle(oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "");
-        oleNoticeBo.setOleItem(getItem(oleDeliverRequestBo.getItemUuid()));
-        oleNoticeBo.setOlePatron(oleDeliverRequestBo.getOlePatron());
-        oleNoticeBo.setVolumeNumber(oleDeliverRequestBo.getVolumeNumber() != null ? oleDeliverRequestBo.getVolumeNumber() : "");
-        oleNoticeBo.setOriginalDueDate(oleDeliverRequestBo.getOriginalDueDate());
-        oleNoticeBo.setNewDueDate(oleDeliverRequestBo.getNewDueDate());
-        String volumeNumber = oleDeliverRequestBo.getEnumeration() != null ? oleDeliverRequestBo.getEnumeration() : "";
-        String chronology = oleDeliverRequestBo.getChronology() != null ? oleDeliverRequestBo.getChronology() : "";
-        String copyNumber = oleDeliverRequestBo.getCopyNumber() != null ? oleDeliverRequestBo.getCopyNumber() : "";
-        oleNoticeBo.setVolumeIssueCopyNumber(volumeNumber + "/" + chronology + "/" + copyNumber);
-        /*if (oleDeliverRequestBo.getRecallDueDate() != null) {
-            oleNoticeBo.setNewDueDate(oleDeliverRequestBo.getRecallDueDate());
-        } else {
-            oleNoticeBo.setNewDueDate(oleLoanDocument.getLoanDueDate());
-        }*/
-        oleNoticeBo.setNoticeName(OLEConstants.NOTICE_RECALL);
-        String noticeContent = getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.RECALL_BODY);
-        oleNoticeBo.setNoticeSpecificContent(noticeContent);
-        //  oleNoticeBo = setPatronDetailsForNotice(oleNoticeBo,oleDeliverRequestBo.getOlePatron());
-        OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
-        List<OleNoticeBo> oleNoticeBos = new ArrayList<OleNoticeBo>();
-        String noticeType = getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.RECALL_NOTICE_TYPE);
-        oleNoticeBos.add(oleNoticeBo);
-        if (noticeType.equalsIgnoreCase(OLEConstants.EMAIL)) {
-            if (oleNoticeBo.getPatronEmailAddress() != null && !oleNoticeBo.getPatronEmailAddress().isEmpty()) {
-                List list = oleDeliverBatchService.getNoticeForPatron(oleNoticeBos);
-                String content = list.toString();
-                content = content.replace('[', ' ');
-                content = content.replace(']', ' ');
-                try{
-                    if (!content.trim().equals("")) {
-                        OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                        String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
-                        if (replyToEmail != null) {
-                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
-                            oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-                        } else {
-                            String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                            if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                                fromAddress = OLEConstants.KUALI_MAIL;
-                            }
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
-                            oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-                        }
-                    } else {
-                        for (OleNoticeBo oleNoticeBo1 : oleNoticeBos) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Notice Type :" + oleNoticeBo1.getNoticeName() + "  " + "Item Barcode : " + oleNoticeBo1.getItemId() + " " + "Patron Name :" + oleNoticeBo1.getPatronName());
-                            }
-                        }
-                    }}catch(Exception e){
-                    LOG.info("Exception occured while sending Recall Notice to the patron : "+oleDeliverRequestBo.getPatronName() + "with barcode :"+oleDeliverRequestBo.getBorrowerId() +"for the loaned item having barcode : "+oleDeliverRequestBo.getItemId());
-                    LOG.error(e,e);
+        RequestEmailContentFormatter requestEmailContentFormatter = new RecallRequestEmailContentFormatter();
+        List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<>();
+        oleDeliverRequestBos.add(oleDeliverRequestBo);
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = getOleNoticeContentConfigurationBo(oleDeliverRequestBo.getRecallNoticeContentConfigName());
+        String mailContent = requestEmailContentFormatter.generateMailContentForPatron(oleDeliverRequestBos, oleNoticeContentConfigurationBo);
+        if (StringUtils.isNotBlank(mailContent)){
+            Map requestMap = new HashMap();
+            requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, oleDeliverRequestBo.getRecallNoticeContentConfigName());
+            requestMap.put(OLEConstants.DELIVER_NOTICES, oleDeliverRequestBo.getDeliverNotices());
+            NoticesExecutor noticesExecutor = new RecallNoticesExecutor(requestMap);
+            OleLoanDocument oleLoanDocument = getLoanDocument(oleDeliverRequestBo.getItemId());
+            if (oleLoanDocument!=null){
+                OlePatronDocument olePatron = oleLoanDocument.getOlePatron();
+                try {
+                    EntityTypeContactInfoBo entityTypeContactInfoBo = olePatron.getEntity()
+                            .getEntityTypeContactInfos().get(0);
+                    String emailAddress = noticesExecutor.getPatronHomeEmailId(entityTypeContactInfoBo) != null ?
+                            noticesExecutor.getPatronHomeEmailId(entityTypeContactInfoBo) : "";
+                    noticesExecutor.sendMailsToPatron(emailAddress, mailContent, oleDeliverRequestBo.getItemLocation());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
-                }
-/*
-                Mailer  mailer = CoreApiServiceLocator.getMailer();
-                mailer.sendEmail(new EmailFrom(OLEConstants.KUALI_MAIL), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(list.toString()), true);
-          */
-            }
-        } else if (noticeType.equalsIgnoreCase(OLEConstants.SMS)) {
-            //oleNoticeBos.add(oleNoticeBo);
-            Map map = oleDeliverBatchService.getSMSForPatron(oleNoticeBos);
-            HashMap sms = (HashMap) map.get(OLEConstants.OleDeliverRequest.RECALL);
-            Iterator it = sms.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pairs = (Map.Entry) it.next();
-                String patronPhoneNumber = oleNoticeBo.getPatronPhoneNumber();
-                OleSms oleSms = new OleSms();
-                oleSms.sendSms("", patronPhoneNumber, (String) pairs.getValue());
-            }
-
-        }
-        if (noticeType.equalsIgnoreCase(OLEConstants.MAIL) || noticeType.equalsIgnoreCase(OLEConstants.EMAIL)) {
-            //oleNoticeBos.add(oleNoticeBo);
-            try{
-                oleDeliverBatchService.getPdfNoticeForPatron(oleNoticeBos);
-                oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-            }catch(Exception e){
-                LOG.info("Exception occured while generating Recall Notice pdf to the patron : "+oleDeliverRequestBo.getPatronName() + "with barcode :"+oleDeliverRequestBo.getBorrowerId() +"for the loaned item having barcode : "+oleDeliverRequestBo.getItemId());
-            }
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Recall Notice Pdf generated for item Id" + oleNoticeBo.getItemId());
+                noticesExecutor.sendMail(mailContent);
+                saveNoticeHistory(mailContent, OLEConstants.RECALL_NOTICE, oleDeliverRequestBo, olePatron.getOlePatronId());
             }
         }
-     //   oleDeliverRequestBo = (OleDeliverRequestBo) ObjectUtils.deepCopy(oleDeliverRequestBo);
         return oleDeliverRequestBo;
     }
 
+    private void saveNoticeHistory(String mailContent, String noticeType, OleDeliverRequestBo oleDeliverRequestBo, String olePatronId){
+        OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
+        oleDeliverNoticeHistory.setLoanId(oleDeliverRequestBo.getLoanTransactionRecordNumber());
+        oleDeliverNoticeHistory.setNoticeType(noticeType);
+        oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
+        oleDeliverNoticeHistory.setPatronId(olePatronId);
+        oleDeliverNoticeHistory.setNoticeSendType(OLEConstants.EMAIL);
+        oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
+        oleDeliverNoticeHistory.setRequestId(oleDeliverRequestBo.getRequestId());
+        getBusinessObjectService().save(oleDeliverNoticeHistory);
+    }
+
+    private OleNoticeContentConfigurationBo getOleNoticeContentConfigurationBo(String recallNoticeContentConfigName) {
+        ParameterValueResolver parameterValueResolver = ParameterValueResolver.getInstance();
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+        Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
+        noticeConfigurationMap.put("noticeType",OLEConstants.RECALL_NOTICE);
+        noticeConfigurationMap.put("noticeName",recallNoticeContentConfigName);
+        oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
+        if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)){
+            oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
+        }else{
+            oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+            oleNoticeContentConfigurationBo.setNoticeType(OLEConstants.RECALL_NOTICE);
+            oleNoticeContentConfigurationBo.setNoticeTitle(parameterValueResolver.getParameter(OLEConstants.APPL_ID, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants.RECALL_TITLE));
+            oleNoticeContentConfigurationBo.setNoticeBody(parameterValueResolver.getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants.RECALL_BODY));
+            oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+        }
+        return oleNoticeContentConfigurationBo;
+    }
 
     public List<String> getList(String[] arrays) {
         List<String> resultList = new ArrayList<>();
@@ -1473,16 +1411,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>)finalDeliverNoticeList);
+        Map<String, Map<String, List<OLEDeliverNotice>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName((List<OLEDeliverNotice>) finalDeliverNoticeList);
 
         ExecutorService onHoldNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-        for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+        for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
-                    (patronId);
-            Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(onHoldNotices);
-            onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
+            Map<String, List<OLEDeliverNotice>> configMap = mapofNoticesForEachPatronAndConfigName.get(patronId);
+            for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                String configName = configIterator.next();
+                Map requestMap = new HashMap();
+                requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
+                Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(requestMap);
+                onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
+            }
         }
     }
 
@@ -1503,16 +1446,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>)finalDeliverNoticeList);
+        Map<String, Map<String, List<OLEDeliverNotice>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName((List<OLEDeliverNotice>) finalDeliverNoticeList);
 
         ExecutorService onHoldNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-        for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+        for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
-                    (patronId);
-            Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(onHoldNotices);
-            onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
+            Map<String, List<OLEDeliverNotice>> configMap = mapofNoticesForEachPatronAndConfigName.get(patronId);
+            for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                String configName = configIterator.next();
+                Map requestMap = new HashMap();
+                requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
+                Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(requestMap);
+                onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
+            }
         }
     } 
     private void generateNoticesBasedOnNoticeType(List<OleNoticeBo> noticesList, String noticeName, String replyToEmail) throws Exception {
@@ -1579,16 +1527,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>) requestExpirationDeliverNotices);
+        Map<String, Map<String, List<OLEDeliverNotice>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName((List<OLEDeliverNotice>) requestExpirationDeliverNotices);
 
         ExecutorService requestExpirationNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-        for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+        for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OLEDeliverNotice> oleDeliverNotices = mapofNoticesForEachPatron.get
-                    (patronId);
-            Runnable requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(oleDeliverNotices);
-            requestExpirationNoticesExecutorService.execute(requestExpirationNoticesExecutor);
+            Map<String, List<OLEDeliverNotice>> configMap = mapofNoticesForEachPatronAndConfigName.get(patronId);
+            for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                String configName = configIterator.next();
+                Map requestMap = new HashMap();
+                requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
+                Runnable requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(requestMap);
+                requestExpirationNoticesExecutorService.execute(requestExpirationNoticesExecutor);
+            }
         }
     }
 
@@ -1718,7 +1671,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String lostNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.LOST_NOTICE_TO_DATE);
-        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(lostNoticeToDate, OLEConstants.NOTICE_LOST);
+        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(lostNoticeToDate, OLEConstants.NOTICE_LOST);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
             List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
@@ -1734,16 +1687,22 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
             }
 
-            Map<String, List<OleLoanDocument>> mapofNoticesForEachPatron = buildMapofNoticesForEachPatron(loanDocumentsWithItemInfo);
+            Map<String, Map<String, List<OleLoanDocument>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName(loanDocumentsWithItemInfo, lostNoticeToDate, OLEConstants.NOTICE_LOST);
 
             ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-            for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
                 String patronId = iterator.next();
-                List<OleLoanDocument> oleLoanDocuments = mapofNoticesForEachPatron.get
+                Map<String, List<OleLoanDocument>> configMap = mapofNoticesForEachPatronAndConfigName.get
                         (patronId);
-                Runnable deliverOverDueNoticesExecutor = new LostNoticesExecutor(oleLoanDocuments);
-                lostNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+                for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                    String configName = configIterator.next();
+                    Map lostMap = new HashMap();
+                    lostMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                    lostMap.put(OLEConstants.LOAN_DOCUMENTS, configMap.get(configName));
+                    Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
+                    lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+                }
             }
         }
     }
@@ -1754,7 +1713,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String courtesyNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.COURTESY_NOTICE_TO_DATE);
-        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
+        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
             List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
@@ -1770,16 +1729,23 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
             }
 
-            Map<String, List<OleLoanDocument>> mapofNoticesForEachPatron = buildMapofNoticesForEachPatron(loanDocumentsWithItemInfo);
+            Map<String, Map<String, List<OleLoanDocument>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName(loanDocumentsWithItemInfo, courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
 
             ExecutorService courtesyNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-            for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
                 String patronId = iterator.next();
-                List<OleLoanDocument> oleLoanDocuments = mapofNoticesForEachPatron.get
+                Map<String, List<OleLoanDocument>> configMap = mapofNoticesForEachPatronAndConfigName.get
                         (patronId);
-                Runnable deliverCourtesyNoticesExecutor = new CourtesyNoticesExecutor(oleLoanDocuments);
-                courtesyNoticesExecutorService.execute(deliverCourtesyNoticesExecutor);
+                for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                    String configName = configIterator.next();
+                    Map courtesyMap = new HashMap();
+                    courtesyMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                    courtesyMap.put(OLEConstants.LOAN_DOCUMENTS, configMap.get(configName));
+                    Runnable deliverCourtesyNoticesExecutor = new CourtesyNoticesExecutor(courtesyMap);
+                    courtesyNoticesExecutorService.execute(deliverCourtesyNoticesExecutor);
+                }
+
             }
         }
     }
@@ -1789,7 +1755,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String overdueNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.OVERDUE_NOTICE_TO_DATE);
-        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
+        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
             List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
@@ -1805,35 +1771,69 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
             }
 
-            Map<String, List<OleLoanDocument>> mapofNoticesForEachPatron = buildMapofNoticesForEachPatron(loanDocumentsWithItemInfo);
+            Map<String, Map<String, List<OleLoanDocument>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName(loanDocumentsWithItemInfo, overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
 
             ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-            for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
                 String patronId = iterator.next();
-                List<OleLoanDocument> oleLoanDocuments = mapofNoticesForEachPatron.get
+                Map<String, List<OleLoanDocument>> configMap = mapofNoticesForEachPatronAndConfigName.get
                         (patronId);
-                Runnable deliverOverDueNoticesExecutor = new OverdueNoticesExecutor(oleLoanDocuments);
-                overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+                for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                    String configName = configIterator.next();
+                    Map overdueMap = new HashMap();
+                    overdueMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                    overdueMap.put(OLEConstants.LOAN_DOCUMENTS, configMap.get(configName));
+                    Runnable deliverOverDueNoticesExecutor = new OverdueNoticesExecutor(overdueMap);
+                    overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+                }
+
             }
         }
     }
 
-    private Map<String, List<OleLoanDocument>> buildMapofNoticesForEachPatron(List<OleLoanDocument> loanDocuments) {
-        Map<String, List<OleLoanDocument>> map = new HashMap<>();
+
+    private Map<String, Map<String, List<OleLoanDocument>>> buildMapofNoticesForEachPatronAndConfigName(List<OleLoanDocument> loanDocuments, String noticeToDate, String noticeType) {
+        Map<String, Map<String, List<OleLoanDocument>>> map = new HashMap<>();
         String patronId;
+        String noticeContentConfigurationName;
+        Timestamp noticetoSendDate = new Timestamp(System.currentTimeMillis());
+        if (StringUtils.isNotEmpty(noticeToDate)) {
+            noticetoSendDate = new Timestamp(new Date(noticeToDate).getTime());
+        }
+        //iterating over the loan documents for grouping of loan documents for each patron
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {
             OleLoanDocument oleLoanDocument = iterator.next();
-            patronId = oleLoanDocument.getPatronId();
-            if (map.containsKey(patronId)) {
-                map.get(patronId).add(oleLoanDocument);
-            } else {
-                List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
-                oleLoanDocumentList.add(oleLoanDocument);
-                map.put(patronId, oleLoanDocumentList);
+            //iterating over deliver notices for identifying the notice to which we need to send mail that falls on the noticeToDate and put in a map with patron id as key
+            for (OLEDeliverNotice oleDeliverNotice : oleLoanDocument.getDeliverNotices()) {
+                Timestamp toBeSendDate = oleDeliverNotice.getNoticeToBeSendDate();
+                if (oleDeliverNotice.getNoticeType().equals(noticeType) && toBeSendDate.compareTo(noticetoSendDate) < 0) {
+                    patronId = oleLoanDocument.getPatronId();
+                    noticeContentConfigurationName = oleDeliverNotice.getNoticeContentConfigName();
+                    //if the map already contains an entry for that patron id then get the map for that patron id which has configurationName as key and list of loan documents as value
+                    if (map.containsKey(patronId)) {
+                        Map<String, List<OleLoanDocument>> configMap = map.get(patronId);
+                        //if the configMap has an entry already for the configuration name then add the current loan document to that list .if there is no entry for that configuration name add a new entry to that configMap with this configuration name along with the loan document
+                        if (configMap.containsKey(noticeContentConfigurationName)) {
+                            configMap.get(noticeContentConfigurationName).add(oleLoanDocument);
+                        } else {
+                            List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
+                            oleLoanDocumentList.add(oleLoanDocument);
+                            configMap.put(noticeContentConfigurationName, oleLoanDocumentList);
+                        }
+                    }
+                    //if the map does not have an entry for the patron id add a new entry to the map
+                    else {
+                        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
+                        oleLoanDocumentList.add(oleLoanDocument);
+                        Map configMap = new HashMap();
+                        configMap.put(noticeContentConfigurationName, oleLoanDocumentList);
+                        map.put(patronId, configMap);
+                    }
+                    break;
+                }
             }
         }
-
         return map;
     }
 
@@ -1894,16 +1894,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>) onHoldExpirationNotices);
+        Map<String, Map<String, List<OLEDeliverNotice>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName((List<OLEDeliverNotice>) onHoldExpirationNotices);
 
         ExecutorService onHoldExpirationNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
-        for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
+        for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
-                    (patronId);
-            Runnable onHoldExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(onHoldNotices);
-            onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
+            Map<String, List<OLEDeliverNotice>> configMap = mapofNoticesForEachPatronAndConfigName.get(patronId);
+            for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                String configName = configIterator.next();
+                Map requestMap = new HashMap();
+                requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
+                Runnable onHoldExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(requestMap);
+                onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
+            }
         }
     }
 
@@ -4360,6 +4365,33 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return map;
     }
 
+    private Map<String, Map<String, List<OLEDeliverNotice>>> buildMapofNoticesForEachPatronAndConfigName(List<OLEDeliverNotice> oleDeliverNotices) {
+        Map<String, Map<String, List<OLEDeliverNotice>>> map = new HashMap<>();
+        String patronId;
+        for (Iterator<OLEDeliverNotice> iterator = oleDeliverNotices.iterator(); iterator.hasNext(); ) {
+            OLEDeliverNotice oleDeliverNotice = iterator.next();
+            String noticeContentConfigurationName = oleDeliverNotice.getNoticeContentConfigName();
+            patronId = oleDeliverNotice.getPatronId();
+            if (map.containsKey(patronId)) {
+                Map<String, List<OLEDeliverNotice>> configMap = map.get(patronId);
+                if (configMap.containsKey(noticeContentConfigurationName)) {
+                    configMap.get(noticeContentConfigurationName).add(oleDeliverNotice);
+                } else {
+                    List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<>();
+                    oleDeliverNoticeList.add(oleDeliverNotice);
+                    configMap.put(noticeContentConfigurationName, oleDeliverNoticeList);
+                }
+            } else {
+                List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<>();
+                oleDeliverNoticeList.add(oleDeliverNotice);
+                Map configMap = new HashMap();
+                configMap.put(noticeContentConfigurationName, oleDeliverNoticeList);
+                map.put(patronId, configMap);
+            }
+        }
+        return map;
+    }
+
     protected SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
     }
@@ -4403,6 +4435,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if (oleDeliverRequestBo.getRequestTypeId() != null && ((oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2")) && (!isRecallRequestExist("1", oleDeliverRequestBo.getItemId()) && !isRecallRequestExist("2", oleDeliverRequestBo.getItemId())) || backGroundLoan)) {
                 updateLoanDocument(oleDeliverRequestBo,noticeInfo,oleDroolsHoldResponseBo.getMinimumLoanPeriod(), oleDroolsHoldResponseBo.getRecallLoanPeriod());
             }
+            oleDeliverRequestBo.setRecallNoticeContentConfigName(oleDroolsHoldResponseBo.getRecallNoticeContentConfigName());
+            oleDeliverRequestBo.setRequestExpirationNoticeContentConfigName(oleDroolsHoldResponseBo.getRequestExpirationNoticeContentConfigName());
+            oleDeliverRequestBo.setOnHoldNoticeContentConfigName(oleDroolsHoldResponseBo.getOnHoldNoticeContentConfigName());
+            oleDeliverRequestBo.setOnHoldExpirationNoticeContentConfigName(oleDroolsHoldResponseBo.getOnHoldExpirationNoticeContentConfigName());
             oleDeliverRequestBo.setOleDroolsHoldResponseBo(null);
             oleDeliverRequestBo.setMessage(droolsResponse.getErrorMessage().getErrorMessage());
         }else{
@@ -4498,6 +4534,18 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         }
         if (droolsResponse.getDroolsExchange().getFromContext("requestExpirationDays") != null) {
             oleDroolsHoldResponseBo.setRequestExpirationDay((Integer) droolsResponse.getDroolsExchange().getFromContext("requestExpirationDays"));
+        }
+        if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.RECALL_NOTICE_CONTENT_CONFIG_NAME) != null) {
+            oleDroolsHoldResponseBo.setRecallNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.RECALL_NOTICE_CONTENT_CONFIG_NAME));
+        }
+        if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME) != null) {
+            oleDroolsHoldResponseBo.setRequestExpirationNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME));
+        }
+        if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME) != null) {
+            oleDroolsHoldResponseBo.setOnHoldNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME));
+        }
+        if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME) != null) {
+            oleDroolsHoldResponseBo.setOnHoldExpirationNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME));
         }
         return oleDroolsHoldResponseBo;
     }

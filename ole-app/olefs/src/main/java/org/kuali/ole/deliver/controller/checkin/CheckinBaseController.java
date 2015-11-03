@@ -2,7 +2,6 @@ package org.kuali.ole.deliver.controller.checkin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
@@ -26,7 +25,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -448,7 +446,10 @@ public abstract class CheckinBaseController extends CircUtilController {
 
                 if (null != deliverNoticeToSentMail) {
                     ExecutorService executorService = Executors.newFixedThreadPool(1);
-                    OnHoldNoticesExecutor runnable = new OnHoldNoticesExecutor(Collections.singletonList(deliverNoticeToSentMail));
+                    Map requestMap = new HashMap();
+                    requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, deliverNoticeToSentMail.getNoticeContentConfigName());
+                    requestMap.put(OLEConstants.DELIVER_NOTICES, Collections.singletonList(deliverNoticeToSentMail));
+                    OnHoldNoticesExecutor runnable = new OnHoldNoticesExecutor(requestMap);
                     executorService.execute(runnable);
                     executorService.shutdown();
                 }

@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
@@ -22,7 +23,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maheswarang on 6/23/15.
@@ -46,7 +49,10 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        RequestExpirationNoticesExecutor requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
+        Map requestMap = new HashMap();
+        requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Request Expiration");
+        requestMap.put(OLEConstants.DELIVER_NOTICES, new ArrayList<OLEDeliverNotice>());
+        RequestExpirationNoticesExecutor requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(requestMap);
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq(" EXP_REQ_TITLE"))).thenReturn("Request Expiration Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_REQ_BODY"))).thenReturn("Your Request Place on the item 1 is expired");
@@ -77,7 +83,10 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
+        Map requestMap = new HashMap();
+        requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "On Hold Expiration Notice");
+        requestMap.put(OLEConstants.DELIVER_NOTICES, new ArrayList<OLEDeliverNotice>());
+        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(requestMap);
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("EXPIRED_TITLE"))).thenReturn("Hold Courtesy Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_HOLD_NOTICE_CONTENT"))).thenReturn("The item is kept hold in the circulation desk for you to pick up .since you haven't picked up the book the item is moved to shelf.Place a new Request for that item");
@@ -104,7 +113,10 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
+        Map requestMap = new HashMap();
+        requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "On Hold Expiration Notice");
+        requestMap.put(OLEConstants.DELIVER_NOTICES, new ArrayList<OLEDeliverNotice>());
+        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(requestMap);
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("ONHOLD_TITLE"))).thenReturn("On Hold Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("ONHOLD_BODY"))).thenReturn("The request you have on the item is available to pick up and the item will be on hold for you till 22nd of june ");
@@ -134,7 +146,10 @@ public class NoticesExecutor_IT {
         Mockito.when(oleDeliverRequestBo.getRecallDueDate()).thenReturn(new Timestamp(2015,7,1,0,0,0,0));
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        RecallNoticesExecutor holdExpirationNoticesExecutor = new RecallNoticesExecutor(new ArrayList<OLEDeliverNotice>());
+        Map requestMap = new HashMap();
+        requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, "Recall Notice");
+        requestMap.put(OLEConstants.DELIVER_NOTICES, new ArrayList<OLEDeliverNotice>());
+        RecallNoticesExecutor holdExpirationNoticesExecutor = new RecallNoticesExecutor(requestMap);
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("RECALL_TITLE"))).thenReturn("Recall Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("RECALL_BODY"))).thenReturn("Item is needed by another patron .so kindly return the item before the date specified below");
