@@ -106,7 +106,7 @@
                         <bean parent="EmailAddressPatternConstraint" />
                     </property>
                     </bean>
-                    <bean id="create_mailContent"  parent="Uif-InputField" p:propertyName="mailContent">
+                    <bean id="create_mailContent"  parent="Uif-InputField" p:propertyName="mailContent" p:required="true">
                         <property name="control">
                             <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="80"/>
                         </property>
