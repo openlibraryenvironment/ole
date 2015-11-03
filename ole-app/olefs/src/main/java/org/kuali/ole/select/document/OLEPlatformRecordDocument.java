@@ -416,22 +416,46 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
             }
         }
         if (this.getOlePlatformId() != null) {
+            Map<String, VendorDetail> publisherMap = new HashMap<>();
             Map<String, String> platformMap = new HashMap<String, String>();
             platformMap.put(OLEConstants.PLATFORM_ID, this.getOlePlatformId());
             List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceInstance.class, platformMap);
             if (oleeResourceInstances != null && oleeResourceInstances.size() > 0) {
                 Map avoidingDuplicateMap = new HashMap<>();
                 for (OLEEResourceInstance oleeResourceInstance : oleeResourceInstances) {
+                    OLEEResourceRecordDocument oleERSDocument = oleeResourceInstance.getOleERSDocument();
+                    String publisherId = oleERSDocument.getPublisherId();
+                    if (org.apache.commons.lang.StringUtils.isNotBlank(publisherId)) {
+                        if (!publisherMap.containsKey(publisherId)){
+                            VendorDetail vendorDetailDoc = getVendorDetail(publisherId);
+                            publisherMap.put(publisherId, vendorDetailDoc);
+                        }
+                        VendorDetail vendorDetailDoc = publisherMap.get(publisherId);
+                        if (vendorDetailDoc != null) {
+                            oleERSDocument.setActivePublisher(vendorDetailDoc.isActiveIndicator());
+                            oleERSDocument.setPublisher(vendorDetailDoc.getVendorName());
+                        }
+                    }
                     if (oleeResourceInstance.getStatus() != null && oleeResourceInstance.getStatus().equals(OLEConstants.OleHoldings.ACTIVE)) {
-                        oleeResourceInstance.getOleERSDocument().setActiveTitlesCount(oleeResourceInstance.getOleERSDocument().getActiveTitlesCount() + 1);
-                        avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleeResourceInstance.getOleERSDocument());
+                        oleERSDocument.setActiveTitlesCount(oleERSDocument.getActiveTitlesCount() + 1);
+                        avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleERSDocument);
                     } else {
-                        avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleeResourceInstance.getOleERSDocument());
+                        avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleERSDocument);
                     }
                 }
                 getLinkedEResources().addAll(avoidingDuplicateMap.values());
             }
         }
+    }
+
+    private VendorDetail getVendorDetail(String publisherId) {
+        String[] publisherDetails = publisherId.split("-");
+        Map vendorMap = new HashMap<>();
+        int vendorHeaderGeneratedIdentifier = publisherDetails.length > 0 ? Integer.parseInt(publisherDetails[0]) : 0;
+        int vendorDetailAssignedIdentifier = publisherDetails.length > 1 ? Integer.parseInt(publisherDetails[1]) : 0;
+        vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, vendorHeaderGeneratedIdentifier);
+        vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+        return KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
     }
 
 

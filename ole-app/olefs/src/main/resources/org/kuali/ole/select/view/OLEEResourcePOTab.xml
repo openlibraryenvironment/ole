@@ -117,10 +117,30 @@
                             <bean id="statusId" parent="Uif-DataField" p:propertyName="statusName" p:label="Status"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:propertyName="oleERSIdentifier"/>
-                            <bean parent="Uif-DataField" p:propertyName="publisher"/>
+
+                            <bean parent="Uif-Label" p:labelText="Publisher"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="publisher" p:label=" " p:render="@{document.activePublisher}"/>
+                                        <bean parent="Uif-DataField" p:propertyName="publisher" p:label=" " p:render="@{!document.activePublisher}" p:cssClasses="InactiveVendor"/>
+                                    </list>
+                                </property>
+                            </bean>
+
                             <bean parent="Uif-DataField" p:propertyName="statusDate" />
                             <bean parent="Uif-DataField" p:propertyName="isbn" />
-                            <bean parent="Uif-DataField" p:propertyName="vendorName" />
+
+                            <bean parent="Uif-Label" p:labelText="Vendor Name"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="vendorName" p:label=" " p:render="@{document.activeVendor}"/>
+                                        <bean parent="Uif-DataField" p:propertyName="vendorName" p:label=" " p:render="@{!document.activeVendor}" p:cssClasses="InactiveVendor"/>
+                                    </list>
+                                </property>
+                            </bean>
+
                             <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
                             <bean parent="Uif-DataField" p:propertyName="gokbIdentifier"/>
                         </list>
