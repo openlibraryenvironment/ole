@@ -1079,6 +1079,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             orderQueue.add(queueArray[i]);
         }
         List<OleDeliverRequestBo> finalList = new ArrayList<OleDeliverRequestBo>();
+        String itemStatus = oleDeliverRequestBo.getItemStatus();
         Map<String, String> recallRequestMap = new HashMap<String, String>();
         recallRequestMap.put(OLEConstants.ITEM_UUID, oleDeliverRequestBo.getItemUuid());
         recallRequestMap.put(OLEConstants.OleDeliverRequest.REQUEST_TYPE_ID, "1");
@@ -1135,6 +1136,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             asrList.add(oleDeliverRequestBo);
         }
         OleDeliverRequestBo oleDeliverRequestBo1;
+
+        setRequestQueuePositionForOnholdItem(finalList, itemStatus, recallHoldList, holdHoldList, pageHoldList, asrList);
+
         for (int i = 0; i < orderQueue.size(); i++) {
             if (orderQueue.get(i).equals(OLEConstants.OleDeliverRequest.RECALL) && recallList.size() > 0) {
                 for (int x = 0; x < recallList.size(); x++) {
@@ -1226,6 +1230,62 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         this.queuePosition = 0;
         oleDeliverRequestBo.setRequestId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_RQST_S").toString());
         return oleDeliverRequestBo;
+    }
+
+    private void setRequestQueuePositionForOnholdItem(List<OleDeliverRequestBo> finalList, String itemStatus, List<OleDeliverRequestBo> recallHoldList, List<OleDeliverRequestBo> holdHoldList, List<OleDeliverRequestBo> pageHoldList, List<OleDeliverRequestBo> asrList) {
+        OleDeliverRequestBo oleDeliverRequestBo1;
+        if(itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) && (CollectionUtils.isNotEmpty(holdHoldList) || CollectionUtils.isNotEmpty(recallHoldList) || CollectionUtils.isNotEmpty(pageHoldList) || CollectionUtils.isNotEmpty(asrList))) {
+            if(CollectionUtils.isNotEmpty(recallHoldList)) {
+                for (int x = 0; x < recallHoldList.size(); x++) {
+                    oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(recallHoldList.get(x));
+                    if(null != oleDeliverRequestBo1.getBorrowerQueuePosition() && oleDeliverRequestBo1.getBorrowerQueuePosition() == 1) {
+                        oleDeliverRequestBo1.setBorrowerQueuePosition(this.queuePosition + 1);
+                        this.queuePosition = this.queuePosition + 1;
+                        finalList.add(oleDeliverRequestBo1);
+                        recallHoldList.remove(x);
+                        break;
+                    }
+
+                }
+            }
+            if(CollectionUtils.isNotEmpty(holdHoldList)) {
+                for (int x = 0; x < holdHoldList.size(); x++) {
+                    oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(holdHoldList.get(x));
+                    if(null != oleDeliverRequestBo1.getBorrowerQueuePosition() && oleDeliverRequestBo1.getBorrowerQueuePosition() == 1) {
+                        oleDeliverRequestBo1.setBorrowerQueuePosition(this.queuePosition + 1);
+                        this.queuePosition = this.queuePosition + 1;
+                        finalList.add(oleDeliverRequestBo1);
+                        holdHoldList.remove(x);
+                        break;
+                    }
+
+                }
+            }
+            if(CollectionUtils.isNotEmpty(pageHoldList)) {
+                for(int x=0; x < pageHoldList.size(); x++) {
+                    oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(pageHoldList.get(x));
+                    if(null != oleDeliverRequestBo1.getBorrowerQueuePosition() && oleDeliverRequestBo1.getBorrowerQueuePosition() == 1) {
+                        oleDeliverRequestBo1.setBorrowerQueuePosition(this.queuePosition + 1);
+                        this.queuePosition = this.queuePosition + 1;
+                        finalList.add(oleDeliverRequestBo1);
+                        pageHoldList.remove(x);
+                        break;
+                    }
+                }
+            }
+            if(CollectionUtils.isNotEmpty(asrList)) {
+                for(int x=0; x < asrList.size(); x++) {
+                    oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(asrList.get(x));
+                    if(null != oleDeliverRequestBo1.getBorrowerQueuePosition() && oleDeliverRequestBo1.getBorrowerQueuePosition() == 1) {
+                        oleDeliverRequestBo1.setBorrowerQueuePosition(this.queuePosition + 1);
+                        this.queuePosition = this.queuePosition + 1;
+                        finalList.add(oleDeliverRequestBo1);
+                        asrList.remove(x);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**
