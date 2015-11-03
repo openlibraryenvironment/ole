@@ -334,11 +334,13 @@ public class OLEAddTitlesToInvoiceService {
            // updateForeignCurrencyDetails(oleInvoiceDocument);
             List<OleInvoiceItem> oleInvItems = oleInvoiceDocument.getItems();
             for (OleInvoiceItem oleInvoiceItem : oleInvItems) {
-                if(oleInvoiceItem.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isNotEmpty(oleInvoiceItem.getForeignUnitCost())){
-                    BigDecimal foreignUnitCost = new BigDecimal(oleInvoiceItem.getForeignUnitCost());
-                    BigDecimal exchangeRate = new BigDecimal(oleInvoiceItem.getExchangeRate());
-                    oleInvoiceItem.setItemListPrice(new KualiDecimal(foreignUnitCost.divide(exchangeRate, 2, RoundingMode.HALF_UP)));
-                    oleInvoiceItem.setItemUnitPrice(foreignUnitCost.divide(exchangeRate, 2, RoundingMode.HALF_UP));
+                if(oleInvoiceItem.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
+                        StringUtils.isNotEmpty(oleInvoiceItem.getForeignUnitCost()) &&
+                        !oleInvoiceItem.getForeignUnitCost().equals("0.00")) {
+                        BigDecimal foreignUnitCost = new BigDecimal(oleInvoiceItem.getForeignUnitCost());
+                        BigDecimal exchangeRate = new BigDecimal(oleInvoiceItem.getExchangeRate());
+                        oleInvoiceItem.setItemListPrice(new KualiDecimal(foreignUnitCost.divide(exchangeRate, 2, RoundingMode.HALF_UP)));
+                        oleInvoiceItem.setItemUnitPrice(foreignUnitCost.divide(exchangeRate, 2, RoundingMode.HALF_UP));
                 }
                 getInvoiceService().calculateAccount(oleInvoiceItem);
             }
