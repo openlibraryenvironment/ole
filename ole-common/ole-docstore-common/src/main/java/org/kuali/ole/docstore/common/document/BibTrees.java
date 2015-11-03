@@ -62,7 +62,7 @@ public class BibTrees {
 
         BibTrees bibTrees = new BibTrees();
         try {
-            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreesXml.getBytes());
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreesXml.getBytes("UTF-8"));
             StreamSource streamSource = new StreamSource(bibTreeInputStream);
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTrees.class);

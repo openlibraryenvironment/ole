@@ -118,7 +118,7 @@ public class BibTree {
     public Object deserialize(String bibTreeXml) {
         BibTree bibTree = new BibTree();
         try {
-            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreeXml.getBytes());
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreeXml.getBytes("UTF-8"));
             StreamSource streamSource = new StreamSource(bibTreeInputStream);
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTree.class);

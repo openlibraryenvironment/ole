@@ -115,7 +115,7 @@ public class HoldingsTree
     public Object deserialize(String holdingsTreeXml) {
         HoldingsTree holdingsTree = new HoldingsTree();
         try {
-            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(holdingsTreeXml.getBytes());
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(holdingsTreeXml.getBytes("UTF-8"));
             StreamSource streamSource = new StreamSource(bibTreeInputStream);
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsTree.class);
