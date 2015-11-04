@@ -123,14 +123,14 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     }
 
 
-    private NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+    public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
         if (null == noticeSolrInputDocumentGenerator) {
             noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
         }
         return noticeSolrInputDocumentGenerator;
     }
 
-    private SolrRequestReponseHandler getSolrRequestReponseHandler() {
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
         if (null == solrRequestReponseHandler) {
             solrRequestReponseHandler = new SolrRequestReponseHandler();
         }
@@ -165,7 +165,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
     }
 
-    private Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleDeliverRequestBo> oleDeliverRequestBos) {
+    public Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleDeliverRequestBo> oleDeliverRequestBos) {
         Map parameterMap = new HashMap();
         parameterMap.put("DocType", noticeType);
         parameterMap.put("DocFormat", "Email");

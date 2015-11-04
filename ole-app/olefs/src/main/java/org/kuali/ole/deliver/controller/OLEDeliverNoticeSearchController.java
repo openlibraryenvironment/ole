@@ -85,7 +85,7 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         for (Iterator<String> iterator = filterFields.keySet().iterator(); iterator.hasNext(); ) {
             String field = iterator.next();
             Object value = filterFields.get(field);
-            stringBuilder.append(field).append(":").append(value);
+            stringBuilder.append(field).append(":").append("\"").append(value).append("\"");
             if (iterator.hasNext()) {
                 stringBuilder.append(" AND ");
             }

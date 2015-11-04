@@ -1381,7 +1381,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             Map requestMap = new HashMap();
             requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, oleDeliverRequestBo.getRecallNoticeContentConfigName());
             requestMap.put(OLEConstants.DELIVER_NOTICES, oleDeliverRequestBo.getDeliverNotices());
-            NoticesExecutor noticesExecutor = new RecallNoticesExecutor(requestMap);
+            RequestNoticesExecutor noticesExecutor = new RecallNoticesExecutor(requestMap);
             OleLoanDocument oleLoanDocument = getLoanDocument(oleDeliverRequestBo.getItemId());
             if (oleLoanDocument!=null){
                 OlePatronDocument olePatron = oleLoanDocument.getOlePatron();
@@ -1396,6 +1396,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
                 noticesExecutor.sendMail(mailContent);
                 saveNoticeHistory(mailContent, OLEConstants.RECALL_NOTICE, oleDeliverRequestBo, olePatron.getOlePatronId());
+                noticesExecutor.getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                        noticesExecutor.getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                                noticesExecutor.buildMapForIndexToSolr(noticesExecutor.getType(),mailContent, oleDeliverRequestBos))));
             }
         }
         return oleDeliverRequestBo;
