@@ -25,6 +25,7 @@ import org.kuali.ole.module.purap.PurapParameterConstants;
 import org.kuali.ole.module.purap.PurapWorkflowConstants;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.service.*;
+import org.kuali.ole.select.document.service.OleRequisitionDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.ChartOrgHolder;
@@ -59,6 +60,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 //import org.kuali.ole.module.purap.document.service.impl.PurapServiceImpl;
@@ -79,6 +81,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     protected String alternate5VendorName;
     protected KualiDecimal organizationAutomaticPurchaseOrderLimit;
     protected List reqStatusList;
+    private String paymentTypeCode;
+    private String itemLocationForFixed;
+    private String itemLocationForApproval;
+    private String itemStatusForFixed;
+    private String itemStatusForApproval;
+    private String copyNumber;
 
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
     protected boolean isBlanketApproveRequest = false;
@@ -723,6 +731,55 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //        }
         setAccountDistributionMethod(defaultDistributionMethodCode);
     }
+
+    public String getPaymentTypeCode() {
+        return paymentTypeCode;
+    }
+
+    public void setPaymentTypeCode(String paymentTypeCode) {
+        this.paymentTypeCode = paymentTypeCode;
+    }
+
+    public String getItemStatusForApproval() {
+        return itemStatusForApproval;
+    }
+
+    public void setItemStatusForApproval(String itemStatusForApproval) {
+        this.itemStatusForApproval = itemStatusForApproval;
+    }
+
+    public String getItemStatusForFixed() {
+        return itemStatusForFixed;
+    }
+
+    public void setItemStatusForFixed(String itemStatusForFixed) {
+        this.itemStatusForFixed = itemStatusForFixed;
+    }
+
+    public String getItemLocationForApproval() {
+        return itemLocationForApproval;
+    }
+
+    public void setItemLocationForApproval(String itemLocationForApproval) {
+        this.itemLocationForApproval = itemLocationForApproval;
+    }
+
+    public String getItemLocationForFixed() {
+        return itemLocationForFixed;
+    }
+
+    public void setItemLocationForFixed(String itemLocationForFixed) {
+        this.itemLocationForFixed = itemLocationForFixed;
+    }
+
+    public String getCopyNumber() {
+        return copyNumber;
+    }
+
+    public void setCopyNumber(String copyNumber) {
+        this.copyNumber = copyNumber;
+    }
+
 
 }
 

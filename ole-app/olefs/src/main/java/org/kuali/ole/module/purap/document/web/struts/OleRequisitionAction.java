@@ -88,6 +88,7 @@ public class OleRequisitionAction extends RequisitionAction {
     private boolean sufficientFundChecklag = true;
     private DocstoreClientLocator docstoreClientLocator;
     private static transient OlePurapService olePurapService;
+    private OleRequisitionDocumentService oleRequisitionDocumentService;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (docstoreClientLocator == null) {
@@ -101,6 +102,14 @@ public class OleRequisitionAction extends RequisitionAction {
             olePurapService = SpringContext.getBean(OlePurapService.class);
         }
         return olePurapService;
+    }
+
+    public OleRequisitionDocumentService getOleRequisitionDocumentService() {
+        if(oleRequisitionDocumentService == null) {
+           return  SpringContext.getBean(OleRequisitionDocumentService.class);
+        }
+
+        return oleRequisitionDocumentService;
     }
 
     public static void setOlePurapService(OlePurapService olePurapService) {
@@ -119,6 +128,12 @@ public class OleRequisitionAction extends RequisitionAction {
         OleRequisitionItem oleRequisitionItem = (OleRequisitionItem) oleRequisitionForm.getNewPurchasingItemLine();
         ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
         RequisitionDocument requisitionDocument = (RequisitionDocument) kualiDocumentFormBase.getDocument();
+        requisitionDocument.setPaymentTypeCode(getOleRequisitionDocumentService().getParameter(OLEConstants.RECURRING_PAY_TYP));
+        requisitionDocument.setItemLocationForFixed(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_FIRM_FIXD));
+        requisitionDocument.setItemLocationForApproval(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_APPROVAL));
+        requisitionDocument.setItemStatusForFixed(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_FIRM_FIXD));
+        requisitionDocument.setItemStatusForApproval(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_APPROVAL));
+        requisitionDocument.setCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
         new OleDefaultValueAssignment(oleRequisitionForm.getDefaultDocumentTypeName(), oleRequisitionItem, requisitionDocument);
     }
 
@@ -964,6 +979,7 @@ public class OleRequisitionAction extends RequisitionAction {
                 .getDocument();
         if(purapDocument.getIsReqsDoc()) {
             OleRequisitionDocument oleRequisitionDocument = (OleRequisitionDocument)purapDocument;
+            oleRequisitionDocument.setPaymentTypeCode(getOleRequisitionDocumentService().getParameter(OLEConstants.RECURRING_PAY_TYP));
             if(oleRequisitionDocument.getRequisitionSource().getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
                 ((OleRequisitionDocument) purapDocument).setRequisitionSourceCode(null);
             }

@@ -288,7 +288,7 @@ function checkImmediatePaymentIndicator(proformaIndicator){
 		        <th align=right valign=middle class="bord-l-b">
 		            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTypeId}" /></div>
 		        </th>
-		        <td align=left valign=middle class="datacell">
+		        <td align=left valign=middle class="datacell" onchange="setParameterizedValues()">
 		            <kul:htmlControlAttribute
 		                property="document.purchaseOrderTypeId"
 		                attributeEntry="${documentAttributes.purchaseOrderTypeId}"

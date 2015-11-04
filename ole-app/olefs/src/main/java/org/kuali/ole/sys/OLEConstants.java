@@ -2016,4 +2016,10 @@ public class OLEConstants {
     public static final String PO_DOC_STAT_CLOSED = "Closed";
     public static final String SEQ_NBR = "sequenceObject";
     public static final String INDEX_NBR = "indexNo";
+    public static final String RECURRING_PAY_TYP = "RECURRING_PAY_TYP_CD";
+    public static final String ITEM_LOCATION_FIRM_FIXD = "ITEM_LOCATION_FIRM_FIXD";
+    public static final String ITEM_LOCATION_APPROVAL = "ITEM_LOCATION_APPROVAL";
+    public static final String COPY_NUMBER = "COPY_NO";
+    public static final String ITEM_STATUS_FIRM_FIXD = "ITEM_STATUS_FIRM_FIXD";
+    public static final String ITEM_STATUS_APPROVAL = "ITEM_STATUS_APPROVAL";
 }

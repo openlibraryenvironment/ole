@@ -98,4 +98,33 @@
         document.getElementById('document.item[' + itemCount + '].newSourceLine.accountNumber').focus();
     }
 
+    setParameterized(); //To load the parameterized value at the time of page load
+
+    function setParameterizedValues() {
+        document.getElementById("newPurchasingItemLine.singleCopyNumber").value = "${KualiForm.document.copyNumber}"
+
+        if (document.getElementById('document.purchaseOrderTypeId').value == 1) {
+            document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForFixed}";
+            document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForFixed}";
+            document.getElementById('document.recurringPaymentTypeCode').value = '';
+            document.getElementById('document.purchaseOrderBeginDate').value = '';
+            document.getElementById('document.purchaseOrderEndDate').value = '';
+        } else if (document.getElementById('document.purchaseOrderTypeId').value == 5) {
+            document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForApproval}";
+            document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForApproval}";
+            document.getElementById('document.recurringPaymentTypeCode').value = '';
+            document.getElementById('document.purchaseOrderBeginDate').value = '';
+            document.getElementById('document.purchaseOrderEndDate').value = '';
+        } else {
+            var poCreateDate = new Date();
+            var dd = poCreateDate.getDate();
+            var mm = poCreateDate.getMonth()+1;
+            var yyyy = poCreateDate.getFullYear();
+            poCreateDate = mm+'/'+dd+'/'+yyyy;
+            document.getElementById("newPurchasingItemLine.itemLocation").value = '';
+            document.getElementById('document.recurringPaymentTypeCode').value =  "${KualiForm.document.paymentTypeCode}"
+            document.getElementById('document.purchaseOrderBeginDate').value = poCreateDate;
+            document.getElementById('document.purchaseOrderEndDate').value = '12/31/9999'
+        }
+    }
 </script>

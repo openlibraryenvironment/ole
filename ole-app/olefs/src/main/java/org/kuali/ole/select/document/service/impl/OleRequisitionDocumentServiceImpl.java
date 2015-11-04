@@ -33,6 +33,9 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
@@ -487,4 +490,11 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
     public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
         this.oleSelectDocumentService = oleSelectDocumentService;
     }
+
+    public String getParameter(String key) {
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID_OLE, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT, key);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
+    }
+
 }

@@ -22,4 +22,7 @@ public interface OleRequisitionDocumentService {
     public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine);
 
     public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine);
+
+    public String getParameter(String key);
+
 }
