@@ -108,7 +108,25 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX', 'OLE7038', '1', 'CONFG', '1000', 'This parameter value is used to specify the chunk size for notice content reindexer.', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:9dffa9910f3e94ec4265d039493621c2', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'RECURRING_PAY_TYP_CD', 'OLE7039', '1', 'CONFG', 'VARV', 'This parameter is to get Payment type based on the order type of Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'ITEM_LOCATION_FIRM_FIXD', 'OLE7040', '1', 'CONFG', 'UC/UCX/Order', 'This parameter is to get the default item location for Firm fixed type Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'ITEM_LOCATION_APPROVAL', 'OLE7041', '1', 'CONFG', 'UC/UCX/InProc', 'This parameter is to get the default item location for Approval type Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'ITEM_STATUS_FIRM_FIXD', 'OLE7042', '1', 'CONFG', 'ONORDER', 'This parameter is to get the default item status for Firm Fixed type Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'ITEM_STATUS_APPROVAL', 'OLE7043', '1', 'CONFG', 'INPROCESS', 'This parameter is to get the default item status for Approval type Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'COPY_NO', 'OLE7044', '1', 'CONFG', '1', 'This parameter is to get the default copy number for Requisition document', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:da128153f7040da6fdbd023c93889ca7', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::OLE_GOKB_PKG_T::ole
