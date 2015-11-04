@@ -122,6 +122,7 @@
             var yyyy = poCreateDate.getFullYear();
             poCreateDate = mm+'/'+dd+'/'+yyyy;
             document.getElementById("newPurchasingItemLine.itemLocation").value = '';
+            document.getElementById("newPurchasingItemLine.itemStatus").value = '';
             document.getElementById('document.recurringPaymentTypeCode').value =  "${KualiForm.document.paymentTypeCode}"
             document.getElementById('document.purchaseOrderBeginDate').value = poCreateDate;
             document.getElementById('document.purchaseOrderEndDate').value = '12/31/9999'
