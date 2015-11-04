@@ -98,7 +98,7 @@
         document.getElementById('document.item[' + itemCount + '].newSourceLine.accountNumber').focus();
     }
 
-    setParameterized(); //To load the parameterized value at the time of page load
+    setParameterizedValues(); //To load the parameterized value at the time of page load
 
     function setParameterizedValues() {
         document.getElementById("newPurchasingItemLine.singleCopyNumber").value = "${KualiForm.document.copyNumber}"
