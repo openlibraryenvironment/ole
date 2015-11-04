@@ -75,7 +75,6 @@
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ListItemsReport.rptdesign"%>" target="_blank">List Items Report</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldPickList.rptdesign"%>" target="_blank">Hold Pick List</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PickListsForPageRequests.rptdesign"%>" target="_blank">Pick Lists For Page Requests</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingInTransit.rptdesign"%>" target="_blank">Missing In Transit</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingItems.rptdesign"%>" target="_blank">Items Marked Missing That Need Searched For Staff</a></li>
 
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ShelfList.rptdesign"%>" target="_blank">Shelf List</a></li>
@@ -103,6 +102,7 @@
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandardLoanBooks.rptdesign"%>" target="_blank">Standard Loan Books</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ExpiredOnHolds.rptdesign"%>" target="_blank">Expired On-Holds</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingInTransit.rptdesign"%>" target="_blank">Missing In Transit</a></li>
 
             </ul>
         </ul>
