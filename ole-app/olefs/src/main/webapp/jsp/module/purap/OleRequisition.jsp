@@ -102,14 +102,27 @@
 
     function setParameterizedValues() {
         document.getElementById("newPurchasingItemLine.singleCopyNumber").value = "${KualiForm.document.copyNumber}"
-
-        if (document.getElementById('document.purchaseOrderTypeId').value == 1) {
+        var orderTypeKeyValuePair=[];
+        var purchasetypeList="${KualiForm.document.orderTypes}".split(";");
+        for(var orderTypeCount=0;orderTypeCount<purchasetypeList.length;orderTypeCount++){
+            if(purchasetypeList[orderTypeCount]!=null&&purchasetypeList[orderTypeCount]!=''){
+                var tempOrderType=purchasetypeList[orderTypeCount].split(":");
+                orderTypeKeyValuePair.push({id:tempOrderType[0],orderType:tempOrderType[1]});
+            }
+        }
+        var inputOrderype='';
+        for(var getIPOrdTypCnt=0;getIPOrdTypCnt<orderTypeKeyValuePair.length;getIPOrdTypCnt++){
+            if(document.getElementById('document.purchaseOrderTypeId').value==orderTypeKeyValuePair[getIPOrdTypCnt].id) {
+                inputOrderype = orderTypeKeyValuePair[getIPOrdTypCnt].orderType;
+            }
+        }
+        if (inputOrderype == "Firm, Fixed") {
             document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForFixed}";
             document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForFixed}";
             document.getElementById('document.recurringPaymentTypeCode').value = '';
             document.getElementById('document.purchaseOrderBeginDate').value = '';
             document.getElementById('document.purchaseOrderEndDate').value = '';
-        } else if (document.getElementById('document.purchaseOrderTypeId').value == 5) {
+        } else if (inputOrderype == "Approval") {
             document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForApproval}";
             document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForApproval}";
             document.getElementById('document.recurringPaymentTypeCode').value = '';

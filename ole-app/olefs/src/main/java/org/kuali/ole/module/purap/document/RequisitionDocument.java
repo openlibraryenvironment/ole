@@ -87,6 +87,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String itemStatusForFixed;
     private String itemStatusForApproval;
     private String copyNumber;
+    private String orderTypes;
 
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
     protected boolean isBlanketApproveRequest = false;
@@ -780,6 +781,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.copyNumber = copyNumber;
     }
 
+    public String getOrderTypes() {
+        return orderTypes;
+    }
 
+    public void setOrderTypes(String orderTypes) {
+        this.orderTypes = orderTypes;
+    }
 }
 

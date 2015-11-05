@@ -134,6 +134,7 @@ public class OleRequisitionAction extends RequisitionAction {
         requisitionDocument.setItemStatusForFixed(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_FIRM_FIXD));
         requisitionDocument.setItemStatusForApproval(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_APPROVAL));
         requisitionDocument.setCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
+        requisitionDocument.setOrderTypes(getOleRequisitionDocumentService().getPurchaseOrderTypes());
         new OleDefaultValueAssignment(oleRequisitionForm.getDefaultDocumentTypeName(), oleRequisitionItem, requisitionDocument);
     }
 

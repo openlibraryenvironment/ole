@@ -25,4 +25,6 @@ public interface OleRequisitionDocumentService {
 
     public String getParameter(String key);
 
+    public String getPurchaseOrderTypes();
+
 }

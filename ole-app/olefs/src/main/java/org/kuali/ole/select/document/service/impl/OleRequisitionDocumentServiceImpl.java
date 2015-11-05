@@ -18,6 +18,7 @@ package org.kuali.ole.select.document.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.gl.businessobject.Balance;
+import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
 import org.kuali.ole.select.OleSelectNotificationConstant;
@@ -52,7 +53,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
     protected static final Logger LOG = Logger.getLogger(OleInvoiceFundCheckServiceImpl.class);
     protected ConfigurationService kualiConfigurationService;
     private OleSelectDocumentService oleSelectDocumentService;
-
+    private BusinessObjectService businessObjectService;
     @Override
     public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine) {
         boolean hasSufficientFundRequired = false;
@@ -495,6 +496,27 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID_OLE, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT, key);
         Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
         return parameter != null ? parameter.getValue() : null;
+    }
+
+    public String getPurchaseOrderTypes() {
+        List<PurchaseOrderType> purchaseOrderTypes = ( List<PurchaseOrderType>)getBusinessObjectService().findAll(PurchaseOrderType.class);
+        StringBuffer orderTypes = new StringBuffer();
+        if(purchaseOrderTypes.size() > 0) {
+            for(PurchaseOrderType purchaseOrderType : purchaseOrderTypes) {
+                orderTypes.append(purchaseOrderType.getPurchaseOrderTypeId().toString());
+                orderTypes.append(":");
+                orderTypes.append(purchaseOrderType.getPurchaseOrderType());
+                orderTypes.append(";");
+            }
+        }
+        return orderTypes.toString();
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 
 }
