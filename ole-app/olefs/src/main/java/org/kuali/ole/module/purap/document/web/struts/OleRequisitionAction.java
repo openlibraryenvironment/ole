@@ -981,6 +981,11 @@ public class OleRequisitionAction extends RequisitionAction {
         if(purapDocument.getIsReqsDoc()) {
             OleRequisitionDocument oleRequisitionDocument = (OleRequisitionDocument)purapDocument;
             oleRequisitionDocument.setPaymentTypeCode(getOleRequisitionDocumentService().getParameter(OLEConstants.RECURRING_PAY_TYP));
+            oleRequisitionDocument.setItemLocationForFixed(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_FIRM_FIXD));
+            oleRequisitionDocument.setItemLocationForApproval(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_APPROVAL));
+            oleRequisitionDocument.setItemStatusForFixed(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_FIRM_FIXD));
+            oleRequisitionDocument.setItemStatusForApproval(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_APPROVAL));
+            oleRequisitionDocument.setCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
             if(oleRequisitionDocument.getRequisitionSource().getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
                 ((OleRequisitionDocument) purapDocument).setRequisitionSourceCode(null);
             }
