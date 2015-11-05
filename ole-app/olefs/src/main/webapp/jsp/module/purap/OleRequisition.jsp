@@ -128,7 +128,7 @@
             document.getElementById('document.recurringPaymentTypeCode').value = '';
             document.getElementById('document.purchaseOrderBeginDate').value = '';
             document.getElementById('document.purchaseOrderEndDate').value = '';
-        } else {
+        } else if (inputOrderype != "") {
             var poCreateDate = new Date();
             var dd = poCreateDate.getDate();
             var mm = poCreateDate.getMonth()+1;
