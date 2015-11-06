@@ -1,6 +1,10 @@
 
 <HTML>
+<#if oleNoticeBo.noticeTitle ??  >
 <TITLE>${oleNoticeBo.noticeTitle}</TITLE>
+<#else>
+<TITLE></TITLE>
+</#if>
 <HEAD></HEAD>
 <BODY>
 
@@ -10,12 +14,20 @@
     </BR></BR>
     <TR>
         <TD>E-Resource Name : </TD>
-        <TD>${oleNoticeBo.noticeName}</TD>
+        <#if oleNoticeBo.noticeName ??>
+            <TD>${oleNoticeBo.noticeName}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
 
     <TR>
         <TD></TD>
-        <TD>${oleNoticeBo.noticeSpecificContent}</TD>
+        <#if oleNoticeBo.noticeSpecificContent ??>
+            <TD>${oleNoticeBo.noticeSpecificContent}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
     </table>
 

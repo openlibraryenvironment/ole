@@ -3,49 +3,98 @@
 <table>
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title")} :</TD>
-      <TD>${oleNoticeBo.title}</TD>
+      <#if oleNoticeBo.title ??>
+          <TD>${oleNoticeBo.title}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
+
   </TR>
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Author")} :</TD>
-      <TD>${oleNoticeBo.author}</TD>
+      <#if oleNoticeBo.author??>
+          <TD>${oleNoticeBo.author}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
+
   </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("CopyNumber")}  :</TD>
-        <TD>${oleNoticeBo.copyNumber}</TD>
+        <#if oleNoticeBo.copyNumber??>
+            <TD>${oleNoticeBo.copyNumber}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
 
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Enumeration")}  :</TD>
-        <TD>${oleNoticeBo.enumeration}</TD>
+        <#if oleNoticeBo.enumeration ??>
+            <TD>${oleNoticeBo.enumeration}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Chronology")}  :</TD>
-        <TD>${oleNoticeBo.chronology}</TD>
+        <#if oleNoticeBo.chronology ??>
+            <TD>${oleNoticeBo.chronology}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call Number")} :</TD>
-        <TD>${oleNoticeBo.itemCallNumber}</TD>
+        <#if oleNoticeBo.itemCallNumber??>
+            <TD>${oleNoticeBo.itemCallNumber}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Barcode")} :</TD>
-        <TD>${oleNoticeBo.itemId}</TD>
+        <#if oleNoticeBo.itemId ??>
+            <TD>${oleNoticeBo.itemId}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
     <#if oleNoticeBo.noticeTitle == "Overdue Notice">
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item was due")} :</TD>
-      <TD>${oleNoticeBo.dueDateString}</TD>
+      <#if oleNoticeBo.dueDateString??>
+          <TD>${oleNoticeBo.dueDateString}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
+
   </TR>
     </#if>
     <#if oleNoticeBo.noticeTitle == "Lost">
         <TR>
             <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library location")} :</TD>
-            <TD>${oleNoticeBo.itemLibrary}</TD>
+            <#if oleNoticeBo.itemLibrary ??>
+                <TD>${oleNoticeBo.itemLibrary}</TD>
+            <#else>
+                <TD</TD>
+            </#if>
+
         </TR>
     </#if>
 
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
-      <TD>${oleNoticeBo.itemShelvingLocation}</TD>
+      <#if oleNoticeBo.itemShelvingLocation ??>
+          <TD>${oleNoticeBo.itemShelvingLocation}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
   </TR>
 
 </table>

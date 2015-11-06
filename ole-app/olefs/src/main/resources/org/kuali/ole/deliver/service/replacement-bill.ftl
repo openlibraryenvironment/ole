@@ -5,15 +5,28 @@
     </BR></BR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Bill Number")} :</TD>
-        <TD>${oleNoticeBo.billNumber}</TD>
+        <#if oleNoticeBo.billNumber ??  >
+            <TD>${oleNoticeBo.billNumber}</TD>
+        <#else>
+            <TD></TD>
+        </#if>
+
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Fee Type")} :</TD>
-        <TD>${oleNoticeBo.feeType}</TD>
+        <#if oleNoticeBo.feeType ??  >
+            <TD>${oleNoticeBo.feeType}</TD>
+        <#else>
+            <TD></TD>
+        </#if>
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Fee Amount")} :</TD>
-        <TD>$${oleNoticeBo.feeAmount}</TD>
+        <#if oleNoticeBo.feeAmount ??  >
+            <TD>${oleNoticeBo.feeAmount}</TD>
+        <#else>
+            <TD></TD>
+        </#if>
     </TR>
 </table>
 

@@ -4,47 +4,89 @@
 
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Circulation Location/Library Name")} :</TD>
-        <TD>${oleNoticeBo.circulationDeskName}</TD>
+        <#if oleNoticeBo.circulationDeskName ??>
+            <TD>${oleNoticeBo.circulationDeskName}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
 
 
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Circulation Reply-To Email")} :</TD>
-        <TD>${oleNoticeBo.circulationDeskReplyToEmail}</TD>
+        <#if oleNoticeBo.circulationDeskReplyToEmail ??>
+            <TD>${oleNoticeBo.circulationDeskReplyToEmail}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
     </TR>
 
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title")} :</TD>
-      <TD>${oleNoticeBo.title}</TD>
+      <#if oleNoticeBo.title ??>
+          <TD>${oleNoticeBo.title}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
   </TR>
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Author")} :</TD>
-      <TD>${oleNoticeBo.author}</TD>
+      <#if oleNoticeBo.author ??>
+          <TD>${oleNoticeBo.author}</TD>
+      <#else>
+          <TD</TD>
+      </#if>
   </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("CopyNumber")}  :</TD>
-        <TD>${oleNoticeBo.copyNumber}</TD>
+        <#if oleNoticeBo.copyNumber ??>
+            <TD>${oleNoticeBo.copyNumber}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
 
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Enumeration")}  :</TD>
-        <TD>${oleNoticeBo.enumeration}</TD>
+        <#if oleNoticeBo.enumeration ??>
+            <TD>${oleNoticeBo.enumeration}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Chronology")}  :</TD>
-        <TD>${oleNoticeBo.chronology}</TD>
+        <#if oleNoticeBo.chronology ??>
+            <TD>${oleNoticeBo.chronology}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call Number")} :</TD>
-        <TD>${oleNoticeBo.itemCallNumber}</TD>
+        <#if oleNoticeBo.itemCallNumber ??>
+            <TD>${oleNoticeBo.itemCallNumber}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Barcode")} :</TD>
-        <TD>${oleNoticeBo.itemId}</TD>
+        <#if oleNoticeBo.itemId ??>
+            <TD>${oleNoticeBo.itemId}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library shelving location")} :</TD>
-        <TD>${oleNoticeBo.itemShelvingLocation}</TD>
+        <#if oleNoticeBo.itemShelvingLocation ??>
+            <TD>${oleNoticeBo.itemShelvingLocation}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
     </TR>
 
 
@@ -52,18 +94,32 @@
         <#if oleNoticeBo.noticeType == "OnHoldNotice">
             <TR>
                 <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Hold Expiration Date")} :</TD>
-                <TD>${(oleNoticeBo.expiredOnHoldDate)?date}</TD>
+                <#if oleNoticeBo.expiredOnHoldDate ??>
+                    <TD>${oleNoticeBo.expiredOnHoldDate}</TD>
+                <#else>
+                    <TD</TD>
+                </#if>
             </TR>
         </#if>
 
         <#if oleNoticeBo.noticeType == "RecallNotice">
             <TR>
                 <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Original Due Date")} :</TD>
-                <TD>${(oleNoticeBo.originalDueDate)?date}</TD>
+                <#if oleNoticeBo.originalDueDate ??>
+                    <TD>${(oleNoticeBo.originalDueDate)?date}</TD>
+                <#else>
+                    <TD</TD>
+                </#if>
+
             </TR>
             <TR>
                 <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Recall Due Date")} :</TD>
-                <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                <#if oleNoticeBo.newDueDate ??>
+                    <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                <#else>
+                    <TD</TD>
+                </#if>
+
             </TR>
         </#if>
     </#if>
