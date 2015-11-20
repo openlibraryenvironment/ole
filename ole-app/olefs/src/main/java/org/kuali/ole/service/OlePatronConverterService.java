@@ -383,11 +383,13 @@ public class OlePatronConverterService {
         List<OlePatronPostalAddress> olePatronPostalAddresses = olePatron.getPostalAddresses();
         String addressTypeCode = null;
         List<String> addressTypeCodeList = new ArrayList<>();
-        for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
-            OlePatronPostalAddress postalAddresses = iterator.next();
-            addressTypeCode = postalAddresses.getPostalAddressType();
-            if (!addressTypeCodeList.contains(addressTypeCode)) {
-                addressTypeCodeList.add(addressTypeCode);
+        if(CollectionUtils.isNotEmpty(olePatronPostalAddresses)) {
+            for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
+                OlePatronPostalAddress postalAddresses = iterator.next();
+                addressTypeCode = postalAddresses.getPostalAddressType();
+                if (!addressTypeCodeList.contains(addressTypeCode)) {
+                    addressTypeCodeList.add(addressTypeCode);
+                }
             }
         }
         return addressTypeCodeList;
@@ -397,11 +399,13 @@ public class OlePatronConverterService {
         List<OlePatronTelePhoneNumber> olePatronTelePhoneNumbers = olePatron.getTelephoneNumbers();
         String phoneTypeCode = null;
         List<String> phoneTypeCodeList = new ArrayList<>();
-        for (Iterator<OlePatronTelePhoneNumber> iterator = olePatronTelePhoneNumbers.iterator(); iterator.hasNext(); ) {
-            OlePatronTelePhoneNumber telePhoneNumber = iterator.next();
-            phoneTypeCode = telePhoneNumber.getTelephoneNumberType();
-            if (!phoneTypeCodeList.contains(phoneTypeCode)) {
-                phoneTypeCodeList.add(phoneTypeCode);
+        if(CollectionUtils.isNotEmpty(olePatronTelePhoneNumbers)) {
+            for (Iterator<OlePatronTelePhoneNumber> iterator = olePatronTelePhoneNumbers.iterator(); iterator.hasNext(); ) {
+                OlePatronTelePhoneNumber telePhoneNumber = iterator.next();
+                phoneTypeCode = telePhoneNumber.getTelephoneNumberType();
+                if (!phoneTypeCodeList.contains(phoneTypeCode)) {
+                    phoneTypeCodeList.add(phoneTypeCode);
+                }
             }
         }
         return phoneTypeCodeList;
@@ -411,11 +415,13 @@ public class OlePatronConverterService {
         List<OlePatronEmailAddress> olePatronEmailAddresses = olePatron.getEmailAddresses();
         String emailTypeCode = null;
         List<String> emailTypeCodeList = new ArrayList<>();
-        for (Iterator<OlePatronEmailAddress> iterator = olePatronEmailAddresses.iterator(); iterator.hasNext(); ) {
-            OlePatronEmailAddress emailAddress = iterator.next();
-            emailTypeCode = emailAddress.getEmailAddressType();
-            if (!emailTypeCodeList.contains(emailTypeCode)) {
-                emailTypeCodeList.add(emailTypeCode);
+        if(CollectionUtils.isNotEmpty(olePatronEmailAddresses)) {
+            for (Iterator<OlePatronEmailAddress> iterator = olePatronEmailAddresses.iterator(); iterator.hasNext(); ) {
+                OlePatronEmailAddress emailAddress = iterator.next();
+                emailTypeCode = emailAddress.getEmailAddressType();
+                if (!emailTypeCodeList.contains(emailTypeCode)) {
+                    emailTypeCodeList.add(emailTypeCode);
+                }
             }
         }
         return emailTypeCodeList;
@@ -543,7 +549,7 @@ public class OlePatronConverterService {
         return updatedPatrons;
     }
 
-   /**
+    /**
      * This method is for getting the object of OlePatronGroup from the ingested xml (used for testCase).
      * @param fileContent
      * @return OlePatronGroup object
@@ -804,7 +810,7 @@ public class OlePatronConverterService {
         EntityAddressBo entityAddressBo;
         OleAddressBo oleAddressBo;
         List<OlePatronPostalAddress> olePatronPostalAddresses = olePatron.getPostalAddresses();
-        if (olePatronPostalAddresses != null){
+        if (CollectionUtils.isNotEmpty(olePatronPostalAddresses)){
             for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
                 OlePatronPostalAddress postalAddresses = iterator.next();
                 oleEntityAddressBo = new OleEntityAddressBo();
@@ -989,27 +995,29 @@ public class OlePatronConverterService {
         List<OlePatronNotes> olePatronNotesList = new ArrayList<OlePatronNotes>();
         OlePatronNotes olePatronNotes;
         List<OlePatronNote> olePatronNoteList = olePatron.getNotes();
-        for (Iterator<OlePatronNote> iterator = olePatronNoteList.iterator(); iterator.hasNext(); ) {
-            OlePatronNote olePatronNote = iterator.next();
-            olePatronNotes = new OlePatronNotes();
-            if (olePatronNote.getNoteType() != null && !"".equals(olePatronNote.getNoteType())) {
-                Map criteria = new HashMap<String, String>();
-                criteria.put(OLEConstants.PATRON_NOTE_TYPE_CODE, olePatronNote.getNoteType());
-                List<OlePatronNoteType> olePatronNoteTypes = (List<OlePatronNoteType>) getBusinessObjectService().findMatching(OlePatronNoteType.class, criteria);
-                if (olePatronNoteTypes.size() > 0) {
-                    olePatronNotes.setOlePatronNoteType(olePatronNoteTypes.get(0));
-                    olePatronNotes.setPatronNoteTypeId(olePatronNoteTypes.get(0).getPatronNoteTypeId());
-                    olePatronNotes.setPatronNoteText(olePatronNote.getNote());
-                    olePatronNotes.setActive(olePatronNote.isActive());
-                    olePatronNotesList.add(olePatronNotes);
-                    olePatronDocument.setNotes(olePatronNotesList);
-                    notesFlag = true;
-                } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_ERROR);
-                }
+        if(CollectionUtils.isNotEmpty(olePatronNoteList)) {
+            for (Iterator<OlePatronNote> iterator = olePatronNoteList.iterator(); iterator.hasNext(); ) {
+                OlePatronNote olePatronNote = iterator.next();
+                olePatronNotes = new OlePatronNotes();
+                if (olePatronNote.getNoteType() != null && !"".equals(olePatronNote.getNoteType())) {
+                    Map criteria = new HashMap<String, String>();
+                    criteria.put(OLEConstants.PATRON_NOTE_TYPE_CODE, olePatronNote.getNoteType());
+                    List<OlePatronNoteType> olePatronNoteTypes = (List<OlePatronNoteType>) getBusinessObjectService().findMatching(OlePatronNoteType.class, criteria);
+                    if (olePatronNoteTypes.size() > 0) {
+                        olePatronNotes.setOlePatronNoteType(olePatronNoteTypes.get(0));
+                        olePatronNotes.setPatronNoteTypeId(olePatronNoteTypes.get(0).getPatronNoteTypeId());
+                        olePatronNotes.setPatronNoteText(olePatronNote.getNote());
+                        olePatronNotes.setActive(olePatronNote.isActive());
+                        olePatronNotesList.add(olePatronNotes);
+                        olePatronDocument.setNotes(olePatronNotesList);
+                        notesFlag = true;
+                    } else {
+                        olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_ERROR);
+                    }
 
-            } else {
-                olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_BLANK_ERROR);
+                } else {
+                    olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_BLANK_ERROR);
+                }
             }
         }
         if (olePatronNoteList.isEmpty()) {
