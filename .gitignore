@@ -1,0 +1,10 @@
+#Idea specific files
+*.iml
+*.ipr
+*.idea
+
+#Build specific
+
+*target
+*overlays
+
