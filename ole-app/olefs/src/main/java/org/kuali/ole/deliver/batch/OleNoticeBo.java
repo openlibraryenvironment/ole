@@ -72,6 +72,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String itemCollection;
     private String itemLibrary;
     private String itemLocation;
+    private String itemCallNumberPrefix;
 
     public String getNoticeType() {
         return noticeType;
@@ -436,5 +437,13 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     public void setItemLocation(String itemLocation) {
         this.itemLocation = itemLocation;
+    }
+
+    public String getItemCallNumberPrefix() {
+        return itemCallNumberPrefix;
+    }
+
+    public void setItemCallNumberPrefix(String itemCallNumberPrefix) {
+        this.itemCallNumberPrefix = itemCallNumberPrefix;
     }
 }

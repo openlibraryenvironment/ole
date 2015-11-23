@@ -3657,6 +3657,7 @@ public class OLEConstants {
     public static final String NOTICE_AUTHOR = "Author";
     public static final String VOLUME_ISSUE_COPY = "Volume/Issue/Copy #";
     public static final String NOTICE_CALL_NUMBER = "Call #";
+    public static final String NOTICE_CALL_NUMBER_PREFIX ="Call # Prefix";
     public static final String NOTICE_ITEM_BARCODE = "Item_Barcode";
     public static final String ORIGINAL_DUE_DATE = "Original Due Date";
     public static final String NEW_DUE_DATE = "New Due Date";

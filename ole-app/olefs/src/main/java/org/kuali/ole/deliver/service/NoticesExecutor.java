@@ -228,6 +228,7 @@ public abstract class NoticesExecutor implements Runnable {
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "holdingsIdentifier"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Author_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"CallNumberPrefix_display"));
                 searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -241,6 +242,8 @@ public abstract class NoticesExecutor implements Runnable {
                             bibAuthor = searchResultField.getFieldValue();
                         } else  if (searchResultField.getFieldName().equalsIgnoreCase("id") &&!fieldValue.isEmpty()){
                             oleDeliverRequestBo.setItemUuid(fieldValue);
+                        }else  if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display") &&!fieldValue.isEmpty()){
+                            oleDeliverRequestBo.setCallNumberPrefix(fieldValue);
                         }
                     }
                 }
@@ -257,7 +260,10 @@ public abstract class NoticesExecutor implements Runnable {
             if (itemSearchList != null) {
                 oleDeliverRequestBo.setTitle(itemSearchList.getTitle());
                 oleDeliverRequestBo.setAuthor(itemSearchList.getAuthor());
-                oleDeliverRequestBo.setCallNumber(itemSearchList.getCallNumber());
+                String[] callNum = itemSearchList.getCallNumber().split(OLEConstants.DELIMITER_DASH);
+                if(callNum!=null && callNum.length>0){
+                    oleDeliverRequestBo.setCallNumber(callNum[callNum.length-1]);
+                }
                 oleDeliverRequestBo.setItemType(itemSearchList.getItemType());
                 oleDeliverRequestBo.setItemLocation(itemSearchList.getShelvingLocation());
             }
