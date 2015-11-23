@@ -258,6 +258,7 @@ public class BatchBibImportUtil {
     public static List<String> getMatchedDataField(BibMarcRecord bibMarcRecord, String enteredDataField) {
         List<String> dataFields = new ArrayList<>();
         String[] dataFiledsArray = enteredDataField.split(" ");
+        List<String> dataFields = new ArrayList<>();
         String entryDataField = null;
         String entryInds = null;
         String entrySubField = null;
@@ -274,6 +275,14 @@ public class BatchBibImportUtil {
             if (entryDataField.equalsIgnoreCase(OLEConstants.OLEBatchProcess.CONTROL_FIELD_001)) {
                 for (ControlField controlField : bibMarcRecord.getControlFields()) {
                     if (controlField.getTag().equalsIgnoreCase(OLEConstants.OLEBatchProcess.CONTROL_FIELD_001)) {
+                         dataFields.add(controlField.getValue());
+                        return dataFields;
+                    }
+                }
+                return dataFields;
+            }
+        }
+
                         dataFields.add(controlField.getValue());
                         return dataFields;
                     }
