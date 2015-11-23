@@ -56,13 +56,6 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
-        /*Copying Default rule files.*/
-        copyDefaultRuleFiles();
-
-        /*Copying runonce.properties file.*/
-        copyRunOncePropertyFile();
-
-
         //This initializes the drools engine;
         DroolsKieEngine.getInstance().initKnowledgeBase();
 
@@ -73,21 +66,22 @@ public class OLEInitializeListener extends KualiInitializeListener {
 
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
+        if (ConfigContext.getCurrentContextConfig().getProperty("autoIngestDefaults").equals("true")) {
+            LoadDefaultPatronsBean loadDefaultPatronsBean = GlobalResourceLoader.getService("loadDefaultPatronsBean");
+            try {
+                loadDefaultPatronsBean.loadDefaultPatrons(false);
+                /*Copying Default rule files.*/
+                copyDefaultRuleFiles();
+            } catch (Exception e) {
+                LOG.error(e, e);
+            }
+        }
     }
 
     private void copyDefaultRuleFiles() {
         try {
             CopyDefaultRuleFilesBean copyDefaultRuleFilesBean = GlobalResourceLoader.getService("copyDefaultRuleFilesBean");
-            copyDefaultRuleFilesBean.copyDefaultRuleFiles(false);
-        } catch (IOException e) {
-            LOG.error(e,e);
-        }
-    }
-
-    private void copyRunOncePropertyFile() {
-        try {
-            CopyRunOncePropertiesFileBean copyRunOncePropertiesFileBean = GlobalResourceLoader.getService("copyRunOncePropertiesFileBean");
-            copyRunOncePropertiesFileBean.copyRunOncePropertiesFile(false);
+            copyDefaultRuleFilesBean.copyDefaultRuleFiles();
         } catch (IOException e) {
             LOG.error(e,e);
         }
