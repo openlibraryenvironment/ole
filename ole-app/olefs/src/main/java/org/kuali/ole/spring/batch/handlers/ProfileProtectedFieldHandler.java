@@ -19,8 +19,7 @@ public class ProfileProtectedFieldHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileProtectedField> oleBatchProcessProfileProtectedFieldList = oleBatchProcessProfileBo.getOleBatchProcessProfileProtectedFieldList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileProtectedFieldList)) {
             for (Iterator<OLEBatchProcessProfileProtectedField> iterator = oleBatchProcessProfileProtectedFieldList.iterator(); iterator.hasNext(); ) {

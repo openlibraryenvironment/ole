@@ -19,8 +19,7 @@ public class MatchPointHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileMatchPoint> oleBatchProcessProfileMatchPointList = oleBatchProcessProfileBo.getOleBatchProcessProfileMatchPointList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileMatchPointList)) {
             for (Iterator<OLEBatchProcessProfileMatchPoint> iterator = oleBatchProcessProfileMatchPointList.iterator(); iterator.hasNext(); ) {

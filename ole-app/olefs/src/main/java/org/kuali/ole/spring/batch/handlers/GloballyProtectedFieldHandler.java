@@ -20,8 +20,7 @@ public class GloballyProtectedFieldHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchGloballyProtectedField> oleBatchGloballyProtectedFieldList = oleBatchProcessProfileBo.getOleBatchGloballyProtectedFieldList();
         if(CollectionUtils.isNotEmpty(oleBatchGloballyProtectedFieldList)) {
             for (Iterator<OLEBatchGloballyProtectedField> iterator = oleBatchGloballyProtectedFieldList.iterator(); iterator.hasNext(); ) {

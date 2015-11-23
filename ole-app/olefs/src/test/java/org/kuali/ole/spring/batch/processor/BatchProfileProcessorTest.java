@@ -99,11 +99,11 @@ public class BatchProfileProcessorTest {
 
         batchProfileProcessor.processProfile(mochOleBatchProcessProfileBo);
 
-        Mockito.verify(mockBibStatusHandler, Mockito.times(1)).process(Mockito.anyMap());
-        Mockito.verify(mockImportBibliographicRecordHandler, Mockito.times(1)).process(Mockito.anyMap());
-        Mockito.verify(mockMatchingOverlaysHandler, Mockito.times(1)).process(Mockito.anyMap());
-        Mockito.verify(mockStaffOnlyHandler, Mockito.times(1)).process(Mockito.anyMap());
-        Mockito.verify(mockConstantsAndDefaultValueHandler, Mockito.times(1)).process(Mockito.anyMap());
-        Mockito.verify(mockGloballyProtectedFieldHandler, Mockito.times(0)).process(Mockito.anyMap());
+        Mockito.verify(mockBibStatusHandler, Mockito.times(1)).process();
+        Mockito.verify(mockImportBibliographicRecordHandler, Mockito.times(1)).process();
+        Mockito.verify(mockMatchingOverlaysHandler, Mockito.times(1)).process();
+        Mockito.verify(mockStaffOnlyHandler, Mockito.times(1)).process();
+        Mockito.verify(mockConstantsAndDefaultValueHandler, Mockito.times(1)).process();
+        Mockito.verify(mockGloballyProtectedFieldHandler, Mockito.times(0)).process();
     }
 }

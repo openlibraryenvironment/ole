@@ -11,8 +11,17 @@ import java.util.Map;
 public abstract class BatchProcessProfileHandler {
     private final static Logger LOG = Logger.getLogger(BatchProcessProfileHandler.class.getName());
 
+    protected OLEBatchProcessProfileBo oleBatchProcessProfileBo;
+
     public abstract boolean isInterested(OLEBatchProcessProfileBo oleBatchProcessProfileBo);
 
-    public abstract Map process(Map parameterMap);
+    public abstract Map process();
 
+    public OLEBatchProcessProfileBo getOleBatchProcessProfileBo() {
+        return oleBatchProcessProfileBo;
+    }
+
+    public void setOleBatchProcessProfileBo(OLEBatchProcessProfileBo oleBatchProcessProfileBo) {
+        this.oleBatchProcessProfileBo = oleBatchProcessProfileBo;
+    }
 }

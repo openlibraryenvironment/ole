@@ -21,8 +21,7 @@ public class DataMappingHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileMappingOptionsBo> oleBatchProcessProfileMappingOptionsList = oleBatchProcessProfileBo.getOleBatchProcessProfileMappingOptionsList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileMappingOptionsList)) {
             for (Iterator<OLEBatchProcessProfileMappingOptionsBo> iterator = oleBatchProcessProfileMappingOptionsList.iterator(); iterator.hasNext(); ) {

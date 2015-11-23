@@ -16,8 +16,7 @@ public class MatchingOverlaysHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         // TODO  : Need to process
         return null;
     }

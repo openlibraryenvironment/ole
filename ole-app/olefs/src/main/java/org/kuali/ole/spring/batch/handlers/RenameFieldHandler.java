@@ -21,8 +21,7 @@ public class RenameFieldHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileRenameField> oleBatchProcessProfileRenameFieldsList = oleBatchProcessProfileBo.getOleBatchProcessProfileRenameFieldsList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileRenameFieldsList)) {
             for (Iterator<OLEBatchProcessProfileRenameField> iterator = oleBatchProcessProfileRenameFieldsList.iterator(); iterator.hasNext(); ) {

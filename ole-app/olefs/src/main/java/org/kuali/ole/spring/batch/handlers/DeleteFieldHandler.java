@@ -20,8 +20,7 @@ public class DeleteFieldHandler extends BatchProcessProfileHandler {
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileDeleteField> oleBatchProcessProfileDeleteFieldsList = oleBatchProcessProfileBo.getOleBatchProcessProfileDeleteFieldsList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileDeleteFieldsList)) {
             for (Iterator<OLEBatchProcessProfileDeleteField> iterator = oleBatchProcessProfileDeleteFieldsList.iterator(); iterator.hasNext(); ) {

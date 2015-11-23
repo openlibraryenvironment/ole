@@ -20,8 +20,7 @@ public class ConstantsAndDefaultValueHandler extends BatchProcessProfileHandler 
     }
 
     @Override
-    public Map process(Map parameterMap) {
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) parameterMap.get("profile");
+    public Map process() {
         List<OLEBatchProcessProfileConstantsBo> oleBatchProcessProfileConstantsList = oleBatchProcessProfileBo.getOleBatchProcessProfileConstantsList();
         if(CollectionUtils.isNotEmpty(oleBatchProcessProfileConstantsList)) {
             for (Iterator<OLEBatchProcessProfileConstantsBo> iterator = oleBatchProcessProfileConstantsList.iterator(); iterator.hasNext(); ) {

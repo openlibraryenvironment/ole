@@ -19,7 +19,8 @@ public class BatchProfileProcessor {
         for (Iterator<BatchProcessProfileHandler> iterator = getBatchProcessProfileHandlers().iterator(); iterator.hasNext(); ) {
             BatchProcessProfileHandler handler = iterator.next();
             if(handler.isInterested(oleBatchProcessProfileBo)){
-                handler.process(new HashMap());
+                handler.setOleBatchProcessProfileBo(oleBatchProcessProfileBo);
+                handler.process();
             }
         }
     }
