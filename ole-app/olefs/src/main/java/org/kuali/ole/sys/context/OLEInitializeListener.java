@@ -56,9 +56,6 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
-        //This initializes the drools engine;
-        DroolsKieEngine.getInstance().initKnowledgeBase();
-
         OLEEncumberOpenRecurringOrdersService encumberOpenRecurringOrdersService =  SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
         encumberOpenRecurringOrdersService.createRolloverDirectory();
         OLEPurchaseOrderBatchService olePurchaseOrderBatchService = (OLEPurchaseOrderBatchService)SpringContext.getService("olePurchaseOrderBatchService");
@@ -76,6 +73,9 @@ public class OLEInitializeListener extends KualiInitializeListener {
                 LOG.error(e, e);
             }
         }
+
+        //This initializes the drools engine;
+        DroolsKieEngine.getInstance().initKnowledgeBase();
     }
 
     private void copyDefaultRuleFiles() {
