@@ -539,9 +539,7 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
 
-    <bean id="copyDefaultRuleFilesBean" class="org.kuali.ole.deliver.defaultload.CopyDefaultRuleFilesBean">
-        <property name="parameterService" ref="parameterService"/>
-    </bean>
+    <bean id="copyDefaultRuleFilesBean" class="org.kuali.ole.deliver.defaultload.CopyDefaultRuleFilesBean"/>
 
     <bean id="copyRunOncePropertiesFileBean" class="org.kuali.ole.CopyRunOncePropertiesFileBean">
         <property name="parameterService" ref="parameterService"/>
