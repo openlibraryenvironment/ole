@@ -1,0 +1,41 @@
+package org.kuali.ole.deliver.rules.demo.checkin
+
+
+import org.kuali.ole.deliver.bo.OleCirculationDesk
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord
+import org.kuali.ole.deliver.util.DroolsResponse
+
+
+ rule "In transit for Recently returned per staff request "
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+
+$c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$i.updateCheckinCount();
+ end
+
+ rule "In transit for Available per staff request"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+when
+$c: OleCirculationDesk(getShelvingLagTimeInt() == 0)
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+then
+$i.setItemStatusToBeUpdatedTo("AVAILABLE");
+$i.updateCheckinCount();
+ end
+
+
+

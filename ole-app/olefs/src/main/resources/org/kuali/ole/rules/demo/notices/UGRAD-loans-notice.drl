@@ -1,0 +1,22 @@
+package org.kuali.ole.deliver.rules.demo.notices
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.drools.DroolsConstants;
+
+
+rule "Courtsey Notice Policy Set UGRAD"
+agenda-group "notice generation"
+activation-group "notice generation"
+when
+$p: OlePatronDocument(getBorrowerTypeCode() in ("UGRAD"))
+$n: NoticeInfo(getNoticeType() == DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG)
+$i: ItemRecord(getDueDateTime()!= null)
+then
+$n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "3");
+$n.addInfo(OLEConstants.COURTESY_NOTICE, OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME,"Courtesy Notice");
+$n.setIntervalType("D");
+ end

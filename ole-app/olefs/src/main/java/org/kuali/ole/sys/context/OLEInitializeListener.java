@@ -15,14 +15,12 @@
  */
 package org.kuali.ole.sys.context;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.ServletContextEvent;
 
-import org.kuali.ole.deliver.defaultload.LoadDefaultCirculationPoliciesBean;
-import org.kuali.ole.deliver.defaultload.LoadDefaultEResourceBean;
-import org.kuali.ole.deliver.defaultload.LoadDefaultLicensesBean;
-import org.kuali.ole.deliver.defaultload.LoadDefaultPatronsBean;
+import org.kuali.ole.deliver.defaultload.*;
 import org.kuali.ole.deliver.drools.DroolsEngine;
 import org.kuali.ole.deliver.drools.DroolsKieEngine;
 import org.kuali.ole.ingest.LoadDefaultIngestProfileBean;
@@ -57,8 +55,17 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
+        /*Copying Default rule files.*/
+        try {
+            CopyDefaultRuleFilesBean copyDefaultRuleFilesBean = GlobalResourceLoader.getService("copyDefaultRuleFilesBean");
+            copyDefaultRuleFilesBean.copyDefaultRuleFiles(false);
+        } catch (IOException e) {
+            LOG.error(e,e);
+        }
+
         //This initializes the drools engine;
         DroolsKieEngine.getInstance().initKnowledgeBase();
+
         OLEEncumberOpenRecurringOrdersService encumberOpenRecurringOrdersService =  SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
         encumberOpenRecurringOrdersService.createRolloverDirectory();
         OLEPurchaseOrderBatchService olePurchaseOrderBatchService = (OLEPurchaseOrderBatchService)SpringContext.getService("olePurchaseOrderBatchService");
@@ -66,19 +73,6 @@ public class OLEInitializeListener extends KualiInitializeListener {
 
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
-        if (ConfigContext.getCurrentContextConfig().getProperty("autoIngestDefaults").equals("true")) {
-            LoadDefaultPatronsBean loadDefaultPatronsBean = GlobalResourceLoader.getService("loadDefaultPatronsBean");
-            LoadDefaultLicensesBean loadDefaultLicensesBean = GlobalResourceLoader.getService("loadDefaultLicensesBean");
-            LoadDefaultEResourceBean loadDefaultEResourceBean = GlobalResourceLoader.getService("loadDefaultEResourcesBean");
-            try {
-                loadDefaultPatronsBean.loadDefaultPatrons(false);
-                loadDefaultLicensesBean.loadDefaultLicenses(false);
-                loadDefaultEResourceBean.loadDefaultEResource(false);
-            } catch (Exception e) {
-                LOG.error(e, e);
-            }
-        }
-
     }
 
     @Override

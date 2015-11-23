@@ -1,0 +1,50 @@
+package org.kuali.ole.deliver.rules.demo.general
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import java.util.Date
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Is Patron with General Block For sip2"
+agenda-group "lookup-user-sip2"
+when
+$p : OlePatronDocument(isGeneralBlock())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron is blocked");
+end
+
+rule "Is Patron Expired For sip2"
+agenda-group "lookup-user-sip2"
+when
+$p : OlePatronDocument(getExpirationDate() != null, $e: getExpirationDate(), $e < currentDateForSip2())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron has expired");
+end
+
+rule "Is Patron Active For sip2"
+agenda-group "lookup-user-sip2"
+when
+$p : OlePatronDocument(!isActiveIndicator())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron is Inactive");
+end
+
+rule "Activation Date for Patron For sip2"
+agenda-group "lookup-user-sip2"
+when
+$p : OlePatronDocument(getActivationDate()!= null, $e: getActivationDate(), $e >= currentDateForSip2())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron has an invalid activation date");
+end
+
+function Date currentDateForSip2(){
+    Date date = new Date(System.currentTimeMillis());
+    return date;
+}
+
+
