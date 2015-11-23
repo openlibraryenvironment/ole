@@ -543,6 +543,10 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
 
+    <bean id="copyRunOncePropertiesFileBean" class="org.kuali.ole.CopyRunOncePropertiesFileBean">
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
     <bean id="olePatronBillMaintenanceDocumentService"
           class="org.kuali.ole.service.impl.OlePatronBillMaintenanceDocumentServiceImpl">
         <property name="documentService">

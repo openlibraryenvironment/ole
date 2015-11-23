@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.defaultload;
 
 import org.apache.commons.io.FileUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.util.OleFileUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterType;
@@ -25,7 +26,7 @@ public class CopyDefaultRuleFilesBean {
                 COPY_DEFAULT_RULE_FILES_IND, Boolean.TRUE) ) {
 
             LOG.info("Starting copy rule files");
-            File ruleSourceDirectory = getFile(ConfigContext.getCurrentContextConfig().getProperty("rules.source.directory"));
+            File ruleSourceDirectory = OleFileUtils.getInstance().getFile(ConfigContext.getCurrentContextConfig().getProperty("rules.source.directory"));
             File ruleDestinationDirectory = new File(ConfigContext.getCurrentContextConfig().getProperty("rules.directory"));
             if(ruleSourceDirectory.exists()){
                 if(!ruleDestinationDirectory.exists()) {
@@ -55,15 +56,5 @@ public class CopyDefaultRuleFilesBean {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public File getFile(String relativePath)  {
-        try {
-            Resource pathResource = new ClassPathResource(relativePath);
-            return pathResource.getFile();
-        } catch(Exception e){
-            LOG.error("Error : while accessing file "+e);
-        }
-        return null;
     }
 }
