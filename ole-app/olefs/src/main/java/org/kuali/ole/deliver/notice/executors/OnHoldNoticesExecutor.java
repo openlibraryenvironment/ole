@@ -40,15 +40,6 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
             itemStatuses = getNoticeUtil().getMap(itemStatus);
         }
         if(itemStatuses.containsKey(oleDeliverRequestBo.getItemStatus())){
-            if(StringUtils.isEmpty(oleDeliverRequestBo.getOlePickUpLocation().getOnHoldDays())){
-                oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(System.currentTimeMillis()));
-            }else{
-                int noDays = Integer.parseInt(oleDeliverRequestBo.getOlePickUpLocation().getOnHoldDays());
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DATE, noDays);
-                Date date = calendar.getTime();
-                oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(date.getTime()));
-            }
             oleDeliverRequestBo.setOnHoldNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
             for(OLEDeliverNotice oleDeliverNotice: oleDeliverRequestBo.getDeliverNotices()){
                 if (oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
