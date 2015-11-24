@@ -7,3 +7,21 @@ div.fancybox-wrap, div.fancybox-desktop, div.fancybox-type-html, div.fancybox-op
     left: 468px;
     opacity: 1;
 }
+
+div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable{
+    outline: 0px none;
+    z-index: 1050 !important;
+    position: absolute;
+    height: auto;
+    width: 700px;
+    top: 0px !important;
+    left: 399px !important;
+    display: block;
+    opacity: 1 !important;
+}
+
+div.ui-widget-overlay{
+    height: 800px;
+    width: 1105px;
+    z-index: 999 !important;
+}
