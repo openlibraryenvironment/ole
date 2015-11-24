@@ -805,6 +805,10 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             //results.addAll(purchaseOrderItemList);
             this.setPurchaseOrderItems(purchaseOrderItemList);
         }
+        if(purchaseOrderItemList.size()==0){
+            GlobalVariables.getMessageMap().putInfo(OleSelectConstant.NO_RECORDS_FOUND,
+                    OLEKeyConstants.MESSAGE_NO_RECORD_FOUND);
+        }
         searchRecordWatch.stop();
     }
 
@@ -1052,7 +1056,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         isValid = isValid && validatePoByRetiredVersionStatus(olePurchaseOrderDocument);
         isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem,specialNotesPOIDStringBuffer));
         if (specialNotesPOIDStringBuffer.length()>0) {
-            GlobalVariables.getMessageMap().putWarning("Notes warning:", "warning.poitem.specialhandling.notes",new String[]{specialNotesPOIDStringBuffer.toString()});
+            GlobalVariables.getMessageMap().putWarning(OleSelectConstant.NOTES_WARNING, OLEKeyConstants.WARNING_SPECAIL_NOTES,new String[]{specialNotesPOIDStringBuffer.toString()});
         }
         //isValid =isValid && validateCopiesAndParts(olePurchaseOrderItem);
 

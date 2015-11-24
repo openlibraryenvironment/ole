@@ -1097,6 +1097,8 @@ public class OLEKeyConstants {
     public static final String ERROR_NO_PURCHASEORDERS_FOUND = "error.no.purchaseorders.found";
     public static final String ERROR_NO_PURCHASEORDERS_FOUND_FOR_FULLY_RECEIVED = "error.no.purchaseorders.found.for.Receiving";
     public static final String ERROR_NO_PURCHASEORDERS_FOUND_FOR_CLOSED = "error.no.purchaseorders.found.for.closed";
+    public static final String WARNING_SPECAIL_NOTES = "warning.poitem.specialhandling.notes";
+    public static final String MESSAGE_NO_RECORD_FOUND = "message.receiving.norecords";
 
     public static final String PUR_ORD_DATE_TO_NOT_LESSER_THAN_PUR_ORD_DATE_FROM = "purord.date.to.not.lesserthan.purord.date.from";
 
