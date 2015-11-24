@@ -114,7 +114,7 @@
             <list>
 
                 <bean id="searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search" p:style="float:left;margin-left:5em" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="draggable()"/>
-                <bean id="reOrderButton" parent="Uif-SecondaryActionButton" p:methodToCall="reOrder" p:actionLabel="Save" p:style="float:left;margin-left:5em" p:render="@{deliverRequestBos ne null and deliverRequestBos.size() > 0}"/>
+                <bean id="reOrderButton" parent="Uif-SecondaryActionButton" p:methodToCall="reOrder" p:actionLabel="Submit" p:style="float:left;margin-left:5em" p:render="@{deliverRequestBos ne null and deliverRequestBos.size() > 0}"/>
                 <!--<ref bean="SecondarySearchPatron" />
                 <ref bean="SecondarySearchItem" />-->
             </list>
