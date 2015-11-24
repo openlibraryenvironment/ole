@@ -45,7 +45,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
         //5. Save loan document
-        getBusinessObjectService().save(loanDocuments);
+        saveLoanDocument();
         //6. Delete notices
         deleteNotices(oleDeliverNotices);
         //7. update notice history
@@ -58,6 +58,10 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
                         buildMapForIndexToSolr(getNoticeType(), mailContent, loanDocuments))));
         //10. Post process
         postProcess(loanDocuments);
+    }
+
+    public void saveLoanDocument() {
+        getBusinessObjectService().save(loanDocuments);
     }
 
     private NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
