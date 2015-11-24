@@ -1986,6 +1986,7 @@ public class OLEEResourceHelperService {
         DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
         documentBo.setDocRouteStatus("S");
         KEWServiceLocator.getRouteHeaderService().saveRouteHeader(documentBo);
+        String previousStatus = oleeResourceAccess.getAccessStatus();
         OLEAccessActivationConfiguration oleAccessActivationConfiguration = getBusinessObjectService().findBySinglePrimaryKey(OLEAccessActivationConfiguration.class, oleeResourceAccess.getWorkflowId());
         if (oleAccessActivationConfiguration != null) {
             oleeResourceAccess.setAccessStatus(oleAccessActivationConfiguration.getWorkflowCompletionStatus());
@@ -2007,7 +2008,7 @@ public class OLEEResourceHelperService {
         for (ActionRequestValue actionRequestValue : actionRequestValueList) {
             if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
                 actionTakenValue = new ActionTakenValue();
-                actionTakenValue.setAnnotation("Approved status : " + oleeResourceAccess.getAccessStatus());
+                actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
                 actionTakenValue.setActionDate(new Timestamp(System.currentTimeMillis()));
                 actionTakenValue.setActionTaken("A");
                 actionTakenValue.setDocumentId(actionRequestValue.getDocumentId());
