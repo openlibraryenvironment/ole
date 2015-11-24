@@ -827,6 +827,7 @@ public class OLEConstants {
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
         public static final String VENDOR_NUMBER = "vendorNumber";
+        public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
         public static final String VENDOR_REFERENCE_NUMBER = "vendorReferenceNumber";
         public static final String RECEIVING_REQUIRED = "receivingRequired";
@@ -3186,6 +3187,7 @@ public class OLEConstants {
     public static final String INVALID_INVOICED_PRICE = "Invalid Invoiced Price -";
     public static final String INVALID_FOREIGN_INVOICED_PRICE = "Invalid Foreign Invoiced Price -";
     public static final String INVALID_VENDOR_NUMBER = "Invalid Vendor Number -";
+    public static final String INVALID_VENDOR_ALIAS_NAME = "Invalid Vendor Alias Name -";
     public static final String INVALID_QTY = "Invalid Quantity -";
     public static final String INVALID_NO_OF_PARTS = "Invalid No Of Parts -";
     public static final String INVALID_RECEIVING_REQUIRED = "Invalid Receiving Required -";
@@ -3209,6 +3211,7 @@ public class OLEConstants {
     public static final String INV_FAILURE_REASON = "invoiceIngestFailureReason";
     public static final String REQUIRED_LIST_PRICE = "List Price";
     public static final String REQUIRED_VENDOR_NUMBER = "Vendor Number";
+    public static final String REQUIRED_VENDOR_ALIAS_NAME = "vendor Alias Name";
     public static final String REQUIRED_QTY = "Quantity";
     public static final String REQUIRED_NO_OF_PARTS = "No Of Parts";
     public static final String REQUIRED_ACCOUNT_NUMBER = "Account Number";
