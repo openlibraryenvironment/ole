@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller.checkin;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.drools.DroolsExchange;
@@ -8,6 +9,7 @@ import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -46,7 +48,13 @@ public class CheckinUIController extends CheckinBaseController {
 
     @Override
     public String getCustomDueDateTime(OLEForm oleForm) {
-        return getCheckinForm(oleForm).getCustomDueDateTime();
+        String checkinTime="";
+        if(StringUtils.isNotBlank(getCheckinForm(oleForm).getCustomDueDateTime())) {
+            checkinTime = getCheckinForm(oleForm).getCustomDueDateTime();
+        }else {
+            checkinTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        }
+        return checkinTime;
     }
 
     @Override
