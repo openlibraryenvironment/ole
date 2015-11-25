@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.*;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
@@ -3095,6 +3096,9 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     }
 
     public void getAcquisitionInfoFromPOAndInvoice(String holdingsId,WorkEInstanceOlemlForm workEInstanceOlemlForm) {
+        if (!DocumentUniqueIDPrefix.hasPrefix(holdingsId)) {
+            holdingsId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, holdingsId);
+        }
         Map map = new HashMap();
         map.put(OLEConstants.INSTANCE_ID, holdingsId);
         List<OleCopy> oleCopyList = (List) getBusinessObjectService().findMatching(OleCopy.class, map);

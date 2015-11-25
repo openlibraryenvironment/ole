@@ -96,6 +96,24 @@
           <TD</TD>
       </#if>
   </TR>
+    <#if oleNoticeBo.noticeTitle == "Return With Missing Item Notice">
+        <TR>
+            <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Check In Date")} :</TD>
+            <#if oleNoticeBo.checkInDate ??>
+                <TD>${oleNoticeBo.checkInDate}</TD>
+            <#else>
+                <TD</TD>
+            </#if>
+        </TR>
+        <TR>
+            <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Missing Piece Note")} :</TD>
+            <#if oleNoticeBo.missingPieceNote ??>
+                <TD>${oleNoticeBo.missingPieceNote}</TD>
+            <#else>
+                <TD</TD>
+            </#if>
+        </TR>
+    </#if>
 
 </table>
 

@@ -827,6 +827,7 @@ public class OLEConstants {
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
         public static final String VENDOR_NUMBER = "vendorNumber";
+        public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
         public static final String VENDOR_REFERENCE_NUMBER = "vendorReferenceNumber";
         public static final String RECEIVING_REQUIRED = "receivingRequired";
@@ -2142,6 +2143,7 @@ public class OLEConstants {
     public static final String COURTESY_NOTICE = "Courtesy Notice";
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
+    public static final String RETURN_MISSING_PIECE_NOTICE = "Return With Missing Piece Notice";
     public static final String LOST_NOTICE = "Lost Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
     public static final String NOTICE_RECALL = "RecallNotice";
@@ -3186,6 +3188,7 @@ public class OLEConstants {
     public static final String INVALID_INVOICED_PRICE = "Invalid Invoiced Price -";
     public static final String INVALID_FOREIGN_INVOICED_PRICE = "Invalid Foreign Invoiced Price -";
     public static final String INVALID_VENDOR_NUMBER = "Invalid Vendor Number -";
+    public static final String INVALID_VENDOR_ALIAS_NAME = "Invalid Vendor Alias Name -";
     public static final String INVALID_QTY = "Invalid Quantity -";
     public static final String INVALID_NO_OF_PARTS = "Invalid No Of Parts -";
     public static final String INVALID_RECEIVING_REQUIRED = "Invalid Receiving Required -";
@@ -3209,6 +3212,7 @@ public class OLEConstants {
     public static final String INV_FAILURE_REASON = "invoiceIngestFailureReason";
     public static final String REQUIRED_LIST_PRICE = "List Price";
     public static final String REQUIRED_VENDOR_NUMBER = "Vendor Number";
+    public static final String REQUIRED_VENDOR_ALIAS_NAME = "vendor Alias Name";
     public static final String REQUIRED_QTY = "Quantity";
     public static final String REQUIRED_NO_OF_PARTS = "No Of Parts";
     public static final String REQUIRED_ACCOUNT_NUMBER = "Account Number";
@@ -3639,6 +3643,10 @@ public class OLEConstants {
     public static final String ONHOLD_NOTICE = "OnHoldNotice";
     public static final String REQUEST_EXPIRATION_NOTICE="RequestExpirationNotice";
     public static final String ONHOLD_EXPIRATION_NOTICE="OnHoldExpirationNotice";
+    public static final String MISSING_PIECE_NOTICE ="Missing Piece Notice";
+    public static final String MISSING_PIECE_NOTICE_TITLE ="Return With Missing Item Notice";
+    public static final String MISSING_PIECE_NOTICE_BODY ="The following item(s) returned by you is missing one or more of its pieces.Please return the missing piece(s) to the library shown above or contact the library about this matter to avoid incurring any penalties.";
+    public static final String MISSING_PIECE_NOTICE_CONFIG_NAME ="MissingPieceNoticeConfig";
 
     public static final String NEW_NOTICE_CONTENT_CONFIG_DOC="New Notice Content Configuration Document";
     public static final String COPY_NOTICE_CONTENT_CONFIG_DOC="Copied Notice Content Configuration Document";
@@ -3665,6 +3673,8 @@ public class OLEConstants {
     public static final String NOTICE_RECALL_DUE_DATE = "Hold Expiration Date";
     public static final String LIBRARY_SHELVING_LOCATION ="Library shelving location";
     public static final String LIBRARY_LOCATION="Library Location";
+    public static final String MISSING_ITEM_CHECK_IN_DATE = "Check In Date";
+    public static final String MISSING_ITEM_NOTE ="Missing Piece Note";
 
     public static final String SIMPLE_DATE_FORMAT_FOR_TIME_24H = "HH:mm";
     public static final String DEFAULT_DATE_FORMAT_24H = RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE +" "+ SIMPLE_DATE_FORMAT_FOR_TIME_24H;
@@ -3718,6 +3728,7 @@ public class OLEConstants {
     public static final String ITEM_WILL_BE_HELD_UNTIL = "Item Will Be Held until";
 
     public static final String SEND_ONHOLD_NOTICE_WHILE_CHECKIN = "SEND_ONHOLD_NOTICE_WHILE_CHECKIN";
+    public static final String SEND_MISSING_PIECE_NOTICE_WHILE_CHECKIN = "SEND_MISSING_PIECE_NOTICE_WHILE_CHECKIN";
     public static final String CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX = "CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX";
 
     public static final String LOAN_DOCUMENTS = "loanDocuments";
