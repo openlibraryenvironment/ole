@@ -15,6 +15,7 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.OLEForm;
+import org.kuali.ole.deliver.notice.executors.MissingPieceNoticesExecutor;
 import org.kuali.ole.deliver.notice.executors.OnHoldNoticesExecutor;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
@@ -283,6 +284,8 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         handleOnHoldRequestIfExists(oleItemRecordForCirc);
 
+        handleOnMissingPieceIfExists(oleForm, loanDocument, oleItemSearch);
+
         handleIntransitStatus(oleItemRecordForCirc, oleForm);
 
         handleCheckinNote(oleForm, oleItemRecordForCirc);
@@ -455,6 +458,33 @@ public abstract class CheckinBaseController extends CircUtilController {
                 }
             }
         }
+    }
+
+    private void handleOnMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
+        if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched")){
+            CheckinForm checkinForm = (CheckinForm)oleForm;
+            populateLoanDocumentForMissingPiece(oleForm, loanDocument, oleItemSearch, checkinForm);
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+            Map requestMap = new HashMap();
+            requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, OLEConstants.MISSING_PIECE_NOTICE_CONFIG_NAME);
+            requestMap.put(OLEConstants.LOAN_DOCUMENTS, Collections.singletonList(loanDocument));
+            MissingPieceNoticesExecutor runnable = new MissingPieceNoticesExecutor(requestMap);
+            executorService.execute(runnable);
+            executorService.shutdown();
+
+        }
+    }
+
+    private void populateLoanDocumentForMissingPiece(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch, CheckinForm checkinForm) {
+        loanDocument.setItemFullLocation(oleItemSearch.getShelvingLocation());
+        loanDocument.setTitle(oleItemSearch.getTitle());
+        loanDocument.setAuthor(oleItemSearch.getAuthor());
+        loanDocument.setItemCallNumber(oleItemSearch.getCallNumber());
+        loanDocument.setItemCopyNumber(oleItemSearch.getCopyNumber());
+        loanDocument.setEnumeration(oleItemSearch.getEnumeration());
+        loanDocument.setChronology(oleItemSearch.getChronology());
+        loanDocument.setCheckInDate(Timestamp.valueOf(getCustomDueDateMap(oleForm) + " " + getCustomDueDateTime(oleForm)));
+        loanDocument.setMissingPieceNote(checkinForm.getMissingPieceNote());
     }
 
     private OLEDeliverNotice getOnHoldNoticeToSendMail(OleDeliverRequestBo oleDeliverRequestBo) {
@@ -643,7 +673,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private List<MissingPieceItemRecord> prepareMissingPieceHistoryRecords(ItemRecord itemRecord) {
-        SimpleDateFormat dateFormatForMissingItem = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+        SimpleDateFormat dateFormatForMissingItem = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = itemRecord.getMissingPieceItemRecordList();
         List<MissingPieceItemRecord> itemMissingPieceRecordList = new ArrayList<>();
         for (Iterator<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> iterator = missingPieceItemRecordList.iterator(); iterator.hasNext(); ) {

@@ -3,11 +3,13 @@ package org.kuali.ole.deliver.service;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
@@ -113,6 +115,12 @@ public abstract class NoticeMailContentFormatter {
         oleNoticeBo.setDueDateString(oleLoanDocument.getLoanDueDate() != null ? (oleLoanDocument.getLoanDueDate().toString() != null ? oleLoanDocument.getLoanDueDate().toString() : "") : "");
         oleNoticeBo.setItemId(oleLoanDocument.getItemId() != null ? oleLoanDocument.getItemId() : "");
         oleNoticeBo.setItemShelvingLocation((getLocationName(oleLoanDocument.getItemLocation()) != null ? getLocationName(oleLoanDocument.getItemLocation()) : ""));
+        oleNoticeBo.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? (StringUtils.isNotBlank(oleLoanDocument.getCheckInDate().toString()) ? oleLoanDocument.getCheckInDate().toString() : "") : "");
+        oleNoticeBo.setMissingPieceNote(StringUtils.isNotBlank(oleLoanDocument.getMissingPieceNote()) ? oleLoanDocument.getMissingPieceNote() : "");
+        oleLoanDocument.setOleCirculationDesk(getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()));
+        if (oleLoanDocument.getOleCirculationDesk() != null) {
+            oleNoticeBo.setCirculationDeskName(oleLoanDocument.getOleCirculationDesk().getCirculationDeskPublicName());
+        }
         setLocationInforamtion(oleNoticeBo, oleLoanDocument.getItemFullLocation());
     }
 
