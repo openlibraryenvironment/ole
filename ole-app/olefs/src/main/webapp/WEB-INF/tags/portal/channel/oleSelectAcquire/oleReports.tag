@@ -20,6 +20,7 @@ limitations under the License.
 
     <portal:olePortalLink displayTitle="true" title="Available Balances" url="${OLEConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.ole.gl.businessobject.AccountBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /><br/>
     <portal:olePortalLink displayTitle="true" title="Cash Balances" url="${OLEConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.ole.gl.businessobject.CashBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /><br/>
+    <portal:portalLink displayTitle="true" title="General Ledger Balance" url="${OLEConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.ole.gl.businessobject.Balance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /><br/>
     <portal:portalLink displayTitle="true" title="Open Encumbrances" url="${OLEConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.ole.gl.businessobject.Encumbrance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /><br/>
     <portal:olePortalLink yellow="true" displayTitle="true" title="Organization Review" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.coa.identity.OrgReviewRole&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/><br/>
 
