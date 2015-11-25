@@ -429,7 +429,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     accountingLine.add(invoiceAccount);
 
                 } else {
-                    if (itemMap.containsKey("noOfItems") && itemMap.get("noOfItems")==1) {
+                    if (itemMap.containsKey("noOfItems") ) {
                         if (invoiceRecord.getFundCode() != null) {
                             accountingLine = getAccountingLinesFromFundCode(invoiceRecord, oleInvoiceItem);
                         } else {
