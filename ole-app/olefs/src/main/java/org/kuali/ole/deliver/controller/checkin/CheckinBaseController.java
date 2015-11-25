@@ -284,7 +284,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         handleOnHoldRequestIfExists(oleItemRecordForCirc);
 
-        handleOnMissingPieceIfExists(oleForm, loanDocument, oleItemSearch);
+        handleMissingPieceIfExists(oleForm, loanDocument, oleItemSearch);
 
         handleIntransitStatus(oleItemRecordForCirc, oleForm);
 
@@ -460,7 +460,7 @@ public abstract class CheckinBaseController extends CircUtilController {
         }
     }
 
-    private void handleOnMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
+    private void handleMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
         if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched")){
             CheckinForm checkinForm = (CheckinForm)oleForm;
             populateLoanDocumentForMissingPiece(oleForm, loanDocument, oleItemSearch, checkinForm);
