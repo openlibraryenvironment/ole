@@ -3732,4 +3732,8 @@ public class OLEConstants {
     public static final String DELIVER_NOTICES = "deliverNotices";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
 
+    public static final String BLANKET_APPROVE = "BLANKET_APPROVAL";
+    public static final String NOTIFICATION_TYP_CD = "K";
+    public static final String DOC_TYP_NM = "OLE_PRQS";
+
 }
