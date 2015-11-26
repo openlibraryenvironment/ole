@@ -7,26 +7,6 @@ jq(document).ready(function () {
     if (jq('#hiddenBibId_control').val() == "" || jq('#hiddenBibId_control').val() == null) {
         jq("#bibLevelActionSection").hide();
     }
-    jq("#oleEInstanceDonorCode_add_control").live("change", function () {
-        if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
-            jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
-            jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
-        }
-        else {
-            jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
-            jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
-        }
-    });
-    jq("#oleEInstanceDonorCode_add_control").keypress(function () {
-        if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
-            jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
-            jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
-        }
-        else {
-            jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
-            jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
-        }
-    });
 
     jq("input#OleMissingItem-missingPiecesCount_control").live('keydown',function(event) {
         if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
@@ -1308,28 +1288,42 @@ jq(window).load(function () {
     }
 });
 
-function donorCodeDisable(){
-    // jq("#oleEInstanceDonorCode_add_control").live("change", function () {
-    if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
-        jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
-        jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
+function eHoldingsDonorCodeDisable(index) {
+    if (parseInt(jq("input[id='oleEInstanceDonorCode_line" + index + "_control']").val().trim().length) > 0) {
+        jq("input[id='oleEInstanceDonorPublicDisplay_line" + index + "_control']").attr("disabled", "true");
+        jq("input[id='oleEInstanceDonorNote_line" + index + "_control']").attr("disabled", "true");
     }
     else {
-        jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
-        jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
+        jq("input[id='oleEInstanceDonorPublicDisplay_line" + index + "_control']").removeAttr("disabled");
+        jq("input[id='oleEInstanceDonorNote_line" + index + "_control']").removeAttr("disabled");
     }
-    // });
-    //jq("#oleEInstanceDonorCode_add_control").keypress(function () {
-    if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
-        jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
-        jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
-    }
-    else {
-        jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
-        jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
-    }
-    //});
+}
 
+function validateEHoldingsDonorCode(index) {
+    if (parseInt(jq("input[id='oleEInstanceDonorCode_line" + index + "_control']").val().trim().length) > 0) {
+        submitForm('validateEHoldingsDonorCode',{index:JSON.stringify(index)},null,true,function(){
+            jq("button[id='eHoldings_donor_add_line" + index + "']").focus();
+        });
+    }
+}
+
+function itemDonorCodeDisable(index) {
+    if (parseInt(jq("input[id='oleItemDonorCode_line" + index + "_control']").val().trim().length) > 0) {
+        jq("input[id='oleItemDonorPublicDisplay_line" + index + "_control']").attr("disabled", "true");
+        jq("input[id='oleItemDonorNote_line" + index + "_control']").attr("disabled", "true");
+    }
+    else {
+        jq("input[id='oleItemDonorPublicDisplay_line" + index + "_control']").removeAttr("disabled");
+        jq("input[id='oleItemDonorNote_line" + index + "_control']").removeAttr("disabled");
+    }
+}
+
+function validateItemDonorCode(index) {
+    if (parseInt(jq("input[id='oleItemDonorCode_line" + index + "_control']").val().trim().length) > 0) {
+        submitForm('validateItemDonorCode',{index:JSON.stringify(index)},null,true,function(){
+            jq("button[id='item_donor-add_line" + index + "']").focus();
+        });
+    }
 }
 
 function getCoverageStartDate(index) {

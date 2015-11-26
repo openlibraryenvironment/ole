@@ -12,14 +12,17 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
-import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.describe.bo.EditorFormDataHandler;
+import org.kuali.ole.describe.bo.GlobalEditEHoldingsFieldsFlagBO;
+import org.kuali.ole.describe.bo.GlobalEditHoldingsFieldsFlagBO;
+import org.kuali.ole.describe.bo.GlobalEditItemFieldsFlagBO;
 import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
 import org.kuali.ole.describe.bo.marc.structuralfields.LeaderField;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006Text;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007Text;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield008.ControlField008;
-import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007;
 import org.kuali.ole.describe.form.EditorForm;
 import org.kuali.ole.describe.form.WorkBibMarcForm;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
@@ -35,23 +38,20 @@ import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.*;
-import org.kuali.ole.docstore.common.search.*;
-import org.kuali.ole.docstore.model.bo.WorkBibDocument;
-import org.kuali.ole.docstore.model.bo.WorkInstanceDocument;
-import org.kuali.ole.docstore.model.bo.WorkItemDocument;
+import org.kuali.ole.docstore.common.search.SearchField;
+import org.kuali.ole.docstore.common.search.SearchParams;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.util.StringUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -63,11 +63,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.*;
 import java.util.*;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -269,6 +266,9 @@ public class EditorController extends UifControllerBase {
                 }
                 if (eHoldings.getNote() != null && eHoldings.getNote().size() == 0) {
                     eHoldings.getNote().add(new Note());
+                }
+                if (eHoldings.getDonorInfo() != null && eHoldings.getDonorInfo().size() == 0) {
+                    eHoldings.getDonorInfo().add(new DonorInfo());
                 }
                 ((WorkEInstanceOlemlForm)editorForm.getDocumentForm()).setSelectedEHoldings(eHoldings);
             }
@@ -1645,37 +1645,98 @@ public class EditorController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=validateEHoldingsDonorCode")
+    public ModelAndView validateEHoldingsDonorCode(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        EditorForm editorForm = (EditorForm) form;
+        WorkEInstanceOlemlForm workEInstanceOlemlForm = (WorkEInstanceOlemlForm) editorForm.getDocumentForm();
+        int index = Integer.parseInt(request.getParameter("index"));
+        List<DonorInfo> donorInfoList = workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo();
+        DonorInfo donorInfo = donorInfoList.get(index);
+        if (donorInfo != null) {
+            OLEDonor oleDonor = getOleDonorByDonorCode(donorInfo.getDonorCode());
+            if (oleDonor != null) {
+                donorInfo.setDonorNote(oleDonor.getDonorNote());
+                donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
+            }else {
+                donorInfo.setDonorNote("");
+                donorInfo.setDonorPublicDisplay("");
+                GlobalVariables.getMessageMap().putErrorForSectionId("OleEInstanceDonorInformation-ListOfDonors", "error.donor.code.doesnt.exist", donorInfo.getDonorCode());
+            }
+            return getUIFModelAndView(form);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=validateItemDonorCode")
+    public ModelAndView validateItemDonorCode(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        EditorForm editorForm = (EditorForm) form;
+        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
+        int index = Integer.parseInt(request.getParameter("index"));
+        List<DonorInfo> donorInfoList = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
+        DonorInfo donorInfo = donorInfoList.get(index);
+        if (donorInfo != null) {
+            OLEDonor oleDonor = getOleDonorByDonorCode(donorInfo.getDonorCode());
+            if (oleDonor != null) {
+                donorInfo.setDonorNote(oleDonor.getDonorNote());
+                donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
+            }else {
+                donorInfo.setDonorNote("");
+                donorInfo.setDonorPublicDisplay("");
+                GlobalVariables.getMessageMap().putErrorForSectionId("OleDonorInformation-ListOfDonors", "error.donor.code.doesnt.exist", donorInfo.getDonorCode());
+            }
+            return getUIFModelAndView(form);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    private OLEDonor getOleDonorByDonorCode(String donorCode) {
+        if (StringUtils.isNotEmpty(donorCode)) {
+            Map map = new HashMap();
+            map.put(OLEConstants.DONOR_CODE, donorCode);
+            List<OLEDonor> oleDonorList = (List<OLEDonor>) KRADServiceLocatorWeb.getLookupService().findCollectionBySearch(OLEDonor.class, map);
+            if (CollectionUtils.isNotEmpty(oleDonorList)) {
+                return oleDonorList.get(0);
+            }
+        }
+        return null;
+    }
+
     @RequestMapping(params = "methodToCall=addDonorToEInstance")
     public ModelAndView addDonorToEInstance(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
+        if (!isFormInitialized) {
+            super.start(form, result, request, response);
+            isFormInitialized = true;
+        }
         EditorForm editorForm = (EditorForm) form;
         WorkEInstanceOlemlForm workEInstanceOlemlForm = (WorkEInstanceOlemlForm) editorForm.getDocumentForm();
-        List<DonorInfo> donorInfoList = workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo();
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
-                selectedCollectionPath);
-        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-        Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
-        DonorInfo donorInfo = (DonorInfo) eventObject;
-        if (donorInfo != null && StringUtils.isNotEmpty(donorInfo.getDonorCode())) {
-            Map map = new HashMap();
-            map.put("donorCode", donorInfo.getDonorCode());
-            OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-            if (oleDonor != null) {
-                for (DonorInfo donor : donorInfoList) {
-                    if (donor.getDonorCode().equals(donorInfo.getDonorCode())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("OleEInstanceDonorInformation-ListOfDonors", "error.donor.code.exist");
-                        return getUIFModelAndView(form);
-                    }
-                }
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId("OleEInstanceDonorInformation-ListOfDonors", "error.donor.code.doesnt.exist");
-                return getUIFModelAndView(form);
+
+        workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().add(new DonorInfo());
+        return super.navigate(editorForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=removeDonorToEInstance")
+    public ModelAndView removeDonorToEInstance(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) {
+        if (!isFormInitialized) {
+            super.start(form, result, request, response);
+            isFormInitialized = true;
+        }
+        EditorForm editorForm = (EditorForm) form;
+        WorkEInstanceOlemlForm workEInstanceOlemlForm = (WorkEInstanceOlemlForm) editorForm.getDocumentForm();
+
+        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        if (workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().size() > 1) {
+            workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().remove(index);
+        } else {
+            if (workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().size() == 1) {
+                workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().remove(index);
+                workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().add(new DonorInfo());
             }
         }
-        View view = form.getPostedView();
-        view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
-        return getUIFModelAndView(form);
+        return super.navigate(editorForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=removeItemNote")

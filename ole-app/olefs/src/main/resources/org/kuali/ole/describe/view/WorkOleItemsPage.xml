@@ -599,7 +599,7 @@
         </property>
     </bean>
 
-    <bean id="OleDonorInformation" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="2" p:fieldBindingObjectPath="documentForm.selectedItem">
+    <bean id="OleDonorInformation" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <ref bean="OleDonorInformation-ListOfDonors"/>
@@ -607,10 +607,11 @@
         </property>
     </bean>
 
-    <bean  id="OleDonorInformation-ListOfDonors"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
+    <bean  id="OleDonorInformation-ListOfDonors"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
            p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" >
+        <property name="headerText" value="Donor"/>
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.DonorInfo" />
-        <property name="propertyName" value="donorInfo" />
+        <property name="propertyName" value="documentForm.selectedItem.donorInfo" />
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
@@ -632,18 +633,26 @@
                             </property>
                         </bean>
                     </property>
+                    <property name="control">
+                        <bean id="itemDonorCodeControl" parent="Uif-TextControl" p:size="10" p:maxLength="10"
+                              p:onClickScript="itemDonorCodeDisable(@{#index})" p:onKeyUpScript="itemDonorCodeDisable(@{#index})" p:onBlurScript="validateItemDonorCode(@{#index})"/>
+                    </property>
                 </bean>
 
                 <bean id="oleItemDonorPublicDisplay" parent="Uif-InputField"
                       p:propertyName="donorPublicDisplay" p:label="Donor Public Display" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:maxLength="4000" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:maxLength="4000"
+                              p:onClickScript="itemDonorCodeDisable(@{#index})" p:onKeyUpScript="itemDonorCodeDisable(@{#index})"
+                              p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
                     </property>
                 </bean>
                 <bean id="oleItemDonorNote" parent="Uif-InputField" p:propertyName="donorNote"
                       p:label="Donor Note" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:maxLength="40"
+                              p:onClickScript="itemDonorCodeDisable(@{#index})" p:onKeyUpScript="itemDonorCodeDisable(@{#index})"
+                              p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
                     </property>
                 </bean>
             </list>
