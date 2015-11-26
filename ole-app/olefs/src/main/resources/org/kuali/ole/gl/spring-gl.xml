@@ -2837,5 +2837,7 @@
 		</property>
 		
     </bean>
-    
+
+    <bean id="accountBalanceOffsetObjectCodeDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.gl.dataaccess.impl.AccountBalanceOffsetObjectCodeDAOServiceImpl" />
+
 </beans>
