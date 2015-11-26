@@ -1,0 +1,85 @@
+<div class="panel-group" ng-model="dataTransformationsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle>
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !dataTransformationsActivePanel, 'glyphicon-chevron-down': dataTransformationsActivePanel}"></span>
+                    {{ dataTransformationsPanel[0].title }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Data Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Sub Field</th>
+                        <th>Destination</th>
+                        <th>Expression</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="dataTransformation in dataTransformationsPanel">
+                    <tr>
+                        <td>
+                            <select name="dataTransformationDocumentType_{{$index}}"
+                                    id="dataTransformationDocumentType_{{$index}}"
+                                    ng-model="dataTransformation.dataTransformationDocType">
+                                <option ng-repeat="option in dataTransformation.dataTransformationDocTypes"
+                                        value="{{option.id}}">{{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <input id="dataTransformationDataField_{{$index}}"
+                                   name="dataTransformationDataField_{{$index}}" type="text"
+                                   ng-model="dataTransformation.dataField" style="height: 30px; width: 100px;"/></td>
+                        <td>
+                            <input id="dataTransformationInd1_{{$index}}" name="dataTransformationInd1_{{$index}}"
+                                   type="text" ng-model="dataTransformation.ind1"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="dataTransformationInd2_{{$index}}" name="dataTransformationInd2_{{$index}}"
+                                   type="text" ng-model="dataTransformation.ind2"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="dataTransformationSubField_{{$index}}"
+                                   name="dataTransformationSubField_{{$index}}" type="text"
+                                   ng-model="dataTransformation.subField"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <select name="dataTransformationTransformer_{{$index}}"
+                                    id="dataTransformationTransformer_{{$index}}"
+                                    ng-model="dataTransformation.transformer">
+                                <option ng-repeat="option in dataTransformation.transformers" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <input id="dataTransformationExpression_{{$index}}"
+                                   name="dataTransformationExpression_{{$index}}" type="text"
+                                   ng-model="dataTransformation.expression" style="height: 30px; width: 50px;"/>
+                        </td>
+                        <td>
+                            <button id="dataTransformationAddButton_{{$index}}"
+                                    name="dataTransformationAddButton_{{$index}}"
+                                    ng-click="dataTransformationAdd(fieldOperation)">Add
+                            </button>
+                            <button id="dataTransformationRemoveButton_{{$index}}"
+                                    name="dataTransformationRemoveButton_{{$index}}"
+                                    ng-click="dataTransformationRemove(fieldOperation)">Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

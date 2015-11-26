@@ -1,0 +1,76 @@
+<div class="panel-group" ng-model="dataMappingsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle>
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !dataMappingsActivePanel, 'glyphicon-chevron-down': dataMappingsActivePanel}"></span>
+                    {{ dataMappingsPanel[0].title }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Data Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Sub Field</th>
+                        <th>Destination</th>
+                        <th>Field</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="dataMapping in dataMappingsPanel">
+                    <tr>
+                        <td>
+                            <select name="DocumentType" id="DocumentType" ng-model="dataMapping.dataMappingDocType">
+                                <option ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <input id="dataField_{{$index}}" name="DataField_{{$index}}" type="text"
+                                   ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"/></td>
+                        <td>
+                            <input id="ind1_{{$index}}" name="ind1_{{$index}}" type="text" ng-model="dataMapping.ind1"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="ind2_{{$index}}" name="ind2_{{$index}}" type="text" ng-model="dataMapping.ind2"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="subField_{{$index}}" name="subField_{{$index}}" type="text"
+                                   ng-model="dataMapping.subField"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <select name="Destination_{{$index}}" id="Destination_{{$index}}"
+                                    ng-model="dataMapping.destination">
+                                <option ng-repeat="option in dataMapping.destinations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <select name="Field_{{$index}}" id="Field_{{$index}}" ng-model="dataMapping.field">
+                                <option ng-repeat="option in dataMapping.fields" value="{{option.id}}">{{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
+                                    ng-click="dataMappingAdd(dataMapping)">Add
+                            </button>
+                            <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
+                                    ng-click="dataMappingRemove(dataMapping)">Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
