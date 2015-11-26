@@ -169,7 +169,7 @@
 
                 <bean id="showBibsButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
                       p:actionScript="showTabs('showBoundwithBibs');" p:actionLabel="Show Bound-with Bibs"
-                      p:successCallback="searching()">
+                      p:successCallback="searching()" p:render="@{showBoundWithBIbs eq true}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip">
                             <property name="tooltipContent"
@@ -182,6 +182,13 @@
                         </bean>
                     </property>
                 </bean>
+
+                <bean id="undo_all_boundwith_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:actionLabel="Undo All Bound-with"
+                      p:methodToCall="undoAllBoundwith" p:render="@{showBoundWithBIbs eq true}"/>
+                <bean id="undo_one_boundwith_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:actionLabel="Undo One Bound-with"
+                      p:methodToCall="undoOneBoundwith" p:render="@{showBoundWithBIbs eq true}"/>
 
             </list>
         </property>
@@ -338,8 +345,7 @@
                 <bean id="boundwith_button" parent="Uif-SecondaryActionButton"
                       p:style="float:left;margin-left:20em"
                       p:actionLabel="Bound-with" p:actionScript="showTabs('performBoundwith');"/>
-                <bean id="undo_all_boundwith_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:actionLabel="Undo All Bound-with" p:methodToCall="undoAllBoundwith"/>
-                <bean id="undo_one_boundwith_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:actionLabel="Undo One Bound-with" p:methodToCall="undoOneBoundwith"/>
+
             </list>
         </property>
     </bean>
