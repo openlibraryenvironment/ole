@@ -146,9 +146,7 @@ jq(document).ready(function () {
     
     jq(document).click(function(e){
         if (jq(e.target).is('#BoundwithTree2TabSection_tabs,#BoundwithTree2TabSection_tabs *,#BoundwithTreeSection1_tabs,#BoundwithTreeSection1_tabs *,#TransferSection1_tabs *,#TransferSection2_tabs *')) {
-            window.setTimeout(function () {
-                searchShowEntries();
-            }, 800)
+
         }
 
     });
@@ -324,7 +322,6 @@ function selectOrUnselect() {
 
 function searching() {
     jq("#hdnSortFlag_control").val("false");
-
     var date = new Date();
     var endTime = date.getMilliseconds();
     var timeTaken = (endTime - localStorage.startTime) / 1000;

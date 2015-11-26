@@ -63,6 +63,7 @@ public class OleTxRecord {
     private String province;             // determined based on vendor number.
     private String vendorPostalCode;     // determined based on vendor number.
     private String vendorCountry;        // determined based on vendor number.
+    private String vendorAliasName;
 
     //Vendor Info Section
     private String vendorChoice;         // profile xml
@@ -1054,5 +1055,13 @@ public class OleTxRecord {
 
     public void setVendorInstrNotes(List<String> vendorInstrNotes) {
         this.vendorInstrNotes = vendorInstrNotes;
+    }
+
+    public String getVendorAliasName() {
+        return vendorAliasName;
+    }
+
+    public void setVendorAliasName(String vendorAliasName) {
+        this.vendorAliasName = vendorAliasName;
     }
 }

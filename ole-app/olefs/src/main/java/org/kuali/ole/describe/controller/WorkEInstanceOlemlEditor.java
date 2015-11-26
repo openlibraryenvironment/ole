@@ -188,7 +188,9 @@ public class WorkEInstanceOlemlEditor
                 if (eHoldings.getNote() != null && eHoldings.getNote().size() == 0) {
                     eHoldings.getNote().add(new Note());
                 }
-
+                if (eHoldings.getDonorInfo() != null && eHoldings.getDonorInfo().size() == 0) {
+                    eHoldings.getDonorInfo().add(new DonorInfo());
+                }
                 if(eHoldings.getLink().size() == 0){
                     List<Link> links = new ArrayList<>();
                     Link link = new Link();
@@ -236,6 +238,9 @@ public class WorkEInstanceOlemlEditor
                 }
                 if (eHoldings.getNote() != null && eHoldings.getNote().size() == 0) {
                     eHoldings.getNote().add(new Note());
+                }
+                if (eHoldings.getDonorInfo() != null && eHoldings.getDonorInfo().size() == 0) {
+                    eHoldings.getDonorInfo().add(new DonorInfo());
                 }
                 List<Link> links = new ArrayList<>();
                 Link link = new Link();

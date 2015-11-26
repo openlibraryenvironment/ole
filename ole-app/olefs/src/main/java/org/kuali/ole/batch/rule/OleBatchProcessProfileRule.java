@@ -60,6 +60,9 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
                 else if(OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())){
                     availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
                 }
+                else if(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())){
+                    availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
+                }
                 else if(OLEConstants.OLEBatchProcess.QUANTITY.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())){
                     availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
                 }
@@ -113,6 +116,9 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
                     availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
                 }
                 else if(OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())){
+                    availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
+                }
+                else if(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())){
                     availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
                 }
                 else if(OLEConstants.OLEBatchProcess.QUANTITY.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())){
@@ -176,13 +182,15 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
         List<String> mandatoryFields = new ArrayList<>();
         if(oleBatchProcessProfileBo.getMarcOnly()){
             mandatoryFields.add(OLEConstants.OLEBatchProcess.LIST_PRICE);
-            mandatoryFields.add(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
             mandatoryFields.add(OLEConstants.OLEBatchProcess.QUANTITY);
             mandatoryFields.add(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
             if (!availableFields.contains(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
                 mandatoryFields.add(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
                 mandatoryFields.add(OLEConstants.OLEBatchProcess.OBJECT_CODE);
                 mandatoryFields.add(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
+            }
+            if (!availableFields.contains(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)){
+                mandatoryFields.add(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
             }
         }
         mandatoryFields.add(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
@@ -212,6 +220,8 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
             }
             else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.VENDOR_NUMBER)){
                 fieldsRequired.append(OLEConstants.REQUIRED_VENDOR_NUMBER);
+                fieldsRequired.append(" / ");
+                fieldsRequired.append(OLEConstants.REQUIRED_VENDOR_ALIAS_NAME);
             }
             else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.QUANTITY)){
                 fieldsRequired.append(OLEConstants.REQUIRED_QTY);
@@ -260,19 +270,22 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
         if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
             fieldsRequired.append(OLEConstants.REQUIRED_ACCOUNT_NUMBER);
             fieldsRequired.append(", ");
+            mandatoryFields.remove(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
         }
         if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
             fieldsRequired.append(OLEConstants.REQUIRED_OBJECT_CODE);
             fieldsRequired.append(", ");
+            mandatoryFields.remove(OLEConstants.OLEBatchProcess.OBJECT_CODE);
         }
         if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
             fieldsRequired.append(OLEConstants.REQUIRED_ITEM_CHART_CD);
             fieldsRequired.append(", ");
+            mandatoryFields.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
         }
         if (fieldsRequired.length() > 1) {
             fieldsRequired.deleteCharAt(fieldsRequired.length()-2);
             fieldsRequired.append(") / ");
-            fieldsRequired.append(OLEConstants.OLEEResourceRecord.FUND_CODE);
+            fieldsRequired.append(OLEConstants.REQUIRED_FUND_CODE);
             fieldsRequired.append(", ");
             return fieldsRequired;
         }

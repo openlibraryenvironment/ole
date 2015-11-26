@@ -827,6 +827,7 @@ public class OLEConstants {
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
         public static final String VENDOR_NUMBER = "vendorNumber";
+        public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
         public static final String VENDOR_REFERENCE_NUMBER = "vendorReferenceNumber";
         public static final String RECEIVING_REQUIRED = "receivingRequired";
@@ -3187,6 +3188,7 @@ public class OLEConstants {
     public static final String INVALID_INVOICED_PRICE = "Invalid Invoiced Price -";
     public static final String INVALID_FOREIGN_INVOICED_PRICE = "Invalid Foreign Invoiced Price -";
     public static final String INVALID_VENDOR_NUMBER = "Invalid Vendor Number -";
+    public static final String INVALID_VENDOR_ALIAS_NAME = "Invalid Vendor Alias Name -";
     public static final String INVALID_QTY = "Invalid Quantity -";
     public static final String INVALID_NO_OF_PARTS = "Invalid No Of Parts -";
     public static final String INVALID_RECEIVING_REQUIRED = "Invalid Receiving Required -";
@@ -3210,6 +3212,7 @@ public class OLEConstants {
     public static final String INV_FAILURE_REASON = "invoiceIngestFailureReason";
     public static final String REQUIRED_LIST_PRICE = "List Price";
     public static final String REQUIRED_VENDOR_NUMBER = "Vendor Number";
+    public static final String REQUIRED_VENDOR_ALIAS_NAME = "vendor Alias Name";
     public static final String REQUIRED_QTY = "Quantity";
     public static final String REQUIRED_NO_OF_PARTS = "No Of Parts";
     public static final String REQUIRED_ACCOUNT_NUMBER = "Account Number";
@@ -3731,5 +3734,9 @@ public class OLEConstants {
     public static final String LOAN_DOCUMENTS = "loanDocuments";
     public static final String DELIVER_NOTICES = "deliverNotices";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
+
+    public static final String BLANKET_APPROVE = "BLANKET_APPROVAL";
+    public static final String NOTIFICATION_TYP_CD = "K";
+    public static final String DOC_TYP_NM = "OLE_PRQS";
 
 }

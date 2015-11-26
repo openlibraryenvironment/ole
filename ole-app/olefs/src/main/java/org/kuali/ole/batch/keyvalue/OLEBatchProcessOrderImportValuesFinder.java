@@ -167,6 +167,16 @@ public class OLEBatchProcessOrderImportValuesFinder extends UifKeyValuesFinderBa
                                     keyValues.add(new ConcreteKeyValue(vendorDetail.getVendorHeaderGeneratedIdentifier() + "-" + vendorDetail.getVendorDetailAssignedIdentifier(), vendorDetail.getVendorHeaderGeneratedIdentifier() + "-" + vendorDetail.getVendorDetailAssignedIdentifier()));
                                 }
                             }
+                            else if (attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
+                                List<VendorAlias> vendorAliasList = (List<VendorAlias>) KRADServiceLocator.getBusinessObjectService().findAll(VendorAlias.class);
+                                if (vendorAliasList != null && vendorAliasList.size() > 0) {
+                                    Set<KeyValue> vendorAliases = new HashSet<>();
+                                    for (VendorAlias vendorAlias : vendorAliasList) {
+                                        vendorAliases.add(new ConcreteKeyValue(vendorAlias.getVendorAliasName(), vendorAlias.getVendorAliasName()));
+                                    }
+                                    keyValues.addAll(vendorAliases);
+                                }
+                            }
                             else if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)){
                                 List<VendorCustomerNumber> vendorCustomerList = (List<VendorCustomerNumber>) KRADServiceLocator.getBusinessObjectService().findAll(VendorCustomerNumber.class);
                                 for (VendorCustomerNumber vendorCustomer : vendorCustomerList) {

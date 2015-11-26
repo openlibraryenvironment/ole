@@ -227,12 +227,13 @@ public class OleRequisitionAction extends RequisitionAction {
                         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
                         List<OleExchangeRate> exchangeRateList = (List) businessObjectService.findMatchingOrderBy(OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
                         Iterator iterator = exchangeRateList.iterator();
+                        OleExchangeRate tempOleExchangeRate = null;
                         if (iterator.hasNext()) {
-                            OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
+                            tempOleExchangeRate = (OleExchangeRate) iterator.next();
                             items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
                         }
                         if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
-                            items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+                            items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
                             items.setItemUnitPrice(items.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
                             items.setItemListPrice(items.getItemUnitCostUSD());
                             items.setTotalAmount(items.getTotalAmount());
@@ -343,12 +344,13 @@ public class OleRequisitionAction extends RequisitionAction {
                 BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
                 List<OleExchangeRate> exchangeRateList = (List) businessObjectService.findMatchingOrderBy(OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
                 Iterator iterator = exchangeRateList.iterator();
+                OleExchangeRate tempOleExchangeRate = null;
                 if (iterator.hasNext()) {
-                    OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
+                    tempOleExchangeRate = (OleExchangeRate) iterator.next();
                     item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
                 }
                 if (item.getItemExchangeRate() != null && item.getItemForeignUnitCost() != null) {
-                    item.setItemUnitCostUSD(new KualiDecimal(item.getItemForeignUnitCost().bigDecimalValue().divide(item.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+                    item.setItemUnitCostUSD(new KualiDecimal(item.getItemForeignUnitCost().bigDecimalValue().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
                     item.setItemUnitPrice(item.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
                     item.setItemListPrice(item.getItemUnitCostUSD());
                 }
