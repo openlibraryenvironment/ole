@@ -441,7 +441,9 @@
                 <bean id="lastNameItemPlaceRequest" parent="Uif-DataField" p:label="Last Name" p:propertyName="borrowerLastName"/>
                 <bean id="barcodeItemPlaceRequest" parent="Uif-DataField" p:label="Barcode" p:propertyName="borrowerBarcode"/>
                 <bean id="createDateItemPlaceRequest" parent="Uif-DataField" p:label="Create Date" p:propertyName="createDate"/>
-                <bean id="expirationDateItemPlaceRequest" parent="Uif-DataField" p:label="Exp. Date" p:propertyName="expiryDate"/>
+                <bean id="expirationDateItemPlaceRequest" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="expiryDate"/>
+                <bean id="onHoldExpirationDateItemPlaceRequest" parent="Uif-DataField" p:label="On Hold Expiration Date" p:propertyName="onHoldExpirationDate"/>
+                <bean id="pickUpLocationItemPlaceRequest" parent="Uif-DataField" p:label="PickUp Location" p:propertyName="pickUpLocation"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

@@ -619,6 +619,7 @@
                 <bean id="result-createDate" parent="Uif-DataField" p:propertyName="createDate" />
                 <bean id="result-expirationDate" parent="Uif-DataField" p:propertyName="requestExpiryDate"/>
                 <bean id="result-pickUpLocation" parent="Uif-DataField" p:propertyName="pickUpLocationCode"/>
+                <bean id="result-onHoldExpirationDate" parent="Uif-DataField" p:propertyName="holdExpirationDate"/>
             </list>
         </property>
         <property name="resultsGroup">
@@ -714,6 +715,7 @@
                     <property name="header.headerText" value="Request" />
                     <property name="items">
                         <list>
+                            <ref bean="OleRequestDocument-InquiryView-EditSection"/>
                             <ref bean="OleRequestDocument-InquiryView-requestDetails"/>
                             <ref bean="OleRequestDocument-InquiryView-recallRequest"/>
                             <ref bean="OleRequestDocument-InquiryView-onHoldRequest"/>
@@ -739,6 +741,24 @@
             <list>
                 <bean id="modifiedDetails-inquiry-modifiedDates" parent="Uif-InputField" p:propertyName="modifiedDate" />
                 <bean id="modifiedDetails-inquiry-operatorModifiedIds" parent="Uif-InputField" p:propertyName="operatorModifiedId"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-InquiryView-EditSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="requestRecordLink" parent="Uif-LinkField" p:target="_blank"
+                      p:style="height:25px;font-size:10px;width:70px"
+                      p:href="deliverRequestMaintenance?requestId=@{dataObject.requestId}&amp;methodToCall=maintenanceEdit&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo&amp;viewTypeName=MAINTENANCE&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false"
+                      p:linkText="Edit Request">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-smallActionButton</value>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
     </bean>
@@ -784,6 +804,8 @@
                 </bean>
                 <bean id="recallInquiryRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
                 </bean>
+                <bean id="recallInquiryRequest-onHoldExpirationDate" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{dataObject.requestTypeId ne null}"/>
+
             </list>
         </property>
     </bean>
@@ -809,7 +831,7 @@
                 </bean>
                 <bean id="onHoldRequestRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
                 </bean>
-                <bean id="HoldExpirationDate-InquiryView" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{dataObject.requestTypeId ne null}">
+                <bean id="onHoldRequestRequest-onHoldExpirationDate" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{dataObject.requestTypeId ne null}">
                 </bean>
             </list>
         </property>
@@ -830,9 +852,11 @@
                 <bean id="pageRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
                 <bean  id="pageRequest-inquiryItemDetails-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
                 <bean id="pageRequest-inquiryItemDetails-createDate"  parent="Uif-InputField" p:propertyName="createDate">
-
                 </bean>
                 <bean id="pageRequest-inquiryItemDetails-expirationDate"  parent="Uif-InputField" p:propertyName="requestExpiryDate"/>
+                <bean id="pageRequest-onHoldExpirationDate" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{dataObject.requestTypeId ne null}">
+                </bean>
+
             </list>
         </property>
     </bean>
