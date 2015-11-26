@@ -63,9 +63,12 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
     Map<String, String> cmAccountMap;
     java.sql.Date date = new java.sql.Date(getDateTimeService().getCurrentTimestamp().getTime());
     List<String> entriesList = new ArrayList<>();
+    StringBuffer errorList;
     Integer fiscalYear;
     String fromDate;
     String toDate;
+    private String paramaterValue;
+    private String[] value;
 
 
     @Override
@@ -73,9 +76,11 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
 
         fromDate = getParameter(OLEConstants.FROM_DATE);
         toDate = getParameter(OLEConstants.TO_DATE);
-        String paramaterValue = getParameter(OLEConstants.REENCUMBER_RECURRING_ORDERS);
-        String[] value = paramaterValue.split(",");
-        List<String> entriesList = new ArrayList<>();
+        paramaterValue = getParameter(OLEConstants.REENCUMBER_RECURRING_ORDERS);
+        value =  StringUtils.split(paramaterValue);
+        errorList = new StringBuffer();
+        validateParameter(value);
+
         List<Map<String, Object>> poItemData = new ArrayList<Map<String, Object>>();
         if (value.length > 0 && value[0].equalsIgnoreCase(OLEConstants.PO)) {
             poItemData = executeQueryForPoOption();
@@ -244,33 +249,18 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
     }
 
     public KualiDecimal calculateTransactionAmount(KualiDecimal transactionLedgerEntryAmount) {
-        String paramaterValue = getParameter(OLEConstants.REENCUMBER_RECURRING_ORDERS);
-        if (paramaterValue.contains("+")) {
-            String amount = paramaterValue.replaceAll("[^0-9]", "");
-            KualiDecimalAdapter kualiDecimalAdapter = new KualiDecimalAdapter();
-            KualiDecimal dollar = null;
-            try {
-                dollar = kualiDecimalAdapter.unmarshal(amount);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (paramaterValue.contains("$")) {
+
+        KualiDecimal dollar = new KualiDecimal(value[2]);
+        if (value[1].equals("+")) {
+            if (value[3].equals("$")) {
                 transactionLedgerEntryAmount = transactionLedgerEntryAmount.add(dollar);
-            } else {
+            } else if (value[3].equals("%")) {
                 transactionLedgerEntryAmount = transactionLedgerEntryAmount.add((transactionLedgerEntryAmount.multiply(dollar)).divide(new KualiDecimal(100)));
             }
-        } else {
-            String amount = paramaterValue.replaceAll("[^0-9]", "");
-            KualiDecimalAdapter kualiDecimalAdapter = new KualiDecimalAdapter();
-            KualiDecimal dollar = null;
-            try {
-                dollar = kualiDecimalAdapter.unmarshal(amount);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (paramaterValue.contains("$")) {
+        } else if(value[1].equals("-")) {
+            if (value[3].equals("$")) {
                 transactionLedgerEntryAmount = transactionLedgerEntryAmount.subtract(dollar);
-            } else {
+            } else if (value[3].equals("%")) {
                 transactionLedgerEntryAmount = transactionLedgerEntryAmount.subtract((transactionLedgerEntryAmount.multiply(dollar)).divide(new KualiDecimal(100)));
             }
         }
@@ -301,6 +291,69 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                     bwr.write(entry);
                     bwr.write("\n");
                 }
+            }
+            bwr.flush();
+            bwr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void validateParameter(String[] value) {
+
+        String regex = "\\d+";
+
+        if(value.length != 4) {
+            errorList.append("Invalid Paramater : " +paramaterValue);
+            errorList.append("\n");
+            writeErrorReport();
+            throw new RuntimeException("Invalid Parameter");
+        }
+        if((!(value[0].equalsIgnoreCase(OLEConstants.PO) || value[0].equalsIgnoreCase(OLEConstants.INVOICE)))) {
+            errorList.append("Invalid Document type :" +value[0]);
+            errorList.append("\n");
+            errorList.append("It Should be either PO or Invoice");
+            writeErrorReport();
+            throw new RuntimeException("Invalid Parameter");
+        }
+
+        if(!(value[1].equals("+") || value[1].equals("-"))) {
+            errorList.append("Invalid Symbol " +value[1]);
+            errorList.append("\n");
+            errorList.append("It should be either + or -");
+            writeErrorReport();
+            throw new RuntimeException("Invalid Parameter");
+        }
+
+        if(!value[2].matches(regex)) {
+            errorList.append("Invalid Number : " +value[2]);
+            writeErrorReport();
+            throw new RuntimeException("Invalid Parameter");
+        }
+
+        if(!(value[3].equals("$") || value[3].equals("%"))) {
+            errorList.append("Invalid Symbol : "+value[3]);
+            errorList.append("\n");
+            errorList.append("It should be either % or $");
+            writeErrorReport();
+            throw new RuntimeException("Invalid Parameter");
+        }
+    }
+
+    public void writeErrorReport() {
+
+        String fileDirectory = ConfigContext.getCurrentContextConfig().getProperty(org.kuali.ole.OLEConstants.STAGING_DIRECTORY) + OLEConstants.REENCUMBER_FILE_DIRECTORY;
+        new File(fileDirectory).mkdir();
+        Date date = new Date();
+        String fileCreationDate = new SimpleDateFormat(OLEConstants.FILE_DATE_FORMAT).format(date);
+        String filePath = fileDirectory  + OLEConstants.ERROR_REPORT_FILE_NM +"_"+fileCreationDate+ GeneralLedgerConstants.BatchFileSystem.TEXT_EXTENSION;
+        File file = new File(filePath);
+        BufferedWriter bwr = null;
+        try {
+            file.createNewFile();
+            bwr = new BufferedWriter(new FileWriter(file));
+            if(errorList != null) {
+                bwr.write(errorList.toString());
             }
             bwr.flush();
             bwr.close();
