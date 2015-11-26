@@ -298,10 +298,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             getBusinessObjectService().delete(holdingsDonorRecordList);
         }
         if (donorslist.size() > 0) {
-            List<OLEHoldingsDonorRecord> oleHoldingsDonorRecords = new ArrayList<OLEHoldingsDonorRecord>();
+            List<OLEHoldingsDonorRecord> oleHoldingsDonorRecords = new ArrayList<>();
             for (int i = 0; i < donorslist.size(); i++) {
                 DonorInfo donorinfo = donorslist.get(i);
-                if (donorinfo.getDonorCode() != null) {
+                if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
                     oleHoldingsDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleHoldingsDonorRecord.setDonorCode(donorinfo.getDonorCode());
