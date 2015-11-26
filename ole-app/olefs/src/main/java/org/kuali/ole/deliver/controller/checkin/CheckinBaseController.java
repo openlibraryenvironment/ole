@@ -2,12 +2,14 @@ package org.kuali.ole.deliver.controller.checkin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.PatronBillGenerator;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.calendar.bo.*;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.CheckedInItem;
@@ -438,9 +440,14 @@ public abstract class CheckinBaseController extends CircUtilController {
 
     private void handleOnHoldRequestIfExists(OleItemRecordForCirc oleItemRecordForCirc) {
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
+        List<String> requestTypes = getRequestTypes();
         if (null != oleItemRecordForCirc.getItemStatusToBeUpdatedTo() && oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) &&
-                null != oleDeliverRequestBo && oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().equals("Hold/Hold Request")) {
-
+                null != oleDeliverRequestBo && requestTypes.contains(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode())) {
+            if(null == oleDeliverRequestBo.getHoldExpirationDate()) {
+                Date holdExpiryDate = generateHoldExpirationDate(oleDeliverRequestBo);
+                oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(holdExpiryDate.getTime()));
+                getBusinessObjectService().save(oleDeliverRequestBo);
+            }
             Boolean sendOnHoldNoticeWhileCheckinItem = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.SEND_ONHOLD_NOTICE_WHILE_CHECKIN);
             if (sendOnHoldNoticeWhileCheckinItem && oleDeliverRequestBo.getOnHoldNoticeSentDate() == null) {
@@ -458,6 +465,55 @@ public abstract class CheckinBaseController extends CircUtilController {
                 }
             }
         }
+    }
+
+    private List<String> getRequestTypes() {
+        List<String> requestTypes = new ArrayList<>();
+        String requestTypeParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.ON_HOLD_NOTICE_REQUEST_TYPE);
+        if (StringUtils.isNotBlank(requestTypeParameter)) {
+            StringTokenizer stringTokenizer = new StringTokenizer(requestTypeParameter,";");
+            while(stringTokenizer.hasMoreTokens()){
+                requestTypes.add(stringTokenizer.nextToken());
+            }
+        }
+        return requestTypes;
+    }
+
+    private Date generateHoldExpirationDate(OleDeliverRequestBo oleDeliverRequestBo) {
+        Date holdExpiryDate = new Date();
+        LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
+        OleCirculationDesk oleCirculationDesk = oleDeliverRequestBo.getOlePickUpLocation();
+        if(org.apache.commons.lang.StringUtils.isEmpty(oleCirculationDesk.getOnHoldDays())){
+            holdExpiryDate = new java.sql.Date(System.currentTimeMillis());
+        } else if(null != oleCirculationDesk) {
+            holdExpiryDate = DateUtils.addDays(new Date(), Integer.parseInt(oleCirculationDesk.getOnHoldDays()));
+            holdExpiryDate = calculateHoldExpirationDate(holdExpiryDate, loanDateTimeUtil, oleCirculationDesk);
+        }
+        return holdExpiryDate;
+    }
+
+    private Date calculateHoldExpirationDate(Date holdExpiryDate, LoanDateTimeUtil loanDateTimeUtil, OleCirculationDesk oleCirculationDesk) {
+        OleCalendar activeCalendar = loanDateTimeUtil.getActiveCalendar(holdExpiryDate, oleCirculationDesk.getCalendarGroupId());
+        OleCalendarExceptionPeriod oleCalendarExceptionPeriod = loanDateTimeUtil.doesDateFallInExceptionPeriod(activeCalendar, holdExpiryDate);
+        if (null == oleCalendarExceptionPeriod) {
+            OleCalendarExceptionDate exceptionDate = loanDateTimeUtil.isDateAnExceptionDate(activeCalendar, holdExpiryDate);
+            if (null != exceptionDate) {
+                if (StringUtils.isEmpty(exceptionDate.getOpenTime()) && StringUtils.isEmpty(exceptionDate.getCloseTime())) {
+                    Date followingDay = DateUtils.addDays(holdExpiryDate, 1);
+                    holdExpiryDate = calculateHoldExpirationDate(followingDay, loanDateTimeUtil, oleCirculationDesk);
+                }
+            }
+        } else {
+            List<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodWeekList = oleCalendarExceptionPeriod.getOleCalendarExceptionPeriodWeekList();
+            //If the week list is empty i.e its a holiday period;
+            if (CollectionUtils.isEmpty(oleCalendarExceptionPeriodWeekList)) {
+                Timestamp endDate = oleCalendarExceptionPeriod.getEndDate();
+                Date followingDay = DateUtils.addDays(endDate, 1);
+                holdExpiryDate = calculateHoldExpirationDate(followingDay, loanDateTimeUtil, oleCirculationDesk);
+            }
+        }
+        return holdExpiryDate;
     }
 
     private void handleOnMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
