@@ -28,6 +28,7 @@ import org.kuali.ole.gl.batch.service.AccountBalanceCalculator;
 import org.kuali.ole.gl.businessobject.AccountBalance;
 import org.kuali.ole.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.ole.gl.businessobject.inquiry.AccountBalanceInquirableImpl;
+import org.kuali.ole.gl.dataaccess.AccountBalanceOffsetObjectCodeDAOService;
 import org.kuali.ole.gl.service.AccountBalanceService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntry;
@@ -48,6 +49,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
     private AccountBalanceCalculator postAccountBalance;
     private AccountBalanceService accountBalanceService;
     private OptionsService optionsService;
+    private AccountBalanceOffsetObjectCodeDAOService accountBalanceOffsetObjectCodeDAOService;
 
     /**
      * Returns the url for the account balance inquiry
@@ -99,7 +101,8 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
             Iterator availableBalanceIterator = accountBalanceService.findAvailableAccountBalance(fieldValues);
             searchResultsCollection = buildDetailedAvailableBalanceCollection(availableBalanceIterator);
         }
-
+        List<Map<String, Object>> balanceTableResultSet=getAccountBalanceOffsetObjectCodeDAOService().getBalanceTable(fieldValues);
+        setValuesFromBalanceTableToResults(searchResultsCollection,balanceTableResultSet,fieldValues);
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
 
@@ -143,7 +146,22 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
         return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 
-
+    private void setValuesFromBalanceTableToResults(Collection searchResultsCollection,List<Map<String, Object>> balanceTableResultSet,Map fieldValues){
+        for (Map<String, Object> resultSet:balanceTableResultSet) {
+            AccountBalance balance = new AccountBalance();
+            String fiscalYear = fieldValues.get(OLEConstants.FISCAL_YEAR).toString();
+            balance.setUniversityFiscalYear(Integer.parseInt(fiscalYear));
+            balance.setChartOfAccountsCode(fieldValues.get(OLEConstants.CHART_CODE).toString());
+            balance.setAccountNumber(fieldValues.get(OLEConstants.ACCOUNT_NUMBER).toString());
+            balance.setObjectCode(resultSet.get("FIN_OBJECT_CD").toString());
+            balance.setSubAccountNumber(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+            balance.setSubObjectCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+            balance.setCurrentBudgetLineBalanceAmount(KualiDecimal.ZERO);
+            balance.setAccountLineActualsBalanceAmount(KualiDecimal.ZERO);
+            balance.setAccountLineEncumbranceBalanceAmount(new KualiDecimal(resultSet.get("ACLN_ANNL_BAL_AMT").toString()));
+            searchResultsCollection.add(balance);
+        }
+    }
     public List<Account> checkAccountEntry(String accountNumber,String chartCode) {
         boolean exists = false;
         Map searchMap = new HashMap();
@@ -349,5 +367,16 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      */
     public OptionsService getOptionsService() {
         return optionsService;
+    }
+
+    public AccountBalanceOffsetObjectCodeDAOService getAccountBalanceOffsetObjectCodeDAOService() {
+        if(accountBalanceOffsetObjectCodeDAOService==null){
+            accountBalanceOffsetObjectCodeDAOService=SpringContext.getBean(AccountBalanceOffsetObjectCodeDAOService.class);
+        }
+        return accountBalanceOffsetObjectCodeDAOService;
+    }
+
+    public void setAccountBalanceOffsetObjectCodeDAOService(AccountBalanceOffsetObjectCodeDAOService accountBalanceOffsetObjectCodeDAOService) {
+        this.accountBalanceOffsetObjectCodeDAOService = accountBalanceOffsetObjectCodeDAOService;
     }
 }
