@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.processor;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -18,6 +19,8 @@ public class OleDsNgRestAPIProcessor {
         ObjectMapper objectMapper = new ObjectMapper();
         BibRecord bibRecord = objectMapper.readValue(jsonBody, BibRecord.class);
         getBusinessObjectService().save(bibRecord);
+        BibIndexer bibIndexer = new BibIndexer();
+        bibIndexer.indexDocument(bibRecord);
         return objectMapper.writeValueAsString(bibRecord);
     }
 

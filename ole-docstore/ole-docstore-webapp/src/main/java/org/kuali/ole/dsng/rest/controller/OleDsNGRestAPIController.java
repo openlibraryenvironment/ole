@@ -23,8 +23,6 @@ public class OleDsNGRestAPIController {
     @RequestMapping(method = RequestMethod.POST, value = "/createBib", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createBib(@RequestBody String body) throws Exception {
-        String responseString = "";
-        JSONObject jsonObject = new JSONObject(body);
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().createBib(body);
         return savedBibJsonObject;
     }
