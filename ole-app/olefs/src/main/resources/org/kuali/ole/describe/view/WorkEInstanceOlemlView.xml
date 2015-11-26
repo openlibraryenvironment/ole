@@ -724,7 +724,7 @@
         </property>
     </bean>
 
-    <bean id="OleEInstanceDonorInformation" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
+    <bean id="OleEInstanceDonorInformation" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <ref bean="OleEInstanceDonorInformation-ListOfDonors"/>
@@ -732,46 +732,60 @@
         </property>
     </bean>
 
-    <bean  id="OleEInstanceDonorInformation-ListOfDonors"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="3">
-        <property name="headerText" value="" />
+    <bean  id="OleEInstanceDonorInformation-ListOfDonors"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="3">
+        <property name="headerText" value="Donor"/>
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.DonorInfo" />
         <property name="propertyName" value="documentForm.selectedEHoldings.donorInfo" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
                 <bean id="oleEInstanceDonorCode" parent="Uif-InputField"
-                      p:propertyName="donorCode" p:label="Donor Code" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"
-                              p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"/>
+                      p:propertyName="donorCode" p:label="Donor Code" p:instructionalText="Type * for all Donor code, other letters for matching Donor code" p:required="false">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveDonorCodeDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.DonorCodeBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
-                    <property name="quickfinder">
-                        <bean id="DonorCode-quickFinder" parent="Uif-QuickFinderByScript"
-                              p:dataObjectClassName="org.kuali.ole.select.bo.OLEDonor"
-                              p:lookupParameters="donorCode:donorCode"
-                              p:fieldConversions="donorCode:donorCode,donorPublicDisplay:donorPublicDisplay,donorNote:donorNote"/>
+                    <property name="control">
+                        <bean id="eHoldingsDonorCodeControl" parent="Uif-TextControl" p:size="10" p:maxLength="10"
+                              p:onClickScript="eHoldingsDonorCodeDisable(@{#index})" p:onKeyUpScript="eHoldingsDonorCodeDisable(@{#index})" p:onBlurScript="validateEHoldingsDonorCode(@{#index})"/>
                     </property>
                 </bean>
                 <bean id="oleEInstanceDonorPublicDisplay" parent="Uif-InputField"
                       p:propertyName="donorPublicDisplay" p:label="Donor Public Display" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"
+                        <bean parent="Uif-TextControl" p:maxLength="4000"
+                              p:onClickScript="eHoldingsDonorCodeDisable(@{#index})" p:onKeyUpScript="eHoldingsDonorCodeDisable(@{#index})"
                               p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
                     </property>
                 </bean>
                 <bean id="oleEInstanceDonorNote" parent="Uif-InputField" p:propertyName="donorNote"
                       p:label="Donor Note" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"
+                        <bean parent="Uif-TextControl" p:maxLength="40"
+                              p:onClickScript="eHoldingsDonorCodeDisable(@{#index})" p:onKeyUpScript="eHoldingsDonorCodeDisable(@{#index})"
                               p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="addLineActions">
+        <property name="lineActions">
             <list>
-                <bean id="holdings_donor-add" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addDonorToEInstance" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="eHoldings_donor_add" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addDonorToEInstance" p:actionLabel="Add" p:refreshId="OleEInstanceDonorInformation-ListOfDonors"/>
+                <bean id="eHoldings_donor_remove" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeDonorToEInstance" p:actionLabel="Remove"/>
             </list>
         </property>
     </bean>
