@@ -3,9 +3,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle>
-                    <span class="glyphicon"
-                          ng-class="{'glyphicon-chevron-right': !dataMappingsActivePanel, 'glyphicon-chevron-down': dataMappingsActivePanel}"></span>
+                <a bs-collapse-toggle ng-click="toggle(dataMappingsPanel)">
+                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !dataMappingsPanel.collapsed, 'glyphicon-chevron-down': dataMappingsPanel.collapsed}"></span>
                     {{ dataMappingsPanel[0].title }}
                 </a>
             </h4>

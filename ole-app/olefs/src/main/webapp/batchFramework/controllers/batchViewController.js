@@ -1,4 +1,4 @@
-var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
+var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap' ]);
 
 var documentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
@@ -27,26 +27,40 @@ var transformers = [
 
 app.controller('batchProfileController', function($scope) {
 
+    $scope.toggle = function (panel) {
+        var panelTitle = panel[0].title;
+
+        if (panelTitle == 'Match Points') {
+            $scope.matchPointsPanel.collapsed = !$scope.matchPointsPanel.collapsed;
+        } else if (panelTitle == 'Field Operations') {
+            $scope.fieldOperationsPanel.collapsed = !$scope.fieldOperationsPanel.collapsed;
+        } else if (panelTitle == 'Data Mappings') {
+            $scope.dataMappingsPanel.collapsed = !$scope.dataMappingsPanel.collapsed;
+        } else if (panelTitle == 'Data Transformations') {
+            $scope.dataTransformationsPanel.collapsed = !$scope.dataTransformationsPanel.collapsed;
+        }
+    };
+
     $scope.matchPointsPanel = [
-        {title:'Match Points',  matchPointDocTypes: documentTypes, matchPointDocType: 'bibliographic'}
+        {title:'Match Points',  matchPointDocTypes: documentTypes, matchPointDocType: 'bibliographic', collapsed: true}
     ];
 
     $scope.fieldOperationsPanel = [
-        {title:'Field Operations',  fieldOperationTypes: fieldOperations, fieldOperationType: 'global'}
+        {title:'Field Operations',  fieldOperationTypes: fieldOperations, fieldOperationType: 'global', collapsed: true}
     ];
 
     $scope.dataMappingsPanel = [
-        {title:'Data Mappings',  dataMappingDocTypes: documentTypes, dataMappingDocType: 'bibliographic', destinations: documentTypes, destination: 'bibliographic', fields: fields, destination: 'url'}
+        {title:'Data Mappings',  dataMappingDocTypes: documentTypes, dataMappingDocType: 'bibliographic', destinations: documentTypes, destination: 'bibliographic', fields: fields, destination: 'url', collapsed: true}
     ];
 
     $scope.dataTransformationsPanel = [
-        {title:'Data Transformations',  dataTransformationDocTypes: documentTypes, dataTransformationDocType: 'bibliographic', transformers: transformers, transformer: 'regex'}
+        {title:'Data Transformations',  dataTransformationDocTypes: documentTypes, dataTransformationDocType: 'bibliographic', transformers: transformers, transformer: 'regex', collapsed: true}
     ];
 
     $scope.matchPointsActivePanel = [0];
     $scope.fieldOperationsActivePanel = [];
     $scope.dataMappingsActivePanel = [];
-    $scope.dataTransformationsActivePanel = []
+    $scope.dataTransformationsActivePanel = [];
 
     $scope.matchPointAdd = function () {
         $scope.matchPointsPanel.push({ matchPointDocTypes: documentTypes, matchPointDocType: 'bibliographic'});

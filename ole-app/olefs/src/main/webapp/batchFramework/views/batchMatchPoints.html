@@ -3,8 +3,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle>
-                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !matchPointsActivePanel, 'glyphicon-chevron-down': matchPointsActivePanel}"></span>
+                <a bs-collapse-toggle ng-click="toggle(matchPointsPanel)">
+                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': matchPointsPanel.collapsed, 'glyphicon-chevron-down': !matchPointsPanel.collapsed}"></span>
                     {{ matchPointsPanel[0].title }}
                 </a>
             </h4>
@@ -24,7 +24,7 @@
                         </td>
                         <td>
                             <input id="matchPointValue_{{$index}}" name="matchPointValue_{{$index}}" type="text"
-                                   ng-model="panel.matchPointValue" style="height: 30px; width: 150px;"/>
+                                   ng-model="matchPoint.matchPointValue" style="height: 30px; width: 150px;"/>
                         </td>
                         <td>
                             <button id="matchPointAddButton_{{$index}}" name="matchPointAddButton_{{$index}}"
