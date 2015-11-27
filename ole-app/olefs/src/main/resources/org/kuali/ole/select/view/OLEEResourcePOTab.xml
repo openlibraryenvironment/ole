@@ -83,9 +83,9 @@
     <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-Increase" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="costIncrease" p:label="Cost Increase"
+                <bean parent="Uif-DataField" p:propertyName="costIncrease" p:label="Cost increase"
                       p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-DataField" p:propertyName="percentageIncrease" p:label="Percentage Increase"
+                <bean parent="Uif-DataField" p:propertyName="percentageIncrease" p:label="Percent increase"
                       p:style="float:center;margin-left:5em"/>
             </list>
         </property>
