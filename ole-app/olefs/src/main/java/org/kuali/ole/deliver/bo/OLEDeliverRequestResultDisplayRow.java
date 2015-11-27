@@ -15,6 +15,8 @@ public class OLEDeliverRequestResultDisplayRow {
     private String borrowerBarcode;
     private Date createDate;
     private Date expiryDate;
+    private Date onHoldExpirationDate;
+    private String pickUpLocation;
 
     public Integer getBorrowerQueuePosition() {
         return borrowerQueuePosition;
@@ -78,5 +80,21 @@ public class OLEDeliverRequestResultDisplayRow {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public Date getOnHoldExpirationDate() {
+        return onHoldExpirationDate;
+    }
+
+    public void setOnHoldExpirationDate(Date onHoldExpirationDate) {
+        this.onHoldExpirationDate = onHoldExpirationDate;
+    }
+
+    public String getPickUpLocation() {
+        return pickUpLocation;
+    }
+
+    public void setPickUpLocation(String pickUpLocation) {
+        this.pickUpLocation = pickUpLocation;
     }
 }
