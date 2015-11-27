@@ -1371,7 +1371,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             List<OLEItemDonorRecord> oleItemDonorRecords = new ArrayList<OLEItemDonorRecord>();
             for (int i = 0; i < donorslist.size(); i++) {
                 DonorInfo donorinfo = donorslist.get(i);
-                if (donorinfo.getDonorCode() != null ) {
+                if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
