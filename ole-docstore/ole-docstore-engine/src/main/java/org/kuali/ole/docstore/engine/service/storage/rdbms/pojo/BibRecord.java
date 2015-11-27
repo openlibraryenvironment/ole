@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
+import org.kuali.ole.audit.AuditField;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -20,18 +21,23 @@ public class BibRecord extends PersistableBusinessObjectBase
 
     private String bibId;
     private String formerId;
+    @AuditField
     private Boolean fassAddFlag;
     private String suppressFromPublic; //= new Timestamp(new Date().getTime())
     private Timestamp dateEntered;
     private Timestamp dateCreated;
+    @AuditField
     private String content;
    // private byte[] binaryContent;
     private String status;
     private Timestamp statusUpdatedDate;
     private String uniqueIdPrefix;
+    @AuditField
     private Boolean staffOnlyFlag;
     private String createdBy;
+    @AuditField
     private String updatedBy;
+    @AuditField
     private String statusUpdatedBy;
     private List<HoldingsRecord> holdingsRecords;
     private BibInfoRecord bibInfoRecord;

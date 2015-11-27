@@ -7,8 +7,11 @@ import java.text.SimpleDateFormat;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.HoldingsAudit;
+import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
@@ -421,6 +424,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     public void update(Object object) {
         Holdings holdings = (Holdings) object;
         HoldingsRecord holdingsRecord = getExistingHoldings(holdings.getId());
+        HoldingsRecord oldHoldingsRecord = (HoldingsRecord)SerializationUtils.clone(holdingsRecord);
         if (holdingsRecord == null) {
             DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.HOLDING_ID_NOT_FOUND, DocstoreResources.HOLDING_ID_NOT_FOUND);
             docstoreException.addErrorParams("holdingsId", holdings.getId());
@@ -468,6 +472,15 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         content = workHoldingOlemlRecordProcessor.toXML(oleHoldings);
         holdings.setContent(content);
         buildLabelForHoldings(holdingsRecord, holdings);
+        try {
+            OleAuditManager.getInstance().audit(HoldingsAudit.class,oldHoldingsRecord,holdingsRecord,holdingsRecord.getHoldingsId(),"ole");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setPHoldingsInformation(HoldingsRecord holdingsRecord, OleHoldings oleHoldings) {

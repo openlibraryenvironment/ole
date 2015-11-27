@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
+import org.kuali.ole.audit.AuditField;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -17,14 +18,21 @@ public class ItemRecord extends PersistableBusinessObjectBase
         implements Serializable {
 
     private String itemId;
+    @AuditField
     private Boolean staffOnlyFlag;
+
     private String barCodeArsl;
+    @AuditField
     private String barCode;
     private String statisticalSearchId;
+    @AuditField
     private String itemTypeId;
     private String tempItemTypeId;
+    @AuditField
     private String enumeration;
+    @AuditField
     private String chronology;
+    @AuditField
     private String copyNumber;
     private String uri;
     private String numberOfPieces;
@@ -39,17 +47,25 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private String checkInNote;
     private Timestamp effectiveDate;
     private String staffOnly;
+    @AuditField
     private Boolean fastAddFlag;
+    @AuditField
     private String location;
+    @AuditField
     private String locationLevel;
     private String callNumberPrefix;
+    @AuditField
     private String callNumber;
     private String shelvingOrder;
     private String callNumberTypeId;
     private String highDensityStorageId;
+    @AuditField
     private String currentBorrower;
+    @AuditField
     private String proxyBorrower;
+    @AuditField
     private Timestamp dueDateTime;
+    @AuditField
     private Timestamp checkOutDateTime;
     private Boolean claimsReturnedFlag;
     private Timestamp claimsReturnedFlagCreateDate;
@@ -70,8 +86,10 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private String missingPieceFlagNote;
     private List<OLEItemDonorRecord> donorList;
     private Timestamp createdDate;
+    @AuditField
     private Timestamp updatedDate;
     private String createdBy;
+    @AuditField
     private String updatedBy;
     private List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords;
     private List<HoldingsItemRecord> holdingsItemRecords;
@@ -79,6 +97,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords;
     private List<ItemDamagedRecord> itemDamagedRecords;
     private List<MissingPieceItemRecord> missingPieceItemRecordList;
+    @AuditField
     private Timestamp originalDueDate;
 
     public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {

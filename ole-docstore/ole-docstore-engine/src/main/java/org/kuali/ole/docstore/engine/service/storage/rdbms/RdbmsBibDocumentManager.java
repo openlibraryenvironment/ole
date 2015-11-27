@@ -1,7 +1,10 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.BibAudit;
+import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
@@ -82,6 +85,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         Map parentCriteria = new HashMap();
         parentCriteria.put("bibId", DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
         BibRecord bibRecord = getBusinessObjectService().findByPrimaryKey(BibRecord.class, parentCriteria);
+        BibRecord oldBibRecord = (BibRecord)SerializationUtils.clone(bibRecord);
         if (bibRecord == null) {
             DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BIB_ID_NOT_FOUND, DocstoreResources.BIB_ID_NOT_FOUND);
             docstoreException.addErrorParams("bibId", bib.getId());
@@ -97,6 +101,15 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         }
 
         createBibInfoRecord(bibRecord);
+        try {
+            OleAuditManager.getInstance().audit(BibAudit.class,oldBibRecord,bibRecord,bibRecord.getBibId(),"ole");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
