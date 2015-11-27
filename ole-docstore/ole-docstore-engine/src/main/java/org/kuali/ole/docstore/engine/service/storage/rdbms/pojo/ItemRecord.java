@@ -28,6 +28,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private String copyNumber;
     private String uri;
     private String numberOfPieces;
+    private String descriptionOfPieces;
     private String holdingsId;
     private String uniqueIdPrefix;
     private String purchaseOrderItemLineId;
@@ -182,6 +183,14 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setNumberOfPieces(String numberOfPieces) {
         this.numberOfPieces = numberOfPieces;
+    }
+
+    public String getDescriptionOfPieces() {
+        return descriptionOfPieces;
+    }
+
+    public void setDescriptionOfPieces(String descriptionOfPieces) {
+        this.descriptionOfPieces = descriptionOfPieces;
     }
 
     public String getHoldingsId() {

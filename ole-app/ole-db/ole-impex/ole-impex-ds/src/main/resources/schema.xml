@@ -301,6 +301,7 @@
         <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <column default="" name="UNIQUE_ID_PREFIX" size="10" type="VARCHAR"/>
         <column name="ORG_DUE_DATE_TIME" type="TIMESTAMP"/>
+        <column name="DESC_OF_PIECES" size="400" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DS_HIGH_DENSITY_STORAGE_T" name="HIGH_DENSITY_CONSTRAINT">
             <reference foreign="HIGH_DENSITY_STORAGE_ID" local="HIGH_DENSITY_STORAGE_ID"/>
         </foreign-key>

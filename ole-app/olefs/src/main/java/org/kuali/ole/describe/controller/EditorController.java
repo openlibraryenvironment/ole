@@ -522,7 +522,7 @@ public class EditorController extends UifControllerBase {
                     }
                 }else if(item.getMissingPieceItemRecordList().get(index).getPatronBarcode() != null && !item.getMissingPieceItemRecordList().get(index).getPatronBarcode().isEmpty()){
                     Map map = new HashMap();
-                    map.put("patronBarcode" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
+                    map.put("barcode" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class ,map );
                     if(!CollectionUtils.isEmpty(olePatronDocumentList)){
                         for(OlePatronDocument olePatronDocument : olePatronDocumentList){

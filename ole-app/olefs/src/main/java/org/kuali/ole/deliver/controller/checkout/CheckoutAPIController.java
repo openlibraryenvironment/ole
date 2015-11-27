@@ -115,4 +115,9 @@ public class CheckoutAPIController extends CheckoutBaseController {
         return false;
     }
 
+    @Override
+    public String getMissingPieceMatchCheck(OLEForm oleForm){
+        return null;
+    }
+
 }

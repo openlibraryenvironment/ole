@@ -803,6 +803,7 @@ public class BatchBibTreeDBUtil {
                 itemObj.setMissingPieceFlagNote(resultSet.getString("MISSING_PIECES_NOTE"));
                 itemObj.setMissingPieceEffectiveDate(resultSet.getString("MISSING_PIECES_EFFECTIVE_DATE"));
                 itemObj.setNumberOfPieces(resultSet.getString("NUM_PIECES"));
+                itemObj.setDescriptionOfPieces(resultSet.getString("DESC_OF_PIECES"));
                 itemObj.setNumberOfRenew(resultSet.getInt("NUM_OF_RENEW"));
                 highDensityStorageSet = new HashSet<>();
                 itemNoteSet = new HashSet<>();

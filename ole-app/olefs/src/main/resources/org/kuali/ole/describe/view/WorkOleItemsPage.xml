@@ -25,8 +25,8 @@
                 <ref bean="OleItemDamaged-Section"/>
                 <ref bean="itemDamagedRecords"/>
                 <ref bean="OleMissingItem-Section"/>
-                <ref bean="OLEIntransitLoanRecords"/>
                 <ref bean="MissingPieceItemHistory"/>
+                <ref bean="OLEIntransitLoanRecords"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="hiddenItemLocationEditFlag"/>
                 <ref bean="hiddenItemCallNumberPrefixEditFlag"/>
@@ -523,6 +523,12 @@
                         </bean>
                     </property>
                 </bean>
+                <bean id="oleItemDescOfPieces" parent="Uif-InputField" p:propertyName="descriptionOfPieces"
+                      p:label="Description Of Pieces" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="400"/>
+                    </property>
+                </bean>
                 <bean id="oleItemIdentifier_ID" parent="Uif-InputField" p:propertyName="itemIdentifier"
                       p:label="Item Id" p:required="false">
                     <property name="control">
@@ -792,8 +798,9 @@
                 <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
                 <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
                 <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
-                <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="missingPieceOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                <bean id="missingPiecePatronId" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.patronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
             </list>
         </property>
     </bean>
@@ -858,7 +865,8 @@
             <list>
                 <bean id="item_claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
                 <bean id="item_claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
-                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.claimsReturnedPatronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.claimsReturnedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 <bean id="item_claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
             </list>
         </property>
@@ -883,7 +891,8 @@
             <list>
                 <bean id="item_damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
                 <bean id="item_damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
-                <bean id="item_patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_damagedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.damagedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 <bean id="item_operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>
