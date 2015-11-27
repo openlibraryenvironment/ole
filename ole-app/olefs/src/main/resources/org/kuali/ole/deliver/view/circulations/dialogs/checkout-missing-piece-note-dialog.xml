@@ -34,24 +34,82 @@
         </property>
         <property name="items">
             <list merge="false">
+                <ref bean="checkoutMissingPieceErrorMessage"/>
                 <ref bean="checkoutMissingPieceNoteMessage"/>
+                <ref bean="checkoutMissingPiece-NoOfPieces"/>
+                <ref bean="checkoutMissingPiece-matchCheck"/>
+                <ref bean="checkoutMissingPiece-note"/>
+                <ref bean="checkoutMissingPiece-count"/>
                 <ref bean="checkoutMissingPiece-record-Note"/>
                 <ref bean="checkoutMissingPieceNote-buttons"/>
             </list>
         </property>
     </bean>
 
+    <!--This messageText will be replaced in action script-->
+    <bean id="checkoutMissingPieceErrorMessage" parent="Uif-MessageField" p:messageText="missingPiececErrorMessage" p:hidden="true" p:cssClasses="alert-error"/>
+
+    <bean id="checkoutMissingPiece-NoOfPieces" parent="Uif-InputField" p:propertyName="numberOfPiece" p:hidden="true"/>
+
     <bean id="checkoutMissingPieceNoteMessage" parent="Uif-MessageField" p:messageText="@{errorMessage.errorMessage}"/>
+
+    <bean id="checkoutMissingPiece-matchCheck"  parent="Uif-InputField" p:propertyName="missingPieceMatchCheck" p:label="Verification"
+          p:onChangeScript="
+            if(jq('select#checkoutMissingPiece-matchCheck_control option:selected').val() == 'mismatched') {
+             jq('div#checkoutMissingPiece-note').show();
+             jq('div#checkoutMissingPiece-count').show();
+             jq('div#checkoutMissingPiece-record-Note').show();
+            } else {
+             jq('div#checkoutMissingPiece-note').hide();
+             jq('div#checkoutMissingPiece-count').hide();
+             jq('div#checkoutMissingPiece-record-Note').hide();
+            }
+          ">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" >
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="matched" p:value="Matched"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="mismatched" p:value="Mismatched"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="checkoutMissingPieceNote-buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean id="checkout-missingPieceNote-ok" parent="Uif-SecondaryActionButton-Small"
                       p:actionScript="
+                      var missingPieceMatchValue = jq('#checkoutMissingPiece-matchCheck_control').val();
                       var isChecked = false;
                       isChecked = jq('#checkoutMissingPiece-record-Note_control_0').is(':checked');
-                      jq.fancybox.close();
-                      submitForm('processCheckoutAfterPreValidations', {recordNoteForMissingPieceCheck:isChecked}, null, true, null);"
+                      var missingPieceCountEntered = parseInt(jq('#checkoutMissingPiece-count_control').val());
+                      var missingPieceNoteEntered = jq('#checkoutMissingPiece-note_control').val();
+                      var missingPieceNoOfPieces = parseInt(jq('#checkoutMissingPiece-NoOfPieces_control').val());
+                      var dialogErrorMessage = '';
+                      if(missingPieceMatchValue == 'mismatched'){
+                        if(missingPieceCountEntered &lt; 1){
+                            dialogErrorMessage = 'No of missing piece count should not be less than 1';
+                            jq('#checkoutMissingPieceErrorMessage .uif-message').html(dialogErrorMessage);
+                            jq('#checkoutMissingPieceErrorMessage').attr('style','display:inline');
+                            jq('#checkoutMissingPieceErrorMessage').focus();
+                        }
+                        else if(missingPieceCountEntered &gt; missingPieceNoOfPieces){
+                            dialogErrorMessage = 'Missing piece count should not be greater than no of pieces';
+                            jq('#checkoutMissingPieceErrorMessage .uif-message').html(dialogErrorMessage);
+                            jq('#checkoutMissingPieceErrorMessage').attr('style','display:inline');
+                            jq('#checkoutMissingPieceErrorMessage').focus();
+                        }
+                        else{
+                            jq.fancybox.close();
+                            submitForm('processCheckoutAfterPreValidations', {missingPieceValueCheck:missingPieceMatchValue,recordNoteForMissingPieceCheck:isChecked,newMissingPieceCount:missingPieceCountEntered,newMissingPieceNote:missingPieceNoteEntered}, null, true, null);
+                        }
+                      } else {
+                        jq.fancybox.close();
+                        submitForm('processCheckoutAfterPreValidations', {missingPieceValueCheck:missingPieceMatchValue,recordNoteForMissingPieceCheck:isChecked,newMissingPieceCount:missingPieceCountEntered,newMissingPieceNote:missingPieceNoteEntered}, null, true, null);
+                      }"
                       p:actionLabel="Continue"/>
                 <bean id="checkout-missingPieceNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('resetItemForNextTrans',null,null,true,function(){
                 jq('#checkoutItem_control').focus();})"/>
@@ -60,7 +118,7 @@
     </bean>
 
     <bean id="checkoutMissingPiece-record-Note" parent="Uif-InputField" p:propertyName="recordNoteForMissingPiece"
-          p:label="Record a note or not">
+          p:label="Record a note or not" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">
@@ -70,6 +128,14 @@
                     </list>
                 </property>
             </bean>
+        </property>
+    </bean>
+
+    <bean id="checkoutMissingPiece-note" parent="Uif-InputField" p:propertyName="mismatchedMissingPieceNote" p:label="Missing Piece Note" p:hidden="true"/>
+
+    <bean id="checkoutMissingPiece-count" parent="Uif-InputField" p:propertyName="missingPieces" p:label="No of Missing Pieces" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
         </property>
     </bean>
 </beans>

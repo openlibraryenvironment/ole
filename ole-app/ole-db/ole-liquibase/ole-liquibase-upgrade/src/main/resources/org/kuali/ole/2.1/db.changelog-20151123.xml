@@ -12,4 +12,11 @@
         </update>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_ADD">
+        <addColumn
+                tableName="OLE_DS_ITEM_T">
+            <column name="DESC_OF_PIECES"   type="VARCHAR(400)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

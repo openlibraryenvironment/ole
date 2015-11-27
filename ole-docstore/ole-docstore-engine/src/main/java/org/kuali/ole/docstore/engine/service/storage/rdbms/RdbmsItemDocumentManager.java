@@ -207,6 +207,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setEnumeration(itemRecord.getEnumeration());
         item.setChronology(itemRecord.getChronology());
         item.setNumberOfPieces(itemRecord.getNumberOfPieces());
+        item.setDescriptionOfPieces(itemRecord.getDescriptionOfPieces());
         item.setCheckinNote(itemRecord.getCheckInNote());
         item.setLocation(getLocationDetails(itemRecord.getLocation(), itemRecord.getLocationLevel()));
         if (itemRecord.getFormerIdentifierRecords() != null) {
@@ -770,6 +771,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setEnumeration(item.getEnumeration());
 
         itemRecord.setNumberOfPieces(item.getNumberOfPieces());
+        itemRecord.setDescriptionOfPieces(item.getDescriptionOfPieces());
         itemRecord.setPurchaseOrderItemLineId(item.getPurchaseOrderLineItemIdentifier());
         itemRecord.setVendorLineItemId(item.getVendorLineItemIdentifier());
         itemRecord.setFund(item.getFund());

@@ -24,7 +24,7 @@ import java.util.*;
 public class ClaimsReturnedNoteHandler {
 
     public void savePatronNoteForClaims(Map<String, Object> claimsRecordInfo, OlePatronDocument olePatronDocument) {
-        String note = getPatronNoteToRecord(OLEConstants.CLAIMS_CHECKED_IN_FLAG, claimsRecordInfo);
+        String note = getPatronNoteToRecord(claimsRecordInfo);
         Map map = new HashMap();
         if(olePatronDocument != null) {
             OlePatronNotes olePatronNotes = new OlePatronNotes();
@@ -47,7 +47,8 @@ public class ClaimsReturnedNoteHandler {
         }
     }
 
-    public String getPatronNoteToRecord(String systemParameter, Map<String, Object> claimsRecordInfo) {
+    public String getPatronNoteToRecord(Map<String, Object> claimsRecordInfo) {
+        String systemParameter = (String) claimsRecordInfo.get("noteParameter");
         String note = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, systemParameter);
         SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
