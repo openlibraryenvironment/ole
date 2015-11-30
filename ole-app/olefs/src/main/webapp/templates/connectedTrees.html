@@ -1,0 +1,65 @@
+<!-- Nested node template -->
+<script type="text/ng-template" id="nodes_renderer1.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <div class="tree-node-content">
+            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            {{node.title}}
+        </div>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+        <div align="right">
+        <button id="{{node.id}}"class="btn-xs" ng-click="previous(node.id)"  style="" ng-show="node.docType == 'holdings' ">previous</button>
+        <button class="btn-xs" ng-click="next(node.id)"  style="" ng-show="node.docType == 'holdings' ">next</button>
+            </div>
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer1.html'">
+        </li>
+    </ol>
+</script>
+<script type="text/ng-template" id="nodes_renderer2.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <div class="tree-node-content">
+            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon"
+                                                                                        ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            {{node.title}}
+        </div>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer2.html'">
+        </li>
+    </ol>
+</script>
+
+
+
+<div class="row" ng-controller="treesController" ng-hide="searched">
+    <div align="center">
+        <button class="btn btn-primary btn-sm" ng-click="copyToTree1()">Copy to Tree1</button>
+        <button class="btn btn-primary btn-sm" ng-click="copyToTree2()">Copy to Tree2</button>
+    </div>
+
+    <div class="col-sm-6">
+        <h3>Tree 1</h3>
+
+        <div ui-tree id="tree1-root">
+            <ol ui-tree-nodes="" ng-model="tree1">
+                <li ng-repeat="node in tree1" ui-tree-node ng-include="'nodes_renderer1.html'">
+                </li>
+            </ol>
+
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <h3>Tree 2</h3>
+
+        <div ui-tree id="tree2-root">
+            <ol ui-tree-nodes="" ng-model="tree2">
+                <li ng-repeat="node in tree2" ui-tree-node ng-include="'nodes_renderer2.html'"></li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+
+
