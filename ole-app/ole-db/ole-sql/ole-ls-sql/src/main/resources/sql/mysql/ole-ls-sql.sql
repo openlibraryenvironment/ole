@@ -6429,6 +6429,90 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
 
 
 # -----------------------------------------------------------------------
+# ITEM_AUDIT_T
+# -----------------------------------------------------------------------
+drop table if exists ITEM_AUDIT_T
+/
+
+CREATE TABLE ITEM_AUDIT_T
+(
+      AUDIT_ID INTEGER(10)
+        , FOREIGN_KEY_REF INTEGER(10)
+        , ACTOR VARCHAR(40)
+        , UPDATE_DATE DATETIME
+        , COLUMN_UPDATED VARCHAR(40)
+        , COLUMN_VALUE LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT ITEM_AUDIT_TP1 PRIMARY KEY(AUDIT_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# BIB_AUDIT_T
+# -----------------------------------------------------------------------
+drop table if exists BIB_AUDIT_T
+/
+
+CREATE TABLE BIB_AUDIT_T
+(
+      AUDIT_ID INTEGER(10)
+        , FOREIGN_KEY_REF INTEGER(10)
+        , ACTOR VARCHAR(40)
+        , UPDATE_DATE DATETIME
+        , COLUMN_UPDATED VARCHAR(40)
+        , COLUMN_VALUE LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT BIB_AUDIT_TP1 PRIMARY KEY(AUDIT_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# HOLDINGS_AUDIT_T
+# -----------------------------------------------------------------------
+drop table if exists HOLDINGS_AUDIT_T
+/
+
+CREATE TABLE HOLDINGS_AUDIT_T
+(
+      AUDIT_ID INTEGER(10)
+        , FOREIGN_KEY_REF INTEGER(10)
+        , ACTOR VARCHAR(40)
+        , UPDATE_DATE DATETIME
+        , COLUMN_UPDATED VARCHAR(40)
+        , COLUMN_VALUE LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT HOLDINGS_AUDIT_TP1 PRIMARY KEY(AUDIT_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -9166,4 +9250,46 @@ CREATE TABLE OLE_DLVR_EMAIL_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_DLVR_EMAIL_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# ITEM_AUDIT_S
+# -----------------------------------------------------------------------
+drop table if exists ITEM_AUDIT_S
+/
+
+CREATE TABLE ITEM_AUDIT_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE ITEM_AUDIT_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# BIB_AUDIT_S
+# -----------------------------------------------------------------------
+drop table if exists BIB_AUDIT_S
+/
+
+CREATE TABLE BIB_AUDIT_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE BIB_AUDIT_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# HOLDINGS_AUDIT_S
+# -----------------------------------------------------------------------
+drop table if exists HOLDINGS_AUDIT_S
+/
+
+CREATE TABLE HOLDINGS_AUDIT_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE HOLDINGS_AUDIT_S auto_increment = 1
 /

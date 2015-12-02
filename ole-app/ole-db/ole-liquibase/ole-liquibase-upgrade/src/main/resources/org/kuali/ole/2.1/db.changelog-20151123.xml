@@ -1,0 +1,136 @@
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRCR_PARM_T">
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="PO + 0 $" />
+            <where>PARM_NM = 'REENCUMBER_RECURRING_ORDERS'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_ADD">
+        <addColumn
+                tableName="OLE_DS_ITEM_T">
+            <column name="DESC_OF_PIECES"   type="VARCHAR(400)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ITEM_AUDIT_T">
+        <createTable tableName="ITEM_AUDIT_T">
+            <column name="AUDIT_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="FOREIGN_KEY_REF"   type="INTEGER(40)"/>
+            <column name="ACTOR"   type="VARCHAR(40)"/>
+            <column name="UPDATE_DATE"   type="TIMESTAMP"/>
+            <column name="COLUMN_UPDATED"   type="VARCHAR(40)"/>
+            <column name="COLUMN_VALUE"   type="BLOB"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ITEM_AUDIT_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="ITEM_AUDIT_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ITEM_AUDIT_S" dbms="mysql">
+        <createTable tableName="ITEM_AUDIT_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="ITEM_AUDIT_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="BIB_AUDIT_T">
+        <createTable tableName="BIB_AUDIT_T">
+            <column name="AUDIT_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="FOREIGN_KEY_REF"   type="INTEGER(40)"/>
+            <column name="ACTOR"   type="VARCHAR(40)"/>
+            <column name="UPDATE_DATE"   type="TIMESTAMP"/>
+            <column name="COLUMN_UPDATED"   type="VARCHAR(40)"/>
+            <column name="COLUMN_VALUE"   type="BLOB"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="BIB_AUDIT_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="BIB_AUDIT_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="BIB_AUDIT_S" dbms="mysql">
+        <createTable tableName="BIB_AUDIT_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="BIB_AUDIT_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="HOLDINGS_AUDIT_T">
+        <createTable tableName="HOLDINGS_AUDIT_T">
+            <column name="AUDIT_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="FOREIGN_KEY_REF"   type="INTEGER(40)"/>
+            <column name="ACTOR"   type="VARCHAR(40)"/>
+            <column name="UPDATE_DATE"   type="TIMESTAMP"/>
+            <column name="COLUMN_UPDATED"   type="VARCHAR(40)"/>
+            <column name="COLUMN_VALUE"   type="BLOB"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="HOLDINGS_AUDIT_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="HOLDINGS_AUDIT_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="HOLDINGS_AUDIT_S" dbms="mysql">
+        <createTable tableName="HOLDINGS_AUDIT_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="HOLDINGS_AUDIT_S"/>
+    </changeSet>
+
+</databaseChangeLog>

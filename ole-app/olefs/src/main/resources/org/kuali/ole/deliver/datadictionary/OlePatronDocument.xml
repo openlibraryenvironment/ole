@@ -868,6 +868,9 @@
                 <bean id="patronRequestInquiry_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType" />
                 <bean id="patronRequestInquiry_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus" />
                 <bean id="patronRequestInquiry_pickUpLocationCode" parent="Uif-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode"/>
+                <bean id="patronRequestInquiry_requestExpirationDate" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="requestExpiryDate"/>
+                <bean id="patronRequestInquiry_onHoldExpirationDate" parent="Uif-DataField" p:label="OnHold Expiration Date" p:propertyName="holdExpirationDate"/>
+
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

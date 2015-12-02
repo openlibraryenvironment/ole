@@ -15,10 +15,14 @@
  */
 package org.kuali.ole.select.document.service;
 
+import org.kuali.ole.docstore.common.document.content.instance.DonorInfo;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.module.purap.businessobject.PurApItem;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
+import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.OleCopy;
+
+import java.util.List;
 
 public interface OleDocstoreHelperService {
 
@@ -33,5 +37,7 @@ public interface OleDocstoreHelperService {
     public OleHoldings setHoldingDetails(OleCopy copy) throws Exception;
 
     public boolean isValidLocation(String location);
+
+    public List<DonorInfo> setDonorInfoToItem(List<OLELinkPurapDonor> oleDonors,List<DonorInfo> donorInfoList);
 
 }

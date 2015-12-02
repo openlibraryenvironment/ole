@@ -130,6 +130,12 @@ public class CircBaseController extends OLEUifControllerBase{
         circForm.setItemValidationDone(false);
         circForm.setCustomDueDateMap(null);
         circForm.setCustomDueDateTime(null);
+        circForm.setMissingPieceMatchCheck("");
+        circForm.setMissingPieces("");
+        circForm.setMismatchedMissingPieceNote("");
+        circForm.setRecordNoteForMissingPiece(false);
+        circForm.setRecordNoteForDamagedItem(false);
+        circForm.setRecordNoteForClaimsReturn(false);
     }
 
     private void setPrincipalInfo(CircForm circForm) {

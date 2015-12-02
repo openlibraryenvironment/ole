@@ -41,11 +41,6 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
         }
         if(itemStatuses.containsKey(oleDeliverRequestBo.getItemStatus())){
             oleDeliverRequestBo.setOnHoldNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-            for(OLEDeliverNotice oleDeliverNotice: oleDeliverRequestBo.getDeliverNotices()){
-                if (oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
-                    oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(oleDeliverRequestBo.getOnHoldNoticeSentDate().getTime()));
-                }
-            }
             return true;
         }
         return false;

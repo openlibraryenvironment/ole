@@ -25,7 +25,7 @@ public class DamagedItemNoteHandler {
 
 
     public void savePatronNoteForDamaged(Map<String, Object> damagedRecordInfo, OlePatronDocument olePatronDocument) {
-        String note = getPatronNoteToRecord(OLEConstants.DAMAGED_ITEM_CHECKED_IN_FLAG, damagedRecordInfo);
+        String note = getPatronNoteToRecord(damagedRecordInfo);
         Map map = new HashMap();
         if(olePatronDocument != null) {
             OlePatronNotes olePatronNotes = new OlePatronNotes();
@@ -48,7 +48,8 @@ public class DamagedItemNoteHandler {
         }
     }
 
-    private String getPatronNoteToRecord(String systemParameter, Map<String, Object> damagedRecordInfo) {
+    private String getPatronNoteToRecord(Map<String, Object> damagedRecordInfo) {
+        String systemParameter = (String)damagedRecordInfo.get("noteParameter");
         String note = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, systemParameter);
         SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);

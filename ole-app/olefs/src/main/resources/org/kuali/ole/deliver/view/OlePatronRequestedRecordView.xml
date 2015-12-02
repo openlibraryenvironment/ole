@@ -102,6 +102,8 @@
                 <bean id="viewRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType" />
                 <bean id="viewRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus" />
                 <bean id="viewRequest_pickUpLocationCode" parent="Uif-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode" />
+                <bean id="viewRequest_requestExpirationDate" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="requestExpiryDate"/>
+                <bean id="viewRequest_onHoldExpirationDate" parent="Uif-DataField" p:label="OnHold Expiration Date" p:propertyName="holdExpirationDate"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

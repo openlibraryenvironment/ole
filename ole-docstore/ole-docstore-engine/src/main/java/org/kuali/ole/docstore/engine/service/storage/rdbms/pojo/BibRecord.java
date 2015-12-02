@@ -1,8 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.kuali.ole.audit.AuditField;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -18,59 +16,34 @@ import java.util.List;
  * Time: 7:43 PM
  * To change this template use File | Settings | File Templates.
  */
-
-@JsonAutoDetect(JsonMethod.FIELD)
 public class BibRecord extends PersistableBusinessObjectBase
         implements Serializable {
 
-    @JsonProperty("bibId")
     private String bibId;
-
-    @JsonProperty("formerId")
     private String formerId;
-
-    @JsonProperty("fassAddFlag")
+    @AuditField
     private Boolean fassAddFlag;
-
-    @JsonProperty("suppressFromPublic")
     private String suppressFromPublic; //= new Timestamp(new Date().getTime())
-
-    @JsonProperty("dateEntered")
     private Timestamp dateEntered;
-
-    @JsonProperty("dateCreated")
     private Timestamp dateCreated;
-
-    @JsonProperty("content")
+    @AuditField
     private String content;
    // private byte[] binaryContent;
-
-    @JsonProperty("status")
     private String status;
-
-    @JsonProperty("statusUpdatedDate")
     private Timestamp statusUpdatedDate;
-
-    @JsonProperty("uniqueIdPrefix")
     private String uniqueIdPrefix;
-
-    @JsonProperty("staffOnlyFlag")
+    @AuditField
     private Boolean staffOnlyFlag;
-
-    @JsonProperty("createdBy")
     private String createdBy;
-
-    @JsonProperty("updatedBy")
+    @AuditField
     private String updatedBy;
-
-    @JsonProperty("statusUpdatedBy")
+    @AuditField
     private String statusUpdatedBy;
-
-    @JsonProperty("holdingsRecords")
     private List<HoldingsRecord> holdingsRecords;
-
-    @JsonProperty("bibInfoRecord")
     private BibInfoRecord bibInfoRecord;
+
+
+
 
   /*  public byte[] getBinaryContent() {
         return binaryContent;

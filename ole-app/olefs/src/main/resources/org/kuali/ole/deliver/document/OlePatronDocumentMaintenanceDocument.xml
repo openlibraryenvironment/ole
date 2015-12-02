@@ -446,6 +446,8 @@
                 <bean id="patronRequest_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType" />
                 <bean id="patronRequest_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus" />
                 <bean id="patronRequest_pickUpLocationCode" parent="OlePatron-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode"/>
+                <bean id="patronRequest_requestExpirationDate" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="requestExpiryDate"/>
+                <bean id="patronRequest_onHoldExpirationDate" parent="Uif-DataField" p:label="OnHold Expiration Date" p:propertyName="holdExpirationDate"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

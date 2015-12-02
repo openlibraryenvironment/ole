@@ -97,6 +97,11 @@ public class CircForm extends OLEForm {
     private boolean recordNoteForClaimsReturn;
     private boolean recordNoteForDamagedItem;
     private boolean recordNoteForMissingPiece;
+
+    private String missingPieceMatchCheck;
+    private String mismatchedMissingPieceNote;
+    private String missingPieces;
+
     private String urlBase;
     private String viewBillUrl;
     private String createBillUrl;
@@ -484,6 +489,30 @@ public class CircForm extends OLEForm {
 
     public void setRecordNoteForMissingPiece(boolean recordNoteForMissingPiece) {
         this.recordNoteForMissingPiece = recordNoteForMissingPiece;
+    }
+
+    public String getMissingPieceMatchCheck() {
+        return missingPieceMatchCheck;
+    }
+
+    public String getMismatchedMissingPieceNote() {
+        return mismatchedMissingPieceNote;
+    }
+
+    public void setMismatchedMissingPieceNote(String mismatchedMissingPieceNote) {
+        this.mismatchedMissingPieceNote = mismatchedMissingPieceNote;
+    }
+
+    public String getMissingPieces() {
+        return missingPieces;
+    }
+
+    public void setMissingPieces(String missingPieces) {
+        this.missingPieces = missingPieces;
+    }
+
+    public void setMissingPieceMatchCheck(String missingPieceMatchCheck) {
+        this.missingPieceMatchCheck = missingPieceMatchCheck;
     }
 
     public boolean isRequestExistOrLoanedCheck() {

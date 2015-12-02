@@ -1676,7 +1676,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LOG.debug("Inside createRequestHistoryRecord");
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.OleDeliverRequest.REQUEST_ID, requestId);
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) businessObjectService.findMatching(OleDeliverRequestBo.class, requestMap);
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)  KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         OleDeliverRequestBo oleDeliverRequestBo = null;
         if (oleDeliverRequestBoList.size() > 0) {
             oleDeliverRequestBo = oleDeliverRequestBoList.get(0);
@@ -1708,7 +1708,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LOG.debug("Inside getOleDeliverRequestBo method");
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.ITEM_UUID, itemUUID);
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) businessObjectService.findMatching(OleDeliverRequestBo.class, requestMap);
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)  KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         if (oleDeliverRequestBoList.size() > 0)
             return oleDeliverRequestBoList.get(0);
         return null;
