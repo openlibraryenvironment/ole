@@ -72,6 +72,31 @@ public class SolrRequestReponseHandler {
         return server;
     }
 
+    public SolrDocument retriveResultFromSolr(String queryString) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+        query.setIncludeScore(true);
+
+        try {
+            QueryResponse qr = server.query(query);
+
+            SolrDocumentList solrDocumentList = qr.getResults();
+
+            if (null != solrDocumentList && solrDocumentList.size() > 0) {
+                SolrDocument solrDocument = solrDocumentList.get(0);
+                return solrDocument;
+            }
+
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public String getSolrUrl() {
         return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
     }

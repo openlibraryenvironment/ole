@@ -17,9 +17,11 @@
         <field-descriptor name="statusUpdatedDate" column="STATUS_UPDATED_DATE" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="uniqueIdPrefix" column="UNIQUE_ID_PREFIX" jdbc-type="VARCHAR"/>
         <field-descriptor name="content" column="CONTENT" jdbc-type="CLOB"/>
-        <!--<collection-descriptor name="holdingsRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
-            <!--<inverse-foreignkey field-ref="bibId" />-->
-        <!--</collection-descriptor>-->
+        <collection-descriptor name="holdingsRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="bibId" />
+        </collection-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" table="OLE_DS_BIB_INFO_T">
@@ -136,9 +138,11 @@
             <foreignkey field-ref="authenticationTypeId" />
         </reference-descriptor>
 
-        <!--<collection-descriptor name="itemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
-            <!--<inverse-foreignkey field-ref="holdingsId" />-->
-        <!--</collection-descriptor>-->
+        <collection-descriptor name="itemRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="holdingsId" />
+        </collection-descriptor>
 
          <collection-descriptor name="holdingsStatisticalSearchRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="holdingsId" />
@@ -151,9 +155,11 @@
         <!--<collection-descriptor name="itemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
             <!--<inverse-foreignkey field-ref="holdingsId" />-->
         <!--</collection-descriptor>-->
-        <!--<collection-descriptor name="bibRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
-            <!--<inverse-foreignkey field-ref="bibId" />-->
-        <!--</collection-descriptor>-->
+        <collection-descriptor name="bibRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <inverse-foreignkey field-ref="bibId" />
+        </collection-descriptor>
         <collection-descriptor name="donorList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="holdingsId" />
         </collection-descriptor>

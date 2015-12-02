@@ -27,6 +27,41 @@ public class OleDsNGRestAPIController {
         return savedBibJsonObject;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/updateBib", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String updateBib(@RequestBody String body) throws Exception {
+        String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateBib(body);
+        return savedBibJsonObject;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createHolding", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String createHolding(@RequestBody String body) throws Exception {
+        String savedBibJsonObject = getOleDsNgRestAPIProcessor().createHolding(body);
+        return savedBibJsonObject;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/updateHolding", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String updateHolding(@RequestBody String body) throws Exception {
+        String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateHolding(body);
+        return savedBibJsonObject;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createItem", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String createItem(@RequestBody String body) throws Exception {
+        String savedBibJsonObject = getOleDsNgRestAPIProcessor().createItem(body);
+        return savedBibJsonObject;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/updateItem", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String updateItem(@RequestBody String body) throws Exception {
+        String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateItem(body);
+        return savedBibJsonObject;
+    }
+
     public OleDsNgRestAPIProcessor getOleDsNgRestAPIProcessor() {
         if(null == oleDsNgRestAPIProcessor) {
             oleDsNgRestAPIProcessor = new OleDsNgRestAPIProcessor();

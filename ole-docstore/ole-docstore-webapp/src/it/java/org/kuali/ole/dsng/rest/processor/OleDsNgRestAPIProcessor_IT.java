@@ -1,10 +1,18 @@
 package org.kuali.ole.dsng.rest.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.kuali.ole.DocstoreTestCaseBase;
 import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +34,39 @@ public class OleDsNgRestAPIProcessor_IT extends DocstoreTestCaseBase{
         System.out.println(savedJsonObject);
         BibRecord savedBibRecord = objectMapper.readValue(savedJsonObject, BibRecord.class);
         System.out.println("Bib id : " + savedBibRecord.getBibId());
+    }
+
+    @Test
+    public void testCreateHolding() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        HoldingsRecord holdingsRecord = new HoldingsRecord();
+        holdingsRecord.setCreatedBy("ole-quickstart");
+        holdingsRecord.setCopyNumber("CopyNumber");
+        holdingsRecord.setCallNumber("CallNumber");
+        holdingsRecord.setBibId("10000037");
+
+        OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor = new OleDsNgRestAPIProcessor();
+        String savedJsonObject = oleDsNgRestAPIProcessor.createHolding(objectMapper.defaultPrettyPrintingWriter().writeValueAsString(holdingsRecord));
+        assertNotNull(savedJsonObject);
+        System.out.println(savedJsonObject);
+        HoldingsRecord savedHoldingRecord = objectMapper.readValue(savedJsonObject, HoldingsRecord.class);
+        System.out.println("Holding id : " + savedHoldingRecord.getHoldingsId());
+    }
+
+    @Test
+    public void testRetrieveBibFromDb() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        parameterMap.put("bibId","10000043");
+        List<BibRecord> matching = (List<BibRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(BibRecord.class, parameterMap);
+        if(CollectionUtils.isNotEmpty(matching)){
+            BibRecord bibRecord = matching.get(0);
+            String jsonString = objectMapper.defaultPrettyPrintingWriter().writeValueAsString(bibRecord);
+            assertNotNull(jsonString);
+            System.out.println(jsonString);
+        }
+
     }
 
     private String BIB_CONTENT = "<collection xmlns=\"http://www.loc.gov/MARC21/slim\">\n" +
