@@ -7,6 +7,7 @@ import org.kuali.ole.DocstoreTestCaseBase;
 import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.Collection;
@@ -58,11 +59,41 @@ public class OleDsNgRestAPIProcessor_IT extends DocstoreTestCaseBase{
     public void testRetrieveBibFromDb() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String,Object> parameterMap = new HashMap<String,Object>();
-        parameterMap.put("bibId","10000043");
+        parameterMap.put("bibId","10000044");
         List<BibRecord> matching = (List<BibRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(BibRecord.class, parameterMap);
         if(CollectionUtils.isNotEmpty(matching)){
             BibRecord bibRecord = matching.get(0);
             String jsonString = objectMapper.defaultPrettyPrintingWriter().writeValueAsString(bibRecord);
+            assertNotNull(jsonString);
+            System.out.println(jsonString);
+        }
+
+    }
+
+    @Test
+    public void testRetrieveHoldingFromDb() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        parameterMap.put("holdingsId","25");
+        List<HoldingsRecord> matching = (List<HoldingsRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(HoldingsRecord.class, parameterMap);
+        if(CollectionUtils.isNotEmpty(matching)){
+            HoldingsRecord holdingsRecord = matching.get(0);
+            String jsonString = objectMapper.defaultPrettyPrintingWriter().writeValueAsString(holdingsRecord);
+            assertNotNull(jsonString);
+            System.out.println(jsonString);
+        }
+
+    }
+
+    @Test
+    public void testRetrieveItemFromDb() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        parameterMap.put("itemId","38");
+        List<ItemRecord> matching = (List<ItemRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(ItemRecord.class, parameterMap);
+        if(CollectionUtils.isNotEmpty(matching)){
+            ItemRecord itemRecord = matching.get(0);
+            String jsonString = objectMapper.defaultPrettyPrintingWriter().writeValueAsString(itemRecord);
             assertNotNull(jsonString);
             System.out.println(jsonString);
         }
