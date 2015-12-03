@@ -133,4 +133,8 @@
           p:userTransaction-ref="userTransaction"
           p:transactionManager-ref="jtaTransactionManager"/>
 
+    <context:component-scan
+            base-package="org.kuali.ole.dsng"/>
+
+
 </beans>

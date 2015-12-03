@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.dsng.rest.processor.OleDsNgRestAPIProcessor;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,9 @@ import java.util.Map;
 /**
  * Created by SheikS on 11/25/2015.
  */
-@Controller
-@RequestMapping("/oledsng")
-public class OleDsNGRestAPIController {
+public class OleDsNGRestController {
+
+    private ObjectMapper objectMapper;
 
     private OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor;
 
@@ -71,5 +72,16 @@ public class OleDsNGRestAPIController {
 
     public void setOleDsNgRestAPIProcessor(OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor) {
         this.oleDsNgRestAPIProcessor = oleDsNgRestAPIProcessor;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        if(null == objectMapper) {
+            objectMapper = new ObjectMapper();
+        }
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 }

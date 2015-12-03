@@ -37,7 +37,7 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <context:component-scan base-package="org.kuali.ole.dsng.rest.controller"/>
+    <context:component-scan base-package="org.kuali.ole.dsng"/>
 
     <!--<import resource="classpath:META-INF/spring/oauth/oauth2-configuration.xml"/>-->
 
