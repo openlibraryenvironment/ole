@@ -1,6 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
-import org.kuali.ole.docstore.model.rdbms.bo.AccessUriRecord;
+import org.kuali.ole.audit.AuditField;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -19,18 +19,27 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
 
     private String holdingsId;
     private String bibId;
+    @AuditField
     private String holdingsType;
     private String formerHoldingsId;
+    @AuditField
     private Integer gokbIdentifier;
     private String uri;
+    @AuditField
     private String location;
     private String content;
+    @AuditField
     private String locationLevel;
+    @AuditField
     private String callNumberPrefix;
+    @AuditField
     private String callNumber;
+    @AuditField
     private String shelvingOrder;
+    @AuditField
     private String callNumberTypeId;
     private String receiptStatusId;
+    @AuditField
     private String copyNumber;
 
     private String publisherId;
@@ -47,6 +56,7 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
     private String adminPassword;
     private String accessUserName;
     private String accessPassword;
+    @AuditField
     private String subscriptionStatus;
     private Timestamp currentSubscriptionStartDate;
     private Timestamp currentSubscriptionEndDate;
@@ -60,10 +70,13 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
     private String authenticationTypeId;
 
     private String uniqueIdPrefix;
+    @AuditField
     private Boolean staffOnlyFlag;
     private Timestamp createdDate;
+    @AuditField
     private Timestamp updatedDate;
     private String createdBy;
+    @AuditField
     private String updatedBy;
 
     private ReceiptStatusRecord receiptStatusRecord;

@@ -3459,6 +3459,39 @@
         </index>
     </table>
 
+    <table name="ITEM_AUDIT_T">
+        <column name="AUDIT_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="FOREIGN_KEY_REF" size="10" type="INTEGER"/>
+        <column name="ACTOR" size="40" type="VARCHAR"/>
+        <column name="UPDATE_DATE" type="TIMESTAMP"/>
+        <column name="COLUMN_UPDATED" size="40" type="VARCHAR"/>
+        <column name="COLUMN_VALUE" type="BLOB"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="INTEGER"/>
+    </table>
+
+    <table name="BIB_AUDIT_T">
+        <column name="AUDIT_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="FOREIGN_KEY_REF" size="10" type="INTEGER"/>
+        <column name="ACTOR" size="40" type="VARCHAR"/>
+        <column name="UPDATE_DATE" type="TIMESTAMP"/>
+        <column name="COLUMN_UPDATED" size="40" type="VARCHAR"/>
+        <column name="COLUMN_VALUE" type="BLOB"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="INTEGER"/>
+    </table>
+
+    <table name="HOLDINGS_AUDIT_T">
+        <column name="AUDIT_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="FOREIGN_KEY_REF" size="10" type="INTEGER"/>
+        <column name="ACTOR" size="40" type="VARCHAR"/>
+        <column name="UPDATE_DATE" type="TIMESTAMP"/>
+        <column name="COLUMN_UPDATED" size="40" type="VARCHAR"/>
+        <column name="COLUMN_VALUE" type="BLOB"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="INTEGER"/>
+    </table>
+
 
     <sequence name="OLE_ACC_LOC_S" nextval="1"/>
     <sequence name="OLE_E_RES_ACC_ACT_WRKFLW_S" nextval="1"/>
@@ -3656,6 +3689,9 @@
     <sequence name="OLE_NOTC_CNTNT_CONFIG_S" nextval="1"/>
     <sequence name="OLE_DLVR_PHONE_S" nextval="1"/>
     <sequence name="OLE_DLVR_EMAIL_S" nextval="1"/>
+    <sequence name="ITEM_AUDIT_S" nextval="1"/>
+    <sequence name="BIB_AUDIT_S" nextval="1"/>
+    <sequence name="HOLDINGS_AUDIT_S" nextval="1"/>
 
 
 

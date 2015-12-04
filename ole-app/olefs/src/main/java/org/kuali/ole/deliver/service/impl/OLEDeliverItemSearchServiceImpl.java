@@ -62,6 +62,8 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
                 deliverRequestResultDisplayRow.setBorrowerBarcode(oleDeliverRequestBo.getBorrowerBarcode());
                 deliverRequestResultDisplayRow.setCreateDate(oleDeliverRequestBo.getCreateDate());
                 deliverRequestResultDisplayRow.setExpiryDate(oleDeliverRequestBo.getRequestExpiryDate());
+                deliverRequestResultDisplayRow.setOnHoldExpirationDate(oleDeliverRequestBo.getHoldExpirationDate());
+                deliverRequestResultDisplayRow.setPickUpLocation(oleDeliverRequestBo.getOlePickUpLocation()!=null ? oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskCode() : "");
                 deliverRequestResultDisplayRowList.add(deliverRequestResultDisplayRow);
             }
             singleItemResultDisplayRow.setOleDeliverRequestResultDisplayRowList(deliverRequestResultDisplayRowList);

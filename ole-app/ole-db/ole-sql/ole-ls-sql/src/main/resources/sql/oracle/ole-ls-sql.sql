@@ -8012,6 +8012,114 @@ CREATE INDEX NOTC_NM_INDEX
 
 
 
+-----------------------------------------------------------------------------
+-- ITEM_AUDIT_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'ITEM_AUDIT_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE ITEM_AUDIT_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE ITEM_AUDIT_T
+(
+      AUDIT_ID NUMBER(10,0)
+        , FOREIGN_KEY_REF NUMBER(10,0)
+        , ACTOR VARCHAR2(40)
+        , UPDATE_DATE TIMESTAMP
+        , COLUMN_UPDATED VARCHAR2(40)
+        , COLUMN_VALUE BLOB
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE ITEM_AUDIT_T
+    ADD CONSTRAINT ITEM_AUDIT_TP1
+PRIMARY KEY (AUDIT_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- BIB_AUDIT_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'BIB_AUDIT_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE BIB_AUDIT_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE BIB_AUDIT_T
+(
+      AUDIT_ID NUMBER(10,0)
+        , FOREIGN_KEY_REF NUMBER(10,0)
+        , ACTOR VARCHAR2(40)
+        , UPDATE_DATE TIMESTAMP
+        , COLUMN_UPDATED VARCHAR2(40)
+        , COLUMN_VALUE BLOB
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE BIB_AUDIT_T
+    ADD CONSTRAINT BIB_AUDIT_TP1
+PRIMARY KEY (AUDIT_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- HOLDINGS_AUDIT_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'HOLDINGS_AUDIT_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE HOLDINGS_AUDIT_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE HOLDINGS_AUDIT_T
+(
+      AUDIT_ID NUMBER(10,0)
+        , FOREIGN_KEY_REF NUMBER(10,0)
+        , ACTOR VARCHAR2(40)
+        , UPDATE_DATE TIMESTAMP
+        , COLUMN_UPDATED VARCHAR2(40)
+        , COLUMN_VALUE BLOB
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE HOLDINGS_AUDIT_T
+    ADD CONSTRAINT HOLDINGS_AUDIT_TP1
+PRIMARY KEY (AUDIT_ID)
+/
+
+
+
+
+
+
+
 -- -----------------------------------------------------------------------
 -- OLE_GOKB_V
 -- -----------------------------------------------------------------------
@@ -9967,5 +10075,35 @@ END;
 /
 
 CREATE SEQUENCE OLE_DLVR_EMAIL_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'ITEM_AUDIT_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE ITEM_AUDIT_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE ITEM_AUDIT_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'BIB_AUDIT_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE BIB_AUDIT_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE BIB_AUDIT_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'HOLDINGS_AUDIT_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE HOLDINGS_AUDIT_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE HOLDINGS_AUDIT_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 

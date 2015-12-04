@@ -28,10 +28,7 @@ import org.kuali.ole.service.OleOrderRecordService;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.vnd.businessobject.ContractManager;
-import org.kuali.ole.vnd.businessobject.PurchaseOrderCostSource;
-import org.kuali.ole.vnd.businessobject.VendorCustomerNumber;
-import org.kuali.ole.vnd.businessobject.VendorDetail;
+import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -654,6 +651,21 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                                 mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                             }
                         }
+                        else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(destinationField)) {
+                            String vendorAliasName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                            if (!StringUtils.isBlank(vendorAliasName)) {
+                                Map<String, String> vendorAliasMap = new HashMap<>();
+                                vendorAliasMap.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, vendorAliasName);
+                                List<VendorAlias> vendorAliasList = (List) getLookupService().findCollectionBySearchHelper(VendorAlias.class, vendorAliasMap, true);
+                                if (vendorAliasList != null && vendorAliasList.size() == 0) {
+                                    mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_VENDOR_ALIAS_NAME + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + vendorAliasName);
+                                    vendorAliasName = null;
+                                }
+                                oleTxRecord.setVendorAliasName(vendorAliasName);
+                            } else {
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_VENDOR_ALIAS_NAME + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                            }
+                        }
                         else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(destinationField)) {
                             String vendorCustomerNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
                             if(!StringUtils.isBlank(vendorCustomerNumber)){
@@ -1236,6 +1248,12 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                         }
                         oleTxRecord.setVendorNumber(attributeValue);
                     }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName)) {
+                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
+                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
+                        }
+                        oleTxRecord.setVendorAliasName(attributeValue);
+                    }
                     else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName)) {
                         if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {
                             failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR);
@@ -1469,6 +1487,12 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                             failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
                         }
                         oleTxRecord.setVendorNumber(attributeValue);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorAliasName())) {
+                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
+                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
+                        }
+                        oleTxRecord.setVendorAliasName(attributeValue);
                     }
                     else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorInfoCustomer())) {
                         if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {

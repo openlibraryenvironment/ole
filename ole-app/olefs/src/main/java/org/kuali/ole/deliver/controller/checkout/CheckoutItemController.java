@@ -274,10 +274,16 @@ public class CheckoutItemController extends CircFastAddItemController {
     }
 
     private void missingPieceCheck(HttpServletRequest request, CircForm circForm) {
-        String recordNoteForMissingPieceChecked = request.getParameter("recordNoteForMissingPieceChecked");
+        String recordNoteForMissingPieceChecked = request.getParameter("recordNoteForMissingPieceCheck");
         if(StringUtils.isNotBlank(recordNoteForMissingPieceChecked)) {
             circForm.setRecordNoteForMissingPiece(Boolean.valueOf(recordNoteForMissingPieceChecked));
         }
+        String missingPieceCheck = request.getParameter("missingPieceValueCheck");
+        circForm.setMissingPieceMatchCheck(missingPieceCheck);
+        String missingPieceCount = request.getParameter("newMissingPieceCount");
+        circForm.setMissingPieces(missingPieceCount);
+        String missingPieceNote = request.getParameter("newMissingPieceNote");
+        circForm.setMismatchedMissingPieceNote(missingPieceNote);
     }
 
     private void damagedItemCheck(HttpServletRequest request, CircForm circForm) {

@@ -106,6 +106,7 @@ import java.util.List;
     "callNumber",
     "price",
     "numberOfPieces",
+    "descriptionOfPieces",
     "itemStatus",
     "itemStatusEffectiveDate",
     "checkinNote",
@@ -184,6 +185,8 @@ public class Item {
     protected String price;
     @XmlElement(required = true)
     protected String numberOfPieces;
+    @XmlElement(required = true)
+    protected String descriptionOfPieces;
     @XmlElement(required = true)
     protected ItemStatus itemStatus;
     @XmlElement(required = true)
@@ -733,6 +736,14 @@ public class Item {
      */
     public void setNumberOfPieces(String value) {
         this.numberOfPieces = value;
+    }
+
+    public String getDescriptionOfPieces() {
+        return descriptionOfPieces;
+    }
+
+    public void setDescriptionOfPieces(String descriptionOfPieces) {
+        this.descriptionOfPieces = descriptionOfPieces;
     }
 
     /**

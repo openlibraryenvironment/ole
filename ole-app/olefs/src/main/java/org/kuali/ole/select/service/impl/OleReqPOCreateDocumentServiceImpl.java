@@ -53,10 +53,7 @@ import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.VendorConstants;
-import org.kuali.ole.vnd.businessobject.OleExchangeRate;
-import org.kuali.ole.vnd.businessobject.VendorAddress;
-import org.kuali.ole.vnd.businessobject.VendorContract;
-import org.kuali.ole.vnd.businessobject.VendorDetail;
+import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -65,6 +62,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -466,9 +464,21 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      * @return requisitionDocument OleRequisitionDocument
      */
     private void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+        VendorDetail vendorDetail = null;
         if (oleOrderRecord.getOleTxRecord().getVendorNumber() != null) {
-            VendorDetail vendorDetail = getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());
-
+             vendorDetail = getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());
+        }else if (oleOrderRecord.getOleTxRecord().getVendorAliasName()!=null){
+            Map<String, String> vendorAliasMap = new HashMap<>();
+            vendorAliasMap.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, oleOrderRecord.getOleTxRecord().getVendorAliasName());
+            List<VendorAlias> vendorAliasList = (List) KRADServiceLocatorWeb.getLookupService().findCollectionBySearchHelper(VendorAlias.class, vendorAliasMap, true);
+            if (CollectionUtils.isNotEmpty(vendorAliasList)){
+                Map vendorDetailMap = new HashMap();
+                vendorDetailMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_HEADER_IDENTIFIER, vendorAliasList.get(0).getVendorHeaderGeneratedIdentifier());
+                vendorDetailMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_DETAIL_IDENTIFIER, vendorAliasList.get(0).getVendorDetailAssignedIdentifier());
+                vendorDetail = getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorDetailMap);
+            }
+        }
+        if (vendorDetail!=null){
             requisitionDocument.setVendorCustomerNumber(oleOrderRecord.getOleTxRecord().getVendorInfoCustomer());
             requisitionDocument.setVendorNumber(oleOrderRecord.getOleTxRecord().getVendorNumber());
             requisitionDocument.setVendorNumber(vendorDetail.getVendorNumber());
