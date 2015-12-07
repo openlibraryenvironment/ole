@@ -13,6 +13,26 @@
 
 <table>
     </BR></BR>
+<#if oleNoticeBo.noticeTitle == "Return With Missing Item Notice">
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Circulation Location/Library Name")} :</TD>
+        <#if oleNoticeBo.oleCirculationDesk ??>
+            <TD>${oleNoticeBo.oleCirculationDesk.circulationDeskPublicName}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+    </TR>
+</#if>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
+        <#if oleNoticeBo.patronName ??  >
+            <TD>${oleNoticeBo.patronName}</TD>
+       <#else>
+           <TD></TD>
+        </#if>
+
+    </TR>
+
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
         <#if oleNoticeBo.patronName ??  >
@@ -32,7 +52,7 @@
 
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("EMAIL")} :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Email")} :</TD>
         <#if oleNoticeBo.patronEmailAddress??>
             <TD>${oleNoticeBo.patronEmailAddress}</TD>
         <#else>
@@ -41,7 +61,7 @@
 
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone Number")} :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone #")} :</TD>
     <#if oleNoticeBo.patronPhoneNumber??>
         <TD>${oleNoticeBo.patronPhoneNumber}</TD>
     <#else>

@@ -2,10 +2,9 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.solr.common.util.DateUtil;
 import org.kuali.incubator.SolrRequestReponseHandler;
-import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult;
 import org.kuali.ole.deliver.form.OLEDeliverNoticeSearchForm;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
@@ -13,7 +12,8 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.DateTimeUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -49,10 +48,17 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         oleDeliverNoticeSearchForm.reset();
         Map<String, Object> filterFields = buildFilterFields(oleDeliverNoticeSearchForm);
 
+        if (filterFields.isEmpty()) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ITM_BLANK_SEARCH_ERROR_MSG);
+            return getUIFModelAndView(oleDeliverNoticeSearchForm);
+        }
         String solrQuery = buildSolrQuery(filterFields);
         List results = new SolrRequestReponseHandler().retriveResults(solrQuery);
 
         List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResults = buildSearchResults(results);
+        if (CollectionUtils.isEmpty(oleDeliverNoticeSearchResults)){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.NO_RECORD_FOUND);
+        }
         oleDeliverNoticeSearchForm.setOleDeliverNoticeSearchResult(oleDeliverNoticeSearchResults);
 
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
@@ -85,7 +91,7 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         for (Iterator<String> iterator = filterFields.keySet().iterator(); iterator.hasNext(); ) {
             String field = iterator.next();
             Object value = filterFields.get(field);
-            stringBuilder.append(field).append(":").append("\"").append(value).append("\"");
+            stringBuilder.append(field).append(":").append(value);
             if (iterator.hasNext()) {
                 stringBuilder.append(" AND ");
             }
@@ -106,7 +112,8 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         }
 
         if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
-            filterFields.put("noticeType", oleDeliverNoticeSearchForm.getNoticeType());
+            String noticeType = "\"" + oleDeliverNoticeSearchForm.getNoticeType() + "\"";
+            filterFields.put("noticeType", noticeType);
         }
 
         if (oleDeliverNoticeSearchForm.getDateSentTo() != null && oleDeliverNoticeSearchForm.getDateSentFrom() != null) {
@@ -147,6 +154,7 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         oleDeliverNoticeSearchForm.setDateSentFrom(null);
         oleDeliverNoticeSearchForm.setDateSentTo(null);
         oleDeliverNoticeSearchForm.setNoticeType(null);
+        oleDeliverNoticeSearchForm.setOleDeliverNoticeSearchResult(Collections.EMPTY_LIST);
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
     }
 
@@ -173,5 +181,13 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
             loanDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
         }
         return loanDaoOjb;
+    }
+
+    @RequestMapping(params = "methodToCall=clearResults")
+    public ModelAndView clearResults(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm = (OLEDeliverNoticeSearchForm) form;
+        oleDeliverNoticeSearchForm.setOleDeliverNoticeSearchResult(Collections.EMPTY_LIST);
+        return getUIFModelAndView(oleDeliverNoticeSearchForm);
     }
 }

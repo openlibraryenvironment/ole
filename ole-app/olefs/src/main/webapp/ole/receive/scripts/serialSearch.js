@@ -22,6 +22,12 @@ jq(".sorting_desc").live("click", function () {
 });
 jq(document).ready(function () {
     window.onbeforeunload = null;
+    jq(document).keypress(function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            jq('#serial_search_button').click();
+        }
+    });
 });
 jq(window).load(function () {
     jq(".paginate_enabled_next").live("click", function () {

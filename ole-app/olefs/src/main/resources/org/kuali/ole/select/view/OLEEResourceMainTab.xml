@@ -378,7 +378,7 @@
                     </property>
                 </bean>
                 <bean id="initial_subscription_startDate" parent="Uif-InputField" p:propertyName="initialSubscriptionStartDate" />
-                <bean id="cancellation_decision_date" parent="Uif-InputField" p:propertyName="cancellationDecisionDate" />
+                <bean id="cancellation_decision_date" parent="Uif-InputField" p:propertyName="cancellationDecisionDate" p:label="Cancellation Decision Date"/>
                 <bean id="current_subscription_startDate" parent="Uif-InputField" p:propertyName="currentSubscriptionStartDate" p:label="Current Subscription Start Date"/>
                 <bean id="cancellation_effective_date" parent="Uif-InputField" p:propertyName="cancellationEffectiveDate" p:label="Cancellation Effective Date" />
                 <bean id="current_subscription_endDate" parent="Uif-InputField" p:propertyName="currentSubscriptionEndDate" p:label="Current Subscription End Date" />

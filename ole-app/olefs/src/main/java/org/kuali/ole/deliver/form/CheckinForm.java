@@ -79,6 +79,12 @@ public class CheckinForm extends OLEForm {
         this.itemBarcode = "";
         this.errorMessage = new ErrorMessage();
         this.routeToLocation = null;
+        this.missingPieceMatchCheck = "";
+        this.missingPieceCount = "";
+        this.missingPieceNote = "";
+        this.recordNoteForClaimsReturn = false;
+        this.recordNoteForDamagedItem = false;
+        this.recordNoteForMissingPiece = false;
     }
 
     public String getItemBarcode() {

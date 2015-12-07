@@ -278,11 +278,6 @@
                                             function (){
                                              var detailLinkId = '#InstancePOSection_detLink_line'+index;
                                              jq(detailLinkId).focus().click();
-                                              if( jq('#accountingLineDisclosureFlag_control').val() == 'false') {
-                                               var accLineId = '#EResourcePOView-InstanceAccountingLines_line'+index+'_toggle_col';
-                                                jq(accLineId).focus().click();
-                                                jq('#accountingLineDisclosureFlag_control').val('true');
-                                             }
                                             });
                                             return false;
                                         }else{
@@ -321,11 +316,6 @@
                                             function(){
                                              var detailLinkId = '#EResourcePOSection_detLink_line'+index;
                                              jq(detailLinkId).focus().click();
-                                             if( jq('#accountingLineDisclosureFlag_control').val() == 'false') {
-                                             var accLineId = '#EResourcePOView-EResourceAccountingLines_line'+index+'_toggle_col';
-                                                jq(accLineId).focus().click();
-                                                jq('#accountingLineDisclosureFlag_control').val('true');
-                                             }
                                             });
                                             return false;
                                         }else{
@@ -342,7 +332,7 @@
     </bean>
 
     <bean id="EResourcePOView-EResourceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;"  p:disclosure.defaultOpen="@{document.accountingLineDisclosureFlag}">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;"  p:disclosure.defaultOpen="true" >
         <property name="headerText" value="Accounting Lines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
         <property name="propertyName" value="accountingLines"/>
@@ -441,7 +431,7 @@
     </bean>
 
     <bean id="EResourcePOView-InstanceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="@{document.accountingLineDisclosureFlag}">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Accounting Lines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
         <property name="propertyName" value="accountingLines"/>

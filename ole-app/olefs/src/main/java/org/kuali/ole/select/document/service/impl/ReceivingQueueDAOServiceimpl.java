@@ -7,6 +7,7 @@ import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
+import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -38,9 +39,11 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 ",POITM.ITM_DESC AS ITM_DESC,POITM.OLE_NUM_PRTS AS OLE_NUM_PRTS,POITM.OLE_CLM_DT AS OLE_CLM_DT " +
                 ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,POITM.OLE_FOR_UNT_CST AS OLE_FOR_UNT_CST" +
                 ",(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
-                ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD "+
-                "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM " +
-                "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR  " +
+                ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD" +
+                ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE "+
+                "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM" +
+                ",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID FROM OLE_COPY_T) COPY " +
+                "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR AND COPY.PO_ITM_ID=POITM.PO_ITM_ID " +
                 "AND PO.FDOC_NBR NOT IN (SELECT NOTE.FDOC_NBR FROM OLE_PUR_PO_ITM_NTE_T NOTE,OLE_NTE_TYP_T NOTETYPE WHERE NOTETYPE.OLE_NTE_TYP_ID=NOTE.OLE_NTE_TYP_ID " +
                 "AND NOTETYPE.OLE_NTE_TYPE='Special Processing Instruction Note') " +
                 "AND PO.PO_ID NOT IN (SELECT PO_ID FROM PUR_RCVNG_LN_T RCV,KREW_DOC_HDR_T RDHR WHERE RCV.PO_ID=PO.PO_ID AND RCV.FDOC_NBR=RDHR.DOC_HDR_ID AND RDHR.DOC_HDR_STAT_CD NOT IN ('E','X','F')) " +
@@ -54,9 +57,8 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 getQueryCriteriaString(criteria,"poCreateFromDate")+
                 getQueryCriteriaString(criteria,"poCreateToDate")+
                 getQueryCriteriaString(criteria,"claimFilter")+
+                getQueryCriteriaString(criteria,"title")+
                 getResultSetLimit();
-                //" LIMIT 1000";
-                //+"AND PO.VNDR_NM='"+vendorName+"'";
         if (LOG.isInfoEnabled()) {
             LOG.info("receiving climbing query ----->"+query);
         }
@@ -90,6 +92,9 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         }
         if(criteriaString.equals("claimFilter")&&criteria.get("claimFilter")!=null&&(boolean)criteria.get("claimFilter")){
             queryCriteriaString="AND POITM.OLE_CLM_DT <=(DATE '"+getFormattedCurrentDate()+"') AND POITM.OLE_DNT_CLM='N' ";
+        }
+        if(criteriaString.equals("title")&&criteria.get("title")!=null){
+            queryCriteriaString=" AND COPY.E_RES_REC_ID IN (SELECT E_RES_REC_ID FROM OLE_E_RES_REC_T WHERE TITLE='"+criteria.get("title").toString()+"' ) ";
         }
         return queryCriteriaString;
     }
@@ -132,6 +137,11 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             olePurchaseOrderItem.setItemIdentifier(Integer.parseInt(resultSet.get("PO_ITM_ID").toString()));
             if (resultSet.get("BIBID")!=null) {//For EResoruce bibid will be null
                 olePurchaseOrderItem.setItemTitleId(resultSet.get("BIBID").toString());
+            }
+            if (resultSet.get("TITLE")!=null) {
+                DocData docData=new DocData();
+                docData.setTitle(resultSet.get("TITLE").toString());
+                olePurchaseOrderItem.setDocData(docData);
             }
             if (resultSet.get("ITM_DESC")!=null) {
                 olePurchaseOrderItem.setItemDescription(resultSet.get("ITM_DESC").toString());

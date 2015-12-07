@@ -189,6 +189,19 @@
                                     </configuration>
                                 </execution>
 
+                                <execution>
+                                    <id>db.changelog-2.1</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/2.1/db.changelog-20151123.xml</changeLogFile>
+                                        <verbose>true</verbose>
+                                        <defaultSchemaName>OLE</defaultSchemaName>
+                                    </configuration>
+                                </execution>
+
                             </executions>
                             <dependencies>
                                 <dependency>
@@ -483,6 +496,19 @@
                                     <configuration>
                                         <changeLogFile>org/kuali/ole/2.0/db.changelog-20141229.xml</changeLogFile>
                                         <migrationSqlOutputFile>${lb.sql.dir}/2.0.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
+
+                                <execution>
+                                    <id>db.changelog-2.1</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/2.1/db.changelog-20151123.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/2.1.sql
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>

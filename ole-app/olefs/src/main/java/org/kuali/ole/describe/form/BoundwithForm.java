@@ -63,6 +63,7 @@ public class BoundwithForm extends OLESearchForm {
     private String inDeleteLeftTree;
     private String inDeleteRightTree;
     private boolean transferLeftTree;
+    private boolean showBoundWithBIbs;
     private boolean transferRighttree;
     private int pageSize = 10;
     private int start;
@@ -885,5 +886,11 @@ public class BoundwithForm extends OLESearchForm {
         this.showRequestXML = showRequestXML;
     }
 
+    public boolean isShowBoundWithBIbs() {
+        return showBoundWithBIbs;
+    }
 
+    public void setShowBoundWithBIbs(boolean showBoundWithBIbs) {
+        this.showBoundWithBIbs = showBoundWithBIbs;
+    }
 }

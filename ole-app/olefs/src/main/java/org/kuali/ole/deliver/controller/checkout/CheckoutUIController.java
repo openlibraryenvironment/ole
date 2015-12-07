@@ -168,4 +168,9 @@ public class CheckoutUIController extends CheckoutBaseController {
         return getCircForm(oleForm).isRecordNoteForMissingPiece();
     }
 
+    @Override
+    public String getMissingPieceMatchCheck(OLEForm oleForm) {
+        return getCircForm(oleForm).getMissingPieceMatchCheck();
+    }
+
 }

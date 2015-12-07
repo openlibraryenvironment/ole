@@ -140,11 +140,11 @@ public class BatchBibImportHelper {
                                     }
                                 }
                                 applyBibDataMappingOverlay(bibRecord, profile);
+                                bibTree.setBib(matchedBib);
+                                processHoldingsAndItemsForBib(bibRecord, profile, bibTree, oleBatchBibImportDataObjects);
                                 if (isBibOverlay) {
                                     overlayBib(bibRecord, matchedBib, profile);
                                 }
-                                bibTree.setBib(matchedBib);
-                                processHoldingsAndItemsForBib(bibRecord, profile, bibTree, oleBatchBibImportDataObjects);
                                 setOperationAddToBibTreeList(DocstoreDocument.OperationType.UPDATE, null, null, bibTree);
                             }
 

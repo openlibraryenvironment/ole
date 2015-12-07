@@ -1,1 +1,1 @@
-Open Library Environment.
+Open Library Environment. More detailed information coming soon!

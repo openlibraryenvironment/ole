@@ -1,7 +1,10 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.ItemAudit;
+import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
@@ -152,6 +155,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Map parentCriteria1 = new HashMap();
         parentCriteria1.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemDocument.getId()));
         ItemRecord itemRecord = getBusinessObjectService().findByPrimaryKey(ItemRecord.class, parentCriteria1);
+        ItemRecord oldItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
         if(itemRecord ==  null) {
             DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.ITEM_ID_NOT_FOUND, DocstoreResources.ITEM_ID_NOT_FOUND);
             docstoreException.addErrorParams("itemId", itemDocument.getId());
@@ -166,6 +170,17 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         setItemProperties(itemRecord, item);
         String content =  itemOlemlRecordProcessor.toXML(item);
         itemDocument.setContent(content);
+        try {
+            oldItemRecord = processItemRecordForAudit(oldItemRecord);
+            itemRecord = processItemRecordForAudit(itemRecord);
+            OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,itemRecord,itemRecord.getItemId(),"ole");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -207,6 +222,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setEnumeration(itemRecord.getEnumeration());
         item.setChronology(itemRecord.getChronology());
         item.setNumberOfPieces(itemRecord.getNumberOfPieces());
+        item.setDescriptionOfPieces(itemRecord.getDescriptionOfPieces());
         item.setCheckinNote(itemRecord.getCheckInNote());
         item.setLocation(getLocationDetails(itemRecord.getLocation(), itemRecord.getLocationLevel()));
         if (itemRecord.getFormerIdentifierRecords() != null) {
@@ -770,6 +786,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setEnumeration(item.getEnumeration());
 
         itemRecord.setNumberOfPieces(item.getNumberOfPieces());
+        itemRecord.setDescriptionOfPieces(item.getDescriptionOfPieces());
         itemRecord.setPurchaseOrderItemLineId(item.getPurchaseOrderLineItemIdentifier());
         itemRecord.setVendorLineItemId(item.getVendorLineItemIdentifier());
         itemRecord.setFund(item.getFund());
@@ -1369,7 +1386,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             List<OLEItemDonorRecord> oleItemDonorRecords = new ArrayList<OLEItemDonorRecord>();
             for (int i = 0; i < donorslist.size(); i++) {
                 DonorInfo donorinfo = donorslist.get(i);
-                if (donorinfo.getDonorCode() != null ) {
+                if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
@@ -1727,5 +1744,17 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             }
             checkUuidsToDelete(itemId, 1);
         }
+    }
+
+    private ItemRecord processItemRecordForAudit(ItemRecord itemRecord){
+        itemRecord.setFormerIdentifierRecords(null);
+        itemRecord.setItemNoteRecords(null);
+        itemRecord.setLocationsCheckinCountRecords(null);
+        itemRecord.setDonorList(null);
+        itemRecord.setItemStatisticalSearchRecords(null);
+        itemRecord.setItemClaimsReturnedRecords(null);
+        itemRecord.setItemDamagedRecords(null);
+        itemRecord.setMissingPieceItemRecordList(null);
+        return itemRecord;
     }
 }

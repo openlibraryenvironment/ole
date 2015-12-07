@@ -38,7 +38,7 @@
                           url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.select.bo.OLEDonor&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
 
         <portal:portalLink displayTitle="true" title="Exception Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.select.businessobject.OleExceptionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
-    <portal:olePortalLink yellow="true" displayTitle="true" title="Exchange Rates" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.vnd.businessobject.OleExchangeRate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
+    <portal:olePortalLink displayTitle="true" title="Exchange Rates" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.vnd.businessobject.OleExchangeRate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
     <portal:portalLink displayTitle="true" title="Invoice Sub Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.select.businessobject.OleInvoiceSubType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/><br/>
     <portal:portalLink displayTitle="true" title="Invoice Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.select.businessobject.OleInvoiceType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
     <portal:portalLink displayTitle="true" title="Item Category" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.select.businessobject.OleCategory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/><br/>
@@ -67,9 +67,9 @@
                           url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.module.purap.businessobject.RequisitionSource&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
     <br/>--%>
     <br/>
-    
+
     <strong>CENTRAL TYPES & CODES</strong> <br/><br/>
-    
+
     <portal:portalLink displayTitle="true" title="Electronic Invoice Item Mapping"
                            url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.module.purap.businessobject.ElectronicInvoiceItemMapping&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
     <br/>
@@ -87,7 +87,7 @@
                           url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.module.purap.businessobject.ItemReasonAdded&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
     <br/>
     <br/>
-    
+
 
     <strong>${ConfigProperties.ORGANIZATIONINFORMATION}</strong><br/><br/>
 
@@ -166,7 +166,7 @@
     <portal:portalLink displayTitle="true" title="Organization Reversion Global" url="kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.ole.coa.businessobject.OrganizationReversionGlobal" /><br/>
     <portal:portalLink displayTitle="true" title="University Date" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.sys.businessobject.UniversityDate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
 
-    
+
 
 
 </div>

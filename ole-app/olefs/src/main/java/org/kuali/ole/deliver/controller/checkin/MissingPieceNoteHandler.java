@@ -4,10 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.OleCirculationDesk;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
-import org.kuali.ole.deliver.bo.OlePatronNoteType;
-import org.kuali.ole.deliver.bo.OlePatronNotes;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -28,7 +25,7 @@ import java.util.*;
 public class MissingPieceNoteHandler {
 
     public void savePatronNoteForMissingPiece(Map<String, Object> missingPieceRecordInfo, OlePatronDocument olePatronDocument, ItemRecord itemRecord) {
-        String note = getPatronNoteToRecord(OLEConstants.MISSING_PIECE_ITEM_CHECKED_IN_FLAG, missingPieceRecordInfo, itemRecord);
+        String note = getPatronNoteToRecord(missingPieceRecordInfo);
         Map map = new HashMap();
         if(olePatronDocument != null) {
             OlePatronNotes olePatronNotes = new OlePatronNotes();
@@ -39,6 +36,8 @@ public class MissingPieceNoteHandler {
             if(olePatronNoteType != null) {
                 olePatronNotes.setPatronNoteTypeId(olePatronNoteType.getPatronNoteTypeId());
                 olePatronNotes.setOlePatronId(olePatronDocument.getOlePatronId());
+                olePatronNotes.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                olePatronNotes.setNoteCreatedOrUpdatedDate(new Timestamp(new Date().getTime()));
                 if(CollectionUtils.isNotEmpty(olePatronDocument.getNotes())) {
                     olePatronDocument.getNotes().add(olePatronNotes);
                 } else {
@@ -46,12 +45,13 @@ public class MissingPieceNoteHandler {
                     olePatronNotesList.add(olePatronNotes);
                     olePatronDocument.setNotes(olePatronNotesList);
                 }
-                KRADServiceLocator.getBusinessObjectService().save(olePatronDocument);
+                KRADServiceLocator.getBusinessObjectService().save(olePatronDocument.getNotes());
             }
         }
     }
 
-    private String getPatronNoteToRecord(String systemParameter, Map<String, Object> missingPieceRecordInfo, ItemRecord itemRecord) {
+    private String getPatronNoteToRecord(Map<String, Object> missingPieceRecordInfo) {
+        String systemParameter = (String) missingPieceRecordInfo.get("noteParameter");
         String note = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, systemParameter);
         SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
@@ -87,7 +87,7 @@ public class MissingPieceNoteHandler {
         return note;
     }
 
-    public void updateMissingPieceRecord(ItemRecord itemRecord, Map<String, Object> missingPieceRecordInfo) {
+    public void updateMissingPieceRecord(ItemRecord itemRecord, Map<String, Object> missingPieceRecordInfo, OleLoanDocument oleLoanDocument) {
         int newMissingPieceCount = 0;
         int oldMissingPieceCount = 0;
         Timestamp customDateTime = null;
@@ -95,6 +95,8 @@ public class MissingPieceNoteHandler {
         String customTime = (String) missingPieceRecordInfo.get("customTime");
         String missingPieceCount = (String) missingPieceRecordInfo.get("missingPieceCount");
         String missingPieceNote = (String) missingPieceRecordInfo.get("missingPieceNote");
+        String olePatronId = (String) missingPieceRecordInfo.get("olePatronId");
+        String olePatronBarcode = (String) missingPieceRecordInfo.get("olePatronBarcode");
         itemRecord.setMissingPieceFlag(true);
         if(StringUtils.isNotBlank(missingPieceCount)) {
             newMissingPieceCount = Integer.parseInt(missingPieceCount);
@@ -116,12 +118,28 @@ public class MissingPieceNoteHandler {
         if(StringUtils.isNotBlank(missingPieceNote)) {
             itemRecord.setMissingPieceFlagNote(missingPieceNote);
         }
+        createMissingPieceItemRecord(itemRecord, olePatronId, olePatronBarcode);
+        if(null != oleLoanDocument) {
+            populateMissingPieceInfoInLoanDocument(itemRecord, oleLoanDocument);
+        }
+    }
+
+    private void populateMissingPieceInfoInLoanDocument(ItemRecord itemRecord, OleLoanDocument oleLoanDocument) {
+        oleLoanDocument.setMissingPieceFlag(itemRecord.isMissingPieceFlag());
+        oleLoanDocument.setMissingPiecesCount(itemRecord.getMissingPiecesCount());
+        oleLoanDocument.setMissingPieceItemDate(itemRecord.getMissingPieceEffectiveDate());
+        oleLoanDocument.setMissingPieceNote(itemRecord.getMissingPieceFlagNote());
+    }
+
+    private void createMissingPieceItemRecord(ItemRecord itemRecord, String olePatronId, String olePatronBarcode) {
         MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
-        missingPieceItemRecord.setMissingPieceFlagNote(missingPieceNote);
-        missingPieceItemRecord.setMissingPieceCount(missingPieceCount);
+        missingPieceItemRecord.setMissingPieceFlagNote(itemRecord.getMissingPieceFlagNote());
+        missingPieceItemRecord.setMissingPieceCount(itemRecord.getMissingPiecesCount());
         missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
         missingPieceItemRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(itemRecord.getItemId()));
-        missingPieceItemRecord.setMissingPieceDate(customDateTime);
+        missingPieceItemRecord.setMissingPieceDate(itemRecord.getMissingPieceEffectiveDate());
+        missingPieceItemRecord.setPatronId(olePatronId);
+        missingPieceItemRecord.setPatronBarcode(olePatronBarcode);
         itemRecord.getMissingPieceItemRecordList().add(missingPieceItemRecord);
     }
 

@@ -1244,7 +1244,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
 
     }*/
 
-    private List<DonorInfo> setDonorInfoToItem(List<OLELinkPurapDonor> oleDonors,List<DonorInfo> donorInfoList){
+    public List<DonorInfo> setDonorInfoToItem(List<OLELinkPurapDonor> oleDonors,List<DonorInfo> donorInfoList){
         for (OLELinkPurapDonor oleLinkPurapDonor : oleDonors) {
             DonorInfo donorInfo = new DonorInfo();
             donorInfo.setDonorCode(oleLinkPurapDonor.getDonorCode());

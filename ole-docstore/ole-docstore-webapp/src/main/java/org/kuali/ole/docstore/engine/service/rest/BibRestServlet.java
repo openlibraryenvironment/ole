@@ -158,7 +158,7 @@ public class BibRestServlet extends HttpServlet {
         for (String bibId : bibIds) {
             bibIdList.add(bibId);
         }
-            ds.deleteBibs(bibIdList);
+        ds.deleteBibs(bibIdList);
         return "Success";
     }
 
@@ -237,7 +237,9 @@ public class BibRestServlet extends HttpServlet {
         List<String> bibIdList = new ArrayList<String>();
 
         for (String bibId : bibIds) {
-            bibIdList.add(bibId);
+            if (!bibId.equals("null")) {
+                bibIdList.add(bibId);
+            }
         }
         List<Bib> bibs = null;
         bibs = ds.retrieveBibs(bibIdList);
@@ -290,8 +292,8 @@ public class BibRestServlet extends HttpServlet {
         DocstoreService ds = BeanLocator.getDocstoreService();
         String requestBody = CharStreams.toString(req.getReader());
         BibTree bibTree = new BibTree();
-            bibTree = (BibTree) bibTree.deserialize(requestBody);
-            ds.createBibTree(bibTree);
+        bibTree = (BibTree) bibTree.deserialize(requestBody);
+        ds.createBibTree(bibTree);
         return responseTreeUrl + bibTree.getBib().getId();
     }
 

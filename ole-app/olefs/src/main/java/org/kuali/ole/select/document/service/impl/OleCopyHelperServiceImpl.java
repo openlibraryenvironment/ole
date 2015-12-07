@@ -1,13 +1,14 @@
 package org.kuali.ole.select.document.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.content.instance.DonorInfo;
+import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.ids.BibId;
 import org.kuali.ole.docstore.common.document.ids.HoldingsId;
-import org.kuali.ole.docstore.model.bo.WorkBibDocument;
-import org.kuali.ole.docstore.model.bo.WorkItemDocument;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.*;
@@ -20,7 +21,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.ole.docstore.common.document.Item;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -449,13 +449,16 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
                                             OleLineItemReceivingItem oleLineItemReceivingItem, OleCorrectionReceivingItem oleCorrectionReceivingItem, boolean isReceiving) {
 
         List<OleCopy> copyList = null;
+        List<OLELinkPurapDonor> oleLinkPurapDonors = new ArrayList<>();
         try{
             if (!isReceiving && oleCorrectionReceivingItem != null) {
                 copyList = oleCorrectionReceivingItem.getCopyList() != null ? oleCorrectionReceivingItem.getCopyList() : new ArrayList<OleCopy>();
-                olePurchaseOrderItem.setOleDonors(oleCorrectionReceivingItem.getOleDonors());
+                oleLinkPurapDonors = oleCorrectionReceivingItem.getOleDonors();
+                olePurchaseOrderItem.setOleDonors(oleLinkPurapDonors);
             } else {
                 copyList = oleLineItemReceivingItem.getCopyList() != null ? oleLineItemReceivingItem.getCopyList() : new ArrayList<OleCopy>();
-                olePurchaseOrderItem.setOleDonors(oleLineItemReceivingItem.getOleDonors());
+                oleLinkPurapDonors = oleLineItemReceivingItem.getOleDonors();
+                olePurchaseOrderItem.setOleDonors(oleLinkPurapDonors);
             }
         }
         catch (Exception e){
@@ -536,6 +539,58 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
         }
 
         KRADServiceLocator.getBusinessObjectService().save(olePurchaseOrderItem);
+
+        updateItemOrEHoldings(olePurchaseOrderItem.getLinkToOrderOption(), copyList, oleLinkPurapDonors);
+    }
+
+    private void updateItemOrEHoldings(String linkToOrderOption, List<OleCopy> copyList, List<OLELinkPurapDonor> oleLinkPurapDonors) {
+        try {
+            for (OleCopy oleCopy : copyList) {
+                if ((linkToOrderOption.equalsIgnoreCase("ORDER_RECORD_IMPORT_MARC_ONLY_PRINT") || linkToOrderOption.equalsIgnoreCase("NB_PRINT") || linkToOrderOption.equalsIgnoreCase("EB_PRINT")) && StringUtils.isNotBlank(oleCopy.getItemUUID())) {
+                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(oleCopy.getItemUUID());
+                    Item itemContent = new ItemOlemlRecordProcessor().fromXML(item.getContent());
+                    List<DonorInfo> donorInfoList = getDonorInfoList(oleLinkPurapDonors, itemContent.getDonorInfo());
+                    itemContent.setDonorInfo(donorInfoList);
+                    item.setContent(new ItemOlemlRecordProcessor().toXML(itemContent));
+                    item.setId(itemContent.getItemIdentifier());
+                    getDocstoreClientLocator().getDocstoreClient().updateItem(item);
+                } else if ((linkToOrderOption.equalsIgnoreCase("ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC") || linkToOrderOption.equalsIgnoreCase("NB_ELECTRONIC") || linkToOrderOption.equalsIgnoreCase("EB_ELECTRONIC")) && StringUtils.isNotBlank(oleCopy.getInstanceId())) {
+                    Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleCopy.getInstanceId());
+                    org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+                    List<DonorInfo> donorInfoList = getDonorInfoList(oleLinkPurapDonors, oleHoldings.getDonorInfo());
+                    oleHoldings.setDonorInfo(donorInfoList);
+                    holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
+                    getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception " + e);
+        }
+    }
+
+    private List<DonorInfo> getDonorInfoList(List<OLELinkPurapDonor> oleLinkPurapDonors, List<DonorInfo> donorInfos) {
+        List<OLELinkPurapDonor> oleLinkPurapDonorList = new ArrayList<>();
+        for (OLELinkPurapDonor oleLinkPurapDonor : oleLinkPurapDonors) {
+            boolean flag = true;
+            if (donorInfos != null && donorInfos.size() > 0) {
+                for (DonorInfo itemDonorInfo : donorInfos) {
+                    if (oleLinkPurapDonor.getDonorCode().equals(itemDonorInfo.getDonorCode())) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    oleLinkPurapDonorList.add(oleLinkPurapDonor);
+                }
+            }
+        }
+        List<DonorInfo> donorInfoList = new ArrayList<>();
+        if (donorInfos != null && donorInfos.size() > 0) {
+            donorInfoList = oleDocstoreHelperService.setDonorInfoToItem(oleLinkPurapDonorList, donorInfos);
+        } else {
+            donorInfoList = oleDocstoreHelperService.setDonorInfoToItem(oleLinkPurapDonors, donorInfos);
+        }
+        return donorInfoList;
     }
 
     public int getReceiptStatusDetails(String receiptStatusCd) {

@@ -42,6 +42,7 @@ public class OLEBatchProcessOrderImportDataTypeValuesFinder extends KeyValuesBas
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION, "Default Location"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.LIST_PRICE, "List Price"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, "Vendor Number"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME,"Vendor Alias Name"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR, "Acquisition Unit's Vendor account / Vendor Info Customer #"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.QUANTITY, "Quantity"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS, "No Of Parts"));

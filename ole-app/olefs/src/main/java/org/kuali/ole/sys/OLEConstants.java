@@ -2022,4 +2022,5 @@ public class OLEConstants {
     public static final String COPY_NUMBER = "COPY_NO";
     public static final String ITEM_STATUS_FIRM_FIXD = "ITEM_STATUS_FIRM_FIXD";
     public static final String ITEM_STATUS_APPROVAL = "ITEM_STATUS_APPROVAL";
+    public static final String ERROR_REPORT = "ErrorReport";
 }

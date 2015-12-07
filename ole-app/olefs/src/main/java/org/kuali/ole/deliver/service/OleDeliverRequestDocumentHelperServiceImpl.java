@@ -1676,7 +1676,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LOG.debug("Inside createRequestHistoryRecord");
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.OleDeliverRequest.REQUEST_ID, requestId);
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) businessObjectService.findMatching(OleDeliverRequestBo.class, requestMap);
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)  KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         OleDeliverRequestBo oleDeliverRequestBo = null;
         if (oleDeliverRequestBoList.size() > 0) {
             oleDeliverRequestBo = oleDeliverRequestBoList.get(0);
@@ -1708,7 +1708,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LOG.debug("Inside getOleDeliverRequestBo method");
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.ITEM_UUID, itemUUID);
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) businessObjectService.findMatching(OleDeliverRequestBo.class, requestMap);
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)  KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         if (oleDeliverRequestBoList.size() > 0)
             return oleDeliverRequestBoList.get(0);
         return null;
@@ -2391,6 +2391,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setOleItem(item);
                             if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
+                                oleDeliverRequestBo.setCallNumberPrefix(item.getCallNumber().getPrefix());
                             }
                             if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
@@ -2401,6 +2402,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         }
                         if (oleHoldings != null) {
                             if (StringUtils.isBlank(oleDeliverRequestBo.getCallNumber()) && oleHoldings.getCallNumber() != null && StringUtils.isNotBlank(oleHoldings.getCallNumber().getNumber())) {
+                                oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                                 oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                             }
                             if (StringUtils.isBlank(oleDeliverRequestBo.getCopyNumber()) && StringUtils.isNotBlank(oleHoldings.getCopyNumber())) {
@@ -2762,6 +2764,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setOleItem(item);
                             if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
+                                oleDeliverRequestBo.setCallNumberPrefix(item.getCallNumber().getPrefix());
                             }
                             if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
@@ -3989,6 +3992,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("itemStatusEffectiveDate")) {
                                     oleLoanDocument.setItemStatusEffectiveDate(searchResultField.getFieldValue());
                                     // LOG.info("Item status Effective date from solr : " + searchResultField.getFieldValue() );
+                                }else if(searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display")){
+                                    oleLoanDocument.setItemCallNumberPrefix(searchResultField.getFieldValue());
                                 }
                             }
                         }
@@ -4000,7 +4005,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     oleLoanDocuments.add(oleLoanDocument);
                 } catch (Exception e) {
+
                     LOG.info("Exception occured while setting the item info for the loan ");
+                LOG.error(e,e);
                 }
             }
         }

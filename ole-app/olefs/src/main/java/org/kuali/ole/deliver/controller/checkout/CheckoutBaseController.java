@@ -13,11 +13,13 @@ import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.util.*;
+import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -84,6 +86,8 @@ public abstract class CheckoutBaseController extends CircUtilController {
     public abstract boolean isRecordNoteForClaimsReturn(OLEForm oleForm);
 
     public abstract boolean isRecordNoteForMissingPiece(OLEForm oleForm);
+
+    public abstract String getMissingPieceMatchCheck(OLEForm oleForm);
 
     public DroolsResponse lookupItemAndSaveLoan(OLEForm oleForm) {
 
@@ -204,11 +208,12 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private DroolsResponse checkForMissingPieceNote(ItemRecord itemRecord) {
-        if (itemRecord.isMissingPieceFlag()) {
+        int noOfPieces = StringUtils.isNotBlank(itemRecord.getNumberOfPieces()) ? Integer.parseInt(itemRecord.getNumberOfPieces()) : 0;
+        if (noOfPieces > 1) {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_MISSING_PIECE);
-            droolsResponse.addErrorMessage("Missing Piece Found for this item." + OLEConstants.BREAK + "Total No of Pieces :      "
-                    + itemRecord.getNumberOfPieces() + OLEConstants.BREAK + "No of missing Pieces : " + (itemRecord.getMissingPiecesCount() != null ? itemRecord.getMissingPiecesCount() : "0"));
+            droolsResponse.addErrorMessage(OLEConstants.VERIFY_PIECES + itemRecord.getNumberOfPieces() + ")" + OLEConstants.BREAK + "Total No of Pieces :      "
+                    + itemRecord.getNumberOfPieces() + OLEConstants.BREAK +"Description Of Pieces : " + (StringUtils.isNotBlank(itemRecord.getDescriptionOfPieces()) ? itemRecord.getDescriptionOfPieces() : "") + OLEConstants.BREAK + "No of missing Pieces : " + (itemRecord.getMissingPiecesCount() != null ? itemRecord.getMissingPiecesCount() : "0"));
             return droolsResponse;
         }
         return null;
@@ -428,12 +433,12 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
         OleLoanDocument savedLoanDocument = getBusinessObjectService().save(currentLoanDocument);
         if (null != savedLoanDocument.getLoanId()) {
-            Boolean solrUpdateResults = updateItemInfoInSolr(getUpdateParameters(currentLoanDocument), itemRecord.getItemId(), true);
+            processAndSavePatronNotes(oleForm, currentLoanDocument);
+            Boolean solrUpdateResults = updateItemInfoInSolr(getUpdateParameters(currentLoanDocument, oleForm), itemRecord.getItemId(), true);
             if (solrUpdateResults) {
                 updateLoanDocumentWithItemInformation(itemRecord, currentLoanDocument);
                 addCurrentLoandDocumentToListofLoandedToPatron(oleForm, currentLoanDocument);
                 LOG.info("Saved Loan with ID: " + savedLoanDocument.getLoanId());
-                processAndSavePatronNotes(oleForm, currentLoanDocument);
                 getDeliverRequestUtil().cancelDocument(getItemBarcode(oleForm), getCurrentBorrower(oleForm), currentLoanDocument, getOperatorId(oleForm));
             } else {
                 rollBackSavedLoanRecord(itemRecord.getBarCode());
@@ -463,6 +468,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 Map<String, Object> claimsRecordInfo = new HashMap<>();
                 claimsRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
                 claimsRecordInfo.put("selectedCirculationDesk", getCirculationLocationId(oleForm));
+                claimsRecordInfo.put("noteParameter", OLEConstants.CLAIMS_CHECKED_OUT_FLAG);
                 getClaimsReturnedNoteHandler().savePatronNoteForClaims(claimsRecordInfo, oleLoanDocument.getOlePatron());
             }
         }
@@ -474,6 +480,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 Map<String, Object> damagedRecordInfo = new HashMap<>();
                 damagedRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
                 damagedRecordInfo.put("selectedCirculationDesk", getCirculationLocationId(oleForm));
+                damagedRecordInfo.put("noteParameter", OLEConstants.DAMAGED_ITEM_CHECKED_OUT_FLAG);
                 getDamagedItemNoteHandler().savePatronNoteForDamaged(damagedRecordInfo, oleLoanDocument.getOlePatron());
             }
         }
@@ -481,28 +488,67 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
     private void saveMissingPieceNote(OLEForm oleForm, OleLoanDocument oleLoanDocument) {
         if (oleLoanDocument != null) {
-            if (isRecordNoteForMissingPiece(oleForm) && oleLoanDocument.getOlePatron() != null) {
+            if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched")) {
                 DroolsExchange droolsExchange = oleForm.getDroolsExchange();
                 Map<String, Object> missingPieceRecordInfo = new HashMap<>();
+                CircForm circForm = getCircForm(oleForm);
                 OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) droolsExchange.getFromContext("oleItemRecordForCirc");
                 ItemRecord itemRecord = oleItemRecordForCirc.getItemRecord();
                 missingPieceRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
                 missingPieceRecordInfo.put("selectedCirculationDesk", getCirculationLocationId(oleForm));
-                missingPieceRecordInfo.put("missingPieceCount", itemRecord.getMissingPiecesCount());
-                getMissingPieceNoteHandler().savePatronNoteForMissingPiece(missingPieceRecordInfo, oleLoanDocument.getOlePatron(), itemRecord);
+                missingPieceRecordInfo.put("missingPieceCount", circForm.getMissingPieces());
+                missingPieceRecordInfo.put("missingPieceNote", circForm.getMismatchedMissingPieceNote());
+                missingPieceRecordInfo.put("olePatronId", null != oleLoanDocument.getOlePatron() ? oleLoanDocument.getOlePatron().getOlePatronId() : "");
+                missingPieceRecordInfo.put("olePatronBarcode", null != oleLoanDocument.getOlePatron() ? oleLoanDocument.getOlePatron().getBarcode() : "");
+                missingPieceRecordInfo.put("noteParameter", OLEConstants.MISSING_PIECE_ITEM_CHECKED_OUT_FLAG);
+                getMissingPieceNoteHandler().updateMissingPieceRecord(itemRecord, missingPieceRecordInfo, oleLoanDocument);
+                if (isRecordNoteForMissingPiece(oleForm) && oleLoanDocument.getOlePatron() != null) {
+                    getMissingPieceNoteHandler().savePatronNoteForMissingPiece(missingPieceRecordInfo, oleLoanDocument.getOlePatron(), itemRecord);
+                }
             }
         }
     }
 
-    private Map getUpdateParameters(OleLoanDocument currentLoanDocument) {
+    private Map getUpdateParameters(OleLoanDocument currentLoanDocument, OLEForm oleForm) {
         HashMap parameterValues = new HashMap();
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+        ItemRecord itemRecord = oleItemRecordForCirc.getItemRecord();
         parameterValues.put("patronId", currentLoanDocument.getPatronId());
         parameterValues.put("proxyPatronId", currentLoanDocument.getProxyPatronId());
         parameterValues.put("itemCheckoutDateTime", currentLoanDocument.getCreateDate());
         parameterValues.put("loanDueDate", currentLoanDocument.getLoanDueDate());
         parameterValues.put("numRenewals", currentLoanDocument.getNumberOfRenewals());
         parameterValues.put("itemStatus", OLEConstants.ITEM_STATUS_CHECKEDOUT);
+        parameterValues.put("missingPieceItemFlag",itemRecord.isMissingPieceFlag());
+        parameterValues.put("missingPieceItemNote",itemRecord.getMissingPieceFlagNote());
+        parameterValues.put("missingPieceItemCount",itemRecord.getMissingPiecesCount());
+        parameterValues.put("noOfmissingPiece", itemRecord.getNumberOfPieces());
+        Timestamp missingPieceItemDate = itemRecord.getMissingPieceEffectiveDate();
+        parameterValues.put("missingPieceItemDate",missingPieceItemDate == null ? missingPieceItemDate : convertToString(missingPieceItemDate));
+        parameterValues.put("itemMissingPieceItemRecords",prepareMissingPieceHistoryRecords(itemRecord));
         return parameterValues;
+    }
+
+    private List<MissingPieceItemRecord> prepareMissingPieceHistoryRecords(ItemRecord itemRecord) {
+        SimpleDateFormat dateFormatForMissingItem = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = itemRecord.getMissingPieceItemRecordList();
+        List<MissingPieceItemRecord> itemMissingPieceRecordList = new ArrayList<>();
+        for (Iterator<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> iterator = missingPieceItemRecordList.iterator(); iterator.hasNext(); ) {
+            org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord itemMissingPieceItemRecord = iterator.next();
+            MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
+            if (itemMissingPieceItemRecord.getMissingPieceDate() != null && !itemMissingPieceItemRecord.getMissingPieceDate().toString().isEmpty()) {
+                Timestamp formatedDateStringForDamagedItem = itemMissingPieceItemRecord.getMissingPieceDate();
+                missingPieceItemRecord.setMissingPieceDate(dateFormatForMissingItem.format(formatedDateStringForDamagedItem));
+            }
+            missingPieceItemRecord.setMissingPieceFlagNote(itemMissingPieceItemRecord.getMissingPieceFlagNote());
+            missingPieceItemRecord.setMissingPieceCount(itemMissingPieceItemRecord.getMissingPieceCount());
+            missingPieceItemRecord.setPatronBarcode(itemMissingPieceItemRecord.getPatronBarcode());
+            missingPieceItemRecord.setPatronId(itemMissingPieceItemRecord.getPatronId());
+            missingPieceItemRecord.setOperatorId(itemMissingPieceItemRecord.getOperatorId());
+            missingPieceItemRecord.setItemId(itemMissingPieceItemRecord.getItemId());
+            itemMissingPieceRecordList.add(missingPieceItemRecord);
+        }
+        return itemMissingPieceRecordList;
     }
 
     private boolean subsequentRequestExistsForItem(OleItemRecordForCirc oleItemRecordForCirc, OlePatronDocument currentBorrower) {
