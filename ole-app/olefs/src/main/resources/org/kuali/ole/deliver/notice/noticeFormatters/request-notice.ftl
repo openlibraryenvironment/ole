@@ -28,7 +28,7 @@
     </#if>
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("EMAIL")} :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Email")} :</TD>
     <#if oleNoticeBo.patronEmailAddress??>
         <TD>${oleNoticeBo.patronEmailAddress}</TD>
     <#else>
@@ -36,7 +36,7 @@
     </#if>
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone Number")} :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone #")} :</TD>
     <#if oleNoticeBo.patronPhoneNumber??>
         <TD>${oleNoticeBo.patronPhoneNumber}</TD>
     <#else>

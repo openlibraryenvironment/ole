@@ -843,9 +843,9 @@ public class DocstoreRestClient implements DocstoreClient {
     public void deleteBibs(List<String> bibIds) {
         RestResponse restResponse = deleteRequest(buildQueryString(bibIds, "bibId"), BIB_URL);
         //if (restResponse.getResponse().getStatusLine().getStatusCode() != 200) {
-            if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
-                throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
-            }
+        if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
+            throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
+        }
         //}
     }
 
@@ -871,11 +871,13 @@ public class DocstoreRestClient implements DocstoreClient {
         StringBuilder reqParam = new StringBuilder("");
         int size = ids.size();
         for (int i = 0; i < size; i++) {
-            reqParam.append(queryParam);
-            reqParam.append("=");
-            reqParam.append(ids.get(i));
-            if (i != (size - 1)) {
-                reqParam.append("&");
+            if (ids.get(i)!=null) {
+                reqParam.append(queryParam);
+                reqParam.append("=");
+                reqParam.append(ids.get(i));
+                if (i != (size - 1)) {
+                    reqParam.append("&");
+                }
             }
         }
         return reqParam.toString();

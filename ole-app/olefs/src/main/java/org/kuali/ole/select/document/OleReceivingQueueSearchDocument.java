@@ -159,7 +159,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
     private List<PurchaseOrderType> purchaseOrderTypeDocumentList = new ArrayList<>();
 
-
+    private Map<String, Object> queryCriteriaMap = new HashMap<>();
 
     public DateTimeService getDateTimeService() {
         if (dateTimeService == null) {
@@ -777,6 +777,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
     }
 
     public void receiveingQueueRecordSearchs() {
+        queryCriteriaMap = new HashMap<>();
         StopWatch searchRecordWatch=new StopWatch();
         searchRecordWatch.start();
         Set<String> bibIds = new HashSet<String>();
@@ -788,9 +789,14 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
                 bibIds.add(docData.getBibIdentifier());
                 docDataMap.put(docData.getBibIdentifier(),docData);
             }
+            if(docDatas.size()==0){//If no title in docstore then title criteria is used to look for the title from eResource record, some item title of REQ and PO are set with eResource title
+                queryCriteriaMap.put("title", title);
+            }
             purchaseOrderItemList=getSearchResultsFromQuery(null, bibIds);
             for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItemList){
-                olePurchaseOrderItem.setDocData(docDataMap.get(olePurchaseOrderItem.getItemTitleId()));
+                if(docDataMap.get(olePurchaseOrderItem.getItemTitleId())!=null){
+                    olePurchaseOrderItem.setDocData(docDataMap.get(olePurchaseOrderItem.getItemTitleId()));
+                }
             }
             this.setPurchaseOrderItems(purchaseOrderItemList);
         } else {
@@ -799,8 +805,11 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             //results.addAll(purchaseOrderItemList);
             this.setPurchaseOrderItems(purchaseOrderItemList);
         }
+        if(purchaseOrderItemList.size()==0){
+            GlobalVariables.getMessageMap().putInfo(OleSelectConstant.NO_RECORDS_FOUND,
+                    OLEKeyConstants.MESSAGE_NO_RECORD_FOUND);
+        }
         searchRecordWatch.stop();
-        System.out.println("searchRecordWatch--------->"+searchRecordWatch.toString());
     }
 
     private void setBibInformations(List<OlePurchaseOrderItem> purchaseOrderItemList,Set<String> bibIds){
@@ -945,7 +954,6 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
     public List<OlePurchaseOrderItem> getSearchResultsFromQuery(String poNumber, Set<String> bibIds) {
         List<OlePurchaseOrderItem> results = new ArrayList<>();
-        Map<String, Object> queryCriteriaMap = new HashMap<>();
         queryCriteriaMap.put("bibIds",getBidsString(bibIds));
         queryCriteriaMap.put("purchaseOrderNumber", purchaseOrderNumber);
         queryCriteriaMap.put("vendorName", vendorName);
@@ -979,17 +987,17 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         ReceivingQueueDAOService receivingQueueDAOService = SpringContext.getBean(ReceivingQueueDAOService.class);
         List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = receivingQueueDAOService.getPODocumentList(queryCriteriaMap);
         watch.stop();
-        System.out.println(watchName+"--->"+watch.toString());
         StopWatch forPOWatch = new StopWatch();
         forPOWatch.start();
         for(OlePurchaseOrderDocument olePurchaseOrderDocument:olePurchaseOrderDocumentList){
             for(OlePurchaseOrderItem olePurchaseOrderItem:(List<OlePurchaseOrderItem>)olePurchaseOrderDocument.getItems()){
-                bibIds.add(olePurchaseOrderItem.getItemTitleId());
+                if (olePurchaseOrderItem.getItemTitleId()!=null&&!bibIds.contains(olePurchaseOrderItem.getItemTitleId())) {
+                    bibIds.add(olePurchaseOrderItem.getItemTitleId());
+                }
                 results.add(olePurchaseOrderItem);
             }
         }
         forPOWatch.stop();
-        System.out.println("forPOWatch--->"+forPOWatch.toString());
         return results;
     }
 
@@ -1017,7 +1025,6 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             Date inputDate=simpleDateFormat.parse(dateString);
             inputDate=DateUtils.addDays(inputDate,1);//Incremented date, in sql if the input date is alone passed it will fetch the record till the previous day,
             // so one day needs to be added inorder to bring the records till input date
-            System.out.println("inputDate--->"+inputDate);
             String outputDateFormat = "yyyy-MM-dd";
             simpleDateFormat = new SimpleDateFormat(outputDateFormat);
             outputDate = simpleDateFormat.format(inputDate);
@@ -1049,7 +1056,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         isValid = isValid && validatePoByRetiredVersionStatus(olePurchaseOrderDocument);
         isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem,specialNotesPOIDStringBuffer));
         if (specialNotesPOIDStringBuffer.length()>0) {
-            GlobalVariables.getMessageMap().putWarning("Notes warning:", "warning.poitem.specialhandling.notes",new String[]{specialNotesPOIDStringBuffer.toString()});
+            GlobalVariables.getMessageMap().putWarning(OleSelectConstant.NOTES_WARNING, OLEKeyConstants.WARNING_SPECAIL_NOTES,new String[]{specialNotesPOIDStringBuffer.toString()});
         }
         //isValid =isValid && validateCopiesAndParts(olePurchaseOrderItem);
 

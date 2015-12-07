@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.checkin
+package org.kuali.ole.deliver.rules.demo.checkin
 
 
 import org.kuali.ole.deliver.bo.OleCirculationDesk
@@ -23,7 +23,7 @@ $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateCheckinCount();
  end
 
- rule "In transit for Availble per staff request"
+ rule "In transit for Available per staff request"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 when
