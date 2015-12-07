@@ -31,6 +31,7 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_ENUMERATION,OLEConstants.NOTICE_ENUMERATION));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_CHRONOLOGY,OLEConstants.NOTICE_CHRONOLOGY));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_CALL_NUMBER,OLEConstants.NOTICE_CALL_NUMBER));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_CALL_NUMBER_PREFIX,OLEConstants.NOTICE_CALL_NUMBER_PREFIX));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_ITEM_BARCODE,OLEConstants.NOTICE_ITEM_BARCODE));
         if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.RECALL_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_NOTICE) || noticeType.equals(OLEConstants.NOTICE_HOLD_COURTESY)  || noticeType.equals(OLEConstants.REQUEST_EXPIRATION_NOTICE))) {
             keyValues.add(new ConcreteKeyValue(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME,OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME));
@@ -55,6 +56,9 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.MISSING_PIECE_NOTICE)){
             keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_CHECK_IN_DATE,OLEConstants.MISSING_ITEM_CHECK_IN_DATE));
             keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_NOTE,OLEConstants.MISSING_ITEM_NOTE));
+        }
+        if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.NOTICE_LOST)){
+            keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
         }
         return keyValues;
     }
