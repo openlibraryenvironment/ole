@@ -45,7 +45,6 @@ classpath:sql/mysql/OLE_DESC_USER_PREF_T.sql
 classpath:sql/mysql/OLE_DLVR_ADDR_SRC_T.sql
 classpath:sql/mysql/OLE_DLVR_BARCD_STAT_T.sql
 classpath:sql/mysql/OLE_DLVR_BATCH_JOB_T.sql
-classpath:sql/mysql/OLE_DLVR_BORR_TYP_T.sql
 classpath:sql/mysql/OLE_DLVR_ITEM_AVAIL_STAT_T.sql
 classpath:sql/mysql/OLE_DLVR_LOAN_STAT_T.sql
 classpath:sql/mysql/OLE_DLVR_LOAN_TERM_UNIT_T.sql

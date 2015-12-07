@@ -5219,4 +5219,22 @@
             <where>PARM_NM IN ('LOAD_DEFAULT_CIRCULATION_POLICIES_IND','LOAD_DEFAULT_INGEST_POLICIES_IND')</where>
         </delete>
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_MTCH_POINT_T_PK">
+        <dropPrimaryKey tableName="OLE_BAT_PRCS_PRF_MTCH_POINT_T"
+                                  constraintName="OLE_BAT_PRCS_PRF_MTCH_POINTP1"/>
+
+        <addPrimaryKey
+                columnNames="MATCH_POINT_ID"
+                constraintName="OLE_BAT_PRCS_PRF_MTCH_POINTP1"
+                tableName="OLE_BAT_PRCS_PRF_MTCH_POINT_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_MTCH_POINT_T_NOT_NULL" dbms="mysql">
+        <dropNotNullConstraint
+                columnDataType="varchar(40)"
+                columnName="CAS_MATCH_POINT"
+                tableName="OLE_BAT_PRCS_PRF_MTCH_POINT_T"/>
+    </changeSet>
+
 </databaseChangeLog>

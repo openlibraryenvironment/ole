@@ -111,6 +111,7 @@ public abstract class NoticeMailContentFormatter {
         oleNoticeBo.setChronology(oleLoanDocument.getChronology() != null ? oleLoanDocument.getChronology() : "");
         oleNoticeBo.setVolumeNumber((oleLoanDocument.getItemVolumeNumber() != null ? oleLoanDocument.getAuthor() : ""));
         oleNoticeBo.setItemCallNumber(oleLoanDocument.getItemCallNumber() != null ? oleLoanDocument.getItemCallNumber() : "");
+        oleNoticeBo.setItemCallNumberPrefix(oleLoanDocument.getItemCallNumberPrefix()!=null ? oleLoanDocument.getItemCallNumberPrefix() : "");
         oleNoticeBo.setCopyNumber(oleLoanDocument.getItemCopyNumber() != null ? oleLoanDocument.getItemCopyNumber() : "");
         oleNoticeBo.setDueDateString(oleLoanDocument.getLoanDueDate() != null ? (oleLoanDocument.getLoanDueDate().toString() != null ? oleLoanDocument.getLoanDueDate().toString() : "") : "");
         oleNoticeBo.setItemId(oleLoanDocument.getItemId() != null ? oleLoanDocument.getItemId() : "");

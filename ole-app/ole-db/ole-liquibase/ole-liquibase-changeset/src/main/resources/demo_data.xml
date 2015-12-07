@@ -624,6 +624,10 @@
         <loadData tableName="ole_vndr_role_t" file="ole-demo/ole_vndr_role_t.csv"/>
     </changeSet>
 
+    <changeSet context="demo" author="ole" id="ole_dlvr_borr_typ_t">
+        <loadData tableName="ole_dlvr_borr_typ_t" file="ole-demo/ole_dlvr_borr_typ_t.csv"/>
+    </changeSet>
+
     <!--<changeSet context="demo" author="ole" id="KRLC_PSTL_CD_T">-->
         <!--<loadData tableName="KRLC_PSTL_CD_T" file="ole-demo/krlc_pstl_cd_t.csv" />-->
     <!--</changeSet>-->
