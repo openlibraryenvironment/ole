@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller.checkout;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
@@ -8,6 +9,7 @@ import org.kuali.ole.deliver.bo.ASRItem;
 import org.kuali.ole.deliver.bo.OleLoanFastAdd;
 import org.kuali.ole.deliver.controller.CircBaseController;
 import org.kuali.ole.deliver.controller.FastAddItemController;
+import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -137,14 +139,19 @@ public class CircFastAddItemController extends CircBaseController {
 
 
         circForm.setItemBarcode(oleLoanFastAdd.getBarcode());
-        //circForm.setFastAddItemIndicator(true);
-
+        if(circForm.getDroolsExchange()==null) {
+            DroolsExchange droolsExchange = new DroolsExchange();
+            droolsExchange.addToContext("fastAddSuccess","success");
+            circForm.setDroolsExchange(droolsExchange);
+        }else{
+            circForm.getDroolsExchange().addToContext("fastAddSuccess","success");
+        }
         return getUIFModelAndView(circForm);
     }
 
     private boolean validFields(OleLoanFastAdd oleLoanFastAdd) {
         return !oleLoanFastAdd.getBarcode().isEmpty() &&
-                !oleLoanFastAdd.getCallNumberType().isEmpty() &&
+                !StringUtils.isBlank(oleLoanFastAdd.getCallNumberType()) &&
                 !oleLoanFastAdd.getCallNumberType().equalsIgnoreCase("#")
                 && !oleLoanFastAdd.getCallNumber().isEmpty() &&
                 !oleLoanFastAdd.getCheckinNote().isEmpty() &&
