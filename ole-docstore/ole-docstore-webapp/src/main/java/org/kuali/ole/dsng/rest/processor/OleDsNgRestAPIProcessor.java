@@ -8,12 +8,16 @@ import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.dao.BibDAO;
+import org.kuali.ole.dsng.dao.HoldingDAO;
+import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
 import org.kuali.ole.dsng.indexer.OleDsNgIndexer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -22,12 +26,22 @@ import java.io.IOException;
  */
 public class OleDsNgRestAPIProcessor {
 
+    @Autowired
+    BibDAO bibDAO;
+
+    @Autowired
+    HoldingDAO holdingDAO;
+
+    @Autowired
+    ItemDAO itemDAO;
+
+
     private BusinessObjectService businessObjectService;
 
     public String createBib(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         BibRecord bibRecord = objectMapper.readValue(jsonBody, BibRecord.class);
-        getBusinessObjectService().save(bibRecord);
+        bibDAO.save(bibRecord);
         OleDsNgIndexer bibIndexer = new BibIndexer();
         bibIndexer.indexDocument(bibRecord);
         return objectMapper.writeValueAsString(bibRecord);
@@ -39,7 +53,7 @@ public class OleDsNgRestAPIProcessor {
         BibRecord bibRecord = objectMapper.readValue(jsonBody, BibRecord.class);
 
         if(StringUtils.isNotBlank(bibRecord.getBibId())){
-            getBusinessObjectService().save(bibRecord);
+            bibDAO.save(bibRecord);
             BibIndexer bibIndexer = new BibIndexer();
             bibIndexer.updateDocument(bibRecord);
             return objectMapper.writeValueAsString(bibRecord);
@@ -54,7 +68,7 @@ public class OleDsNgRestAPIProcessor {
     public String createHolding(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         HoldingsRecord holdingsRecord = objectMapper.readValue(jsonBody, HoldingsRecord.class);
-        getBusinessObjectService().save(holdingsRecord);
+        holdingDAO.save(holdingsRecord);
         OleDsNgIndexer bibIndexer = new HoldingIndexer();
         bibIndexer.indexDocument(holdingsRecord);
         return objectMapper.writeValueAsString(holdingsRecord);
@@ -66,7 +80,7 @@ public class OleDsNgRestAPIProcessor {
         HoldingsRecord holdingsRecord = objectMapper.readValue(jsonBody, HoldingsRecord.class);
 
         if(StringUtils.isNotBlank(holdingsRecord.getHoldingsId())){
-            getBusinessObjectService().save(holdingsRecord);
+            holdingDAO.save(holdingsRecord);
             OleDsNgIndexer holdingIndexer = new HoldingIndexer();
             holdingIndexer.updateDocument(holdingsRecord);
             return objectMapper.writeValueAsString(holdingsRecord);
@@ -81,7 +95,7 @@ public class OleDsNgRestAPIProcessor {
     public String createItem(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ItemRecord itemRecord = objectMapper.readValue(jsonBody, ItemRecord.class);
-        getBusinessObjectService().save(itemRecord);
+        itemDAO.save(itemRecord);
         OleDsNgIndexer itemIndexer = new ItemIndexer();
         itemIndexer.indexDocument(itemRecord);
         return objectMapper.writeValueAsString(itemRecord);
@@ -93,7 +107,7 @@ public class OleDsNgRestAPIProcessor {
         ItemRecord itemRecord = objectMapper.readValue(jsonBody, ItemRecord.class);
 
         if(StringUtils.isNotBlank(itemRecord.getItemId())){
-            getBusinessObjectService().save(itemRecord);
+            itemDAO.save(itemRecord);
             OleDsNgIndexer itemIndexer = new ItemIndexer();
             itemIndexer.updateDocument(itemRecord);
             return objectMapper.writeValueAsString(itemRecord);
