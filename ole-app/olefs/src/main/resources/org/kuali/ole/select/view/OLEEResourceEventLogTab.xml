@@ -90,7 +90,7 @@
                 <bean id="EventLogSection_eResourceeventType" parent="Uif-InputField" p:propertyName="eventTypeId" p:label="Event Type"
                       p:enableAutoQuickfinder="false" p:required="true">
                     <property name="optionsFinder">
-                        <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues" />
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEresourceEventTypeKeyValues" />
                     </property>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select" p:disabled="@{#line.logTypeName eq 'Problem'}"/>
@@ -251,7 +251,7 @@
                 <bean id="FilterEventLogSection_eResourceeventType" parent="Uif-InputField" p:propertyName="eventTypeId" p:label="Event Type"
                       p:enableAutoQuickfinder="false" p:required="true">
                     <property name="optionsFinder">
-                        <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues" />
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEresourceEventTypeKeyValues" />
                     </property>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select" p:disabled="@{#line.logTypeName eq 'Problem'}"/>

@@ -107,6 +107,7 @@ public abstract class RequestEmailContentFormatter {
         oleNoticeBo.setChronology(oleDeliverRequestBo.getChronology() != null ? oleDeliverRequestBo.getChronology() : "");
         oleNoticeBo.setVolumeNumber((oleDeliverRequestBo.getVolumeNumber() != null ? oleDeliverRequestBo.getAuthor() : ""));
         oleNoticeBo.setItemCallNumber(oleDeliverRequestBo.getCallNumber() != null ? oleDeliverRequestBo.getCallNumber() : "");
+        oleNoticeBo.setItemCallNumberPrefix(oleDeliverRequestBo.getCallNumberPrefix()!=null ? oleDeliverRequestBo.getCallNumberPrefix() : "");
         oleNoticeBo.setCopyNumber(oleDeliverRequestBo.getCopyNumber() != null ? oleDeliverRequestBo.getCopyNumber() : "");
         oleNoticeBo.setItemId(oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "");
         String locationName = getLocationName(oleDeliverRequestBo.getShelvingLocation());

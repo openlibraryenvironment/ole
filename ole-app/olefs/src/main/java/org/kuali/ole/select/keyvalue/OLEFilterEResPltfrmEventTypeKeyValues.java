@@ -7,9 +7,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by chenchulakshmig on 11/20/14.
@@ -26,6 +24,18 @@ public class OLEFilterEResPltfrmEventTypeKeyValues extends KeyValuesBase {
                 keyValues.add(new ConcreteKeyValue(oleeResPltfrmEventType.geteResPltfrmEventTypeId(), oleeResPltfrmEventType.geteResPltfrmEventTypeName()));
             }
         }
+        Collections.sort(keyValues,
+                new Comparator<KeyValue>() {
+                    @Override
+                    public int compare(KeyValue keyValue, KeyValue keyValue2) {
+                        return keyValue.getValue().compareTo(keyValue2.getValue());
+                    }
+
+                    @Override
+                    public boolean equals(Object o) {
+                        return false;
+                    }
+                });
         return keyValues;
     }
 }

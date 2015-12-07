@@ -87,7 +87,15 @@
             <list>
                 <bean id="notice_search_button" parent="Uif-SecondaryActionButton"
                       p:style="margin-left:50%;"
-                      p:methodToCall="search" p:actionLabel="Search"/>
+                      p:actionScript="
+                            var dateSentFrom = jq.trim(jq('#deliverNoticeSearch-dateSentFrom_control').val())!='' ? jq('#deliverNoticeSearch-dateSentFrom_control').valid() : true;
+                            var dateSentTo = jq.trim(jq('#deliverNoticeSearch-dateSentTo_control').val())!='' ? jq('#deliverNoticeSearch-dateSentTo_control').valid() : true;
+                            if(dateSentFrom &amp; dateSentTo){
+                                submitForm('search',null,null,null,null);
+                            }else{
+                                submitForm('clearResults',null,null,null,null);
+                            }"
+                      p:actionLabel="Search"/>
                 <bean id="notice_clear_button" parent="Uif-SecondaryActionButton"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
             </list>
