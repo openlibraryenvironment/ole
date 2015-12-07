@@ -48,7 +48,7 @@
 
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call Number")} :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call #")} :</TD>
         <#if oleNoticeBo.itemCallNumber??>
             <TD>${oleNoticeBo.itemCallNumber}</TD>
         <#else>
@@ -56,6 +56,16 @@
         </#if>
 
     </TR>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call # Prefix")} :</TD>
+        <#if oleNoticeBo.itemCallNumberPrefix??>
+            <TD>${oleNoticeBo.itemCallNumberPrefix}</TD>
+        <#else>
+            <TD</TD>
+        </#if>
+
+    </TR>
+    <TR>
     <TR>
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Barcode")} :</TD>
         <#if oleNoticeBo.itemId ??>
@@ -84,7 +94,14 @@
             <#else>
                 <TD</TD>
             </#if>
-
+        </TR>
+        <TR>
+            <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
+            <#if oleNoticeBo.itemShelvingLocation ??>
+                <TD>${oleNoticeBo.itemShelvingLocation}</TD>
+            <#else>
+                <TD</TD>
+            </#if>
         </TR>
     </#if>
 
