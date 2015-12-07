@@ -395,6 +395,8 @@ public class OLETranscationalRecordGenerator {
         xStream.alias("price", ItemPrice.class);
         xStream.alias("suppliersreferenceinformation", SupplierReferenceInformation.class);
         xStream.alias("suppliersreference", SupplierLineItemReference.class);
+        xStream.alias("tax", TaxLineItemInfo.class);
+        xStream.alias("monetarytax", MonetaryTaxLineItem.class);
 
         xStream.alias("note", FreeTextNotes.class);
         xStream.alias("monetary", MonetaryDetail.class);
@@ -504,6 +506,15 @@ public class OLETranscationalRecordGenerator {
         xStream.aliasField("suppliersorderline", SupplierLineItemReference.class, "suppliersOrderLine");
         xStream.aliasField("vendorreferencenumber", SupplierLineItemReference.class, "vendorReferenceNumber");
 
+        xStream.aliasField("tax", LineItemOrder.class, "taxLineItemInfo");
+        xStream.aliasField("duty", TaxLineItemInfo.class, "duty");
+
+        xStream.aliasField("monetarytax", LineItemOrder.class, "monetaryTaxLineItem");
+        xStream.aliasField("monetarylineitemtaxdetail", MonetaryTaxLineItem.class, "monetaryLineItemTaxDetail");
+        xStream.aliasField("monetaryamounttype", MonetaryLineItemTaxDetail.class, "amountType");
+        xStream.aliasField("monetaryamount", MonetaryLineItemTaxDetail.class, "amount");
+
+
         xStream.aliasField("summary", LineItemOrder.class, "supplierReferenceInformation");
         xStream.aliasField("summarysection", Summary.class, "summarySection");
         xStream.aliasField("separatorinfo", SummarySection.class, "separatorInformation");
@@ -525,6 +536,22 @@ public class OLETranscationalRecordGenerator {
 
         xStream.aliasField("monetaryamounttype", MonetarySummaryInformation.class, "amountType");
         xStream.aliasField("monetaryamount", MonetarySummaryInformation.class, "amount");
+
+        xStream.aliasField("taxsummary", Summary.class, "taxSummaryInfo");
+        xStream.aliasField("duty", TaxSummaryInfo.class, "duty");
+
+        xStream.aliasField("monetarytax", Summary.class, "monetaryTaxSummary");
+        xStream.aliasField("monetaryinfotaxsummary", MonetaryTaxSummary.class, "monetaryTaxSummaryDetails");
+        xStream.aliasField("monetaryamounttype", MonetaryTaxSummaryDetails.class, "amountType");
+        xStream.aliasField("monetaryamount", MonetaryTaxSummaryDetails.class, "amount");
+
+        xStream.aliasField("taxable", Summary.class, "taxableSummaryInfo");
+        xStream.aliasField("dutyTaxable", TaxableSummaryInfo.class, "duty");
+
+        xStream.aliasField("monetarytaxable", Summary.class, "monetaryTaxableSummary");
+        xStream.aliasField("monetaryinfotaxablesummary", MonetaryTaxableSummary.class, "monetaryTaxableSummaryDetails");
+        xStream.aliasField("monetaryamounttype", MonetaryTaxableSummaryDetails.class, "amountType");
+        xStream.aliasField("monetaryamount", MonetaryTaxableSummaryDetails.class, "amount");
 
 
         xStream.aliasField("unt", Summary.class, "untSummary");

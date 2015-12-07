@@ -367,6 +367,17 @@ public class OleInvoiceItem extends InvoiceItem {
         this.setItemPublicViewIndicator(olePoi.isItemPublicViewIndicator());
     }
 
+    @Override
+    public KualiDecimal calculateExtendedPrice() {
+        KualiDecimal extendedPrice = super.calculateExtendedPrice();
+        KualiDecimal taxAmount = getItemTaxAmount();
+        if(taxAmount!=null && taxAmount.equals(KualiDecimal.ZERO) && getItemSalesTaxAmount()!=null && this.getItemTypeCode().equals("ITEM")){
+            taxAmount = getItemSalesTaxAmount();
+            extendedPrice = extendedPrice.add(taxAmount);
+        }
+        return extendedPrice;
+    }
+
     /**
      * Constructs a OleInvoiceItem.java.
      *

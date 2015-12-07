@@ -79,7 +79,9 @@ public class OleInvoiceRecord {
     private String itemTitleIdForMRC;
     private String invoiceCurrencyExchangeRate;
     private String foreignListPrice;
-
+    private String lineItemTaxAmount;
+    private String summaryTaxAmount;
+    private String summaryTaxableAmount;
 
     // Summary of all Charges
     private String summaryAmount;
@@ -533,5 +535,29 @@ public class OleInvoiceRecord {
 
     public void setValidDoc(boolean validDoc) {
         this.validDoc = validDoc;
+    }
+
+    public String getLineItemTaxAmount() {
+        return lineItemTaxAmount;
+    }
+
+    public void setLineItemTaxAmount(String lineItemTaxAmount) {
+        this.lineItemTaxAmount = lineItemTaxAmount;
+    }
+
+    public String getSummaryTaxAmount() {
+        return summaryTaxAmount;
+    }
+
+    public void setSummaryTaxAmount(String summaryTaxAmount) {
+        this.summaryTaxAmount = summaryTaxAmount;
+    }
+
+    public String getSummaryTaxableAmount() {
+        return summaryTaxableAmount;
+    }
+
+    public void setSummaryTaxableAmount(String summaryTaxableAmount) {
+        this.summaryTaxableAmount = summaryTaxableAmount;
     }
 }

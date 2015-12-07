@@ -100,8 +100,58 @@ public class OleInvoiceRecordBuilder {
         oleInvoiceRecord.setLineItemAdditionalChargeCode(populateLineItemChargeCode(lineItemOrder));    // Additional charge code from line item Level.
         oleInvoiceRecord.setLineItemAdditionalCharge(populateLineItemAdditionalCharge(lineItemOrder));  // Monetary amount for additional charge from line item level.
         oleInvoiceRecord.setPurchaseOrderNumber(getPurchaseOrderNumber(lineItemOrder));
-        setCurrencyDetails(invOrder,oleInvoiceRecord);
+
+        oleInvoiceRecord.setLineItemTaxAmount(getTaxForLineItem(lineItemOrder));
+        oleInvoiceRecord.setSummaryTaxAmount(getSummaryTax(invOrder));
+        oleInvoiceRecord.setSummaryTaxableAmount(getSummaryTaxable(invOrder));
+        setCurrencyDetails(invOrder, oleInvoiceRecord);
+
         return  oleInvoiceRecord;
+    }
+
+    private String getSummaryTaxable(INVOrder invOrder) {
+        String summaryTaxableAmount="";
+        Summary summary = invOrder.getSummary();
+        if(summary!=null){
+            MonetaryTaxableSummary monetaryTaxableSummary = summary.getMonetaryTaxableSummary();
+            if(monetaryTaxableSummary!=null) {
+                MonetaryTaxableSummaryDetails monetaryTaxableSummaryDetails = monetaryTaxableSummary.getMonetaryTaxableSummaryDetails();
+                if(monetaryTaxableSummaryDetails!=null && "125".equals(monetaryTaxableSummaryDetails.getAmountType())){
+                    summaryTaxableAmount = monetaryTaxableSummaryDetails.getAmount();
+                }
+            }
+        }
+        return summaryTaxableAmount;
+    }
+
+    private String getSummaryTax(INVOrder invOrder) {
+        String summaryTaxAmount="";
+        Summary summary = invOrder.getSummary();
+        if(summary!=null){
+            MonetaryTaxSummary monetaryTaxSummary = summary.getMonetaryTaxSummary();
+            if(monetaryTaxSummary!=null){
+                MonetaryTaxSummaryDetails monetaryTaxSummaryDetails = monetaryTaxSummary.getMonetaryTaxSummaryDetails();
+                if(monetaryTaxSummaryDetails!=null && "124".equals(monetaryTaxSummaryDetails.getAmountType())){
+                    summaryTaxAmount = monetaryTaxSummaryDetails.getAmount();
+                }
+            }
+        }
+        return summaryTaxAmount;
+    }
+
+    private String getTaxForLineItem(LineItemOrder lineItemOrder) {
+        String taxAmount="";
+        TaxLineItemInfo taxLineItemInfo = lineItemOrder.getTaxLineItemInfo();
+        if(taxLineItemInfo!=null){
+            MonetaryTaxLineItem monetaryTaxLineItem = lineItemOrder.getMonetaryTaxLineItem();
+            if(monetaryTaxLineItem!=null) {
+                MonetaryLineItemTaxDetail monetaryLineItemTaxDetail = monetaryTaxLineItem.getMonetaryLineItemTaxDetail();
+                if (monetaryLineItemTaxDetail != null && "124".equals(monetaryLineItemTaxDetail.getAmountType())) {
+                    taxAmount = monetaryLineItemTaxDetail.getAmount();
+                }
+            }
+        }
+        return taxAmount;
     }
 
     private String getVendorNumberFromVendorAlias(OleInvoiceRecord oleInvoiceRecord,INVOrder invOrder) throws Exception{
@@ -454,7 +504,7 @@ public class OleInvoiceRecordBuilder {
         String description = "";
         if(lineItemOrder.getItemDescriptionList() != null && lineItemOrder.getItemDescriptionList().size() > 0){
             for(int i=0;i<lineItemOrder.getItemDescriptionList().size();i++) {
-                if(lineItemOrder.getItemDescriptionList().get(i).getItemCharacteristicCode().equals("050")) {
+                if(lineItemOrder.getItemDescriptionList().get(i).getItemCharacteristicCode().equals("050") || lineItemOrder.getItemDescriptionList().get(i).getItemCharacteristicCode().equals("JTI")) {
                     if (StringUtils.isNotBlank(description)) {
                         description = description + lineItemOrder.getItemDescriptionList().get(i).getData();
                     } else {

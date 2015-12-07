@@ -473,6 +473,10 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 else{
                     totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue()));
                 }
+                if(oleInvoiceItem.isUseTaxIndicator() && oleInvoiceItem.getItemSalesTaxAmount()!=null){
+                    totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(oleInvoiceItem.getItemSalesTaxAmount().bigDecimalValue()));
+                    ((OleInvoiceItem) purApItem).setUseTaxIndicator(true);
+                }
                 if (purApItem != null && purApItem.getExtendedPrice() != null && purApItem.getExtendedPrice().isZero()) {
                     account.setAmount(KualiDecimal.ZERO);
                 }
