@@ -18,12 +18,14 @@ import org.kuali.ole.dsng.indexer.OleDsNgIndexer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
  * Created by SheikS on 11/25/2015.
  */
+@Service("oleDsNgRestAPIProcessor")
 public class OleDsNgRestAPIProcessor {
 
     @Autowired

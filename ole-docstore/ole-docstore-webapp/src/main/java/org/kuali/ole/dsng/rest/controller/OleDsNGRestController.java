@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.dsng.rest.processor.OleDsNgRestAPIProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class OleDsNGRestController {
 
     private ObjectMapper objectMapper;
 
+    @Autowired
     private OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor;
 
     @RequestMapping(method = RequestMethod.POST, value = "/createBib", produces = {MediaType.APPLICATION_JSON})
@@ -64,9 +66,6 @@ public class OleDsNGRestController {
     }
 
     public OleDsNgRestAPIProcessor getOleDsNgRestAPIProcessor() {
-        if(null == oleDsNgRestAPIProcessor) {
-            oleDsNgRestAPIProcessor = new OleDsNgRestAPIProcessor();
-        }
         return oleDsNgRestAPIProcessor;
     }
 

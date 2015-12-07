@@ -8,7 +8,9 @@ import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.util.OleDsNGSearchUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,6 +24,9 @@ import static org.junit.Assert.*;
  */
 public class OleDsNgRestAPIProcessor_IT extends DocstoreTestCaseBase{
 
+    @Autowired
+    OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor;
+
     @Test
     public void testCreateBib() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -29,7 +34,6 @@ public class OleDsNgRestAPIProcessor_IT extends DocstoreTestCaseBase{
         bibRecord.setContent(BIB_CONTENT);
         bibRecord.setCreatedBy("ole-quickstart");
         bibRecord.setFassAddFlag(false);
-        OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor = new OleDsNgRestAPIProcessor();
         String savedJsonObject = oleDsNgRestAPIProcessor.createBib(objectMapper.defaultPrettyPrintingWriter().writeValueAsString(bibRecord));
         assertNotNull(savedJsonObject);
         System.out.println(savedJsonObject);
@@ -47,7 +51,6 @@ public class OleDsNgRestAPIProcessor_IT extends DocstoreTestCaseBase{
         holdingsRecord.setCallNumber("CallNumber");
         holdingsRecord.setBibId("10000037");
 
-        OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor = new OleDsNgRestAPIProcessor();
         String savedJsonObject = oleDsNgRestAPIProcessor.createHolding(objectMapper.defaultPrettyPrintingWriter().writeValueAsString(holdingsRecord));
         assertNotNull(savedJsonObject);
         System.out.println(savedJsonObject);
