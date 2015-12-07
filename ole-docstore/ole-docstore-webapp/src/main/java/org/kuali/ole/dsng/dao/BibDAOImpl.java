@@ -16,7 +16,6 @@ public class BibDAOImpl extends OleDsNgDAOBase implements BibDAO {
     }
 
     public BibRecord retrieveBibById(String id) {
-        BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, id);
-        return matchedBibRecord;
+        return getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, id);
     }
 }

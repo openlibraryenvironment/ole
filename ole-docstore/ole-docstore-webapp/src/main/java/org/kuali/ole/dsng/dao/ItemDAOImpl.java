@@ -16,6 +16,6 @@ public class ItemDAOImpl extends OleDsNgDAOBase implements ItemDAO {
     }
 
     public ItemRecord retrieveItemById(String id) {
-        return null;
+        return getBusinessObjectService().findBySinglePrimaryKey(ItemRecord.class, id);
     }
 }

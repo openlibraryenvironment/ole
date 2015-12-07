@@ -16,6 +16,6 @@ public class HoldingDAOImpl extends OleDsNgDAOBase implements HoldingDAO {
     }
 
     public HoldingsRecord retrieveHoldingById(String id) {
-        return null;
+        return getBusinessObjectService().findBySinglePrimaryKey(HoldingsRecord.class, id);
     }
 }
