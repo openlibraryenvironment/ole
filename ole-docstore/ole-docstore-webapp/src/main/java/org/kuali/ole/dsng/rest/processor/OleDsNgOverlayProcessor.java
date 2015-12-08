@@ -43,7 +43,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String solrDocuemntContent = jsonObject.getString("solrDocument");
                 SolrDocument deserializedDocument = getObjectMapper().readValue(solrDocuemntContent, SolrDocument.class);
                 SolrInputDocument solrInputDocument = ClientUtils.toSolrInputDocument(deserializedDocument);
-                String bibId = (String) solrInputDocument.getFieldValue("LocalId_Display");
+                String bibId = (String) solrInputDocument.getFieldValue("LocalId_display");
                 BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
                 if(null != bibRecord) {
                     //TODO : process bib record with overlay

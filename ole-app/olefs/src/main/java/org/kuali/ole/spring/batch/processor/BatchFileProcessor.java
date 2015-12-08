@@ -1,7 +1,9 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -49,14 +51,16 @@ public class BatchFileProcessor extends BatchUtil {
                         List results = solrRequestReponseHandler.getSolrDocumentList("mdf_980a:" + "\"" + matchPoint1 + "\"");
                         if (null != results && results.size() == 1) {
                             JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("solrDocument", results.get(0));
+                            SolrDocument value = (SolrDocument) results.get(0);
+                            jsonObject.put("solrDocument", value);
                             jsonArray.put(jsonObject);
                         }
                     }
                 }
 
             }
-            String responseData = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB, jsonArray.toString(), OleDsNgRestClient.Format.JSON);
+
+            String responseData = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB, jsonArray, OleDsNgRestClient.Format.JSON);
             LOG.info("Response Data : " + responseData);
         } catch (IOException e) {
             e.printStackTrace();

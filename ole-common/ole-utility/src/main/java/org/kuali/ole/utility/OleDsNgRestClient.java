@@ -1,5 +1,8 @@
 package org.kuali.ole.utility;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 /**
@@ -7,7 +10,8 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
  */
 public class OleDsNgRestClient {
 
-    public static final String OLE_DS_NG_API_CONTEXT_PATH = "api/oledsng/";
+    public static final String OLE_DS_NG_API_CONTEXT_PATH = "api/oledsng";
+
     public static final class Service {
         public static final String OVERLAY_BIB = "processBibOverlay";
     }
@@ -16,22 +20,33 @@ public class OleDsNgRestClient {
         public static final String JSON = "json";
     }
 
-    private OleHttpRestClient oleHttpRestClient;
+    private Client client;
 
-    public String postData(String serviceName, String content,String format) {
+    public String postData(String serviceName, Object content, String format) {
         String url = getServiceAPIUrl() + serviceName;
-        return getOleHttpRestClient().sendPostRequest(url,content,format);
-    }
 
-    public OleHttpRestClient getOleHttpRestClient() {
-        if(null == oleHttpRestClient) {
-            oleHttpRestClient = new OleHttpRestClient();
+
+        WebResource webResource = getClient()
+                .resource(url);
+
+        ClientResponse response = webResource.type("application/"+format)
+                .post(ClientResponse.class, content);
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
         }
-        return oleHttpRestClient;
+
+
+        return response.getEntity(String.class);
+
     }
 
-    public void setOleHttpRestClient(OleHttpRestClient oleHttpRestClient) {
-        this.oleHttpRestClient = oleHttpRestClient;
+    public Client getClient() {
+        if (null == client) {
+            client = new Client();
+        }
+        return client;
     }
 
     public String getServiceAPIUrl() {
