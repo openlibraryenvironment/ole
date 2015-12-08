@@ -1,6 +1,9 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.marc.DataField;
@@ -12,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pvsubrah on 12/7/15.
@@ -33,8 +37,20 @@ public class BatchFileProcessor {
                         String matchPoint1 = subfield.getData();
                         SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
                         List results = solrRequestReponseHandler.retriveResults("mdf_980a:" + "\"" + matchPoint1 + "\"");
-                        if(results.size() == 1){
+                        if(null != results && results.size() == 1){
+                            JSONArray jsonArray = new JSONArray();
+                            JSONObject jsonObject = new JSONObject();
+                            Map<String,Object> fieldMap = (Map<String, Object>) results.get(0);
+                            for (Iterator<String> fieldMapIterator = fieldMap.keySet().iterator(); fieldMapIterator.hasNext(); ) {
+                                String key = fieldMapIterator.next();
+                                try {
+                                    jsonObject.put(key,fieldMap.get(key));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
+                            }
+                            jsonArray.put(jsonObject);
                         }
                     }
                 }

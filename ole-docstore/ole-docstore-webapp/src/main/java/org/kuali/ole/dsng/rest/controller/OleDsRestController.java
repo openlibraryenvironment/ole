@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/oledsng")
-public class OleDsRestController extends OleDsNGRestSearchController{
+public class OleDsRestController extends OleDsRestOverlayController{
 }

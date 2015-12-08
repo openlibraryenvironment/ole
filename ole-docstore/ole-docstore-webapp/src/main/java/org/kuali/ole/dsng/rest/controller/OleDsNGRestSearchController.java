@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 /**
  * Created by SheikS on 12/3/2015.
  */
-public class OleDsNGRestSearchController extends OleDsNGRestController {
+public class OleDsNGRestSearchController extends OleDsNGRestAPIController {
 
     @Autowired
     private OleDsNGSearchUtil oleDsNGSearchUtil;

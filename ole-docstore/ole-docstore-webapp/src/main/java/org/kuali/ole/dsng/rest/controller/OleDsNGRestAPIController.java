@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by SheikS on 11/25/2015.
  */
-public class OleDsNGRestController {
+public class OleDsNGRestAPIController {
 
     private ObjectMapper objectMapper;
 

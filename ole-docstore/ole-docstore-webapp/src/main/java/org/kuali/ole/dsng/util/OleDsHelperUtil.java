@@ -2,15 +2,22 @@ package org.kuali.ole.dsng.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
+import org.marc4j.marc.Record;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 /**
  * Created by SheikS on 11/30/2015.
  */
 public class OleDsHelperUtil implements DocstoreConstants {
+
+    private ObjectMapper objectMapper;
+
     public String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
@@ -102,8 +109,6 @@ public class OleDsHelperUtil implements DocstoreConstants {
         }
     }
 
-
-
     public void buildLocationLevels(String locationName, String locationLevel, SolrInputDocument solrInputDocument, StringBuffer loactionLevelStr) {
         if (StringUtils.isNotBlank(locationLevel)) {
             if (LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel)) {
@@ -128,5 +133,21 @@ public class OleDsHelperUtil implements DocstoreConstants {
                 appendData(loactionLevelStr,locationName.replace("-",""));
             }
         }
+    }
+
+    public List<Record> processMarcContent(String rawMarcContent) {
+        MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
+        return  marcXMLConverter.convertRawMarchToMarc(rawMarcContent);
+    }
+
+    public ObjectMapper getObjectMapper() {
+        if(null == objectMapper) {
+            objectMapper = new ObjectMapper();
+        }
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 }

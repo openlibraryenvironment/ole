@@ -26,19 +26,7 @@ import java.io.IOException;
  * Created by SheikS on 11/25/2015.
  */
 @Service("oleDsNgRestAPIProcessor")
-public class OleDsNgRestAPIProcessor {
-
-    @Autowired
-    BibDAO bibDAO;
-
-    @Autowired
-    HoldingDAO holdingDAO;
-
-    @Autowired
-    ItemDAO itemDAO;
-
-
-    private BusinessObjectService businessObjectService;
+public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
 
     public String createBib(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -119,13 +107,6 @@ public class OleDsNgRestAPIProcessor {
             throw docstoreException;
         }
 
-    }
-
-    private BusinessObjectService getBusinessObjectService() {
-        if(null == businessObjectService) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
-        }
-        return businessObjectService;
     }
 }
 
