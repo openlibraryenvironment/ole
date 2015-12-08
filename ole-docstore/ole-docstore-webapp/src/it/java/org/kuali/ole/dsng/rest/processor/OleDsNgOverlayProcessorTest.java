@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by SheikS on 12/8/2015.
  */
-public class OleDsNgOverlayProcessorTest implements DocstoreConstants {
+public class OleDsNgOverlayProcessorTest extends DocstoreTestCaseBase implements DocstoreConstants {
 
     @Autowired
     OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor;
