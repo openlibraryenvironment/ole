@@ -76,7 +76,6 @@ public class BibIndexer extends OleDsNgIndexer {
                 } else {
                     SolrInputDocument solrInputDocument = new SolrInputDocument();
                     buildSolrInputDocFromSolrDoc(solrFieldMap, solrInputDocument);
-                    solrDocumentList = Collections.singletonList(solrInputDocument);
                 }
                 updateCommonFields(solrInputDocuments.get(0),bibRecord,solrFieldMap);
             } else {

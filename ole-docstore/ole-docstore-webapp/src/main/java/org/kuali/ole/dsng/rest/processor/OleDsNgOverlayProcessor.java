@@ -44,7 +44,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     bibRecord.setContent(updatedContent);
                     BibRecord updatedBibRecord = bibDAO.save(bibRecord);
 
-                    getBibIndexer().indexDocument(updatedBibRecord);
+                    getBibIndexer().updateDocument(updatedBibRecord);
 
                     JSONObject responseObject = new JSONObject();
                     responseObject.put("bibId",updatedBibRecord.getBibId());
