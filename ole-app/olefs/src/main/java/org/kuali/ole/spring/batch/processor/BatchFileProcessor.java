@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by pvsubrah on 12/7/15.
  */
 public class BatchFileProcessor {
-    public void processBatch(File file){
+    public void processBatch(File file) {
         MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
         try {
             String rawMarc = FileUtils.readFileToString(file);
@@ -37,19 +37,11 @@ public class BatchFileProcessor {
                         String matchPoint1 = subfield.getData();
                         SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
                         List results = solrRequestReponseHandler.retriveResults("mdf_980a:" + "\"" + matchPoint1 + "\"");
-                        if(null != results && results.size() == 1){
+                        if (null != results && results.size() == 1) {
                             JSONArray jsonArray = new JSONArray();
                             JSONObject jsonObject = new JSONObject();
-                            Map<String,Object> fieldMap = (Map<String, Object>) results.get(0);
-                            for (Iterator<String> fieldMapIterator = fieldMap.keySet().iterator(); fieldMapIterator.hasNext(); ) {
-                                String key = fieldMapIterator.next();
-                                try {
-                                    jsonObject.put(key,fieldMap.get(key));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
+                            Map<String, Object> fieldMap = (Map<String, Object>) results.get(0);
+                            jsonObject.put("id", fieldMap.get("LocalId_display"));
                             jsonArray.put(jsonObject);
                         }
                     }
@@ -57,6 +49,8 @@ public class BatchFileProcessor {
 
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

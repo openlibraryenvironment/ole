@@ -1,5 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.ole.utility.OleDsNgRestClient;
 
@@ -24,8 +26,17 @@ public class BatchFileProcessorTest {
     @Test
     public void testOleDsNgRestClient() throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
-        String requestContent = "[{\"LocalId_display\":\"10000034\"}]";
-        String responseData = oleDsNgRestClient.postData("processBibOverlay", requestContent, "json");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("LocalId_display", "10000034");
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("LocalId_display", "10000035");
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(jsonObject);
+        jsonArray.put(jsonObject1);
+
+        String requestBody = jsonArray.toString();
+        String responseData = oleDsNgRestClient.postData("processBibOverlay", requestBody, "json");
         assertNotNull(responseData);
         System.out.println(responseData);
     }
@@ -36,8 +47,5 @@ public class BatchFileProcessorTest {
             return "http://localhost:8080/oledocstore";
         }
     }
-
-
-
 
 }
