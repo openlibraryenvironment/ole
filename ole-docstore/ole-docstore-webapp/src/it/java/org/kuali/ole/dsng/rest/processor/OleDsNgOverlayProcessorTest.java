@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.util.ClientUtils;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
@@ -58,6 +60,39 @@ public class OleDsNgOverlayProcessorTest implements DocstoreConstants {
         SolrInputDocument deserializedDocument = objectMapper.readValue(solrInputDocuemntContent, SolrInputDocument.class);
         assertNotNull(deserializedDocument);
         System.out.println(deserializedDocument);
+
+
+    }
+
+    @Test
+    public void testSerializeAndDeserializeSolrDocumentAsJSON() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        SolrDocument solrDocument = new SolrDocument();
+        solrDocument.addField("id",10101);
+        solrDocument.addField("Title","Bib Title");
+        solrDocument.addField("Author","Bib Author");
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", 10101);
+        jsonObject.put("solrDocument", objectMapper.writeValueAsString(solrDocument));
+
+        String serializedContent = jsonObject.toString();
+        assertTrue(StringUtils.isNotBlank(serializedContent));
+        System.out.println(serializedContent);
+
+
+        JSONObject jsonObject1 = new JSONObject(serializedContent);
+        assertNotNull(jsonObject1);
+
+        String solrDocuemntContent = (String) jsonObject1.getString("solrDocument");
+        SolrDocument deserializedDocument = objectMapper.readValue(solrDocuemntContent, SolrDocument.class);
+        assertNotNull(deserializedDocument);
+        System.out.println(deserializedDocument);
+
+        SolrInputDocument solrInputDocument = ClientUtils.toSolrInputDocument(solrDocument);
+        assertNotNull(solrInputDocument);
+        System.out.println(solrInputDocument);
 
 
     }
