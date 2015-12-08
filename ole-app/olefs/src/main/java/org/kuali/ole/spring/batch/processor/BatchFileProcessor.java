@@ -10,8 +10,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlWriter;
@@ -24,6 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +63,8 @@ public class BatchFileProcessor extends BatchUtil {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
                             jsonObject.put("id", solrDocument.getFieldValue("LocalId_display"));
                             jsonObject.put("content", generateMARCXMLContent(marcRecord));
+                            jsonObject.put("updatedBy", getUpdatedUserName());
+                            jsonObject.put("updatedDate", DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
                             jsonArray.put(jsonObject);
                         }
                     }
@@ -79,7 +86,14 @@ public class BatchFileProcessor extends BatchUtil {
         MarcWriter writer = new MarcXmlWriter(out);
         writer.write(marcRecord);
         writer.close();
-
         return new String(out.toByteArray());
+    }
+
+    public String getUpdatedUserName() {
+        UserSession userSession = GlobalVariables.getUserSession();
+        if(null != userSession) {
+            return userSession.getPrincipalName();
+        }
+        return null;
     }
 }

@@ -18,7 +18,7 @@ public class BatchFileProcessorTest {
     @Test
     public void testProcessBatch() throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
-        BatchFileProcessor batchFileProcessor = new BatchFileProcessor();
+        BatchFileProcessor batchFileProcessor = new MockBatchFileProcessor();
         URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
@@ -47,6 +47,13 @@ public class BatchFileProcessorTest {
         @Override
         public String getDsNgBaseUrl() {;
             return "http://localhost:8080/oledocstore";
+        }
+    }
+
+    class MockBatchFileProcessor extends BatchFileProcessor {
+        @Override
+        public String getUpdatedUserName() {
+            return "dev2";
         }
     }
 
