@@ -29,7 +29,7 @@ public class SolrRequestReponseHandler {
     private HttpSolrServer server;
 
     public List retriveResults(String queryString) {
-        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
 
         server = getHttpSolrServer();
 
@@ -73,7 +73,6 @@ public class SolrRequestReponseHandler {
     }
 
     public SolrDocument retriveResultFromSolr(String queryString) {
-        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
 
         server = getHttpSolrServer();
 
@@ -98,7 +97,9 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+//        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+
+        return "http://localhost:8080/oledocstore/bib";
     }
 
     public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument){

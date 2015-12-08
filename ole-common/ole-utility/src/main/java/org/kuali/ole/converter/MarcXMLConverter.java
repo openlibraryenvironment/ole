@@ -1,5 +1,7 @@
 package org.kuali.ole.converter;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.kuali.ole.pojo.bib.BibliographicRecord;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
@@ -8,6 +10,8 @@ import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.Record;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -59,5 +63,18 @@ public class MarcXMLConverter {
 
     public void generateMarcBean(BibliographicRecord orderRecord) {
 
+    }
+
+
+    public List<Record> convertRawMarchToMarc(String rawMarc) {
+        List<Record> records = new ArrayList<>();
+            MarcReader reader = new MarcStreamReader(IOUtils.toInputStream(rawMarc));
+            while (reader.hasNext()) {
+                Record record = reader.next();
+                records.add(record);
+
+            }
+
+        return records;
     }
 }
