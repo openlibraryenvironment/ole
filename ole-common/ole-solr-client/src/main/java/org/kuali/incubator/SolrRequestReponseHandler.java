@@ -60,6 +60,25 @@ public class SolrRequestReponseHandler {
         return hitsOnPage;
     }
 
+    public SolrDocumentList getSolrDocumentList(String queryString) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
+        SolrDocumentList sdl = null;
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+        query.setIncludeScore(true);
+
+        try {
+            QueryResponse qr = server.query(query);
+            sdl = qr.getResults();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return sdl;
+    }
+
     private HttpSolrServer getHttpSolrServer() {
         if (null == server) {
             try {
@@ -72,40 +91,16 @@ public class SolrRequestReponseHandler {
         return server;
     }
 
-    public SolrDocument retriveResultFromSolr(String queryString) {
-
-        server = getHttpSolrServer();
-
-        SolrQuery query = new SolrQuery();
-        query.setQuery(queryString);
-        query.setIncludeScore(true);
-
-        try {
-            QueryResponse qr = server.query(query);
-
-            SolrDocumentList solrDocumentList = qr.getResults();
-
-            if (null != solrDocumentList && solrDocumentList.size() > 0) {
-                SolrDocument solrDocument = solrDocumentList.get(0);
-                return solrDocument;
-            }
-
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String getSolrUrl() {
 //        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
 
         return "http://localhost:8080/oledocstore/bib";
     }
 
-    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument){
+    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
         UpdateResponse updateResponse = null;
         try {
-            UpdateResponse response = getHttpSolrServer().add(solrInputDocument);
+            updateResponse = getHttpSolrServer().add(solrInputDocument);
             updateResponse = server.commit();
         } catch (Exception e) {
             e.printStackTrace();

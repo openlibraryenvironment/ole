@@ -20,12 +20,6 @@ public class OleDsNGSearchUtil implements DocstoreConstants{
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
     public BibRecord retrieveBibBasedOnMatchPoints(String query) {
-        SolrDocument solrDocument = getSolrRequestReponseHandler().retriveResultFromSolr(query);
-        if(null != solrDocument) {
-            String bibId = (String) solrDocument.get(LOCALID_DISPLAY);
-            BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
-            return bibRecord;
-        }
         return null;
     }
 

@@ -89,7 +89,7 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
 
     protected SolrDocument getSolrDocumentByUUID(String identifier) {
         String query = "id:" + identifier;
-        return getSolrRequestReponseHandler().retriveResultFromSolr(query);
+        return null;
     }
 
     public void commitDocumentToSolr(List<SolrInputDocument> solrInputDocuments){

@@ -44,20 +44,20 @@ public class OleDsNgOverlayProcessorTest implements DocstoreConstants {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", 10101);
-        jsonObject.put("solrInputDocuemnt", objectMapper.writeValueAsString(solrInputDocument));
+        jsonObject.put("solrInputDocument", solrInputDocument);
 
         String serializedContent = jsonObject.toString();
         assertTrue(StringUtils.isNotBlank(serializedContent));
         System.out.println(serializedContent);
 
-
         JSONObject jsonObject1 = new JSONObject(serializedContent);
         assertNotNull(jsonObject1);
 
-        String solrInputDocuemntContent = (String) jsonObject1.getString("solrInputDocuemnt");
-        SolrInputDocument deserializedDocument = objectMapper.readValue(solrInputDocuemntContent, SolrInputDocument.class);
-        assertNotNull(deserializedDocument);
-        System.out.println(deserializedDocument);
+        Integer id = (Integer) jsonObject1.get("id");
+        System.out.println(id);
+
+        Object solrInputDocument1 = jsonObject1.get("solrInputDocument");
+        assertNotNull(solrInputDocument1);
 
 
     }
