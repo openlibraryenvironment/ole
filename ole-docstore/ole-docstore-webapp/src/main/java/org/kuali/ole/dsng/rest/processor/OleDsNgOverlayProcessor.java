@@ -42,7 +42,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
             if(null != bibRecord) {
                 //TODO : process bib record with overlay
-                return getObjectMapper().writeValueAsString(bibDAO.save(bibRecord));
+                BibRecord savedBibRecord = bibDAO.save(bibRecord);
+                JSONObject responseObject = new JSONObject();
+                responseObject.put("bibId",savedBibRecord.getBibId());
+                return responseObject.toString();
             } else {
                 // TODO : need to handle if bib record is not found
             }

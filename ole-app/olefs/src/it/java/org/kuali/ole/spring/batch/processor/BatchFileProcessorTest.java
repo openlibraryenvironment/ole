@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.junit.Test;
+import org.kuali.ole.utility.OleDsNgRestClient;
 
 import java.io.File;
 import java.net.URL;
@@ -19,4 +20,24 @@ public class BatchFileProcessorTest {
         File file = new File(resource.toURI());
         batchFileProcessor.processBatch(file);
     }
+
+    @Test
+    public void testOleDsNgRestClient() throws Exception {
+        OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
+        String requestContent = "[{\"LocalId_display\":\"10000034\"}]";
+        String responseData = oleDsNgRestClient.postData("processBibOverlay", requestContent, "json");
+        assertNotNull(responseData);
+        System.out.println(responseData);
+    }
+
+    class MockOleDsNgRestClient extends OleDsNgRestClient {
+        @Override
+        public String getDsNgBaseUrl() {;
+            return "http://localhost:8080/oledocstore";
+        }
+    }
+
+
+
+
 }
