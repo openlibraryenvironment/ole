@@ -1608,14 +1608,19 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                             Integer poCreatedYear = olePurchaseOrderDocument.getPostingYear();
-                           // Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                            KualiDecimal currentFYCost = new KualiDecimal(0);
+                            KualiDecimal previousYearFYCost = new KualiDecimal(0);
+                            KualiDecimal previousTwoYearFYCost = new KualiDecimal(0);
                             Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
                             if (currentYear.compareTo(poCreatedYear) == 0) {
-                                oleeResourcePO.setPaidAmountCurrentFY(olePurchaseOrderItem.getItemInvoicedTotalAmount().intValue());
+                                currentFYCost = currentFYCost.add(getInvoicedAmount(String.valueOf(olePurchaseOrderDocument.getPurapDocumentIdentifier()).trim()));
+                                oleeResourcePO.setPaidAmountCurrentFY(currentFYCost.toString());
                             } else if (currentYear.compareTo(poCreatedYear) == 1) {
-                                oleeResourcePO.setPaidAmountPreviousFY(olePurchaseOrderItem.getItemInvoicedTotalAmount().intValue());
+                                previousYearFYCost = previousYearFYCost.add(getInvoicedAmountForPreviousFY(String.valueOf(olePurchaseOrderDocument.getPurapDocumentIdentifier()).trim()));
+                                oleeResourcePO.setPaidAmountPreviousFY(previousYearFYCost.toString());
                             } else if (currentYear.compareTo(poCreatedYear) > 1) {
-                                oleeResourcePO.setPaidAmountTwoYearsPreviousFY(olePurchaseOrderItem.getItemInvoicedTotalAmount().intValue());
+                                previousTwoYearFYCost = previousTwoYearFYCost.add(getInvoicedAmountForTwoPreviousFY(String.valueOf(olePurchaseOrderDocument.getPurapDocumentIdentifier()).trim()));
+                                oleeResourcePO.setPaidAmountTwoYearsPreviousFY(previousTwoYearFYCost.toString());
                             }
                             oleeResourcePO.setVendorDetail(olePurchaseOrderDocument.getVendorDetail());
                             oleeResourcePOs.add(oleeResourcePO);
@@ -3293,6 +3298,90 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         preqMap.clear();
         preqMap.put(OLEConstants.PUR_ORDER_IDENTIFIER,poId);
         preqMap.put(OLEConstants.POSTING_YEAR,currentYear);
+        List<OleVendorCreditMemoDocument> vendorCreditMemoDocumentList = (List) getBusinessObjectService().findMatching(OleVendorCreditMemoDocument.class,preqMap);
+        if(vendorCreditMemoDocumentList.size() > 0) {
+            for(OleVendorCreditMemoDocument vendorCreditMemoDocument : vendorCreditMemoDocumentList) {
+                preqMap.clear();
+                preqMap.put(OLEConstants.PURAP_DOC_IDENTIFIER,vendorCreditMemoDocument.getPurapDocumentIdentifier());
+                preqMap.put(OLEConstants.ITEM_TYPE_CODE,OLEConstants.ITEM_TYP_CD_VALUE);
+                List<OleCreditMemoItem> creditMemoItemList = (List) getBusinessObjectService().findMatching(OleCreditMemoItem.class,preqMap);
+                if(creditMemoItemList.size() > 0) {
+                    for(OleCreditMemoItem creditMemoItem : creditMemoItemList) {
+                        itemUnitPrice = itemUnitPrice.subtract(creditMemoItem.getItemUnitPrice());
+                    }
+                }
+
+            }
+        }
+        return new KualiDecimal(itemUnitPrice);
+    }
+
+
+    public KualiDecimal getInvoicedAmountForPreviousFY(String poId) {
+        BigDecimal itemUnitPrice = BigDecimal.ZERO;
+        Integer previousYear = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1);
+        Map preqMap = new HashMap();
+        preqMap.put(OLEConstants.PUR_ORDER_IDENTIFIER,poId);
+        preqMap.put(OLEConstants.POSTING_YEAR,previousYear);
+        List<OlePaymentRequestDocument> olePaymentRequestDocumentList = (List) getBusinessObjectService().findMatching(OlePaymentRequestDocument.class, preqMap);
+        if(olePaymentRequestDocumentList.size() > 0) {
+            for(OlePaymentRequestDocument olePaymentRequestDocument : olePaymentRequestDocumentList) {
+                preqMap.clear();
+                preqMap.put(OLEConstants.PURAP_DOC_IDENTIFIER,olePaymentRequestDocument.getPurapDocumentIdentifier());
+                preqMap.put(OLEConstants.ITEM_TYPE_CODE,OLEConstants.ITEM_TYP_CD_VALUE);
+                List<OlePaymentRequestItem> olePaymentRequestItemList = (List) getBusinessObjectService().findMatching(OlePaymentRequestItem.class,preqMap);
+                if(olePaymentRequestItemList.size() > 0) {
+                    for(OlePaymentRequestItem olePaymentRequestItem : olePaymentRequestItemList) {
+                        itemUnitPrice = itemUnitPrice.add(olePaymentRequestItem.getItemUnitPrice());
+                    }
+                }
+            }
+        }
+        preqMap.clear();
+        preqMap.put(OLEConstants.PUR_ORDER_IDENTIFIER,poId);
+        preqMap.put(OLEConstants.POSTING_YEAR,previousYear);
+        List<OleVendorCreditMemoDocument> vendorCreditMemoDocumentList = (List) getBusinessObjectService().findMatching(OleVendorCreditMemoDocument.class,preqMap);
+        if(vendorCreditMemoDocumentList.size() > 0) {
+            for(OleVendorCreditMemoDocument vendorCreditMemoDocument : vendorCreditMemoDocumentList) {
+                preqMap.clear();
+                preqMap.put(OLEConstants.PURAP_DOC_IDENTIFIER,vendorCreditMemoDocument.getPurapDocumentIdentifier());
+                preqMap.put(OLEConstants.ITEM_TYPE_CODE,OLEConstants.ITEM_TYP_CD_VALUE);
+                List<OleCreditMemoItem> creditMemoItemList = (List) getBusinessObjectService().findMatching(OleCreditMemoItem.class,preqMap);
+                if(creditMemoItemList.size() > 0) {
+                    for(OleCreditMemoItem creditMemoItem : creditMemoItemList) {
+                        itemUnitPrice = itemUnitPrice.subtract(creditMemoItem.getItemUnitPrice());
+                    }
+                }
+
+            }
+        }
+        return new KualiDecimal(itemUnitPrice);
+    }
+
+
+    public KualiDecimal getInvoicedAmountForTwoPreviousFY(String poId) {
+        BigDecimal itemUnitPrice = BigDecimal.ZERO;
+        Integer previousYear = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 2);
+        Map preqMap = new HashMap();
+        preqMap.put(OLEConstants.PUR_ORDER_IDENTIFIER,poId);
+        preqMap.put(OLEConstants.POSTING_YEAR,previousYear);
+        List<OlePaymentRequestDocument> olePaymentRequestDocumentList = (List) getBusinessObjectService().findMatching(OlePaymentRequestDocument.class, preqMap);
+        if(olePaymentRequestDocumentList.size() > 0) {
+            for(OlePaymentRequestDocument olePaymentRequestDocument : olePaymentRequestDocumentList) {
+                preqMap.clear();
+                preqMap.put(OLEConstants.PURAP_DOC_IDENTIFIER,olePaymentRequestDocument.getPurapDocumentIdentifier());
+                preqMap.put(OLEConstants.ITEM_TYPE_CODE,OLEConstants.ITEM_TYP_CD_VALUE);
+                List<OlePaymentRequestItem> olePaymentRequestItemList = (List) getBusinessObjectService().findMatching(OlePaymentRequestItem.class,preqMap);
+                if(olePaymentRequestItemList.size() > 0) {
+                    for(OlePaymentRequestItem olePaymentRequestItem : olePaymentRequestItemList) {
+                        itemUnitPrice = itemUnitPrice.add(olePaymentRequestItem.getItemUnitPrice());
+                    }
+                }
+            }
+        }
+        preqMap.clear();
+        preqMap.put(OLEConstants.PUR_ORDER_IDENTIFIER,poId);
+        preqMap.put(OLEConstants.POSTING_YEAR,previousYear);
         List<OleVendorCreditMemoDocument> vendorCreditMemoDocumentList = (List) getBusinessObjectService().findMatching(OleVendorCreditMemoDocument.class,preqMap);
         if(vendorCreditMemoDocumentList.size() > 0) {
             for(OleVendorCreditMemoDocument vendorCreditMemoDocument : vendorCreditMemoDocumentList) {

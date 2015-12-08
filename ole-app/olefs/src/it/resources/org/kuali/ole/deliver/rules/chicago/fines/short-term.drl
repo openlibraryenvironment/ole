@@ -20,11 +20,10 @@ null!= $r, $r.getRequestTypeCode() in ("Recall/Delivery Request","Recall/Hold Re
 
 $f: ItemFineRate()
 
-$i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72"),
-getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
+$i: OleItemRecordForCirc(getItemType() in ("API","BOOK","AV","AUDIOCD","CURRICULUM"),
+getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
-"QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
 
 then
 $f.setFineRate(5.00);
