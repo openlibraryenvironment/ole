@@ -1,15 +1,20 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.spring.batch.BatchUtil;
+import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +25,17 @@ import java.util.Map;
 /**
  * Created by pvsubrah on 12/7/15.
  */
-public class BatchFileProcessor {
+public class BatchFileProcessor extends BatchUtil {
+
+
+    private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
+
     public void processBatch(File file) {
         MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
         try {
             String rawMarc = FileUtils.readFileToString(file);
             List<Record> records = marcXMLConverter.convertRawMarchToMarc(rawMarc);
+            JSONArray jsonArray = new JSONArray();
             for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
                 Record marcRecord = iterator.next();
                 List<VariableField> dataFields = marcRecord.getVariableFields("980");
@@ -38,16 +48,18 @@ public class BatchFileProcessor {
                         SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
                         List results = solrRequestReponseHandler.retriveResults("mdf_980a:" + "\"" + matchPoint1 + "\"");
                         if (null != results && results.size() == 1) {
-                            JSONArray jsonArray = new JSONArray();
                             JSONObject jsonObject = new JSONObject();
                             Map<String, Object> fieldMap = (Map<String, Object>) results.get(0);
                             jsonObject.put("id", fieldMap.get("LocalId_display"));
+                            jsonObject.put("solrFieldsMap", new JSONObject(fieldMap));
                             jsonArray.put(jsonObject);
                         }
                     }
                 }
 
             }
+            String responseData = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB, jsonArray.toString(), OleDsNgRestClient.Format.JSON);
+            LOG.info("Response Data : " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

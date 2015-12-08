@@ -8,6 +8,13 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 public class OleDsNgRestClient {
 
     public static final String OLE_DS_NG_API_CONTEXT_PATH = "api/oledsng/";
+    public static final class Service {
+        public static final String OVERLAY_BIB = "processBibOverlay";
+    }
+
+    public static final class Format {
+        public static final String JSON = "json";
+    }
 
     private OleHttpRestClient oleHttpRestClient;
 

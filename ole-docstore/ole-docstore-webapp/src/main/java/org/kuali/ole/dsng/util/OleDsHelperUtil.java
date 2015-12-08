@@ -5,6 +5,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.marc4j.marc.Record;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class OleDsHelperUtil implements DocstoreConstants {
 
     private ObjectMapper objectMapper;
+
+    private BibIndexer bibIndexer;
 
     public String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
@@ -149,5 +152,16 @@ public class OleDsHelperUtil implements DocstoreConstants {
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public BibIndexer getBibIndexer() {
+        if(null == bibIndexer) {
+            bibIndexer = new BibIndexer();
+        }
+        return bibIndexer;
+    }
+
+    public void setBibIndexer(BibIndexer bibIndexer) {
+        this.bibIndexer = bibIndexer;
     }
 }
