@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -11,6 +12,9 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
+import org.marc4j.MarcStreamWriter;
+import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -51,8 +55,9 @@ public class BatchFileProcessor extends BatchUtil {
                         List results = solrRequestReponseHandler.getSolrDocumentList("mdf_980a:" + "\"" + matchPoint1 + "\"");
                         if (null != results && results.size() == 1) {
                             JSONObject jsonObject = new JSONObject();
-                            SolrDocument value = (SolrDocument) results.get(0);
-                            jsonObject.put("solrDocument", value);
+                            SolrDocument solrDocument = (SolrDocument) results.get(0);
+                            jsonObject.put("id", solrDocument.getFieldValue("LocalId_display"));
+                            jsonObject.put("content", generateMARCXMLContent(marcRecord));
                             jsonArray.put(jsonObject);
                         }
                     }
@@ -67,6 +72,14 @@ public class BatchFileProcessor extends BatchUtil {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    private String generateMARCXMLContent(Record marcRecord){
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcXmlWriter(out);
+        writer.write(marcRecord);
+        writer.close();
+
+        return new String(out.toByteArray());
     }
 }

@@ -32,7 +32,7 @@ public class OleDsNgRestClient {
         ClientResponse response = webResource.type("application/"+format)
                 .post(ClientResponse.class, content);
 
-        if (response.getStatus() != 200) {
+        if (response.getStatus() != 201) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatus());
         }
