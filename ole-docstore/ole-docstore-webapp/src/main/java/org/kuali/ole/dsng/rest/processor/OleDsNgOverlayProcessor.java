@@ -35,9 +35,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     public String processOverlayForBib(String jsonBody) throws JSONException, IOException {
 
-        JSONArray jsonArray = new JSONArray(jsonBody);
-        for(int index = 0 ; index < jsonArray.length() ; index++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
+        JSONArray requestJsonArray = new JSONArray(jsonBody);
+        JSONArray responseJsonArray = new JSONArray();
+        for(int index = 0 ; index < requestJsonArray.length() ; index++) {
+            JSONObject jsonObject = requestJsonArray.getJSONObject(index);
             String bibId = jsonObject.getString(LOCALID_DISPLAY);
             BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
             if(null != bibRecord) {
@@ -45,11 +46,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 BibRecord savedBibRecord = bibDAO.save(bibRecord);
                 JSONObject responseObject = new JSONObject();
                 responseObject.put("bibId",savedBibRecord.getBibId());
-                return responseObject.toString();
+                responseJsonArray.put(responseObject);
             } else {
                 // TODO : need to handle if bib record is not found
             }
         }
-        return null;
+        return responseJsonArray.toString();
     }
 }
