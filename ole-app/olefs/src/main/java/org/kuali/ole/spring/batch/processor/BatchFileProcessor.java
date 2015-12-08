@@ -46,12 +46,10 @@ public class BatchFileProcessor extends BatchUtil {
                         Subfield subfield = subfieldIterator.next();
                         String matchPoint1 = subfield.getData();
                         SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
-                        List results = solrRequestReponseHandler.retriveResults("mdf_980a:" + "\"" + matchPoint1 + "\"");
+                        List results = solrRequestReponseHandler.getSolrDocumentList("mdf_980a:" + "\"" + matchPoint1 + "\"");
                         if (null != results && results.size() == 1) {
                             JSONObject jsonObject = new JSONObject();
-                            Map<String, Object> fieldMap = (Map<String, Object>) results.get(0);
-                            jsonObject.put("id", fieldMap.get("LocalId_display"));
-                            jsonObject.put("solrFieldsMap", new JSONObject(fieldMap));
+                            jsonObject.put("solrDocument", results.get(0));
                             jsonArray.put(jsonObject);
                         }
                     }
