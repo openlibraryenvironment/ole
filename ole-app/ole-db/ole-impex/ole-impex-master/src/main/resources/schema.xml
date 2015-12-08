@@ -11971,7 +11971,6 @@
         <column name="PRBLM_TYPE_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="NAME" size="40" type="VARCHAR"/>
         <column name="DESCRIPTION" size="100" type="VARCHAR"/>
-        <column name="DEFT_IND" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="ROW_ACT_IND" size="1" type="VARCHAR"/>

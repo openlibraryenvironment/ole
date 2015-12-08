@@ -5237,4 +5237,9 @@
                 tableName="OLE_BAT_PRCS_PRF_MTCH_POINT_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_PRBLM_TYPE_DROP">
+        <dropColumn columnName="DEFT_IND"
+                    tableName="OLE_PRBLM_TYPE_T"/>
+    </changeSet>
+
 </databaseChangeLog>
