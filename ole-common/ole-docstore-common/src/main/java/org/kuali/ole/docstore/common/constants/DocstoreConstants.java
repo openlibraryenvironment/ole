@@ -1,5 +1,7 @@
 package org.kuali.ole.docstore.common.constants;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by pvsubrah on 9/18/15.
  */
@@ -352,6 +354,9 @@ public interface DocstoreConstants {
     public static final String ILL_DISPLAY = "ILL_display";
     public static final String ILL_SEARCH = "ILL_search";
     public static final String IS_BOUND_WITH = "isBoundwith";
+
+
+    public static final SimpleDateFormat DOCSTORE_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 
 
 

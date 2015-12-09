@@ -29,7 +29,7 @@ public class SolrRequestReponseHandler {
     private HttpSolrServer server;
 
     public List retriveResults(String queryString) {
-        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
 
         server = getHttpSolrServer();
 
@@ -60,6 +60,25 @@ public class SolrRequestReponseHandler {
         return hitsOnPage;
     }
 
+    public SolrDocumentList getSolrDocumentList(String queryString) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
+        SolrDocumentList sdl = null;
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+        query.setIncludeScore(true);
+
+        try {
+            QueryResponse qr = server.query(query);
+            sdl = qr.getResults();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return sdl;
+    }
+
     private HttpSolrServer getHttpSolrServer() {
         if (null == server) {
             try {
@@ -73,13 +92,15 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+//        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+
+        return "http://localhost:8080/oledocstore/bib";
     }
 
-    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument){
+    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
         UpdateResponse updateResponse = null;
         try {
-            UpdateResponse response = getHttpSolrServer().add(solrInputDocument);
+            updateResponse = getHttpSolrServer().add(solrInputDocument);
             updateResponse = server.commit();
         } catch (Exception e) {
             e.printStackTrace();
