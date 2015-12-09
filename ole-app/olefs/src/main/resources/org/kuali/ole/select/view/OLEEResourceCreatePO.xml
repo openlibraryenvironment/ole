@@ -98,9 +98,15 @@
                 <bean parent="Uif-LinkField" p:linkText="@{#line.poId}" p:target="_blank" p:render="@{#line.poId ne null}"
                       p:label="PO No" p:href="@{#line.redirectUrl}"/>
                 <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
-                <bean parent="Uif-DataField" p:label="EResource Name" p:propertyName="title"
-                      p:onMouseOverScript="showLightBox('@{#index}' , 'eResource');" p:render="@{#line.poId ne null}"/>
-                <bean parent="Uif-DataField" p:label="EResource Name" p:propertyName="title" p:render="@{#line.poId eq null}"/>
+                <bean parent="Uif-VerticalFieldGroup" p:label="EResource Name">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="title"/>
+                            <bean parent="Uif-LinkField" p:linkText="Create New" p:render="@{#line.poId ne null}"
+                                  p:onClickScript="e.preventDefault();showLightBox('@{#index}' , 'eResource');"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
                 <bean parent="Uif-DataField" p:label="Estimated Price" p:propertyName="price"/>
                 <bean parent="Uif-InputField"
@@ -166,11 +172,16 @@
                       p:label="PO No" p:href="@{#line.redirectUrl}"/>
 
                 <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
-                <bean parent="Uif-DataField" p:label="Holdings Name" p:propertyName="title"
-                      p:onMouseOverScript="showLightBox('@{#index}', 'instance')"
-                      p:render="@{#line.poId ne null}"/>
-                <bean parent="Uif-DataField" p:label="Holdings Name" p:propertyName="title"
-                      p:render="@{#line.poId eq null}"/>
+                <bean parent="Uif-VerticalFieldGroup" p:label="Holdings Name">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="title"/>
+                            <bean parent="Uif-LinkField" p:linkText="Create New" p:render="@{#line.poId ne null}"
+                                  p:onClickScript="e.preventDefault();showLightBox('@{#index}', 'instance');"/>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
                 <bean parent="Uif-InputField" p:label="Estimated Price" p:propertyName="price">
                     <property name="control">
