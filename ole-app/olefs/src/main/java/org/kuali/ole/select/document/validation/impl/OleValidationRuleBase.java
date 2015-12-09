@@ -349,6 +349,7 @@ public class OleValidationRuleBase extends AccountingRuleEngineRuleBase implemen
                 }
             }
         }
+        processCustomAddCopiesRequisitionBusinessRules(document, item);
         return result;
 
     }

@@ -32,7 +32,7 @@ public class OleInvoiceRecordBuilder_UT {
     public void testBuild() throws Exception {
         OLEINVConverter OLEEDITranslator = new OLEINVConverter();
         assertNotNull(OLEEDITranslator);
-        URL ediResource = getClass().getResource("R032713.T102543.INV");
+        URL ediResource = getClass().getResource("26sep15.edi");
         File ediFile = new File(ediResource.toURI());
         String fileContent = new FileUtil().readFile(ediFile);
         String javaResult = OLEEDITranslator.convertToXML(fileContent);
@@ -52,7 +52,7 @@ public class OleInvoiceRecordBuilder_UT {
     public void testGenerateXMLToPojos() throws Exception {
         OLEINVConverter OLEEDITranslator = new OLEINVConverter();
         assertNotNull(OLEEDITranslator);
-        URL ediResource = getClass().getResource("R032713.T102543.INV");
+        URL ediResource = getClass().getResource("26sep15.edi");
         File ediFile = new File(ediResource.toURI());
         String fileContent = new FileUtil().readFile(ediFile);
         String xml = OLEEDITranslator.convertToXML(fileContent);

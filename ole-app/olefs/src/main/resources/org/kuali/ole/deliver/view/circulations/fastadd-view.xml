@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="fastAddView" parent="fastAddView-parentBean" />
+    <bean id="fastAddView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="fastAddViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list merge="false">
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="fastAddErrorMessage"/>
+                                        <ref bean="fastAddItemSection"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="fastAddItem-button" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.CircForm"/>
+    </bean>
+
+    <bean id="fastAddItem-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="fastAddErrorMessage"/>
+                <bean id="saveItemFastAddBtn" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:27em;width:10%"
+                      p:actionScript="
+                       var itemType = jq('#addFastAddItemType_control').val();
+                      var callNumberType = jq('#addFastAddCallNumberType_control').val();
+                      var note = jq('#addFastAddNote_control').val();
+                      var checkinNote = jq('#addFastAddCheckinNote_control').val();
+                      var title = jq('#addFastAddTitle_control').val();
+                      var shelvingLocation = jq('#addFastAddShelvingLocation_control').val();
+                      var barcode = jq('#addFastAddBarcode_control').val();
+                      var callNumber= jq('#addFastAddCallNumber_control').val();
+                      if(itemType!='' &amp;&amp; checkinNote!='' &amp;&amp; title!='' &amp;&amp; shelvingLocation!=''  &amp;&amp; barcode!=''  &amp;&amp; callNumber!=''){
+                        jq('#fastAddErrorMessage').attr('style','display:none');
+                        submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
+                        submitForm('returnToDeliverTab',null,null,null,null);
+                        });
+                      }else{
+                         jq('#fastAddErrorMessage').attr('style','display:inline');
+                         jq('#fastAddErrorMessage').focus();
+                      }" p:actionLabel="Submit"/>
+
+                <bean id="btnCancelItemFastAdd" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel"
+                      p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);" />
+            </list>
+        </property>
+    </bean>
+
+</beans>
