@@ -16,9 +16,19 @@ import static org.junit.Assert.*;
 public class BatchFileProcessorTest {
 
     @Test
-    public void testProcessBatch() throws Exception {
+    public void testProcessBatchForBib() throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
-        BatchFileProcessor batchFileProcessor = new MockBatchFileProcessor();
+        BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
+        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
+        File file = new File(resource.toURI());
+        batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
+        batchFileProcessor.processBatch(file);
+    }
+
+    @Test
+    public void testProcessBatchForHoldings() throws Exception {
+        OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
+        BatchFileProcessor batchFileProcessor = new MockBatchHoldingFileProcessor();
         URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
@@ -50,7 +60,14 @@ public class BatchFileProcessorTest {
         }
     }
 
-    class MockBatchFileProcessor extends BatchFileProcessor {
+    class MockBatchBibFileProcessor extends BatchBibFileProcessor {
+        @Override
+        public String getUpdatedUserName() {
+            return "dev2";
+        }
+    }
+
+    class MockBatchHoldingFileProcessor extends BatchHoldingFileProcessor {
         @Override
         public String getUpdatedUserName() {
             return "dev2";
