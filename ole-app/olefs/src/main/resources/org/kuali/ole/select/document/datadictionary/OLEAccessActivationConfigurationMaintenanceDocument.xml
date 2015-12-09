@@ -90,7 +90,7 @@
                             <bean parent="Uif-QuickFinder"
                                   p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
                                   p:fieldConversions="name:recipientRoleName,id:recipientRoleId"
-                                  p:lookupParameters="recipientRoleName:name,recipientRoleId:id"/>
+                                  p:lookupParameters="recipientRoleName:name"/>
                         </property>
 
                     </bean>
@@ -98,7 +98,7 @@
                         <property name="quickfinder">
                             <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
                                   p:fieldConversions="principalName:recipientUserName,principalId:recipientUserId"
-                                  p:lookupParameters="recipientUserName:principalName,recipientUserId:principalId" />
+                                  p:lookupParameters="recipientUserName:principalName" />
                         </property>
                     </bean>
                     <bean id="create_mailId"  parent="Uif-InputField" p:propertyName="mailId">
@@ -177,7 +177,7 @@
             <bean parent="Uif-QuickFinder"
                   p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
                   p:fieldConversions="name:roleName,id:roleId"
-                  p:lookupParameters="roleName:name,roleId:id"/>
+                  p:lookupParameters="roleName:name"/>
         </property>
 
     </bean>
@@ -196,7 +196,7 @@
         <property name="quickfinder">
             <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
                   p:fieldConversions="principalName:personName,principalId:personId"
-                  p:lookupParameters="personName:principalName,personId:principalId" />
+                  p:lookupParameters="personName:principalName" />
         </property>
     </bean>
 
