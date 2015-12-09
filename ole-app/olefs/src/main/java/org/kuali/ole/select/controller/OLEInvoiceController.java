@@ -1844,7 +1844,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getDocumentService().saveDocument(oleInvoiceDocument);
 
         performWorkflowAction(oleInvoiceForm, UifConstants.WorkflowAction.DISAPPROVE, true);
-        return returnToPrevious(oleInvoiceForm);
+        return closeDocument(oleInvoiceForm,result,request,response);
 
     }
 
