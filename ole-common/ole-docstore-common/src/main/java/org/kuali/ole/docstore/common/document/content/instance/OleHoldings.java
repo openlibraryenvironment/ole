@@ -131,6 +131,7 @@ public class OleHoldings {
     protected String currentSubscriptionStartDate;
     protected String currentSubscriptionEndDate;
     protected String initialSubscriptionStartDate;
+    protected boolean cancellationCandidate;
     protected String cancellationDecisionDate;
     protected String cancellationEffectiveDate;
     protected String cancellationReason;
@@ -292,6 +293,14 @@ public class OleHoldings {
             uri = new ArrayList<Uri>();
         }
         return this.uri;
+    }
+
+    public boolean isCancellationCandidate() {
+        return cancellationCandidate;
+    }
+
+    public void setCancellationCandidate(boolean cancellationCandidate) {
+        this.cancellationCandidate = cancellationCandidate;
     }
 
     public String getCancellationDecisionDate() {

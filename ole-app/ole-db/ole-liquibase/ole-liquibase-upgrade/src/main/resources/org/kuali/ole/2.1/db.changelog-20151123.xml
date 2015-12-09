@@ -141,4 +141,11 @@
         <sql>ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_T MODIFY ATT_VAL varchar2(500)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_ADD_CANCELLATION_CANDIDATE">
+        <addColumn
+                tableName="OLE_DS_HOLDINGS_T">
+            <column name="CANCELLATION_CANDIDATE" type="VARCHAR(1)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

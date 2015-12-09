@@ -144,6 +144,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         if (oleHoldings.geteResourceSubscriptionStatus() == null || (oleHoldings.geteResourceSubscriptionStatus() != null && oleHoldings.getSubscriptionStatus() != oleHoldings.geteResourceSubscriptionStatus())) {
             holdingsRecord.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
         }
+        holdingsRecord.setCancellationCandidate(oleHoldings.isCancellationCandidate());
         if (oleHoldings.geteResourceCancellationReason() == null || (oleHoldings.geteResourceCancellationReason() != null && oleHoldings.getCancellationReason() != oleHoldings.geteResourceCancellationReason())) {
             holdingsRecord.setCancellationReason(oleHoldings.getCancellationReason());
         }
@@ -1280,6 +1281,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             oleHoldings.setDonorInfo(donorInfoList);
         }
 
+        oleHoldings.setCancellationCandidate(holdingsRecord.isCancellationCandidate());
         if (holdingsRecord.getInitialSubscriptionStartDate() != null)
             oleHoldings.setInitialSubscriptionStartDate(new SimpleDateFormat("MM/dd/yyyy").format(holdingsRecord.getInitialSubscriptionStartDate()));
         if (holdingsRecord.getCurrentSubscriptionEndDate() != null)
