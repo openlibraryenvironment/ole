@@ -144,7 +144,7 @@
     <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_ADD_CANCELLATION_CANDIDATE">
         <addColumn
                 tableName="OLE_DS_HOLDINGS_T">
-            <column name="CANCELLATION_CANDIDATE" type="VARCHAR(1)"/>
+            <column name="CANCELLATION_CANDIDATE" type="CHAR(1)"/>
         </addColumn>
     </changeSet>
 
