@@ -18,7 +18,7 @@ public class OLEProblemTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean isValid = true;
         OLEProblemType problemType = (OLEProblemType) document.getNewMaintainableObject().getDataObject();
-        isValid &= validateProblemTypeName(problemType) && validateProblemTypeDefaultIndicator(problemType);
+        isValid &= validateProblemTypeName(problemType);
         return isValid;
     }
 
@@ -38,26 +38,6 @@ public class OLEProblemTypeRule extends MaintenanceDocumentRuleBase {
                     String problemTypeId = oleProblemType.getProblemTypeId();
                     if (null == problemType.getProblemTypeId() || (!problemType.getProblemTypeId().equalsIgnoreCase(problemTypeId))) {
                         this.putFieldError(OLEConstants.OLEProblemType.PRBLM_TYPE_NAME_FIELD, OLEConstants.DUPLICATE);
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean validateProblemTypeDefaultIndicator(OLEProblemType problemType){
-
-        Map<String,Boolean> criteria=new HashMap<String,Boolean>();
-        criteria.put(OLEConstants.OLEProblemType.PRBLM_TYPE_DEFAULT_INDICATOR,problemType.isDefaultIndicator());
-        List<OLEProblemType> oleProblemTypeList = (List<OLEProblemType>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEProblemType.class, criteria);
-        boolean isDefault=problemType.isDefaultIndicator();
-
-        if(isDefault) {
-            if (oleProblemTypeList.size() > 0) {
-                for (OLEProblemType oleProblemType : oleProblemTypeList) {
-                    if (isDefault == oleProblemType.isDefaultIndicator()) {
-                        this.putFieldError(OLEConstants.OLEProblemType.PRBLM_TYPE_DEFAULT_INDICATOR_FIELD,OLEConstants.ERROR_DEFAULT_IND_DUPLICATE);
                         return false;
                     }
                 }
