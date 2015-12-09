@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * Created by pvsubrah on 12/7/15.
  */
-public class BatchFileProcessor extends BatchUtil {
+public abstract class BatchFileProcessor extends BatchUtil {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
@@ -46,33 +46,7 @@ public class BatchFileProcessor extends BatchUtil {
         try {
             String rawMarc = FileUtils.readFileToString(file);
             List<Record> records = marcXMLConverter.convertRawMarchToMarc(rawMarc);
-            JSONArray jsonArray = new JSONArray();
-            for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-                Record marcRecord = iterator.next();
-                List<VariableField> dataFields = marcRecord.getVariableFields("980");
-                for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-                    DataField dataField = (DataField) variableFieldIterator.next();
-                    List<Subfield> subFields = dataField.getSubfields("a");
-                    for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                        Subfield subfield = subfieldIterator.next();
-                        String matchPoint1 = subfield.getData();
-                        SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
-                        List results = solrRequestReponseHandler.getSolrDocumentList("mdf_980a:" + "\"" + matchPoint1 + "\"");
-                        if (null != results && results.size() == 1) {
-                            JSONObject jsonObject = new JSONObject();
-                            SolrDocument solrDocument = (SolrDocument) results.get(0);
-                            jsonObject.put("id", solrDocument.getFieldValue("LocalId_display"));
-                            jsonObject.put("content", generateMARCXMLContent(marcRecord));
-                            jsonObject.put("updatedBy", getUpdatedUserName());
-                            jsonObject.put("updatedDate", DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
-                            jsonArray.put(jsonObject);
-                        }
-                    }
-                }
-
-            }
-
-            String responseData = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB, jsonArray, OleDsNgRestClient.Format.JSON);
+            String responseData = customProcess(records);
             LOG.info("Response Data : " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,7 +55,9 @@ public class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    private String generateMARCXMLContent(Record marcRecord){
+    public abstract String customProcess(List<Record> records) throws JSONException;
+
+    public String generateMARCXMLContent(Record marcRecord){
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         MarcWriter writer = new MarcXmlWriter(out);
         writer.write(marcRecord);
