@@ -62,6 +62,8 @@ public interface OlePurapService {
 
     public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem);
 
+    public void setInvoiceDocumentsForEResourcePO(PurApItem purApItem);
+
     public Integer getRequestorTypeId(String requestorType);
 
     public void setClaimDateForReq(OleRequisitionItem oleRequisitionItem,VendorDetail vendorDetail);
