@@ -575,6 +575,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
         oleRequisitionCopies.setItemCopies(singleItem.getItemQuantity());
         oleRequisitionCopies.setParts(singleItem.getItemNoOfParts());
         oleRequisitionCopies.setLocationCopies(singleItem.getItemLocation());
+        if(StringUtils.isNotEmpty(singleItem.getSingleCopyNumber())) {
+            oleRequisitionCopies.setStartingCopyNumber(new KualiInteger(singleItem.getSingleCopyNumber()));
+        }
         if (singleItem.getOleOrderRecord() != null && singleItem.getOleOrderRecord().getOleTxRecord() != null) {
             oleRequisitionCopies.setCaption(singleItem.getOleOrderRecord().getOleTxRecord().getCaption());
             if (singleItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1))) {
