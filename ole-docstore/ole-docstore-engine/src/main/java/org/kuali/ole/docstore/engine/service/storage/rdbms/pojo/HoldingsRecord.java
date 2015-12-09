@@ -61,6 +61,7 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
     private Timestamp currentSubscriptionStartDate;
     private Timestamp currentSubscriptionEndDate;
     private Timestamp initialSubscriptionStartDate;
+    private boolean cancellationCandidate;
     private Timestamp cancellationDecisionDate;
     private Timestamp cancellationEffectiveDate;
     private String cancellationReason;
@@ -366,6 +367,14 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
 
     public void setInitialSubscriptionStartDate(Timestamp initialSubscriptionStartDate) {
         this.initialSubscriptionStartDate = initialSubscriptionStartDate;
+    }
+
+    public boolean isCancellationCandidate() {
+        return cancellationCandidate;
+    }
+
+    public void setCancellationCandidate(boolean cancellationCandidate) {
+        this.cancellationCandidate = cancellationCandidate;
     }
 
     public Timestamp getCancellationDecisionDate() {
