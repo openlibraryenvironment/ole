@@ -40,6 +40,7 @@ import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
+import org.kuali.ole.vnd.businessobject.VendorAlias;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -3541,5 +3542,110 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         }
         return returnValue;
     }*/
+
+    private LookupService getLookupService() {
+        return KRADServiceLocatorWeb.getLookupService();
+    }
+
+    @RequestMapping(params = "methodToCall=selectVendor")
+    public ModelAndView selectVendor(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) {
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        Map<String, String> criteria = new HashMap<String, String>();
+        VendorDetail vendorDetail = null;
+        String vendorAliasName = oleInvoiceDocument.getVendorAlias();
+        if (StringUtils.isNotEmpty(vendorAliasName)) {
+            criteria.put(OLEConstants.InvoiceDocument.VENDOR_ALIAS_NAME, vendorAliasName);
+            List<VendorAlias> vendorAliasList = (List<VendorAlias>) getLookupService().findCollectionBySearch(VendorAlias.class, criteria);
+            if (CollectionUtils.isNotEmpty(vendorAliasList)) {
+                vendorDetail = vendorAliasList.get(0).getVendorDetail();
+            }
+        }
+        if (vendorDetail != null) {
+            oleInvoiceDocument.setVendorDetail(vendorDetail);
+            oleInvoiceDocument.setVendorName(vendorDetail.getVendorName());
+            oleInvoiceDocument.setVendorId(vendorDetail.getVendorHeaderGeneratedIdentifier() + "-" + vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorNumber(vendorDetail.getVendorNumber());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorFaxNumber(vendorDetail.getDefaultFaxNumber());
+            //oleInvoiceDocument.
+            if (vendorDetail.getVendorPaymentTerms() != null) {
+                oleInvoiceDocument.setVendorPaymentTerms(vendorDetail.getVendorPaymentTerms());
+                oleInvoiceDocument.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTerms().getVendorPaymentTermsCode());
+            }
+            if (vendorDetail.getVendorShippingTitle() != null) {
+                oleInvoiceDocument.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitle().getVendorShippingTitleCode());
+            }
+            if (vendorDetail.getVendorShippingPaymentTerms() != null) {
+                oleInvoiceDocument.setVendorShippingPaymentTerms(vendorDetail.getVendorShippingPaymentTerms());
+            }
+            if (vendorDetail.getPaymentMethodId() != null) {
+                oleInvoiceDocument.setPaymentMethodIdentifier(vendorDetail.getPaymentMethodId().toString());
+            }
+            if (oleInvoiceDocument.getVendorDetail() != null ) {
+                if (oleInvoiceDocument.getVendorDetail().getCurrencyType() != null) {
+                    oleInvoiceDocument.setInvoiceCurrencyType(vendorDetail.getCurrencyType().getCurrencyTypeId().toString());
+                    oleInvoiceDocument.setInvoiceCurrencyTypeId(vendorDetail.getCurrencyType().getCurrencyTypeId());
+                    if (vendorDetail.getCurrencyType().getCurrencyType().equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)) {
+                        oleInvoiceDocument.setForeignCurrencyFlag(false);
+                        oleInvoiceDocument.setForeignInvoiceAmount(null);
+                        oleInvoiceDocument.setInvoiceCurrencyExchangeRate(null);
+                    } else {
+                        oleInvoiceDocument.setForeignCurrencyFlag(true);
+                        oleInvoiceDocument.setInvoiceAmount(null);
+                        BigDecimal exchangeRate = getInvoiceService().getExchangeRate(oleInvoiceDocument.getInvoiceCurrencyType()).getExchangeRate();
+                        oleInvoiceDocument.setInvoiceCurrencyExchangeRate(exchangeRate.toString());
+                    }
+                }
+            }
+            else {
+                oleInvoiceDocument.setPaymentMethodIdentifier("");
+            }
+            for (VendorAddress vendorAddress : vendorDetail.getVendorAddresses()) {
+                if (vendorAddress.isVendorDefaultAddressIndicator()) {
+                    oleInvoiceDocument.setVendorCityName(vendorAddress.getVendorCityName());
+                    oleInvoiceDocument.setVendorLine1Address(vendorAddress.getVendorLine1Address());
+                    oleInvoiceDocument.setVendorLine2Address(vendorAddress.getVendorLine2Address());
+                    oleInvoiceDocument.setVendorAttentionName(vendorAddress.getVendorAttentionName());
+                    oleInvoiceDocument.setVendorPostalCode(vendorAddress.getVendorZipCode());
+                    oleInvoiceDocument.setVendorStateCode(vendorAddress.getVendorStateCode());
+                    oleInvoiceDocument.setVendorAttentionName(vendorAddress.getVendorAttentionName());
+                    oleInvoiceDocument.setVendorAddressInternationalProvinceName(vendorAddress.getVendorAddressInternationalProvinceName());
+                    oleInvoiceDocument.setVendorCountryCode(vendorAddress.getVendorCountryCode());
+                    oleInvoiceDocument.setVendorCountry(vendorAddress.getVendorCountry());
+                    //oleInvoiceDocument.setNoteLine1Text(vendorAddress.getNoteLine2Text
+                }
+            }
+        }
+        else {
+            vendorDetail = new VendorDetail();
+            oleInvoiceDocument.setVendorDetail(vendorDetail);
+            oleInvoiceDocument.setVendorName(vendorDetail.getVendorName());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorNumber(vendorDetail.getVendorNumber());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorFaxNumber(vendorDetail.getDefaultFaxNumber());
+            oleInvoiceDocument.setVendorPaymentTerms(vendorDetail.getVendorPaymentTerms());
+            oleInvoiceDocument.setVendorPaymentTermsCode("");
+            oleInvoiceDocument.setVendorShippingPaymentTerms(vendorDetail.getVendorShippingPaymentTerms());
+            oleInvoiceDocument.setPaymentMethodIdentifier("");
+            oleInvoiceDocument.setVendorCityName("");
+            oleInvoiceDocument.setVendorLine1Address("");
+            oleInvoiceDocument.setVendorLine2Address("");
+            oleInvoiceDocument.setVendorAttentionName("");
+            oleInvoiceDocument.setVendorPostalCode("");
+            oleInvoiceDocument.setVendorStateCode("");
+            oleInvoiceDocument.setVendorAttentionName("");
+            oleInvoiceDocument.setVendorAddressInternationalProvinceName("");
+            oleInvoiceDocument.setVendorCountryCode("");
+        }
+        return getUIFModelAndView(oleInvoiceForm);
+    }
 
 }
