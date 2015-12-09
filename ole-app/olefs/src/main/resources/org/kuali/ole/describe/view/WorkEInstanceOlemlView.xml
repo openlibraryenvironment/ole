@@ -176,6 +176,7 @@
         <property name="items">
             <list>
                 <ref bean="OleEHoldingsOverviewSection"/>
+                <ref bean="OleEHoldingsAccessInfoSection"/>
                 <ref bean="OleEInstanceLocationInformationSection"/>
                 <ref bean="OleEInstanceCallNumberInformation"/>
                 <ref bean="OleExtentOfOwnershipDetails"/>
@@ -183,7 +184,6 @@
                 <ref bean="OleEHoldingsAcquisitionSection"/>
                 <ref bean="OLEEHoldings-Subscription"/>
                 <ref bean="OleEInstanceDonorInformation"/>
-                <ref bean="OleEHoldingsAccessInfoSection"/>
                 <ref bean="OleEHoldingsLicenseSection"/>
                 <ref bean="OleEInstanceHoldingNotes"/>
             </list>
