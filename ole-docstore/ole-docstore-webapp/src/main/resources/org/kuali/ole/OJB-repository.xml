@@ -94,6 +94,7 @@
         <field-descriptor name="currentSubscriptionStartDate" column="CURRENT_SBRCPTN_START_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="currentSubscriptionEndDate" column="CURRENT_SBRCPTN_END_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="initialSubscriptionStartDate" column="INITIAL_SBRCPTN_START_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="cancellationCandidate" column="CANCELLATION_CANDIDATE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="cancellationDecisionDate" column="CANCELLATION_DECISION_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="cancellationEffectiveDate" column="CANCELLATION_EFFECTIVE_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="cancellationReason" column="CANCELLATION_REASON" jdbc-type="VARCHAR"/>
