@@ -2,6 +2,7 @@ package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -20,6 +21,8 @@ import java.util.*;
  * Created by SheikS on 12/9/2015.
  */
 public class BatchBibFileProcessor extends BatchFileProcessor {
+
+    private static final String FORWARD_SLASH = "/";
 
     @Override
     public String processRecords(List<Record> records) throws JSONException {
@@ -43,33 +46,66 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
                         //Bib data
 
-                        Map bibData = new HashMap<>();
+                        JSONObject bibData = new JSONObject();
                         bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
                         bibData.put("content", generateMARCXMLContent(marcRecord));
                         bibData.put("updatedBy", updatedUserName);
                         bibData.put("updatedDate", updatedDate);
 
 
-                        bib.put("bib", bibData);
-
-                        Map holdingsData = new HashedMap();
-                        holdingsData.put("levelId-1", "UC");
-                        holdingsData.put("levelId-3", "UCX");
-                        holdingsData.put("levelId-5", "InProc");
-                        holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
-
-
-                        bibData.put("holdings", holdingsData);
-
-
                         //Holdings data
+                        String locationLevel1 = "UC";
+                        String locationLevel2 = null;
+                        String locationLevel3 = "UCX";
+                        String locationLevel4 = null;
+                        String locationLevel5 = "InProc";
+
+                        String location = formLocation(locationLevel1, locationLevel2, locationLevel3,
+                                locationLevel4, locationLevel5);
+
+
+                        JSONObject holdingsData = new JSONObject();
+                        holdingsData.put("location", location);
+                        holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
+                        bibData.put("holdings", holdingsData);
 
                         jsonArray.put(bibData);
                     }
                 }
-            }
 
+            }
         }
         return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
+    }
+
+    public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
+                               String locationLevel4, String locationLevel5) {
+        StringBuilder location = new StringBuilder();
+
+        if (StringUtils.isNotBlank(locationLevel1)) {
+            appendLocationToStrinBuilder(location, locationLevel1);
+        }
+        if (StringUtils.isNotBlank(locationLevel2)) {
+            appendLocationToStrinBuilder(location, locationLevel2);
+        }
+        if (StringUtils.isNotBlank(locationLevel3)) {
+            appendLocationToStrinBuilder(location, locationLevel3);
+        }
+        if (StringUtils.isNotBlank(locationLevel4)) {
+            appendLocationToStrinBuilder(location, locationLevel4);
+        }
+        if (StringUtils.isNotBlank(locationLevel5)) {
+            appendLocationToStrinBuilder(location, locationLevel5);
+        }
+
+        return location.toString();
+    }
+
+    private void appendLocationToStrinBuilder(StringBuilder stringBuilder, String location) {
+        if (stringBuilder.length() > 0) {
+            stringBuilder.append(FORWARD_SLASH).append(location);
+        } else {
+            stringBuilder.append(location);
+        }
     }
 }

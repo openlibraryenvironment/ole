@@ -53,6 +53,21 @@ public class BatchFileProcessorTest {
         System.out.println(responseData);
     }
 
+    @Test
+    public void testFormLocation() throws Exception {
+        String locationLevel1 = "UC";
+        String locationLevel2 = null;
+        String locationLevel3 = "UCX";
+        String locationLevel4 = null;
+        String locationLevel5 = "InProc";
+
+        BatchBibFileProcessor batchFileProcessor = new BatchBibFileProcessor();
+        String fullPathLocation = batchFileProcessor.formLocation(locationLevel1, locationLevel2,
+                locationLevel3, locationLevel4, locationLevel5);
+        assertNotNull(fullPathLocation);
+        System.out.println(fullPathLocation);
+    }
+
     class MockOleDsNgRestClient extends OleDsNgRestClient {
         @Override
         public String getDsNgBaseUrl() {;

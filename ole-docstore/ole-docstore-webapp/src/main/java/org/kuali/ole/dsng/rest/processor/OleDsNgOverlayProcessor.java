@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
@@ -18,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/8/2015.
@@ -43,7 +41,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
-            for(int index = 0 ; index < requestJsonArray.length() ; index++) {
+            for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject jsonObject = requestJsonArray.getJSONObject(index);
 
                 String bibId = jsonObject.getString("id");
@@ -53,11 +51,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String updatedDateString = (String) jsonObject.get("updatedDate");
 
                 BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
-                if(null != bibRecord) {
+                if (null != bibRecord) {
                     //TODO : process bib record with overlay
                     bibRecord.setContent(updatedContent);
                     bibRecord.setUpdatedBy(updatedBy);
-                    if(StringUtils.isNotBlank(updatedDateString)) {
+                    if (StringUtils.isNotBlank(updatedDateString)) {
                         bibRecord.setDateEntered(getDateTimeStamp(updatedDateString));
                     }
                     BibRecord updatedBibRecord = bibDAO.save(bibRecord);
@@ -65,7 +63,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     getBibIndexer().updateDocument(updatedBibRecord);
 
                     JSONObject responseObject = new JSONObject();
-                    responseObject.put("bibId",updatedBibRecord.getBibId());
+                    responseObject.put("bibId", updatedBibRecord.getBibId());
                     responseJsonArray.put(responseObject);
                 } else {
                     // TODO : need to handle if bib record is not found
@@ -83,7 +81,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
-            for(int index = 0 ; index < requestJsonArray.length() ; index++) {
+            for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject jsonObject = requestJsonArray.getJSONObject(index);
 
                 String holdingId = jsonObject.getString("id");
@@ -93,10 +91,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String updatedDateString = (String) jsonObject.get("updatedDate");
 
                 HoldingsRecord holdingsRecord = holdingDAO.retrieveHoldingById(holdingId);
-                if(null != holdingsRecord) {
+                if (null != holdingsRecord) {
                     //TODO : process holding record with overlay
                     holdingsRecord.setUpdatedBy(updatedBy);
-                    if(StringUtils.isNotBlank(updatedDateString)) {
+                    if (StringUtils.isNotBlank(updatedDateString)) {
                         holdingsRecord.setUpdatedDate(getDateTimeStamp(updatedDateString));
                     }
                     HoldingsRecord updatedHoldingRecord = holdingDAO.save(holdingsRecord);
@@ -104,7 +102,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     getHoldingIndexer().updateDocument(updatedHoldingRecord);
 
                     JSONObject responseObject = new JSONObject();
-                    responseObject.put("holdingId",updatedHoldingRecord.getHoldingsId());
+                    responseObject.put("holdingId", updatedHoldingRecord.getHoldingsId());
                     responseJsonArray.put(responseObject);
                 } else {
                     // TODO : need to handle if bib record is not found
@@ -117,14 +115,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
 
-
     public String processOverlayForBibAndHoldings(String jsonBody) {
         List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
         JSONArray responseJsonArray = null;
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
-            for(int index = 0 ; index < requestJsonArray.length() ; index++) {
+            for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject jsonObject = requestJsonArray.getJSONObject(index);
 
                 String bibId = jsonObject.getString("id");
@@ -134,12 +131,14 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String updatedDateString = (String) jsonObject.get("updatedDate");
 
                 BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
-                if(null != bibRecord) {
+                if (null != bibRecord) {
                     //TODO : process bib record with overlay
                     bibRecord.setContent(updatedContent);
                     bibRecord.setUpdatedBy(updatedBy);
-                    if(StringUtils.isNotBlank(updatedDateString)) {
-                        bibRecord.setDateEntered(getDateTimeStamp(updatedDateString));
+                    Timestamp updatedDate = null;
+                    if (StringUtils.isNotBlank(updatedDateString)) {
+                        updatedDate =  getDateTimeStamp(updatedDateString);
+                        bibRecord.setDateEntered(updatedDate);
                     }
                     BibRecord updatedBibRecord = bibDAO.save(bibRecord);
 
@@ -147,38 +146,26 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     solrInputDocuments.addAll(inputDocumentForBib);
 
                     JSONObject responseObject = new JSONObject();
-                    responseObject.put("bibId",updatedBibRecord.getBibId());
+                    responseObject.put("bibId", updatedBibRecord.getBibId());
 
                     List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
-                    if(CollectionUtils.isNotEmpty(holdingsRecords) && jsonObject.has("holdingIds")) {
-                        JSONArray holdingIdsJsonArray = jsonObject.getJSONArray("holdingIds");
-                        for(int holdingIndex = 0 ; holdingIndex < holdingIdsJsonArray.length() ; holdingIndex++) {
-                            JSONObject holdingJsonObject = holdingIdsJsonArray.getJSONObject(holdingIndex);
-
-                            String holdingId = holdingJsonObject.getString("id");
-
-                            String holdingUpdateBy = holdingJsonObject.getString("updatedBy");
-                            String holdingUpdatedDateString = (String) holdingJsonObject.get("updatedDate");
-
-                            JSONArray holdingsResponseJsonArray = new JSONArray();
-                            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-                                HoldingsRecord holdingsRecord = iterator.next();
-                                String holdingsIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, holdingsRecord.getHoldingsId());
-                                if(holdingId.equalsIgnoreCase(holdingsIdentifierWithPrefix)) {
-                                    holdingsRecord.setUpdatedBy(holdingUpdateBy);
-                                    if(StringUtils.isNotBlank(holdingUpdatedDateString)) {
-                                        holdingsRecord.setUpdatedDate(getDateTimeStamp(holdingUpdatedDateString));
-                                    }
-                                    HoldingsRecord updatedHoldingRecord = holdingDAO.save(holdingsRecord);
-                                    List<SolrInputDocument> inputDocumentForHoldings = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord);
-                                    solrInputDocuments.addAll(inputDocumentForHoldings);
-
-                                    JSONObject holdingResonseObject = new JSONObject();
-                                    holdingResonseObject.put("holdingId",updatedHoldingRecord.getHoldingsId());
-                                    holdingsResponseJsonArray.put(holdingResonseObject);
-                                }
+                    if (CollectionUtils.isNotEmpty(holdingsRecords) && jsonObject.has("holdings")) {
+                        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                            HoldingsRecord holdingsRecord = iterator.next();
+                            JSONObject holdingJsonObject = jsonObject.getJSONObject("holdings");
+                            String location = getStringValueFromJsonObject(holdingJsonObject, "location");
+                            String callNumberTypeName = getStringValueFromJsonObject(holdingJsonObject, "callNumberType");
+                            holdingsRecord.setLocation(location);
+                            CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordByName(callNumberTypeName);
+                            if (null != callNumberTypeRecord) {
+                                holdingsRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
+                                holdingsRecord.setCallNumberTypeRecord(callNumberTypeRecord);
                             }
-                            responseObject.put("holdingsIds" , holdingsResponseJsonArray);
+                            holdingsRecord.setUpdatedBy(updatedBy);
+                            holdingsRecord.setUpdatedDate(updatedDate);
+                            HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
+                            List<SolrInputDocument> inputDocumentForHoldings = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord);
+                            solrInputDocuments.addAll(inputDocumentForHoldings);
                         }
                     }
                     getBibIndexer().commitDocumentToSolr(solrInputDocuments);
@@ -187,22 +174,32 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     // TODO : need to handle if bib record is not found
                 }
             }
-        } catch (JSONException e) {
+        }catch (JSONException e) {
             e.printStackTrace();
         }
         return responseJsonArray.toString();
     }
 
-    private Timestamp getDateTimeStamp(String updatedDateString){
+    private Timestamp getDateTimeStamp(String updatedDateString) {
         Timestamp timeStamp = null;
         try {
             Date parse = DocstoreConstants.DOCSTORE_DATE_FORMAT.parse(updatedDateString);
-            if(null != parse) {
+            if (null != parse) {
                 timeStamp = new Timestamp(parse.getTime());
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return timeStamp;
+    }
+
+    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
+        String returnValue = null;
+        try {
+            returnValue = jsonObject.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 }
