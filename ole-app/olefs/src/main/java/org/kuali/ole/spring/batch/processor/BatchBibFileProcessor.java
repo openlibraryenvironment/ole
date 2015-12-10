@@ -53,9 +53,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         bib.put("bib", bibData);
 
                         Map holdingsData = new HashedMap();
-                        holdingsData.put("locationLevel1", "UC");
-                        holdingsData.put("locationLevel3", "UCX");
-                        holdingsData.put("locationLevel5", "InProc");
+                        holdingsData.put("levelId-1", "UC");
+                        holdingsData.put("levelId-3", "UCX");
+                        holdingsData.put("levelId-5", "InProc");
                         holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
 
 
