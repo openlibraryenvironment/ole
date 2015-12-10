@@ -44,6 +44,7 @@
                 <ref bean="OleRequestDocument-borrowerBarcode"/>
                 <ref bean="OleRequestDocument-proxyBorrowerBarcode"/>
                 <ref bean="OleRequestDocument-requestLevel"/>
+                <ref bean="OleRequestDocument-requestNote"/>
 
             </list>
         </property>
@@ -564,6 +565,21 @@
         <property name="label" value="Request Level"/>
     </bean>
 
+    <bean id="OleRequestDocument-requestNote" parent="OleRequestDocument-requestNote-parentBean"/>
+    <bean id="OleRequestDocument-requestNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="4000"/>
+        <property name="shortLabel" value="Request Note"/>
+        <property name="description" value="Request Note"/>
+        <property name="name" value="requestNote"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Note"/>
+    </bean>
 
     <bean id="OleRequestDocument-LookupView" parent="Uif-OLELookupView">
         <property name="headerText" value="Request Search" />
@@ -620,6 +636,7 @@
                 <bean id="result-expirationDate" parent="Uif-DataField" p:propertyName="requestExpiryDate"/>
                 <bean id="result-pickUpLocation" parent="Uif-DataField" p:propertyName="pickUpLocationCode"/>
                 <bean id="result-onHoldExpirationDate" parent="Uif-DataField" p:propertyName="holdExpirationDate"/>
+                <bean id="result-requestNote" parent="Uif-DataField" p:propertyName="requestNote"/>
             </list>
         </property>
         <property name="resultsGroup">
@@ -779,6 +796,7 @@
                 <bean id="borrowerId-inquiry-proxyBorrowerLName" parent="Uif-InputField" p:propertyName="proxyBorrowerLastName" p:label="proxy patron last name" p:render="@{dataObject.proxyBorrowerId ne null}"/>
                 <bean id="operatorCreateId-inquiry-operatorCreateId" parent="Uif-InputField" p:propertyName="operatorCreateId" p:render="@{dataObject.operatorCreateId ne null}"/>
                 <bean id="borrowerId-inquiry-operateCreateName" parent="Uif-InputField" p:propertyName="operatorCreateId" p:label="Operator name" p:render="@{dataObject.operatorCreateId ne null}"/>
+                <bean id="request-inquiry-requestNote" parent="Uif-InputField" p:propertyName="requestNote" p:label="Request Note"/>
             </list>
         </property>
     </bean>

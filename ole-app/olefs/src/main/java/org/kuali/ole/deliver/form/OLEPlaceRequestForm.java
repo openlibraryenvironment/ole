@@ -69,6 +69,8 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private boolean displayRequestType=false;
     private boolean addressUpdated;
 
+    private String requestNote;
+
     public boolean isAddressUpdated() {
         return addressUpdated;
     }
@@ -483,5 +485,13 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setAsrRequest(boolean asrRequest) {
         this.asrRequest = asrRequest;
+    }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
     }
 }
