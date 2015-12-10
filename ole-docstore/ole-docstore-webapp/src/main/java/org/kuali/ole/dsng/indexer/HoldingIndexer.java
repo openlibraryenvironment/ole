@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.indexer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.PHoldings;
@@ -34,77 +35,65 @@ public class HoldingIndexer extends OleDsNgIndexer {
     @Override
     public void updateDocument(Object object) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) object;
+        List<SolrInputDocument> solrInputDocuments = getInputDocumentForHoldings(holdingsRecord);
+        commitDocumentToSolr(solrInputDocuments);
 
+    }
+
+    public List<SolrInputDocument> getInputDocumentForHoldings(HoldingsRecord holdingsRecord) {
+        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
         String holdingsIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, String.valueOf(holdingsRecord.getHoldingsId()));
-        SolrDocument holdingsSolrDocument = getSolrDocumentByUUID(holdingsIdentifierWithPrefix);
-        if(null != holdingsSolrDocument) {
-            List<SolrInputDocument> solrInputDocuments = buildSolrInputDocument(holdingsRecord);
-            if(CollectionUtils.isNotEmpty(solrInputDocuments)){
-                SolrInputDocument holdingsSolrInputDocument = solrInputDocuments.get(0);
-                List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
-                List<String> itemUUIds = new ArrayList<String>();
-                if(CollectionUtils.isNotEmpty(itemRecords)){
-                    for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                        ItemRecord itemRecord = iterator.next();
-                        OleDsNgIndexer itemIndexer = new ItemIndexer();
-                        List<SolrInputDocument> itemSolrInputDocuments = itemIndexer.buildSolrInputDocument(itemRecord);
-                        if(CollectionUtils.isNotEmpty(itemSolrInputDocuments)) {
-                            solrInputDocuments.addAll(itemSolrInputDocuments);
+        SolrDocumentList solrDocumentList = getSolrDocumentByUUID(holdingsIdentifierWithPrefix);
+        if (null !=  solrDocumentList && solrDocumentList.size() > 0) {
+            SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
+            if(null != holdingsSolrDocument) {
+                solrInputDocuments = buildSolrInputDocument(holdingsRecord);
+                if(CollectionUtils.isNotEmpty(solrInputDocuments)){
+                    SolrInputDocument holdingsSolrInputDocument = solrInputDocuments.get(0);
+                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                    List<String> itemUUIds = new ArrayList<String>();
+                    if(CollectionUtils.isNotEmpty(itemRecords)){
+                        for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                            ItemRecord itemRecord = iterator.next();
+                            OleDsNgIndexer itemIndexer = new ItemIndexer();
+                            List<SolrInputDocument> itemSolrInputDocuments = itemIndexer.buildSolrInputDocument(itemRecord);
+                            if(CollectionUtils.isNotEmpty(itemSolrInputDocuments)) {
+                                solrInputDocuments.addAll(itemSolrInputDocuments);
+                            }
+                            String itemIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), String.valueOf(itemRecord.getItemId()));
+                            itemUUIds.add(itemIdentifierWithPrefix);
                         }
-                        String itemIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), String.valueOf(itemRecord.getItemId()));
-                        itemUUIds.add(itemIdentifierWithPrefix);
+                    }
+                    holdingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemUUIds);
+                    Date date = new Date();
+                    holdingsSolrInputDocument.addField(UPDATED_BY, holdingsRecord.getUpdatedBy());
+                    holdingsSolrInputDocument.addField(DATE_UPDATED, date);
+                    if(StringUtils.isNotBlank(holdingsRecord.getBibId())){
+                        String bibIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, holdingsRecord.getBibId());
+                        SolrDocumentList bibSolrDocumentList = getSolrDocumentByUUID(bibIdentifierWithPrefix);
+                        if (null != bibSolrDocumentList && bibSolrDocumentList.size() > 0) {
+                            SolrDocument bibSolrDocument = bibSolrDocumentList.get(0);
+                            // Todo : Need to refactor this code
+                            Map<String,Object> solrFieldMap = (Map<String, Object>) bibSolrDocument.getFieldValueMap();
+                            addBibInfoForHoldingsOrItems(holdingsSolrInputDocument,solrFieldMap);
+                            holdingsSolrInputDocument.addField(BIB_IDENTIFIER, bibIdentifierWithPrefix);
+                            solrInputDocuments.add(addHoldingsDetailsToBib(holdingsSolrInputDocument,bibIdentifierWithPrefix));
+                        }
                     }
                 }
-                holdingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemUUIds);
-                Date date = new Date();
-                holdingsSolrInputDocument.addField(UPDATED_BY, holdingsRecord.getUpdatedBy());
-                holdingsSolrInputDocument.addField(DATE_UPDATED, date);
-                if(StringUtils.isNotBlank(holdingsRecord.getBibId())){
-                    String bibIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, holdingsRecord.getBibId());
-                    SolrDocument bibSolrDocument = getSolrDocumentByUUID(bibIdentifierWithPrefix);
-                    // Todo : Need to refactor this code
-                    Map<String,Object> solrFieldMap = (Map<String, Object>) bibSolrDocument.getFieldValueMap();
-                    addBibInfoForHoldingsOrItems(holdingsSolrInputDocument,solrFieldMap);
-                    holdingsSolrInputDocument.addField(BIB_IDENTIFIER, bibIdentifierWithPrefix);
-                    solrInputDocuments.add(addHoldingsDetailsToBib(holdingsSolrInputDocument,bibIdentifierWithPrefix));
+                //Todo : Need to verify and remove this logic
+                for (Iterator<SolrInputDocument> iterator = solrInputDocuments.iterator(); iterator.hasNext(); ) {
+                    SolrInputDocument solrInputDocument = iterator.next();
+                    if(solrInputDocument.containsKey("score")){
+                        solrInputDocument.removeField("score");
+                    }
                 }
+
+            } else {
+                throw new DocstoreSearchException("Holding is not found in the solr for holdingId : " + holdingsIdentifierWithPrefix);
             }
-            //Todo : Need to verify and remove this logic
-            for (Iterator<SolrInputDocument> iterator = solrInputDocuments.iterator(); iterator.hasNext(); ) {
-                SolrInputDocument solrInputDocument = iterator.next();
-                if(solrInputDocument.containsKey("score")){
-                    solrInputDocument.removeField("score");
-                }
-            }
-
-
-            commitDocumentToSolr(solrInputDocuments);
-
-        } else {
-            throw new DocstoreSearchException("Holding is not found in the solr for holdingId : " + holdingsIdentifierWithPrefix);
         }
-
-        /*SolrDocument holdingsSolrDocument = solrFieldMapList.get(0);
-
-        if (holdingsSolrDocument != null) {
-            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
-
-            DocstoreService docstoreService = new DocstoreServiceImpl();
-            HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdingsRecord.getId());
-            ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
-            for (Item item : holdingsTree.getItems()) {
-                itemOlemlIndexer.solrFieldMap(item, solrInputDocuments, solrDocForHolding);
-            }
-
-            solrDocForHolding.addField(BIB_IDENTIFIER, holdingsRecord.getBib().getId());
-            solrDocForHolding.addField(ITEM_IDENTIFIER, itemIdentifier);
-            Date date = new Date();
-            solrDocForHolding.addField(UPDATED_BY, holdingsRecord.getUpdatedBy());
-            solrDocForHolding.addField(DATE_UPDATED, date);
-            solrInputDocuments.add(solrDocForHolding);
-            addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdingsRecord.getBib().getId());
-        }*/
-
+        return  solrInputDocuments;
     }
 
     @Override
@@ -555,11 +544,14 @@ public class HoldingIndexer extends OleDsNgIndexer {
     private SolrInputDocument addHoldingsDetailsToBib(SolrInputDocument solrInputDocument, String uuid) {
 
         if (org.apache.commons.lang3.StringUtils.isNotBlank(uuid)) {
-            SolrDocument solrDocument = getSolrDocumentByUUID(uuid);
-            if(null != solrDocument) {
-                addDetails(solrInputDocument, solrDocument, URI_SEARCH);
-                addDetails(solrInputDocument, solrDocument, HOLDINGS_IDENTIFIER);
-                return buildSolrInputDocFromSolrDoc(solrDocument);
+            SolrDocumentList solrDocumentList = getSolrDocumentByUUID(uuid);
+            if (null != solrDocumentList && solrDocumentList.size() > 0) {
+                SolrDocument solrDocument = solrDocumentList.get(0);
+                if(null != solrDocument) {
+                    addDetails(solrInputDocument, solrDocument, URI_SEARCH);
+                    addDetails(solrInputDocument, solrDocument, HOLDINGS_IDENTIFIER);
+                    return buildSolrInputDocFromSolrDoc(solrDocument);
+                }
             }
         }
         return null;

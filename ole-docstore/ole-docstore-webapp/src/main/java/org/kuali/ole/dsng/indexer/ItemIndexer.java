@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.indexer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
@@ -272,20 +273,23 @@ public class ItemIndexer extends OleDsNgIndexer  {
             }
 
 
-            SolrDocument holdingSolrDocument = getSolrDocumentByUUID(holdingsIdentifierWithPrefix);
-            if(null != holdingSolrDocument && holdingSolrDocument.size() > 0) {
-                Object bibs = holdingSolrDocument.getFirstValue(BIB_IDENTIFIER);
-                addItemDetailsToHoldings(solrInputDocument, holdingSolrDocument);
-                SolrInputDocument holdingsSolrInput = buildSolrInputDocFromSolrDoc(holdingSolrDocument);
+            SolrDocumentList solrDocumentList = getSolrDocumentByUUID(holdingsIdentifierWithPrefix);
+            if (null != solrDocumentList && solrDocumentList.size() > 0) {
+                SolrDocument holdingSolrDocument = solrDocumentList.get(0);
+                if(null != holdingSolrDocument && holdingSolrDocument.size() > 0) {
+                    Object bibs = holdingSolrDocument.getFirstValue(BIB_IDENTIFIER);
+                    addItemDetailsToHoldings(solrInputDocument, holdingSolrDocument);
+                    SolrInputDocument holdingsSolrInput = buildSolrInputDocFromSolrDoc(holdingSolrDocument);
 
 
-                addBibInfoForHoldingsOrItems(solrInputDocument, holdingSolrDocument);
+                    addBibInfoForHoldingsOrItems(solrInputDocument, holdingSolrDocument);
 
-                solrInputDocument.addField("bibIdentifier", (String) bibs);
-                solrInputDocuments.add(solrInputDocument);
-                solrInputDocuments.add(holdingsSolrInput);
+                    solrInputDocument.addField("bibIdentifier", (String) bibs);
+                    solrInputDocuments.add(solrInputDocument);
+                    solrInputDocuments.add(holdingsSolrInput);
 
-                solrInputDocuments.add(addItemDetailsToBib(solrInputDocument, (String) bibs));
+                    solrInputDocuments.add(addItemDetailsToBib(solrInputDocument, (String) bibs));
+                }
             }
 
             //***********************
@@ -313,11 +317,14 @@ public class ItemIndexer extends OleDsNgIndexer  {
 
     private SolrInputDocument addItemDetailsToBib(SolrInputDocument solrInputDocument, String uuid) {
         if (StringUtils.isNotBlank(uuid)) {
-            SolrDocument solrDocument = getSolrDocumentByUUID(uuid);
-            if(null != solrDocument) {
-                addDetails(solrInputDocument, solrDocument, ITEM_BARCODE_SEARCH);
-                addDetails(solrInputDocument, solrDocument, ITEM_IDENTIFIER);
-                return buildSolrInputDocFromSolrDoc(solrDocument);
+            SolrDocumentList solrDocumentList = getSolrDocumentByUUID(uuid);
+            if(null != solrDocumentList && solrDocumentList.size() > 0){
+                SolrDocument solrDocument = solrDocumentList.get(0);
+                if(null != solrDocument) {
+                    addDetails(solrInputDocument, solrDocument, ITEM_BARCODE_SEARCH);
+                    addDetails(solrInputDocument, solrDocument, ITEM_IDENTIFIER);
+                    return buildSolrInputDocFromSolrDoc(solrDocument);
+                }
             }
         }
         return null;

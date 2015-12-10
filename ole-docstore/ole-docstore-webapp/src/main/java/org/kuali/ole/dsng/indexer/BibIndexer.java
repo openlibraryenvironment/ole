@@ -57,7 +57,12 @@ public class BibIndexer extends OleDsNgIndexer {
     @Override
     public void updateDocument(Object object) {
         BibRecord bibRecord = (BibRecord) object;
-        List<SolrInputDocument> solrInputDocuments = null;
+        List<SolrInputDocument> solrInputDocuments = getInputDocumentForBib(bibRecord);
+        commitDocumentToSolr(solrInputDocuments);
+    }
+
+    public List<SolrInputDocument> getInputDocumentForBib(BibRecord bibRecord) {
+        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
         if(StringUtils.isNotBlank(bibRecord.getBibId())){
             String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(bibRecord.getUniqueIdPrefix(), String.valueOf(bibRecord.getBibId()));
 
@@ -82,7 +87,7 @@ public class BibIndexer extends OleDsNgIndexer {
                 throw new DocstoreSearchException("Bib is not found in the solr for bibId : " + bibIdWithPrefix);
             }
         }
-        commitDocumentToSolr(solrInputDocuments);
+        return solrInputDocuments;
     }
 
     @Override
