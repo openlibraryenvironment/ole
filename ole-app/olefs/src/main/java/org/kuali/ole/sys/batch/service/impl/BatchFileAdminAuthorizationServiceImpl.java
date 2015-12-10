@@ -62,7 +62,7 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
                 for (String batchFileDirectoryName : batchFileDirectories) {
                     File directory = new File(batchFileDirectoryName).getAbsoluteFile();
                     String fileName = batchFile.getFileName();
-                    if(fileName.contains(OLEConstants.REENCUM_RECURR) || fileName.contains(OLEConstants.PO_BULK_AMEND_OUT_FILE_NM) || fileName.contains(OLEConstants.POBA_FILE) || fileName.contains(OLEConstants.POBA_LOG_FILE))   {
+                    if(fileName.contains(OLEConstants.BIBIMPORT_FILE_PATTERN) || fileName.contains(OLEConstants.REENCUM_RECURR) || fileName.contains(OLEConstants.PO_BULK_AMEND_OUT_FILE_NM)  || fileName.contains(OLEConstants.POBA_FILE) || fileName.contains(OLEConstants.POBA_LOG_FILE))   {
                         return moduleConfiguration.getNamespaceCode();
                     } else if (BatchFileUtils.isSuperDirectoryOf(directory, batchFile.retrieveFile())) {
                         return moduleConfiguration.getNamespaceCode();
