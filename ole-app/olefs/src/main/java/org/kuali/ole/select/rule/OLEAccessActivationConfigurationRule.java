@@ -152,45 +152,44 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         List<RoleBo> dataSourceNameInDatabaseroleName;
         RoleBo roleBo;
         boolean validRole = true;
-
-        if (StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
-            criteria.put(OLEConstants.ACCESS_ROLE_ID, oleAccessActivationConfiguration.getRecipientRoleId());
+        if (StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
+           // criteria.put(OLEConstants.ACCESS_ROLE_ID, oleAccessActivationConfiguration.getRecipientRoleId());
             criteria.put(OLEConstants.ACCESS_ROLE_NAME, oleAccessActivationConfiguration.getRecipientRoleName());
             dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService().findMatching(RoleBo.class, criteria);
             if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                validRole = true;
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_ID_NAME);
-                validRole = false;
-            }
-        } else if (StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
-            criteria = new HashMap<String, String>();
-            criteria.put(OLEConstants.ACCESS_ROLE_NAME, oleAccessActivationConfiguration.getRecipientRoleName());
-            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
-                    .findMatching(RoleBo.class, criteria);
-            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                roleBo = dataSourceNameInDatabaseroleName.get(0);
-                oleAccessActivationConfiguration.setRecipientRoleId(roleBo.getId());
-                validRole = true;
+                if(dataSourceNameInDatabaseroleName.size()==1){
+                    oleAccessActivationConfiguration.setRecipientRoleId(dataSourceNameInDatabaseroleName.get(0).getId());
+                    validRole = true;
+                }else if(oleAccessActivationConfiguration.getRecipientRoleId()!=null){
+                    boolean matchingIdAndName=false;
+                for(RoleBo roleBo1 : dataSourceNameInDatabaseroleName){
+                   {
+                       if(oleAccessActivationConfiguration.getRecipientRoleId().equals(roleBo1.getId())){
+                           oleAccessActivationConfiguration.setRecipientRoleId(roleBo1.getId());
+                           matchingIdAndName = true;
+                           validRole = true;
+                           break;
+
+                       }
+                   }
+                }
+                 if(!matchingIdAndName){
+                     GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_ID_NAME);
+                     validRole = false;
+                 }
+                }else{
+                    oleAccessActivationConfiguration.setRecipientRoleId(dataSourceNameInDatabaseroleName.get(0).getId());
+                    validRole = true;
+                }
+
             } else {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_NAME);
                 validRole = false;
             }
-        } else if (StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientRoleName())) {
-            criteria = new HashMap<String, String>();
-            criteria.put(OLEConstants.ACCESS_ROLE_ID, oleAccessActivationConfiguration.getRecipientRoleId());
-            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
-                    .findMatching(RoleBo.class, criteria);
-            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                roleBo = dataSourceNameInDatabaseroleName.get(0);
-                oleAccessActivationConfiguration.setRecipientRoleName(roleBo.getName());
-                validRole = true;
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_ID);
-                validRole = false;
-            }
+        }else{
+            oleAccessActivationConfiguration.setRecipientRoleId(null);
+            oleAccessActivationConfiguration.setRecipientRoleName(null);
         }
-
 
         return validRole ;
     }
@@ -198,43 +197,48 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
 
     private boolean validatePerson(OLEAccessActivationConfiguration oleAccessActivationConfiguration){
         boolean validPerson = true;
-        if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+        if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserName())){
             Map<String,String> criteriaMap = new HashMap<String,String>();
-            criteriaMap.put("principalId",oleAccessActivationConfiguration.getRecipientUserId());
+          //  criteriaMap.put("principalId",oleAccessActivationConfiguration.getRecipientUserId());
             criteriaMap.put("principalName",oleAccessActivationConfiguration.getRecipientUserName());
             List<Person> personList = getPersonService().findPeople(criteriaMap);
             if(personList.size()>0){
-                validPerson = true;
+                if(personList.size()==1){
+                    oleAccessActivationConfiguration.setRecipientUserId(personList.get(0).getPrincipalId());
+                    validPerson =true;
+                }else if(oleAccessActivationConfiguration.getRecipientUserId()!=null){
+                    boolean matchingIdAndName=false;
+                    for(Person person : personList){
+                        {
+                            if(oleAccessActivationConfiguration.getRecipientUserId().equals(person.getPrincipalId())){
+                                oleAccessActivationConfiguration.setRecipientUserId(person.getPrincipalId());
+                                matchingIdAndName = true;
+                                validPerson = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!matchingIdAndName){
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_ID_NAME);
+                        validPerson = false;
+                    }
+                }else{
+                    oleAccessActivationConfiguration.setRecipientUserId(personList.get(0).getPrincipalId());
+                    validPerson = true;
+                }
+
+
+
+
             }else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_ID_NAME);
-                validPerson = false;
-            }
-        } else if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserName())){
-            Person person = getPersonService().getPerson(oleAccessActivationConfiguration.getRecipientUserId());
-            if(person!=null){
-                validPerson =true;
-                oleAccessActivationConfiguration.setRecipientUserName(person.getName());
-            }else{
-                validPerson = false;
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_ID);
-            }
-
-        }
-        else if(StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserName())){
-            Person person = getPersonService().getPersonByPrincipalName(oleAccessActivationConfiguration.getRecipientUserName());
-            if(person!=null){
-                validPerson =true;
-                oleAccessActivationConfiguration.setRecipientUserId(person.getPrincipalId());
-            }else{
-                validPerson = false;
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.ERROR_INVALID_PERSON_NAME);
+                validPerson = false;
             }
-
-        }
-        if(StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserId()) && StringUtils.isBlank(oleAccessActivationConfiguration.getRecipientUserName())){
+        }else{
+            oleAccessActivationConfiguration.setRecipientUserId(null);
             oleAccessActivationConfiguration.setRecipientUserName(null);
-            validPerson=true;
         }
+
         return validPerson;
     }
 }
