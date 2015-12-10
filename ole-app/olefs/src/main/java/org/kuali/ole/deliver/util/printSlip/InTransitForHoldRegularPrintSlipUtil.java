@@ -27,6 +27,7 @@ public class InTransitForHoldRegularPrintSlipUtil extends OleRegularPrintSlipUti
         OleDeliverRequestBo oleDeliverRequestBo = getOleItemRecordForCirc().getOleDeliverRequestBo();
         String routeTo = getOleItemRecordForCirc().getRouteToLocation();
         String requestedBy = oleDeliverRequestBo != null ? (oleDeliverRequestBo.getOlePatron().getPatronName()) : null;
+        String requestNote = oleDeliverRequestBo != null ? (oleDeliverRequestBo.getRequestNote()) : "";
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Route To"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(routeTo));
@@ -39,6 +40,10 @@ public class InTransitForHoldRegularPrintSlipUtil extends OleRegularPrintSlipUti
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Date/Time "));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(getSimpleDateFormat().format(getOleItemRecordForCirc().getItemRecord().getEffectiveDate()).toString()));
+
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Request Note"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(requestNote));
     }
 
 }

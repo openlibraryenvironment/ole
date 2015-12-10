@@ -9,7 +9,6 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +49,6 @@ public class OLEDeliverRequest_IT extends OLETestCaseBase {
     @Test
     public void testPlaceRequest(){
         OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
-        oleDeliverRequestDocumentHelperService.placeRequest("OLE-ASR","10002","5001","Copy Request","API","5001","API","stks","test","test","X",false,"5001","1",new Date(new java.util.Date().getTime()));
+        oleDeliverRequestDocumentHelperService.placeRequest("OLE-ASR","10002","5001","Copy Request","API","5001","API","stks","test","test","X",false,"5001","1",new Date(new java.util.Date().getTime()), "Test Note");
     }
 }
