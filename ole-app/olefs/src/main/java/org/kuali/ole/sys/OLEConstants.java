@@ -2023,4 +2023,6 @@ public class OLEConstants {
     public static final String ITEM_STATUS_FIRM_FIXD = "ITEM_STATUS_FIRM_FIXD";
     public static final String ITEM_STATUS_APPROVAL = "ITEM_STATUS_APPROVAL";
     public static final String ERROR_REPORT = "ErrorReport";
+    public static final String DATE_FORM_PO_BEGN_DT                = "MM/dd/yyyy";
+    public static final String DATE_FORM_PO_END_DT = "12/31/9999";
 }

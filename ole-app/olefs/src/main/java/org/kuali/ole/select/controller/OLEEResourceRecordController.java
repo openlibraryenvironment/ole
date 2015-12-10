@@ -1361,7 +1361,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         }
                         getOleEResourceSearchService().setDocumentValues(requisitionDocument, oleEResourceOrderRecord);
                         requisitionDocument.setItems(getOleEResourceSearchService().generateItemList(oleEResourceOrderRecord, requisitionDocument));
-
+                        requisitionDocument = getRequisitionCreateDocumentService().updateParamaterValue(requisitionDocument,purchaseOrderTypeDocumentList,oleEResourceOrderRecord);
                         RequisitionService requisitionService = SpringContext.getBean(RequisitionService.class);
                         boolean apoRuleFlag = requisitionService.isAutomaticPurchaseOrderAllowed(requisitionDocument);
                         if (!apoRuleFlag) {
@@ -1398,7 +1398,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
                 getOleEResourceSearchService().setDocumentValues(requisitionDocument, oleEResourceOrderRecordList.get(0));
                 requisitionDocument.setItems(getOleEResourceSearchService().generateMultipleItemsForOneRequisition(oleEResourceOrderRecordList, requisitionDocument));
-
+                requisitionDocument = getRequisitionCreateDocumentService().updateParamaterValue(requisitionDocument,purchaseOrderTypeDocumentList,oleEResourceOrderRecordList.get(0));
                 requisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
                 getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);
                 String tiles = new String();
