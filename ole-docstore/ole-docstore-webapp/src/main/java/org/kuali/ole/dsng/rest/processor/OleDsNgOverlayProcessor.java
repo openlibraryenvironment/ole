@@ -201,12 +201,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             }
                         }
                     }
-                    getBibIndexer().commitDocumentToSolr(solrInputDocuments);
                     responseJsonArray.put(responseObject);
                 } else {
                     // TODO : need to handle if bib record is not found
                 }
             }
+            getBibIndexer().commitDocumentToSolr(solrInputDocuments);
         }catch (JSONException e) {
             e.printStackTrace();
         }
