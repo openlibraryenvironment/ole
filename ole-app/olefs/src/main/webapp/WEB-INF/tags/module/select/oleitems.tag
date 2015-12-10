@@ -856,7 +856,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.itemLocation}"
                     property="document.item[${ctr}].itemLocation"
-                    readOnly="${not amendmentEntry}"
+                    readOnly="${not (amendmentEntry or isReOpenPO)}"
                     tabindexOverride="${tabindexOverrideBase + 0}" />
 
         </td>
@@ -1289,7 +1289,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.itemPriceSourceId}"
             property="document.item[${ctr}].itemPriceSourceId"
-            readOnly="${not amendmentEntry}"
+            readOnly="${not (amendmentEntry or isReOpenPO)}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1299,7 +1299,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.requestSourceTypeId}"
             property="document.item[${ctr}].requestSourceTypeId"
-            readOnly="${not amendmentEntry}"
+            readOnly="${not (amendmentEntry or isReOpenPO)}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1310,7 +1310,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 attributeEntry="${itemAttributes.claimDate}"
                 property="document.item[${ctr}].claimDate"
                 datePicker="true"
-                readOnly="${not amendmentEntry}"
+                readOnly="${not (amendmentEntry or isReOpenPO)}"
                 tabindexOverride="${tabindexOverrideBase + 0}" />
 
     </td>
@@ -1324,7 +1324,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.formatTypeId}"
             property="document.item[${ctr}].formatTypeId"
-            readOnly="${not amendmentEntry}"
+            readOnly="${not (amendmentEntry or isReOpenPO)}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1334,7 +1334,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.categoryId}"
             property="document.item[${ctr}].categoryId"
-            readOnly="${not amendmentEntry}"
+            readOnly="${not (amendmentEntry or isReOpenPO)}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1343,7 +1343,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.vendorItemPoNumber}"
             property="document.item[${ctr}].vendorItemPoNumber"
-            readOnly="${not amendmentEntry}"
+            readOnly="${not (amendmentEntry or isReOpenPO)}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
