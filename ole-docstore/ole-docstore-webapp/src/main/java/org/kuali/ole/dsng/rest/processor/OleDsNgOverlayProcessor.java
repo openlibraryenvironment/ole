@@ -127,6 +127,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String updatedContent = jsonObject.getString("content");
                 String updatedBy = jsonObject.getString("updatedBy");
                 String updatedDateString = (String) jsonObject.get("updatedDate");
+                String bibStatus = getStringValueFromJsonObject(jsonObject,"bibStatus");
 
                 BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
                 if (null != bibRecord) {
@@ -136,8 +137,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     Timestamp updatedDate = null;
                     if (StringUtils.isNotBlank(updatedDateString)) {
                         updatedDate =  getDateTimeStamp(updatedDateString);
-                        bibRecord.setDateEntered(updatedDate);
                     }
+                    bibRecord.setDateEntered(updatedDate);
+                    bibRecord.setStatus(bibStatus);
+                    bibRecord.setStatusUpdatedBy(updatedBy);
+                    bibRecord.setStatusUpdatedDate(updatedDate);
                     BibRecord updatedBibRecord = bibDAO.save(bibRecord);
 
                     List<SolrInputDocument> inputDocumentForBib = getBibIndexer().getInputDocumentForBib(bibRecord);
@@ -154,6 +158,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             JSONObject holdingJsonObject = jsonObject.getJSONObject("holdings");
                             String location = getStringValueFromJsonObject(holdingJsonObject, "location");
                             String callNumberTypeName = getStringValueFromJsonObject(holdingJsonObject, "callNumberType");
+                            String callNumber = getStringValueFromJsonObject(holdingJsonObject, "callNumber");
                             holdingsRecord.setLocation(location);
                             CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordByName(callNumberTypeName);
                             if (null != callNumberTypeRecord) {
@@ -162,6 +167,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             }
                             holdingsRecord.setUpdatedBy(updatedBy);
                             holdingsRecord.setUpdatedDate(updatedDate);
+                            holdingsRecord.setCallNumber(callNumber);
                             HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
                             List<SolrInputDocument> inputDocumentForHoldings = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord);
                             solrInputDocuments.addAll(inputDocumentForHoldings);
