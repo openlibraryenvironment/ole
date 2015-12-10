@@ -33,8 +33,6 @@
                                   p:propertyName="problemTypeDesc"/>
                             <bean id="create_active" parent="Uif-InputField" p:propertyName="active"
                                   p:defaultValue="true"/>
-                            <bean id="create_defaultIndicator" parent="Uif-InputField" p:propertyName="defaultIndicator"
-                                  p:defaultValue="false"/>
                         </list>
                     </property>
                 </bean>
