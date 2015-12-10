@@ -34,5 +34,7 @@ public interface OleCreditMemoService extends CreditMemoService {
 
     public boolean autoApproveCreditMemo(OleVendorCreditMemoDocument creditMemoDoc);
 
+    public boolean validateVendorCreditMemo(OleVendorCreditMemoDocument oleVendorCreditMemoDocument);
+
 }
 
