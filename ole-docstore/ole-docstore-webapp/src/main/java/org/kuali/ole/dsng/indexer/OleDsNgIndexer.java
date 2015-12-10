@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.indexer;
 
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.kuali.incubator.SolrRequestReponseHandler;
@@ -87,9 +88,9 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
         return getSolrRequestReponseHandler().retriveResults(query);
     }
 
-    protected SolrDocument getSolrDocumentByUUID(String identifier) {
+    protected SolrDocumentList getSolrDocumentByUUID(String identifier) {
         String query = "id:" + identifier;
-        return null;
+        return getSolrRequestReponseHandler().getSolrDocumentList(query);
     }
 
     public void commitDocumentToSolr(List<SolrInputDocument> solrInputDocuments){

@@ -14,8 +14,6 @@
                 <ref bean="OLEProblemType-problemTypeName"/>
                 <ref bean="OLEProblemType-problemTypeDesc"/>
                 <ref bean="OLEProblemType-active"/>
-                <ref bean="OLEProblemType-defaultIndicator"/>
-
             </list>
         </property>
     </bean>
@@ -82,25 +80,6 @@
         </property>
     </bean>
 
-    <bean id="OLEProblemType-defaultIndicator" parent="OLEProblemType-defaultIndicator-parentBean"/>
-    <bean id="OLEProblemType-defaultIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="defaultIndicator"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="default"/>
-        <property name="maxLength" value="1"/>
-        <property name="summary" value="Default Indicator"/>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-        <property name="label" value="Default Indicator"/>
-        <property name="description"
-                  value="This attribute is used to specity what the default problem type is."/>
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-CheckboxControl"/>
-        </property>
-    </bean>
-
     <!-- Inquiry View -->
 
     <bean id="OLEProblemType-InquiryView" parent="Uif-OLEInquiryView">
@@ -123,7 +102,6 @@
                                         <bean id="inquiry_problemTypeDesc" parent="Uif-InputField"
                                               p:propertyName="problemTypeDesc"/>
                                         <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
-                                        <bean id="inquiry_defaultIndicator" parent="Uif-InputField" p:propertyName="defaultIndicator"/>
                                     </list>
                                 </property>
                             </bean>
@@ -146,7 +124,6 @@
                 <bean id="problemTypeDesc" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="problemTypeDesc"/>
                 <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
-                <bean id="defaultIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="defaultIndicator"/>
             </list>
         </property>
         <property name="resultFields">
@@ -156,7 +133,6 @@
                 <bean id="searchResult_problemTypeDesc" parent="Uif-DataField"
                       p:propertyName="problemTypeDesc"/>
                 <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
-                <bean id="searchResult_defaultIndicator" parent="Uif-DataField" p:propertyName="defaultIndicator"/>
             </list>
         </property>
     </bean>

@@ -34,6 +34,10 @@ public class OnHoldRegularPrintSlipUtil extends OleRegularPrintSlipUtil {
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Expiration Date"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(expirationDate != null ? getDateFormat().format(expirationDate).toString() : null));
+
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Request Note"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(oleDeliverRequestBo.getRequestNote()));
     }
 
 }

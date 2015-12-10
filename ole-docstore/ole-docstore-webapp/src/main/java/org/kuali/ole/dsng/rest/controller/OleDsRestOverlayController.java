@@ -30,4 +30,11 @@ public class OleDsRestOverlayController extends OleDsNGRestSearchController {
         String savedHoldingJsonObject = getOleDsNgRestAPIProcessor().processOverlayForHolding(body);
         return new ResponseEntity<String>(savedHoldingJsonObject, HttpStatus.CREATED);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/processBibAndHoldingOverlay", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public ResponseEntity processBibAndHoldingOverlay(@RequestBody String body) throws Exception {
+        String overlayResponseObject = getOleDsNgRestAPIProcessor().processOverlayForBibAndHoldings(body);
+        return new ResponseEntity<String>(overlayResponseObject, HttpStatus.CREATED);
+    }
 }

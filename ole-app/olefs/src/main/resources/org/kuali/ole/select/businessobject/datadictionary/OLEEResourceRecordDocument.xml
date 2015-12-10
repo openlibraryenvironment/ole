@@ -796,7 +796,7 @@
     <bean id="OLEEResourceRecordDocument-marcRecordSourceTypeId" parent="OLEEResourceRecordDocument-marcRecordSourceTypeId-parentBean"/>
     <bean id="OLEEResourceRecordDocument-marcRecordSourceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="marcRecordSourceTypeId"/>
-        <property name="label" value="MARC Record Source"/>
+        <property name="label" value="MARC Record Source Type"/>
         <property name="maxLength" value="40"/>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="20"/>
