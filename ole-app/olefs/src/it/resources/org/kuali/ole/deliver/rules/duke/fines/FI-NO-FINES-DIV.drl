@@ -18,7 +18,7 @@ when
 $b: ItemFineRate()
 
 $i: OleItemRecordForCirc(getItemType() in ("NONCIRC","LIBUSEONLY","4WKCL","BDPER","UNBDPER"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 
 then
 $b.setFineRate(0.00);

@@ -18,7 +18,7 @@ when
 $f: ItemFineRate()
 
 $i: OleItemRecordForCirc(getItemType() in ("3HR","OVERNIGHT"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 
 then
 $f.setFineRate(0.50);

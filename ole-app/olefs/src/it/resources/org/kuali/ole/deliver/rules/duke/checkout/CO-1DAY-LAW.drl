@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+ 
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+ 
+ 
+rule "CO-1DAY-LAW"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+ 
+$p: OlePatronDocument(getBorrowerTypeCode() in ("LWFACULTY","DUKESTAFF"))
+$i: OleItemRecordForCirc (getItemType() in ("1DAY"),
+getItemLibraryLocation() in ("LAW"))
+then
+$l.setCirculationPolicyId("CO-1DAY-LAW");
+$l.loanPeriod("24-H",null);
+ 
+ end

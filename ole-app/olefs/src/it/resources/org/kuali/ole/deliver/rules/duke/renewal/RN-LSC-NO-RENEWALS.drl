@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "RN-LSC-NO-RENEWALS"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$d: DroolsResponse()
+$i: OleItemRecordForCirc(getItemType() in ("LIMITEDCIRC","FILM"),
+getItemLibraryLocation() in ("LSC"))
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Limited Circulation and film items may not be renewed");
+ end

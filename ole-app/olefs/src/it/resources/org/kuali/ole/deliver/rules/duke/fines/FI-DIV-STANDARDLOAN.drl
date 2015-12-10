@@ -21,7 +21,7 @@ null!= $r, $r.getRequestTypeCode() in ("Recall/Delivery Request","Recall/Hold Re
 $f: ItemFineRate()
 
 $i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 
 then
 $f.setFineRate(3.00);
@@ -40,7 +40,7 @@ $f.setInterval("D"); //Options are H-Hours; D-Days
  $f: ItemFineRate()
 
  $i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 
  then
  $f.setFineRate(0.00);

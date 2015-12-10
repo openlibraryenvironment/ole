@@ -1,0 +1,43 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-4HR-FORD"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in
+("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","FQPARTNER"))
+$i: OleItemRecordForCirc (getItemType() in ("4HR"),
+getItemLibraryLocation() in ("FORD"))
+then
+$l.setCirculationPolicyId("CO-4HR-FORD");
+$l.loanPeriod("4-H",null);
+ end
+ 
+rule "CO-4HR-FORD-NO-LOAN"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() not in
+("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","FQPARTNER"))
+$i: OleItemRecordForCirc (getItemType() in ("4HR"),
+getItemLibraryLocation() in ("FORD"))
+then
+
+$d.addErrorMessage("Patron may not check out Ford 4-hour items.");
+$d.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+$l.setCirculationPolicyId("CO-4HR-FORD-NO-LOAN");
+ end

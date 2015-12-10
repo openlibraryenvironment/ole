@@ -1,0 +1,30 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-4WK-MCL"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","UNCGFS","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("4WK"),
+getItemLibraryLocation() in ("MCL"))
+
+then
+$l.loanPeriod("28-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-4WK-MCL");
+$d.setRuleMatched(true);
+ end
+

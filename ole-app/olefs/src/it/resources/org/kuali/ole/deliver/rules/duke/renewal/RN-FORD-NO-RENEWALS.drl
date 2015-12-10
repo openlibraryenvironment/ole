@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "RN-FORD-NO-RENEWALS"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$d: DroolsResponse()
+$i: OleItemRecordForCirc(getItemType() in ("NONCIRC","1WK","3DAY","1DAY","4HR","3HR","2HR","OVERNIGHT","SOUNDREC","SOUNDCD","AUDIOVISUAL","COMPMEDIA","PASSWORDS","24HR","2WK","EREADER","ALUMNIPW"),
+getItemLibraryLocation() in ("FORD"))
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Reserve items, short-term loans, and Kindles may not be renewed");
+ end

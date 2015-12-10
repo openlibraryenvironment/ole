@@ -16,10 +16,10 @@ when
 $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
 $d: DroolsResponse()
 $n: NoticeInfo()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
 
 $i: OleItemRecordForCirc (getItemType() in ("EREADER"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 then
 
 $l.setCirculationPolicyId("RN-2WK-EREADER-DIV-LS-THAN-1");
@@ -34,10 +34,10 @@ when
  $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) >= 1)
 $d: DroolsResponse()
 $n: NoticeInfo()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
 
 $i: OleItemRecordForCirc (getItemType() in ("EREADER"),
-getItemLibraryLocation() in ("DIV"))
+getItemLibraryLocation() in ("DIVINITY"))
 then
 
 $d.addErrorMessage("Patron has more than allowed limit of renewals");

@@ -1,0 +1,55 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-2WK-FORD-LS-THAN-2-RN"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 2)
+
+$n: NoticeInfo()
+$d : DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in
+("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD", "FGPARTNER", "TRLN"))
+
+$i: OleItemRecordForCirc(getItemType() in ("2WK"),
+getItemLibraryLocation() in ("FORD"))
+
+then
+$l.loanPeriod("14-D","7-D"); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-2WK-FORD-LS-THAN-2-RN");
+$d.setRuleMatched(true);
+$n.setNoticeType("NO-PS-STDLOAN");
+ end
+
+rule "RN-2WK-FORD-GR-THAN-2-RN"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) >= 2)
+$d: DroolsResponse()
+$n: NoticeInfo()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in
+("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD", "FGPARTNER", "TRLN"))
+
+$i: OleItemRecordForCirc(getItemType() in ("2WK"),
+getItemLibraryLocation() in ("FORD"))
+
+then
+$d.addErrorMessage("Patron has more than allowed limit of renewals.");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("RN-2WK-FORD-GR-THAN-2-RN");
+$l.loanPeriod("14-D","7-D"); // This method takes due date and recall period as arguments.
+end

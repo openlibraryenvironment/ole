@@ -16,7 +16,7 @@ when
 $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
 $d: DroolsResponse()
 $n: NoticeInfo()
-$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
 
 $i: OleItemRecordForCirc (getItemType() in ("EREADER"),
 getItemLibraryLocation() in ("PERKINS","LILLY","MARINE"))
@@ -35,7 +35,7 @@ when
 $d: DroolsResponse()
 $n: NoticeInfo()
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
 
 $i: OleItemRecordForCirc (getItemType() in ("EREADER"),
 getItemLibraryLocation() in ("PERKINS","LILLY","MARINE"))

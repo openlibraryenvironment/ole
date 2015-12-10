@@ -1,0 +1,30 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-LILLY-MARINE-BDPER"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQGRAD","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("BDPER"),
+getItemLibraryLocation() in ("LILLY","MARINE"))
+
+then
+$l.loanPeriod("1-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-LILLY-MARINE-BDPER");
+$d.setRuleMatched(true);
+ end
+

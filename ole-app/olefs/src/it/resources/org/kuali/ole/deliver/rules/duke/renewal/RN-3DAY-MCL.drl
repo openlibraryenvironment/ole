@@ -1,0 +1,29 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-3DAY-MCL"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d : DroolsResponse()
+
+$i: OleItemRecordForCirc(getItemType() in ("3DAY"),
+getItemLibraryLocation() in ("MCL"))
+
+then
+$l.loanPeriod("3-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-3DAY-MCL");
+$d.setRuleMatched(true);
+ end
+

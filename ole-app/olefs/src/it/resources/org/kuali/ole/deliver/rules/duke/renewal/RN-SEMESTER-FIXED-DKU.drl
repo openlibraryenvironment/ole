@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-SEMESTER-FIXED-DKU"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","GRADST","UG","FQGRAD"))
+$i: OleItemRecordForCirc (getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("DKU"))
+then
+$l.setCirculationPolicyId("RN-SEMESTER-FIXED-DKU");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "14-D");
+
+ end

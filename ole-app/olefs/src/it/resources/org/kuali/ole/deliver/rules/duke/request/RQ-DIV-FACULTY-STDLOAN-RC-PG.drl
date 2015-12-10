@@ -1,0 +1,29 @@
+package org.kuali.ole.deliver.rules.request
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+
+rule "RQ-DIV-FACULTY-STDLOAN-RC-PG"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$d : DroolsResponse()
+$n : NoticeInfo()
+
+$p : OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","RETLIB"))
+$dr: OleDeliverRequestBo(getItemType() in ("STANDARDLOAN"),
+getRequestTypeCode() in ("Recall/Hold Request","Page/Hold Request"),
+    getItemLibrary() in ("DIVINITY"))
+
+then
+$d.setRuleMatched(true);
+$n.setNoticeType("NO-RC-DIV-STANDARDLOAN");
+$d.getDroolsExchange().addToContext("requestExpirationDays",90);
+$d.getDroolsExchange().addToContext("minimumLoanPeriod","14-D");
+$d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+end
+

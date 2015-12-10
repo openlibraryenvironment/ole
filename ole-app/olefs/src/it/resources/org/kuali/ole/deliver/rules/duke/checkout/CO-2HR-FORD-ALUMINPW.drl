@@ -1,0 +1,41 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-2HR-FORD-ALUMINPW"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","FQALUMNI"))
+$i: OleItemRecordForCirc (getItemType() in ("ALUMINPW"),
+getItemLibraryLocation() in ("FORD"))
+then
+$l.setCirculationPolicyId("CO-2HR-FORD-ALUMINPW");
+$l.loanPeriod("2-H",null);
+ end
+ 
+ rule "CO-2HR-FORD-ALUMINPW-NO-LOAN"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() not in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","FQALUMNI"))
+$i: OleItemRecordForCirc (getItemType() in ("ALUMINPW"),
+getItemLibraryLocation() in ("FORD"))
+then
+  
+$d.addErrorMessage("Patron may not check out Ford Alumni Passwords.");
+$d.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+$l.setCirculationPolicyId("CO-2HR-FORD-ALUMINPW-NO-LOAN");
+ end

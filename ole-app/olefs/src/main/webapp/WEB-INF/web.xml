@@ -54,7 +54,7 @@ This file contains custom application specific web.xml content.
         <filter-class>org.kuali.ole.sys.web.filter.DevelopmentLoginFilter</filter-class>
         <init-param>
             <param-name>loginUser</param-name>
-            <param-value>ole-quickstart</param-value>
+            <param-value>admin</param-value>
         </init-param>
     </filter>
     <filter-mapping>
