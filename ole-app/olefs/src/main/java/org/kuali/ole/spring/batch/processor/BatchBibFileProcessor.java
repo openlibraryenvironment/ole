@@ -52,8 +52,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
                         bib.put("bib", bibData);
 
-
-                        JSONObject holdings = new JSONObject();
                         Map holdingsData = new HashedMap();
                         holdingsData.put("locationLevel1", "UC");
                         holdingsData.put("locationLevel3", "UCX");
@@ -61,12 +59,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
 
 
-                        holdings.put("holdings", holdingsData);
+                        bibData.put("holdings", holdingsData);
+
 
                         //Holdings data
 
                         jsonArray.put(bibData);
-                        jsonArray.put(holdingsData);
                     }
                 }
             }
