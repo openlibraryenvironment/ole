@@ -22,7 +22,7 @@ import java.util.List;
 public class BatchBibFileProcessor extends BatchFileProcessor {
 
     @Override
-    public String customProcess(List<Record> records) throws JSONException {
+    public String processRecords(List<Record> records) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();

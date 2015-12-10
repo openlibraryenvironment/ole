@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class BatchHoldingFileProcessor extends BatchFileProcessor {
     @Override
-    public String customProcess(List<Record> records) throws JSONException {
+    public String processRecords(List<Record> records) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         List results = getSolrRequestReponseHandler().getSolrDocumentList("(DocType:holdings AND Level1Location_search:UC AND bibIdentifier:wbm-10000058)"); // Todo :  Need to form query
         if (null != results && results.size() == 1) {
@@ -35,30 +35,5 @@ public class BatchHoldingFileProcessor extends BatchFileProcessor {
         }
 
         return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
-
-
-       /* for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-            Record marcRecord = iterator.next();
-            List<VariableField> dataFields = marcRecord.getVariableFields("980"); // Todo :  Need to find match point for holdings
-            for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-                DataField dataField = (DataField) variableFieldIterator.next();
-                List<Subfield> subFields = dataField.getSubfields("a");
-                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                    Subfield subfield = subfieldIterator.next();
-                    String matchPoint1 = subfield.getData();
-                    if (null != results && results.size() == 1) {
-                        JSONObject jsonObject = new JSONObject();
-                        SolrDocument solrDocument = (SolrDocument) results.get(0);
-                        jsonObject.put("id", solrDocument.getFieldValue("LocalId_display"));
-                        jsonObject.put("content", generateMARCXMLContent(marcRecord));
-                        jsonObject.put("updatedBy", getUpdatedUserName());
-                        jsonObject.put("updatedDate", DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
-                        jsonArray.put(jsonObject);
-                    }
-                }
-            }
-
-        }
-        return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);*/
     }
 }
