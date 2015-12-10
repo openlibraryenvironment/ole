@@ -16,9 +16,6 @@ public class OLEProblemType extends PersistableBusinessObjectBase {
 
     private boolean active;
 
-    private boolean defaultIndicator;
-
-
     public String getProblemTypeId() {
         return problemTypeId;
     }
@@ -51,11 +48,4 @@ public class OLEProblemType extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-    public boolean isDefaultIndicator() {
-        return defaultIndicator;
-    }
-
-    public void setDefaultIndicator(boolean defaultIndicator) {
-        this.defaultIndicator = defaultIndicator;
-    }
 }

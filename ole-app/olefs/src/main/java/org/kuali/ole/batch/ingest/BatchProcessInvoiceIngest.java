@@ -71,6 +71,8 @@ import java.util.*;
 
 import org.kuali.ole.select.document.service.*;
 import org.kuali.ole.select.businessobject.OleInvoiceItem;
+import org.milyn.SmooksException;
+import org.milyn.edisax.EDIParseException;
 import org.springframework.util.AutoPopulatingList;
 
 /**
@@ -146,19 +148,31 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
     public void prepareForRead() throws Exception {
         try {
             convertRawDataToXML();
-        } catch (Exception e) {
-            failureRecords.append("Please ensure the file is an Edifact file (OR) EDIFACT data has an extra EDIFACT segment.");
-            failureRecords.append("\n");
-            failureRecords.append("Unable to map the Edifact file.");
-            failureRecords.append("\n");
-            failureRecords.append("org.milyn.SmooksException:" + e.getMessage());
-            failureRecords.append("\n");
-            createBatchErrorAttachmentFile(failureRecords.append(new Throwable(e.getCause())).toString());
-            LOG.error(e, e);
-            job.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_COMPLETED);
-            job.setStatusDesc(OLEConstants.OLEBatchProcess.JOB_STATUS_COMPLETED);
-            throw e;
         }
+        catch (Exception e) {
+            StringBuilder errorSegment =fetchErrorSegment((EDIParseException)e.getCause());
+            logAndThrowErrorSegment((EDIParseException)e.getCause(), errorSegment);
+        }
+    }
+
+
+    private void logAndThrowErrorSegment(EDIParseException parse, StringBuilder errorSegment) throws Exception {
+        failureRecords.append("Unable to map the Edifact file to segments. ");
+        createBatchErrorAttachmentFile(failureRecords.append("Cannot parse edifact file. Ingested Edifact file has problem in EDIFACT segment --" + errorSegment).toString());
+        LOG.error(failureRecords, parse);
+        job.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_COMPLETED);
+        job.setStatusDesc(OLEConstants.OLEBatchProcess.JOB_STATUS_COMPLETED);
+        throw parse;
+    }
+
+    private StringBuilder fetchErrorSegment(EDIParseException parse) {
+        StringBuilder errorSegment = new StringBuilder();
+        for(String segment:parse.getSegmentline()){
+            errorSegment.append(segment+"+");
+        }
+        errorSegment.deleteCharAt(errorSegment.length()-1);
+        errorSegment.append(". Line Number: " + parse.getSegmentNumber());
+        return errorSegment;
     }
 
     public void byPassLogicForPreProcess(String rawMarcContent, boolean preProcessingReq) {
@@ -413,6 +427,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 oleInvoiceItem.setPoItemIdentifier(poItem.getItemIdentifier());
                 oleInvoiceItem.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
                 oleInvoiceItem.setOlePoOutstandingQuantity(new KualiInteger(poItem.getOutstandingQuantity().bigDecimalValue()));
+                if(StringUtils.isNotBlank(invoiceRecord.getLineItemTaxAmount())) {
+                    oleInvoiceItem.setUseTaxIndicator(true);
+                    oleInvoiceItem.setItemSalesTaxAmount(new KualiDecimal(invoiceRecord.getLineItemTaxAmount()));
+                    oleInvoiceItem.addToExtendedPrice(oleInvoiceItem.getItemSalesTaxAmount());
+                }
                 //call populate VendorInfo
                 OleVendorAccountInfo oleVendorAccountInfo = populateBFN(invoiceRecord.getBfnNumber());
                 List accountingLine = new ArrayList();
@@ -518,6 +537,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         oleInvoiceItem.setItemTitleId(null);
         if (invoiceRecord.getLineItemAdditionalCharge() != null) {
             oleInvoiceItem.setVendorItemIdentifier(null);
+        }
+        if(StringUtils.isNotBlank(invoiceRecord.getLineItemTaxAmount())) {
+            oleInvoiceItem.setUseTaxIndicator(true);
+            oleInvoiceItem.setItemSalesTaxAmount(new KualiDecimal(invoiceRecord.getLineItemTaxAmount()));
+            oleInvoiceItem.addToExtendedPrice(oleInvoiceItem.getItemSalesTaxAmount());
         }
 
         //PurchaseOrderService purchaseOrderService = (PurchaseOrderService) SpringContext.getBean("purchaseOrderService");
@@ -789,126 +813,161 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         int totalInvoiceFileCount = 0;
         // int totalInvoiceProcessedCount = 0;
         int successCount = 0;
-        for (Map.Entry invoiceRecordList : oleInvoiceRecordHandler.getOleInvoiceLineItemRecords().entrySet()) {
-            List<OleInvoiceRecord> oleInvoiceRecord = (List<OleInvoiceRecord>)invoiceRecordList.getValue();
-            totalInvoiceFileCount = oleInvoiceRecordHandler.getOleInvoiceLineItemRecords().size();
+        try {
+            for (Map.Entry invoiceRecordList : oleInvoiceRecordHandler.getOleInvoiceLineItemRecords().entrySet()) {
+                List<OleInvoiceRecord> oleInvoiceRecord = (List<OleInvoiceRecord>)invoiceRecordList.getValue();
+                totalInvoiceFileCount = oleInvoiceRecordHandler.getOleInvoiceLineItemRecords().size();
 
-            Person currentUser = GlobalVariables.getUserSession().getPerson();
+                Person currentUser = GlobalVariables.getUserSession().getPerson();
 
-            try {
-                invoiceDocument = initiateInvoiceDocument(invoiceDocument, currentUser);
-            } catch (Exception e) {
-                LOG.error(e, e);
-                failureRecords.append("Unable to create Invoice document");
-                failureRecords.append("\n");
-                createBatchErrorAttachmentFile(failureRecords.append(e.getMessage()).toString());
-                //job.setStatusDesc(OLEConstants.OLEBatchProcess.JOB_STATUS_STOPPED);
-            }
-            //Map<Integer, List<OleInvoiceRecord>> oleInvoiceRecord = oleInvoiceRecordHandler.getOleInvoiceLineItemRecords();
-            //List<OleInvoiceRecord> oleInvoiceRecordList = oleInvoiceRecord.get(0);
-            SimpleDateFormat dateFromRawFile = new SimpleDateFormat("yyyyMMdd");
-            OleInvoiceService oleInvoiceService = getInvoiceService();
-            // if (oleInvoiceRecordList != null && !oleInvoiceRecordList.isEmpty()) {
-            OleInvoiceRecord invoiceRecordHeader = oleInvoiceRecord.get(0);
-            invoiceDocument.setInvoiceNumber(invoiceRecordHeader.getInvoiceNumber());
-            //invoiceDocument.setVendorInvoiceAmount(new KualiDecimal(invoiceRecordHeader.getVendorInvoiceAmount()));
-            invoiceDocument.setVendorInvoiceAmount(null);
-            Date rawDate = null;
-            try {
-                rawDate = dateFromRawFile.parse(invoiceRecordHeader.getInvoiceDate());
-            } catch (Exception e) {
-                LOG.error(e, e);
-                failureRecords.append("Invoice Date: " + invoiceRecordHeader.getInvoiceDate());
-                failureRecords.append("\n");
-                failureRecords.append("Cannot parse Invoice Date" + e);
-                createBatchErrorAttachmentFile(failureRecords.toString());
-                throw e;
-
-            }
-            if (rawDate != null) {
-                invoiceDocument.setInvoiceDate(new java.sql.Date(rawDate.getTime()));
-            }
-            //}
-            int lineItemCount = 0;
-            for (int j = 0; j < oleInvoiceRecord.size(); j++) {
-                invoiceRecord = oleInvoiceRecord.get(j);
-                String[] vendorIds = invoiceRecord.getVendorNumber() != null ? invoiceRecord.getVendorNumber().split("-") : new String[0];
-                if(!StringUtils.isBlank(invoiceRecord.getCurrencyTypeId())){
-                    setDocumentForeignDetails(invoiceDocument,invoiceRecord);
+                try {
+                    invoiceDocument = initiateInvoiceDocument(invoiceDocument, currentUser);
+                } catch (Exception e) {
+                    LOG.error(e, e);
+                    failureRecords.append("Unable to create Invoice document");
+                    failureRecords.append("\n");
+                    createBatchErrorAttachmentFile(failureRecords.append(e.getMessage()).toString());
+                    //job.setStatusDesc(OLEConstants.OLEBatchProcess.JOB_STATUS_STOPPED);
                 }
-                else {
-                    Map vendorDetailMap = new HashMap();
-                    vendorDetailMap.put("vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                    vendorDetailMap.put("vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-                    VendorDetail vendorDetail = (VendorDetail) getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorDetailMap);
-                    if(vendorDetail != null){
-                        invoiceRecord.setCurrencyTypeId(vendorDetail.getCurrencyTypeId().toString());
+                //Map<Integer, List<OleInvoiceRecord>> oleInvoiceRecord = oleInvoiceRecordHandler.getOleInvoiceLineItemRecords();
+                //List<OleInvoiceRecord> oleInvoiceRecordList = oleInvoiceRecord.get(0);
+                SimpleDateFormat dateFromRawFile = new SimpleDateFormat("yyyyMMdd");
+                OleInvoiceService oleInvoiceService = getInvoiceService();
+                // if (oleInvoiceRecordList != null && !oleInvoiceRecordList.isEmpty()) {
+                OleInvoiceRecord invoiceRecordHeader = oleInvoiceRecord.get(0);
+                invoiceDocument.setInvoiceNumber(invoiceRecordHeader.getInvoiceNumber());
+                //invoiceDocument.setVendorInvoiceAmount(new KualiDecimal(invoiceRecordHeader.getVendorInvoiceAmount()));
+                invoiceDocument.setVendorInvoiceAmount(null);
+                Date rawDate = null;
+                try {
+                    rawDate = dateFromRawFile.parse(invoiceRecordHeader.getInvoiceDate());
+                } catch (Exception e) {
+                    LOG.error(e, e);
+                    failureRecords.append("Invoice Date: " + invoiceRecordHeader.getInvoiceDate());
+                    failureRecords.append("\n");
+                    failureRecords.append("Cannot parse Invoice Date" + e);
+                    createBatchErrorAttachmentFile(failureRecords.toString());
+                    throw e;
+
+                }
+               // try{
+                if (rawDate != null) {
+                    invoiceDocument.setInvoiceDate(new java.sql.Date(rawDate.getTime()));
+                }
+                //}
+                int lineItemCount = 0;
+                for (int j = 0; j < oleInvoiceRecord.size(); j++) {
+                    invoiceRecord = oleInvoiceRecord.get(j);
+                    String[] vendorIds = invoiceRecord.getVendorNumber() != null ? invoiceRecord.getVendorNumber().split("-") : new String[0];
+                    if(!StringUtils.isBlank(invoiceRecord.getCurrencyTypeId())){
                         setDocumentForeignDetails(invoiceDocument,invoiceRecord);
                     }
-                }
-                List<OlePurchaseOrderItem> olePurchaseOrderItems = null;
-                HashMap itemMap = new HashMap();
-                List<OlePurchaseOrderItem> dummyPurchaseOrderItemsWithPO = ruleOneScenarioWithPurchaseOrderNumber(invoiceRecord, vendorIds);
-                if(dummyPurchaseOrderItemsWithPO!=null && dummyPurchaseOrderItemsWithPO.size()<1) {
-                    olePurchaseOrderItems = ruleOneScenarioWithOutPurchaseOrderNumber(invoiceRecord, vendorIds, olePurchaseOrderItems, itemMap);
-                }else if(dummyPurchaseOrderItemsWithPO!=null){
-                    olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemMap, dummyPurchaseOrderItemsWithPO);
-                }
-                PurchaseOrderDocument purchaseOrderDocument = null;
-                if (olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
-
-                    invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
-                    if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
-                        invoiceDocument.setPostingYear((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) ? olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() : null);
+                    else {
+                        Map vendorDetailMap = new HashMap();
+                        vendorDetailMap.put("vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
+                        vendorDetailMap.put("vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                        VendorDetail vendorDetail = (VendorDetail) getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorDetailMap);
+                        if(vendorDetail != null){
+                            invoiceRecord.setCurrencyTypeId(vendorDetail.getCurrencyTypeId().toString());
+                            setDocumentForeignDetails(invoiceDocument,invoiceRecord);
+                        }
                     }
-                    //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
-                    invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
-                    itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,fdocNumbers,unitPrize,version);
-                    if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
-                        invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
-                        purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                    List<OlePurchaseOrderItem> olePurchaseOrderItems = null;
+                    HashMap itemMap = new HashMap();
+                    List<OlePurchaseOrderItem> dummyPurchaseOrderItemsWithPO = ruleOneScenarioWithPurchaseOrderNumber(invoiceRecord, vendorIds);
+                    if(dummyPurchaseOrderItemsWithPO!=null && dummyPurchaseOrderItemsWithPO.size()<1) {
+                        olePurchaseOrderItems = ruleOneScenarioWithOutPurchaseOrderNumber(invoiceRecord, vendorIds, olePurchaseOrderItems, itemMap);
+                    }else if(dummyPurchaseOrderItemsWithPO!=null){
+                        olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemMap, dummyPurchaseOrderItemsWithPO);
                     }
-                } else if ((olePurchaseOrderItems == null || olePurchaseOrderItems.size() < 1) && isUnlinkPO(itemMap)) {
-                    if (invoiceRecord.getVendorNumber() != null && !invoiceRecord.getVendorNumber().isEmpty()) {
-                        if ((invoiceRecord.getISBN() != null && !invoiceRecord.getISBN().isEmpty() ||
-                                (invoiceRecord.getISSN() != null && !invoiceRecord.getISSN().isEmpty()))) {
-                            org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
-                            SearchResponse searchResponse = null;
-                            // Retrieve bib id through solr query
-                            if  (invoiceRecord.getISBN() != null && !invoiceRecord.getISBN().isEmpty()) {
-                                search_Params.getSearchConditions().add(search_Params.buildSearchCondition("", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(),"common_identifier_search", invoiceRecord.getISBN()), ""));
-                            }
-                            if (invoiceRecord.getISSN() != null && !invoiceRecord.getISSN().isEmpty()) {
-                                search_Params.getSearchConditions().add(search_Params.buildSearchCondition("", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(),"common_identifier_search", invoiceRecord.getISSN()), ""));
-                            }
-                            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), "id"));
-                            String titleId = null;
-                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
-                            if (searchResponse.getSearchResults() != null && searchResponse.getSearchResults().size() > 0) {
-                                titleId = searchResponse.getSearchResults().get(0).getSearchResultFields().get(0).getFieldValue() != null ? searchResponse.getSearchResults().get(0).getSearchResultFields().get(0).getFieldValue() : "";
-                            }
-                            HashMap itemTitleMap = new HashMap();
+                    PurchaseOrderDocument purchaseOrderDocument = null;
+                    if (olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
 
-                            List<OlePurchaseOrderItem> dummyTitlePurchaseOrderItemsWithPO = ruleTwoScenarioWithPONumber(invoiceRecord, vendorIds, olePurchaseOrderItems, titleId);
-                            if(dummyTitlePurchaseOrderItemsWithPO!=null && dummyTitlePurchaseOrderItemsWithPO.size()<1) {
-                                olePurchaseOrderItems = ruleTwoWithOutPONumber(vendorIds, olePurchaseOrderItems, titleId,itemTitleMap);
-                            }else if(dummyTitlePurchaseOrderItemsWithPO!=null){
-                                olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemTitleMap, dummyTitlePurchaseOrderItemsWithPO);
-                            }
-                            if (titleId != null && olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
-                                invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
-                                if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
-                                    invoiceDocument.setPostingYear(olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear());
+                        invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
+                        if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
+                            invoiceDocument.setPostingYear((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) ? olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() : null);
+                        }
+                        //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
+                        invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
+                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,fdocNumbers,unitPrize,version);
+                        if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
+                            invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
+                            purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                        }
+                    } else if ((olePurchaseOrderItems == null || olePurchaseOrderItems.size() < 1) && isUnlinkPO(itemMap)) {
+                        if (invoiceRecord.getVendorNumber() != null && !invoiceRecord.getVendorNumber().isEmpty()) {
+                            if ((invoiceRecord.getISBN() != null && !invoiceRecord.getISBN().isEmpty() ||
+                                    (invoiceRecord.getISSN() != null && !invoiceRecord.getISSN().isEmpty()))) {
+                                org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
+                                SearchResponse searchResponse = null;
+                                // Retrieve bib id through solr query
+                                if  (invoiceRecord.getISBN() != null && !invoiceRecord.getISBN().isEmpty()) {
+                                    search_Params.getSearchConditions().add(search_Params.buildSearchCondition("", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(),"common_identifier_search", invoiceRecord.getISBN()), ""));
                                 }
-                                //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
-                                invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
-                                itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,fdocNumbers,unitPrize,version);
-                                if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
-                                    invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
-                                    purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                                if (invoiceRecord.getISSN() != null && !invoiceRecord.getISSN().isEmpty()) {
+                                    search_Params.getSearchConditions().add(search_Params.buildSearchCondition("", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(),"common_identifier_search", invoiceRecord.getISSN()), ""));
                                 }
-                            } else if (olePurchaseOrderItems == null || olePurchaseOrderItems.size() < 1) {
+                                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), "id"));
+                                String titleId = null;
+                                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
+                                if (searchResponse.getSearchResults() != null && searchResponse.getSearchResults().size() > 0) {
+                                    titleId = searchResponse.getSearchResults().get(0).getSearchResultFields().get(0).getFieldValue() != null ? searchResponse.getSearchResults().get(0).getSearchResultFields().get(0).getFieldValue() : "";
+                                }
+                                HashMap itemTitleMap = new HashMap();
 
+                                List<OlePurchaseOrderItem> dummyTitlePurchaseOrderItemsWithPO = ruleTwoScenarioWithPONumber(invoiceRecord, vendorIds, olePurchaseOrderItems, titleId);
+                                if(dummyTitlePurchaseOrderItemsWithPO!=null && dummyTitlePurchaseOrderItemsWithPO.size()<1) {
+                                    olePurchaseOrderItems = ruleTwoWithOutPONumber(vendorIds, olePurchaseOrderItems, titleId,itemTitleMap);
+                                }else if(dummyTitlePurchaseOrderItemsWithPO!=null){
+                                    olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemTitleMap, dummyTitlePurchaseOrderItemsWithPO);
+                                }
+                                if (titleId != null && olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
+                                    invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
+                                    if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
+                                        invoiceDocument.setPostingYear(olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear());
+                                    }
+                                    //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
+                                    invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
+                                    itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,fdocNumbers,unitPrize,version);
+                                    if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
+                                        invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
+                                        purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                                    }
+                                } else if (olePurchaseOrderItems == null || olePurchaseOrderItems.size() < 1) {
+
+                                    String[] vendorId = invoiceRecord.getVendorNumber() != null ? invoiceRecord.getVendorNumber().split("-") : new String[0];
+                                    Map itemTitleId = new HashMap();
+                                    itemTitleId.put("purchaseOrder.purapDocumentIdentifier", invoiceRecord.getPurchaseOrderNumber());
+                                    itemTitleId.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorId.length > 0 ? vendorId[0] : "");
+                                    itemTitleId.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorId.length > 1 ? vendorId[1] : "");
+                                    if (invoiceRecord.getPurchaseOrderNumber() != null) {
+                                        List<OlePurchaseOrderItem> dummyPurchaseOrderDocuments = (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, itemTitleId);
+                                        if(dummyPurchaseOrderDocuments!=null && dummyPurchaseOrderDocuments.size()>0) {
+                                            olePurchaseOrderItems = validateAndProcessPurchaseOrderItems(olePurchaseOrderItems, dummyPurchaseOrderDocuments, itemMap);
+                                        }
+                                        if (olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) {
+                                            invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
+                                            if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
+                                                invoiceDocument.setPostingYear(olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear());
+                                            }
+                                            //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
+                                            invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
+                                            Integer purchaseOrderCount=0;
+                                            if(itemMap.containsKey("noOfItems")) {
+                                                purchaseOrderCount = (Integer) itemMap.get("noOfItems");
+                                            }
+                                            if(purchaseOrderCount==1) {
+                                                itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap, lineNumbers, fdocNumbers, unitPrize, version);
+                                            }
+                                            if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
+                                                invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
+                                                purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (invoiceRecord.getPurchaseOrderNumber() != null) {
                                 String[] vendorId = invoiceRecord.getVendorNumber() != null ? invoiceRecord.getVendorNumber().split("-") : new String[0];
                                 Map itemTitleId = new HashMap();
                                 itemTitleId.put("purchaseOrder.purapDocumentIdentifier", invoiceRecord.getPurchaseOrderNumber());
@@ -941,224 +1000,200 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                 }
                             }
                         }
-                        else if (invoiceRecord.getPurchaseOrderNumber() != null) {
-                            String[] vendorId = invoiceRecord.getVendorNumber() != null ? invoiceRecord.getVendorNumber().split("-") : new String[0];
-                            Map itemTitleId = new HashMap();
-                            itemTitleId.put("purchaseOrder.purapDocumentIdentifier", invoiceRecord.getPurchaseOrderNumber());
-                            itemTitleId.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorId.length > 0 ? vendorId[0] : "");
-                            itemTitleId.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorId.length > 1 ? vendorId[1] : "");
-                            if (invoiceRecord.getPurchaseOrderNumber() != null) {
-                                List<OlePurchaseOrderItem> dummyPurchaseOrderDocuments = (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, itemTitleId);
-                                if(dummyPurchaseOrderDocuments!=null && dummyPurchaseOrderDocuments.size()>0) {
-                                    olePurchaseOrderItems = validateAndProcessPurchaseOrderItems(olePurchaseOrderItems, dummyPurchaseOrderDocuments, itemMap);
-                                }
-                                if (olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0) {
-                                    invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
-                                    if ((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null && olePurchaseOrderItems.get(0).getPurchaseOrder() != null && olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear() != null)) {
-                                        invoiceDocument.setPostingYear(olePurchaseOrderItems.get(0).getPurchaseOrder().getPostingYear());
-                                    }
-                                    //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
-                                    invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
-                                    Integer purchaseOrderCount=0;
-                                    if(itemMap.containsKey("noOfItems")) {
-                                        purchaseOrderCount = (Integer) itemMap.get("noOfItems");
-                                    }
-                                    if(purchaseOrderCount==1) {
-                                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap, lineNumbers, fdocNumbers, unitPrize, version);
-                                    }
-                                    if (itemMap != null && itemMap.containsKey("invoiceDocument") && itemMap.containsKey("purchaseOrderDocument")) {
-                                        invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
-                                        purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
-                                    }
+                    }
+                    if (purchaseOrderDocument != null) {
+                        for (OleInvoiceItem item : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
+                            if (invoiceRecord.getAdditionalChargeCode() != null && invoiceRecord.getAdditionalChargeCode().equalsIgnoreCase("SVC") && item.getItemTypeCode().equalsIgnoreCase("SPHD")) {
+                                item.setItemUnitPrice(new BigDecimal(invoiceRecord.getAdditionalCharge() != null ? invoiceRecord.getAdditionalCharge() : invoiceRecord.getAdditionalCharge()));
+                                item.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+                            } else if (invoiceRecord.getLineItemAdditionalChargeCode() != null && invoiceRecord.getLineItemAdditionalChargeCode().equalsIgnoreCase("LD") && item.getItemTypeCode().equalsIgnoreCase("ITEM")) {
+
+                                if ((item.getItemDescription().contains(invoiceRecord.getISBN())
+                                        || (invoiceRecord.getVendorItemIdentifier() != null ? invoiceRecord.getVendorItemIdentifier().equalsIgnoreCase(olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 ? item.getVendorItemIdentifier() : "") : false)
+                                        || (invoiceRecord.getPurchaseOrderNumber() != null ? invoiceRecord.getPurchaseOrderNumber().equals(item.getPurchaseOrderDocument() != null ? item.getPurchaseOrderDocument().getPurapDocumentIdentifier() : null) : false))) {
+
+
+                                    item.setItemDiscountType("%"); // % or #
+                                    item.setItemDiscount(new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge() != null ? invoiceRecord.getLineItemAdditionalCharge() : invoiceRecord.getLineItemAdditionalCharge()));
                                 }
                             }
                         }
+
+                        String vendorNumber = purchaseOrderDocument.getVendorHeaderGeneratedIdentifier() + "-" + purchaseOrderDocument.getVendorDetailAssignedIdentifier();
+                        oleInvoiceService.populateVendorDetail(vendorNumber, invoiceDocument);
+                        invoiceDocument.setVendorCustomerNumber(invoiceRecord.getBillToCustomerID());
+                        if (invoiceDocument.getPaymentMethodId() != null) {
+                            invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
+                        } else {
+                            invoiceDocument.setPaymentMethodId(Integer.parseInt(OLEConstants.OleInvoiceImport.PAY_METHOD));
+                            invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
+                        }
+                        //   SpringContext.getBean(OleInvoiceService.class).calculateProrateItemSurcharge(invoiceDocument);
+                        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(invoiceDocument);
+                        Long nextLinkIdentifier = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID");
+                        invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(nextLinkIdentifier.intValue());
+
+
+                        if ((invoiceDocument.getProrateBy() != null) && (invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_QTY) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_DOLLAR) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE))) {
+                            // set amounts on any empty
+                            invoiceDocument.updateExtendedPriceOnItems();
+
+                            // calculation just for the tax area, only at tax review stage
+                            // by now, the general calculation shall have been done.
+                            if (invoiceDocument.getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+                                SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
+                            }
+
+                            updatePrice(invoiceDocument);
+
+                            // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+                            // Calculate Payment request before rules since the rule check totalAmount.
+                            SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
+                            SpringContext.getBean(KualiRuleService.class).applyRules(
+                                    new AttributedCalculateAccountsPayableEvent(invoiceDocument));
+                        } else {
+                            // set amounts on any empty
+                            invoiceDocument.updateExtendedPriceOnItems();
+
+                            // calculation just for the tax area, only at tax review stage
+                            // by now, the general calculation shall have been done.
+                            if (StringUtils.equals(invoiceDocument.getApplicationDocumentStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+                                SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
+                            }
+
+                            updatePrice(invoiceDocument);
+
+                            // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+                            //Calculate Payment request before rules since the rule check totalAmount.
+                            SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
+                            SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument));
+                        }
+                        if (!SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedSaveDocumentEvent(invoiceDocument)) ||
+                                !SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument))) {
+
+
+                            //}else {
+                            List invoiceIngestFailureReason = (List) dataCarrierService.getData("invoiceIngestFailureReason");
+                            if(invoiceIngestFailureReason != null && invoiceIngestFailureReason.size()>0){
+                                for(int failCount = 0;failCount < invoiceIngestFailureReason.size();failCount++){
+                                    failureRecords.append(invoiceIngestFailureReason.get(failCount) + "\n");
+                                }
+                            }
+                            LOG.info("Invoice Error Message------------------->");
+                            failureRecords.append("Unable to create Invoice document");
+                            failureRecords.append("\n");
+                            failureRecords.append("Invoice Number :" + invoiceRecord.getInvoiceNumber());
+                            failureRecords.append("\n");
+                            failureRecords.append("Invoice Date :" + invoiceDocument.getInvoiceDate());
+                            failureRecords.append("\n");
+                            if ((GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")) != null) {
+                                for (int error = 0; error < (GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")).size(); error++) {
+                                    failureRecords.append("Error Message:" + kualiConfiguration.getPropertyValueAsString((GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")).get(error).getErrorKey()));
+                                    failureRecords.append("\n");
+                                }
+                            }
+                            failureRecords.append("\n");
+                        }
+                    } else {
+                        if(marcXMLContent != null && StringUtils.isNotBlank(marcXMLContent.toString()) ){
+                            createInvoiceItem(invoiceRecord, invoiceDocument, itemMap);
+                        }
+                        else{
+                            createInvoiceItem(lineItemCount, invoiceRecord, invoiceDocument, itemMap);
+                        }
+                        invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier((SpringContext.getBean(SequenceAccessorService.class).
+                                getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID")).intValue());
+                        if (itemMap != null) {
+                            invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
+                            purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
+                        }
+                        for (OleInvoiceItem item : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
+                            if (invoiceRecord.getAdditionalChargeCode() != null && invoiceRecord.getAdditionalChargeCode().equalsIgnoreCase("SVC") && item.getItemTypeCode().equalsIgnoreCase("SPHD")) {
+                                item.setItemUnitPrice(new BigDecimal(invoiceRecord.getAdditionalCharge() != null ? invoiceRecord.getAdditionalCharge() : invoiceRecord.getAdditionalCharge()));
+                                item.setPurchaseOrderIdentifier(purchaseOrderDocument != null && purchaseOrderDocument.getPurapDocumentIdentifier() != null ?
+                                        purchaseOrderDocument.getPurapDocumentIdentifier() : null);
+                            } else if (invoiceRecord.getLineItemAdditionalChargeCode() != null && invoiceRecord.getLineItemAdditionalChargeCode().equalsIgnoreCase("LD") && item.getItemTypeCode().equalsIgnoreCase("ITEM")) {
+
+                                if ((item.getItemDescription().contains(invoiceRecord.getISBN())
+                                        || (invoiceRecord.getVendorItemIdentifier() != null ? invoiceRecord.getVendorItemIdentifier().equalsIgnoreCase(olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 ? item.getVendorItemIdentifier() : "") : false)
+                                        || (invoiceRecord.getPurchaseOrderNumber() != null ? invoiceRecord.getPurchaseOrderNumber().equals(item.getPurchaseOrderDocument() != null ? item.getPurchaseOrderDocument().getPurapDocumentIdentifier(): null):false))) {
+
+
+                                    item.setItemDiscountType("#"); // % or #
+                                    item.setItemDiscount(new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge() != null ? invoiceRecord.getLineItemAdditionalCharge() : invoiceRecord.getLineItemAdditionalCharge()));
+                                }
+                            }
+                        }
+
+                        String vendorNumber = invoiceRecord.getVendorNumber();
+                        oleInvoiceService.populateVendorDetail(vendorNumber, invoiceDocument);
+                        invoiceDocument.setVendorCustomerNumber(invoiceRecord.getBillToCustomerID());
+                        if (invoiceDocument.getPaymentMethodId() != null) {
+                            invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
+                        } else {
+                            invoiceDocument.setPaymentMethodId(Integer.parseInt(OLEConstants.OleInvoiceImport.PAY_METHOD));
+                            invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
+                        }
+                        //   SpringContext.getBean(OleInvoiceService.class).calculateProrateItemSurcharge(invoiceDocument);
+                        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(invoiceDocument);
+                        Long nextLinkIdentifier = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID");
+                        // invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(nextLinkIdentifier.intValue());
+
+
+                        if ((invoiceDocument.getProrateBy() != null) && (invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_QTY) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_DOLLAR) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE))) {
+                            // set amounts on any empty
+                            invoiceDocument.updateExtendedPriceOnItems();
+
+                            // calculation just for the tax area, only at tax review stage
+                            // by now, the general calculation shall have been done.
+                            if (invoiceDocument.getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+                                SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
+                            }
+
+                            updatePrice(invoiceDocument);
+
+                            // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+                            // Calculate Payment request before rules since the rule check totalAmount.
+                            SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
+                            SpringContext.getBean(KualiRuleService.class).applyRules(
+                                    new AttributedCalculateAccountsPayableEvent(invoiceDocument));
+                        } else {
+                            // set amounts on any empty
+                            invoiceDocument.updateExtendedPriceOnItems();
+
+                            // calculation just for the tax area, only at tax review stage
+                            // by now, the general calculation shall have been done.
+                            if (StringUtils.equals(invoiceDocument.getApplicationDocumentStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+                                SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
+
+                            }
+
+                            updatePrice(invoiceDocument);
+
+                            // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+                            //Calculate Payment request before rules since the rule check totalAmount.
+                            SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
+                            SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument));
+                        }
+
+
                     }
                 }
-                if (purchaseOrderDocument != null) {
-                    for (OleInvoiceItem item : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
-                        if (invoiceRecord.getAdditionalChargeCode() != null && invoiceRecord.getAdditionalChargeCode().equalsIgnoreCase("SVC") && item.getItemTypeCode().equalsIgnoreCase("SPHD")) {
-                            item.setItemUnitPrice(new BigDecimal(invoiceRecord.getAdditionalCharge() != null ? invoiceRecord.getAdditionalCharge() : invoiceRecord.getAdditionalCharge()));
-                            item.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
-                        } else if (invoiceRecord.getLineItemAdditionalChargeCode() != null && invoiceRecord.getLineItemAdditionalChargeCode().equalsIgnoreCase("LD") && item.getItemTypeCode().equalsIgnoreCase("ITEM")) {
-
-                            if ((item.getItemDescription().contains(invoiceRecord.getISBN())
-                                    || (invoiceRecord.getVendorItemIdentifier() != null ? invoiceRecord.getVendorItemIdentifier().equalsIgnoreCase(olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 ? item.getVendorItemIdentifier() : "") : false)
-                                    || (invoiceRecord.getPurchaseOrderNumber() != null ? invoiceRecord.getPurchaseOrderNumber().equals(item.getPurchaseOrderDocument() != null ? item.getPurchaseOrderDocument().getPurapDocumentIdentifier() : null) : false))) {
-
-
-                                item.setItemDiscountType("%"); // % or #
-                                item.setItemDiscount(new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge() != null ? invoiceRecord.getLineItemAdditionalCharge() : invoiceRecord.getLineItemAdditionalCharge()));
-                            }
-                        }
-                    }
-
-                    String vendorNumber = purchaseOrderDocument.getVendorHeaderGeneratedIdentifier() + "-" + purchaseOrderDocument.getVendorDetailAssignedIdentifier();
-                    oleInvoiceService.populateVendorDetail(vendorNumber, invoiceDocument);
-                    invoiceDocument.setVendorCustomerNumber(invoiceRecord.getBillToCustomerID());
-                    if (invoiceDocument.getPaymentMethodId() != null) {
-                        invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
-                    } else {
-                        invoiceDocument.setPaymentMethodId(Integer.parseInt(OLEConstants.OleInvoiceImport.PAY_METHOD));
-                        invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
-                    }
-                    //   SpringContext.getBean(OleInvoiceService.class).calculateProrateItemSurcharge(invoiceDocument);
-                    SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(invoiceDocument);
-                    Long nextLinkIdentifier = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID");
-                    invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(nextLinkIdentifier.intValue());
-
-
-                    if ((invoiceDocument.getProrateBy() != null) && (invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_QTY) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_DOLLAR) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE))) {
-                        // set amounts on any empty
-                        invoiceDocument.updateExtendedPriceOnItems();
-
-                        // calculation just for the tax area, only at tax review stage
-                        // by now, the general calculation shall have been done.
-                        if (invoiceDocument.getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
-                            SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
-                        }
-
-                        updatePrice(invoiceDocument);
-
-                        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-                        // Calculate Payment request before rules since the rule check totalAmount.
-                        SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
-                        SpringContext.getBean(KualiRuleService.class).applyRules(
-                                new AttributedCalculateAccountsPayableEvent(invoiceDocument));
-                    } else {
-                        // set amounts on any empty
-                        invoiceDocument.updateExtendedPriceOnItems();
-
-                        // calculation just for the tax area, only at tax review stage
-                        // by now, the general calculation shall have been done.
-                        if (StringUtils.equals(invoiceDocument.getApplicationDocumentStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
-                            SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
-                        }
-
-                        updatePrice(invoiceDocument);
-
-                        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-                        //Calculate Payment request before rules since the rule check totalAmount.
-                        SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
-                        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument));
-                    }
-                    if (!SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedSaveDocumentEvent(invoiceDocument)) ||
-                            !SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument))) {
-
-
-                        //}else {
-                        List invoiceIngestFailureReason = (List) dataCarrierService.getData("invoiceIngestFailureReason");
-                        if(invoiceIngestFailureReason != null && invoiceIngestFailureReason.size()>0){
-                            for(int failCount = 0;failCount < invoiceIngestFailureReason.size();failCount++){
-                                failureRecords.append(invoiceIngestFailureReason.get(failCount) + "\n");
-                            }
-                        }
-                        LOG.info("Invoice Error Message------------------->");
-                        failureRecords.append("Unable to create Invoice document");
-                        failureRecords.append("\n");
-                        failureRecords.append("Invoice Number :" + invoiceRecord.getInvoiceNumber());
-                        failureRecords.append("\n");
-                        failureRecords.append("Invoice Date :" + invoiceDocument.getInvoiceDate());
-                        failureRecords.append("\n");
-                        if ((GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")) != null) {
-                            for (int error = 0; error < (GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")).size(); error++) {
-                                failureRecords.append("Error Message:" + kualiConfiguration.getPropertyValueAsString((GlobalVariables.getMessageMap().getErrorMessages().get("GLOBAL_ERRORS")).get(error).getErrorKey()));
-                                failureRecords.append("\n");
-                            }
-                        }
-                        failureRecords.append("\n");
-                    }
-                } else {
-                    if(marcXMLContent != null && StringUtils.isNotBlank(marcXMLContent.toString()) ){
-                        createInvoiceItem(invoiceRecord, invoiceDocument, itemMap);
-                    }
-                    else{
-                        createInvoiceItem(lineItemCount, invoiceRecord, invoiceDocument, itemMap);
-                    }
-                    invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier((SpringContext.getBean(SequenceAccessorService.class).
-                            getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID")).intValue());
-                    if (itemMap != null) {
-                        invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
-                        purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
-                    }
-                    for (OleInvoiceItem item : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
-                        if (invoiceRecord.getAdditionalChargeCode() != null && invoiceRecord.getAdditionalChargeCode().equalsIgnoreCase("SVC") && item.getItemTypeCode().equalsIgnoreCase("SPHD")) {
-                            item.setItemUnitPrice(new BigDecimal(invoiceRecord.getAdditionalCharge() != null ? invoiceRecord.getAdditionalCharge() : invoiceRecord.getAdditionalCharge()));
-                            item.setPurchaseOrderIdentifier(purchaseOrderDocument != null && purchaseOrderDocument.getPurapDocumentIdentifier() != null ?
-                                    purchaseOrderDocument.getPurapDocumentIdentifier() : null);
-                        } else if (invoiceRecord.getLineItemAdditionalChargeCode() != null && invoiceRecord.getLineItemAdditionalChargeCode().equalsIgnoreCase("LD") && item.getItemTypeCode().equalsIgnoreCase("ITEM")) {
-
-                            if ((item.getItemDescription().contains(invoiceRecord.getISBN())
-                                    || (invoiceRecord.getVendorItemIdentifier() != null ? invoiceRecord.getVendorItemIdentifier().equalsIgnoreCase(olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 ? item.getVendorItemIdentifier() : "") : false)
-                                    || (invoiceRecord.getPurchaseOrderNumber() != null ? invoiceRecord.getPurchaseOrderNumber().equals(item.getPurchaseOrderDocument() != null ? item.getPurchaseOrderDocument().getPurapDocumentIdentifier(): null):false))) {
-
-
-                                item.setItemDiscountType("#"); // % or #
-                                item.setItemDiscount(new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge() != null ? invoiceRecord.getLineItemAdditionalCharge() : invoiceRecord.getLineItemAdditionalCharge()));
-                            }
-                        }
-                    }
-
-                    String vendorNumber = invoiceRecord.getVendorNumber();
-                    oleInvoiceService.populateVendorDetail(vendorNumber, invoiceDocument);
-                    invoiceDocument.setVendorCustomerNumber(invoiceRecord.getBillToCustomerID());
-                    if (invoiceDocument.getPaymentMethodId() != null) {
-                        invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
-                    } else {
-                        invoiceDocument.setPaymentMethodId(Integer.parseInt(OLEConstants.OleInvoiceImport.PAY_METHOD));
-                        invoiceDocument.setPaymentMethodIdentifier(String.valueOf(invoiceDocument.getPaymentMethodId()));
-                    }
-                    //   SpringContext.getBean(OleInvoiceService.class).calculateProrateItemSurcharge(invoiceDocument);
-                    SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(invoiceDocument);
-                    Long nextLinkIdentifier = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID");
-                    // invoiceDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(nextLinkIdentifier.intValue());
-
-
-                    if ((invoiceDocument.getProrateBy() != null) && (invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_QTY) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.PRORATE_BY_DOLLAR) || invoiceDocument.getProrateBy().equals(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE))) {
-                        // set amounts on any empty
-                        invoiceDocument.updateExtendedPriceOnItems();
-
-                        // calculation just for the tax area, only at tax review stage
-                        // by now, the general calculation shall have been done.
-                        if (invoiceDocument.getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
-                            SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
-                        }
-
-                        updatePrice(invoiceDocument);
-
-                        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-                        // Calculate Payment request before rules since the rule check totalAmount.
-                        SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
-                        SpringContext.getBean(KualiRuleService.class).applyRules(
-                                new AttributedCalculateAccountsPayableEvent(invoiceDocument));
-                    } else {
-                        // set amounts on any empty
-                        invoiceDocument.updateExtendedPriceOnItems();
-
-                        // calculation just for the tax area, only at tax review stage
-                        // by now, the general calculation shall have been done.
-                        if (StringUtils.equals(invoiceDocument.getApplicationDocumentStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
-                            SpringContext.getBean(OleInvoiceService.class).calculateTaxArea(invoiceDocument);
-
-                        }
-
-                        updatePrice(invoiceDocument);
-
-                        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-                        //Calculate Payment request before rules since the rule check totalAmount.
-                        SpringContext.getBean(OleInvoiceService.class).calculateInvoice(invoiceDocument, true);
-                        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(invoiceDocument));
-                    }
-
-
+                if (!"".equals(failureRecords.toString())) {
+                    createBatchErrorAttachmentFile(failureRecords.toString());
                 }
+                allInvoiceDocument.add(invoiceDocument);
             }
-            if (!"".equals(failureRecords.toString())) {
-                createBatchErrorAttachmentFile(failureRecords.toString());
-            }
-            allInvoiceDocument.add(invoiceDocument);
+        } catch (Exception e) {
+            createBatchErrorAttachmentFile(failureRecords.append(e.getMessage()).toString());
+            LOG.error(e, e);
+            job.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_STOPPED);
+            job.setStatusDesc(OLEConstants.OLEBatchProcess.JOB_STATUS_STOPPED);
+            throw e;
+        } finally {
+            deleteBatchFile();
         }
-        deleteBatchFile();
+     //   deleteBatchFile();
         if (allInvoiceDocument != null && !allInvoiceDocument.isEmpty()) {
             for (int process = 0; process < allInvoiceDocument.size(); process++) {
                 invoiceDocument = allInvoiceDocument.get(process);

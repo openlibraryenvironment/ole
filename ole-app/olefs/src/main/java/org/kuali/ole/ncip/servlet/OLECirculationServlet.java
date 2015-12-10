@@ -66,12 +66,20 @@ public class OLECirculationServlet extends HttpServlet {
                             {
                                 size++;
                             }
+                            if(parameterMap.containsKey(OLENCIPConstants.REQUEST_NOTE))
+                            {
+                                size++;
+                            }
                             if(parameterMap.size()==size){
                                 String pickupLocation=null;
                                 if(parameterMap.containsKey(OLENCIPConstants.PICKUP_LOCATION)) {
                                     pickupLocation=parameterMap.get(OLENCIPConstants.PICKUP_LOCATION)[0];
                                 }
-                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,"Item Level",null);
+                                String requestNote = null;
+                                if(parameterMap.containsKey(OLENCIPConstants.REQUEST_NOTE)) {
+                                    requestNote = parameterMap.get(OLENCIPConstants.REQUEST_NOTE)[0];
+                                }
+                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,"Item Level",null, requestNote);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLEPlaceRequestConverter().generatePlaceRequestJson(responseString);
                                 }

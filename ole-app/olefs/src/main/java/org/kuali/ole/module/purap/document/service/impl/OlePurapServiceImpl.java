@@ -646,6 +646,66 @@ public class OlePurapServiceImpl implements OlePurapService {
         singleItem.setInvoiceDocuments(list);
     }
 
+    public void setInvoiceDocumentsForEResourcePO(PurApItem purApItem) {
+        OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
+        Map<String, OleInvoiceDocument> paidDocuments = new HashMap<String, OleInvoiceDocument>();
+        Map<String, OlePaymentRequestDocument> paymentRequests = new HashMap<String, OlePaymentRequestDocument>();
+        for (OleCopy oleCopy : singleItem.getCopyList()) {
+            if (oleCopy.getOlePaidCopies().size() > 0) {
+                for (OLEPaidCopy olePaidCopy : oleCopy.getOlePaidCopies()) {
+                    OleInvoiceDocument invoiceDocument = null;
+                    if (olePaidCopy.getInvoiceItemId() != null &&
+                            paidDocuments.containsKey(olePaidCopy.getInvoiceItemId().toString())) {
+                        OleInvoiceItem invoiceItem = olePaidCopy.getInvoiceItem();
+                        invoiceDocument = paidDocuments.get(olePaidCopy.getInvoiceItemId());
+                        if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0 && invoiceDocument != null) {
+                            ((OleInvoiceItem)invoiceDocument.getItem(invoiceItem.getItemLineNumber())).setRequisitionItemIdentifier(oleCopy.getReqItemId());
+                        }
+                    }
+                    else if (olePaidCopy.getInvoiceItem().getInvoiceDocument() != null && olePaidCopy.getInvoiceItem().getInvoiceDocument().getPurapDocumentIdentifier() != null
+                            && (paidDocuments.containsKey(olePaidCopy.getInvoiceItem().getInvoiceDocument().getPurapDocumentIdentifier().toString()))) {
+                        OleInvoiceItem invoiceItem = olePaidCopy.getInvoiceItem();
+                        invoiceDocument = paidDocuments.get(olePaidCopy.getInvoiceItem().getInvoiceDocument().getPurapDocumentIdentifier());
+                        if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0 && invoiceDocument != null) {
+                            ((OleInvoiceItem)invoiceDocument.getItem(invoiceItem.getItemLineNumber())).setRequisitionItemIdentifier(oleCopy.getReqItemId());
+                        }
+                    }
+                    else {
+                        if (olePaidCopy.getInvoiceItem() != null && olePaidCopy.getInvoiceItem().isDebitItem()) {
+                            OleInvoiceItem invoiceItem = olePaidCopy.getInvoiceItem();
+                            invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
+                            if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
+                                invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                                if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0) {
+                                    invoiceItem.setRequisitionItemIdentifier(oleCopy.getReqItemId());
+                                }
+                                paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
+                                        invoiceDocument);
+                                invoiceDocument.setPaymentRequestDocuments(new ArrayList<OlePaymentRequestDocument>());
+                                invoiceDocument.setCreditMemoDocuments(new ArrayList<OleVendorCreditMemoDocument>());
+                            }
+                        }
+                    }
+                    if (invoiceDocument != null && olePaidCopy.getPreqItem() != null) {
+                        OlePaymentRequestDocument preq = (OlePaymentRequestDocument) olePaidCopy.getPreqItem().getPaymentRequestDocument();
+                        if (preq != null && !paymentRequests.containsKey(preq.getDocumentNumber())) {
+                            paymentRequests.put(preq.getDocumentNumber(), preq);
+                            invoiceDocument.getPaymentRequestDocuments().add(preq);
+                        }
+                    }
+                    if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
+                        invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                        paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
+                                invoiceDocument);
+                    }
+                }
+            }
+        }
+        Collection collection = (Collection) (paidDocuments.values());
+        List list = new ArrayList(collection);
+        singleItem.setInvoiceDocuments(list);
+    }
+
     private List<OlePurchaseOrderDocument> getRelatedPurchaseOrderList(PurchaseOrderDocument purchaseOrderDocument){
         Map<String,String> poCriteriaMap = new HashMap<>();
         poCriteriaMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.PURAP_DOC_LINK,Integer.toString(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier()));

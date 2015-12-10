@@ -612,4 +612,21 @@ public class OleCreditMemoServiceImpl extends CreditMemoServiceImpl implements O
         }
         return true;
     }
+
+    public boolean validateVendorCreditMemo(OleVendorCreditMemoDocument oleVendorCreditMemoDocument) {
+        for (OleCreditMemoItem item : (List<OleCreditMemoItem>) oleVendorCreditMemoDocument.getItems()) {
+            if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, item.getItemTypeCode()) ||
+                    StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode()) ||
+                    StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, item.getItemTypeCode()) ||
+                    StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, item.getItemTypeCode()) ||
+                    StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, item.getItemTypeCode()) ||
+                    StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, item.getItemTypeCode())) {
+                if (item.getItemUnitPrice() != null && ((OleVendorCreditMemoDocument) oleVendorCreditMemoDocument).getInvoiceIdentifier() == null && oleVendorCreditMemoDocument.getProrateBy() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

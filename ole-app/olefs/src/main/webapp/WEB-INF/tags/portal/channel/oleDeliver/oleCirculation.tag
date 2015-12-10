@@ -31,6 +31,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/checkincontroller?viewId=checkinView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Item Search"
                            url="${ConfigProperties.application.url}/ole-kr-krad/deliverItemSearchController?viewId=OLEDeliverItemSearchView&methodToCall=start"/> <br/>
+    <portal:portalLink displayTitle="true" title="Item Fast Add"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/instantFastAddItemController?viewId=fastAddView&methodToCall=start&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/> <br/>
  <br/>
 </div>
 <channel:portalChannelBottom/>

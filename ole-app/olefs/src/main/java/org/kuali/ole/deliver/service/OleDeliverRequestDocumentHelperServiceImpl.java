@@ -2245,7 +2245,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return null;
     }
 
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate) {
+    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
         OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -2269,6 +2269,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
             oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
+            oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);
             if (requestExpiryDate != null) {
                 oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);
@@ -2649,7 +2650,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         this.documentService = documentService;
     }
 
-    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate) {
+    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
         OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -2672,6 +2673,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
             oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
+            oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);
             if (requestExpiryDate != null) {
                 oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);

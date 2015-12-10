@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_CODE_T
 # -----------------------------------------------------------------------
@@ -449,6 +448,7 @@ CREATE TABLE OLE_DS_HOLDINGS_T
         , INITIAL_SBRCPTN_START_DT DATETIME
         , CURRENT_SBRCPTN_START_DT DATETIME
         , CURRENT_SBRCPTN_END_DT DATETIME
+        , CANCELLATION_CANDIDATE CHAR(1)
         , CANCELLATION_DECISION_DT DATETIME
         , CANCELLATION_EFFECTIVE_DT DATETIME
         , CANCELLATION_REASON VARCHAR(40)
