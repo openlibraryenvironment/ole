@@ -96,6 +96,9 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                     } else if (oleDeliverRequestBo.getRequestTypeId().equals("6")) {
                         oleDeliverRequestBo.setRequestTypeId("5");
                     }
+                }else if(!oleDeliverRequestBo.getOlePatron().isDeliveryPrivilege() && oleDeliverRequestBo.getPickUpLocationId() == null){
+                    GlobalVariables.getMessageMap().putError(OLEConstants.OleDeliverRequest.REQUEST_TYPE_ID, OLEConstants.OleDeliverRequest.NO_DELIVERY_PRIVILEGE);
+                    return false;
                 }
             }
             if (oleDeliverRequestBo.getOperatorModifiedId() == null) {
