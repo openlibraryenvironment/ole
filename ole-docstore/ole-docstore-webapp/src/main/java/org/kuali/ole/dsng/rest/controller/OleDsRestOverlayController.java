@@ -1,7 +1,5 @@
 package org.kuali.ole.dsng.rest.controller;
 
-import org.kuali.ole.dsng.rest.processor.OleDsNgRestAPIProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +32,7 @@ public class OleDsRestOverlayController extends OleDsNGRestSearchController {
     @RequestMapping(method = RequestMethod.POST, value = "/processBibAndHoldingOverlay", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public ResponseEntity processBibAndHoldingOverlay(@RequestBody String body) throws Exception {
-        String overlayResponseObject = getOleDsNgRestAPIProcessor().processOverlayForBibAndHoldings(body);
+        String overlayResponseObject = getOleDsNgRestAPIProcessor().processOverlayForBibAndHoldingsAndItems(body);
         return new ResponseEntity<String>(overlayResponseObject, HttpStatus.CREATED);
     }
 }

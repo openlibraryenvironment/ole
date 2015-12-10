@@ -113,7 +113,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
 
-    public String processOverlayForBibAndHoldings(String jsonBody) {
+    public String processOverlayForBibAndHoldingsAndItems(String jsonBody) {
         List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
         JSONArray responseJsonArray = null;
         try {
