@@ -15,7 +15,12 @@
  */
 package org.kuali.ole.select.batch.service;
 
+import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
+import org.kuali.ole.select.bo.OLEEResourceOrderRecord;
+import org.kuali.ole.select.document.OleRequisitionDocument;
+
+import java.util.List;
 
 public interface RequisitionCreateDocumentService {
 
@@ -25,5 +30,7 @@ public interface RequisitionCreateDocumentService {
      * @return True if the routing was successful, false otherwise.
      */
     public String saveRequisitionDocuments(RequisitionDocument reqDocument);
+
+    public OleRequisitionDocument updateParamaterValue(OleRequisitionDocument requisitionDocument,List<PurchaseOrderType> purchaseOrderTypeDocumentList,OLEEResourceOrderRecord oleEResourceOrderRecord);
 
 }
