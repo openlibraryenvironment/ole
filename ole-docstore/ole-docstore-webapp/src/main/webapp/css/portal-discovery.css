@@ -143,7 +143,7 @@ div.breadcrumb-focus
 #footer-copyright
 {
     background-color: #a02919;
-    background-image: url("../images/os-guy.gif");
+    background-image: url("../images/ole/os-guy-new.png");
     background-position: right 5px;
     background-repeat: no-repeat;
     bottom: 0;
@@ -227,5 +227,4 @@ li, td, div, th, table, span, body {
 
 #footer-copyright a:hover {
     color:#000000 !important;
-}
 }
