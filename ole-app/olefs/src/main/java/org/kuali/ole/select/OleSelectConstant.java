@@ -424,4 +424,5 @@ public class OleSelectConstant {
     public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
     public static final String POBA_VIEW = "OLEPurchaseOrderBatchView";
+    public static final String PRORATE_OPTION_REQ = "error.prorate.option.required";
 }

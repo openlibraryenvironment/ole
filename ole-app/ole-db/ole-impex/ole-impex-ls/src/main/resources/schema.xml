@@ -1104,6 +1104,7 @@
         <column name="BIB_ID" size="40" type="VARCHAR"/>
         <column name="ASR_FLAG"  size="1" type="VARCHAR"/>
         <column name="HOLD_EXP_DATE"  type="DATE"/>
+        <column name="RQST_NOTE" size="4000" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="flk5">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
         </foreign-key>
@@ -2287,7 +2288,7 @@
     <table name="OLE_BAT_PRCS_PRFLE_CNST_T">
         <column name="OLE_USR_DEF_VAL_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="ATT_NM" size="100" type="VARCHAR"/>
-        <column name="ATT_VAL" size="100" type="VARCHAR"/>
+        <column name="ATT_VAL" size="500" type="VARCHAR"/>
         <column name="DATA_TYPE" size="20" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" required="true" size="40" type="VARCHAR"/>
         <column name="DEF_VAL" size="20" type="VARCHAR"/>

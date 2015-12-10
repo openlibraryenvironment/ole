@@ -264,6 +264,16 @@
                     <medi:component xmltag="vendorreferencenumber" truncatable="true" required="false"/>
                 </medi:field>
             </medi:segment>
+
+            <medi:segment segcode="TAX" xmltag="tax" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="duty" truncatable="true" required="false"/>
+            </medi:segment>
+            <medi:segment segcode="MOA" xmltag="monetarytax" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="monetarylineitemtaxdetail" truncatable="true" required="false">
+                    <medi:component xmltag="monetaryamounttype" truncatable="true" required="false"/>
+                    <medi:component xmltag="monetaryamount" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
         </medi:segmentGroup>
         <medi:segmentGroup xmltag="summary">
             <medi:segment segcode="UNS" xmltag="summarysection" minOccurs="0" truncatable="true">
@@ -277,6 +287,24 @@
             </medi:segment>
             <medi:segment segcode="MOA" xmltag="monetarysummary" maxOccurs="-1" minOccurs="0" truncatable="true">
                 <medi:field xmltag="monetaryinfosummary" truncatable="true" required="false">
+                    <medi:component xmltag="monetaryamounttype" truncatable="true" required="false"/>
+                    <medi:component xmltag="monetaryamount" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
+            <medi:segment segcode="TAX" xmltag="taxsummary" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="duty" truncatable="true" required="false"/>
+            </medi:segment>
+            <medi:segment segcode="MOA" xmltag="monetarytax" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="monetaryinfotaxsummary" truncatable="true" required="false">
+                    <medi:component xmltag="monetaryamounttype" truncatable="true" required="false"/>
+                    <medi:component xmltag="monetaryamount" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
+            <medi:segment segcode="TAX" xmltag="taxable" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="dutyTaxable" truncatable="true" required="false"/>
+            </medi:segment>
+            <medi:segment segcode="MOA" xmltag="monetarytaxable" maxOccurs="1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="monetaryinfotaxablesummary" truncatable="true" required="false">
                     <medi:component xmltag="monetaryamounttype" truncatable="true" required="false"/>
                     <medi:component xmltag="monetaryamount" truncatable="true" required="false"/>
                 </medi:field>

@@ -60,6 +60,7 @@ public class OLENCIPConstants {
     public static final String DELETE_INDICATOR ="deleteIndicator";
     public static final String PICKUP_LOCATION ="pickupLocation";
     public static final String REQUEST_TYPE ="requestType";
+    public static final String REQUEST_NOTE="requestNote";
     public static final String NCIPAPI_PARAMETER_NAME = "NCIPAPI_VALUES";
     public static final String TEMP_ITEM_DELETE_INDICATOR="TEMP_ITEM_DELETE_INDICATOR";
 

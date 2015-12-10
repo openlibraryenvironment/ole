@@ -33,9 +33,10 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -276,14 +277,14 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-      public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
-        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate);
+      public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
+        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate, requestNote);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
-        String responseMessage = oleDeliverRequestDocumentHelperService.overridePlaceRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate);
+    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
+        String responseMessage = oleDeliverRequestDocumentHelperService.overridePlaceRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate, requestNote);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -430,7 +431,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if ("".equals(itemIdentifier)) {
                 itemIdentifier = null;
             }
-                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,"Item Level",null);
+                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,"Item Level",null, "");
                 responseMessage = responseMessage.replaceAll("&lt;br/&gt;", "");
                 responseMessage = responseMessage.replaceAll("<br/>", "");
                 OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
