@@ -32,10 +32,14 @@ public class ItemIndexer extends OleDsNgIndexer  {
 
         ItemRecord itemRecord = (ItemRecord) object;
 
-        List<SolrInputDocument> solrInputDocuments = buildSolrInputDocument(itemRecord);
+        List<SolrInputDocument> solrInputDocuments = getInputDocumentForItem(itemRecord);
 
         commitDocumentToSolr(solrInputDocuments);
 
+    }
+
+    public List<SolrInputDocument> getInputDocumentForItem(ItemRecord itemRecord) {
+        return buildSolrInputDocument(itemRecord);
     }
 
     @Override

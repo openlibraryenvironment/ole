@@ -7,8 +7,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
+import org.kuali.ole.dsng.indexer.ItemIndexer;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -28,6 +31,8 @@ public class OleDsHelperUtil implements DocstoreConstants {
     private BibIndexer bibIndexer;
 
     private HoldingIndexer holdingIndexer;
+
+    private ItemIndexer itemIndexer;
 
     private BusinessObjectService businessObjectService;
 
@@ -163,6 +168,26 @@ public class OleDsHelperUtil implements DocstoreConstants {
         return null;
     }
 
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("name", itemStatusTypeName);
+        List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
+        if(CollectionUtils.isNotEmpty(matching)) {
+            return matching.get(0);
+        }
+        return null;
+    }
+
+    public ItemTypeRecord fetchItemTypeByName(String itemTypeName) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("name", itemTypeName);
+        List<ItemTypeRecord> matching = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
+        if(CollectionUtils.isNotEmpty(matching)) {
+            return matching.get(0);
+        }
+        return null;
+    }
+
 
     public ObjectMapper getObjectMapper() {
         if(null == objectMapper) {
@@ -196,6 +221,17 @@ public class OleDsHelperUtil implements DocstoreConstants {
 
     public void setBibIndexer(BibIndexer bibIndexer) {
         this.bibIndexer = bibIndexer;
+    }
+
+    public ItemIndexer getItemIndexer() {
+        if(null == itemIndexer) {
+            itemIndexer = new ItemIndexer();
+        }
+        return itemIndexer;
+    }
+
+    public void setItemIndexer(ItemIndexer itemIndexer) {
+        this.itemIndexer = itemIndexer;
     }
 
     public BusinessObjectService getBusinessObjectService() {

@@ -8,9 +8,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
@@ -148,6 +146,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     JSONObject responseObject = new JSONObject();
                     responseObject.put("bibId", updatedBibRecord.getBibId());
 
+                    // Processing Holdings
                     List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
                     if (CollectionUtils.isNotEmpty(holdingsRecords) && jsonObject.has("holdings")) {
                         for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
@@ -166,6 +165,34 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
                             List<SolrInputDocument> inputDocumentForHoldings = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord);
                             solrInputDocuments.addAll(inputDocumentForHoldings);
+
+                            // Processing Items
+                            List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                            if(CollectionUtils.isNotEmpty(itemRecords) && jsonObject.has("items")) {
+                                for (Iterator<ItemRecord> itemRecordIterator = itemRecords.iterator(); itemRecordIterator.hasNext(); ) {
+                                    ItemRecord itemRecord = itemRecordIterator.next();
+                                    JSONObject itemJsonObject = jsonObject.getJSONObject("items");
+                                    String itemStatusName = getStringValueFromJsonObject(itemJsonObject, "itemStatus");
+                                    String itemTypeName = getStringValueFromJsonObject(itemJsonObject, "itemType");
+                                    ItemStatusRecord itemStatusRecord = fetchItemStatusByName(itemStatusName);
+                                    if(null != itemStatusRecord) {
+                                        itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
+                                        itemRecord.setItemStatusRecord(itemStatusRecord);
+                                    }
+
+                                    ItemTypeRecord itemTypeRecord = fetchItemTypeByName(itemTypeName);
+                                    if(null != itemTypeRecord) {
+                                        itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
+                                        itemRecord.setItemTypeRecord(itemTypeRecord);
+                                    }
+
+                                    itemRecord.setUpdatedBy(updatedBy);
+                                    itemRecord.setUpdatedDate(updatedDate);
+                                    ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
+                                    List<SolrInputDocument> inputDocumentForItem = getItemIndexer().getInputDocumentForItem(itemRecord);
+                                    solrInputDocuments.addAll(inputDocumentForItem);
+                                }
+                            }
                         }
                     }
                     getBibIndexer().commitDocumentToSolr(solrInputDocuments);

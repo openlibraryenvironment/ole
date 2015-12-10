@@ -63,11 +63,16 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         String location = formLocation(locationLevel1, locationLevel2, locationLevel3,
                                 locationLevel4, locationLevel5);
 
-
                         JSONObject holdingsData = new JSONObject();
                         holdingsData.put("location", location);
                         holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
                         bibData.put("holdings", holdingsData);
+
+                        //Item data
+                        JSONObject itemData = new JSONObject();
+                        itemData.put("itemType", "stks - Regular loan");
+                        itemData.put("itemStatus", "In Process");
+                        bibData.put("items", itemData);
 
                         jsonArray.put(bibData);
                     }
