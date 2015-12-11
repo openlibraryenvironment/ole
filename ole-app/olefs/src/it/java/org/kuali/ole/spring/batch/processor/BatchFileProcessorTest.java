@@ -29,7 +29,7 @@ public class BatchFileProcessorTest {
     public void testProcessBatchForBibForYBP() throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
         BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
-        URL resource = getClass().getResource("InvYBP_1124.mrc");
+        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
         batchFileProcessor.processBatch(file,"BibForInvoiceYBP");

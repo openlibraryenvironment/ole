@@ -1,18 +1,17 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
 import org.kuali.ole.utility.OleDsNgRestClient;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
-import org.marc4j.marc.VariableField;
+import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 
 import java.util.*;
@@ -51,12 +50,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
                         marcRecord = processMarcRecordToBibHoldingsAndItem(marcRecord);
 
+                        // Processing custom process based on profile (Casalini/YBP)
+                        doCustomProcessForProfile(marcRecord,profileName);
+
                         bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
                         bibData.put("content", getMarcXMLConverter().convertMarcRecordToRawMarcContent(marcRecord));
                         bibData.put("bibStatus", "Cataloging complete");
                         bibData.put("updatedBy", updatedUserName);
                         bibData.put("updatedDate", updatedDate);
-                        bibData.put("profileName", profileName);
 
 
                         //Holdings data
@@ -140,5 +141,60 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         } else {
             stringBuilder.append(location);
         }
+    }
+
+    private void doCustomProcessForProfile(Record record,String profileName) {
+        if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceCasalini")) {
+            // TODO : process For Casalini
+            processCasaliniProfile(record);
+        } else if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+            // TODO : process For YBP
+            processYBPProfile(record);
+        }
+    }
+
+    private void processYBPProfile(Record record) {
+        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
+        //Removeing ocn,ocm prefix from controlFieldValue
+        controlFieldValue = controlFieldValue.replace("ocm","");
+        controlFieldValue = controlFieldValue.replace("ocn","");
+
+        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
+        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
+
+        MarcFactory factory = MarcFactory.newInstance();
+
+        // Adding new field 035
+        DataField dataField = factory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+        Subfield subfield = factory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData(valueToUpdate030);
+        dataField.addSubfield(subfield);
+        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
+
+        //update 001 value by bibId
+
+    }
+
+    private void processCasaliniProfile(Record record) {
+        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
+        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
+        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
+
+        MarcFactory factory = MarcFactory.newInstance();
+
+        // Adding new field 035
+        DataField dataField = factory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+        Subfield subfield = factory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData(valueToUpdate030);
+        dataField.addSubfield(subfield);
+        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
     }
 }

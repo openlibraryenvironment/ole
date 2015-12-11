@@ -132,13 +132,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 String updatedBy = jsonObject.getString("updatedBy");
                 String updatedDateString = (String) jsonObject.get("updatedDate");
                 String bibStatus = getStringValueFromJsonObject(jsonObject,"bibStatus");
-                String profileName = getStringValueFromJsonObject(jsonObject,"profileName");
 
 
                 BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
                 if (null != bibRecord) {
                     //TODO : process bib record with overlay
-                    updatedContent = doCustomProcessForProfile(updatedContent, profileName,bibId);
+                    updatedContent = doCustomProcessForProfile(updatedContent,bibId);
                     bibRecord.setContent(updatedContent);
                     bibRecord.setUpdatedBy(updatedBy);
                     Timestamp updatedDate = null;
@@ -174,7 +173,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             holdingsRecord.setUpdatedBy(updatedBy);
                             holdingsRecord.setUpdatedDate(updatedDate);
                             holdingsRecord.setCallNumber(callNumber);
-                            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                            if (holdingJsonObject.has("callNumberPrefix")) {
                                 String callNumberPrefix = getStringValueFromJsonObject(holdingJsonObject, "callNumberPrefix");
                                 holdingsRecord.setCallNumberPrefix(callNumberPrefix);
                             }
@@ -201,15 +200,17 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                                         itemRecord.setItemTypeRecord(itemTypeRecord);
                                     }
 
-                                    if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                                    if (itemJsonObject.has("callNumberType")) {
                                         String callNumberTypeForItem = getStringValueFromJsonObject(itemJsonObject, "callNumberType");
-                                        String copyNumber = getStringValueFromJsonObject(itemJsonObject, "copyNumber");
                                         CallNumberTypeRecord callNumberTypeRecordForItem = fetchCallNumberTypeRecordByName(callNumberTypeForItem);
                                         if (null != callNumberTypeRecordForItem) {
                                             itemRecord.setCallNumberTypeId(callNumberTypeRecordForItem.getCallNumberTypeId());
                                             itemRecord.setCallNumberTypeRecord(callNumberTypeRecordForItem);
                                         }
 
+                                    }
+                                    if (itemJsonObject.has("copyNumber")) {
+                                        String copyNumber = getStringValueFromJsonObject(itemJsonObject, "copyNumber");
                                         itemRecord.setCopyNumber(copyNumber);
                                     }
 
@@ -234,72 +235,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return responseJsonArray.toString();
     }
 
-    private String doCustomProcessForProfile(String marcContent,String profileName,String bibId) {
+    private String doCustomProcessForProfile(String marcContent,String bibId) {
         MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
         List<Record> records = marcXMLConverter.convertRawMarchToMarc(marcContent);
         if(CollectionUtils.isNotEmpty(records)) {
             for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
                 Record record = iterator.next();
-                if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceCasalini")) {
-                    // TODO : process For Casalini
-                    processCasaliniProfile(record,bibId);
-                } else if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                    // TODO : process For YBP
-                    processYBPProfile(record,bibId);
-                }
+                //update 001 value by bibId
+                getMarcRecordUtil().updateControlField(record,"001", bibId);
                 return marcXMLConverter.generateMARCXMLContent(record);
             }
         }
         return marcContent;
-    }
-
-    private void processYBPProfile(Record record, String bibId) {
-        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
-        //Removeing ocn,ocm prefix from controlFieldValue
-        controlFieldValue = controlFieldValue.replace("ocm","");
-        controlFieldValue = controlFieldValue.replace("ocn","");
-
-        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
-        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
-
-        MarcFactory factory = MarcFactory.newInstance();
-
-        // Adding new field 035
-        DataField dataField = factory.newDataField();
-        dataField.setTag("035");
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
-        Subfield subfield = factory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData(valueToUpdate030);
-        dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
-
-        //update 001 value by bibId
-        getMarcRecordUtil().updateControlField(record,"001", bibId);
-
-    }
-
-    private void processCasaliniProfile(Record record, String bibId) {
-        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
-        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
-        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
-
-        MarcFactory factory = MarcFactory.newInstance();
-
-        // Adding new field 035
-        DataField dataField = factory.newDataField();
-        dataField.setTag("035");
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
-        Subfield subfield = factory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData(valueToUpdate030);
-        dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
-
-        //update 001 value by bibId
-        getMarcRecordUtil().updateControlField(record,"001", bibId);
     }
 
     private Timestamp getDateTimeStamp(String updatedDateString) {
