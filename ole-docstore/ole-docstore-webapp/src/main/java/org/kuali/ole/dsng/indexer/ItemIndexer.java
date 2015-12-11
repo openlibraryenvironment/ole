@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -9,6 +10,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocCategory;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,10 @@ public class ItemIndexer extends OleDsNgIndexer  {
     
     @Override
     public void indexDocument(Object object) {
-        List<SolrInputDocument> solrInputDocuments = buildSolrInputDocument(object);
+        ItemRecord itemRecord = (ItemRecord) object;
+        Map<String, SolrInputDocument> inputDocumentForItem = getInputDocumentForItem(itemRecord, null);
+
+        List<SolrInputDocument> solrInputDocuments = (List<SolrInputDocument>) inputDocumentForItem;
         commitDocumentToSolr(solrInputDocuments);
     }
 
@@ -31,25 +36,75 @@ public class ItemIndexer extends OleDsNgIndexer  {
     public void updateDocument(Object object) {
 
         ItemRecord itemRecord = (ItemRecord) object;
+        Map<String,SolrInputDocument> parameterMap = new HashedMap();
 
-        List<SolrInputDocument> solrInputDocuments = getInputDocumentForItem(itemRecord);
+        Map<String, SolrInputDocument> inputDocumentForItem = getInputDocumentForItem(itemRecord, parameterMap);
 
+        List<SolrInputDocument> solrInputDocuments = getSolrInputDocumentListFromMap(inputDocumentForItem);
         commitDocumentToSolr(solrInputDocuments);
 
     }
 
-    public List<SolrInputDocument> getInputDocumentForItem(ItemRecord itemRecord) {
-        return buildSolrInputDocument(itemRecord);
+    public Map<String,SolrInputDocument> getInputDocumentForItem(ItemRecord itemRecord,Map parameterMap) {
+        SolrInputDocument itemSolrInputDocument = buildSolrInputDocument(itemRecord, parameterMap);
+
+        //***********************
+        String holdingsId = itemRecord.getHoldingsId();
+        String holdingsIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(
+                DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, String.valueOf(holdingsId));
+        if (holdingsId != null) {
+            itemSolrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsIdentifierWithPrefix);
+        }
+
+        SolrInputDocument holdingSolrInputDocuemnt = getSolrInputDocumentFromMap(parameterMap, holdingsIdentifierWithPrefix);
+        if(null == holdingSolrInputDocuemnt) {
+            // Todo : Need to Build for Holdings
+        }
+
+        if(null != holdingSolrInputDocuemnt) {
+            Object bibs = holdingSolrInputDocuemnt.get(BIB_IDENTIFIER);
+            addItemDetailsToHoldings(itemSolrInputDocument, holdingSolrInputDocuemnt);
+
+
+            addBibInfoForHoldingsOrItems(itemSolrInputDocument, holdingSolrInputDocuemnt);
+
+            itemSolrInputDocument.addField("bibIdentifier", bibs);  // Todo Need to verify
+
+
+            // Todo : Need to populate the holdings record
+            // Todo : Need to do auto fetch (Lazy Loading)
+            Map<String, String> map = new HashMap<String,String>();
+            map.put("holdingsId", holdingsId);
+            HoldingsRecord holdingsRecord = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, map);
+            String bibId = "";
+            if(null != holdingsRecord) {
+                bibId = holdingsRecord.getBibId();
+            }
+            String bibIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(
+                    DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, String.valueOf(bibId));
+            SolrInputDocument bibSolrInputDocuemnt = getSolrInputDocumentFromMap(parameterMap, bibIdentifierWithPrefix);
+            if(null == bibSolrInputDocuemnt) {
+                // Todo : Need to Build for bib
+            }
+            addSolrInputDocumentToMap(parameterMap,itemSolrInputDocument);
+            addSolrInputDocumentToMap(parameterMap,holdingSolrInputDocuemnt);
+            bibSolrInputDocuemnt = addItemDetailsToBib(itemSolrInputDocument, bibSolrInputDocuemnt);
+            if(null != bibSolrInputDocuemnt) {
+                addSolrInputDocumentToMap(parameterMap, bibSolrInputDocuemnt);
+            }
+        }
+
+        //***********************
+
+        return parameterMap;
     }
 
     @Override
-    public List<SolrInputDocument> buildSolrInputDocument(Object object) {
-        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
-
+    public SolrInputDocument buildSolrInputDocument(Object object,Map<String, SolrInputDocument> parameterMap) {
+        SolrInputDocument solrInputDocument = new SolrInputDocument();
         try {
             ItemRecord itemRecord = (ItemRecord) object;
 
-            SolrInputDocument solrInputDocument = new SolrInputDocument();
 
             String itemIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML, String.valueOf(itemRecord.getItemId()));
 
@@ -73,7 +128,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
             solrInputDocument.addField(ITEM_STATUS_EFFECTIVE_DATE, itemRecord.getEffectiveDate());
             solrInputDocument.addField(CHECK_OUT_DUE_DATE_TIME, itemRecord.getCheckOutDateTime());
             solrInputDocument.addField(STAFF_ONLY_FLAG, itemRecord.getStaffOnlyFlag());
-//        solrInputDocument.addField(IS_ANALYTIC, itemRecord.isAnalytic()); // Todo : Need to verify
+//        solrInputDocument.addField(IS_ANALYTIC, itemRecord.isAnalytic()); // Todo : Need to verify (Ans : Need to verify with bib status) (HoldingsItemRecord - holdingsId and ItemId)
             solrInputDocument.addField(ITEM_IDENTIFIER_SEARCH, itemIdentifierWithPrefix);
             solrInputDocument.addField(BARCODE_ARSL_SEARCH, itemRecord.getBarCodeArsl());
             solrInputDocument.addField(COPY_NUMBER_SEARCH, itemRecord.getCopyNumber());
@@ -266,79 +321,30 @@ public class ItemIndexer extends OleDsNgIndexer  {
 
             //Todo : Need to do the all text part
 
-
-
-            //***********************
-            String holdingsId = itemRecord.getHoldingsId();
-            String holdingsIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(
-                    DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, String.valueOf(holdingsId));
-            if (holdingsId != null) {
-                solrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsIdentifierWithPrefix);
-            }
-
-
-            SolrDocumentList solrDocumentList = getSolrDocumentByUUID(holdingsIdentifierWithPrefix);
-            if (null != solrDocumentList && solrDocumentList.size() > 0) {
-                SolrDocument holdingSolrDocument = solrDocumentList.get(0);
-                if(null != holdingSolrDocument && holdingSolrDocument.size() > 0) {
-                    Object bibs = holdingSolrDocument.getFirstValue(BIB_IDENTIFIER);
-                    addItemDetailsToHoldings(solrInputDocument, holdingSolrDocument);
-                    SolrInputDocument holdingsSolrInput = buildSolrInputDocFromSolrDoc(holdingSolrDocument);
-
-
-                    addBibInfoForHoldingsOrItems(solrInputDocument, holdingSolrDocument);
-
-                    solrInputDocument.addField("bibIdentifier", (String) bibs);
-                    solrInputDocuments.add(solrInputDocument);
-                    solrInputDocuments.add(holdingsSolrInput);
-
-                    solrInputDocuments.add(addItemDetailsToBib(solrInputDocument, (String) bibs));
-                }
-            }
-
-            //***********************
-            assignUUIDs(solrInputDocuments,null);
+            assignUUIDs(solrInputDocument);
         } catch (Exception e) {
             LOG.info("Exception :", e);
             e.printStackTrace();
             throw new DocstoreIndexException(e.getMessage());
         }
 
-        if (CollectionUtils.isEmpty(solrInputDocuments)) {
-            throw new DocstoreIndexException("No valid documents found in input.");
-        }
-
-        //Todo : Need to verify and remove this logic
-        for (Iterator<SolrInputDocument> iterator = solrInputDocuments.iterator(); iterator.hasNext(); ) {
-            SolrInputDocument solrInputDocument = iterator.next();
-            if(solrInputDocument.containsKey("score")){
-                solrInputDocument.removeField("score");
-            }
-        }
-
-        return solrInputDocuments;
+        return solrInputDocument;
     }
 
-    private SolrInputDocument addItemDetailsToBib(SolrInputDocument solrInputDocument, String uuid) {
-        if (StringUtils.isNotBlank(uuid)) {
-            SolrDocumentList solrDocumentList = getSolrDocumentByUUID(uuid);
-            if(null != solrDocumentList && solrDocumentList.size() > 0){
-                SolrDocument solrDocument = solrDocumentList.get(0);
-                if(null != solrDocument) {
-                    addDetails(solrInputDocument, solrDocument, ITEM_BARCODE_SEARCH);
-                    addDetails(solrInputDocument, solrDocument, ITEM_IDENTIFIER);
-                    return buildSolrInputDocFromSolrDoc(solrDocument);
-                }
-            }
+    private SolrInputDocument addItemDetailsToBib(SolrInputDocument solrInputDocument, SolrInputDocument destinationSolrInputDocument) {
+        if(null != destinationSolrInputDocument) {
+            addDetails(solrInputDocument, destinationSolrInputDocument, ITEM_BARCODE_SEARCH);
+            addDetails(solrInputDocument, destinationSolrInputDocument, ITEM_IDENTIFIER);
+            return destinationSolrInputDocument;
         }
         return null;
     }
 
-    private SolrInputDocument addItemDetailsToHoldings(SolrInputDocument solrInputDocument,SolrDocument solrDocument) {
-        if(null != solrDocument) {
-            addDetails(solrInputDocument, solrDocument, ITEM_BARCODE_SEARCH);
-            addDetails(solrInputDocument, solrDocument, ITEM_IDENTIFIER);
-            return buildSolrInputDocFromSolrDoc(solrDocument);
+    private SolrInputDocument addItemDetailsToHoldings(SolrInputDocument sourceSolrInputDocument,SolrInputDocument destinationSolrInputDocument) {
+        if(null != destinationSolrInputDocument) {
+            addDetails(sourceSolrInputDocument, destinationSolrInputDocument, ITEM_BARCODE_SEARCH);
+            addDetails(sourceSolrInputDocument, destinationSolrInputDocument, ITEM_IDENTIFIER);
+            return destinationSolrInputDocument;
         }
         return null;
     }
