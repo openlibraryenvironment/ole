@@ -82,7 +82,6 @@ public class MarcXMLConverter {
         MarcReader reader = new MarcXmlReader(IOUtils.toInputStream(marcXml));
         while (reader.hasNext()) {
             Record record = reader.next();
-            System.out.println(record.toString());
             records.add(record);
         }
 

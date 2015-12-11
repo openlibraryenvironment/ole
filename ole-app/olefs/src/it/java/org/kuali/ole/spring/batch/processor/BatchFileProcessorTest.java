@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.kuali.ole.utility.OleDsNgRestClient;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.junit.Assert.*;
@@ -17,22 +18,21 @@ public class BatchFileProcessorTest {
 
     @Test
     public void testProcessBatchForBib() throws Exception {
-        OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
-        BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
-        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
-        File file = new File(resource.toURI());
-        batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        batchFileProcessor.processBatch(file,"BibForInvoiceCasalini");
+        processBatch("InvYBP_Test_1207_2rec.mrc","BibForInvoiceYBP");
     }
 
     @Test
     public void testProcessBatchForBibForYBP() throws Exception {
+        processBatch("InvYBP_1124.mrc", "BibForInvoiceYBP");
+    }
+
+    private void processBatch(String fielName, String profileName) throws URISyntaxException {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
         BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
-        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
+        URL resource = getClass().getResource(fielName);
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        batchFileProcessor.processBatch(file,"BibForInvoiceYBP");
+        batchFileProcessor.processBatch(file,profileName);
     }
 
     @Test

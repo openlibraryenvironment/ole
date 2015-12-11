@@ -237,7 +237,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     private String doCustomProcessForProfile(String marcContent,String bibId) {
         MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
-        List<Record> records = marcXMLConverter.convertRawMarchToMarc(marcContent);
+        List<Record> records = marcXMLConverter.convertMarcXmlToRecord(marcContent);
         if(CollectionUtils.isNotEmpty(records)) {
             for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
                 Record record = iterator.next();

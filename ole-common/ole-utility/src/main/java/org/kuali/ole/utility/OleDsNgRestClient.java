@@ -31,7 +31,7 @@ public class OleDsNgRestClient {
         WebResource webResource = getClient()
                 .resource(url);
 
-        ClientResponse response = webResource.type("application/"+format)
+        ClientResponse response = webResource.type("application/"+format+";charset=UTF-8")
                 .post(ClientResponse.class, content);
 
         if (response.getStatus() != 201) {

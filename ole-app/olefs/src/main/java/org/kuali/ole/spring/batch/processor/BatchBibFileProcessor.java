@@ -54,7 +54,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         doCustomProcessForProfile(marcRecord,profileName);
 
                         bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
-                        bibData.put("content", getMarcXMLConverter().convertMarcRecordToRawMarcContent(marcRecord));
+                        bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));
                         bibData.put("bibStatus", "Cataloging complete");
                         bibData.put("updatedBy", updatedUserName);
                         bibData.put("updatedDate", updatedDate);
