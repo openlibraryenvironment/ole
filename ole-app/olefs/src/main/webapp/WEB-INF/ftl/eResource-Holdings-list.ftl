@@ -45,7 +45,7 @@
                 </td>
                 <td>${line.row.isbn!}</td>
                 <td>${line.row.instanceHoldings!}</td>
-                <td>${line.row.url!}</td>
+                <td id="eHoldings_url">${line.row.url!}</td>
                 <td>${line.row.publicDisplayNote!}</td>
                 <td>${line.row.instancePublisher!}</td>
                  <td>${line.row.status!}</td>
