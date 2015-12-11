@@ -22,7 +22,7 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-EventLogSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:render="@{!filterEventLog}">
+    <bean id="OLEEResourceRecordView-EventLogSection" parent="Uif-Disclosure-TableCollectionSection" p:render="@{!filterEventLog}">
         <property name="headerText" value="Event Log" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceEventLog" />
         <property name="propertyName" value="oleERSEventLogs" />
@@ -37,17 +37,58 @@
         </property>
         <property name="items">
             <list>
-                <!-- <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>
-                 <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>-->
-                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventTypeName" p:label="Event Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="problemTypeName" p:label="Problem Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-InputField" p:propertyName="eventTypeId" p:fieldLabel.renderColon="false"
+                      p:label="Event Type" p:readOnly="@{#line.saveFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Problem'}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="problemTypeId" p:fieldLabel.renderColon="false"
+                      p:label="Problem Type" p:readOnly="@{#line.saveFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEProblemTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="eventNote" p:label="Note" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventResolvedDate" p:label="Date Resolved" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventResolution" p:label="Resolution" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-DataField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="eventStatus" p:label="Date" p:fieldLabel.renderColon="false" p:render="@{#line.eventStatus eq 'Closed'}"/>
+                <bean id="EventLogSection_eResourceeventStatus_entry" parent="Uif-InputField" p:propertyName="eventStatus" p:fieldLabel.renderColon="false"
+                      p:label="Status" p:readOnly="@{#line.saveFlag}" p:onChangeScript="enableOrDisableDateResolvedEntry(@{#index});" p:render="@{#line.eventStatus ne 'Closed'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Event'}">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Open" p:value="Open"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Pending" p:value="Pending"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Resolved" p:value="Resolved"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="eventResolvedDate" p:label="Date Resolved" p:fieldLabel.renderColon="false"
+                      p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{(#line.logTypeName eq 'Event') or !(#line.eventStatus eq 'Resolved')}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="eventResolution" p:fieldLabel.renderColon="false"
+                      p:label="Resolution" p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Attach File">
                     <property name="items">
                         <list>
@@ -56,23 +97,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<property name="optionsFinder">
-                    <bean class="org.kuali.ole.license.keyvalue.OleEventTypeKeyValues" />
-                </property>
-                <property name="control">
-                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
-                </property>&ndash;&gt;-->
-                <!--<bean id="EventLogSection-eventDate" parent="Uif-DataField" p:propertyName="eventDate" p:fieldLabel.renderColon="false" p:label="Event Date"/>
-                <bean id="EventLogSection-eventUser" parent="Uif-InputField" p:propertyName="eventUser" p:readOnly="@{!#isAddLine}" p:label="User" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                              p:fieldConversions="principalName:eventUser"/>
-                    </property>
-                </bean>
-                <bean id="EventLogSection-eventNote" parent="Uif-InputField" p:propertyName="eventNote" p:readOnly="@{!#isAddLine}" p:label="Note" p:required="true"/>-->
             </list>
         </property>
         <property name="addLineItems">
@@ -140,31 +164,11 @@
                         <bean parent="Uif-FileControl" p:size="15"/>
                     </property>
                 </bean>
-                <!--<bean id="EventLogSection-eventType_addLine" parent="Uif-DataField" p:propertyName="eventType" p:label="Type" p:fieldLabel.renderColon="false">-->
-                <!--<property name="optionsFinder">
-                    <bean class="org.kuali.ole.license.keyvalue.OleEventTypeKeyValues" />
-                </property>
-                <property name="control">
-                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
-                </property>-->
-                <!--</bean>
-                <bean id="EventLogSection-eventDate_addLine" parent="Uif-DataField" p:propertyName="eventDate" p:fieldLabel.renderColon="false" p:label="Event Date"/>
-                <bean id="EventLogSection-eventUser_addLine" parent="Uif-InputField" p:propertyName="eventUser" p:readOnly="@{!#isAddLine}" p:label="User" p:required="true" p:defaultValue="">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                              p:fieldConversions="principalName:eventUser"/>
-                    </property>
-                </bean>
-                <bean id="EventLogSection-eventNote_addLine" parent="Uif-InputField" p:propertyName="eventNote" p:readOnly="@{!#isAddLine}" p:label="Note" p:required="true"/>-->
             </list>
         </property>
         <property name="addLineActions">
             <list>
                 <bean id="EventLogSection_addEventLogLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addEventLogLine" p:actionLabel="Add" p:title="Add a EventLog"/>
-
             </list>
         </property>
         <property name="lineActions">
@@ -182,7 +186,6 @@
         </property>
     </bean>
 
-
     <bean id="OLEEResourceRecordView-FilterEventLogSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:render="@{filterEventLog}">
         <property name="headerText" value="Event Log" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceEventLog" />
@@ -198,17 +201,58 @@
         </property>
         <property name="items">
             <list>
-                <!-- <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>
-                 <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>-->
-                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventTypeName" p:label="Event Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="problemTypeName" p:label="Problem Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-InputField" p:propertyName="eventTypeId" p:fieldLabel.renderColon="false"
+                      p:label="Event Type" p:readOnly="@{#line.saveFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Problem'}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="problemTypeId" p:fieldLabel.renderColon="false"
+                      p:label="Problem Type" p:readOnly="@{#line.saveFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEProblemTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="eventNote" p:label="Note" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventResolvedDate" p:label="Date Resolved" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
-                <bean parent="Uif-InputField" p:propertyName="eventResolution" p:label="Resolution" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-DataField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="eventStatus" p:label="Date" p:fieldLabel.renderColon="false" p:render="@{#line.eventStatus eq 'Closed'}"/>
+                <bean id="FilterEventLogSection_eResourceeventStatus_entry" parent="Uif-InputField" p:propertyName="eventStatus" p:fieldLabel.renderColon="false"
+                      p:label="Status" p:readOnly="@{#line.saveFlag}" p:render="@{#line.eventStatus ne 'Closed'}" p:onChangeScript="enableOrDisableFilteredDateResolvedEntry(@{#index});">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                              p:disabled="@{#line.logTypeName eq 'Event'}">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Open" p:value="Open"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Pending" p:value="Pending"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Resolved" p:value="Resolved"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="eventResolvedDate" p:fieldLabel.renderColon="false"
+                      p:label="Date Resolved" p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{(#line.logTypeName eq 'Event') or !(#line.eventStatus eq 'Resolved')}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="eventResolution" p:fieldLabel.renderColon="false"
+                      p:label="Resolution" p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Attach File">
                     <property name="items">
                         <list>
@@ -217,23 +261,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<property name="optionsFinder">
-                    <bean class="org.kuali.ole.license.keyvalue.OleEventTypeKeyValues" />
-                </property>
-                <property name="control">
-                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
-                </property>&ndash;&gt;-->
-                <!--<bean id="EventLogSection-eventDate" parent="Uif-DataField" p:propertyName="eventDate" p:fieldLabel.renderColon="false" p:label="Event Date"/>
-                <bean id="EventLogSection-eventUser" parent="Uif-InputField" p:propertyName="eventUser" p:readOnly="@{!#isAddLine}" p:label="User" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                              p:fieldConversions="principalName:eventUser"/>
-                    </property>
-                </bean>
-                <bean id="EventLogSection-eventNote" parent="Uif-InputField" p:propertyName="eventNote" p:readOnly="@{!#isAddLine}" p:label="Note" p:required="true"/>-->
             </list>
         </property>
         <property name="addLineItems">
@@ -301,25 +328,6 @@
                         <bean parent="Uif-FileControl" p:size="15"/>
                     </property>
                 </bean>
-                <!--<bean id="EventLogSection-eventType_addLine" parent="Uif-DataField" p:propertyName="eventType" p:label="Type" p:fieldLabel.renderColon="false">-->
-                <!--<property name="optionsFinder">
-                    <bean class="org.kuali.ole.license.keyvalue.OleEventTypeKeyValues" />
-                </property>
-                <property name="control">
-                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
-                </property>-->
-                <!--</bean>
-                <bean id="EventLogSection-eventDate_addLine" parent="Uif-DataField" p:propertyName="eventDate" p:fieldLabel.renderColon="false" p:label="Event Date"/>
-                <bean id="EventLogSection-eventUser_addLine" parent="Uif-InputField" p:propertyName="eventUser" p:readOnly="@{!#isAddLine}" p:label="User" p:required="true" p:defaultValue="">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                              p:fieldConversions="principalName:eventUser"/>
-                    </property>
-                </bean>
-                <bean id="EventLogSection-eventNote_addLine" parent="Uif-InputField" p:propertyName="eventNote" p:readOnly="@{!#isAddLine}" p:label="Note" p:required="true"/>-->
             </list>
         </property>
         <property name="addLineActions">
@@ -431,14 +439,5 @@
             </list>
         </property>
     </bean>
-    <!--<bean id="OLEEResourceRecordView-EventLogButtonSection" parent="Uif-FooterBase">
-    <property name="items">
-    <list>
-    <bean id="saveEventLog" parent="Uif-SecondaryActionButton" p:methodToCall="saveEventLog" p:actionLabel="save" p:style="float:left;margin-left:5em" />
-        <bean id="cancelEventLog" parent="Uif-SecondaryActionButton" p:methodToCall="cancelEventLog" p:actionLabel="cancel" p:style="float:left;margin-left:5em" />
-    </list></property>
-    </bean>
--->
-
 
 </beans>

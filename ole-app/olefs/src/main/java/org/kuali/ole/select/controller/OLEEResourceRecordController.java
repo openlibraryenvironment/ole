@@ -267,6 +267,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSEventLog.setEventResolution(null);
         } else if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")) {
             oleERSEventLog.setEventTypeId(null);
+            if (oleERSEventLog.getEventResolvedDate() != null && StringUtils.isNotBlank(oleERSEventLog.getEventResolution())) {
+                oleERSEventLog.setEventStatus("Closed");
+            }
         }
         oleERSEventLog.setCurrentTimeStamp();
         oleERSEventLog.setOleERSIdentifier(oleeResourceRecordDocument.getDocumentNumber());
@@ -312,6 +315,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         OLEEResourceEventLog oleERSEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(Integer.parseInt(selectedLineIndex));
+        if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")) {
+            oleERSEventLog.setEventTypeId(null);
+            if (oleERSEventLog.getEventResolvedDate() != null && StringUtils.isNotBlank(oleERSEventLog.getEventResolution())) {
+                oleERSEventLog.setEventStatus("Closed");
+            }
+        }
         oleERSEventLog.setSaveFlag(true);
         return super.navigate(form, result, request, response);
     }
