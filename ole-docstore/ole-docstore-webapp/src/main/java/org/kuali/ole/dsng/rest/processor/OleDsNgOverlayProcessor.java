@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jettison.json.JSONArray;
@@ -114,8 +115,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
 
     public String processOverlayForBibAndHoldingsAndItems(String jsonBody) {
-        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
         JSONArray responseJsonArray = null;
+        Map<String,SolrInputDocument> solrInputDocumentMap = new HashedMap();
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
@@ -144,8 +145,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     bibRecord.setStatusUpdatedDate(updatedDate);
                     BibRecord updatedBibRecord = bibDAO.save(bibRecord);
 
-                    List<SolrInputDocument> inputDocumentForBib = getBibIndexer().getInputDocumentForBib(bibRecord);
-                    solrInputDocuments.addAll(inputDocumentForBib);
+                    solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
 
                     JSONObject responseObject = new JSONObject();
                     responseObject.put("bibId", updatedBibRecord.getBibId());
@@ -169,8 +169,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             holdingsRecord.setUpdatedDate(updatedDate);
                             holdingsRecord.setCallNumber(callNumber);
                             HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
-                            List<SolrInputDocument> inputDocumentForHoldings = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord);
-                            solrInputDocuments.addAll(inputDocumentForHoldings);
+                            solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
 
                             // Processing Items
                             List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
@@ -195,8 +194,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                                     itemRecord.setUpdatedBy(updatedBy);
                                     itemRecord.setUpdatedDate(updatedDate);
                                     ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
-                                    List<SolrInputDocument> inputDocumentForItem = getItemIndexer().getInputDocumentForItem(itemRecord);
-                                    solrInputDocuments.addAll(inputDocumentForItem);
+                                    solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
                                 }
                             }
                         }
@@ -206,6 +204,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     // TODO : need to handle if bib record is not found
                 }
             }
+            List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
         }catch (JSONException e) {
             e.printStackTrace();

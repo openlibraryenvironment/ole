@@ -1,8 +1,10 @@
 package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.OleException;
@@ -13,6 +15,7 @@ import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.common.exception.DocstoreSearchException;
 import org.kuali.ole.docstore.engine.service.index.solr.Languages;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
@@ -50,70 +53,60 @@ public class BibIndexer extends OleDsNgIndexer {
 
     @Override
     public void indexDocument(Object object) {
-        List<SolrInputDocument> solrInputDocuments = buildSolrInputDocument(object);
+        BibRecord bibRecord = (BibRecord) object;
+        Map<String, SolrInputDocument> inputDocumentForBib = getInputDocumentForBib(bibRecord, null);
+        List<SolrInputDocument> solrInputDocuments = getSolrInputDocumentListFromMap(inputDocumentForBib);
         commitDocumentToSolr(solrInputDocuments);
     }
 
     @Override
     public void updateDocument(Object object) {
         BibRecord bibRecord = (BibRecord) object;
-        List<SolrInputDocument> solrInputDocuments = getInputDocumentForBib(bibRecord);
+        Map<String, SolrInputDocument> inputDocumentForBib = getInputDocumentForBib(bibRecord, null);
+        List<SolrInputDocument> solrInputDocuments = getSolrInputDocumentListFromMap(inputDocumentForBib);
         commitDocumentToSolr(solrInputDocuments);
     }
 
-    public List<SolrInputDocument> getInputDocumentForBib(BibRecord bibRecord) {
-        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
-        if(StringUtils.isNotBlank(bibRecord.getBibId())){
-            String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(bibRecord.getUniqueIdPrefix(), String.valueOf(bibRecord.getBibId()));
+    public Map<String,SolrInputDocument> getInputDocumentForBib(BibRecord bibRecord,Map parameterMap) {
+        SolrInputDocument bibSolrInputDocument = buildSolrInputDocument(bibRecord, parameterMap);
+        setCommonFields(bibRecord,bibSolrInputDocument);
+        if (null != bibRecord.getStatusUpdatedDate()) {
+            bibSolrInputDocument.setField(STATUS_UPDATED_ON, getDate(bibRecord.getStatusUpdatedDate().toString()));
+        }
 
-            List solrDocumentList = getSolrDocumentBySolrId(bibIdWithPrefix);
-            if(CollectionUtils.isNotEmpty(solrDocumentList)) {
-                Map<String,Object> solrFieldMap = (Map<String, Object>) solrDocumentList.get(0);
-                if (bibRecord.getContent() != null) {
-                    solrInputDocuments = buildSolrInputDocument(bibRecord);
-                    SolrInputDocument solrInputDocument = solrInputDocuments.get(0);
-                    if (solrFieldMap.get(HOLDINGS_IDENTIFIER) != null) {
-                        addBibInfoToHoldings(solrInputDocuments, solrInputDocument, solrFieldMap);
-                    }
-                    if (null != bibRecord.getStatusUpdatedDate()) {
-                        solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bibRecord.getStatusUpdatedDate().toString()));
-                    }
-                } else {
-                    SolrInputDocument solrInputDocument = new SolrInputDocument();
-                    buildSolrInputDocFromSolrDoc(solrFieldMap, solrInputDocument);
-                }
-                updateCommonFields(solrInputDocuments.get(0),bibRecord,solrFieldMap);
-            } else {
-                throw new DocstoreSearchException("Bib is not found in the solr for bibId : " + bibIdWithPrefix);
+        List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
+        if(CollectionUtils.isNotEmpty(holdingsRecords)) {
+            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                String holdingsIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, String.valueOf(holdingsRecord.getHoldingsId()));
+                bibSolrInputDocument.addField(HOLDINGS_IDENTIFIER,holdingsIdentifierWithPrefix);
+                // Todo : Need to do for Holdings
+                parameterMap = new HoldingIndexer().getInputDocumentForHoldings(holdingsRecord,parameterMap);
             }
         }
-        return solrInputDocuments;
+
+        return parameterMap;
     }
 
     @Override
-    public List<SolrInputDocument> buildSolrInputDocument(Object object) {
-        List<SolrInputDocument> solrInputDocuments = new ArrayList<SolrInputDocument>();
+    public SolrInputDocument buildSolrInputDocument(Object object,Map<String,SolrInputDocument> parameterMap) {
+        SolrInputDocument solrInputDocument = null;
         try {
             BibRecord bibRecord = (BibRecord) object;
             BibMarcRecords bibMarcRecords = getBibMarcRecordProcessor().fromXML(bibRecord.getContent());
-            SolrInputDocument solrInputDocument = buildSolrInputDocumentWithBibMarcRecord(bibMarcRecords.getRecords().get(0));
+            solrInputDocument = buildSolrInputDocumentWithBibMarcRecord(bibMarcRecords.getRecords().get(0));
 
             setCommonFields(bibRecord, solrInputDocument);
 
-            solrInputDocuments.add(solrInputDocument);
+            assignUUIDs(solrInputDocument);
 
-            assignUUIDs(solrInputDocuments,null);
+            addSolrInputDocumentToMap(parameterMap,solrInputDocument);
         } catch (Exception e) {
             LOG.info("Exception :", e);
             e.printStackTrace();
             throw new DocstoreIndexException(e.getMessage());
         }
-
-        if ((null == solrInputDocuments) || (solrInputDocuments.isEmpty())) {
-            throw new DocstoreIndexException("No valid documents found in input.");
-        }
-
-        return solrInputDocuments;
+        return solrInputDocument;
     }
 
     public SolrInputDocument buildSolrInputDocumentWithBibMarcRecord(BibMarcRecord record) {
@@ -155,9 +148,9 @@ public class BibIndexer extends OleDsNgIndexer {
     protected void setCommonFields(BibRecord bibRecord, SolrInputDocument solrInputDocument) {
         String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(bibRecord.getUniqueIdPrefix(), String.valueOf(bibRecord.getBibId()));
         solrInputDocument.setField(ID, bibIdWithPrefix);
-        solrInputDocument.addField(LOCALID_SEARCH, DocumentLocalId.getDocumentId(bibRecord.getBibId()));
-        solrInputDocument.addField(LOCALID_DISPLAY, DocumentLocalId.getDocumentIdDisplay(bibRecord.getBibId()));
-        solrInputDocument.addField(UNIQUE_ID, bibIdWithPrefix);
+        solrInputDocument.setField(LOCALID_SEARCH, DocumentLocalId.getDocumentId(bibRecord.getBibId()));
+        solrInputDocument.setField(LOCALID_DISPLAY, DocumentLocalId.getDocumentIdDisplay(bibRecord.getBibId()));
+        solrInputDocument.setField(UNIQUE_ID, bibIdWithPrefix);
         solrInputDocument.setField(DOC_CATEGORY, DocCategory.WORK.getCode());
         solrInputDocument.setField(BIB_ID, bibIdWithPrefix);
 
@@ -168,7 +161,7 @@ public class BibIndexer extends OleDsNgIndexer {
             solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bibRecord.getStatusUpdatedDate().toString()));
         }
 
-        solrInputDocument.addField(STAFF_ONLY_FLAG, bibRecord.getStaffOnlyFlag());
+        solrInputDocument.setField(STAFF_ONLY_FLAG, bibRecord.getStaffOnlyFlag());
 
         String createdBy = bibRecord.getCreatedBy();
         solrInputDocument.setField(CREATED_BY, createdBy);
@@ -918,71 +911,6 @@ public class BibIndexer extends OleDsNgIndexer {
         }
         return value;
     }
-
-    private void addBibInfoToHoldings(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, Map<String,Object> solrFieldMap) {
-        Object instanceIdentifier = solrFieldMap.get(HOLDINGS_IDENTIFIER);
-        solrInputDocument.addField(HOLDINGS_IDENTIFIER, instanceIdentifier);
-        List<String> holdinsgsIds = new ArrayList<String>();
-        if (instanceIdentifier instanceof String) {
-            holdinsgsIds.add((String) instanceIdentifier);
-        } else {
-            holdinsgsIds.addAll((List<String>) instanceIdentifier);
-        }
-
-        for (String holdingsId : holdinsgsIds) {
-            List solrDocumentList = getSolrDocumentBySolrId(holdingsId);
-            if (CollectionUtils.isNotEmpty(solrDocumentList)) {
-                Map holdinsSolrFieldMap = (Map) solrDocumentList.get(0);
-                SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
-                buildSolrInputDocFromSolrDoc(holdinsSolrFieldMap, holdingsSolrInputDocument);
-                removeFieldFromSolrInputDocument(holdingsSolrInputDocument);
-                addBibInfoForHoldingsOrItems(holdingsSolrInputDocument, solrFieldMap);
-                List<String> itemIds = new ArrayList<String>();
-
-                Object itemIdentifier = holdinsSolrFieldMap.get(ITEM_IDENTIFIER);
-                if (itemIdentifier != null) {
-                    if (itemIdentifier instanceof String) {
-                        itemIds.add((String) itemIdentifier);
-                    } else {
-                        itemIds.addAll((List<String>) itemIdentifier);
-                    }
-                }
-
-                for (String itemId : itemIds) {
-                    List<SolrDocument> itemDocumentList = getSolrDocumentBySolrId(itemId);
-                    Map itemSolrFieldMap = itemDocumentList.get(0);
-                    SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
-                    buildSolrInputDocFromSolrDoc(itemSolrFieldMap, itemSolrInputDocument);
-                    removeFieldFromSolrInputDocument(itemSolrInputDocument);
-                    addBibInfoForHoldingsOrItems(itemSolrInputDocument, solrFieldMap);
-                    addHoldingsInfoToItem(itemSolrInputDocument, solrInputDocument);
-                    solrInputDocuments.add(itemSolrInputDocument);
-                }
-                solrInputDocuments.add(holdingsSolrInputDocument);
-
-            }
-        }
-
-    }
-
-    private void updateCommonFields(SolrInputDocument solrInputDocument, BibRecord bibRecord, Map<String,Object> solrFieldMap) {
-        String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, String.valueOf(bibRecord.getBibId()));
-        solrInputDocument.setField(ID, bibIdWithPrefix);
-        solrInputDocument.setField(UNIQUE_ID, bibIdWithPrefix);
-        solrInputDocument.setField(DOC_CATEGORY, DocCategory.WORK.getCode());
-        String updatedBy = bibRecord.getUpdatedBy();
-        solrInputDocument.setField(UPDATED_BY, updatedBy);
-        solrInputDocument.setField(DATE_UPDATED, new Date());
-        solrInputDocument.setField(CREATED_BY, solrFieldMap.get(CREATED_BY));
-        solrInputDocument.setField(DATE_ENTERED, solrFieldMap.get(DATE_ENTERED));
-        solrInputDocument.setField(BIB_ID, bibIdWithPrefix);
-        solrInputDocument.setField(LOCALID_SEARCH, bibRecord.getBibId());
-        solrInputDocument.setField(LOCALID_DISPLAY, bibRecord.getBibId());
-        solrInputDocument.setField(STAFF_ONLY_FLAG, bibRecord.getStaffOnlyFlag());
-        solrInputDocument.setField(STATUS_SEARCH, bibRecord.getStatus());
-        solrInputDocument.setField(STATUS_DISPLAY, bibRecord.getStatus());
-    }
-
 
     public BibMarcRecordProcessor getBibMarcRecordProcessor() {
         if(null == bibMarcRecordProcessor) {
