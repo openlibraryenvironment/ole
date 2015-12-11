@@ -26,7 +26,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final String DASH = "-";
 
     @Override
-    public String processRecords(List<Record> records) throws JSONException {
+    public String processRecords(List<Record> records,String profileName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
@@ -52,10 +52,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         marcRecord = processMarcRecordToBibHoldingsAndItem(marcRecord);
 
                         bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
-                        bibData.put("content", generateMARCXMLContent(marcRecord));
+                        bibData.put("content", getMarcXMLConverter().convertMarcRecordToRawMarcContent(marcRecord));
                         bibData.put("bibStatus", "Cataloging complete");
                         bibData.put("updatedBy", updatedUserName);
                         bibData.put("updatedDate", updatedDate);
+                        bibData.put("profileName", profileName);
 
 
                         //Holdings data
@@ -68,7 +69,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         String location = formLocation(locationLevel1, locationLevel2, locationLevel3,
                                 locationLevel4, locationLevel5);
 
-                        String callNumberForHolding = getContentFromMarcRecord(marcRecord, "050", "$a$b");
+                        String callNumberForHolding = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "050", "$a$b");
 
                         JSONObject holdingsData = new JSONObject();
                         holdingsData.put("location", location);
@@ -92,40 +93,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private Record processMarcRecordToBibHoldingsAndItem(Record marcRecord) {
-        String value = getContentFromMarcRecord(marcRecord, "035", "$a");
-        updateControlField(marcRecord,"001",value);
+        String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "035", "$a");
+        getMarcRecordUtil().updateControlField(marcRecord,"001",value);
         return marcRecord;
-    }
-
-    private void updateControlField(Record marcRecord, String field,String value) {
-        List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-            ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
-            controlField.setData(value);
-        }
-    }
-
-    /*This method will get the field and tags and will return return the concadinated value
-    * Eg:
-    *   field : 050
-    *   tags  : $a$b*/
-    private String getContentFromMarcRecord(Record marcRecord, String field, String tags) {
-        List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-            DataField dataField = (DataField) variableFieldIterator.next();
-            StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while(stringTokenizer.hasMoreTokens()) {
-                String tag = stringTokenizer.nextToken();
-                List < Subfield > subFields = dataField.getSubfields(tag);
-                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                    Subfield subfield = subfieldIterator.next();
-                    String data = subfield.getData();
-                    appendMarcRecordValuesToStrinBuilder(stringBuilder,data);
-                }
-            }
-        }
-        return stringBuilder.toString();
     }
 
     public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
@@ -154,14 +124,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private void appendLocationToStrinBuilder(StringBuilder stringBuilder, String location) {
         if (stringBuilder.length() > 0) {
             stringBuilder.append(FORWARD_SLASH).append(location);
-        } else {
-            stringBuilder.append(location);
-        }
-    }
-
-    private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
-        if (stringBuilder.length() > 0) {
-            stringBuilder.append(DASH).append(location);
         } else {
             stringBuilder.append(location);
         }

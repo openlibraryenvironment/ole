@@ -11,7 +11,7 @@ import java.util.List;
 public class BatchItemFileProcessor extends BatchFileProcessor {
 
     @Override
-    public String processRecords(List<Record> records) throws JSONException {
+    public String processRecords(List<Record> records,String profileName) throws JSONException {
         return null;
     }
 }

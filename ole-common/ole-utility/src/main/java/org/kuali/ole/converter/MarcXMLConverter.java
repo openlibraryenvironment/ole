@@ -2,14 +2,13 @@ package org.kuali.ole.converter;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.*;
 import org.kuali.ole.pojo.bib.BibliographicRecord;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcStreamReader;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
+import org.marc4j.*;
 import org.marc4j.marc.Record;
 
 import java.io.*;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,4 +76,35 @@ public class MarcXMLConverter {
 
         return records;
     }
+
+    public List<Record> convertMarcXmlToRecord(String marcXml) {
+        List<Record> records = new ArrayList<>();
+        MarcReader reader = new MarcXmlReader(IOUtils.toInputStream(marcXml));
+        while (reader.hasNext()) {
+            Record record = reader.next();
+            System.out.println(record.toString());
+            records.add(record);
+        }
+
+        return records;
+    }
+
+    public String convertMarcRecordToRawMarcContent(Record record) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcStreamWriter(byteArrayOutputStream);
+        writer.write(record);
+        writer.close();
+        return byteArrayOutputStream.toString();
+    }
+
+
+    public String generateMARCXMLContent(Record marcRecord){
+        org.apache.commons.io.output.ByteArrayOutputStream out = new org.apache.commons.io.output.ByteArrayOutputStream();
+        MarcWriter writer = new MarcXmlWriter(out);
+        writer.write(marcRecord);
+        writer.close();
+        return new String(out.toByteArray());
+    }
+
+
 }

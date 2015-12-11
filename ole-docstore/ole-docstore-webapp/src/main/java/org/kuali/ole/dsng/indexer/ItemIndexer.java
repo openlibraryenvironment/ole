@@ -242,6 +242,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 }
             }
 
+            solrInputDocument.addField(ALL_TEXT, getAllTextValueForItem(itemRecord) + loactionLevelStr.toString());
 
             if (itemRecord.getItemTypeRecord() != null) {
                 solrInputDocument.addField(ITEM_TYPE_FULL_VALUE_SEARCH, itemRecord.getItemTypeRecord().getName());
@@ -347,5 +348,204 @@ public class ItemIndexer extends OleDsNgIndexer  {
             return destinationSolrInputDocument;
         }
         return null;
+    }
+
+    public String getAllTextValueForItem(ItemRecord itemRecord) {
+        StringBuffer sb = new StringBuffer();
+        String itemIdentifier =  DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), String.valueOf(itemRecord.getItemId()));
+        String copyNumber = itemRecord.getCopyNumber();
+        String enumeration = itemRecord.getEnumeration();
+        // String analytic = itemRecord.getAnalytic(); // Todo : Need to check
+        String barcodeARSL = itemRecord.getBarCodeArsl();
+        String chronology = itemRecord.getChronology();
+        String checkinNote = itemRecord.getCheckInNote();
+        Date claimsReturnedDateCreated = itemRecord.getClaimsReturnedFlagCreateDate();
+        String claimsReturnedFlagCreateDate = (claimsReturnedDateCreated != null ? DOCSTORE_DATE_FORMAT.format(claimsReturnedDateCreated) : null);
+        String claimsReturnedNote = itemRecord.getClaimsReturnedNote();
+        //String copyNumberLabel = itemRecord.getCopyNumberLabel(); // TODO : Need to check
+        String currentBorrower = itemRecord.getCurrentBorrower();
+        String damagedItemNote = itemRecord.getDamagedItemNote();
+
+        Date dueDate = itemRecord.getDueDateTime();
+        String dueDateTime = (dueDate != null ? DOCSTORE_DATE_FORMAT.format(dueDate) : null);
+
+        String fund = itemRecord.getFund();
+
+        Date itemStatusDateUpdated = itemRecord.getUpdatedDate();
+        String itemStatusEffectiveDate = (itemStatusDateUpdated != null ? DOCSTORE_DATE_FORMAT.format(itemStatusDateUpdated) : null);
+
+
+        Date missingPiecesEffectiveDate = itemRecord.getMissingPieceEffectiveDate();
+        String missingPieceEffectiveDate = (missingPiecesEffectiveDate != null ? DOCSTORE_DATE_FORMAT.format(missingPiecesEffectiveDate) : null);
+
+        String missingPieceFlagNote = itemRecord.getMissingPieceFlagNote();
+        String missingPiecesCount = String.valueOf(itemRecord.getMissingPiecesCount());
+        String numberOfPieces = itemRecord.getNumberOfPieces();
+        String price = String.valueOf(itemRecord.getPrice());
+        String proxyBorrower = itemRecord.getProxyBorrower();
+        String purchaseOrderLineItemIdentifier = itemRecord.getPurchaseOrderItemLineId();
+        String vendorLineItemIdentifier = itemRecord.getVendorLineItemId();
+        // String volumeNumber = itemRecord.getVolumeNumber();  // TODO : Need to check
+
+        getOleDsHelperUtil().appendData(sb, itemIdentifier);
+        getOleDsHelperUtil().appendData(sb, copyNumber);
+        getOleDsHelperUtil().appendData(sb, enumeration);
+        //getOleDsHelperUtil().appendData(sb, analytic);
+        getOleDsHelperUtil().appendData(sb, chronology);
+        getOleDsHelperUtil().appendData(sb, barcodeARSL);
+        getOleDsHelperUtil().appendData(sb, checkinNote);
+        getOleDsHelperUtil().appendData(sb, claimsReturnedFlagCreateDate);
+        getOleDsHelperUtil().appendData(sb, claimsReturnedNote);
+        //getOleDsHelperUtil().appendData(sb, copyNumberLabel);
+        getOleDsHelperUtil().appendData(sb, currentBorrower);
+        getOleDsHelperUtil().appendData(sb, damagedItemNote);
+        getOleDsHelperUtil().appendData(sb, dueDateTime);
+        getOleDsHelperUtil().appendData(sb, fund);
+        getOleDsHelperUtil().appendData(sb, itemStatusEffectiveDate);
+        getOleDsHelperUtil().appendData(sb, missingPieceEffectiveDate);
+        getOleDsHelperUtil().appendData(sb, missingPieceFlagNote);
+        getOleDsHelperUtil().appendData(sb, missingPiecesCount);
+        getOleDsHelperUtil().appendData(sb, numberOfPieces);
+        getOleDsHelperUtil().appendData(sb, price);
+        getOleDsHelperUtil().appendData(sb, proxyBorrower);
+        getOleDsHelperUtil().appendData(sb, purchaseOrderLineItemIdentifier);
+        getOleDsHelperUtil().appendData(sb, vendorLineItemIdentifier);
+        //getOleDsHelperUtil().appendData(sb, volumeNumber);
+
+        // TODO :  Need to write boolean converter for JPA and need to change the variable type to boolean
+       /* boolean staffOnlyFlag = itemRecord.isStaffOnlyFlag();
+        boolean claimsReturnedFlag = itemRecord.isClaimsReturnedFlag();
+        boolean fastAddFlag = itemRecord.isFastAddFlag();
+        boolean itemDamagedStatus = itemRecord.isItemDamagedStatus();
+        boolean missingPieceFlag = itemRecord.isMissingPieceFlag();
+
+        getOleDsHelperUtil().appendData(sb, String.valueOf(staffOnlyFlag));
+        getOleDsHelperUtil().appendData(sb, String.valueOf(claimsReturnedFlag));
+        getOleDsHelperUtil().appendData(sb, String.valueOf(fastAddFlag));
+        getOleDsHelperUtil().appendData(sb, String.valueOf(itemDamagedStatus));
+        getOleDsHelperUtil().appendData(sb, String.valueOf(missingPieceFlag));*/
+
+        getOleDsHelperUtil().appendData(sb, itemRecord.getBarCode());
+        getOleDsHelperUtil().appendData(sb, itemRecord.getUri());
+
+        if (StringUtils.isNotEmpty(itemRecord.getCallNumber())) {
+            String number = itemRecord.getCallNumber();
+            String prefix = itemRecord.getCallNumberPrefix();
+            if (itemRecord.getCallNumberTypeRecord() != null) {
+                String shelvingSchemeCodeValue = itemRecord.getCallNumberTypeRecord().getCode();
+                String shelvingSchemeFullValue = itemRecord.getCallNumberTypeRecord().getName();
+
+                getOleDsHelperUtil().appendData(sb, shelvingSchemeCodeValue);
+                getOleDsHelperUtil().appendData(sb, shelvingSchemeFullValue);
+            }
+            if (itemRecord.getShelvingOrder() != null) {
+                String shelvingOrderCodeValue = itemRecord.getShelvingOrder();
+                String shelvingOrderFullValue = itemRecord.getShelvingOrder();
+                getOleDsHelperUtil().appendData(sb, shelvingOrderCodeValue);
+                getOleDsHelperUtil().appendData(sb, shelvingOrderFullValue);
+            }
+
+            getOleDsHelperUtil().appendData(sb, number);
+            getOleDsHelperUtil().appendData(sb, prefix);
+        }
+
+
+        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+        for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
+            OLEItemDonorRecord oleItemDonorRecord = iterator.next();
+            if(null != oleItemDonorRecord) {
+                String donorCode = oleItemDonorRecord.getDonorCode();
+                String donorNote = oleItemDonorRecord.getDonorNote();
+                String donorPublicDisplay = oleItemDonorRecord.getDonorPublicDisplay();
+                getOleDsHelperUtil().appendData(sb, donorCode);
+                getOleDsHelperUtil().appendData(sb, donorNote);
+                getOleDsHelperUtil().appendData(sb, donorPublicDisplay);
+            }
+        }
+
+
+        List<FormerIdentifierRecord> formerIdentifierRecords = itemRecord.getFormerIdentifierRecords();
+        for (Iterator<FormerIdentifierRecord> iterator = formerIdentifierRecords.iterator(); iterator.hasNext(); ) {
+            FormerIdentifierRecord formerIdentifierRecord = iterator.next();
+            if(null != formerIdentifierRecord) {
+                String identifierType = formerIdentifierRecord.getType();
+                String identifierValue = formerIdentifierRecord.getValue();
+                getOleDsHelperUtil().appendData(sb, identifierType);
+                getOleDsHelperUtil().appendData(sb, identifierValue);
+            }
+        }
+
+        HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
+        if (highDensityStorageRecord != null) {
+            String module = highDensityStorageRecord.getModule();
+            String row = highDensityStorageRecord.getRow();
+            String shelf = highDensityStorageRecord.getShelf();
+            String tray = highDensityStorageRecord.getTray();
+            getOleDsHelperUtil().appendData(sb, module);
+            getOleDsHelperUtil().appendData(sb, row);
+            getOleDsHelperUtil().appendData(sb, shelf);
+            getOleDsHelperUtil().appendData(sb, tray);
+        }
+
+        ItemStatusRecord itemStatusRecord = itemRecord.getItemStatusRecord();
+        if(itemStatusRecord != null) {
+            String itemStatusCodeValue = itemStatusRecord.getCode();
+            String itemStatusFullValue = itemStatusRecord.getName();
+            getOleDsHelperUtil().appendData(sb, itemStatusCodeValue);
+            getOleDsHelperUtil().appendData(sb, itemStatusFullValue);
+        }
+
+        ItemTypeRecord itemTypeRecord = itemRecord.getItemTypeRecord();
+        if(itemTypeRecord != null) {
+            String itemTypeCodeValue = itemTypeRecord.getCode();
+            String itemTypeFullValue = itemTypeRecord.getName();
+            getOleDsHelperUtil().appendData(sb, itemTypeCodeValue);
+            getOleDsHelperUtil().appendData(sb, itemTypeFullValue);
+        }
+
+        List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
+        for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
+            ItemNoteRecord itemNoteRecord = iterator.next();
+            String itemNoteValue = itemNoteRecord.getNote();
+            String itemNoteType = itemNoteRecord.getType();
+            getOleDsHelperUtil().appendData(sb, itemNoteValue);
+            getOleDsHelperUtil().appendData(sb, itemNoteType);
+        }
+
+        List<LocationsCheckinCountRecord> locationsCheckinCountRecords = itemRecord.getLocationsCheckinCountRecords();
+        for (Iterator<LocationsCheckinCountRecord> iterator = locationsCheckinCountRecords.iterator(); iterator.hasNext(); ) {
+            LocationsCheckinCountRecord locationsCheckinCountRecord = iterator.next();
+            if (null != locationsCheckinCountRecord) {
+                String checkInLocationCount = locationsCheckinCountRecord.getLocationCount().toString();
+                getOleDsHelperUtil().appendData(sb, checkInLocationCount);
+                String checkInLocationInHouseCount = locationsCheckinCountRecord.getLocationInhouseCount().toString();
+                getOleDsHelperUtil().appendData(sb, checkInLocationInHouseCount);
+                String checkInLocationName = locationsCheckinCountRecord.getLocationName();
+                getOleDsHelperUtil().appendData(sb, checkInLocationName);
+            }
+        }
+
+        List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
+        for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
+            ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
+            if(null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
+                String codeValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode();
+                getOleDsHelperUtil().appendData(sb, codeValue);
+                String fullValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getName();
+                getOleDsHelperUtil().appendData(sb, fullValue);
+            }
+        }
+
+        ItemTypeRecord itemTempTypeRecord = itemRecord.getItemTempTypeRecord();
+        if (itemTempTypeRecord != null) {
+            String temporaryItemTypeCodeValue = itemTempTypeRecord.getCode();
+            String temporaryItemTypeFullValue = itemTempTypeRecord.getName();
+            getOleDsHelperUtil().appendData(sb, temporaryItemTypeCodeValue);
+            getOleDsHelperUtil().appendData(sb, temporaryItemTypeFullValue);
+        }
+        getOleDsHelperUtil().appendData(sb,itemRecord.getLocation());
+        getOleDsHelperUtil().appendData(sb,itemRecord.getLocationLevel());
+        return sb.toString();
+
     }
 }

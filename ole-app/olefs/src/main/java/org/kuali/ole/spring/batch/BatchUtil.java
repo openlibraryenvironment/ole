@@ -6,6 +6,7 @@ import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.select.bo.OleCallNumber;
 import org.kuali.ole.service.OLEEResourceSearchService;
+import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.ole.utility.OleHttpRestClient;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -21,6 +22,7 @@ public class BatchUtil {
     private OleDsNgRestClient oleDsNgRestClient;
     SolrRequestReponseHandler solrRequestReponseHandler;
     private BusinessObjectService businessObjectService;
+    private MarcRecordUtil marcRecordUtil;
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -49,5 +51,16 @@ public class BatchUtil {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if(null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
+    }
+
+    public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
+        this.marcRecordUtil = marcRecordUtil;
     }
 }
