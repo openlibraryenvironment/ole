@@ -174,6 +174,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                             holdingsRecord.setUpdatedBy(updatedBy);
                             holdingsRecord.setUpdatedDate(updatedDate);
                             holdingsRecord.setCallNumber(callNumber);
+                            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                                String callNumberPrefix = getStringValueFromJsonObject(holdingJsonObject, "callNumberPrefix");
+                                holdingsRecord.setCallNumberPrefix(callNumberPrefix);
+                            }
                             HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
                             solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
 
@@ -195,6 +199,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                                     if(null != itemTypeRecord) {
                                         itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
                                         itemRecord.setItemTypeRecord(itemTypeRecord);
+                                    }
+
+                                    if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                                        String callNumberTypeForItem = getStringValueFromJsonObject(itemJsonObject, "callNumberType");
+                                        String copyNumber = getStringValueFromJsonObject(itemJsonObject, "copyNumber");
+                                        CallNumberTypeRecord callNumberTypeRecordForItem = fetchCallNumberTypeRecordByName(callNumberTypeForItem);
+                                        if (null != callNumberTypeRecordForItem) {
+                                            itemRecord.setCallNumberTypeId(callNumberTypeRecordForItem.getCallNumberTypeId());
+                                            itemRecord.setCallNumberTypeRecord(callNumberTypeRecordForItem);
+                                        }
+
+                                        itemRecord.setCopyNumber(copyNumber);
                                     }
 
                                     itemRecord.setUpdatedBy(updatedBy);

@@ -66,21 +66,34 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         String locationLevel4 = null;
                         String locationLevel5 = "InProc";
 
-                        String location = formLocation(locationLevel1, locationLevel2, locationLevel3,
+                        String locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
                                 locationLevel4, locationLevel5);
 
                         String callNumberForHolding = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "050", "$a$b");
 
                         JSONObject holdingsData = new JSONObject();
-                        holdingsData.put("location", location);
+                        holdingsData.put("location", locationForHolding);
                         holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
                         holdingsData.put("callNumber", callNumberForHolding);
+                        if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                            String callNumberPrefix = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "090", "$p");
+                            locationLevel5 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$c");
+                            locationLevel3 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$d");
+                            locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
+                                    locationLevel4, locationLevel5);
+                            holdingsData.put("callNumberPrefix", callNumberPrefix);
+                            holdingsData.put("location", locationForHolding);
+                        }
                         bibData.put("holdings", holdingsData);
 
                         //Item data
                         JSONObject itemData = new JSONObject();
                         itemData.put("itemType", "stks - Regular loan");
                         itemData.put("itemStatus", "In Process");
+                        if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                            itemData.put("copyNumber", "c.1");
+                            itemData.put("callNumberType", "LCC - Library Of Congress classification");
+                        }
                         bibData.put("items", itemData);
 
                         jsonArray.put(bibData);
