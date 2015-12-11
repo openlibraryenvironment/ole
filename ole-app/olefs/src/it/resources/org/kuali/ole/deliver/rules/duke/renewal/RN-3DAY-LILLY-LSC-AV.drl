@@ -1,0 +1,51 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-3DAY-LILLY-LSC-AV-LS-THAN-1"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQST","FQPHD","FQGRAD","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("AUDIOVISUAL"),
+getItemLibraryLocation() in ("LILLY","LSC"))
+
+then
+$l.loanPeriod("3-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-3DAY-LILLY-LSC-AV-LS-THAN-1");
+$d.setRuleMatched(true);
+ end
+ 
+ rule "RN-3DAY-LILLY-LSC-AV-GR-THAN-1"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQST","FQPHD","FQGRAD","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("AUDIOVISUAL"),
+getItemLibraryLocation() in ("LILLY","LSC"))
+
+then
+$d.addErrorMessage("Patron is only allowed 1 renewal for LILLY/LSC AUDIOVISUAL.");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.loanPeriod("3-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-3DAY-LILLY-LSC-AV-GR-THAN-1");
+$d.setRuleMatched(true);
+ end
+

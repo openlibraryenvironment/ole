@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-3HR-LILLY-DEVILDVD"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() not in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("DEVILDVD"),
+getItemLibraryLocation() in ("LILLY"))
+then
+$l.setCirculationPolicyId("CO-3HR-LILLY-DEVILDVD");
+$l.loanPeriod("3-H",null);
+ end

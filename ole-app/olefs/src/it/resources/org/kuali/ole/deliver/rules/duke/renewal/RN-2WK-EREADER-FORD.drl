@@ -16,7 +16,7 @@ when
 $d: DroolsResponse()
 $n: NoticeInfo()
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
 
 $i: OleItemRecordForCirc (getItemType() in ("EREADER"),
 getItemLibraryLocation() in ("FORD"))

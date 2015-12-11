@@ -14,18 +14,22 @@ when
 $n: NoticeInfo(getNoticeType() == "NO-RC-PS-STANDARDLOAN")
 $i: ItemRecord(getDueDateTime()!= null)
 then
-$n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "1");
+$n.addInfo(OLEConstants.COURTESY_NOTICE,DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "4");
+$n.addInfo(OLEConstants.COURTESY_NOTICE,OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME,"Recalled Courtesy Notice");
  end
 
 
 rule "Overdue NO-RC-PS-STANDARDLOAN"
 agenda-group "notice generation"
 when
-$n: NoticeInfo(getNoticeType() == "NO-FORD-2HR")
+$n: NoticeInfo(getNoticeType() == "NO-RC-PS-STANDARDLOAN")
 $i: ItemRecord(getDueDateTime()!= null, !getClaimsReturnedFlag())
 then
 
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "3");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "1");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "100.00");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE,DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "3");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE,DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "1,2,4,7");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE,OLEConstants.OVERDUE_NOTICE_CONTENT_CONFIG_NAME,"Recalled Overdue Notice");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE,DroolsConstants.REPLACEMENT_BILL_AMT, "100.00");
+$n.addInfo(OLEConstants.LOST_NOTICE,OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME,"Recalled Lost Notice");
+$n.setIntervalType("D");
  end

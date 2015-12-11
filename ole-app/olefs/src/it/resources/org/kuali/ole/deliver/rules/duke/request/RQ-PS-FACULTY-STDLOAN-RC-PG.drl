@@ -1,0 +1,34 @@
+package org.kuali.ole.deliver.rules.ncip
+
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+
+rule "RQ-PS-FACULTY-STDLOAN-RC-PG"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$d : DroolsResponse()
+$n : NoticeInfo()
+
+$p : OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","RETLIB"))
+$dr: OleDeliverRequestBo(getItemType() in ("STANDARDLOAN"),
+getRequestTypeCode() in ("Recall/Hold Request","Page/Hold Request"),
+    getItemLibrary() in ("PERKINS","LILLY","LSC","MARIN","MUSIC"))
+
+then
+$d.setRuleMatched(true);
+$n.setNoticeType(OLEConstants.NOTICE_RECALL);
+$d.getDroolsExchange().addToContext("requestExpirationDays",90);
+$d.getDroolsExchange().addToContext("minimumLoanPeriod","14-D");
+$d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+$d.getDroolsExchange().addToContext(OLEConstants.RECALL_NOTICE_CONTENT_CONFIG_NAME,"Recall Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
+end
+

@@ -18,12 +18,13 @@ $l: OleLoanDocument()
 $n: NoticeInfo()
 $d : DroolsResponse()
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","DIVGRAD","CARREL","FQGRAD"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","CARREL","FQGRAD"))
 
-$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"))
+$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("PERKINS","LILLY","LSC","MARINE","MUSIC"))
 
 then
-$l.loanPeriod(OLEConstants.FIXED_DUE_DATE,"7-D"); // This method takes due date and recall period as arguments.
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE,"14-D"); // This method takes due date and recall period as arguments.
 $l.setCirculationPolicyId("RN-5-15-FIXED-PS");
 $d.setRuleMatched(true);
 $n.setNoticeType("NO-PS-STDLOAN");

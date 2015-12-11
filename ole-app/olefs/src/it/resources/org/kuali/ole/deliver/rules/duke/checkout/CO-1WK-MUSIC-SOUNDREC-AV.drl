@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-1WK-MUSIC-SOUNDREC-AV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("UNCGFS","DUKE4WKGOLD","TRLN","UG"))
+$i: OleItemRecordForCirc (getItemType() in ("SOUNDREC","AUDIOVISUAL"),
+getItemLibraryLocation() in ("MUSIC"))
+then
+$l.setCirculationPolicyId("CO-1WK-MUSIC-SOUNDREC-AV");
+$l.loanPeriod("7-D",null);
+
+ end

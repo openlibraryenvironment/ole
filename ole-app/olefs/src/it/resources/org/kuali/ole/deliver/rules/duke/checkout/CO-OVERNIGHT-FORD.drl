@@ -1,0 +1,41 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-OVERNIGHT-FORD"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FQFACULTY","GRADST","FQGRAD","FQST","FQPHD"))
+$i: OleItemRecordForCirc (getItemType() in ("OVERNIGHT"),
+getItemLibraryLocation() in ("FORD"))
+then
+$l.setCirculationPolicyId("CO-OVERNIGHT-FORD");
+$l.loanPeriod("12-H",null);
+ end
+ 
+ rule "CO-OVERNIGHT-FORD-NO-LOAN"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() not in ("FQFACULTY","GRADST","FQGRAD","FQST","FQPHD"))
+$i: OleItemRecordForCirc (getItemType() in ("OVERNIGHT"),
+getItemLibraryLocation() in ("FORD"))
+then
+  
+$d.addErrorMessage("Patron may not check out Ford overnight items.");
+$d.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+$l.setCirculationPolicyId("CO-OVERNIGHT-FORD-NO-LOAN");
+ end

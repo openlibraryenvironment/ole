@@ -18,7 +18,7 @@ import org.kuali.ole.deliver.bo.PatronBillPayment
  $f: ItemFineRate()
 
  $i: OleItemRecordForCirc(getItemType() in ("EREADER"),
-getItemLibraryLocation() in ("PERKINS","LILLY","MARINE","DIV","MCL"))
+getItemLibraryLocation() in ("PERKINS","LILLY","MARINE","DIVINITY","MCL"))
 
  then
  $f.setFineRate(5.00);

@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-3HR-LSC-AV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() not in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("AUDIOVISUAL"),
+getItemLibraryLocation() in ("LSC"))
+then
+$l.setCirculationPolicyId("CO-3HR-LSC-AV");
+$l.loanPeriod("3-H",null);
+ end

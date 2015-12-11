@@ -1,0 +1,30 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-24HR-LAW"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","MDFACULTY","GRADST","DUKESTAFF","UG","FQST","FQPHD","FQGRAD","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("24HR"),
+getItemLibraryLocation() in ("LAW"))
+
+then
+$l.loanPeriod("24-H",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-24HR-LAW");
+$d.setRuleMatched(true);
+ end
+

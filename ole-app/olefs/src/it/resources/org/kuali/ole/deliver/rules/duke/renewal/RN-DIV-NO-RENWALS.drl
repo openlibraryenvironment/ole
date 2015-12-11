@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "RN-DIV-NO-RENWALS"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$d: DroolsResponse()
+$i: OleItemRecordForCirc(getItemType() in ("LIBUSEONLY","3DAY","1DAY","4HR","3HR","2HR","OVERNIGHT"),
+getItemLibraryLocation() in ("DIVINITY"))
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Reserve items may not be renewed");
+ end

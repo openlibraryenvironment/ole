@@ -1,0 +1,25 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-1WK-MARINE-AV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","FQALUMNI","UNCGFS","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("AUDIOVISUAL"),
+getItemLibraryLocation() in ("MARINE"))
+then
+$l.setCirculationPolicyId("CO-1WK-MARINE-AV");
+$l.loanPeriod("7-D",null);
+
+ end

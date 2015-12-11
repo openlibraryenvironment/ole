@@ -1,0 +1,23 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "RN-MUSIC-NO-RENEWALS"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$d: DroolsResponse()
+$i: OleItemRecordForCirc(getItemType() in ("1DAY","3HR","2HR","8WK"),
+getItemLibraryLocation() in ("MUSIC"))
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Reserve items and 8-Week loans may not be renewed");
+ end

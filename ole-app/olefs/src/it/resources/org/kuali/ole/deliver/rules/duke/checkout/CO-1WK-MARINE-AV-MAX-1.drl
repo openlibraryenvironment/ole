@@ -1,0 +1,51 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-1WK-MARINE-AV-LS-THAN-1"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("AUDIOVISUAL","COMPMEDIA"),
+getItemLibraryLocation() in ("MARINE"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUMNI","PL4WK","DUKE4WKGOLD"),
+getLoanedItemsCountByItemType($i.getItemType()) < 1)
+
+
+then
+$l.setCirculationPolicyId("CO-1WK-MARINE-AV-LS-THAN-1");
+$l.loanPeriod("7-D",null);
+
+end
+
+rule "CO-1WK-MARINE-AV-GR-THAN-1"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("AUDIOVISUAL","COMPMEDIA"),
+getItemLibraryLocation() in ("MARINE"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUMNI","PL4WK","DUKE4WKGOLD"),
+getLoanedItemsCountByItemType($i.getItemType()) >= 1)
+
+
+then
+$d.addErrorMessage("Patron has more than 1 media item checked out");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("CO-1WK-MARINE-AV-GR-THAN-1");
+$l.loanPeriod("7-D",null); // This method takes due date and recall period as arguments.
+
+ end

@@ -1,0 +1,30 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-28-DAYS-MARINE"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d : DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUMNI","PL4WK","UNCGFS","TRLN","DUKESTAFF","UG","FQSTAFF","RETLIB"))
+$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("MARINE"))
+
+then
+$l.loanPeriod("28-D","7-D"); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-28-DAYS-MARINE");
+$d.setRuleMatched(true);
+ end
+

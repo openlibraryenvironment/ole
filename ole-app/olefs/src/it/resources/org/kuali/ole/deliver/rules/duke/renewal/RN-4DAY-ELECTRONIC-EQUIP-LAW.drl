@@ -1,0 +1,33 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "RN-4DAY-ELECTRONICEQUIP-LAW-LS-THAN-1-RN"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
+
+$n: NoticeInfo()
+$d : DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","MDFACULTY","GRADST","UNCGFS","DUKE4WKGOLD","TRLN","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB","LWALUMNI"))
+
+$i: OleItemRecordForCirc(getItemType() in ("ELECTRONICEQUIP"),
+getItemLibraryLocation() in ("LAW"))
+
+then
+$d.addErrorMessage("Electronic equipment must be renewed in person.");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.loanPeriod("4-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("RN-4DAY-ELECTRONIC-EQUIP-LAW-LS-THAN-1-RN");
+$d.setRuleMatched(true);
+ end

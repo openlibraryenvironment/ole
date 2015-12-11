@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "CO-5-15-FIXED-MCL"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","UNCGFS","FQGRAD"))
+$i: OleItemRecordForCirc (getItemType() in ("LSCGEN"),
+getItemLibraryLocation() in ("MCL"))
+then
+$l.setCirculationPolicyId("CO-5-15-FIXED-MCL");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "14-D");
+
+ end

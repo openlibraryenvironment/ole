@@ -22,10 +22,11 @@ $d : DroolsResponse()
 $p: OlePatronDocument(getBorrowerTypeCode() in
 ("ALUMNI","PL4WK","DUKE4WKGOLD","LWALUMNI","FRIENDSDUL"))
 
-$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"))
+$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("PERKINS","LILLY","LSC","MARINE","MUSIC"))
 
 then
-$l.loanPeriod("1-D",null); // This method takes due date and recall period as arguments.
+$l.loanPeriod("28-D","7-D"); // This method takes due date and recall period as arguments.
 $l.setCirculationPolicyId("RN-PK-STDLOAN-NOT-DUKE-AFFL-LS-THAN-2-RN");
 $d.setRuleMatched(true);
 $n.setNoticeType("NO-PS-STDLOAN");
@@ -43,12 +44,13 @@ $n: NoticeInfo()
 $p: OlePatronDocument(getBorrowerTypeCode() in
 ("ALUMNI","PL4WK","DUKE4WKGOLD","LWALUMNI","FRIENDSDUL"))
 
-$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"))
+$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("PERKINS","LILLY","LSC","MARINE","MUSIC"))
 
 then
 $d.addErrorMessage("Patron has more than allowed limit of renewals.");
 $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
 $l.setCirculationPolicyId("RN-PK-STDLOAN-NOT-DUKE-AFFL-GR-THAN-2-RN");
-$l.loanPeriod("28-D",null); // This method takes due date and recall period as arguments.
+$l.loanPeriod("28-D","7-D"); // This method takes due date and recall period as arguments.
 $n.setNoticeType("NO-PS-STDLOAN");
 end
