@@ -27,6 +27,7 @@ public class GlobalEditForm extends OLESearchForm {
 
     private SearchResultDisplayFields searchResultDisplayFields;
     private List<SearchResultDisplayRow> searchResultDisplayRowList;
+    private List<SearchResultDisplayRow> originalSearchResultDisplayRowList;
     private List<SearchResultDisplayRow> globalEditRecords;
     private Map<String, SearchResultDisplayRow> globalEditMap;
     private List<FacetResultField> facetResultFields;
@@ -363,5 +364,13 @@ public class GlobalEditForm extends OLESearchForm {
 
     public void setSelectAll(boolean selectAll) {
         this.selectAll = selectAll;
+    }
+
+    public List<SearchResultDisplayRow> getOriginalSearchResultDisplayRowList() {
+        return originalSearchResultDisplayRowList;
+    }
+
+    public void setOriginalSearchResultDisplayRowList(List<SearchResultDisplayRow> originalSearchResultDisplayRowList) {
+        this.originalSearchResultDisplayRowList = originalSearchResultDisplayRowList;
     }
 }
