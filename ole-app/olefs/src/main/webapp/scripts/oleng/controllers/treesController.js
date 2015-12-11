@@ -23,8 +23,11 @@
         };
 
         $scope.previous = function (holdingsIdentifier) {
+            //Item tree searchResult previous
             var itemData = [];
-            $scope.itemStart = $scope.itemStart - $scope.itemPageSize;
+            if($scope.itemStart - $scope.itemPageSize >= 0){
+                $scope.itemStart = $scope.itemStart - $scope.itemPageSize;
+            }
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
             $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
                 success(function (data) {
@@ -53,33 +56,42 @@
         };
 
         $scope.next = function (holdingsIdentifier) {
+            //Item tree searchResult next
             var itemData = [];
-            $scope.itemStart = $scope.itemStart + $scope.itemPageSize;
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
             $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
                 success(function (data) {
-                    console.log(data.response.docs);
-                    angular.forEach(data.response.docs, function (itemResponse) {
-                        var locationDispaly = "Item";
-                        if (itemResponse.hasOwnProperty('Location_display')) {
-                            locationDispaly = itemResponse.Location_display[0]
-                        }
-                        var item =
-                        {
-                            'id': itemResponse.id,
-                            'title': locationDispaly,
-                            "docType": itemResponse.DocType
-                        }
-                        itemData.push(item);
-                    }, "");
-                    angular.forEach($scope.tree1, function (bib) {
-                        angular.forEach(bib.nodes, function (holdingsNode) {
-                            if (holdingsNode.id == holdingsIdentifier) {
-                                holdingsNode.nodes = itemData;
+                    var itemTotalRecords = data.response.numFound;
+                    if($scope.itemStart + $scope.itemPageSize <= itemTotalRecords){
+                        $scope.itemStart = $scope.itemStart + $scope.itemPageSize;
+                        $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
+                            success(function (data) {
+                                console.log(data.response.docs);
+                                angular.forEach(data.response.docs, function (itemResponse) {
+                                    var locationDisplay = "Item";
+                                    if (itemResponse.hasOwnProperty('Location_display')) {
+                                        locationDisplay = itemResponse.Location_display[0]
+                                    }
+                                    var item =
+                                    {
+                                        'id': itemResponse.id,
+                                        'title': locationDisplay,
+                                        "docType": itemResponse.DocType
+                                    }
+                                    itemData.push(item);
+                                }, "");
+                                angular.forEach($scope.tree1, function (bib) {
+                                    angular.forEach(bib.nodes, function (holdingsNode) {
+                                        if (holdingsNode.id == holdingsIdentifier) {
+                                            holdingsNode.nodes = itemData;
+                                        }
+                                    }, "");
+                                });
                             }
-                        }, "");
-                    });
-                });
+                        );
+                    }
+                }
+            );
         };
 
     }]);
@@ -141,19 +153,12 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
                 if (holdingsResponse.hasOwnProperty('Location_display')) {
                     locationDispaly = holdingsResponse.Location_display[0]
                 }
-                var totalItemRecords = 0;
-                var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsResponse.holdingsIdentifier + ')';
-                $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType').
-                    success(function (data) {
-                        totalItemRecords = data.response.numFound;
-                    });
 
                 var holdings = {
                     'id': holdingsResponse.id,
                     'title': locationDispaly,
                     "docType": holdingsResponse.DocType,
-                    'nodes': itemData,
-                    'totalItemRecords' : totalItemRecords
+                    'nodes': itemData
                 }
                 holdingsData.push(holdings);
 
