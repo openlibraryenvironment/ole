@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class BatchHoldingFileProcessor extends BatchFileProcessor {
     @Override
-    public String processRecords(List<Record> records) throws JSONException {
+    public String processRecords(List<Record> records,String profileName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         List results = getSolrRequestReponseHandler().getSolrDocumentList("(DocType:holdings AND Level1Location_search:UC AND bibIdentifier:wbm-10000058)"); // Todo :  Need to form query
         if (null != results && results.size() == 1) {

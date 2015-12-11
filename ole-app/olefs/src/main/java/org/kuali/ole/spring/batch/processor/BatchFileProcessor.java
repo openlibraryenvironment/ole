@@ -24,13 +24,13 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
+    private MarcXMLConverter marcXMLConverter;
 
-    public void processBatch(File file) {
-        MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
+    public void processBatch(File file, String profileName) {
         try {
             String rawMarc = FileUtils.readFileToString(file);
-            List<Record> records = marcXMLConverter.convertRawMarchToMarc(rawMarc);
-            String responseData = processRecords(records);
+            List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
+            String responseData = processRecords(records, profileName);
             LOG.info("Response Data : " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,15 +39,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    public abstract String processRecords(List<Record> records) throws JSONException;
-
-    public String generateMARCXMLContent(Record marcRecord){
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcXmlWriter(out);
-        writer.write(marcRecord);
-        writer.close();
-        return new String(out.toByteArray());
-    }
+    public abstract String processRecords(List<Record> records, String profileName) throws JSONException;
 
     public String getUpdatedUserName() {
         UserSession userSession = GlobalVariables.getUserSession();
@@ -55,5 +47,16 @@ public abstract class BatchFileProcessor extends BatchUtil {
             return userSession.getPrincipalName();
         }
         return null;
+    }
+
+    public MarcXMLConverter getMarcXMLConverter() {
+        if(null == marcXMLConverter) {
+            marcXMLConverter = new MarcXMLConverter();
+        }
+        return marcXMLConverter;
+    }
+
+    public void setMarcXMLConverter(MarcXMLConverter marcXMLConverter) {
+        this.marcXMLConverter = marcXMLConverter;
     }
 }

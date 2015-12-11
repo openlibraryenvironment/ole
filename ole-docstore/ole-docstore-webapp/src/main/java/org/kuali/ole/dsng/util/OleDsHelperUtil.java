@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
+import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -35,6 +36,8 @@ public class OleDsHelperUtil implements DocstoreConstants {
     private ItemIndexer itemIndexer;
 
     private BusinessObjectService businessObjectService;
+
+    private MarcRecordUtil marcRecordUtil;
 
     public String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
@@ -239,5 +242,16 @@ public class OleDsHelperUtil implements DocstoreConstants {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if(null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
+    }
+
+    public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
+        this.marcRecordUtil = marcRecordUtil;
     }
 }
