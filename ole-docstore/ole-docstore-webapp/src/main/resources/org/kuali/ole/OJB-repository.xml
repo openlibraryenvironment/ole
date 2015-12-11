@@ -19,7 +19,7 @@
         <field-descriptor name="content" column="CONTENT" jdbc-type="CLOB"/>
         <collection-descriptor name="holdingsRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <inverse-foreignkey field-ref="bibId" />
         </collection-descriptor>
     </class-descriptor>
@@ -141,7 +141,7 @@
 
         <collection-descriptor name="itemRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <inverse-foreignkey field-ref="holdingsId" />
         </collection-descriptor>
 
