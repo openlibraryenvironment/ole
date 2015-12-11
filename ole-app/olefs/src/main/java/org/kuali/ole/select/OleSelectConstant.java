@@ -166,6 +166,8 @@ public class OleSelectConstant {
     public static final String TO_DATE_CREATED = "toDateCreated";
     public static final String PURCHASEORDER_STATUS_OPEN = "OPEN";
     public static final String ISBN = "isbn";
+    public static final String NOTES_WARNING = "Notes warning:";
+    public static final String NO_RECORDS_FOUND ="noRecordsfound";
 
     // added for OLE-2144 end
 
@@ -422,4 +424,5 @@ public class OleSelectConstant {
     public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
     public static final String POBA_VIEW = "OLEPurchaseOrderBatchView";
+    public static final String PRORATE_OPTION_REQ = "error.prorate.option.required";
 }

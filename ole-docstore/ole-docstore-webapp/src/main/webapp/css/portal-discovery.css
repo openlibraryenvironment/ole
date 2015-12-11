@@ -16,10 +16,10 @@
 
 #header
 {
-	height: 70px;
-	background-image:  url("../images/headerback.gif");
-	color:#FFFFFF;
-	font-size: 1.5em;
+    height: 70px;
+    background-image:  url("../images/headerback.gif");
+    color:#FFFFFF;
+    font-size: 1.5em;
 }
 
 #header span { display: none; }
@@ -32,78 +32,79 @@ body {
 
 #header h1.kfs
 {
-	background-image:url("../images/logo-ole.png.gif");
-	margin: 0px;
-	padding: 0px;
-	height:68px;
-	width: 221px;
-	position: absolute;
-	left: 0px;
-	top: 0px;
+    background-image:url("../images/discovery_ole-logo.png");
+    margin: 0px;
+    padding: 0px;
+    height:68px;
+    width: 221px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-repeat:no-repeat;
 }
 
 #feedback
 {
-	height: 12px;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-weight:bold;
-	color: #999999;
+    height: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight:bold;
+    color: #999999;
 }
 
 #build
 {
-	height: 12px;
-	position: absolute;
-	top: 52px;
-	right: 20px;
-	color: #999999;
-	font-family:Tahoma,Arial,Sans-serif;
-	font-size:11px;
+    height: 12px;
+    position: absolute;
+    top: 52px;
+    right: 20px;
+    color: #999999;
+    font-family:Tahoma,Arial,Sans-serif;
+    font-size:11px;
     letter-spacing: 1px;
 }
 
 #tabs
 {
-	float: left;
-	font-size: 93%;
-	line-height: normal;
-	white-space: nowrap;
-	width: 800px;
+    float: left;
+    font-size: 93%;
+    line-height: normal;
+    white-space: nowrap;
+    width: 800px;
 }
 
 div.tabposition
 {
-	position: absolute;
-	top: 50px;
-	left: 190px;
-	width: 200px;
-	white-space: no-wrap;
+    position: absolute;
+    top: 50px;
+    left: 190px;
+    width: 200px;
+    white-space: no-wrap;
 }
 
 
 div.header2
 {
-	background-image:   url("../images/head2-back.gif");
-	background-color: #F4D9D8;
-	background-repeat: repeat-x;
-	height: 38px;
+    background-image:   url("../images/head2-back.gif");
+    background-color: #F4D9D8;
+    background-repeat: repeat-x;
+    height: 38px;
 }
 
 div.header2-left-focus
 {
-	background-image:   url("../images/header2-left-focus.gif");
-	height: 38px;
-	background-repeat: no-repeat;
+    background-image:   url("../images/header2-left-focus.gif");
+    height: 38px;
+    background-repeat: no-repeat;
 }
 div.breadcrumb-focus
 {
-	position: absolute;
-	left: 28px;
-	top: 84px;
-	color: #000000;
-	font-weight: bold;
+    position: absolute;
+    left: 28px;
+    top: 84px;
+    color: #000000;
+    font-weight: bold;
 }
 
 #tabs a.red {
@@ -119,10 +120,10 @@ div.breadcrumb-focus
 
 #tabs ul
 {
-	margin: 0;
-	padding: 0px 0px 0;
-	list-style: none;
-	white-space: nowrap;
+    margin: 0;
+    padding: 0px 0px 0;
+    list-style: none;
+    white-space: nowrap;
 }
 
 #tabs li.red {
@@ -135,14 +136,14 @@ div.breadcrumb-focus
 
 .footerbevel
 {
-	background-image: url(../images/bl-bevel-focus.gif);
-	height: 27px;
+    background-image: url(../images/bl-bevel-focus.gif);
+    height: 27px;
 }
 
 #footer-copyright
 {
-	background-color: #a02919;
-    background-image: url("../images/os-guy.gif");
+    background-color: #a02919;
+    background-image: url("../images/ole/os-guy-new.png");
     background-position: right 5px;
     background-repeat: no-repeat;
     bottom: 0;
@@ -157,31 +158,31 @@ div.breadcrumb-focus
 }
 
 #iframe_portlet_container_div {
-	background-color: #FFFFFF;
-	background-image: url('../images/leftback-focus.gif');
-	background-repeat: repeat-y;
-	/* padding left 15px simulates previous table layout spacing */
-	padding: 0px 0px 0px 15px;
-	/* default height */
-	height: 800px;
+    background-color: #FFFFFF;
+    background-image: url('../images/leftback-focus.gif');
+    background-repeat: repeat-y;
+    /* padding left 15px simulates previous table layout spacing */
+    padding: 0px 0px 0px 15px;
+    /* default height */
+    height: 800px;
 }
 
 #tabs a:hover
 {
-	color: #333333;
-	text-decoration: underline;
+    color: #333333;
+    text-decoration: underline;
 }
 
 a:hover
 {
-	color: #990000 ;
-	text-decoration: underline !important;
+    color: #990000 ;
+    text-decoration: underline !important;
 }
 
 a:link
 {
-	text-decoration: underline;
-	color: #000000 !important;
+    text-decoration: underline;
+    color: #000000 !important;
 }
 #feedback a {
     font-weight:bold !important;
@@ -197,19 +198,19 @@ a:link
 }
 
 #tabs ul li a:link {
-	color: #FFFFFF !important;
+    color: #FFFFFF !important;
 }
 #tabs ul li a:hover {
-	color: #000000 !important;
-	text-decoration: underline;
+    color: #000000 !important;
+    text-decoration: underline;
 }
 #sections ul li a:hover {
-	color: #000000 !important;
-	text-decoration: none !important;
+    color: #000000 !important;
+    text-decoration: none !important;
 }
 
 #sections ul li a:link {
-	color: #000000 !important;
+    color: #000000 !important;
 }
 li, td, div, th, table, span, body {
     font-family: Verdana,Arial,Helvetica,sans-serif;
@@ -226,5 +227,4 @@ li, td, div, th, table, span, body {
 
 #footer-copyright a:hover {
     color:#000000 !important;
-}
 }

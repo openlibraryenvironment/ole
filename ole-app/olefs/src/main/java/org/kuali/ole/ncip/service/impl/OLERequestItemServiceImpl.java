@@ -15,7 +15,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class OLERequestItemServiceImpl implements OLERequestItemService {
         if (agencyPropertyMap.size() > 0) {
             operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
             LOG.info("Inside Request Item Service . Patron Barcode : "+patronId + " Operator Id : " + operatorId + "Item Barcode : " + itemBarcode + " Request Type : " + requestType + " Pick-up Location  : "+ location);
-            String response = oleCirculationService.placeRequest(patronId, operatorId, itemBarcode, requestType, location, null,null, OLEConstants.ITEM_LEVEL,null);
+            String response = oleCirculationService.placeRequest(patronId, operatorId, itemBarcode, requestType, location, null,null, OLEConstants.ITEM_LEVEL,null, "");
             OLEPlaceRequest olePlaceRequest = (OLEPlaceRequest) olePlaceRequestConverter.generatePlaceRequestObject(response);
             if (olePlaceRequest != null && olePlaceRequest.getMessage() != null && olePlaceRequest.getMessage().contains(OLEConstants.RQST_SUCCESS)) {
                 String reqId = olePlaceRequest.getRequestId();

@@ -2245,7 +2245,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return null;
     }
 
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate) {
+    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
         OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -2269,6 +2269,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
             oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
+            oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);
             if (requestExpiryDate != null) {
                 oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);
@@ -2391,6 +2392,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setOleItem(item);
                             if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
+                                oleDeliverRequestBo.setCallNumberPrefix(item.getCallNumber().getPrefix());
                             }
                             if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
@@ -2401,6 +2403,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         }
                         if (oleHoldings != null) {
                             if (StringUtils.isBlank(oleDeliverRequestBo.getCallNumber()) && oleHoldings.getCallNumber() != null && StringUtils.isNotBlank(oleHoldings.getCallNumber().getNumber())) {
+                                oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                                 oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                             }
                             if (StringUtils.isBlank(oleDeliverRequestBo.getCopyNumber()) && StringUtils.isNotBlank(oleHoldings.getCopyNumber())) {
@@ -2647,7 +2650,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         this.documentService = documentService;
     }
 
-    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate) {
+    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier, String itemLocation, String itemType, String title, String author, String callNumber, boolean externalItem, String bibId, String requestLevel, java.sql.Date requestExpiryDate, String requestNote) {
         OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -2670,6 +2673,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
             oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
+            oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);
             if (requestExpiryDate != null) {
                 oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);
@@ -2762,6 +2766,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setOleItem(item);
                             if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
+                                oleDeliverRequestBo.setCallNumberPrefix(item.getCallNumber().getPrefix());
                             }
                             if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
@@ -3989,6 +3994,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("itemStatusEffectiveDate")) {
                                     oleLoanDocument.setItemStatusEffectiveDate(searchResultField.getFieldValue());
                                     // LOG.info("Item status Effective date from solr : " + searchResultField.getFieldValue() );
+                                }else if(searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display")){
+                                    oleLoanDocument.setItemCallNumberPrefix(searchResultField.getFieldValue());
                                 }
                             }
                         }
@@ -4000,7 +4007,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     oleLoanDocuments.add(oleLoanDocument);
                 } catch (Exception e) {
+
                     LOG.info("Exception occured while setting the item info for the loan ");
+                LOG.error(e,e);
                 }
             }
         }

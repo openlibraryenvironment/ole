@@ -504,7 +504,7 @@ function validateUploadFileSize(batchProcessType) {
     if (batchProcessType == "Bib Import") {
         if (jq("#ingestInputFile_control")[0].files[0] != undefined) {
             var uploadFileSize = jq("#ingestInputFile_control")[0].files[0].size;
-            if (uploadFileSize > 4950000) {
+            if (uploadFileSize > 100000000) {
                 displayDialogWindow("div#MaximumPageSizeWindow-HorizontalBoxSection");
             } else {
                 if (jq("#hdnRunNowFlag_control").val() == "true") {

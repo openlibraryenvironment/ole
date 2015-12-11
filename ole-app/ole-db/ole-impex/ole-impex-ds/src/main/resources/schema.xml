@@ -197,6 +197,7 @@
         <column default="" name="INITIAL_SBRCPTN_START_DT" type="TIMESTAMP"/>
         <column default="" name="CURRENT_SBRCPTN_START_DT" type="TIMESTAMP"/>
         <column default="" name="CURRENT_SBRCPTN_END_DT" type="TIMESTAMP"/>
+        <column name="CANCELLATION_CANDIDATE" size="1" type="CHAR"/>
         <column default="" name="CANCELLATION_DECISION_DT" type="TIMESTAMP"/>
         <column default="" name="CANCELLATION_EFFECTIVE_DT" type="TIMESTAMP"/>
         <column default="" name="CANCELLATION_REASON" size="40" type="VARCHAR"/>

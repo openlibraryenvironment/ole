@@ -25,7 +25,8 @@ public class LineItemOrder {
     private List<MonetaryDetail> monetaryDetail = new ArrayList<>();
     private List<LineItemAllowanceOrCharge> lineItemAllowanceOrCharge = new ArrayList<>();
     private List<AllowanceMonetaryDetail> allowanceMonetaryDetail = new ArrayList<>();
-
+    private TaxLineItemInfo taxLineItemInfo;
+    private MonetaryTaxLineItem monetaryTaxLineItem;
 
     public List<LineItemAllowanceOrCharge> getLineItemAllowanceOrCharge() {
         return lineItemAllowanceOrCharge;
@@ -225,4 +226,19 @@ public class LineItemOrder {
     }
 
 
+    public TaxLineItemInfo getTaxLineItemInfo() {
+        return taxLineItemInfo;
+    }
+
+    public void setTaxLineItemInfo(TaxLineItemInfo taxLineItemInfo) {
+        this.taxLineItemInfo = taxLineItemInfo;
+    }
+
+    public MonetaryTaxLineItem getMonetaryTaxLineItem() {
+        return monetaryTaxLineItem;
+    }
+
+    public void setMonetaryTaxLineItem(MonetaryTaxLineItem monetaryTaxLineItem) {
+        this.monetaryTaxLineItem = monetaryTaxLineItem;
+    }
 }

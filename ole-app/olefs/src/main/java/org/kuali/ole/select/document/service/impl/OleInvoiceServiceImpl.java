@@ -42,6 +42,7 @@ import org.kuali.ole.module.purap.document.service.impl.InvoiceServiceImpl;
 import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.ole.module.purap.util.PurApObjectUtils;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.OleSelectNotificationConstant;
@@ -60,6 +61,7 @@ import org.kuali.ole.service.OleOrderRecordService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
+import org.kuali.ole.sys.businessobject.AccountingLineBase;
 import org.kuali.ole.sys.businessobject.Bank;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
@@ -904,7 +906,9 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         Boolean isItemLevelCredit = null;
         Boolean isAdditionalChargeLevelCredit = null;
         BigDecimal firstPOTotalUnitPrice=BigDecimal.ZERO;
-        for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) ObjectUtils.deepCopy(inv);
+        calculateProrateForPOLevel(oleInvoiceDocument);
+        for(OleInvoiceItem item : (List<OleInvoiceItem>)oleInvoiceDocument.getItems()){
             if (item.isDebitItem()  &&
                     (item.getItemListPrice().isNonZero() ||
                     (item.getItemUnitPrice()!=null && item.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
@@ -987,17 +991,17 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
                 createCreditMemoDocument(inv, lineItems,true);
             }else{
-                createPaymentRequestDocument(inv, lineItems,true);
+                createPaymentRequestDocument(oleInvoiceDocument, lineItems,true);
             }
             if (positiveLineItems.size() > 0) {
-                createPaymentRequestDocument(inv, positiveLineItems,false);
+                createPaymentRequestDocument(oleInvoiceDocument, positiveLineItems,false);
             }
             if (negativeLineItems.size() > 0) {
                 createCreditMemoDocument(inv, negativeLineItems,false);
             }
         }else{
             if (positiveItems.size() > 0) {
-                createPaymentRequestDocument(inv, positiveItems,false);
+                createPaymentRequestDocument(oleInvoiceDocument, positiveItems,false);
             }
             if (negativeItems.size() > 0) {
                 createCreditMemoDocument(inv, negativeItems,false);
@@ -1116,6 +1120,16 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PUR_ID, inv.getPurapDocumentIdentifier());
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PO_ID, purchaseOrderId);
                 List<OleInvoiceItem> invoiceItems = (List<OleInvoiceItem>) businessObjectService.findMatchingOrderBy(OleInvoiceItem.class, invItemMap, PurapConstants.PRQSDocumentsStrings.PO_ID, true);
+                List<OleInvoiceItem> invoiceItemList = new ArrayList();
+                if(inv.getProrateBy() != null && (inv.getProrateBy().equals(OLEConstants.PRORATE_BY_QTY) || inv.getProrateBy().equalsIgnoreCase(OLEConstants.PRORATE_BY_DOLLAR) || inv.getProrateBy().equalsIgnoreCase(OLEConstants.MANUAL_PRORATE))) {
+                    for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()) {
+                        if(item.getPurchaseOrderIdentifier().intValue() == invoiceItems.get(0).getPurchaseOrderIdentifier().intValue()) {
+                            invoiceItemList.add(item);
+                        }
+                    }
+                } else {
+                    invoiceItemList = invoiceItems;
+                }
 
                 KualiDecimal itemCount = new KualiDecimal(0);
                 KualiDecimal itemPrice = new KualiDecimal(0);
@@ -1145,7 +1159,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
                 List<OlePaymentRequestItem> olePaymentRequestItems = new ArrayList<>();
                 // int itemLineNumberCount = 0;
-                for (OleInvoiceItem invoiceItem : invoiceItems) {
+                for (OleInvoiceItem invoiceItem : invoiceItemList) {
                     if ((flag || invoiceItem.isDebitItem()) && invoiceItem.getExtendedPrice().isNonZero()) {
                         OlePaymentRequestItem olePaymentRequestItem = new OlePaymentRequestItem(invoiceItem, preqDoc, expiredOrClosedAccountList);
                         if(flag && !invoiceItem.isDebitItem()){
@@ -2854,4 +2868,125 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         return null;
 
     }
+
+    public void  calculateProrateForPOLevel(OleInvoiceDocument inv) {
+        List<Integer> poIdList = new ArrayList<>();
+        int noOfCopies = 0;
+        for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
+            if(item.getItemTypeCode().equals(OLEConstants.ITEM)){
+                poIdList.add(item.getPurchaseOrderIdentifier());
+                noOfCopies += Integer.parseInt(item.getOleCopiesOrdered());
+            }
+        }
+        List<OleInvoiceItem> removeFromInvoiceItemList = new ArrayList<OleInvoiceItem>();
+        List<OleInvoiceItem> addToInvoiceItemList = new ArrayList<OleInvoiceItem>();
+        int invoiceItemsize = poIdList.size();
+        for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
+            if(!item.getItemTypeCode().equals(OLEConstants.ITEM) && item.getItemUnitPrice() != null) {
+                BigDecimal itemUnitPrice = item.getItemUnitPrice();
+                if(inv.getProrateBy().equalsIgnoreCase(OLEConstants.PRORATE_BY_QTY)) {
+                    itemUnitPrice = (itemUnitPrice.divide(new BigDecimal(noOfCopies), 2, RoundingMode.HALF_UP));
+                    for (int i = 0; i < invoiceItemsize; i++) {
+                        OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) ObjectUtils.deepCopy(item);
+                        int copies = Integer.parseInt((String) ((OleInvoiceItem) inv.getItems().get(i)).getOleCopiesOrdered());
+                        oleInvoiceItem.setItemUnitPrice(itemUnitPrice.multiply(new BigDecimal(copies)));
+                        oleInvoiceItem.setPurchaseOrderIdentifier(poIdList.get(i));
+                        List<SourceAccountingLine> sourceAccountingLines = (List) ((OleInvoiceItem) inv.getItems().get(i)).getSourceAccountingLines();
+                        List<PurApAccountingLine> sourceAccountingLineList = updateAccountingLinesForProrate(sourceAccountingLines, itemUnitPrice.multiply(new BigDecimal(copies)), InvoiceAccount.class);
+                        oleInvoiceItem.setSourceAccountingLines(sourceAccountingLineList);
+                        addToInvoiceItemList.add(oleInvoiceItem);
+                    }
+                    removeFromInvoiceItemList.add(item);
+                } else if(inv.getProrateBy().equalsIgnoreCase(OLEConstants.PRORATE_BY_DOLLAR)) {
+                    for (int i = 0; i < invoiceItemsize; i++) {
+                        OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) ObjectUtils.deepCopy(item);
+                        KualiDecimal totalAmount = ((OleInvoiceItem) inv.getItems().get(i)).getTotalAmount();
+                        String listPrice = (String)((OleInvoiceItem) inv.getItems().get(i)).getListPrice();
+                        itemUnitPrice = (totalAmount.bigDecimalValue().multiply(item.getItemUnitPrice())).divide(new BigDecimal(inv.getItemTotal()),2,RoundingMode.HALF_UP);
+                        oleInvoiceItem.setItemUnitPrice(itemUnitPrice);
+                        oleInvoiceItem.setPurchaseOrderIdentifier(poIdList.get(i));
+                        List<SourceAccountingLine> sourceAccountingLines = (List) ((OleInvoiceItem) inv.getItems().get(i)).getSourceAccountingLines();
+                        List<PurApAccountingLine> sourceAccountingLineList = updateAccountingLinesForProrate(sourceAccountingLines, itemUnitPrice, InvoiceAccount.class);
+                        oleInvoiceItem.setSourceAccountingLines(sourceAccountingLineList);
+                        addToInvoiceItemList.add(oleInvoiceItem);
+                    }
+                    removeFromInvoiceItemList.add(item);
+
+                } else if(inv.getProrateBy().equalsIgnoreCase(OLEConstants.MANUAL_PRORATE)) {
+                    itemUnitPrice = itemUnitPrice.divide(new BigDecimal(poIdList.size()), 2, RoundingMode.HALF_UP);
+                    for (int i = 0; i < invoiceItemsize; i++) {
+                        OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) ObjectUtils.deepCopy(item);
+                        oleInvoiceItem.setItemUnitPrice(itemUnitPrice);
+                        oleInvoiceItem.setPurchaseOrderIdentifier(poIdList.get(i));
+                        List<PurApAccountingLine> sourceAccountingLines = oleInvoiceItem.getSourceAccountingLines();
+                        List<PurApAccountingLine> soucrceAccountingLineList = updateAccountingLinesForManualProrate(sourceAccountingLines, itemUnitPrice, InvoiceAccount.class);
+                        oleInvoiceItem.setSourceAccountingLines(soucrceAccountingLineList);
+                        addToInvoiceItemList.add(oleInvoiceItem);
+                    }
+                    removeFromInvoiceItemList.add(item);
+                }
+            }
+        }
+        inv.getItems().removeAll(removeFromInvoiceItemList);
+        inv.getItems().addAll(addToInvoiceItemList);
+    }
+
+    public List<PurApAccountingLine> updateAccountingLinesForProrate(List<SourceAccountingLine> accounts, BigDecimal itemUnitPrice, Class clazz) {
+
+        List<PurApAccountingLine> newAccounts = new ArrayList();
+        BigDecimal percent = new BigDecimal(0);
+        for (SourceAccountingLine accountingLine : accounts) {
+            PurApAccountingLine newAccountingLine;
+            newAccountingLine = null;
+            try {
+                newAccountingLine = (PurApAccountingLine) clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine);
+            BigDecimal accountPercent = ((InvoiceAccount) accountingLine).getAccountLinePercent();
+            newAccountingLine.setAccountLinePercent(accountPercent);
+            newAccountingLine.setAmount(new KualiDecimal(itemUnitPrice.multiply(accountPercent.divide(new BigDecimal(100)))));
+            newAccounts.add(newAccountingLine);
+
+
+        }
+
+        return newAccounts;
+
+    }
+
+
+    public List<PurApAccountingLine> updateAccountingLinesForManualProrate(List<PurApAccountingLine> accounts, BigDecimal itemUnitPrice, Class clazz) {
+
+        List<PurApAccountingLine> newAccounts = new ArrayList();
+        BigDecimal percent = new BigDecimal(0);
+        if (accounts.size() > 0) {
+            percent = new BigDecimal(100).divide(new BigDecimal(accounts.size()), 2, RoundingMode.HALF_UP);
+            itemUnitPrice = itemUnitPrice.multiply(percent.divide(new BigDecimal(100)));
+        }
+        for (PurApAccountingLine accountingLine : accounts) {
+            PurApAccountingLine newAccountingLine;
+            newAccountingLine = null;
+            try {
+                newAccountingLine = (PurApAccountingLine) clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine);
+            newAccountingLine.setAccountLinePercent(percent);
+            newAccountingLine.setAmount(new KualiDecimal(itemUnitPrice));
+            newAccounts.add(newAccountingLine);
+
+
+        }
+
+        return newAccounts;
+
+    }
+
 }

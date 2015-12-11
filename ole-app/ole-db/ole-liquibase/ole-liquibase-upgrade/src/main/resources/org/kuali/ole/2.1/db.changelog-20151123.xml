@@ -1,4 +1,3 @@
-
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
@@ -131,6 +130,27 @@
                 incrementBy="1"
                 startWith="1"
                 tableName="HOLDINGS_AUDIT_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_ATT_VAL_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_T MODIFY ATT_VAL varchar(500)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_ATT_VAL_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_T MODIFY ATT_VAL varchar2(500)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_ADD_CANCELLATION_CANDIDATE">
+        <addColumn
+                tableName="OLE_DS_HOLDINGS_T">
+            <column name="CANCELLATION_CANDIDATE" type="CHAR(1)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="RQST_NOTE_ADD">
+        <addColumn tableName="OLE_DLVR_RQST_T">
+            <column name="RQST_NOTE"   type="VARCHAR(4000)"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

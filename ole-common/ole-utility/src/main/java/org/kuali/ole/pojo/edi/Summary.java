@@ -15,6 +15,10 @@ public class Summary {
     private SummarySection summarySection;
     private List<ControlInfomation> controlInfomation = new ArrayList<ControlInfomation>();
     private List<MonetarySummary> monetarySummary = new ArrayList<>();
+    private TaxSummaryInfo taxSummaryInfo;
+    private MonetaryTaxSummary monetaryTaxSummary;
+    private TaxableSummaryInfo taxableSummaryInfo;
+    private MonetaryTaxableSummary monetaryTaxableSummary;
     private UNTSummary untSummary;
 
 
@@ -60,5 +64,37 @@ public class Summary {
 
     public void setMonetarySummary(List<MonetarySummary> monetarySummary) {
         this.monetarySummary = monetarySummary;
+    }
+
+    public TaxSummaryInfo getTaxSummaryInfo() {
+        return taxSummaryInfo;
+    }
+
+    public void setTaxSummaryInfo(TaxSummaryInfo taxSummaryInfo) {
+        this.taxSummaryInfo = taxSummaryInfo;
+    }
+
+    public TaxableSummaryInfo getTaxableSummaryInfo() {
+        return taxableSummaryInfo;
+    }
+
+    public void setTaxableSummaryInfo(TaxableSummaryInfo taxableSummaryInfo) {
+        this.taxableSummaryInfo = taxableSummaryInfo;
+    }
+
+    public MonetaryTaxSummary getMonetaryTaxSummary() {
+        return monetaryTaxSummary;
+    }
+
+    public void setMonetaryTaxSummary(MonetaryTaxSummary monetaryTaxSummary) {
+        this.monetaryTaxSummary = monetaryTaxSummary;
+    }
+
+    public MonetaryTaxableSummary getMonetaryTaxableSummary() {
+        return monetaryTaxableSummary;
+    }
+
+    public void setMonetaryTaxableSummary(MonetaryTaxableSummary monetaryTaxableSummary) {
+        this.monetaryTaxableSummary = monetaryTaxableSummary;
     }
 }

@@ -125,6 +125,10 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String requestExpirationNoticeContentConfigName;
     private String OnHoldNoticeContentConfigName;
     private String OnHoldExpirationNoticeContentConfigName;
+
+    private String requestNote;
+
+    private String callNumberPrefix;
     public String getItemInstitution() {
         return itemInstitution;
     }
@@ -1136,5 +1140,21 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setOnHoldExpirationNoticeContentConfigName(String onHoldExpirationNoticeContentConfigName) {
         OnHoldExpirationNoticeContentConfigName = onHoldExpirationNoticeContentConfigName;
+    }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
+    }
+
+    public String getCallNumberPrefix() {
+        return callNumberPrefix;
+    }
+
+    public void setCallNumberPrefix(String callNumberPrefix) {
+        this.callNumberPrefix = callNumberPrefix;
     }
 }

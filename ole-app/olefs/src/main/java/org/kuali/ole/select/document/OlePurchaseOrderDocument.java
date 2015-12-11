@@ -583,6 +583,10 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
             //getOlePurapService().setInvoiceDocumentsForPO(singleItem);
             getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
         }
+        else if (singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() == null) {
+            getOlePurapService().setInvoiceDocumentsForEResourcePO(singleItem);
+        }
+
     }
 
     /**
