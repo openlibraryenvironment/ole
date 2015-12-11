@@ -53,6 +53,10 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.REQUEST_EXPIRATION_NOTICE)){
         keyValues.add(new ConcreteKeyValue(OLEConstants.HOLD_EXPIRATION_DATE,OLEConstants.HOLD_EXPIRATION_DATE));
         }
+        if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.MISSING_PIECE_NOTICE)) {
+            keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_CHECK_IN_DATE, OLEConstants.MISSING_ITEM_CHECK_IN_DATE));
+            keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_NOTE, OLEConstants.MISSING_ITEM_NOTE));
+        }
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.NOTICE_LOST)){
             keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
         }
