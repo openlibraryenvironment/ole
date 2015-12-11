@@ -172,8 +172,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemDocument.setContent(content);
         try {
             oldItemRecord = processItemRecordForAudit(oldItemRecord);
-            itemRecord = processItemRecordForAudit(itemRecord);
-            OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,itemRecord,itemRecord.getItemId(),"ole");
+            ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
+            modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
+            OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,modifiedItemRecord,itemRecord.getItemId(),"ole");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
