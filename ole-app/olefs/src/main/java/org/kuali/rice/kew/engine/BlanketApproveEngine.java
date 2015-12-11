@@ -100,7 +100,8 @@ public class BlanketApproveEngine extends StandardWorkflowEngine {
             NotificationContext notifyContext = null;
             if (config.isSendNotifications()) {
                 if (config.getCapability().name().equals(OLEConstants.BLANKET_APPROVE) &&
-                        !(config.getNotificationType().equals(OLEConstants.NOTIFICATION_TYP_CD) && document.getDocumentTypeName().equals(OLEConstants.DOC_TYP_NM))) {
+                        !(config.getNotificationType().equals(OLEConstants.NOTIFICATION_TYP_CD) &&
+                                (document.getDocumentTypeName().equals(OLEConstants.INVOICE_DOC) || document.getDocumentTypeName().equals(OLEConstants.PREQ_DOC)))) {
                     notifyContext = new NotificationContext(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, config.getCause().getPrincipal(), config.getCause().getActionTaken());
                 }
             }

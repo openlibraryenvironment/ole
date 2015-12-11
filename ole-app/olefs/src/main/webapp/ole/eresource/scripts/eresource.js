@@ -524,6 +524,27 @@ function enableOrDisableFilteredDateResolved(){
     }
 }
 
+function enableOrDisableDateResolvedEntry(index){
+    if(jq("#EventLogSection_eResourceeventStatus_entry_line" + index + "_control").val() === 'Resolved'){
+        jq("input[name='document.oleERSEventLogs[" + index + "].eventResolvedDate']").removeAttr('disabled');
+        jq("input[name='document.oleERSEventLogs[" + index + "].eventResolvedDate']").datepicker("enable");
+    } else {
+        jq("input[name='document.oleERSEventLogs[" + index + "].eventResolvedDate']").val('');
+        jq("input[name='document.oleERSEventLogs[" + index + "].eventResolvedDate']").attr('disabled','true');
+        jq("input[name='document.oleERSEventLogs[" + index + "].eventResolvedDate']").datepicker("disable");
+    }
+}
+function enableOrDisableFilteredDateResolvedEntry(index){
+    if(jq("#FilterEventLogSection_eResourceeventStatus_entry_line" + index + "_control").val() === 'Resolved'){
+        jq("input[name='document.filterEventLogs[" + index + "].eventResolvedDate']").removeAttr('disabled');
+        jq("input[name='document.filterEventLogs[" + index + "].eventResolvedDate']").datepicker("enable");
+    } else {
+        jq("input[name='document.filterEventLogs[" + index + "].eventResolvedDate']").val('');
+        jq("input[name='document.filterEventLogs[" + index + "].eventResolvedDate']").attr('disabled','true');
+        jq("input[name='document.filterEventLogs[" + index + "].eventResolvedDate']").datepicker("disable");
+    }
+}
+
 function removeLine(lineNumber){
     submitForm('removeInstance',{lineNumber:lineNumber}, null, true, function(){
         submitForm('loadEHoldings',null,null,null,null);
