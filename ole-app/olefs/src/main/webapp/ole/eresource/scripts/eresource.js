@@ -250,12 +250,11 @@ function displayLink(successCallback) {
     if(successCallback == 'true' || successCallback == true){
         unsaved = false;
     }
-    var divLength= jq("#OLEEResourceRecordView-InstanceDetails_disclosureContent tbody div").length;
-    for(var count=0;count<divLength;count++){
-        var value =  jq("#OLEEResourceRecordView-InstanceDetails_disclosureContent tbody div#eResource-url_line"+count+" span#eResource-url_line"+count+"_control").text();
+    jq("#OLEEResourceRecordView-InstanceDetails_disclosureContent tbody tr").each(function(i, tr) {
+        var value = jq("#eHoldings_url", tr).text();
         var returnValue = makeSeparateLink(value);
-        jq("#OLEEResourceRecordView-InstanceDetails_disclosureContent tbody div#eResource-url_line"+count+" span#eResource-url_line"+count+"_control").html(returnValue);
-    }
+        jq("#eHoldings_url",tr).html(returnValue);
+    });
 }
 
 function displayPopup() {
