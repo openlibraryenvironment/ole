@@ -28,7 +28,8 @@
 
     <br/>
     <strong>OLE NG Batch</strong><br/><br/>
-    <portal:portalLink displayTitle="true" title="OLE NG Batch Process" url="${ConfigProperties.application.url}/upload.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process" url="${ConfigProperties.application.url}/upload.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process Profile" url="${ConfigProperties.application.url}/batchProcessProfile.html"/><br/>
     <%--    <portal:portalLink displayTitle="true" title="Location Import"
                            url="${ConfigProperties.application.url}/ole-kr-krad/locationcontroller?viewId=OleLocationView&methodToCall=start"/> <br/>
         <portal:portalLink displayTitle="true" title="Location Load Reports"
