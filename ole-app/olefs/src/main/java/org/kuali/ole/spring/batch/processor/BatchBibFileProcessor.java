@@ -13,12 +13,14 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 /**
  * Created by SheikS on 12/9/2015.
  */
+@Service("batchBibFileProcessor")
 public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private static final String FORWARD_SLASH = "/";
@@ -42,6 +44,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         JSONObject bib = new JSONObject();
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String updatedUserName = getUpdatedUserName();
+                        updatedUserName = "dev2";  //Todo : need to fix the issue.  Because for rest service UserSession will not be there. So hardcoded the value as of now.
                         String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
                         //Bib data
@@ -103,7 +106,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
             }
         }
-        return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
+        if (jsonArray.length() > 0) {
+            return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
+        }
+        return null;
     }
 
     private Record processMarcRecordToBibHoldingsAndItem(Record marcRecord) {

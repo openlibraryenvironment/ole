@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="batchProcessAPP">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OLE NG Batch Process</title>
+    <script src="framework/angular/js/angular.js"></script>
+    <script src="upload.js"></script>
+    <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body ng-controller="batchProfileController">
+<div class="container">
+    <div class="jumbotron">
+        <h2 align="center">OLE NG Batch Process</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3 class="text-center">OLE NG Batch Process</h3>
+
+            <div id="batchProcessDiv">
+                <br/><br/>
+                <!-- Horizonatal Form -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form name="batchProcessForm" class="form-horizontal" data-toggle="validator">
+                            <div class="form-group">
+                                <label for="file" class="col-sm-6">Select file to ingest</label>
+
+                                <div class="col-sm-6">
+                                    <input type="file" file-model="selectedFile" id="file" name="file"Bat
+                                           placeholder="Select File to Ingest"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profileName" class="col-sm-6">Profile Name</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" ng-model="profileName" class="form-control" id="profileName" name="profileName"
+                                           placeholder="Enter Profile Name" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="run" class="col-sm-6"></label>
+
+                                <div class="col-sm-6">
+                                    <button id="run" type="button"
+                                            class="btn btn-info active  pull-right" ng-click="uploadFile()">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

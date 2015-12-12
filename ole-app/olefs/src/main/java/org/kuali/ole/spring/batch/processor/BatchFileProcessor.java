@@ -26,14 +26,11 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
     private MarcXMLConverter marcXMLConverter;
 
-    public void processBatch(File file, String profileName) {
+    public void processBatch(String  rawMarc, String profileName) {
         try {
-            String rawMarc = FileUtils.readFileToString(file);
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
             String responseData = processRecords(records, profileName);
             LOG.info("Response Data : " + responseData);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,13 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.apache.commons.io.FileUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.ole.utility.OleDsNgRestClient;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -26,13 +28,14 @@ public class BatchFileProcessorTest {
         processBatch("InvYBP_1124.mrc", "BibForInvoiceYBP");
     }
 
-    private void processBatch(String fielName, String profileName) throws URISyntaxException {
+    private void processBatch(String fielName, String profileName) throws URISyntaxException, IOException {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
         BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
         URL resource = getClass().getResource(fielName);
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        batchFileProcessor.processBatch(file,profileName);
+        String rawMarc = FileUtils.readFileToString(file);
+        batchFileProcessor.processBatch(rawMarc,profileName);
     }
 
     @Test
@@ -42,7 +45,8 @@ public class BatchFileProcessorTest {
         URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        batchFileProcessor.processBatch(file,"BibForInvoiceCasalini");
+        String rawMarc = FileUtils.readFileToString(file);
+        batchFileProcessor.processBatch(rawMarc,"BibForInvoiceCasalini");
     }
 
     @Test
