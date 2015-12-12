@@ -1,0 +1,67 @@
+<div class="panel-group" ng-model="fieldOperationsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle ng-click="toggle(fieldOperationsPanel)">
+                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !fieldOperationsPanel.collapsed, 'glyphicon-chevron-down': fieldOperationsPanel.collapsed}"></span>
+                    {{ fieldOperationsPanel[0].title }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Data Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Sub Field</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="fieldOperation in fieldOperationsPanel">
+                    <tr>
+                        <td>
+                            <select name="fieldOperationType_{{$index}}" id="fieldOperationType_{{$index}}"
+                                    ng-model="fieldOperation.fieldOperationType">
+                                <option ng-repeat="option in fieldOperation.fieldOperationTypes"
+                                        value="{{option.id}}">{{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <input id="fieldOperationDataField_{{$index}}" name="fieldOperationDataField_{{$index}}"
+                                   type="text"
+                                   ng-model="fieldOperation.dataField" style="height: 30px; width: 100px;"/></td>
+                        <td>
+                            <input id="fieldOperationInd1_{{$index}}" name="fieldOperationInd1_{{$index}}"
+                                   type="text" ng-model="fieldOperation.ind1"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="fieldOperationInd2_{{$index}}" name="fieldOperationInd2_{{$index}}"
+                                   type="text" ng-model="fieldOperation.ind2"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <input id="fieldOperationSubField_{{$index}}" name="fieldOperationSubField_{{$index}}"
+                                   type="text" ng-model="fieldOperation.subField"
+                                   style="height: 30px; width: 50px;"/></td>
+                        <td>
+                            <button id="fieldOperationAddButton_{{$index}}"
+                                    name="fieldOperationAddButton_{{$index}}"
+                                    ng-click="fieldOperationAdd(fieldOperation)">Add
+                            </button>
+                            <button id="fieldOperationRemoveButton_{{$index}}"
+                                    name="fieldOperationRemoveButton_{{$index}}"
+                                    ng-click="fieldOperationRemove(fieldOperation)">Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

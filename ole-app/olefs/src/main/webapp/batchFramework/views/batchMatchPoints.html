@@ -1,0 +1,43 @@
+<div class="panel-group" ng-model="matchPointsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle ng-click="toggle(matchPointsPanel)">
+                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': matchPointsPanel.collapsed, 'glyphicon-chevron-down': !matchPointsPanel.collapsed}"></span>
+                    {{ matchPointsPanel[0].title }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tbody ng-repeat="matchPoint in matchPointsPanel">
+                    <tr>
+                        <td>
+                            <select id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
+                                    ng-model="matchPoint.matchPointDocType">
+                                <option ng-repeat="option in matchPoint.matchPointDocTypes" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <input id="matchPointValue_{{$index}}" name="matchPointValue_{{$index}}" type="text"
+                                   ng-model="matchPoint.matchPointValue" style="height: 30px; width: 150px;"/>
+                        </td>
+                        <td>
+                            <button id="matchPointAddButton_{{$index}}" name="matchPointAddButton_{{$index}}"
+                                    ng-click="matchPointAdd(matchPoint)">Add
+                            </button>
+                            <button id="matchPointRemoveButton_{{$index}}" name="matchPointRemoveButton_{{$index}}"
+                                    ng-click="matchPointRemove(matchPoint)">Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

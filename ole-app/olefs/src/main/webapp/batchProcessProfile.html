@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="batchProcessProfile">
+<head>
+    <meta charset="utf-8"/>
+    <title>Batch Process Profile</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="batchFramework/css/batchStyle.css"/>
+    <script src="batchFramework/scripts/angular.min.js"></script>
+    <script src="batchFramework/scripts/angular-animate.min.js"></script>
+    <script src="batchFramework/scripts/angular-sanitize.min.js"></script>
+    <script src="batchFramework/scripts/angular-strap.js"></script>
+    <script src="batchFramework/controllers/batchViewController.js"></script>
+</head>
+<body ng-controller="batchProfileController">
+<div class="container col-sm-12">
+    <div class="jumbotron">
+        <h2>Batch Process Profile</h2>
+    </div>
+    <div ng-include="'batchFramework/views/batchMatchPoints.html'"></div>
+    <div ng-include="'batchFramework/views/batchFieldOperations.html'"></div>
+    <div ng-include="'batchFramework/views/batchDataMappings.html'"></div>
+    <div ng-include="'batchFramework/views/batchDataTransformations.html'"></div>
+</div>
+</body>
+</html>
