@@ -17,17 +17,20 @@ batchProcessAPP.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 batchProcessAPP.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function(file, profileName,uploadUrl){
+    this.uploadFileToUrl = function($scope,file, profileName,uploadUrl){
         var fd = new FormData();
         fd.append('file', file);
         fd.append('profileName', profileName);
+        $scope.batchProcessStatus = "Batch process job initiated....";
         $http.post(uploadUrl, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
             .success(function(){
+                $scope.batchProcessStatus = "Job successfully completed."
             })
             .error(function(){
+                $scope.batchProcessStatus = "Job failed.";
             });
     }
 }]);
@@ -46,7 +49,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload', fu
         console.log('file is ' );
         console.log('Profile Name is '  + profileName);
         console.dir(file);
-        fileUpload.uploadFileToUrl(file,profileName, url);
+        fileUpload.uploadFileToUrl($scope,file,profileName, url);
     };
 
 }]);

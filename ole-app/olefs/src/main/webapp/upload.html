@@ -28,7 +28,7 @@
                                 <label for="file" class="col-sm-6">Select file to ingest</label>
 
                                 <div class="col-sm-6">
-                                    <input type="file" file-model="selectedFile" id="file" name="file"Bat
+                                    <input type="file" file-model="selectedFile" id="file" name="file"
                                            placeholder="Select File to Ingest"/>
                                 </div>
                             </div>
@@ -56,6 +56,15 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                            <textarea type="text" class="form-control" id="batchProcessStatus" ng-model="batchProcessStatus"
+                                                      placeholder="Batch Process Status" readonly></textarea>
+                                </div>
+                            </div>
+
+
                         </form>
                     </div>
                 </div>
