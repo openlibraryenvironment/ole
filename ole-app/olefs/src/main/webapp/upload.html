@@ -37,8 +37,12 @@
                                 <label for="profileName" class="col-sm-6">Profile Name</label>
 
                                 <div class="col-sm-6">
-                                    <input type="text" ng-model="profileName" class="form-control" id="profileName" name="profileName"
-                                           placeholder="Enter Profile Name" required/>
+                                    <select id="profileName" name="profileName"
+                                            ng-model="profileName">
+                                        <option ng-repeat="option in profileNames" value="{{option.id}}">
+                                            {{option.name}}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
 

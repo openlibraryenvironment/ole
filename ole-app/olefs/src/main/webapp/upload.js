@@ -34,6 +34,11 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
 
 batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload', function($scope, fileUpload){
 
+    $scope.profileNames = [
+        {id: 'BibForInvoiceCasalini', name: 'BibForInvoiceCasalini'},
+        {id: 'BibForInvoiceYBP', name: 'BibForInvoiceYBP'}
+    ];
+
     var url = "http://localhost:8080/olefs/rest/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
