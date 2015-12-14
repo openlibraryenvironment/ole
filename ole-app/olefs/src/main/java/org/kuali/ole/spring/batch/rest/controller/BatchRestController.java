@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.rest;
+package org.kuali.ole.spring.batch.rest.controller;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +38,6 @@ public class BatchRestController {
         if (null != file && StringUtils.isNotBlank(profileName)) {
             String rawContent = IOUtils.toString(file.getBytes());
             batchBibFileProcessor.processBatch(rawContent, profileName);
-
         }
     }
 }
