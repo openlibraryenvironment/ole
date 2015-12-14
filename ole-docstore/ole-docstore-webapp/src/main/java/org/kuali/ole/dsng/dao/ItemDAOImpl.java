@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("itemDAO")
 @Scope("prototype")
-public class ItemDAOImpl extends OleDsNgDAOBase implements ItemDAO {
+public class ItemDAOImpl extends OleDsNGDAOBase implements ItemDAO {
 
     public ItemRecord save(ItemRecord itemRecord) {
         return getBusinessObjectService().save(itemRecord);
