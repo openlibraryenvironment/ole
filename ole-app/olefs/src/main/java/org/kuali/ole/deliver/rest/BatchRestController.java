@@ -6,6 +6,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.asr.handler.*;
 import org.kuali.ole.ncip.service.CirculationRestService;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,28 +31,14 @@ public class BatchRestController {
     @Autowired
     private BatchBibFileProcessor batchBibFileProcessor;
 
-    @RequestMapping(value="/upload", method = RequestMethod.POST)
-    public @ResponseBody void UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,HttpServletRequest request) throws IOException {
-
-        if(null != file && StringUtils.isNotBlank(profileName)) {
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    void UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName, HttpServletRequest request) throws IOException {
+        if (null != file && StringUtils.isNotBlank(profileName)) {
             String rawContent = IOUtils.toString(file.getBytes());
-            batchBibFileProcessor.processBatch(rawContent,profileName);
+            batchBibFileProcessor.processBatch(rawContent, profileName);
 
         }
-        System.out.println("working************************");
-    }
-    @RequestMapping(value="/test", method = RequestMethod.GET)
-    public @ResponseBody void test() {
-        System.out.println("working************************");
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/sala", produces = {MediaType.APPLICATION_JSON})
-    @ResponseBody
-    public String sala(@RequestBody String body) throws Exception {
-        JSONObject responseJsonObject = new JSONObject();
-        JSONObject jsonObject = new JSONObject(body);
-        responseJsonObject.put("status","Success");
-
-        return responseJsonObject.toString();
     }
 }
