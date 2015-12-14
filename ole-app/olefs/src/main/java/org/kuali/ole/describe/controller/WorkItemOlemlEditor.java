@@ -203,6 +203,16 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 List<Note> notes = ensureAtleastOneNote(item.getNote());
                 item.setNote(notes);
                 List<DonorInfo> donorInfos = ensureAtleastOneDonor(item.getDonorInfo());
+                for (DonorInfo donorInformation : donorInfos) {
+                    if (null != donorInformation.getDonorNote()) {
+                        String modifiedValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                        donorInformation.setDonorNote(modifiedValue);
+                    }
+                    if (null != donorInformation.getDonorPublicDisplay()) {
+                        String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                        donorInformation.setDonorPublicDisplay(modifiedValue);
+                    }
+                }
                 item.setDonorInfo(donorInfos);
                 ensureAccessInformation(item);
                 workInstanceOlemlForm.setSelectedItem(item);
@@ -1391,10 +1401,30 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         if (methodName.equalsIgnoreCase("addDonorToItem")) {
             index++;
             List<DonorInfo> donorInfo = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
+             for (DonorInfo donorInformation : donorInfo) {
+                if (null != donorInformation.getDonorNote()) {
+                    String modifiedValue = donorInformation.getDonorNote().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorNote(modifiedValue);
+                }
+                if (null != donorInformation.getDonorPublicDisplay()) {
+                    String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorPublicDisplay(modifiedValue);
+                }
+            }
             donorInfo.add(index, new DonorInfo());
             editorForm.setDocumentForm(workInstanceOlemlForm);
         } else if (methodName.equalsIgnoreCase("removeDonorFromItem")) {
             List<DonorInfo> donorInfo = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
+            for (DonorInfo donorInformation : donorInfo) {
+                if (null != donorInformation.getDonorNote()) {
+                    String modifiedValue = donorInformation.getDonorNote().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorNote(modifiedValue);
+                }
+                if (null != donorInformation.getDonorPublicDisplay()) {
+                    String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorPublicDisplay(modifiedValue);
+                }
+            }
             if(donorInfo.size() > 1){
                 donorInfo.remove(index);
             }else{

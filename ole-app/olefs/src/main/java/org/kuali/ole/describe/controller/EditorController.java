@@ -1712,8 +1712,23 @@ public class EditorController extends UifControllerBase {
         }
         EditorForm editorForm = (EditorForm) form;
         WorkEInstanceOlemlForm workEInstanceOlemlForm = (WorkEInstanceOlemlForm) editorForm.getDocumentForm();
+      //  workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().add(new DonorInfo());
 
-        workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().add(new DonorInfo());
+        int index = Integer.parseInt(editorForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+             index++;
+            List<DonorInfo> donorInfo = workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo();
+            for (DonorInfo donorInformation : donorInfo) {
+                if (null != donorInformation.getDonorNote()) {
+                    String modifiedValue = donorInformation.getDonorNote().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorNote(modifiedValue);
+                }
+                if (null != donorInformation.getDonorPublicDisplay()) {
+                    String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                    donorInformation.setDonorPublicDisplay(modifiedValue);
+                }
+            }
+            donorInfo.add(index, new DonorInfo());
+            editorForm.setDocumentForm(workEInstanceOlemlForm);
         return super.navigate(editorForm, result, request, response);
     }
 
@@ -1726,8 +1741,30 @@ public class EditorController extends UifControllerBase {
         }
         EditorForm editorForm = (EditorForm) form;
         WorkEInstanceOlemlForm workEInstanceOlemlForm = (WorkEInstanceOlemlForm) editorForm.getDocumentForm();
+        int index = Integer.parseInt(editorForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        List<DonorInfo> donorInfo = workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo();
+        for (DonorInfo donorInformation : donorInfo) {
+            if (null != donorInformation.getDonorNote()) {
+                String modifiedValue = donorInformation.getDonorNote().replaceAll("\"", "&quot;");
+                donorInformation.setDonorNote(modifiedValue);
+            }
+            if (null != donorInformation.getDonorPublicDisplay()) {
+                String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                donorInformation.setDonorPublicDisplay(modifiedValue);
+            }
+        }
+        if(donorInfo.size() > 1){
+            donorInfo.remove(index);
+        }else{
+            if(donorInfo.size() ==1){
+                donorInfo.remove(index);
+                DonorInfo donor = new DonorInfo();
+                donorInfo.add(donor);
+            }
+        }
+        editorForm.setDocumentForm(workEInstanceOlemlForm);
 
-        int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+     /*   int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         if (workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().size() > 1) {
             workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().remove(index);
         } else {
@@ -1735,7 +1772,7 @@ public class EditorController extends UifControllerBase {
                 workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().remove(index);
                 workEInstanceOlemlForm.getSelectedEHoldings().getDonorInfo().add(new DonorInfo());
             }
-        }
+        }*/
         return super.navigate(editorForm, result, request, response);
     }
 
@@ -2732,7 +2769,7 @@ public class EditorController extends UifControllerBase {
         String url = baseUrl + requestUrl;
         Properties props = new Properties();
         props.put(UifParameters.METHOD_TO_CALL, "load");
-        if (org.apache.commons.lang.StringUtils.isNotBlank(form.getReturnFormKey())) {
+        if (StringUtils.isNotBlank(form.getReturnFormKey())) {
             props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
         }
 

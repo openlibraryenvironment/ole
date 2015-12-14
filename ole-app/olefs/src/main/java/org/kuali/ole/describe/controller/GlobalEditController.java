@@ -139,6 +139,66 @@ public class GlobalEditController extends OLESearchController {
         return navigate(globalEditForm, result, request, response);
     }
 
+
+    @RequestMapping(params = "methodToCall=pageNumberSearch")
+    public ModelAndView pageNumberSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlobalEditForm globalEditForm = (GlobalEditForm) form;
+        SearchParams searchParams = globalEditForm.getSearchParams();
+        try {
+            int start = Math.max(0,
+                    (Integer.parseInt(globalEditForm.getPageNumber()) - 1)
+                            * globalEditForm.getPageSize());
+            List<SearchResultDisplayRow> searchResultDisplayRows = globalEditForm.getOriginalSearchResultDisplayRowList();
+            int end = Integer.parseInt(globalEditForm.getPageNumber()) * globalEditForm.getPageSize();
+            searchParams.setStartIndex(start);
+            if (searchResultDisplayRows.size() >= start) {
+                if (searchResultDisplayRows.size() > end) {
+                    globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(globalEditForm.getStart(), end));
+                } else {
+                    globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(start, searchResultDisplayRows.size()));
+                }
+
+            }
+
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);
+        }
+
+        return navigate(globalEditForm, result, request, response);
+    }
+
+
+
+    @RequestMapping(params = "methodToCall=lastPageSearch")
+    public ModelAndView lastPageSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlobalEditForm globalEditForm = (GlobalEditForm) form;
+        List<SearchResultDisplayRow> searchResultDisplayRows = globalEditForm.getOriginalSearchResultDisplayRowList();
+        SearchParams searchParams = globalEditForm.getSearchParams();
+        try {
+            int totalcount = globalEditForm.getTotalRecordCount();
+            int pageSize = globalEditForm.getPageSize();
+            int totlaPages = totalcount/pageSize;
+            int lastNumber= pageSize*totlaPages;
+            int lastPage = totalcount - pageSize;
+            globalEditForm.setPageNumber(Integer.toString(totlaPages));
+            if(lastNumber < totalcount){
+                lastPage = lastNumber;
+                globalEditForm.setPageNumber(Integer.toString(totlaPages+1));
+            }
+            int start = Math.max(0, lastPage);
+            searchParams.setStartIndex(start);
+            globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(start, searchResultDisplayRows.size()));
+
+
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);
+        }
+        return navigate(globalEditForm, result, request, response);
+    }
+
+
     @Override
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -175,7 +235,8 @@ public class GlobalEditController extends OLESearchController {
             fileName = file.getOriginalFilename();
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
             for (String line; (line = reader.readLine()) != null; ) {
-                inputData.add(line);
+               if(StringUtils.isNotEmpty(line))
+                 inputData.add(line);
             }
         } else {
             //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_GLOBAL_SEARCH_MESSAGE);
@@ -260,15 +321,22 @@ public class GlobalEditController extends OLESearchController {
             stringBuffer = stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         }
         stringBuffer = stringBuffer.append(stringBuffer1);
-        globalEditForm.setUnMatchedRecords(stringBuffer.toString());
-        globalEditForm.setUnMatchedCount(unMatchedList.size());
-        globalEditForm.setMatchedCount(listFromDB.size());
-        globalEditForm.setSelectedFileName(fileName);
         globalEditForm.setTotalRecords(inputData.size());
+        globalEditForm.setUnMatchedRecords(stringBuffer.toString());
+        globalEditForm.setUnMatchedCount(inputData.size() - globalEditForm.getTotalRecordCount());
+        globalEditForm.setMatchedCount(globalEditForm.getTotalRecordCount());
+        globalEditForm.setSelectedFileName(fileName);
+
         globalEditForm.setViewGlobalEditDispMessageFlag(viewGlobalEditDispMessageFlag);
+        globalEditForm.setOriginalSearchResultDisplayRowList(searchResultDisplayRows);
+        if(searchResultDisplayRows.size() > globalEditForm.getStart()){
+             if(searchResultDisplayRows.size() > globalEditForm.getPageSize()){
+                globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(globalEditForm.getStart(),globalEditForm.getPageSize()));
+            }else{
+                 globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(globalEditForm.getStart(),searchResultDisplayRows.size()));
+            }
 
-
-        globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows);
+        }
         if (searchResultDisplayRows.size() == 0) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_GLOBAL_SEARCH_MESSAGE);
         }
@@ -279,6 +347,7 @@ public class GlobalEditController extends OLESearchController {
     private List<SearchResultDisplayRow> getSearchResults(SearchParams searchParams, GlobalEditForm globalEditForm) throws Exception {
         List<SearchResultDisplayRow> searchResultDisplayRows = new ArrayList<>();
         searchParams.setStartIndex(this.start);
+        searchParams.setPageSize(searchParams.getSearchConditions().size());
         for (SearchCondition searchCondition : searchParams.getSearchConditions()) {
             if (searchCondition.getSearchField() == null) {
                 searchCondition.setSearchField(new SearchField());

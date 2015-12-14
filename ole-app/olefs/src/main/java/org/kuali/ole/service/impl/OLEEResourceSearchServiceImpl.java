@@ -20,6 +20,7 @@ import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
@@ -4683,6 +4684,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             Map ids = new HashMap();
             ids.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
             List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
+            oleeResourceInstances = populateUrlForHoldings(oleeResourceInstances);
             oleeResourceRecordDocument.geteRSInstances().clear();
             oleeResourceRecordDocument.geteRSInstances().addAll(oleeResourceInstances);
             oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
@@ -4702,7 +4704,43 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         return oleeResourceRecordDocument;
     }
 
-
+    public List<OLEEResourceInstance> populateUrlForHoldings(List<OLEEResourceInstance> oleEResourceInstances) {
+        Set<String> holdingIds = new HashSet<>();
+        for(OLEEResourceInstance oleeResourceInstance : oleEResourceInstances) {
+            holdingIds.add(DocumentUniqueIDPrefix.getDocumentId(oleeResourceInstance.getInstanceId()));
+        }
+        if(CollectionUtils.isNotEmpty(holdingIds)) {
+            Map linkMap = new HashMap<>();
+            linkMap.put("holdingsId",holdingIds);
+            List<HoldingsUriRecord> holdingsUriRecordList = (List<HoldingsUriRecord>) getBusinessObjectService().findMatching(HoldingsUriRecord.class, linkMap);
+            if(CollectionUtils.isNotEmpty(holdingsUriRecordList)) {
+                for(OLEEResourceInstance oleeResourceInstance : oleEResourceInstances) {
+                    String url = "";
+                    List<String> urlList = new ArrayList<>();
+                    for(HoldingsUriRecord holdingsUriRecord : holdingsUriRecordList) {
+                        if(StringUtils.isNotBlank(holdingsUriRecord.getHoldingsId()) && holdingsUriRecord.getHoldingsId().equals(DocumentUniqueIDPrefix.getDocumentId(oleeResourceInstance.getInstanceId()))) {
+                            if(StringUtils.isNotBlank(holdingsUriRecord.getUri())) {
+                                urlList.add(holdingsUriRecord.getUri());
+                            }
+                        }
+                    }
+                    if(CollectionUtils.isNotEmpty(urlList)) {
+                        for(int i=0 ; i<urlList.size() ; i++) {
+                            if(i == 0) {
+                                url = urlList.get(i);
+                            } else {
+                                url = url + "," + urlList.get(i);
+                            }
+                        }
+                    }
+                    if(StringUtils.isNotBlank(url)) {
+                        oleeResourceInstance.setUrl(url);
+                    }
+                }
+            }
+        }
+        return oleEResourceInstances;
+    }
 
     public UniversityDateService getUniversityDateService() {
         if(universityDateService == null) {
