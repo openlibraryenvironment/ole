@@ -262,7 +262,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
             List<BibMarcRecord> records = bibMarcRecords.getRecords();
             dataCarrierService.addData("invoiceIngestFailureReason",new ArrayList<>());
             OLEBatchProcessProfileBo oleBatchProcessProfileBoForBibImport = getBibImportProfile();
-            BatchProcessBibImport batchProcessBibImport = new BatchProcessBibImport();
+            BatchProcessBibImport batchProcessBibImport = new BatchProcessBibImport(processDef, job);
             batchProcessBibImport.setOleBatchProcessProfileBo(oleBatchProcessProfileBoForBibImport);
             OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = new OLEBatchBibImportDataObjects();
             List<OrderBibMarcRecord> orderBibMarcRecords = oleBatchBibImportDataObjects.processBibImport(records,batchProcessBibImport);
