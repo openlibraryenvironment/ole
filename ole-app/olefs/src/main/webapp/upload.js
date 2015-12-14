@@ -44,8 +44,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload', fu
         {id: 'BibForInvoiceCasalini', name: 'BibForInvoiceCasalini'},
         {id: 'BibForInvoiceYBP', name: 'BibForInvoiceYBP'}
     ];
-
-    var url = "http://localhost:8080/olefs/rest/batch/upload";
+    var url = "rest/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
         var profileName = $scope.profileName;
