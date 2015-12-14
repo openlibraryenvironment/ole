@@ -22,12 +22,15 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
         fd.append('file', file);
         fd.append('profileName', profileName);
         $scope.batchProcessStatus = "Batch process job initiated....";
+        angular.element(document.getElementById('run'))[0].disabled = true;
+        angular.element(document.getElementById('file'))[0].disabled = true;
+        angular.element(document.getElementById('profileName'))[0].disabled = true;
         $http.post(uploadUrl, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
             .success(function(){
-                $scope.batchProcessStatus = "Job successfully completed."
+                $scope.batchProcessStatus = "Job successfully completed.";
             })
             .error(function(){
                 $scope.batchProcessStatus = "Job failed.";
