@@ -75,6 +75,9 @@ public class MarcRecordUtil {
 
 
     private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
+        if(stringBuilder.length() > 0 ) {
+            stringBuilder.append(" ");
+        }
         stringBuilder.append(location);
     }
 

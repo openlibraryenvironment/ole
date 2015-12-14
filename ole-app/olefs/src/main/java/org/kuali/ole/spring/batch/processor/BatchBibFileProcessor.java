@@ -96,8 +96,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
             JSONObject bibData = new JSONObject();
 
-            marcRecord = processMarcRecordToBibHoldingsAndItem(marcRecord);
-
             // Processing custom process based on profile (Casalini/YBP)
             doCustomProcessForProfile(marcRecord,profileName);
 
@@ -148,12 +146,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             return bibData;
         }
         return null;
-    }
-
-    private Record processMarcRecordToBibHoldingsAndItem(Record marcRecord) {
-        String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "035", "$a");
-        getMarcRecordUtil().updateControlField(marcRecord,"001",value);
-        return marcRecord;
     }
 
     public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
