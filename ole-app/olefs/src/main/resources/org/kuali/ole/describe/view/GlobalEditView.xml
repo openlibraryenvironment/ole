@@ -24,6 +24,7 @@
                             <bean id="Global_SearchAndSearchResultsView_search" parent="SearchAndSearchResultsView"
                                   p:render="@{!viewGlobalEditFlag and searchType eq 'search'}"/>
                             <ref bean="GlobalEditView-Import-Section"/>
+
                             <ref bean="GlobalEditView_hidden_button"/>
                             <ref bean="GlobalEditView-ListButton-Section"/>
                             <ref bean="GlobalEditSearchResultsPanel"/>
@@ -182,7 +183,7 @@
                       p:label="Unmatched Records Count"></bean>
                 <bean id="globalEditViewUnMatchedRecordsAre" parent="Uif-DataField" p:propertyName="unMatchedRecords"
                       p:label="Unmatched Records are"></bean>
-
+                <ref bean="hiddenSearchFields"/>
             </list>
         </property>
     </bean>

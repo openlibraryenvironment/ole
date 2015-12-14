@@ -400,6 +400,13 @@
                     </property>
                 </bean>
 
+                <bean id="placeRequest_requestNote" parent="Uif-InputField" p:propertyName="requestNote"
+                      p:label="Request Note">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="4000"/>
+                    </property>
+                </bean>
+
 <!--                <bean id="placeRequest-createDate" parent="Uif-InputField"
                       p:propertyName="createDate" p:label="Created Date">
                     <property name="control">

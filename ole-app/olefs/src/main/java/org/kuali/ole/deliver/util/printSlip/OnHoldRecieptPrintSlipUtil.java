@@ -47,6 +47,7 @@ public class OnHoldRecieptPrintSlipUtil extends OleRecieptPrintSlipUtil {
                     pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(dateString));
                 }
             }
+            pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(oleDeliverRequestBo.getRequestNote()));
             pdfTable.addCell(getPdfFormatUtil().getEmptyCell());
             if (!missingPieceCheck) {
                 pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(oleCirculationDesk != null ? oleCirculationDesk.getCirculationDeskPublicName() : ""));

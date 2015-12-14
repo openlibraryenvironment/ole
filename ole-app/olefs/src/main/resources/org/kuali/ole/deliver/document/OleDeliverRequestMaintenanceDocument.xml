@@ -583,6 +583,14 @@
                         <bean parent="Uif-TextAreaControl"/>
                     </property>
                 </bean>
+
+                <bean id="request-note" parent="Uif-InputField" p:propertyName="requestNote"
+                      p:label="Request Note">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"/>
+                    </property>
+                </bean>
+
                 <bean id="hiddenSelectRequestProxyButton" parent="Uif-SecondaryActionButton"
                       p:methodToCall="refreshPageView" p:hidden="true"
                       p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}"/>

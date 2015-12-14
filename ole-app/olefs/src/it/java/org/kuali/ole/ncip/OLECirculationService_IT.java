@@ -60,7 +60,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
     public void placeRequestTest(){
         LOG.info("Inside Lookup user test");
         Long startingTime = System.currentTimeMillis();
-        String outputString = oleCirculationService.placeRequest("OLE-ASR", "10002", "5001", "Copy Request", "API", "API", "100001", "", null);
+        String outputString = oleCirculationService.placeRequest("OLE-ASR", "10002", "5001", "Copy Request", "API", "API", "100001", "", null, "Test Note");
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
@@ -72,7 +72,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
     public void overridePlaceRequestTest(){
         LOG.info("Inside Lookup user test");
         Long startingTime = System.currentTimeMillis();
-        String outputString = oleCirculationService.overridePlaceRequest("OLE-ASR", "10002", "5001", "Copy Request", "API", "API", "100001", "", null);
+        String outputString = oleCirculationService.overridePlaceRequest("OLE-ASR", "10002", "5001", "Copy Request", "API", "API", "100001", "", null, "Test Note");
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);

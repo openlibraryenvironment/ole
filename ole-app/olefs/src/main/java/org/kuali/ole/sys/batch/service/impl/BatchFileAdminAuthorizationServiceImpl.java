@@ -16,9 +16,7 @@
 package org.kuali.ole.sys.batch.service.impl;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.ole.sys.FinancialSystemModuleConfiguration;
 import org.kuali.ole.sys.OLEConstants;
@@ -62,8 +60,7 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
                 for (String batchFileDirectoryName : batchFileDirectories) {
                     File directory = new File(batchFileDirectoryName).getAbsoluteFile();
                     String fileName = batchFile.getFileName();
-                    if(fileName.contains(OLEConstants.REENCUM_RECURR) || fileName.contains(OLEConstants.PO_BULK_AMEND_OUT_FILE_NM) || fileName.contains(OLEConstants.POBA_FILE)
-                            || fileName.contains(OLEConstants.POBA_LOG_FILE) || fileName.contains(OLEConstants.ERROR_REPORT))   {
+                    if(isFileNamePatternAvailable(fileName)){
                         return moduleConfiguration.getNamespaceCode();
                     } else if (BatchFileUtils.isSuperDirectoryOf(directory, batchFile.retrieveFile())) {
                         return moduleConfiguration.getNamespaceCode();
@@ -74,6 +71,38 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
         return null;
     }
 
+    private boolean isFileNamePatternAvailable(String fileName){
+        List<String> filePatterns = new ArrayList<String>();
+        filePatterns.add(OLEConstants.REENCUM_RECURR);
+        filePatterns.add(OLEConstants.PO_BULK_AMEND_OUT_FILE_NM);
+        filePatterns.add(OLEConstants.POBA_FILE);
+        filePatterns.add(OLEConstants.POBA_LOG_FILE);
+
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.PROFILE_JOB);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.PROFILE_SCHEDULE);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.BATCH_JOB);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.RECORDS_CREATED_WITHOUT_LINK);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.RECORDS_CREATED_WITH_MORE_THAN_ONE_LINK);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.BIBS_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.HOLDINGS_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.ITEMS_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.BIBS_NO_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.HOLDINGS_NO_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.ITEMS_NO_MATCHED);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.MATCHED_BIB_IDS_FILE_NAME);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.MATCHED_HOLDINGS_IDS_FILE_NAME);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.MATCHED_ITEM_IDS_FILE_NAME);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.NO_MATCHED_BIB_FILE_NAME);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.NO_MATCHED_HOLDINGS_FILE_NAME);
+        filePatterns.add(org.kuali.ole.OLEConstants.OLEBatchProcess.NO_MATCHED_ITEM_FILE_NAME);
+
+        for(String allowedFilePattern:filePatterns){
+            if (fileName.contains(allowedFilePattern)) {
+                return true;
+            }
+        }
+        return false;
+    }
     protected Map<String,String> generateDownloadCheckPermissionDetails(BatchFile batchFile, Person user) {
         return generatePermissionDetails(batchFile, user);
     }

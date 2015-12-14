@@ -1409,7 +1409,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         if (status == null){
             oleEResourceEventLog.setCurrentTimeStamp();
             oleEResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
-            oleEResourceEventLog.setEventType(OLEConstants.OLEEResourceRecord.SYSTEM);
+            oleEResourceEventLog.setLogTypeId("3");
             oleEResourceEventLog.setEventNote(OLEConstants.OLEEResourceRecord.STATUS_IS+getStatusName());
             oleEResourceEventLog.setSaveFlag(true);
             this.getOleERSEventLogs().add(oleEResourceEventLog);
@@ -1417,7 +1417,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         else if (!status.equals(getStatusName())){
             oleEResourceEventLog.setCurrentTimeStamp();
             oleEResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
-            oleEResourceEventLog.setEventType(OLEConstants.OLEEResourceRecord.SYSTEM);
+            oleEResourceEventLog.setLogTypeId("3");
             oleEResourceEventLog.setEventNote(OLEConstants.OLEEResourceRecord.STATUS_FROM+ status +OLEConstants.OLEEResourceRecord.STATUS_TO+getStatusName());
             oleEResourceEventLog.setSaveFlag(true);
             this.getOleERSEventLogs().add(oleEResourceEventLog);

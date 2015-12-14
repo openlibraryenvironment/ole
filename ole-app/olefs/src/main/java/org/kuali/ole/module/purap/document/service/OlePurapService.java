@@ -60,6 +60,8 @@ public interface OlePurapService {
 
     public void setInvoiceDocumentsForPO(PurApItem purApItem);
 
+    public void setInvoiceDocumentsForEResourcePO(PurApItem purApItem);
+
     public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem);
 
     public Integer getRequestorTypeId(String requestorType);
@@ -76,7 +78,7 @@ public interface OlePurapService {
 
     public String getCurrentDateTime();
 
-    public String setDocumentDescription(String description,Map descMap);
+    public String setDocumentDescription(String description, Map descMap);
 
     public String getItemDescription(OlePurchaseOrderItem olePurchaseOrderItem);
 

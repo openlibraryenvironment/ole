@@ -433,7 +433,7 @@ public class OleVendorCreditMemoDocument extends VendorCreditMemoDocument {
 
                 if (item.getTotalAmount() != null) {
 
-                    if (!StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode()) && !StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, item.getItemTypeCode())) {
+                    if (!StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
                         if (item.getExtendedPrice() != null) {
                             grandTotal = grandTotal.add(item.getExtendedPrice());
                         }

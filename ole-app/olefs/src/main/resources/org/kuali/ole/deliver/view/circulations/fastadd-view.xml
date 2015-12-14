@@ -24,6 +24,7 @@
 
     <bean id="fastAddView" parent="fastAddView-parentBean" />
     <bean id="fastAddView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Fast-Add item"/>
         <property name="items">
             <list>
                 <bean id="fastAddViewPage" parent="Uif-Page" >

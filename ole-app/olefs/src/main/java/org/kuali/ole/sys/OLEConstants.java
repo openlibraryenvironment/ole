@@ -2007,6 +2007,7 @@ public class OLEConstants {
     public static final String OLE_COPY_SCHEMA = "OleCopyFiscalYearData.groovy";
     public static final String INVALID_FILE = "invalid.file";
     public static final String REENCUM_RECURR = "ReEncumberRecuring";
+    public static final String BIBIMPORT_FILE_PATTERN = "Job";
     public static final String ROLLOVER_DIRECTORY = "/rollover";
     public static final String PO_BULK_AMEND_OUT_FILE_NM = "POBA-Report.txt";
     public static final String POBA_DIRECTORY = "/poba";
@@ -2023,4 +2024,6 @@ public class OLEConstants {
     public static final String ITEM_STATUS_FIRM_FIXD = "ITEM_STATUS_FIRM_FIXD";
     public static final String ITEM_STATUS_APPROVAL = "ITEM_STATUS_APPROVAL";
     public static final String ERROR_REPORT = "ErrorReport";
+    public static final String DATE_FORM_PO_BEGN_DT                = "MM/dd/yyyy";
+    public static final String DATE_FORM_PO_END_DT = "12/31/9999";
 }

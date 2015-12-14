@@ -1104,6 +1104,7 @@
         <column name="BIB_ID" size="40" type="VARCHAR"/>
         <column name="ASR_FLAG"  size="1" type="VARCHAR"/>
         <column name="HOLD_EXP_DATE"  type="DATE"/>
+        <column name="RQST_NOTE" size="4000" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="flk5">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
         </foreign-key>

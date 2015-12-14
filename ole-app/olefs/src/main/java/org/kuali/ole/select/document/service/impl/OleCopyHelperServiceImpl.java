@@ -291,6 +291,7 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
                     oleCopy.setPartNumber(partNumCount + "");
                     oleCopy.setBibId(bibId);
                     if (oleERSIdentifier != null) {
+                        oleCopy.setCopyNumber(itemCopy.getStartingCopyNumber().toString());
                         oleCopy.setOleERSIdentifier(oleERSIdentifier);
                     }
                     if (partNumCount == itemCopy.getParts().intValue()) {

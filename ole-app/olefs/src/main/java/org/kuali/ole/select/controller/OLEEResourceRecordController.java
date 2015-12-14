@@ -267,6 +267,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSEventLog.setEventResolution(null);
         } else if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")) {
             oleERSEventLog.setEventTypeId(null);
+            if (oleERSEventLog.getEventResolvedDate() != null && StringUtils.isNotBlank(oleERSEventLog.getEventResolution())) {
+                oleERSEventLog.setEventStatus("Closed");
+            }
         }
         oleERSEventLog.setCurrentTimeStamp();
         oleERSEventLog.setOleERSIdentifier(oleeResourceRecordDocument.getDocumentNumber());
@@ -312,6 +315,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         OLEEResourceEventLog oleERSEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(Integer.parseInt(selectedLineIndex));
+        if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")) {
+            oleERSEventLog.setEventTypeId(null);
+            if (oleERSEventLog.getEventResolvedDate() != null && StringUtils.isNotBlank(oleERSEventLog.getEventResolution())) {
+                oleERSEventLog.setEventStatus("Closed");
+            }
+        }
         oleERSEventLog.setSaveFlag(true);
         return super.navigate(form, result, request, response);
     }
@@ -1361,7 +1370,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         }
                         getOleEResourceSearchService().setDocumentValues(requisitionDocument, oleEResourceOrderRecord);
                         requisitionDocument.setItems(getOleEResourceSearchService().generateItemList(oleEResourceOrderRecord, requisitionDocument));
-
+                        requisitionDocument = getRequisitionCreateDocumentService().updateParamaterValue(requisitionDocument,purchaseOrderTypeDocumentList,oleEResourceOrderRecord);
                         RequisitionService requisitionService = SpringContext.getBean(RequisitionService.class);
                         boolean apoRuleFlag = requisitionService.isAutomaticPurchaseOrderAllowed(requisitionDocument);
                         if (!apoRuleFlag) {
@@ -1398,7 +1407,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
                 getOleEResourceSearchService().setDocumentValues(requisitionDocument, oleEResourceOrderRecordList.get(0));
                 requisitionDocument.setItems(getOleEResourceSearchService().generateMultipleItemsForOneRequisition(oleEResourceOrderRecordList, requisitionDocument));
-
+                requisitionDocument = getRequisitionCreateDocumentService().updateParamaterValue(requisitionDocument,purchaseOrderTypeDocumentList,oleEResourceOrderRecordList.get(0));
                 requisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
                 getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);
                 String tiles = new String();

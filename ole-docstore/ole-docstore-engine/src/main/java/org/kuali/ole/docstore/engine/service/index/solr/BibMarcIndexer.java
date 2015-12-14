@@ -1592,6 +1592,20 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
             holdingsSolrDocument.setField(BIB_IDENTIFIER, bibIds);
             holdingsSolrDocument.setField("isBoundwith", false);
             solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingsSolrDocument));
+            List<String> itemIdentifierList = null;
+            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+            if (itemIdentifier instanceof List) {
+                itemIdentifierList = (List<String>) itemIdentifier;
+            } else if (itemIdentifier instanceof String) {
+                itemIdentifierList = new ArrayList<String>();
+                itemIdentifierList.add((String) itemIdentifier);
+            }
+            for (String itemId : itemIdentifierList) {
+                SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+                itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
+                itemSolrInputDocument.setField(BIB_ID, bibIds);
+                solrInputDocumentList.add(itemSolrInputDocument);
+            }
         }
         bibSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsSolr);
         solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(bibSolrDocument));
@@ -1616,6 +1630,20 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
                     bidIdsToAdd.remove(bibIdToRemove);
                     removedBibIdList.add(bibIdToRemove);
                 }
+            }
+            List<String> itemIdentifierList = null;
+            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+            if (itemIdentifier instanceof List) {
+                itemIdentifierList = (List<String>) itemIdentifier;
+            } else if (itemIdentifier instanceof String) {
+                itemIdentifierList = new ArrayList<String>();
+                itemIdentifierList.add((String) itemIdentifier);
+            }
+            for (String itemId : itemIdentifierList) {
+                SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+                itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
+                itemSolrInputDocument.setField(BIB_ID, bidIdsToAdd);
+                solrInputDocumentList.add(itemSolrInputDocument);
             }
             holdingsSolrDocument.setField(BIB_IDENTIFIER, bidIdsToAdd);
             holdingsSolrDocument.setField("isBoundwith", false);

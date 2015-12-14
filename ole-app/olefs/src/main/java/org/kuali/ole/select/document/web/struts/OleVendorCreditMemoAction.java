@@ -135,6 +135,10 @@ public class OleVendorCreditMemoAction extends VendorCreditMemoAction {
         }
         creditDoc.setProrateBy(creditDoc.isProrateQty() ? OLEConstants.PRORATE_BY_QTY : creditDoc.isProrateManual() ? OLEConstants.MANUAL_PRORATE :
                 creditDoc.isProrateDollar() ? OLEConstants.PRORATE_BY_DOLLAR : creditDoc.isNoProrate() ? OLEConstants.NO_PRORATE : null);
+        if(!getOleCreditMemoService().validateVendorCreditMemo(creditDoc)) {
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, OleSelectConstant.PRORATE_OPTION_REQ);
+            return mapping.findForward(OLEConstants.MAPPING_BASIC);
+        }
         if ((creditDoc.getProrateBy() != null) && (creditDoc.getProrateBy().equals(OLEConstants.PRORATE_BY_QTY) || creditDoc.getProrateBy().equals(OLEConstants.PRORATE_BY_DOLLAR) || creditDoc.getProrateBy().equals(OLEConstants.MANUAL_PRORATE))) {
             LOG.debug("Calculation for ProrateItemSurcharge");
             getOleCreditMemoService().calculateCreditMemo(creditDoc);
