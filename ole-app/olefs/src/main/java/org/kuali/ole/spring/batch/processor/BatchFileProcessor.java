@@ -3,6 +3,7 @@ package org.kuali.ole.spring.batch.processor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.codehaus.jettison.json.JSONException;
+import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.UserSession;
@@ -25,6 +26,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
     private MarcXMLConverter marcXMLConverter;
+    private SolrRequestReponseHandler solrRequestReponseHandler;
 
     public void processBatch(String  rawMarc, String profileName) {
         try {
@@ -55,5 +57,18 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public void setMarcXMLConverter(MarcXMLConverter marcXMLConverter) {
         this.marcXMLConverter = marcXMLConverter;
+    }
+
+    @Override
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
+        if(null == solrRequestReponseHandler) {
+            solrRequestReponseHandler = new SolrRequestReponseHandler();
+        }
+        return solrRequestReponseHandler;
+    }
+
+    @Override
+    public void setSolrRequestReponseHandler(SolrRequestReponseHandler solrRequestReponseHandler) {
+        this.solrRequestReponseHandler = solrRequestReponseHandler;
     }
 }
