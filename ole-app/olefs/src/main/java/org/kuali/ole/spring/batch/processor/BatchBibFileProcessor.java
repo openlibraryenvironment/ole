@@ -1,18 +1,14 @@
 package org.kuali.ole.spring.batch.processor;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.incubator.SolrRequestReponseHandler;
-import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.ControlFieldImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,84 +25,127 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     @Override
     public String processRecords(List<Record> records,String profileName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
-        SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
+        Map<Record, List<String>> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
-            List<VariableField> dataFields = marcRecord.getVariableFields("980");
-            for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-                DataField dataField = (DataField) variableFieldIterator.next();
-                List<Subfield> subFields = dataField.getSubfields("a");
-                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                    Subfield subfield = subfieldIterator.next();
-                    String matchPoint1 = subfield.getData();
-                    List results = solrRequestReponseHandler.getSolrDocumentList("mdf_980a:" + "\"" + matchPoint1 + "\"");
-                    if (null != results && results.size() == 1) {
-                        JSONObject bib = new JSONObject();
-                        SolrDocument solrDocument = (SolrDocument) results.get(0);
-                        String updatedUserName = getUpdatedUserName();
-                        String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
-
-                        //Bib data
-
-                        JSONObject bibData = new JSONObject();
-
-                        marcRecord = processMarcRecordToBibHoldingsAndItem(marcRecord);
-
-                        // Processing custom process based on profile (Casalini/YBP)
-                        doCustomProcessForProfile(marcRecord,profileName);
-
-                        bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
-                        bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));
-                        bibData.put("bibStatus", "Cataloging complete");
-                        bibData.put("updatedBy", updatedUserName);
-                        bibData.put("updatedDate", updatedDate);
-
-
-                        //Holdings data
-                        String locationLevel1 = "UC";
-                        String locationLevel2 = null;
-                        String locationLevel3 = "UCX";
-                        String locationLevel4 = null;
-                        String locationLevel5 = "InProc";
-
-                        String locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
-                                locationLevel4, locationLevel5);
-
-                        String callNumberForHolding = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "050", "$a$b");
-
-                        JSONObject holdingsData = new JSONObject();
-                        holdingsData.put("location", locationForHolding);
-                        holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
-                        holdingsData.put("callNumber", callNumberForHolding);
-                        if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                            String callNumberPrefix = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "090", "$p");
-                            locationLevel5 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$c");
-                            locationLevel3 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$d");
-                            locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
-                                    locationLevel4, locationLevel5);
-                            holdingsData.put("callNumberPrefix", callNumberPrefix);
-                            holdingsData.put("location", locationForHolding);
-                        }
-                        bibData.put("holdings", holdingsData);
-
-                        //Item data
-                        JSONObject itemData = new JSONObject();
-                        itemData.put("itemType", "stks - Regular loan");
-                        itemData.put("itemStatus", "In Process");
-                        if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                            itemData.put("copyNumber", "c.1");
-                            itemData.put("callNumberType", "LCC - Library Of Congress classification");
-                        }
-                        bibData.put("items", itemData);
-
-                        jsonArray.put(bibData);
-                    }
+            formSolrQueryMapForMatchPoint(marcRecord, "980",queryMap);
+            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                formSolrQueryMapForMatchPoint(marcRecord, "935",queryMap);
+            }
+        }
+        if(queryMap.size() > 0) {
+            for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
+                Record key = iterator.next();
+                List<String> queryList = queryMap.get(key);
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Iterator<String> queryListIterator = queryList.iterator(); queryListIterator.hasNext(); ) {
+                    String query = queryListIterator.next();
+                    appendQuery(stringBuilder,query);
                 }
-
+                JSONObject jsonObject = processOverlay(key, profileName, stringBuilder.toString());
+                if(null != jsonObject) {
+                    jsonArray.put(jsonObject);
+                }
             }
         }
         if (jsonArray.length() > 0) {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
+        }
+        return null;
+    }
+
+    private void formSolrQueryMapForMatchPoint(Record marcRecord, String tag, Map<Record, List<String>> queryMap) {
+        List<VariableField> dataFields = marcRecord.getVariableFields(tag);
+        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            List<Subfield> subFields = dataField.getSubfields("a");
+            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                Subfield subfield = subfieldIterator.next();
+                String matchPointValue = subfield.getData();
+                String query = "mdf_" + tag + "a:" + "\"" + matchPointValue + "\"";
+                addQueryToMap(queryMap,marcRecord, query);
+            }
+        }
+    }
+
+    private void addQueryToMap(Map<Record, List<String>> queryMap, Record marcRecord, String query) {
+        List<String> queryList = new ArrayList<>();
+        if(queryMap.containsKey(marcRecord)) {
+            queryList = queryMap.get(marcRecord);;
+        }
+        queryList.add(query);
+        queryMap.put(marcRecord,queryList);
+    }
+
+    private void appendQuery(StringBuilder queryBuilder, String query) {
+        if(queryBuilder.length() > 0) {
+            queryBuilder.append(" OR ");
+        }
+        queryBuilder.append(query);
+    }
+
+    private JSONObject processOverlay(Record marcRecord, String profileName,String query) throws JSONException {
+        List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+        if (null != results && results.size() == 1) {
+            JSONObject bib = new JSONObject();
+            SolrDocument solrDocument = (SolrDocument) results.get(0);
+            String updatedUserName = getUpdatedUserName();
+            String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
+
+            //Bib data
+
+            JSONObject bibData = new JSONObject();
+
+            marcRecord = processMarcRecordToBibHoldingsAndItem(marcRecord);
+
+            // Processing custom process based on profile (Casalini/YBP)
+            doCustomProcessForProfile(marcRecord,profileName);
+
+            bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
+            bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));
+            bibData.put("bibStatus", "Cataloging complete");
+            bibData.put("updatedBy", updatedUserName);
+            bibData.put("updatedDate", updatedDate);
+
+
+            //Holdings data
+            String locationLevel1 = "UC";
+            String locationLevel2 = null;
+            String locationLevel3 = "UCX";
+            String locationLevel4 = null;
+            String locationLevel5 = "InProc";
+
+            String locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
+                    locationLevel4, locationLevel5);
+
+            String callNumberForHolding = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "050", "$a$b");
+
+            JSONObject holdingsData = new JSONObject();
+            holdingsData.put("location", locationForHolding);
+            holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
+            holdingsData.put("callNumber", callNumberForHolding);
+            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                String callNumberPrefix = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "090", "$p");
+                locationLevel5 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$c");
+                locationLevel3 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$d");
+                locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
+                        locationLevel4, locationLevel5);
+                holdingsData.put("callNumberPrefix", callNumberPrefix);
+                holdingsData.put("location", locationForHolding);
+            }
+            bibData.put("holdings", holdingsData);
+
+            //Item data
+            JSONObject itemData = new JSONObject();
+            itemData.put("itemType", "stks - Regular loan");
+            itemData.put("itemStatus", "In Process");
+            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+                itemData.put("copyNumber", "c.1");
+                itemData.put("callNumberType", "LCC - Library Of Congress classification");
+            }
+            bibData.put("items", itemData);
+
+            return bibData;
         }
         return null;
     }
