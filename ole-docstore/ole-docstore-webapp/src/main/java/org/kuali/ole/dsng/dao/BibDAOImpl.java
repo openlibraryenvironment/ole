@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("bibDAO")
 @Scope("prototype")
-public class BibDAOImpl extends OleDsNgDAOBase implements BibDAO {
+public class BibDAOImpl extends OleDsNGDAOBase implements BibDAO {
 
     public BibRecord save(BibRecord bibRecord) {
         return getBusinessObjectService().save(bibRecord);
