@@ -44,7 +44,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         JSONObject bib = new JSONObject();
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String updatedUserName = getUpdatedUserName();
-                        updatedUserName = "dev2";  //Todo : need to fix the issue.  Because for rest service UserSession will not be there. So hardcoded the value as of now.
                         String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
                         //Bib data
