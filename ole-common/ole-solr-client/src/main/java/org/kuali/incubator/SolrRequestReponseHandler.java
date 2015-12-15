@@ -66,12 +66,16 @@ public class SolrRequestReponseHandler {
 
         server = getHttpSolrServer();
 
+        LOG.info("Solr Server : " + server);
+        LOG.info("Query String : " + queryString);
+
         SolrQuery query = new SolrQuery();
         query.setQuery(queryString);
         query.setIncludeScore(true);
 
         try {
             QueryResponse qr = server.query(query);
+            LOG.info("Query Response : " + qr);
             sdl = qr.getResults();
         } catch (SolrServerException e) {
             e.printStackTrace();
@@ -94,6 +98,7 @@ public class SolrRequestReponseHandler {
     public String getSolrUrl() {
         String solrURL = ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
         System.out.println("Solr Url in use:" + solrURL);
+        LOG.info("Solr URl : " + solrURL);
         return solrURL;
 //        return "http://localhost:8080/oledocstore/bib";
     }

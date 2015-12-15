@@ -2,6 +2,7 @@ package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -18,6 +19,7 @@ import java.util.*;
  */
 @Service("batchBibFileProcessor")
 public class BatchBibFileProcessor extends BatchFileProcessor {
+    private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     private static final String FORWARD_SLASH = "/";
     private static final String DASH = "-";
@@ -43,11 +45,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     appendQuery(stringBuilder,query);
                 }
                 JSONObject jsonObject = processOverlay(key, profileName, stringBuilder.toString());
+                LOG.info("After overlay process : " + jsonObject);
                 if(null != jsonObject) {
                     jsonArray.put(jsonObject);
                 }
             }
         }
+        LOG.info("Request object for docstore : " + jsonArray.toString());
         if (jsonArray.length() > 0) {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
         }
@@ -85,7 +89,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private JSONObject processOverlay(Record marcRecord, String profileName,String query) throws JSONException {
+        LOG.info("Overlay processing started");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+        LOG.info("Solr Response  : " + results);
         if (null != results && results.size() == 1) {
             JSONObject bib = new JSONObject();
             SolrDocument solrDocument = (SolrDocument) results.get(0);
