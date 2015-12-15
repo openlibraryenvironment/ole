@@ -252,6 +252,9 @@ public class EHoldings
     public void setDefaultField(String docField, String fieldValue) {
         super.setDefaultField(docField, fieldValue);
         OleHoldings oleHoldings = getContentObject();
+        if(oleHoldings.getAccessStatus() == null){
+            oleHoldings.setAccessStatus(ACTIVE);
+        }
         if (docField.equalsIgnoreCase(DESTINATION_FIELD_LINK_TEXT) && oleHoldings.getLink().get(0).getText() == null) {
             oleHoldings.getLink().get(0).setText(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_LINK_URL) && oleHoldings.getLink().get(0).getText() == null) {
