@@ -11,7 +11,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table table-condensed table-bordered">
                     <thead>
                     <tr>
                         <th></th>
@@ -19,18 +19,18 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Sub Field</th>
-                        <th>Destination</th>
+                        <th>Transformer</th>
                         <th>Expression</th>
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody ng-repeat="dataTransformation in dataTransformationsPanel">
-                    <tr>
+                    <tbody>
+                    <tr ng-repeat="dataTransformation in dataTransformationsPanel">
                         <td>
                             <select name="dataTransformationDocumentType_{{$index}}"
                                     id="dataTransformationDocumentType_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationDocType">
-                                <option ng-repeat="option in dataTransformation.dataTransformationDocTypes"
+                                <option ng-selected="{{option.id == dataTransformation.dataTransformationDocType}}" ng-repeat="option in dataTransformation.dataTransformationDocTypes"
                                         value="{{option.id}}">{{option.name}}
                                 </option>
                             </select></td>
@@ -55,7 +55,7 @@
                             <select name="dataTransformationTransformer_{{$index}}"
                                     id="dataTransformationTransformer_{{$index}}"
                                     ng-model="dataTransformation.transformer">
-                                <option ng-repeat="option in dataTransformation.transformers" value="{{option.id}}">
+                                <option ng-selected="{{option.id == dataTransformation.transformer}}" ng-repeat="option in dataTransformation.transformers" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select></td>
@@ -67,11 +67,11 @@
                         <td>
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
-                                    ng-click="dataTransformationAdd(fieldOperation)">Add
+                                    ng-click="dataTransformationAdd(fieldOperation)" ng-show="!dataTransformation.showRemove">Add
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
-                                    ng-click="dataTransformationRemove(fieldOperation)">Remove
+                                    ng-click="dataTransformationRemove(fieldOperation)" ng-show="dataTransformation.showRemove">Remove
                             </button>
                         </td>
                     </tr>
@@ -80,5 +80,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -4,14 +4,15 @@
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
                 <a bs-collapse-toggle ng-click="toggle(dataMappingsPanel)">
-                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !dataMappingsPanel.collapsed, 'glyphicon-chevron-down': dataMappingsPanel.collapsed}"></span>
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !dataMappingsPanel.collapsed, 'glyphicon-chevron-down': dataMappingsPanel.collapsed}"></span>
                     {{ dataMappingsPanel[0].title }}
                 </a>
             </h4>
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table table-condensed table-bordered">
                     <thead>
                     <tr>
                         <th></th>
@@ -24,45 +25,46 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody ng-repeat="dataMapping in dataMappingsPanel">
-                    <tr>
+                    <tbody>
+                    <tr ng-repeat="dataMapping in dataMappingsPanel">
                         <td>
-                            <select name="DocumentType" id="DocumentType" ng-model="dataMapping.dataMappingDocType">
-                                <option ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.id}}">
+                            <select name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
+                                    ng-model="dataMapping.dataMappingDocType">
+                                <option ng-selected="{{option.id == dataMapping.dataMappingDocType}}" ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select></td>
                         <td>
-                            <input id="dataField_{{$index}}" name="DataField_{{$index}}" type="text"
+                            <input id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}" type="text"
                                    ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"/></td>
                         <td>
-                            <input id="ind1_{{$index}}" name="ind1_{{$index}}" type="text" ng-model="dataMapping.ind1"
+                            <input id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text" ng-model="dataMapping.ind1"
                                    style="height: 30px; width: 50px;"/></td>
                         <td>
-                            <input id="ind2_{{$index}}" name="ind2_{{$index}}" type="text" ng-model="dataMapping.ind2"
+                            <input id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text" ng-model="dataMapping.ind2"
                                    style="height: 30px; width: 50px;"/></td>
                         <td>
-                            <input id="subField_{{$index}}" name="subField_{{$index}}" type="text"
+                            <input id="dataMappingSubField_{{$index}}" name="dataMappingSubField_{{$index}}" type="text"
                                    ng-model="dataMapping.subField"
                                    style="height: 30px; width: 50px;"/></td>
                         <td>
-                            <select name="Destination_{{$index}}" id="Destination_{{$index}}"
+                            <select name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
                                     ng-model="dataMapping.destination">
-                                <option ng-repeat="option in dataMapping.destinations" value="{{option.id}}">
+                                <option ng-selected="{{option.id == dataMapping.destination}}" ng-repeat="option in dataMapping.destinations" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select></td>
                         <td>
-                            <select name="Field_{{$index}}" id="Field_{{$index}}" ng-model="dataMapping.field">
-                                <option ng-repeat="option in dataMapping.fields" value="{{option.id}}">{{option.name}}
+                            <select name="dataMappingField_{{$index}}" id="dataMappingField_{{$index}}" ng-model="dataMapping.field">
+                                <option ng-selected="{{option.id == dataMapping.field}}" ng-repeat="option in dataMapping.fields" value="{{option.id}}">{{option.name}}
                                 </option>
                             </select></td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)">Add
+                                    ng-click="dataMappingAdd(dataMapping)" ng-show="!dataMapping.showRemove">Add
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
-                                    ng-click="dataMappingRemove(dataMapping)">Remove
+                                    ng-click="dataMappingRemove(dataMapping)" ng-show="dataMapping.showRemove">Remove
                             </button>
                         </td>
                     </tr>
@@ -71,5 +73,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

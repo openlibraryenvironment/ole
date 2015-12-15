@@ -11,7 +11,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table table-condensed table-bordered">
                     <thead>
                     <tr>
                         <th></th>
@@ -22,12 +22,12 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody ng-repeat="fieldOperation in fieldOperationsPanel">
-                    <tr>
+                    <tbody>
+                    <tr ng-repeat="fieldOperation in fieldOperationsPanel">
                         <td>
                             <select name="fieldOperationType_{{$index}}" id="fieldOperationType_{{$index}}"
                                     ng-model="fieldOperation.fieldOperationType">
-                                <option ng-repeat="option in fieldOperation.fieldOperationTypes"
+                                <option ng-selected="{{option.id == fieldOperation.fieldOperationType}}" ng-repeat="option in fieldOperation.fieldOperationTypes"
                                         value="{{option.id}}">{{option.name}}
                                 </option>
                             </select>
@@ -51,11 +51,11 @@
                         <td>
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
-                                    ng-click="fieldOperationAdd(fieldOperation)">Add
+                                    ng-click="fieldOperationAdd(fieldOperation)" ng-show="!fieldOperation.showRemove">Add
                             </button>
                             <button id="fieldOperationRemoveButton_{{$index}}"
                                     name="fieldOperationRemoveButton_{{$index}}"
-                                    ng-click="fieldOperationRemove(fieldOperation)">Remove
+                                    ng-click="fieldOperationRemove(fieldOperation)" ng-show="fieldOperation.showRemove">Remove
                             </button>
                         </td>
                     </tr>

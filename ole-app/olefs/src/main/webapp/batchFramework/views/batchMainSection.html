@@ -1,0 +1,23 @@
+<div class="panel-group" ng-model="mainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle ng-click="toggle(mainSectionPanel)">
+                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': mainSectionPanel.collapsed, 'glyphicon-chevron-down': !mainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <span class="col-sm-6">Batch Profile Name:
+                <input id="profileName" name="profileName" type="text"
+                       ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"/></span>
+                <span class="col-sm-6">Description:
+                <input id="profileDescription" name="profileDescription" type="text"
+                       ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"/></span>
+            </div>
+        </div>
+    </div>
+</div>
