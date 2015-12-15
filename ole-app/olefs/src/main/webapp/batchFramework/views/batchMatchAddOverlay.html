@@ -1,0 +1,96 @@
+<div class="panel-group" ng-model="addOrOverlayActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle ng-click="toggle(addOrOverlayPanel)">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !addOrOverlayPanel.collapsed, 'glyphicon-chevron-down': addOrOverlayPanel.collapsed}"></span>
+                    {{ addOrOverlayPanel[0].title }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Document Type</th>
+                        <th>Operation</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="addOrOverlay in addOrOverlayPanel">
+                        <td>
+                            <select name="addOrOverlayMatchOption__{{$index}}" id="addOrOverlayMatchOption__{{$index}}"
+                                    ng-model="addOrOverlay.matchOption">
+                                <option ng-selected="{{option.id == addOrOverlay.matchOption}}" ng-repeat="option in addOrOverlay.matchOptions" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <select name="addOrOverlayDocumentType_{{$index}}" id="addOrOverlayDocumentType_{{$index}}"
+                                    ng-model="addOrOverlay.addOrOverlayDocType">
+                                <option ng-selected="{{option.id == addOrOverlay.addOrOverlayDocType}}" ng-repeat="option in addOrOverlay.addOrOverlayDocTypes" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select></td>
+                        <td>
+                            <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
+                                    ng-model="addOrOverlay.operation" ng-hide="addOrOverlay.addOrOverlayDocType == 'po' || (addOrOverlay.matchOption == 'doNotMatch' && addOrOverlay.addOrOverlayDocType == 'bibliographic') || (addOrOverlay.matchOption == 'doNotMatch' && (addOrOverlay.addOrOverlayDocType == 'holdings' || addOrOverlay.addOrOverlayDocType == 'item' || addOrOverlay.addOrOverlayDocType == 'eHoldings'))">
+                                <option ng-selected="{{option.id == addOrOverlay.operation}}" ng-repeat="option in addOrOverlay.operations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}"
+                                    ng-model="addOrOverlay.operation" ng-show="addOrOverlay.matchOption == 'doNotMatch' && addOrOverlay.addOrOverlayDocType == 'bibliographic'">
+                                <option ng-selected="{{option.id == addOrOverlay.operation}}" ng-repeat="option in addOrOverlay.bibDonotMatchOperations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <select name="doNotMatchAddOrOverlayOperation_{{$index}}" id="doNotMatchAddOrOverlayOperation_{{$index}}"
+                                    ng-model="addOrOverlay.operation" ng-show="addOrOverlay.matchOption == 'doNotMatch' && (addOrOverlay.addOrOverlayDocType == 'holdings' || addOrOverlay.addOrOverlayDocType == 'item' || addOrOverlay.addOrOverlayDocType == 'eHoldings')">
+                                <option ng-selected="{{option.id == addOrOverlay.operation}}" ng-repeat="option in addOrOverlay.doNotMatchOperations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <select name="addOrOverlayPoOperation_{{$index}}" id="addOrOverlayPoOperation_{{$index}}"
+                                    ng-model="addOrOverlay.operation" ng-show="addOrOverlay.addOrOverlayDocType == 'po'">
+                                <option ng-selected="{{option.id == addOrOverlay.operation}}" ng-repeat="option in addOrOverlay.poOperations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="addOrOverlayBibStatus_{{$index}}" id="addOrOverlayBibStatus_{{$index}}"
+                                    ng-model="addOrOverlay.bibStatus" ng-show="addOrOverlay.matchOption == 'doMatch' && addOrOverlay.addOrOverlayDocType == 'bibliographic' && addOrOverlay.operation == 'overlay'">
+                                <option ng-selected="{{option.id == addOrOverlay.bibStatus}}" ng-repeat="option in addOrOverlay.bibStatuses" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <select name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}"
+                                    ng-model="addOrOverlay.addOperation" ng-show="addOrOverlay.matchOption == 'doNotMatch' && (addOrOverlay.addOrOverlayDocType == 'holdings' || addOrOverlay.addOrOverlayDocType == 'item' || addOrOverlay.addOrOverlayDocType == 'eHoldings') && addOrOverlay.operation == 'add'">
+                                <option ng-selected="{{option.id == addOrOverlay.addOperation}}" ng-repeat="option in addOrOverlay.addOperations" value="{{option.id}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <label ng-show="addOrOverlay.matchOption == 'doMatch' && addOrOverlay.addOrOverlayDocType == 'holdings' && addOrOverlay.operation == 'add'"><input type="checkbox" ng-model="addOrOverlay.addItems"> Add Items</label>
+                        </td>
+                        <td>
+                            <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
+                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-show="!addOrOverlay.showRemove">Add
+                            </button>
+                            <button id="addOrOverlayRemoveButton_{{$index}}" name="addOrOverlayRemoveButton_{{$index}}"
+                                    ng-click="addOrOverlayRemove(addOrOverlay)" ng-show="addOrOverlay.showRemove">Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
