@@ -304,6 +304,18 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             LOG.error("Exception ", e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,"docstore.response", e.getMessage() );
         }
+        Item oleItem = workInstanceOlemlForm.getSelectedItem();
+        if(oleItem!=null ){
+            if(oleItem.getCallNumber()  == null) {
+                CallNumber callNumber = new CallNumber();
+                String callNumberDefaultValue = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.ITEM_CALL_NUMBER_TYPE);
+                ShelvingScheme shelvingScheme = new ShelvingScheme();
+                shelvingScheme.setCodeValue(callNumberDefaultValue);
+                callNumber.setShelvingScheme(shelvingScheme);
+                oleItem.setCallNumber(callNumber);
+            }
+        }
         return workInstanceOlemlForm;
     }
 
