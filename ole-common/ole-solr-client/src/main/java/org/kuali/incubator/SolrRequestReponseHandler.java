@@ -92,9 +92,10 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-//        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
-
-        return "http://localhost:8080/oledocstore/bib";
+        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("docSearchUrl");
+        System.out.println("Solr Url in use:" + solrURL);
+        return solrURL;
+//        return "http://localhost:8080/oledocstore/bib";
     }
 
     public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
