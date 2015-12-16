@@ -1,11 +1,17 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by rajeshbabuk on 12/9/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProfileFieldOperation extends MarcDataField {
 
     private long fieldOperationId;
+
+    @JsonProperty("fieldOperationType")
     private String fieldOperationType;
 
     public String getFieldOperationType() {

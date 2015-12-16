@@ -1,11 +1,17 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by rajeshbabuk on 12/14/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProfileAddOrOverlay {
 
     private String matchOption;
+
+    @JsonProperty("addOrOverlayDocType")
     private String dataType;
     private String operation;
     private String bibStatus;

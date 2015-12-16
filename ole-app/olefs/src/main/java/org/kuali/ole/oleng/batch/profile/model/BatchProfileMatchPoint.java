@@ -1,12 +1,20 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by SheikS on 11/25/2015.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProfileMatchPoint {
 
     private long matchPointId;
+
+    @JsonProperty("matchPointDocType")
     private String dataType;
+
+    @JsonProperty("matchPointValue")
     private String matchPoint;
 
     public long getMatchPointId() {

@@ -1,15 +1,24 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by rajeshbabuk on 12/9/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProcessProfile {
 
     private long batchProcessProfileId;
+
+    @JsonProperty("profileName")
     private String batchProcessProfileName;
+
+    @JsonProperty("profileDescription")
+    private String description;
     private List<BatchProfileMatchPoint> batchProfileMatchPointList = new ArrayList<>();
     private List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = new ArrayList<>();
     private List<BatchProfileFieldOperation> batchProfileFieldOperationList = new ArrayList<>();
@@ -70,5 +79,13 @@ public class BatchProcessProfile {
 
     public void setBatchProfileDataTransformerList(List<BatchProfileDataTransformer> batchProfileDataTransformerList) {
         this.batchProfileDataTransformerList = batchProfileDataTransformerList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

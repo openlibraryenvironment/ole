@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
@@ -23,6 +24,7 @@ public class BatchUtil {
     SolrRequestReponseHandler solrRequestReponseHandler;
     private BusinessObjectService businessObjectService;
     private MarcRecordUtil marcRecordUtil;
+    private ObjectMapper objectMapper;
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -62,5 +64,16 @@ public class BatchUtil {
 
     public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
         this.marcRecordUtil = marcRecordUtil;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        if(null == objectMapper) {
+            objectMapper = new ObjectMapper();
+        }
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 }

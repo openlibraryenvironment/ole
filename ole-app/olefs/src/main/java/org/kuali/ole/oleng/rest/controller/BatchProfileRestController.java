@@ -25,8 +25,7 @@ public class BatchProfileRestController {
         String response = "";
         BatchProcessProfile batchProcessProfile;
         try {
-            JSONObject jsonObject = new JSONObject(requestBody);
-            batchProcessProfile = new BatchProfileRequestHandler().convertJsonToProfile(jsonObject);
+            batchProcessProfile = new BatchProfileRequestHandler().convertJsonToProfile(requestBody);
         } catch (Exception e) {
             response = e.getMessage();
             e.printStackTrace();

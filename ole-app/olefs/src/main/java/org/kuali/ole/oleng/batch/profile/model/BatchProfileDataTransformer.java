@@ -1,11 +1,17 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by SheikS on 11/25/2015.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProfileDataTransformer extends MarcDataField {
 
     private long dataTransformerId;
+
+    @JsonProperty("dataTransformationDocType")
     private String dataType;
     private String transformer;
     private String expression;

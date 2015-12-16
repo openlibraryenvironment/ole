@@ -261,13 +261,15 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     };
 
     $scope.submit = function () {
+        removeEmptyValues();
         var profile = {
-            "mainSection": $scope.mainSectionPanel,
-            "matchPoints": $scope.matchPointsPanel,
-            "addOrOverlay": $scope.addOrOverlayPanel,
-            "fieldOperations": $scope.fieldOperationsPanel,
-            "dataMappings": $scope.dataMappingsPanel,
-            "dataTransformations": $scope.dataTransformationsPanel
+            "profileName": $scope.mainSectionPanel.profileName,
+            "description": $scope.mainSectionPanel.profileDescription,
+            "batchProfileMatchPointList": $scope.matchPointsPanel,
+            "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
+            "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
+            "batchProfileDataMappingList": $scope.dataMappingsPanel,
+            "batchProfileDataTransformerList": $scope.dataTransformationsPanel
         };
         $http.post("/olefs/batchProfile/batchProfileRestController/submit", profile)
             .success(function (data) {
@@ -279,6 +281,14 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     $scope.cancel = function () {
         window.location = '/olefs/portal.jsp';
     };
+
+    var removeEmptyValues = function(){
+        $scope.matchPointsPanel.splice(0, 1);
+        $scope.addOrOverlayPanel.splice(0, 1);
+        $scope.fieldOperationsPanel.splice(0, 1);
+        $scope.dataMappingsPanel.splice(0, 1);
+        $scope.dataTransformationsPanel.splice(0, 1);
+    }
 
 
 }]);
