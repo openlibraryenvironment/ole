@@ -45,13 +45,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     appendQuery(stringBuilder,query);
                 }
                 JSONObject jsonObject = processOverlay(key, profileName, stringBuilder.toString());
-                LOG.info("After overlay process : " + jsonObject);
                 if(null != jsonObject) {
                     jsonArray.put(jsonObject);
                 }
             }
         }
-        LOG.info("Request object for docstore : " + jsonArray.toString());
         if (jsonArray.length() > 0) {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
         }
