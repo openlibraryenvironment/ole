@@ -23,25 +23,32 @@ import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.module.purap.PurapParameterConstants;
+import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.PurApItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
+import org.kuali.ole.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
-import org.kuali.ole.module.purap.document.service.LogicContainer;
-import org.kuali.ole.module.purap.document.service.PaymentRequestService;
-import org.kuali.ole.module.purap.document.service.PrintService;
-import org.kuali.ole.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.ole.module.purap.document.service.*;
 import org.kuali.ole.module.purap.document.service.impl.PurchaseOrderServiceImpl;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderAccount;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.service.OlePurchaseOrderService;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
+import org.kuali.ole.select.document.validation.event.CopiesPurchaseOrderEvent;
+import org.kuali.ole.select.document.validation.event.DiscountPurchaseOrderEvent;
+import org.kuali.ole.select.document.validation.event.ForeignCurrencyPOEvent;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -52,6 +59,9 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -60,6 +70,8 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.*;
@@ -74,6 +86,8 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
     private PrintService printService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     private OleSelectDocumentService oleSelectDocumentService;
+    private boolean currencyTypeIndicator = true;
+    private KualiRuleService kualiRuleService;
 
     @Override
     public void setPrintService(PrintService printService) {
@@ -351,6 +365,7 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
         String annotation = "Amended in batch by PO document "+olePurchaseOrderDocument.getDocumentNumber()+" and POBA document "+docNumber;
         String documentType = "OLE_POA";
         //PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(olePurchaseOrderDocument.getDocumentNumber());
+        calculate(olePurchaseOrderDocument);
         createNoteForAutoCloseOrders(olePurchaseOrderDocument, annotation);
         try {
             synchronized (this) {
@@ -396,6 +411,136 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
 
     public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
         this.oleSelectDocumentService = oleSelectDocumentService;
+    }
+
+
+
+    public void calculate(OlePurchaseOrderDocument olePurchaseOrderDocument) {
+
+        List<PurApItem> purApItems = olePurchaseOrderDocument.getItems();
+        for(PurApItem purApItem:purApItems){
+            List<KualiDecimal> existingAmount=new ArrayList<>();
+            for(PurApAccountingLine oldSourceAccountingLine:purApItem.getSourceAccountingLines()) {
+                if(oldSourceAccountingLine instanceof OlePurchaseOrderAccount) {
+                    if(((OlePurchaseOrderAccount)oldSourceAccountingLine).getExistingAmount()!=null){
+                        existingAmount.add(((OlePurchaseOrderAccount)oldSourceAccountingLine).getExistingAmount());
+                    }
+                }
+            }
+            int count=0;
+            for(PurApAccountingLine account:purApItem.getSourceAccountingLines()){
+
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+                    if (account.getAmount()!=null&&count<existingAmount.size()&&existingAmount.size() != 0 && !existingAmount.get(count).toString().equals(account.getAmount().toString())) {
+                        KualiDecimal calculatedPercent = new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(purApItem.getTotalAmount()).toString());
+                        account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_CEILING));
+                    }
+                    else {
+                        if(account.getAccountLinePercent().intValue()==100&&(account.getAmount()==null||account.getAccount()!=null)){
+                            KualiDecimal calculatedAmount = new KualiDecimal(account.getAccountLinePercent().multiply(purApItem.getTotalAmount().bigDecimalValue()).divide(new BigDecimal(100)).toString());
+                            account.setAmount(calculatedAmount);
+                        }
+                        else{
+                            KualiDecimal calculatedAmount = new KualiDecimal(account.getAccountLinePercent().multiply(purApItem.getTotalAmount().bigDecimalValue()).divide(new BigDecimal(100)).toString());
+                            account.setAmount(calculatedAmount);
+                        }
+                    }
+                }
+                count++;
+            }
+            for(PurApAccountingLine oldSourceAccountingLine:purApItem.getSourceAccountingLines()) {
+                if(oldSourceAccountingLine instanceof OlePurchaseOrderAccount) {
+                    ((OlePurchaseOrderAccount)oldSourceAccountingLine).setExistingAmount(oldSourceAccountingLine.getAmount());
+                }
+            }
+        }
+
+
+        PurchaseOrderDocument purchaseDoc = olePurchaseOrderDocument;
+        List<OlePurchaseOrderItem> purItem = purchaseDoc.getItems();
+        if (purchaseDoc.getVendorDetail().getCurrencyType()!=null){
+            if(purchaseDoc.getVendorDetail().getCurrencyType().getCurrencyType().equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)){
+                currencyTypeIndicator=true;
+            }
+            else{
+                currencyTypeIndicator=false;
+            }
+        }
+        PurchaseOrderDocument purDoc = olePurchaseOrderDocument;
+        if (purDoc.getVendorDetail() == null || (purDoc.getVendorDetail() != null && currencyTypeIndicator)) {
+            for (int i = 0; purDoc.getItems().size() > i; i++) {
+                OlePurchaseOrderItem item = (OlePurchaseOrderItem) purDoc.getItem(i);
+                if ((item.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+                    boolean rulePassed = getKualiRuleService().applyRules(new DiscountPurchaseOrderEvent(purchaseDoc, item));
+                    if (rulePassed) {
+                        item.setItemUnitPrice(SpringContext.getBean(OlePurapService.class).calculateDiscount(item).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    }
+                    rulePassed = getKualiRuleService().applyRules(new CopiesPurchaseOrderEvent(purDoc, item));
+                }
+
+            }
+        } else {
+            LOG.debug("###########Foreign Currency Field Calculation in olepurchaseOrder action###########");
+            BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+            for (int i = 0; purItem.size() > i; i++) {
+                OlePurchaseOrderItem items = (OlePurchaseOrderItem) purchaseDoc.getItem(i);
+                if ((items.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+                    boolean rulePassed = getKualiRuleService().applyRules(new ForeignCurrencyPOEvent(purchaseDoc, items));
+                    if (rulePassed) {
+                        SpringContext.getBean(OlePurapService.class).calculateForeignCurrency(items);
+                        Long id = purchaseDoc.getVendorDetail().getCurrencyType().getCurrencyTypeId();
+                        Map currencyTypeMap = new HashMap();
+                        currencyTypeMap.put(OleSelectConstant.CURRENCY_TYPE_ID, id);
+                        List<OleExchangeRate> exchangeRateList = (List) businessObjectService.findMatchingOrderBy(OleExchangeRate.class, currencyTypeMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
+                        Iterator iterator = exchangeRateList.iterator();
+                        if (iterator.hasNext()) {
+                            OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
+                            String documentNumber = purchaseDoc.getDocumentNumber();
+                            Map documentNumberMap = new HashMap();
+                            documentNumberMap.put(OLEPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+                            List<OlePurchaseOrderItem> currenctExchangeRateList = (List) businessObjectService.findMatching(OlePurchaseOrderItem.class, documentNumberMap);
+                            Iterator iterate = currenctExchangeRateList.iterator();
+                            if (iterate.hasNext()) {
+                                OlePurchaseOrderItem tempCurrentExchangeRate = (OlePurchaseOrderItem) iterate.next();
+                                String poCurrencyType = null;
+                                if (tempCurrentExchangeRate.getPurchaseOrder().getVendorDetail().getCurrencyType() != null) {
+                                    poCurrencyType = tempCurrentExchangeRate.getPurchaseOrder().getVendorDetail().getCurrencyType().getCurrencyType();
+                                }
+                                String poaCurrencyType = purchaseDoc.getVendorDetail().getCurrencyType().getCurrencyType();
+                                if (poCurrencyType != null && (poCurrencyType.equalsIgnoreCase(poaCurrencyType)) && !items.isLatestExchangeRate() && !purchaseDoc.getIsPODoc() && ((purchaseDoc instanceof PurchaseOrderAmendmentDocument) )) {
+                                    items.setItemExchangeRate(tempCurrentExchangeRate.getItemExchangeRate());
+                                } else {
+                                    items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                                }
+                            }
+                            if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
+                                items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+                                items.setItemUnitPrice(items.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
+                                items.setItemListPrice(items.getItemUnitCostUSD());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        List<PurApItem> newpurApItems = olePurchaseOrderDocument.getItems();
+        for(PurApItem purApItem:newpurApItems){
+            for(PurApAccountingLine account:purApItem.getSourceAccountingLines()){
+                KualiDecimal calculatedAmount = new KualiDecimal(account.getAccountLinePercent().multiply(purApItem.getTotalAmount().bigDecimalValue()).divide(new BigDecimal(100)).toString());
+                account.setAmount(calculatedAmount);
+            }
+        }
+
+
+
+    }
+
+    protected KualiRuleService getKualiRuleService() {
+        if (kualiRuleService == null) {
+            kualiRuleService = KRADServiceLocatorWeb.getKualiRuleService();
+        }
+        return this.kualiRuleService;
     }
 
 }
