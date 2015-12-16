@@ -141,6 +141,8 @@ var transformers = [
 
 app.controller('batchProfileController', ['$scope', '$http', function($scope, $http) {
 
+    $scope.submited = false;
+
     $scope.toggle = function (panel) {
         var panelTitle = panel[0].title;
 
@@ -261,6 +263,8 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     };
 
     $scope.submit = function () {
+        angular.element(document.querySelectorAll('profileSubmit_button'))[0].disabled = true;
+        $scope.submited = true;
         removeEmptyValues();
         var profile = {
             "profileName": $scope.mainSectionPanel.profileName,

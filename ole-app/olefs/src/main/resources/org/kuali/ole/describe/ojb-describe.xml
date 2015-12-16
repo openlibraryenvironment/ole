@@ -526,6 +526,15 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile" table="OLE_NG_BAT_PRF_T">
+        <field-descriptor name="batchProcessProfileId" column="PRF_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_NG_BAT_PRF_S"></field-descriptor>
+        <field-descriptor name="batchProcessProfileName" column="PRF_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="content" column="CONTENT" jdbc-type="BLOB"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
 
 
 </descriptor-repository>

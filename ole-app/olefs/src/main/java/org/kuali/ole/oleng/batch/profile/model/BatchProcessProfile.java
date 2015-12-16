@@ -1,7 +1,9 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  * Created by rajeshbabuk on 12/9/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BatchProcessProfile {
+public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     private long batchProcessProfileId;
 
@@ -19,6 +21,10 @@ public class BatchProcessProfile {
 
     @JsonProperty("profileDescription")
     private String description;
+
+    @JsonIgnore
+    private byte[] content;
+
     private List<BatchProfileMatchPoint> batchProfileMatchPointList = new ArrayList<>();
     private List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = new ArrayList<>();
     private List<BatchProfileFieldOperation> batchProfileFieldOperationList = new ArrayList<>();
@@ -87,5 +93,13 @@ public class BatchProcessProfile {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 }

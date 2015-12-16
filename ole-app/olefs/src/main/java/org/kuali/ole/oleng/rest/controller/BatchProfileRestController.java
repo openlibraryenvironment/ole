@@ -17,21 +17,19 @@ import javax.ws.rs.core.MediaType;
 
 @Controller
 @RequestMapping("/batchProfileRestController")
-public class BatchProfileRestController {
+public class BatchProfileRestController extends OleNgControllerBase {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/submit")
+    @RequestMapping(method = RequestMethod.POST, value = "/submit", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String submitProfile(@RequestBody String requestBody) {
-        String response = "";
         BatchProcessProfile batchProcessProfile;
         try {
             batchProcessProfile = new BatchProfileRequestHandler().convertJsonToProfile(requestBody);
+            batchProcessProfile.setContent(requestBody.getBytes());
+            getBusinessObjectService().save(batchProcessProfile);
         } catch (Exception e) {
-            response = e.getMessage();
             e.printStackTrace();
         }
-
-
-        return response;
+        return requestBody;
     }
 }

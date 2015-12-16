@@ -1,7 +1,11 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
@@ -19,7 +23,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pvsubrah on 12/7/15.
@@ -33,10 +39,8 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public void processBatch(String  rawMarc, String profileName) {
         try {
-            List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
-
             BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileName);
-
+            List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
             String responseData = processRecords(records, batchProcessProfile);
             LOG.info("Response Data : " + responseData);
         } catch (JSONException e) {
@@ -46,22 +50,20 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     private BatchProcessProfile fetchBatchProcessProfile(String profileName) {
         //TODO : Need to fetch profile from database. As of now its has been hardcoded.
+        BatchProcessProfile batchProcessProfile = null;
 
-        BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
-        batchProcessProfile.setBatchProcessProfileName(profileName);
-        List<BatchProfileMatchPoint> batchProfileMatchPoints = new ArrayList<>();
-
-        BatchProfileMatchPoint profileMatchPoint1 = new BatchProfileMatchPoint();
-        profileMatchPoint1.setMatchPoint("980 $a");
-        batchProfileMatchPoints.add(profileMatchPoint1);
-
-        if (batchProcessProfile.getBatchProcessProfileName().equalsIgnoreCase("BibForInvoiceYBP")) {
-            BatchProfileMatchPoint profileMatchPoint2 = new BatchProfileMatchPoint();
-            profileMatchPoint2.setMatchPoint("935 $a");
-            batchProfileMatchPoints.add(profileMatchPoint2);
+        Map parameterMap = new HashedMap();
+        parameterMap.put("batchProcessProfileName",profileName);
+        List<BatchProcessProfile> matching = (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
+        if(CollectionUtils.isNotEmpty(matching)){
+            try {
+                batchProcessProfile = matching.get(0);
+                getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+                batchProcessProfile = getObjectMapper().readValue(IOUtils.toString(batchProcessProfile.getContent()), BatchProcessProfile.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        batchProcessProfile.setBatchProfileMatchPointList(batchProfileMatchPoints);
-
         return batchProcessProfile;
     }
 

@@ -16,7 +16,7 @@
                     <tr ng-repeat="matchPoint in matchPointsPanel">
                         <td>
                             <select id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
-                                    ng-model="matchPoint.matchPointDocType">
+                                    ng-model="matchPoint.matchPointDocType"  ng-disabled="submited">
                                 <option ng-selected="{{option.id == matchPoint.matchPointDocType}}" ng-repeat="option in matchPoint.matchPointDocTypes" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
@@ -24,32 +24,32 @@
                         </td>
                         <td>
                             <input id="matchPointValue_{{$index}}" name="matchPointValue_{{$index}}" type="text"
-                                   ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'bibliographic'" style="height: 30px; width: 150px;"/>
+                                   ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'bibliographic'" style="height: 30px; width: 150px;"  ng-disabled="submited"/>
                             <select id="matchPointHoldings_{{$index}}" name="matchPointHoldings_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'holdings'">
+                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'holdings'"  ng-disabled="submited">
                                 <option ng-selected="{{option.id == matchPoint.matchPointValue}}" ng-repeat="option in matchPoint.holdingsMatchPoints" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select>
                             <select id="matchPointItem_{{$index}}" name="matchPointItem_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'item'">
+                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'item'"  ng-disabled="submited">
                                 <option ng-selected="{{option.id == matchPoint.matchPointValue}}" ng-repeat="option in matchPoint.itemMatchPoints" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select>
                             <select id="matchPointEholdings_{{$index}}" name="matchPointEholdings_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'eHoldings'">
+                                    ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType == 'eHoldings'"  ng-disabled="submited">
                                 <option ng-selected="{{option.id == matchPoint.matchPointValue}}" ng-repeat="option in matchPoint.eHoldingsMatchPoints" value="{{option.id}}">
                                     {{option.name}}
                                 </option>
                             </select>
                         </td>
                         <td>
-                            <button id="matchPointAddButton_{{$index}}" name="matchPointAddButton_{{$index}}"
-                                    ng-click="matchPointAdd(matchPoint)" ng-show="!matchPoint.showRemove">Add
+                            <button id="matchPointAddButton_{{$indshowRemoveex}}" name="matchPointAddButton_{{$index}}"
+                                    ng-click="matchPointAdd(matchPoint)" ng-show="!matchPoint.showRemove && !submited">Add
                             </button>
                             <button id="matchPointRemoveButton_{{$index}}" name="matchPointRemoveButton_{{$index}}"
-                                    ng-click="matchPointRemove(matchPoint)" ng-show="matchPoint.showRemove">Remove
+                                    ng-click="matchPointRemove(matchPoint)" ng-show="matchPoint.showRemove && !submited">Remove
                             </button>
                         </td>
                     </tr>
