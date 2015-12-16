@@ -353,6 +353,12 @@ public interface DocstoreConstants {
     public static final String ILL_SEARCH = "ILL_search";
     public static final String IS_BOUND_WITH = "isBoundwith";
 
+    public static final String APPL_ID_OLE = "OLE";
+    public static final String DESC_NMSPC = "OLE-DESC";
+    public static final String DESCRIBE_COMPONENT = "Describe";
+    public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";
+
+
 
 
 }
