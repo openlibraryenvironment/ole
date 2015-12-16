@@ -1173,7 +1173,7 @@ jq(window).load(function () {
 
 
     }
-
+    jq('#buildDocTree_tree').jstree('open_all');
     wrapEnterText();
     wrapEnterTextForEInstanceLink();
 });
