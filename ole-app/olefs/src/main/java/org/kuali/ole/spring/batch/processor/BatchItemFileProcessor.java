@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.codehaus.jettison.json.JSONException;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.marc4j.marc.Record;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class BatchItemFileProcessor extends BatchFileProcessor {
 
     @Override
-    public String processRecords(List<Record> records,String profileName) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         return null;
     }
 }

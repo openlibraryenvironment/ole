@@ -1,5 +1,6 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -8,6 +9,8 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
 import org.springframework.stereotype.Service;
@@ -25,15 +28,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final String DASH = "-";
 
     @Override
-    public String processRecords(List<Record> records,String profileName) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
+        String profileName = batchProcessProfile.getBatchProcessProfileName();
         Map<Record, List<String>> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
-            formSolrQueryMapForMatchPoint(marcRecord, "980",queryMap);
-            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                formSolrQueryMapForMatchPoint(marcRecord, "935",queryMap);
-            }
+            prepareSolrQueryMapForMatchPoint(marcRecord,queryMap,batchProcessProfile.getBatchProfileMatchPointList());
         }
         if(queryMap.size() > 0) {
             for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
@@ -44,7 +45,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     String query = queryListIterator.next();
                     appendQuery(stringBuilder,query);
                 }
-                JSONObject jsonObject = processOverlay(key, profileName, stringBuilder.toString());
+                JSONObject jsonObject = processOverlay(key, batchProcessProfile, stringBuilder.toString());
                 if(null != jsonObject) {
                     jsonArray.put(jsonObject);
                 }
@@ -56,18 +57,47 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return null;
     }
 
-    private void formSolrQueryMapForMatchPoint(Record marcRecord, String tag, Map<Record, List<String>> queryMap) {
-        List<VariableField> dataFields = marcRecord.getVariableFields(tag);
+    private void prepareSolrQueryMapForMatchPoint(Record marcRecord, Map<Record, List<String>> queryMap,List<BatchProfileMatchPoint> batchProfileMatchPoints) {
+        if(CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
+            for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
+                BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
+                formSolrQueryMapForMatchPoint(marcRecord,batchProfileMatchPoint,queryMap);
+            }
+        }
+    }
+
+    private void formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint,
+                                               Map<Record, List<String>> queryMap) {
+        //TODO : Need to process if 001 tag
+        String field = getFieldFromMatchPoint(batchProfileMatchPoint.getMatchPoint());
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            List<Subfield> subFields = dataField.getSubfields("a");
+            String subField = getSubFiledFromMatchPoint(batchProfileMatchPoint.getMatchPoint());
+            List<Subfield> subFields = dataField.getSubfields(subField);
             for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                 Subfield subfield = subfieldIterator.next();
                 String matchPointValue = subfield.getData();
-                String query = "mdf_" + tag + "a:" + "\"" + matchPointValue + "\"";
+                String query = "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
                 addQueryToMap(queryMap,marcRecord, query);
             }
         }
+    }
+
+    private String getSubFiledFromMatchPoint(String batchProfileMatchPoint) {
+        String[] matchPoint = batchProfileMatchPoint.split("['$']");
+        if(matchPoint.length > 1) {
+            return matchPoint[1];
+        }
+        return null;
+    }
+
+    private String getFieldFromMatchPoint(String batchProfileMatchPoint) {
+        String[] matchPoint = batchProfileMatchPoint.split(" ");
+        if(matchPoint.length > 0) {
+            return matchPoint[0];
+        }
+        return null;
     }
 
     private void addQueryToMap(Map<Record, List<String>> queryMap, Record marcRecord, String query) {
@@ -86,7 +116,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         queryBuilder.append(query);
     }
 
-    private JSONObject processOverlay(Record marcRecord, String profileName,String query) throws JSONException {
+    private JSONObject processOverlay(Record marcRecord, BatchProcessProfile batchProcessProfile,String query) throws JSONException {
         LOG.info("Overlay processing started");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
@@ -100,7 +130,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             JSONObject bibData = new JSONObject();
 
             // Processing custom process based on profile (Casalini/YBP)
-            doCustomProcessForProfile(marcRecord,profileName);
+            String profileName = batchProcessProfile.getBatchProcessProfileName();
+            doCustomProcessForProfile(marcRecord, profileName);
 
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
             bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));

@@ -5,6 +5,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.codehaus.jettison.json.JSONException;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +34,38 @@ public abstract class BatchFileProcessor extends BatchUtil {
     public void processBatch(String  rawMarc, String profileName) {
         try {
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
-            String responseData = processRecords(records, profileName);
+
+            BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileName);
+
+            String responseData = processRecords(records, batchProcessProfile);
             LOG.info("Response Data : " + responseData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public abstract String processRecords(List<Record> records, String profileName) throws JSONException;
+    private BatchProcessProfile fetchBatchProcessProfile(String profileName) {
+        //TODO : Need to fetch profile from database. As of now its has been hardcoded.
+
+        BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
+        batchProcessProfile.setBatchProcessProfileName(profileName);
+        List<BatchProfileMatchPoint> batchProfileMatchPoints = new ArrayList<>();
+
+        BatchProfileMatchPoint profileMatchPoint1 = new BatchProfileMatchPoint();
+        profileMatchPoint1.setMatchPoint("980 $a");
+        batchProfileMatchPoints.add(profileMatchPoint1);
+
+        if (batchProcessProfile.getBatchProcessProfileName().equalsIgnoreCase("BibForInvoiceYBP")) {
+            BatchProfileMatchPoint profileMatchPoint2 = new BatchProfileMatchPoint();
+            profileMatchPoint2.setMatchPoint("935 $a");
+            batchProfileMatchPoints.add(profileMatchPoint2);
+        }
+        batchProcessProfile.setBatchProfileMatchPointList(batchProfileMatchPoints);
+
+        return batchProcessProfile;
+    }
+
+    public abstract String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException;
 
     public String getUpdatedUserName() {
         UserSession userSession = GlobalVariables.getUserSession();

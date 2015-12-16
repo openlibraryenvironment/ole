@@ -7,6 +7,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class BatchHoldingFileProcessor extends BatchFileProcessor {
     @Override
-    public String processRecords(List<Record> records,String profileName) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         List results = getSolrRequestReponseHandler().getSolrDocumentList("(DocType:holdings AND Level1Location_search:UC AND bibIdentifier:wbm-10000058)"); // Todo :  Need to form query
         if (null != results && results.size() == 1) {
