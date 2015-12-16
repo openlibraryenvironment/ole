@@ -29,8 +29,11 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
-            .success(function(){
-                $scope.batchProcessStatus = "Job successfully completed.";
+            .success(function(response){
+                var totalTime = response.processTime;
+                var report = "Job successfully completed.\nTotal time taken : " +totalTime;
+                $scope.batchProcessStatus = report;
+
             })
             .error(function(){
                 $scope.batchProcessStatus = "Job failed.";

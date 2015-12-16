@@ -73,6 +73,16 @@ public class MarcRecordUtil {
         marcRecord.addVariableField(variableField);
     }
 
+    public void deleteFieldInRecord(Record marcRecord, String field) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(field);
+        if (CollectionUtils.isNotEmpty(variableFields)) {
+            for (Iterator<VariableField> iterator = variableFields.iterator(); iterator.hasNext(); ) {
+                VariableField variableField = iterator.next();
+                marcRecord.removeVariableField(variableField);
+            }
+        }
+    }
+
 
     private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
         if(stringBuilder.length() > 0 ) {

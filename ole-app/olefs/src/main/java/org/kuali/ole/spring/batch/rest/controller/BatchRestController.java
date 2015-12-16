@@ -2,10 +2,12 @@ package org.kuali.ole.spring.batch.rest.controller;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.asr.handler.*;
 import org.kuali.ole.ncip.service.CirculationRestService;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
+import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +33,20 @@ public class BatchRestController {
     @Autowired
     private BatchBibFileProcessor batchBibFileProcessor;
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
-    void UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName, HttpServletRequest request) throws IOException {
+    public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName, HttpServletRequest request) throws IOException, JSONException {
+        JSONObject jsonObject = new JSONObject();
         if (null != file && StringUtils.isNotBlank(profileName)) {
             String rawContent = IOUtils.toString(file.getBytes());
+            OleStopWatch oleStopWatch = new OleStopWatch();
+            oleStopWatch.start();
             batchBibFileProcessor.processBatch(rawContent, profileName);
+            oleStopWatch.end();
+            long totalTime = oleStopWatch.getTotalTime();
+            jsonObject.put("processTime",totalTime + "ms");
+            return jsonObject.toString();
         }
+        return null;
     }
 }

@@ -190,6 +190,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             // TODO : process For YBP
             processYBPProfile(record);
         }
+        getMarcRecordUtil().deleteFieldInRecord(record,"003");
     }
 
     private void processYBPProfile(Record record) {
