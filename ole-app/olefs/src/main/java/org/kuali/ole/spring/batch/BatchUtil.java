@@ -2,6 +2,8 @@ package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
@@ -75,5 +77,15 @@ public class BatchUtil {
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
+        String returnValue = null;
+        try {
+            returnValue = jsonObject.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 }

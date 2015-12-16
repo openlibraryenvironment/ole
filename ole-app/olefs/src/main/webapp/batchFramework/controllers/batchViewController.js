@@ -263,7 +263,6 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     };
 
     $scope.submit = function () {
-        angular.element(document.querySelectorAll('profileSubmit_button'))[0].disabled = true;
         $scope.submited = true;
         removeEmptyValues();
         var profile = {
