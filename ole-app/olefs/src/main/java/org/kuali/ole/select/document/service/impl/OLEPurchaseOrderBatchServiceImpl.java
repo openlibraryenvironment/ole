@@ -84,6 +84,8 @@ public class OLEPurchaseOrderBatchServiceImpl implements OLEPurchaseOrderBatchSe
     public Integer poNumber = 0;
     private FileWriter fileWriter = null;
     private OlePurchaseOrderService olePurchaseOrderService;
+    private OlePurchaseOrderDocument purchaseOrderDocument = null;
+    private String docNumber = "";
 
     private BusinessObjectService businessObjectService;
     private String fileSeparator = System.getProperty("file.separator");
@@ -257,12 +259,12 @@ public class OLEPurchaseOrderBatchServiceImpl implements OLEPurchaseOrderBatchSe
 
     public OlePurchaseOrderDocument createPurchaseOrderAmendmentDocument(Map map, String documentNumber) {
         String purapDocumentIdentifier = (String) map.get(OLEConstants.OLEPurchaseOrderBulkAmendment.PUR_AP_ID);
-        OlePurchaseOrderDocument purchaseOrderDocument = null;
         if (purapDocumentIdentifier != null) {
-            if (purchaseOrderDocument == null) {
+            if (!docNumber.equals(map.get(OLEConstants.OLEPurchaseOrderBulkAmendment.DOC_NO))) {
                 Map poMap = new HashMap();
                 poMap.put(OLEConstants.OLEPurchaseOrderBulkAmendment.PUR_AP_ID, purapDocumentIdentifier);
                 purchaseOrderDocument = getPODocumentByPrimaryKey(poMap);
+                docNumber = map.get(OLEConstants.OLEPurchaseOrderBulkAmendment.DOC_NO).toString();
             }
 
             try {
