@@ -91,7 +91,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private JSONObject processOverlay(Record marcRecord, String profileName,String query) throws JSONException {
         LOG.info("Overlay processing started");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
-        LOG.info("Solr Response  : " + results);
         if (null != results && results.size() == 1) {
             JSONObject bib = new JSONObject();
             SolrDocument solrDocument = (SolrDocument) results.get(0);
