@@ -308,6 +308,18 @@ public class WorkEInstanceOlemlEditor
         if (workEInstanceOlemlForm.getTokenId() != null && !workEInstanceOlemlForm.getTokenId().isEmpty()) {
             editorForm.setTokenId(workEInstanceOlemlForm.getTokenId());
         }
+        OleHoldings oleHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
+        if(oleHoldings!=null){
+            if(oleHoldings.getCallNumber()  == null) {
+                CallNumber callNumber = new CallNumber();
+                String callNumberDefaultValue = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.HOLDINGS_CALL_NUMBER_TYPE);
+                ShelvingScheme shelvingScheme = new ShelvingScheme();
+                shelvingScheme.setCodeValue(callNumberDefaultValue);
+                callNumber.setShelvingScheme(shelvingScheme);
+                oleHoldings.setCallNumber(callNumber);
+            }
+        }
         return workEInstanceOlemlForm;
     }
 
