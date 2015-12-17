@@ -21,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/batchProfileRestController")
-public class BatchProfileRestController extends OleNgControllerBase {
+public class BatchProfileRestController extends BatchProfileUtilController{
 
     private BatchProfileRequestHandler batchProfileRequestHandler;
 
