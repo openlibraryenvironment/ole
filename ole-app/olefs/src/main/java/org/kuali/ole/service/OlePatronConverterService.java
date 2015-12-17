@@ -1020,7 +1020,7 @@ public class OlePatronConverterService {
                 }
             }
         }
-        if (olePatronNoteList.isEmpty()) {
+        if (CollectionUtils.isEmpty(olePatronNoteList)) {
             notesFlag = true;
         }
         return notesFlag;
