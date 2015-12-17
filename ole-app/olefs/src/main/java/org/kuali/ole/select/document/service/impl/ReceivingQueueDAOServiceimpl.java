@@ -18,10 +18,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by premkb on 9/7/15.
@@ -71,7 +68,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             queryCriteriaString="AND POITM.OLE_DOCUMENT_UUID IN ('"+criteria.get("bibIds").toString()+"') ";
         }
         if(criteriaString.equals("purchaseOrderNumber")&&criteria.get("purchaseOrderNumber")!=null){
-            queryCriteriaString="AND PO.PO_ID='"+criteria.get("purchaseOrderNumber").toString()+"' ";
+            queryCriteriaString="AND PO.PO_ID IN ('"+criteria.get("purchaseOrderNumber").toString().replaceAll(",","','")+"') ";
         }
         if(criteriaString.equals("purchaseOrderStatus")&&criteria.get("purchaseOrderStatus")!=null){
             queryCriteriaString="AND DHR.APP_DOC_STAT='"+criteria.get("purchaseOrderStatus").toString()+"' ";
@@ -137,6 +134,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             olePurchaseOrderItem.setItemIdentifier(Integer.parseInt(resultSet.get("PO_ITM_ID").toString()));
             if (resultSet.get("BIBID")!=null) {//For EResoruce bibid will be null
                 olePurchaseOrderItem.setItemTitleId(resultSet.get("BIBID").toString());
+                olePurchaseOrderItem.setBibUUID(resultSet.get("BIBID").toString());
             }
             if (resultSet.get("TITLE")!=null) {
                 DocData docData=new DocData();
