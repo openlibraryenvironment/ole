@@ -4782,6 +4782,29 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return valid;
     }
 
+    public OleDeliverRequestBo processRequestExpirationDate(OleDeliverRequestBo oleDeliverRequestBo){
+        if(oleDeliverRequestBo.getRequestExpiryDate()==null){
+            Map<String,String> locationMap = new HashMap<String,String>();
+            locationMap.put("locationCode",oleDeliverRequestBo.getShelvingLocation());
+            List<OleLocation> oleLocationBos = (List<OleLocation>)KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class,locationMap);
+            if(oleLocationBos!=null && oleLocationBos.size()>0){
+                Map<String,String> circulationDeskLocationMap = new HashMap<String,String>();
+                circulationDeskLocationMap.put("circulationDeskLocation",oleLocationBos.get(0).getLocationId());
+                List<OleCirculationDeskLocation> oleCirculationDeskLocationList = (List<OleCirculationDeskLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCirculationDeskLocation.class,circulationDeskLocationMap);
+                if(oleCirculationDeskLocationList!=null && oleCirculationDeskLocationList.size()>0){
+                    for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList){
+                        if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation() !=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())) {
+                            String requestExpirationDays= oleCirculationDeskLocation.getOleCirculationDesk().getRequestExpirationDays();
+                            if(requestExpirationDays!=null && !requestExpirationDays.equalsIgnoreCase("0")){
+                                oleDeliverRequestBo.setRequestExpiryDate(addDate(new java.sql.Date(System.currentTimeMillis()), Integer.parseInt(requestExpirationDays)));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return oleDeliverRequestBo;
+    }
 }
 
 
