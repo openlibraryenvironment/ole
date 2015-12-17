@@ -8,8 +8,13 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.describe.bo.OleLocation;
+import org.kuali.ole.describe.bo.OleShelvingScheme;
 import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.spring.batch.BatchUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
@@ -17,7 +22,9 @@ import java.util.*;
 /**
  * Created by rajeshbabuk on 12/10/15.
  */
-public class BatchProfileRequestHandler extends BatchUtil {
+@Service("batchProfileRequestHandler")
+public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
+
 
     public BatchProcessProfile convertJsonToProfile(String profileJsonString) throws JSONException, IOException {
         getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
@@ -38,6 +45,7 @@ public class BatchProfileRequestHandler extends BatchUtil {
                 BatchProcessProfile batchProcessProfile = iterator.next();
                 JSONObject profile = new JSONObject();
                 profile.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                profile.put("profileId",batchProcessProfile.getBatchProcessProfileId());
                 profile.put("content", IOUtils.toString(batchProcessProfile.getContent()));
                 jsonArray.put(profile);
             }
@@ -45,13 +53,18 @@ public class BatchProfileRequestHandler extends BatchUtil {
         return jsonArray.toString();
     }
 
-    private List<BatchProcessProfile> getBatchProcessProfiles(String profileName) {
-        if(org.apache.commons.lang3.StringUtils.isNotBlank(profileName)){
-            Map map = new HashedMap();
-            map.put("batchProcessProfileName",profileName);
-            return (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, map);
-        } else {
-            return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
+    public String prepareProfileForEdit(String requestContent) throws JSONException, IOException {
+        JSONObject requestObject = new JSONObject(requestContent);
+        String profileId = null;
+        if(requestObject.has("profileId")){
+           profileId =  getStringValueFromJsonObject(requestObject, "profileId");
         }
+        BatchProcessProfile matching = getBatchProcessProfileById(Long.parseLong(profileId));
+        if(null != matching){
+            JSONObject jsonObject = new JSONObject(IOUtils.toString(matching.getContent()));
+            jsonObject.put("profileId",profileId);
+            return jsonObject.toString();
+        }
+        return null;
     }
 }

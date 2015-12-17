@@ -1,11 +1,19 @@
 package org.kuali.ole.oleng.handler;
 
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
+import org.kuali.ole.describe.bo.OleShelvingScheme;
 import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -1301,5 +1309,22 @@ public class BatchProfileRequestHandlerTest_IT {
         BatchProcessProfile batchProcessProfile = objectMapper.readValue(jsonString, BatchProcessProfile.class);
         assertNotNull(batchProcessProfile);
         System.out.println(batchProcessProfile);
+    }
+
+    @Test
+    public void tesPrepareAllCallNumberTypes() throws IOException {
+        List<OleShelvingScheme> oleShelvingSchemes = new ArrayList<>();
+
+        OleShelvingScheme oleShelvingScheme = new OleShelvingScheme();
+        oleShelvingScheme.setShelvingSchemeCode("code");
+        oleShelvingScheme.setShelvingSchemeName("name");
+        oleShelvingSchemes.add(oleShelvingScheme);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.getSerializationConfig().addMixInAnnotations(OleShelvingScheme.class, PersistableBusinessObjectBase.class);
+        objectMapper.setVisibilityChecker(objectMapper.getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+        String jsonString = objectMapper.defaultPrettyPrintingWriter().writeValueAsString(oleShelvingSchemes);
+        assertNotNull(jsonString);
+        System.out.println(jsonString);
     }
 }
