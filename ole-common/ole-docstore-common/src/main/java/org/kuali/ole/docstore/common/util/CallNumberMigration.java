@@ -101,9 +101,10 @@ public class CallNumberMigration {
                     LOG.error("Exception while updating into OLE_DS_HOLDINGS_T, Holdings Id = " + holdingsId + " callNumber = " + callNumber + " : ", e1);
 
                 }
+                updateConnection.commit();
             }
         }
-        updateConnection.commit();
+
         stopWatch.stop();
         LOG.debug("Total Time taken " + count + " - for Holdings ::" + stopWatch.getTotalTimeMillis());
     }
@@ -134,9 +135,9 @@ public class CallNumberMigration {
                     LOG.error("Exception while updating into OLE_DS_ITEM_T, Item Id = " + itemId + " callNumber = " + callNumber + " : ", e1);
 
                 }
+                updateConnection.commit();
             }
         }
-        updateConnection.commit();
         stopWatch.stop();
         LOG.debug("Total Time taken "+count+" - for Item ::" +stopWatch.getTotalTimeMillis());
     }
