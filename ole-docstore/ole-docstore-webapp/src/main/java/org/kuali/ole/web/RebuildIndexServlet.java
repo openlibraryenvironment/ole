@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.util.CallNumberMigration;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.process.RebuildIndexesHandler;
 import org.kuali.ole.logger.DocStoreLogger;
@@ -85,6 +86,14 @@ public class RebuildIndexServlet extends HttpServlet {
             } else if (action.equalsIgnoreCase("store")) {
                 String result = rebuildIndexesHandler.storeBibInfo(batchSize);
                 outputMessage(resp, result);
+            }else if (action.equalsIgnoreCase("shelfKey")) {
+                CallNumberMigration callNumberMigration = new CallNumberMigration();
+                callNumberMigration.init();
+                callNumberMigration.getHoldingsDetails();
+                callNumberMigration.calculateAndUpdateHoldingsShelvingOrder();
+                callNumberMigration.getItemDetails();
+                callNumberMigration.calculateAndUpdateItemShelvingOrder();
+                callNumberMigration.closeConnections();
             } else {
                 String result = "Invalid action :" + action;
                 outputMessage(resp, result);
