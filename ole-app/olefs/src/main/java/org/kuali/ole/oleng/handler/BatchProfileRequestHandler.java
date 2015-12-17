@@ -38,11 +38,27 @@ public class BatchProfileRequestHandler extends BatchUtil {
                 BatchProcessProfile batchProcessProfile = iterator.next();
                 JSONObject profile = new JSONObject();
                 profile.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                profile.put("profileId",batchProcessProfile.getBatchProcessProfileId());
                 profile.put("content", IOUtils.toString(batchProcessProfile.getContent()));
                 jsonArray.put(profile);
             }
         }
         return jsonArray.toString();
+    }
+
+    public String prepareProfileForEdit(String requestContent) throws JSONException, IOException {
+        JSONObject requestObject = new JSONObject(requestContent);
+        String profileId = null;
+        if(requestObject.has("profileId")){
+           profileId =  getStringValueFromJsonObject(requestObject, "profileId");
+        }
+        BatchProcessProfile matching = getBatchProcessProfileById(Long.parseLong(profileId));
+        if(null != matching){
+            JSONObject jsonObject = new JSONObject(IOUtils.toString(matching.getContent()));
+            jsonObject.put("profileId",profileId);
+            return jsonObject.toString();
+        }
+        return null;
     }
 
     private List<BatchProcessProfile> getBatchProcessProfiles(String profileName) {
@@ -53,5 +69,11 @@ public class BatchProfileRequestHandler extends BatchUtil {
         } else {
             return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
         }
+    }
+
+    public BatchProcessProfile getBatchProcessProfileById(Long profileId) {
+        Map map = new HashedMap();
+        map.put("batchProcessProfileId",profileId);
+        return getBusinessObjectService().findByPrimaryKey(BatchProcessProfile.class, map);
     }
 }

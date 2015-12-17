@@ -266,6 +266,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         $scope.submited = true;
         removeEmptyValues();
         var profile = {
+            "profileId": $scope.mainSectionPanel.profileId,
             "profileName": $scope.mainSectionPanel.profileName,
             "description": $scope.mainSectionPanel.profileDescription,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
@@ -281,6 +282,31 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             });
     };
 
+    $scope.init = function () {
+        //JSON.stringify(vars)
+        var urlVars = getUrlVars();
+        var profileId = urlVars['profileId'];
+        if(profileId !== null && profileId !== undefined && profileId !== ''){
+            var data = {};
+            data["profileId"] = profileId;
+            $http.post("/olefs/batchProfile/batchProfileRestController/edit", JSON.stringify(data))
+                .success(function (data) {
+                    $scope.profile = data;
+                    $scope.mainSectionPanel.profileId = data.profileId;
+                    $scope.mainSectionPanel.profileName = data.profileName;
+                    $scope.mainSectionPanel.profileDescription = data.profileName;
+                    $scope.matchPointsPanel = data.batchProfileMatchPointList;
+                    $scope.addOrOverlayPanel = data.batchProfileAddOrOverlayList;
+                    $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
+                    $scope.dataMappingsPanel = data.batchProfileDataMappingList;
+                    $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
+
+                    //addEmptyValueToAddNew();
+
+                });
+        }
+    };
+
     $scope.cancel = function () {
         window.location = '/olefs/portal.jsp';
     };
@@ -291,6 +317,54 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
+    }
+
+    var addEmptyValueToAddNew = function(){
+        //MatchPoint
+        $scope.matchPointsPanel[0].matchPointDocType = 'bibliographic';
+        $scope.matchPointsPanel[0].matchPointValue = null;
+
+        //AddOverlay
+        $scope.addOrOverlayPanel[0].matchOption = 'doMatch';
+        $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'bibliographic';
+        $scope.addOrOverlayPanel[0].operation = 'add';
+
+        //FieldOperation
+        $scope.fieldOperationsPanel[0].fieldOperationType = 'global';
+        $scope.fieldOperationsPanel[0].dataField = null;
+        $scope.fieldOperationsPanel[0].ind1 = null;
+        $scope.fieldOperationsPanel[0].ind2 = null;
+        $scope.fieldOperationsPanel[0].subField = null;
+
+
+        //DataMapping
+        $scope.dataMappingsPanel[0].dataMappingDocType = 'bibliographic';
+        $scope.dataMappingsPanel[0].dataField = null;
+        $scope.dataMappingsPanel[0].ind1 = null;
+        $scope.dataMappingsPanel[0].ind2 = null;
+        $scope.dataMappingsPanel[0].subField = null;
+        $scope.dataMappingsPanel[0].destination = null;
+        $scope.dataMappingsPanel[0].field = null;
+
+        //Transfermation
+        $scope.dataTransformationsPanel[0].dataTransformationDocType = 'bibliographic';
+        $scope.dataTransformationsPanel[0].dataField = null;
+        $scope.dataTransformationsPanel[0].ind1 = null;
+        $scope.dataTransformationsPanel[0].ind2 = null;
+        $scope.dataTransformationsPanel[0].subField = null;
+        $scope.dataTransformationsPanel[0].transformer = 'regex';
+        $scope.dataTransformationsPanel[0].expression = null;
+    }
+
+    var getUrlVars = function(){
+        var vars = {}, hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
     }
 
 

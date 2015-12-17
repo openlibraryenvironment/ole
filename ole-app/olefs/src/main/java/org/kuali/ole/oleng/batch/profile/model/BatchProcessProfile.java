@@ -14,6 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
+    @JsonProperty("profileId")
     private long batchProcessProfileId;
 
     @JsonProperty("profileName")
