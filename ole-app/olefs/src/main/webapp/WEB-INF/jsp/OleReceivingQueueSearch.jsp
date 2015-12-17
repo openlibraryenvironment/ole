@@ -228,15 +228,15 @@ function setAllReceivingQueueResults(checked) {
                                                               </a>
                  <input type="hidden" class="poclass" value="${result.itemIdentifier}" style="display:none">
                  <input type="hidden" class="titleClass" value="${result.docData.itemTitle}" style="display:none">
-                 <input type="hidden" class="vendorClass" value="${result.purchaseOrder.vendorName}" style="display:none">
+                 <input type="hidden" class="vendorClass" value="${result.olePurchaseOrderDocument.vendorName}" style="display:none">
              </display:column>
 <%--             <display:column property="purchaseOrder.vendorName" sortable="true"
                              title="Vendor Name" >--%>
                                                           <display:column property="olePurchaseOrderDocument.vendorName" sortable="true"
                                                                           title="Vendor Name" >
-                 <c:set var="bibEditorUrl" value="${result.purchaseOrder.bibeditorViewURL}?docAction=checkOut" />
-                 <c:set var="bibUUID" value="${KualiForm.document.purchaseOrderItems[counter].bibUUID}" />
-                 <c:set var="title" value="${result.purchaseOrder.items[0].itemDescription}" />
+                 <c:set var="bibEditorUrl" value="${result.olePurchaseOrderDocument.bibeditorViewURL}?docAction=checkOut" />
+                 <c:set var="bibUUID" value="${result.olePurchaseOrderDocument.items[0].bibUUID}" />
+                 <c:set var="title" value="${result.olePurchaseOrderDocument.items[0].itemDescription}" />
                  <c:set var="bibDetails" value="${fn:split(title,',')}"/>
                  <c:set var="docId" value="${fn:split(bibUUID,'-')}"/>
              </display:column>

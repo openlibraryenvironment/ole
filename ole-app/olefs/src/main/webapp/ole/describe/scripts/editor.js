@@ -585,18 +585,6 @@ function itemClickableLink(){
     }
 }
 
-function holdingsClickableLink(id) {
-    var field ="OleAccessInformationField_line";
-    var control = "_control";
-    var field = '#'.concat(field).concat(id).concat(control);
-    var link = jq(field).val();
-    if(link == null || link ==""){
-    }else{
-        if(validateUrl(link)==true){
-            window.open(link);
-        }
-    }
-}
 
 function getApplicationPath() {
     var loc = window.location;
@@ -655,6 +643,67 @@ function bibClickableLink_edit(id) {
     jq(field).prepend(jq(htmlText));
     jq(function() {
         jq( "#hiddenDialog" ).dialog();
+    });
+}
+
+function eInstanceClickableLink(id) {
+    var field ="OleEinstance-linkURL-editable_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).val();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"EHolding Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog({
+            position:['middle',400]
+        });
+    });
+}
+
+function holdingsClickableLink(id) {
+    var field ="OleAccessInformationField_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).val();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"Holding Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog({
+            position:['middle',700]
+        });
+    });
+}
+
+
+function eInstancelocalPersistentClickableLink() {
+    var field ="OleEinstance_localPersistentLink_id";
+    var control = "_control";
+    var field = '#'.concat(field).concat(control);
+    var link = jq(field).val();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"EHolding Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog({
+            position:['middle',500]
+        });
+    });
+}
+
+function eInstanceAdminClickableLink() {
+    var field ="OleEinstance-adminUrl";
+    var control = "_control";
+    var field = '#'.concat(field).concat(control);
+    var link = jq(field).val();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"EHolding Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog({
+            position:['middle',500]
+        });
     });
 }
 
@@ -1612,38 +1661,6 @@ function statisticalCode(id){
     jq('#hiddenStatisticalCode_control').val("true");
 }
 
-function eInstanceAdminClickableLink(){ var link ;
-    link = jq('#OleEinstance-adminUrl_control').val();
-    if(link == null || link ==""){
-    }else{
-        if(validateUrl(link)==true){
-            window.open(link);
-        }
-    }
-
-}
-function eInstancelocalPersistentClickableLink() {
-    var link;
-    link = jq('#OleEinstance_localPersistentLink_id_control').val();
-    if (link == null || link == "") {
-    } else {
-        if (validateUrl(link) == true) {
-            window.open(link);
-        }
-    }
-}
-function eInstanceClickableLink(id){
-    var field ="OleEinstance-linkURL-editable_line";
-    var control = "_control";
-    var field = '#'.concat(field).concat(id).concat(control);
-    var link = jq(field).val();
-    if(link == null || link ==""){
-    }else{
-        if(validateUrl(link)==true){
-            window.open(link);
-        }
-    }
-}
 function focusOnTag(index) {
     jq("#dataField_tag_id_line" + (index + 1) + "_control").focus();
 

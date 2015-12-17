@@ -128,7 +128,7 @@ public class PatronBillController extends UifControllerBase {
         /*for (PatronBillPayment patronBillPayment : patronBillPayments) {
             feeTypes.addAll(patronBillPayment.getFeeType());
         }*/
-        List<FeeType> feeTypeList = patronBillHelperService.getFeeTypeList(patronBillPayments);
+        List<FeeType> feeTypeList = patronBillHelperService.getFeeTypeList(patronBillForm.getPatronBillPaymentList());
 
         //patronBillForm.setPatronBillPaymentList(patronBillPayments);
         patronBillForm.setFeeTypes(feeTypeList);
