@@ -20,6 +20,7 @@ public class FeeType extends PersistableBusinessObjectBase {
     private String feeType;
     private KualiDecimal feeAmount;
     private String billNumber;
+    private Integer viewBillNumber;
     private OleFeeType oleFeeType;
     private PatronBillPayment patronBillPayment;
     private String itemBarcode;
@@ -350,5 +351,13 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setLastTransactionDate(Timestamp lastTransactionDate) {
         this.lastTransactionDate = lastTransactionDate;
+    }
+
+    public Integer getViewBillNumber() {
+        return Integer.parseInt(this.getBillNumber());
+    }
+
+    public void setViewBillNumber(Integer viewBillNumber) {
+        this.viewBillNumber = viewBillNumber;
     }
 }
