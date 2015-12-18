@@ -390,6 +390,20 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 if (itemData.isItemDamagedStatus()) {
                     addItemDamagedHistory(itemData, user);
                 }
+                List<DonorInfo> donorInfos = itemData.getDonorInfo();
+                if(donorInfos.size() > 0) {
+                for (DonorInfo donorInformation : donorInfos) {
+                    if (null != donorInformation.getDonorNote()) {
+                        String modifiedValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                        donorInformation.setDonorNote(modifiedValue);
+                    }
+                    if (null != donorInformation.getDonorPublicDisplay()) {
+                        String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                        donorInformation.setDonorPublicDisplay(modifiedValue);
+                    }
+                }
+                itemData.setDonorInfo(donorInfos);
+                }
                 try {
                     org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
                     ItemOlemlRecordProcessor itemOlemlRecordProcessor1 = new ItemOlemlRecordProcessor();

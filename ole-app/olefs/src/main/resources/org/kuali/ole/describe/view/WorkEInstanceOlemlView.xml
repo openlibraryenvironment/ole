@@ -1101,7 +1101,8 @@
                 <bean id="OleEinstance-adminUrl" parent="Uif-InputField"
                       p:propertyName="documentForm.selectedEHoldings.platform.adminUrl"  p:render="@{editable eq 'true'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+                        <bean id="oleEinstance_adminURI_len_id" parent="Uif-TextAreaControl"
+                              p:maxLength="400" p:rows="1" p:cols="20"/>
                     </property>
                 </bean>
                 <bean id="adminClickableLink" parent="Uif-ActionLink" p:actionScript="eInstanceAdminClickableLink();" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>

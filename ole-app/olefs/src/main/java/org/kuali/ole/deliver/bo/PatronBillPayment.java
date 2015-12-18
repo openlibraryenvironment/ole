@@ -22,6 +22,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     private KualiDecimal totalAmount;
     private String billNumber;
+    private Integer viewBillNumber;
     private Date billDate;
     private FeeType patronFeeType;
     private String patronId;
@@ -535,5 +536,13 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setLastTransactionDate(Timestamp lastTransactionDate) {
         this.lastTransactionDate = lastTransactionDate;
+    }
+
+    public Integer getViewBillNumber() {
+        return Integer.parseInt(this.getBillNumber());
+    }
+
+    public void setViewBillNumber(Integer viewBillNumber) {
+        this.viewBillNumber = viewBillNumber;
     }
 }

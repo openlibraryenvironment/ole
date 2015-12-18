@@ -266,6 +266,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             fireRules(facts, null, "checkin-validation-for-no-loan");
 
             if (null != oleItemRecordForCirc.getItemStatusToBeUpdatedTo()) {
+                saveMissingPieceNote(oleForm);
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 if (oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.RECENTLY_RETURNED)) {
                     updateRecentlyReturnedTable = true;
@@ -529,7 +530,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private void handleMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
-        if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched")){
+        if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched") && loanDocument!=null){
             CheckinForm checkinForm = (CheckinForm)oleForm;
             populateLoanDocumentForMissingPiece(oleForm, loanDocument, oleItemSearch, checkinForm);
             ExecutorService executorService = Executors.newFixedThreadPool(1);
