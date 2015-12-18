@@ -1,9 +1,6 @@
 function openLightboxOnLoad(dialogId) {
     showLightboxComponent(dialogId, {closeBtn:false});
     jQuery('.uif-dialogButtons').button();
-    if(dialogId == 'checkinMissingPieceDialog'){
-        document.getElementById('checkinMissingPieceDialog').style='height:180px;overflow-y:scroll';
-    }
 }
 
 function openLightboxOnLoadWithOverrideParameters(dialogId,overrideParameters) {
