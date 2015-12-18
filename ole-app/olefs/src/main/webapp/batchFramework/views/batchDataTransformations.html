@@ -4,7 +4,8 @@
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
                 <a bs-collapse-toggle ng-click="toggle(dataTransformationsPanel)">
-                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !dataTransformationsPanel.collapsed, 'glyphicon-chevron-down': dataTransformationsPanel.collapsed}"></span>
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !dataTransformationsPanel.collapsed, 'glyphicon-chevron-down': dataTransformationsPanel.collapsed}"></span>
                     Data Transformations
                 </a>
             </h4>
@@ -29,49 +30,71 @@
                         <td>
                             <select name="dataTransformationDocumentType_{{$index}}"
                                     id="dataTransformationDocumentType_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationDocType">
-                                <option ng-selected="{{option.id == dataTransformation.dataTransformationDocType}}" ng-repeat="option in dataTransformation.dataTransformationDocTypes"
-                                        value="{{option.id}}">{{option.name}}
+                                    ng-model="dataTransformation.dataTransformationDocType"
+                                    ng-hide="dataTransformation.isAddLine">
+                                <option ng-selected="{{option.name == dataTransformation.dataTransformationDocType}}"
+                                        ng-repeat="option in dataTransformation.dataTransformationDocTypes"
+                                        value="{{option.name}}">{{option.name}}
                                 </option>
-                            </select></td>
+                            </select>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationDocType"></span>
+                        </td>
                         <td>
                             <input id="dataTransformationDataField_{{$index}}"
                                    name="dataTransformationDataField_{{$index}}" type="text"
-                                   ng-model="dataTransformation.dataField" style="height: 30px; width: 100px;"/></td>
+                                   ng-model="dataTransformation.dataField" style="height: 30px; width: 100px;"
+                                   ng-hide="dataTransformation.isAddLine"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.dataField"></span>
+                        </td>
                         <td>
                             <input id="dataTransformationInd1_{{$index}}" name="dataTransformationInd1_{{$index}}"
                                    type="text" ng-model="dataTransformation.ind1"
-                                   style="height: 30px; width: 50px;"/></td>
+                                   style="height: 30px; width: 50px;" ng-hide="dataTransformation.isAddLine"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.ind1"></span>
+                        </td>
                         <td>
                             <input id="dataTransformationInd2_{{$index}}" name="dataTransformationInd2_{{$index}}"
                                    type="text" ng-model="dataTransformation.ind2"
-                                   style="height: 30px; width: 50px;"/></td>
+                                   style="height: 30px; width: 50px;" ng-hide="dataTransformation.isAddLine"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.ind2"></span>
+                        </td>
                         <td>
                             <input id="dataTransformationSubField_{{$index}}"
                                    name="dataTransformationSubField_{{$index}}" type="text"
                                    ng-model="dataTransformation.subField"
-                                   style="height: 30px; width: 50px;"/></td>
+                                   style="height: 30px; width: 50px;" ng-hide="dataTransformation.isAddLine"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.subField"></span>
+                        </td>
                         <td>
                             <select name="dataTransformationTransformer_{{$index}}"
                                     id="dataTransformationTransformer_{{$index}}"
-                                    ng-model="dataTransformation.transformer">
-                                <option ng-selected="{{option.id == dataTransformation.transformer}}" ng-repeat="option in dataTransformation.transformers" value="{{option.id}}">
+                                    ng-model="dataTransformation.transformer" ng-hide="dataTransformation.isAddLine">
+                                <option ng-selected="{{option.name == dataTransformation.transformer}}"
+                                        ng-repeat="option in dataTransformation.transformers" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
-                            </select></td>
+                            </select>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.transformer"></span>
+                        </td>
                         <td>
                             <input id="dataTransformationExpression_{{$index}}"
                                    name="dataTransformationExpression_{{$index}}" type="text"
-                                   ng-model="dataTransformation.expression" style="height: 30px; width: 50px;"/>
+                                   ng-model="dataTransformation.expression" style="height: 30px; width: 50px;"
+                                   ng-hide="dataTransformation.isAddLine"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.expression"></span>
                         </td>
                         <td>
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
-                                    ng-click="dataTransformationAdd(fieldOperation)" ng-show="!dataTransformation.showRemove">Add
+                                    ng-click="dataTransformationAdd(fieldOperation)"
+                                    ng-hide="dataTransformation.isAddLine">Add
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
-                                    ng-click="dataTransformationRemove(fieldOperation)" ng-show="dataTransformation.showRemove">Remove
+                                    ng-click="dataTransformationRemove(fieldOperation)"
+                                    ng-show="dataTransformation.isAddLine && !submitted">Remove
                             </button>
                         </td>
                     </tr>

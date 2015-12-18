@@ -4,20 +4,24 @@
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
                 <a bs-collapse-toggle ng-click="toggle(mainSectionPanel)">
-                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': mainSectionPanel.collapsed, 'glyphicon-chevron-down': !mainSectionPanel.collapsed}"></span>
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': mainSectionPanel.collapsed, 'glyphicon-chevron-down': !mainSectionPanel.collapsed}"></span>
                     Main Section
                 </a>
             </h4>
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <input type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId" ng-model="mainSectionPanel.profileId">
+                <input type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId"
+                       ng-model="mainSectionPanel[0].profileId">
                 <span class="col-sm-6">Batch Profile Name:
                 <input id="profileName" name="profileName" type="text"
-                       ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"/></span>
+                       ng-model="mainSectionPanel[0].profileName" style="height: 30px; width: 150px;"
+                       ng-disabled="submitted"/></span>
                 <span class="col-sm-6">Description:
                 <input id="profileDescription" name="profileDescription" type="text"
-                       ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"/></span>
+                       ng-model="mainSectionPanel[0].profileDescription" style="height: 30px; width: 150px;"
+                       ng-disabled="submitted"/></span>
             </div>
         </div>
     </div>
