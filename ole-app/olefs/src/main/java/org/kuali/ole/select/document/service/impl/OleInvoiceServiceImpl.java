@@ -2873,6 +2873,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
     public void  calculateProrateForPOLevel(OleInvoiceDocument inv) {
         List<Integer> poIdList = new ArrayList<>();
+        BigDecimal totalUnitPrice = BigDecimal.ZERO;
         int noOfCopies = 0;
         for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
             if(item.getItemTypeCode().equals(OLEConstants.ITEM)){
@@ -2895,11 +2896,12 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                         OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) ObjectUtils.deepCopy(item);
                         int copies = Integer.parseInt((String) ((OleInvoiceItem) inv.getItems().get(i)).getOleCopiesOrdered());
                         if((invoiceItemsize-1) == i) {
-                            oleInvoiceItem.setItemUnitPrice(totalItemUnitPrice.subtract(itemUnitPrice).multiply(new BigDecimal(copies)));
+                            oleInvoiceItem.setItemUnitPrice(totalItemUnitPrice.subtract(totalUnitPrice).multiply(new BigDecimal(copies)));
 
                         }else {
                             oleInvoiceItem.setItemUnitPrice(itemUnitPrice.multiply(new BigDecimal(copies)));
                         }
+                        totalUnitPrice = totalUnitPrice.add(oleInvoiceItem.getItemUnitPrice());
                         oleInvoiceItem.setPurchaseOrderIdentifier(poIdList.get(i));
                         List<SourceAccountingLine> sourceAccountingLines = (List) ((OleInvoiceItem) inv.getItems().get(i)).getSourceAccountingLines();
                         List<PurApAccountingLine> sourceAccountingLineList = updateAccountingLinesForProrate(sourceAccountingLines, itemUnitPrice.multiply(new BigDecimal(copies)), InvoiceAccount.class,i,invoiceItemsize,totalItemUnitPrice);
@@ -2914,10 +2916,11 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                         String listPrice = (String)((OleInvoiceItem) inv.getItems().get(i)).getListPrice();
                         itemUnitPrice = (totalAmount.bigDecimalValue().multiply(item.getItemUnitPrice())).divide(new BigDecimal(inv.getItemTotal()),2,RoundingMode.HALF_UP);
                         if((invoiceItemsize-1) == i) {
-                            oleInvoiceItem.setItemUnitPrice(totalItemUnitPrice.subtract(itemUnitPrice));
+                            oleInvoiceItem.setItemUnitPrice(totalItemUnitPrice.subtract(totalUnitPrice));
                         } else {
                             oleInvoiceItem.setItemUnitPrice(itemUnitPrice);
                         }
+                        totalUnitPrice = totalUnitPrice.add(oleInvoiceItem.getItemUnitPrice());
                         oleInvoiceItem.setPurchaseOrderIdentifier(poIdList.get(i));
                         List<SourceAccountingLine> sourceAccountingLines = (List) ((OleInvoiceItem) inv.getItems().get(i)).getSourceAccountingLines();
                         List<PurApAccountingLine> sourceAccountingLineList = updateAccountingLinesForProrate(sourceAccountingLines, itemUnitPrice, InvoiceAccount.class,i,invoiceItemsize,totalItemUnitPrice);
