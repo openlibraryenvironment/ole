@@ -14,6 +14,7 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
@@ -519,5 +520,14 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         return super.save(form,result,request,response);
     }
 
+    protected ModelAndView showDialogAndRunCustomScript(String dialogId,UifFormBase form, String customScript) {
+        form.setLightboxScript("openLightboxOnLoad('" + dialogId + "');"+ (org.apache.commons.lang3.StringUtils.isNotBlank(customScript) ? customScript + ";" : ""));
+        form.getDialogManager().addDialog(dialogId, form.getMethodToCall());
+        if (form.isAjaxRequest()) {
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEDIALOG.getKey());
+            form.setUpdateComponentId(dialogId);
+        }
+        return getUIFModelAndView(form);
+    }
 
 }

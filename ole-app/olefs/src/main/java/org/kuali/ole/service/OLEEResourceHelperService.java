@@ -2339,4 +2339,15 @@ public class OLEEResourceHelperService {
         }
         return oleeResourceEventLogs;
     }
+
+    public void getLinkedPOs(List<OLEEResourcePO> oleeResourcePOList, OLEEResourceRecordDocument oleeResourceRecordDocument) {
+        Map map = new HashMap();
+        map.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER,oleeResourceRecordDocument.getOleERSIdentifier());
+        List<OleCopy> copies = (List<OleCopy>) getBusinessObjectService().findMatching(OleCopy.class, map);
+        for (OleCopy copy : copies) {
+            if (copy.getPoItemId() != null && StringUtils.isBlank(copy.getInstanceId())) {
+                oleeResourceSearchService.getPOFromCopy(oleeResourceRecordDocument.getTitle(), copy, oleeResourcePOList);
+            }
+        }
+    }
 }
