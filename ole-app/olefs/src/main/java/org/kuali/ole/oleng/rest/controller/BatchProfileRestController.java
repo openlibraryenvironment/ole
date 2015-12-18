@@ -32,7 +32,12 @@ public class BatchProfileRestController extends BatchProfileUtilController{
         try {
             batchProcessProfile = getBatchProfileRequestHandler().convertJsonToProfile(requestBody);
             BatchProcessProfile matching = getBatchProfileRequestHandler().getBatchProcessProfileById(batchProcessProfile.getBatchProcessProfileId());
-            if(null != matching){
+            if (null == matching) {
+                batchProcessProfile.setContent(requestBody.getBytes());
+                getBusinessObjectService().save(batchProcessProfile);
+            } else {
+                matching.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
+                matching.setDescription(batchProcessProfile.getDescription());
                 matching.setContent(requestBody.getBytes());
                 getBusinessObjectService().save(matching);
             }

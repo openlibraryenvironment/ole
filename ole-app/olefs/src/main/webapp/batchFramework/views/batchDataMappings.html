@@ -29,42 +29,65 @@
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
                         <td>
                             <select name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
-                                    ng-model="dataMapping.dataMappingDocType">
-                                <option ng-selected="{{option.id == dataMapping.dataMappingDocType}}" ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.id}}">
+                                    ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.dataMappingDocType}}"
+                                        ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
-                            </select></td>
+                            </select>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataMappingDocType"></span>
+                        </td>
                         <td>
-                            <input id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}" type="text"
-                                   ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"/></td>
+                            <input id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}"
+                                   type="text"
+                                   ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"
+                                   ng-hide="dataMapping.isAddLine"/>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataField"></span>
+                        </td>
                         <td>
-                            <input id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text" ng-model="dataMapping.ind1"
-                                   style="height: 30px; width: 50px;"/></td>
+                            <input id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text"
+                                   ng-model="dataMapping.ind1"
+                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind1"></span>
+                        </td>
                         <td>
-                            <input id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text" ng-model="dataMapping.ind2"
-                                   style="height: 30px; width: 50px;"/></td>
+                            <input id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text"
+                                   ng-model="dataMapping.ind2"
+                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind2"></span>
+                        </td>
                         <td>
                             <input id="dataMappingSubField_{{$index}}" name="dataMappingSubField_{{$index}}" type="text"
                                    ng-model="dataMapping.subField"
-                                   style="height: 30px; width: 50px;"/></td>
+                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.subField"></span>
+                        </td>
                         <td>
                             <select name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
-                                    ng-model="dataMapping.destination">
-                                <option ng-selected="{{option.id == dataMapping.destination}}" ng-repeat="option in dataMapping.destinations" value="{{option.id}}">
+                                    ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.destination}}"
+                                        ng-repeat="option in dataMapping.destinations" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
-                            </select></td>
+                            </select>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.destination"></span>
+                        </td>
                         <td>
-                            <select name="dataMappingField_{{$index}}" id="dataMappingField_{{$index}}" ng-model="dataMapping.field">
-                                <option ng-selected="{{option.id == dataMapping.field}}" ng-repeat="option in dataMapping.fields" value="{{option.id}}">{{option.name}}
+                            <select name="dataMappingField_{{$index}}" id="dataMappingField_{{$index}}"
+                                    ng-model="dataMapping.field" ng-hide="dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.field}}"
+                                        ng-repeat="option in dataMapping.fields" value="{{option.name}}">{{option.name}}
                                 </option>
-                            </select></td>
+                            </select>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.field"></span>
+                        </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)" ng-show="!dataMapping.showRemove">Add
+                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine">Add
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
-                                    ng-click="dataMappingRemove(dataMapping)" ng-show="dataMapping.showRemove">Remove
+                                    ng-click="dataMappingRemove(dataMapping)"
+                                    ng-show="dataMapping.isAddLine && !submitted">Remove
                             </button>
                         </td>
                     </tr>

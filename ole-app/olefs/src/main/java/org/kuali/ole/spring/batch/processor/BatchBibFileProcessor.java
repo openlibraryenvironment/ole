@@ -69,11 +69,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private void formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint,
                                                Map<Record, List<String>> queryMap) {
         //TODO : Need to process if 001 tag
-        String field = getFieldFromMatchPoint(batchProfileMatchPoint.getMatchPoint());
+        String field = getFieldFromMatchPoint(batchProfileMatchPoint.getMatchPointValue());
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            String subField = getSubFiledFromMatchPoint(batchProfileMatchPoint.getMatchPoint());
+            String subField = getSubFiledFromMatchPoint(batchProfileMatchPoint.getMatchPointValue());
             List<Subfield> subFields = dataField.getSubfields(subField);
             for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                 Subfield subfield = subfieldIterator.next();
