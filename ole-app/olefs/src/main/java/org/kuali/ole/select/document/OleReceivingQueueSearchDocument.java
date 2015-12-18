@@ -792,10 +792,12 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             if(docDatas.size()==0){//If no title in docstore then title criteria is used to look for the title from eResource record, some item title of REQ and PO are set with eResource title
                 queryCriteriaMap.put("title", title);
             }
-            purchaseOrderItemList=getSearchResultsFromQuery(null, bibIds);
-            for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItemList){
-                if(docDataMap.get(olePurchaseOrderItem.getItemTitleId())!=null){
-                    olePurchaseOrderItem.setDocData(docDataMap.get(olePurchaseOrderItem.getItemTitleId()));
+            if(docDataMap.size()>0 || (docDataMap.size()==0 &&(this.standardNumber==null&&this.title==null))){
+                purchaseOrderItemList=getSearchResultsFromQuery(null, bibIds);
+                for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItemList){
+                    if(docDataMap.get(olePurchaseOrderItem.getItemTitleId())!=null){
+                        olePurchaseOrderItem.setDocData(docDataMap.get(olePurchaseOrderItem.getItemTitleId()));
+                    }
                 }
             }
             this.setPurchaseOrderItems(purchaseOrderItemList);
@@ -1006,7 +1008,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         Iterator bibIdIterator = bibIds.iterator();
         while(bibIdIterator.hasNext()){
             if(bibIdsString.length()>0){
-                bibIdsString.append(",").append(bibIdIterator.next());
+                bibIdsString.append("','").append(bibIdIterator.next());
             }else{
                 bibIdsString.append(bibIdIterator.next());
             }
