@@ -84,9 +84,9 @@
                             <select name="addOrOverlayBibStatus_{{$index}}" id="addOrOverlayBibStatus_{{$index}}"
                                     ng-model="addOrOverlay.bibStatus"
                                     ng-show="addOrOverlay.matchOption == 'Do Match' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && addOrOverlay.operation == 'Overlay' && !addOrOverlay.isAddLine">
-                                <option ng-selected="{{option.name == addOrOverlay.bibStatus}}"
-                                        ng-repeat="option in addOrOverlay.bibStatuses" value="{{option.name}}">
-                                    {{option.name}}
+                                <option ng-selected="{{option.bibStatusCode == addOrOverlay.bibStatus}}"
+                                        ng-repeat="option in bibStatuses" value="{{option.bibStatusCode}}">
+                                    {{option.bibStatusCode}}
                                 </option>
                             </select>
                             <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'Do Match' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && addOrOverlay.operation == 'Overlay'"

@@ -115,17 +115,9 @@ var addOperations = [
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
 
-var bibStatuses = [
-    {id: 'none', name: 'None'},
-    {id: 'cataloguing', name: 'Cataloguing'},
-    {id: 'catalogued', name: 'Catalogued'}
-];
-
 var fieldOperations = [
     {id: 'global', name: 'Globally Protected Field'},
-    {id: 'profile', name: 'Profile Protected Field'},
-    {id: 'delete', name: 'Delete Field'},
-    {id: 'rename', name: 'Rename Field'}
+    {id: 'profile', name: 'Profile Protected Field'}
 ];
 
 var fields = [
@@ -139,9 +131,91 @@ var transformers = [
     {id: '', name: ''}
 ];
 
+var actionTypes = [
+    {id: 'new', name: 'New'},
+    {id: 'overlay', name: 'Overlay'}
+];
+
+var actions = [
+    {id: 'add', name: 'Add'},
+    {id: 'update', name: 'Update'},
+    {id: 'transform', name: 'Transform'}
+];
+
+var bibFields = [
+    {id: 'bibStatus', name: 'Bib Status'},
+    {id: 'staffOnly', name: 'Staff Only'}
+];
+
+var holdingsFields = [
+    {id: 'receiptStatus', name: 'Receipt Status'},
+    {id: 'subscriptionStatus', name: 'Subscription Status'},
+    {id: 'accessStatus', name: 'Access Status'},
+    {id: 'staffOnly', name: 'Staff Only'}
+];
+
+var itemFields = [
+    {id: 'itemType', name: 'Item Type'},
+    {id: 'itemStatus', name: 'Item Status'}
+];
+
+var eHoldingsFields = [
+    {id: 'accessStatus', name: 'Access Status'},
+    {id: 'staffOnly', name: 'Staff Only'}
+];
+
+var transformationOperations = [
+    {id: 'add', name: 'Add'},
+    {id: 'delete', name: 'Delete'},
+    {id: 'replace', name: 'Replace'},
+    {id: 'join', name: 'Join'}
+];
+
+
+
 app.controller('batchProfileController', ['$scope', '$http', function($scope, $http) {
 
-    $scope.submited = false;
+    $http.get('/olefs/batchProfile/batchProfileRestController/getBibStatus').success(function(data) {
+        $scope.bibStatuses = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getCallNumberTypes').success(function(data) {
+        $scope.callNumberTypeValues = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getItemTypes').success(function(data) {
+        $scope.itemTypeValues = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getItemStatus').success(function(data) {
+        $scope.itemStatusValues = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getDonorCodes').success(function(data) {
+        $scope.donorCodes = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 1}}).success(function(data) {
+        $scope.locationLevel1Values = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 2}}).success(function(data) {
+        $scope.locationLevel2Values = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 3}}).success(function(data) {
+        $scope.locationLevel3Values = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 4}}).success(function(data) {
+        $scope.locationLevel4Values = data;
+    });
+
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 5}}).success(function(data) {
+        $scope.locationLevel5Values = data;
+    });
+
+    $scope.submitted = false;
 
     $scope.toggle = function (panel) {
         var panelTitle = panel[0].title;
@@ -192,7 +266,6 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             doNotMatchOperations: doNotMatchOperations,
             poOperations: poOperations,
             addOperations: addOperations,
-            bibStatuses: bibStatuses,
             addItems: false,
             isAddLine: false,
             collapsed: true
@@ -230,6 +303,18 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             dataTransformationDocType: 'Bibliographic',
             transformers: transformers,
             transformer: 'Regex Pattern Transformer',
+            dataTransformationActionTypes: actionTypes,
+            dataTransformationActionType: 'New',
+            dataTransformationActions: actions,
+            dataTransformationAction: 'Add',
+            dataTransformationBibFields: bibFields,
+            dataTransformationHoldingsFields: holdingsFields,
+            dataTransformationItemFields: itemFields,
+            dataTransformationEHoldingsFields: eHoldingsFields,
+            dataTransformationOperations: transformationOperations,
+            dataTransformationTransformHoldingsFields: holdingsMatchPoints,
+            dataTransformationTransformItemFields: itemMatchPoints,
+            dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
             isAddLine: false,
             collapsed: true
         }
@@ -245,11 +330,25 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     $scope.matchPointAdd = function () {
         $scope.matchPointsPanel.push({
             matchPointDocType: $scope.matchPointsPanel[0].matchPointDocType,
+            matchPointType: $scope.matchPointsPanel[0].matchPointType,
             matchPointValue: $scope.matchPointsPanel[0].matchPointValue,
+            controlField: $scope.matchPointsPanel[0].controlField,
+            dataField: $scope.matchPointsPanel[0].dataField,
+            ind1: $scope.matchPointsPanel[0].ind1,
+            ind2: $scope.matchPointsPanel[0].ind2,
+            subField: $scope.matchPointsPanel[0].subField,
+            constant: $scope.matchPointsPanel[0].constant,
             isAddLine: true
         });
         $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
+        $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
+        $scope.matchPointsPanel[0].controlField = null;
+        $scope.matchPointsPanel[0].dataField = null;
+        $scope.matchPointsPanel[0].ind1 = null;
+        $scope.matchPointsPanel[0].ind2 = null;
+        $scope.matchPointsPanel[0].subField = null;
+        $scope.matchPointsPanel[0].constant = null;
     };
 
     $scope.matchPointRemove = function (matchPoint) {
@@ -327,26 +426,58 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
     $scope.dataTransformationAdd = function () {
         $scope.dataTransformationsPanel.push({
             dataTransformationDocType: $scope.dataTransformationsPanel[0].dataTransformationDocType,
-            dataField: $scope.dataTransformationsPanel[0].dataField,
-            ind1: $scope.dataTransformationsPanel[0].ind1,
-            ind2: $scope.dataTransformationsPanel[0].ind2,
-            subField: $scope.dataTransformationsPanel[0].subField,
-            transformer: $scope.dataTransformationsPanel[0].transformer,
-            expression: $scope.dataTransformationsPanel[0].expression,
+            dataTransformationActionType: $scope.dataTransformationsPanel[0].dataTransformationActionType,
+            dataTransformationAction: $scope.dataTransformationsPanel[0].dataTransformationAction,
+            dataTransformationField: $scope.dataTransformationsPanel[0].dataTransformationField,
+            dataTransformationFieldValue: $scope.dataTransformationsPanel[0].dataTransformationFieldValue,
+            dataTransformationSourceField: $scope.dataTransformationsPanel[0].dataTransformationSourceField,
+            dataTransformationOperation: $scope.dataTransformationsPanel[0].dataTransformationOperation,
+            dataTransformationDestinationField: $scope.dataTransformationsPanel[0].dataTransformationDestinationField,
+            dataTransformationConstant: $scope.dataTransformationsPanel[0].dataTransformationConstant,
+            dataTransformationTransformField: $scope.dataTransformationsPanel[0].dataTransformationTransformField,
             isAddLine: true
         });
         $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bibliographic';
-        $scope.dataTransformationsPanel[0].dataField = null;
-        $scope.dataTransformationsPanel[0].ind1 = null;
-        $scope.dataTransformationsPanel[0].ind2 = null;
-        $scope.dataTransformationsPanel[0].subField = null;
-        $scope.dataTransformationsPanel[0].transformer = 'Regex Pattern Transformer';
-        $scope.dataTransformationsPanel[0].expression = null;
+        $scope.dataTransformationsPanel[0].dataTransformationActionType = 'New';
+        $scope.dataTransformationsPanel[0].dataTransformationAction = 'Add';
+        $scope.dataTransformationsPanel[0].dataTransformationField = null;
+        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;
+        $scope.dataTransformationsPanel[0].dataTransformationSourceField = null;
+        $scope.dataTransformationsPanel[0].dataTransformationOperation = null;
+        $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
+        $scope.dataTransformationsPanel[0].dataTransformationConstant = null;
+        $scope.dataTransformationsPanel[0].dataTransformationTransformField = null;
     };
 
     $scope.dataTransformationRemove = function (dataTransformation) {
         var index = $scope.dataTransformationsPanel.indexOf(dataTransformation);
         $scope.dataTransformationsPanel.splice(index, 1);
+    };
+
+    $scope.setDefaultsMatchPoint = function (matchPoint) {
+        if (matchPoint.matchPointDocType == 'Bibliographic') {
+            matchPoint.matchPointType = null;
+        } else {
+            matchPoint.controlField = null;
+            matchPoint.dataField = null;
+            matchPoint.ind1 = null;
+            matchPoint.ind2 = null;
+            matchPoint.subField = null;
+        }
+    };
+
+    $scope.setDefaultsDataTransformation = function (dataTransformation) {
+        dataTransformation.dataTransformationActionType = 'New';
+        dataTransformation.dataTransformationAction = 'Add';
+        dataTransformation.dataTransformationField = null;
+        dataTransformation.dataTransformationFieldValue = null;
+        dataTransformation.dataTransformationSourceField = null;
+        dataTransformation.dataTransformationOperation = null;
+        dataTransformation.dataTransformationDestinationField = null;
+    };
+
+    $scope.setDefaultsAction = function (dataTransformation) {
+        dataTransformation.dataTransformationField = null;
     };
 
     $scope.submit = function () {
@@ -421,7 +552,8 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             }
         );
 
-        $scope.addOrOverlayPanel.unshift({
+        $scope.addOrOverlayPanel.unshift(
+            {
                 title: 'Matching, Add and Overlay',
                 matchOptions: matchOptions,
                 matchOption: 'Do Match',
@@ -433,7 +565,6 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
                 doNotMatchOperations: doNotMatchOperations,
                 poOperations: poOperations,
                 addOperations: addOperations,
-                bibStatuses: bibStatuses,
                 addItems: false,
                 isAddLine: false,
                 collapsed: true
@@ -471,6 +602,18 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
                 dataTransformationDocType: 'Bibliographic',
                 transformers: transformers,
                 transformer: 'Regex Pattern Transformer',
+                dataTransformationActionTypes: actionTypes,
+                dataTransformationActionType: 'New',
+                dataTransformationActions: actions,
+                dataTransformationAction: 'Add',
+                dataTransformationBibFields: bibFields,
+                dataTransformationHoldingsFields: holdingsFields,
+                dataTransformationItemFields: itemFields,
+                dataTransformationEHoldingsFields: eHoldingsFields,
+                dataTransformationOperations: transformationOperations,
+                dataTransformationTransformHoldingsFields: holdingsMatchPoints,
+                dataTransformationTransformItemFields: itemMatchPoints,
+                dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
                 isAddLine: false,
                 collapsed: true
             }

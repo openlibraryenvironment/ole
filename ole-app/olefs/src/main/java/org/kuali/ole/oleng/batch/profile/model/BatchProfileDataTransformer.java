@@ -13,8 +13,33 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     @JsonProperty("dataTransformationDocType")
     private String dataType;
-    private String transformer;
-    private String expression;
+
+    @JsonProperty("dataTransformationActionType")
+    private String actionType;
+
+    @JsonProperty("dataTransformationAction")
+    private String action;
+
+    @JsonProperty("dataTransformationField")
+    private String field;
+
+    @JsonProperty("dataTransformationFieldValue")
+    private String fieldValue;
+
+    @JsonProperty("dataTransformationSourceField")
+    private String sourceField;
+
+    @JsonProperty("dataTransformationOperation")
+    private String operation;
+
+    @JsonProperty("dataTransformationDestinationField")
+    private String destinationField;
+
+    @JsonProperty("dataTransformationConstant")
+    private String constant;
+
+    @JsonProperty("dataTransformationTransformField")
+    private String transformField;
 
     public long getDataTransformerId() {
         return dataTransformerId;
@@ -32,19 +57,75 @@ public class BatchProfileDataTransformer extends MarcDataField {
         this.dataType = dataType;
     }
 
-    public String getTransformer() {
-        return transformer;
+    public String getActionType() {
+        return actionType;
     }
 
-    public void setTransformer(String transformer) {
-        this.transformer = transformer;
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
     }
 
-    public String getExpression() {
-        return expression;
+    public String getAction() {
+        return action;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getFieldValue() {
+        return fieldValue;
+    }
+
+    public void setFieldValue(String fieldValue) {
+        this.fieldValue = fieldValue;
+    }
+
+    public String getSourceField() {
+        return sourceField;
+    }
+
+    public void setSourceField(String sourceField) {
+        this.sourceField = sourceField;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getDestinationField() {
+        return destinationField;
+    }
+
+    public void setDestinationField(String destinationField) {
+        this.destinationField = destinationField;
+    }
+
+    public String getConstant() {
+        return constant;
+    }
+
+    public void setConstant(String constant) {
+        this.constant = constant;
+    }
+
+    public String getTransformField() {
+        return transformField;
+    }
+
+    public void setTransformField(String transformField) {
+        this.transformField = transformField;
     }
 }
