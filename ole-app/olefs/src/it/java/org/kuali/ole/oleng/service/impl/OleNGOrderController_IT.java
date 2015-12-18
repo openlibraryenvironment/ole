@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by SheikS on 12/17/2015.
  */
-public class POServiceImplTest  extends OLERestBaseTestCase {
+public class OleNGOrderController_IT extends OLERestBaseTestCase {
 
     private String URL = OLEFS_APPLICATION_URL + "/batchProfile/order/createOrder";
 
@@ -48,6 +48,7 @@ public class POServiceImplTest  extends OLERestBaseTestCase {
 
         String responseContent = sendPostRequest(URL, jsonString);
         assertTrue(org.apache.commons.lang3.StringUtils.isNotBlank(responseContent));
+        System.out.println(responseContent);
         JSONObject jsonObject = new JSONObject(responseContent);
         assertTrue(jsonObject.has("status") && jsonObject.getString("status").equalsIgnoreCase("success"));
     }
