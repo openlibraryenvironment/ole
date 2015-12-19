@@ -1,5 +1,7 @@
 package org.kuali.ole.oleng.handler;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.oleng.service.InvoiceService;
 import org.kuali.ole.oleng.service.impl.InvoiceServiceImpl;
@@ -11,6 +13,9 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SheikS on 12/18/2015.
@@ -25,14 +30,14 @@ public class InvoiceRequestHandler extends OleNgUtil {
 
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
 
-        OleInvoiceRecord oleInvoiceRecord = new OleInvoiceRecord(); // Todo : getObjectMapper().readValue(requestBody, OleInvoiceRecord.class);
-
-        OleInvoiceDocument oleInvoiceDocument = invoiceService.createInvoiceDocument(oleInvoiceRecord); // Todo: need to wire the code
+        List<OleInvoiceRecord> oleInvoiceRecords = getObjectMapper().readValue(requestBody, new TypeReference<List<OleInvoiceRecord>>(){});
+        OleInvoiceDocument oleInvoiceDocument = invoiceService.createInvoiceDocument(oleInvoiceRecords);
+        oleInvoiceDocument = invoiceService.saveInvoiceDocument(oleInvoiceDocument);
 
         JSONObject jsonObject = new JSONObject();
-        if(null != oleInvoiceDocument.getPurapDocumentIdentifier()) {
+        if(null != oleInvoiceDocument.getDocumentNumber()) {
             jsonObject.put("status","Success");
-            jsonObject.put("invoiceId",oleInvoiceDocument.getPurapDocumentIdentifier());
+            jsonObject.put("documentNumber",oleInvoiceDocument.getDocumentNumber());
             return jsonObject.toString();
         }
         jsonObject.put("status", "failure");
