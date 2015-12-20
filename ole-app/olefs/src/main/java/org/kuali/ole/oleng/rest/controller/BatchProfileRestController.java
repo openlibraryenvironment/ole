@@ -18,14 +18,11 @@ import java.util.List;
 /**
  * Created by rajeshbabuk on 12/9/15.
  */
-
-@Controller
-@RequestMapping("/batchProfileRestController")
 public class BatchProfileRestController extends BatchProfileUtilController{
 
     private BatchProfileRequestHandler batchProfileRequestHandler;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/submit", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/profile/submit", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String submitProfile(@RequestBody String requestBody) {
         BatchProcessProfile batchProcessProfile;
@@ -47,7 +44,7 @@ public class BatchProfileRestController extends BatchProfileUtilController{
         return requestBody;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/search", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/profile/search", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String searchProfile(@RequestBody String requestBody) {
         String responseString = "[]";
@@ -61,7 +58,7 @@ public class BatchProfileRestController extends BatchProfileUtilController{
         return responseString;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/edit", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/profile/edit", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String editProfile(@RequestBody String requestBody) {
         String responseString = "{}";

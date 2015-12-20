@@ -8,7 +8,7 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
 
     $scope.profiles = [];
 
-    var url = "../../batchProfile/batchProfileRestController/search";
+    var url = OLENG_CONSTANTS.PROFILE_SEARCH;
     $scope.search = function(){
         $scope.profiles = [];
         var profileName = $scope.profileName;

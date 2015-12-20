@@ -14,14 +14,12 @@ import javax.ws.rs.core.MediaType;
 /**
  * Created by SheikS on 12/18/2015.
  */
-@Controller
-@RequestMapping("/invoice")
-public class OleNGInvoiceController {
+public class OleNGInvoiceController extends OleNGOrderController {
 
     @Autowired
     private InvoiceRequestHandler invoiceRequestHandler;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createInvoice", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/invoice/createInvoice", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createInvoice(@RequestBody String requestBody) throws Exception {
         return invoiceRequestHandler.processInvoice(requestBody);
