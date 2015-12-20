@@ -81,7 +81,7 @@ public class BulkItemUpdate_IT extends OLERestBaseTestCase {
 
         bibTrees.getBibTrees().add(bibTree);
         String serialize = bibTrees.serialize(bibTrees);
-        String response = sendPostRequest(URL, serialize);
+        String response = sendPostRequest(URL, serialize,"xml");
         return response;
     }
 

@@ -1,8 +1,16 @@
 package org.kuali.ole.oleng.service.impl;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.ole.OLERestBaseTestCase;
+import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.module.purap.PurapConstants;
+import org.kuali.ole.pojo.OleBibRecord;
+import org.kuali.ole.pojo.OleOrderRecord;
+import org.kuali.ole.pojo.OleTxRecord;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -11,45 +19,52 @@ import static org.junit.Assert.assertTrue;
  */
 public class OleNGOrderController_IT extends OLERestBaseTestCase {
 
-    private String URL = OLEFS_APPLICATION_URL + "/batchProfile/order/createOrder";
+    private String URL = OLEFS_APPLICATION_URL + "/rest/acq/order/createOrder";
 
     @Test
     public void testCreatePurchaseOrderDocument() throws Exception {
-        String jsonString = "{\n" +
-                "\t\"oleBibRecord\": {\n" +
-                "\t\t\"bib\": {\n" +
-                "\t\t\t\"title\": \"Test Bib For req\",\n" +
-                "\t\t\t\"author\": \"Author\",\n" +
-                "\t\t\t\"publisher\": \"Publisher\"\n" +
-                "\t\t},\n" +
-                "\t\t\"bibUUID\": \"wbm-10362693\"\n" +
-                "\t},\n" +
-                "\t\"oleTxRecord\": {\n" +
-                "\t\t\"percent\": \"100\",\n" +
-                "\t\t\"itemType\": \"ITEM\",\n" +
-                "\t\t\"chartCode\": \"UC\",\n" +
-                "\t\t\"orgCode\": \"LIB\",\n" +
-                "\t\t\"orderType\": \"Firm, Fixed\",\n" +
-                "\t\t\"objectCode\": \"4000\",\n" +
-                "\t\t\"costSource\": \"EST\",\n" +
-                "\t\t\"listPrice\": \"100\",\n" +
-                "\t\t\"quantity\": \"1\",\n" +
-                "\t\t\"accountNumber\": \"4BIBS\",\n" +
-                "\t\t\"buildingCode\": \"JRL\",\n" +
-                "\t\t\"deliveryCampusCode\": \"UC\",\n" +
-                "\t\t\"deliveryBuildingRoomNumber\": \"170\",\n" +
-                "\t\t\"vendorNumber\": \"514-0\",\n" +
-                "\t\t\"itemChartCode\": \"UC\",\n" +
-                "\t\t\"fundingSource\": \"INST\",\n" +
-                "\t\t\"methodOfPOTransmission\": \"NO PRINT\",\n" +
-                "\t\t\"itemNoOfParts\": \"1\"\n" +
-                "\t}\n" +
-                "}";
+        String jsonString = getOrderRecordJsonString();
 
-        String responseContent = sendPostRequest(URL, jsonString);
+        String responseContent = sendPostRequest(URL, jsonString,"json");
         assertTrue(org.apache.commons.lang3.StringUtils.isNotBlank(responseContent));
         System.out.println(responseContent);
         JSONObject jsonObject = new JSONObject(responseContent);
         assertTrue(jsonObject.has("status") && jsonObject.getString("status").equalsIgnoreCase("success"));
+    }
+
+    private String getOrderRecordJsonString() throws IOException {
+        OleOrderRecord oleOrderRecord = new OleOrderRecord();
+        OleTxRecord oleTxRecord = new OleTxRecord();
+        oleTxRecord.setVendorNumber("1050");
+        oleTxRecord.setDeliveryBuildingRoomNumber("170");
+        oleTxRecord.setChartCode("UC");
+        oleTxRecord.setOrgCode("LIB");
+        oleTxRecord.setFundingSource("INST");
+        oleTxRecord.setDeliveryCampusCode("UC");
+        oleTxRecord.setBuildingCode("JRL");
+        oleTxRecord.setMethodOfPOTransmission("NO PRINT");
+        oleTxRecord.setCostSource("EST");
+        oleTxRecord.setObjectCode("4000");
+        oleTxRecord.setItemChartCode("UC");
+        oleTxRecord.setOrderType("Firm, Fixed");
+        oleTxRecord.setQuantity("1");
+        oleTxRecord.setItemNoOfParts("1");
+        oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+        oleTxRecord.setVendorNumber("514-0");
+        oleTxRecord.setListPrice("100");
+        oleTxRecord.setAccountNumber("4BIBS");
+        oleTxRecord.setPercent("100");
+        oleOrderRecord.setOleTxRecord(oleTxRecord);
+        OleBibRecord oleBibRecord = new OleBibRecord();
+        oleBibRecord.setBibUUID("wbm-10362693");
+        Bib bib = new Bib();
+        bib.setTitle("Test Bib For req");
+        bib.setAuthor("Author");
+        bib.setPublisher("Publisher");
+        bib.setIsbn("1010101010");
+        oleBibRecord.setBib(bib);
+        oleOrderRecord.setOleBibRecord(oleBibRecord);
+
+        return new ObjectMapper().writeValueAsString(oleOrderRecord);
     }
 }

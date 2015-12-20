@@ -175,43 +175,43 @@ var transformationOperations = [
 
 app.controller('batchProfileController', ['$scope', '$http', function($scope, $http) {
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getBibStatus').success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
         $scope.bibStatuses = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getCallNumberTypes').success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function(data) {
         $scope.callNumberTypeValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getItemTypes').success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
         $scope.itemTypeValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getItemStatus').success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
         $scope.itemStatusValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getDonorCodes').success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function(data) {
         $scope.donorCodes = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 1}}).success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 1}}).success(function(data) {
         $scope.locationLevel1Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 2}}).success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 2}}).success(function(data) {
         $scope.locationLevel2Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 3}}).success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 3}}).success(function(data) {
         $scope.locationLevel3Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 4}}).success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 4}}).success(function(data) {
         $scope.locationLevel4Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 5}}).success(function(data) {
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 5}}).success(function(data) {
         $scope.locationLevel5Values = data;
     });
 
@@ -493,7 +493,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
             "batchProfileDataTransformerList": $scope.dataTransformationsPanel
         };
-        $http.post("/olefs/batchProfile/batchProfileRestController/submit", profile)
+        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile)
             .success(function (data) {
                 $scope.profile = data;
                 $scope.message = 'Document was successfully submitted.';
@@ -507,7 +507,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         if (profileId !== null && profileId !== undefined && profileId !== '') {
             var data = {};
             data["profileId"] = profileId;
-            $http.post("/olefs/batchProfile/batchProfileRestController/edit", JSON.stringify(data))
+            $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
                     $scope.mainSectionPanel[0].profileId = data.profileId;
