@@ -134,7 +134,7 @@
                         <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''}" />
                     </property>
                 </bean>
-                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="viewBillNumber"/>
                 <bean id="billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
                 <bean id="totalFeeAmount" parent="Uif-DataField" p:label="Total Fee Amount" p:width="10%" p:propertyName="totalAmount"/>
                 <bean id="totalPaidAmount" parent="Uif-DataField" p:label="Total Paid Amount" p:width="10%" p:propertyName="paidAmount"/>
@@ -206,7 +206,7 @@
                         <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
                     </property>
                 </bean>
-                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="viewBillNumber"/>
                 <bean id="billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
                 <bean id="DetailBillSection_feeSource" parent="Uif-DataField" p:width="10%" p:label="Initiator" p:propertyName="feeSource"/>
                 <bean id="itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>

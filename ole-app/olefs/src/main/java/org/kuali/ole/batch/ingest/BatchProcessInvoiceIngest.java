@@ -274,9 +274,9 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
             oleInvoiceService = new OleInvoiceServiceImpl();
             oleInvoiceService.setOleBatchProcessProfileBo(this.processDef.getOleBatchProcessProfileBo());
             List<BibMarcRecord> records = bibMarcRecords.getRecords();
-            dataCarrierService.addData("invoiceIngestFailureReason",new ArrayList<>());
+            dataCarrierService.addData("invoiceIngestFailureReason", new ArrayList<>());
             OLEBatchProcessProfileBo oleBatchProcessProfileBoForBibImport = getBibImportProfile();
-            BatchProcessBibImport batchProcessBibImport = new BatchProcessBibImport();
+            BatchProcessBibImport batchProcessBibImport =  new BatchProcessBibImport(processDef, job);
             batchProcessBibImport.setOleBatchProcessProfileBo(oleBatchProcessProfileBoForBibImport);
             OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = new OLEBatchBibImportDataObjects();
             List<OrderBibMarcRecord> orderBibMarcRecords = oleBatchBibImportDataObjects.processBibImport(records,batchProcessBibImport);
@@ -421,7 +421,9 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 }
                 PurchaseOrderService purchaseOrderService = (PurchaseOrderService) SpringContext.getBean("purchaseOrderService");
                 purchaseOrderDocument = purchaseOrderService.getPurchaseOrderByDocumentNumber(poItem.getDocumentNumber());
-                oleInvoiceItem.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+                if (itemMap.containsKey("noOfItems") && itemMap.get("noOfItems")==1) {
+                    oleInvoiceItem.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+                }
                 oleInvoiceItem.setItemLineNumber(poItem.getItemLineNumber());
                 oleInvoiceItem.setItemNoOfParts(poItem.getItemNoOfParts());
                 oleInvoiceItem.setPoItemIdentifier(poItem.getItemIdentifier());
@@ -875,10 +877,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     List<OlePurchaseOrderItem> olePurchaseOrderItems = null;
                     HashMap itemMap = new HashMap();
                     List<OlePurchaseOrderItem> dummyPurchaseOrderItemsWithPO = ruleOneScenarioWithPurchaseOrderNumber(invoiceRecord, vendorIds);
-                    if(dummyPurchaseOrderItemsWithPO!=null && dummyPurchaseOrderItemsWithPO.size()<1) {
-                        olePurchaseOrderItems = ruleOneScenarioWithOutPurchaseOrderNumber(invoiceRecord, vendorIds, olePurchaseOrderItems, itemMap);
-                    }else if(dummyPurchaseOrderItemsWithPO!=null){
+                    if(dummyPurchaseOrderItemsWithPO!=null && dummyPurchaseOrderItemsWithPO.size() > 0){
                         olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemMap, dummyPurchaseOrderItemsWithPO);
+                    }
+                    if(olePurchaseOrderItems!=null && olePurchaseOrderItems.size()<1) {
+                        olePurchaseOrderItems = ruleOneScenarioWithOutPurchaseOrderNumber(invoiceRecord, vendorIds, olePurchaseOrderItems, itemMap);
                     }
                     PurchaseOrderDocument purchaseOrderDocument = null;
                     if (olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
@@ -916,10 +919,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                 HashMap itemTitleMap = new HashMap();
 
                                 List<OlePurchaseOrderItem> dummyTitlePurchaseOrderItemsWithPO = ruleTwoScenarioWithPONumber(invoiceRecord, vendorIds, olePurchaseOrderItems, titleId);
-                                if(dummyTitlePurchaseOrderItemsWithPO!=null && dummyTitlePurchaseOrderItemsWithPO.size()<1) {
-                                    olePurchaseOrderItems = ruleTwoWithOutPONumber(vendorIds, olePurchaseOrderItems, titleId,itemTitleMap);
-                                }else if(dummyTitlePurchaseOrderItemsWithPO!=null){
+                                if(dummyTitlePurchaseOrderItemsWithPO!=null && dummyTitlePurchaseOrderItemsWithPO.size()>0){
                                     olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemTitleMap, dummyTitlePurchaseOrderItemsWithPO);
+                                }
+                                if(olePurchaseOrderItems!=null && olePurchaseOrderItems.size()<1) {
+                                    olePurchaseOrderItems = ruleTwoWithOutPONumber(vendorIds, olePurchaseOrderItems, titleId,itemTitleMap);
                                 }
                                 if (titleId != null && olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
                                     invoiceRecord.setPurchaseOrderNumber((olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && olePurchaseOrderItems.get(0) != null) ? olePurchaseOrderItems.get(0).getPurapDocumentIdentifier() : null);
@@ -1094,7 +1098,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                             }
                             failureRecords.append("\n");
                         }
-                    } else {
+                    } else if(itemMap.get("applicationStatus")==null || PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(itemMap.get("applicationStatus"))) {
                         if(marcXMLContent != null && StringUtils.isNotBlank(marcXMLContent.toString()) ){
                             createInvoiceItem(invoiceRecord, invoiceDocument, itemMap);
                         }
@@ -1370,10 +1374,14 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 if(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(poAppDocStatus)) {
                     olePurchaseOrderItems.add(dummyPurchaseOrderItems.get(itemCount));
                     if(("ITEM").equalsIgnoreCase(dummyPurchaseOrderItems.get(itemCount).getItemTypeCode())){
+                        itemMap.put("purchaseOrderNumber",olePurchaseOrderDocumentList.get(0).getPurapDocumentIdentifier());
+                        itemMap.put("applicationStatus",poAppDocStatus);
                         olePurchaseOrderItemsCount++;
                     }
                 }else{
                     if(("ITEM").equalsIgnoreCase(dummyPurchaseOrderItems.get(itemCount).getItemTypeCode())) {
+                        itemMap.put("purchaseOrderNumber",olePurchaseOrderDocumentList.get(0).getPurapDocumentIdentifier());
+                        itemMap.put("applicationStatus",poAppDocStatus);
                         unlinkPurchaseOrderItemsCount++;
                     }
                 }

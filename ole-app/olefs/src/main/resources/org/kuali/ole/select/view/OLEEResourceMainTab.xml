@@ -36,7 +36,7 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                             <bean id="adhocRequest" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-                            <bean id="ermDelete" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="deleteEresource" p:actionLabel="Delete"
+                            <bean id="ermDelete" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="showDeleteConfirmation" p:actionLabel="Delete"
                                   p:successCallback="showEResourceNotDeletedPopUp('@{access}');" p:render="@{!(document.documentHeader.workflowDocument.initiated)}" p:componentSecurity.performActionAuthz="true" p:actionEvent="delete"/>
                             <bean id="manageGOKbdata" parent="Uif-PrimaryActionButton" p:actionLabel="Manage GOKb Data"
                                   p:methodToCall="getManageGOKbDataOnERes" p:ajaxSubmit="true"

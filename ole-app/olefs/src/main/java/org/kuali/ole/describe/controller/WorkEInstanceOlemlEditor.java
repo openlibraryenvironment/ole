@@ -188,19 +188,18 @@ public class WorkEInstanceOlemlEditor
                 if (eHoldings.getNote() != null && eHoldings.getNote().size() == 0) {
                     eHoldings.getNote().add(new Note());
                 }
-           //     List<DonorInfo> donorInfos = ensureAtleastOneDonor(item.getDonorInfo());
-
                 if (eHoldings.getDonorInfo() != null && eHoldings.getDonorInfo().size() == 0) {
                     eHoldings.getDonorInfo().add(new DonorInfo());
                 }
                 else {
+                    String modifiedValue = null;
                     for (DonorInfo donorInformation : eHoldings.getDonorInfo()) {
                         if (null != donorInformation.getDonorNote()) {
-                            String modifiedValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                            modifiedValue = donorInformation.getDonorNote().replaceAll("&quot;","\"");
+                          }
                             donorInformation.setDonorNote(modifiedValue);
-                        }
                         if (null != donorInformation.getDonorPublicDisplay()) {
-                            String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                                modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("&quot;","\"");
                             donorInformation.setDonorPublicDisplay(modifiedValue);
                         }
                     }
@@ -308,6 +307,18 @@ public class WorkEInstanceOlemlEditor
         if (workEInstanceOlemlForm.getTokenId() != null && !workEInstanceOlemlForm.getTokenId().isEmpty()) {
             editorForm.setTokenId(workEInstanceOlemlForm.getTokenId());
         }
+        OleHoldings oleHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
+        if(oleHoldings!=null){
+            if(oleHoldings.getCallNumber()  == null) {
+                CallNumber callNumber = new CallNumber();
+                String callNumberDefaultValue = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.HOLDINGS_CALL_NUMBER_TYPE);
+                ShelvingScheme shelvingScheme = new ShelvingScheme();
+                shelvingScheme.setCodeValue(callNumberDefaultValue);
+                callNumber.setShelvingScheme(shelvingScheme);
+                oleHoldings.setCallNumber(callNumber);
+            }
+        }
         return workEInstanceOlemlForm;
     }
 
@@ -363,6 +374,20 @@ public class WorkEInstanceOlemlEditor
         try {
             if (docId != null && docId.length() > 0) {
                 OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
+                List<DonorInfo> donorInfos = eHoldings.getDonorInfo();
+                if(donorInfos.size() > 0) {
+                    for (DonorInfo donorInformation : donorInfos) {
+                        if (null != donorInformation.getDonorNote()) {
+                            String modifiedValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                            donorInformation.setDonorNote(modifiedValue);
+                        }
+                        if (null != donorInformation.getDonorPublicDisplay()) {
+                            String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                            donorInformation.setDonorPublicDisplay(modifiedValue);
+                        }
+                    }
+                    eHoldings.setDonorInfo(donorInfos);
+                }
                 boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
                 if (dateFlag) {
                     getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);

@@ -2442,13 +2442,24 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 
+    @RequestMapping(params = "methodToCall=showDeleteConfirmation")
+    public ModelAndView showDeleteConfirmation(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) {
+        return showDialogAndRunCustomScript("eresourceDeleteConfirmationDialog", form, "jq('#eresourceBtnDelete').focus()");
+    }
 
     @RequestMapping(params = "methodToCall=deleteEresource")
     public ModelAndView deleteEresource(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleEResourceRecordForm.setLightboxScript("jq.fancybox.close();");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        if (oleeResourceRecordDocument.geteRSInstances().size() == 0 && oleeResourceRecordDocument.getOleLinkedEresources().size() == 0 && oleeResourceRecordDocument.getOleERSPOItems().size() == 0 && oleeResourceRecordDocument.getOleERSLicenseRequests().size() == 0) {
+        List<OLEEResourcePO> oleeResourcePOList = new ArrayList<>();
+        Map map = new HashMap();
+        map.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER,oleeResourceRecordDocument.getOleERSIdentifier());
+        List<OLEEResourceInstance> oleeResourceInstanceList = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, map);
+        oleeResourceHelperService.getLinkedPOs(oleeResourcePOList, oleeResourceRecordDocument);
+        if (CollectionUtils.isEmpty(oleeResourceInstanceList) && CollectionUtils.isEmpty(oleeResourceRecordDocument.getOleLinkedEresources()) && CollectionUtils.isEmpty(oleeResourcePOList) && CollectionUtils.isEmpty(oleeResourceRecordDocument.getOleERSLicenseRequests())) {
             getBusinessObjectService().delete(oleeResourceRecordDocument);
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, OLEConstants.OLEEResourceRecord.ERROR_LINKED_RECORD);

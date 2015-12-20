@@ -189,6 +189,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
 
                     ensureMultipleValuesInOleHoldings(oleHoldings);
 
+
                     workInstanceOlemlForm.setSelectedHolding(oleHoldings);
                     getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
                 } else {
@@ -266,7 +267,19 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 }
             }
         }
+
+        OleHoldings oleHoldings = workInstanceOlemlForm.getSelectedHolding();
+        if(oleHoldings!=null && oleHoldings.getCallNumber() !=null){
+            if(oleHoldings.getCallNumber().getShelvingScheme() == null) {
+                String callNumberDefaultValue = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.E_HOLDINGS_CALL_NUMBER_TYPE);
+                ShelvingScheme shelvingScheme = new ShelvingScheme();
+                shelvingScheme.setCodeValue(callNumberDefaultValue);
+                oleHoldings.getCallNumber().setShelvingScheme(shelvingScheme);
+            }
+        }
         workInstanceOlemlForm.setViewId("WorkHoldingsViewPage");
+
         return workInstanceOlemlForm;
     }
 

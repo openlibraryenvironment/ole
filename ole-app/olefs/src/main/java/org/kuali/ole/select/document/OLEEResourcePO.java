@@ -24,9 +24,9 @@ public class OLEEResourcePO extends PersistableBusinessObjectBase {
     private String redirectUrl;
     private String instanceId;
     private String title;
-    private Integer paidAmountCurrentFY;
-    private Integer paidAmountPreviousFY;
-    private Integer paidAmountTwoYearsPreviousFY;
+    private String paidAmountCurrentFY;
+    private String paidAmountPreviousFY;
+    private String paidAmountTwoYearsPreviousFY;
     private String purpose;
     private String poItemId;
     private String poStatus;
@@ -103,27 +103,27 @@ public class OLEEResourcePO extends PersistableBusinessObjectBase {
         this.redirectUrl = redirectUrl;
     }
 
-    public Integer getPaidAmountCurrentFY() {
+    public String getPaidAmountCurrentFY() {
         return paidAmountCurrentFY;
     }
 
-    public void setPaidAmountCurrentFY(Integer paidAmountCurrentFY) {
+    public void setPaidAmountCurrentFY(String paidAmountCurrentFY) {
         this.paidAmountCurrentFY = paidAmountCurrentFY;
     }
 
-    public Integer getPaidAmountPreviousFY() {
+    public String getPaidAmountPreviousFY() {
         return paidAmountPreviousFY;
     }
 
-    public void setPaidAmountPreviousFY(Integer paidAmountPreviousFY) {
+    public void setPaidAmountPreviousFY(String paidAmountPreviousFY) {
         this.paidAmountPreviousFY = paidAmountPreviousFY;
     }
 
-    public Integer getPaidAmountTwoYearsPreviousFY() {
+    public String getPaidAmountTwoYearsPreviousFY() {
         return paidAmountTwoYearsPreviousFY;
     }
 
-    public void setPaidAmountTwoYearsPreviousFY(Integer paidAmountTwoYearsPreviousFY) {
+    public void setPaidAmountTwoYearsPreviousFY(String paidAmountTwoYearsPreviousFY) {
         this.paidAmountTwoYearsPreviousFY = paidAmountTwoYearsPreviousFY;
     }
 
