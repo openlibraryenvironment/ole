@@ -121,9 +121,15 @@ var fieldOperations = [
 ];
 
 var fields = [
-    {id: 'url', name: 'URL'},
-    {id: 'callnumber', name: 'Call Number'},
-    {id: 'callnumbertype', name: 'Call Number Type'}
+    {id: 'callNumber', name: 'Call Number'},
+    {id: 'callNumberPrefix', name: 'Call Number Prefix'},
+    {id: 'callNumberType', name: 'Call Number Type'},
+    {id: 'copyNumber', name: 'Copy Number'},
+    {id: 'locationLevel1', name: 'Location Level1'},
+    {id: 'locationLevel2', name: 'Location Level2'},
+    {id: 'locationLevel3', name: 'Location Level3'},
+    {id: 'locationLevel4', name: 'Location Level4'},
+    {id: 'locationLevel5', name: 'Location Level5'}
 ];
 
 var transformers = [
