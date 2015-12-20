@@ -11,8 +11,10 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,6 +29,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final String FORWARD_SLASH = "/";
     private static final String DASH = "-";
 
+    @Autowired
+    private MatchPointProcessor matchPointProcessor;
+
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
@@ -34,7 +39,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         Map<Record, List<String>> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
-            prepareSolrQueryMapForMatchPoint(marcRecord,queryMap,batchProcessProfile.getBatchProfileMatchPointList());
+            matchPointProcessor.prepareSolrQueryMapForMatchPoint(marcRecord,queryMap,batchProcessProfile.getBatchProfileMatchPointList());
         }
         if(queryMap.size() > 0) {
             for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
@@ -55,58 +60,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
         }
         return null;
-    }
-
-    private void prepareSolrQueryMapForMatchPoint(Record marcRecord, Map<Record, List<String>> queryMap,List<BatchProfileMatchPoint> batchProfileMatchPoints) {
-        if(CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
-            for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
-                BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                formSolrQueryMapForMatchPoint(marcRecord,batchProfileMatchPoint,queryMap);
-            }
-        }
-    }
-
-    private void formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint,
-                                               Map<Record, List<String>> queryMap) {
-        //TODO : Need to process if 001 tag
-        String field = getFieldFromMatchPoint(batchProfileMatchPoint.getMatchPointValue());
-        List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-            DataField dataField = (DataField) variableFieldIterator.next();
-            String subField = getSubFiledFromMatchPoint(batchProfileMatchPoint.getMatchPointValue());
-            List<Subfield> subFields = dataField.getSubfields(subField);
-            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                Subfield subfield = subfieldIterator.next();
-                String matchPointValue = subfield.getData();
-                String query = "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
-                addQueryToMap(queryMap,marcRecord, query);
-            }
-        }
-    }
-
-    private String getSubFiledFromMatchPoint(String batchProfileMatchPoint) {
-        String[] matchPoint = batchProfileMatchPoint.split("['$']");
-        if(matchPoint.length > 1) {
-            return matchPoint[1];
-        }
-        return null;
-    }
-
-    private String getFieldFromMatchPoint(String batchProfileMatchPoint) {
-        String[] matchPoint = batchProfileMatchPoint.split(" ");
-        if(matchPoint.length > 0) {
-            return matchPoint[0];
-        }
-        return null;
-    }
-
-    private void addQueryToMap(Map<Record, List<String>> queryMap, Record marcRecord, String query) {
-        List<String> queryList = new ArrayList<>();
-        if(queryMap.containsKey(marcRecord)) {
-            queryList = queryMap.get(marcRecord);;
-        }
-        queryList.add(query);
-        queryMap.put(marcRecord,queryList);
     }
 
     private void appendQuery(StringBuilder queryBuilder, String query) {
