@@ -7,15 +7,20 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Created by SheikS on 11/25/2015.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BatchProfileMatchPoint {
+public class BatchProfileMatchPoint extends MarcDataField {
 
     private long matchPointId;
 
     @JsonProperty("matchPointDocType")
     private String dataType;
 
-    @JsonProperty("matchPointValue")
-    private String matchPoint;
+    private String matchPointType;
+
+    private String matchPointValue;
+
+    private String controlField;
+
+    private String constant;
 
     public long getMatchPointId() {
         return matchPointId;
@@ -33,11 +38,35 @@ public class BatchProfileMatchPoint {
         this.dataType = dataType;
     }
 
-    public String getMatchPoint() {
-        return matchPoint;
+    public String getMatchPointType() {
+        return matchPointType;
     }
 
-    public void setMatchPoint(String matchPoint) {
-        this.matchPoint = matchPoint;
+    public void setMatchPointType(String matchPointType) {
+        this.matchPointType = matchPointType;
+    }
+
+    public String getMatchPointValue() {
+        return matchPointValue;
+    }
+
+    public void setMatchPointValue(String matchPointValue) {
+        this.matchPointValue = matchPointValue;
+    }
+
+    public String getControlField() {
+        return controlField;
+    }
+
+    public void setControlField(String controlField) {
+        this.controlField = controlField;
+    }
+
+    public String getConstant() {
+        return constant;
+    }
+
+    public void setConstant(String constant) {
+        this.constant = constant;
     }
 }

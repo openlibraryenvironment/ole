@@ -58,6 +58,7 @@
             <!--<ref bean="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp"/>-->
             <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis"/>
             <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>
+            <bean id="eresourceDeleteConfirmationDialog" parent="eresourceDeleteConfirmation"/>
             <!--<ref bean="PlatformTippResults"/>-->
         </list>
         </property>
