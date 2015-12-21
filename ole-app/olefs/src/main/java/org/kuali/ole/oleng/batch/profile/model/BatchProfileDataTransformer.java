@@ -41,6 +41,9 @@ public class BatchProfileDataTransformer extends MarcDataField {
     @JsonProperty("dataTransformationTransformField")
     private String transformField;
 
+    @JsonProperty("dataTransformationStep")
+    private Integer step;
+
     public long getDataTransformerId() {
         return dataTransformerId;
     }
@@ -127,5 +130,13 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public void setTransformField(String transformField) {
         this.transformField = transformField;
+    }
+
+    public Integer getStep() {
+        return step;
+    }
+
+    public void setStep(Integer step) {
+        this.step = step;
     }
 }

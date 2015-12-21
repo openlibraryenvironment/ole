@@ -3,7 +3,7 @@
  */
 
 var OLENG_CONSTANTS = {
-    PROFILE_GET_BIB_STATUS : "/olefs/rest/olefs/rest/describe/getBibStatus",
+    PROFILE_GET_BIB_STATUS : "/olefs/rest/describe/getBibStatus",
     PROFILE_GET_CALLNUMBER_TYPES : "/olefs/rest/describe/getCallNumberTypes",
     PROFILE_GET_ITEM_TYPES : "/olefs/rest/describe/getItemTypes",
     PROFILE_GET_ITEM_STATUS : "/olefs/rest/describe/getItemStatus",
