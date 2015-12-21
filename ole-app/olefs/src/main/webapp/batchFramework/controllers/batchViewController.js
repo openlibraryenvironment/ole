@@ -153,6 +153,11 @@ var bibFields = [
     {id: 'staffOnly', name: 'Staff Only'}
 ];
 
+var booleanOptions = [
+    {id: 'true', value: 'True'},
+    {id: 'false', value: 'False'}
+];
+
 var holdingsFields = [
     {id: 'receiptStatus', name: 'Receipt Status'},
     {id: 'subscriptionStatus', name: 'Subscription Status'},
@@ -223,6 +228,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 5}}).success(function(data) {
         $scope.locationLevel5Values = data;
     });
+
+    $scope.booleanOptions = booleanOptions;
 
     $scope.submitted = false;
 
@@ -316,6 +323,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataTransformationActions: actions,
             dataTransformationAction: 'Add',
             dataTransformationBibFields: bibFields,
+            dataTransformationStaffOnlyFields: booleanOptions,
             dataTransformationHoldingsFields: holdingsFields,
             dataTransformationItemFields: itemFields,
             dataTransformationEHoldingsFields: eHoldingsFields,
@@ -323,6 +331,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataTransformationTransformHoldingsFields: holdingsMatchPoints,
             dataTransformationTransformItemFields: itemMatchPoints,
             dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
+            dataTransformationStep: 0,
             isAddLine: false,
             collapsed: true
         }
@@ -445,6 +454,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataTransformationDestinationField: $scope.dataTransformationsPanel[0].dataTransformationDestinationField,
             dataTransformationConstant: $scope.dataTransformationsPanel[0].dataTransformationConstant,
             dataTransformationTransformField: $scope.dataTransformationsPanel[0].dataTransformationTransformField,
+            dataTransformationStep: $scope.dataTransformationsPanel[0].dataTransformationStep,
             isAddLine: true
         });
         $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bibliographic';
@@ -457,6 +467,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
         $scope.dataTransformationsPanel[0].dataTransformationConstant = null;
         $scope.dataTransformationsPanel[0].dataTransformationTransformField = null;
+        $scope.dataTransformationsPanel[0].dataTransformationStep = 0;
     };
 
     $scope.dataTransformationRemove = function (dataTransformation) {
@@ -618,6 +629,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataTransformationActions: actions,
                 dataTransformationAction: 'Add',
                 dataTransformationBibFields: bibFields,
+                dataTransformationStaffOnlyFields: booleanOptions,
                 dataTransformationHoldingsFields: holdingsFields,
                 dataTransformationItemFields: itemFields,
                 dataTransformationEHoldingsFields: eHoldingsFields,
@@ -625,6 +637,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataTransformationTransformHoldingsFields: holdingsMatchPoints,
                 dataTransformationTransformItemFields: itemMatchPoints,
                 dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
+                dataTransformationStep: 0,
                 isAddLine: false,
                 collapsed: true
             }

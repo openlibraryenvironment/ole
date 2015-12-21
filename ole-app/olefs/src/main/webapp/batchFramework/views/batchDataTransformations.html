@@ -24,6 +24,7 @@
                         <th>Operation</th>
                         <th>Destination</th>
                         <th>Constant</th>
+                        <th>Step</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -112,8 +113,17 @@
                             <input id="dataTransformationFieldValue_{{$index}}"
                                    name="dataTransformationFieldValue_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationFieldValue"
-                                   ng-show="(dataTransformation.dataTransformationField == 'Staff Only' || dataTransformation.dataTransformationField == 'Subscription Status' || dataTransformation.dataTransformationField == 'Access Status' || dataTransformation.dataTransformationField == 'Receipt Status') && !dataTransformation.isAddLine"
+                                   ng-show="(dataTransformation.dataTransformationField == 'Subscription Status' || dataTransformation.dataTransformationField == 'Access Status' || dataTransformation.dataTransformationField == 'Receipt Status') && !dataTransformation.isAddLine"
                                    style="height: 30px; width: 150px;"/>
+                            <select id="dataTransformationStaffOnly_{{$index}}"
+                                    name="dataTransformationStaffOnly_{{$index}}"
+                                    ng-model="dataTransformation.dataTransformationFieldValue"
+                                    ng-show="dataTransformation.dataTransformationField == 'Staff Only' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
+                                <option ng-selected="{{option.id == dataTransformation.dataTransformationFieldValue}}"
+                                        ng-repeat="option in booleanOptions" value="{{option.id}}">
+                                    {{option.value}}
+                                </option>
+                            </select>
                             <select id="dataTransformationBibStatus_{{$index}}"
                                     name="dataTransformationBibStatus_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationFieldValue"
@@ -184,6 +194,15 @@
                                    style="height: 30px; width: 150px;"/>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationConstant"></span>
+                        </td>
+                        <td>
+                            <input id="dataTransformationStep_{{$index}}"
+                                   name="dataTransformationStep_{{$index}}" type="text"
+                                   ng-model="dataTransformation.dataTransformationStep"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationStep"></span>
                         </td>
                         <td>
                             <select id="dataTransformationTransformHoldingsField_{{$index}}"
