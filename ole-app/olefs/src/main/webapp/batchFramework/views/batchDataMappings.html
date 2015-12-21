@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle ng-click="toggle(dataMappingsPanel)">
+                <a bs-collapse-toggle href="#" ng-click="toggle(dataMappingsPanel)">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !dataMappingsPanel.collapsed, 'glyphicon-chevron-down': dataMappingsPanel.collapsed}"></span>
                     Data Mappings
@@ -12,7 +12,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
                         <th></th>
@@ -22,6 +22,7 @@
                         <th>Sub Field</th>
                         <th>Destination</th>
                         <th>Field</th>
+                        <th>Priority</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -80,6 +81,12 @@
                                 </option>
                             </select>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.field"></span>
+                        </td>
+                        <td>
+                            <input id="dataMappingPriority_{{$index}}" name="dataMappingPriority_{{$index}}" type="text"
+                                   ng-model="dataMapping.priority"
+                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.priority"></span>
                         </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"

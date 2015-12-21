@@ -7,6 +7,12 @@ var documentTypes = [
     {id: 'eHoldings', name: 'EHoldings'}
 ];
 
+var destinationDocumentTypes = [
+    {id: 'holdings', name: 'Holdings'},
+    {id: 'item', name: 'Item'},
+    {id: 'eHoldings', name: 'EHoldings'}
+];
+
 var addOrOverlayDocumentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
@@ -168,12 +174,15 @@ var transformationOperations = [
     {id: 'add', name: 'Add'},
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
-    {id: 'join', name: 'Join'}
+    {id: 'join', name: 'Join'},
+    {id: 'addDelete', name: 'Add and Delete'},
+    {id: 'prepend', name: 'Prepend'},
+    {id: 'remove', name: 'Remove'}
 ];
 
 
 
-app.controller('batchProfileController', ['$scope', '$http', function($scope, $http) {
+app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
 
     $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
         $scope.bibStatuses = data;
@@ -287,10 +296,9 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             title: 'Data Mappings',
             dataMappingDocTypes: documentTypes,
             dataMappingDocType: 'Bibliographic',
-            destinations: documentTypes,
-            destination: 'Bibliographic',
+            destinations: destinationDocumentTypes,
             fields: fields,
-            destination: 'URL',
+            priority: 0,
             isAddLine: false,
             collapsed: true
         }
@@ -407,6 +415,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             subField: $scope.dataMappingsPanel[0].subField,
             destination: $scope.dataMappingsPanel[0].destination,
             field: $scope.dataMappingsPanel[0].field,
+            priority: $scope.dataMappingsPanel[0].priority,
             isAddLine: true
         });
         $scope.dataMappingsPanel[0].dataMappingDocType = 'Bibliographic';
@@ -416,6 +425,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         $scope.dataMappingsPanel[0].subField = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
+        $scope.dataMappingsPanel[0].priority = 0;
     };
 
     $scope.dataMappingRemove = function (dataMapping) {
@@ -588,10 +598,9 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
                 title: 'Data Mappings',
                 dataMappingDocTypes: documentTypes,
                 dataMappingDocType: 'Bibliographic',
-                destinations: documentTypes,
-                destination: 'Bibliographic',
+                destinations: destinationDocumentTypes,
                 fields: fields,
-                destination: 'URL',
+                priority: 0,
                 isAddLine: false,
                 collapsed: true
             }
