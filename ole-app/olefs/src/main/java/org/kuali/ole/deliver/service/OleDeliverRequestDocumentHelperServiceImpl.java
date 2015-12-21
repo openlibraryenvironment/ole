@@ -928,11 +928,14 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         Map<String, String> loanMap = new HashMap<String, String>();
         loanMap.put(OLEConstants.ITEM_UUID, oleDeliverRequestBo.getItemUuid());
         List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, loanMap);
-        if (oleLoanDocumentList != null && oleLoanDocumentList.size() > 0 && oleLoanDocumentList.get(0) != null && oleLoanDocumentList.get(0).getOleRequestId() == null) {
+        if (oleLoanDocumentList != null && oleLoanDocumentList.size() > 0 && oleLoanDocumentList.get(0) != null) {
             if (oleLoanDocumentList.get(0).getLoanId() != null) {
-                oleLoanDocumentList.get(0).setOleRequestId(oleDeliverRequestBo.getRequestId());
                 oleDeliverRequestBo.setLoanTransactionRecordNumber(oleLoanDocumentList.get(0).getLoanId());
+            if(oleLoanDocumentList.get(0).getOleRequestId()==null){
+                oleLoanDocumentList.get(0).setOleRequestId(oleDeliverRequestBo.getRequestId());
             }
+            }
+
             businessObjectService.save(oleLoanDocumentList.get(0));
 
         }
