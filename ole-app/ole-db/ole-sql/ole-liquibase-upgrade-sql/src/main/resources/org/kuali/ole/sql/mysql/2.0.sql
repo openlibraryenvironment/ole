@@ -132,7 +132,10 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'DEFAULT_PROBLEM_TYPE', 'OLE7046', '1', 'CONFG', 'Access', 'This parameter is to set the default problem type in the event log section of the e-resource record', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:f876238bbee4a16dc830a86e747da63d', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'TEMPORARY_HISTORY_RECORD_DAYS', 'OLE7047', '1', 'CONFG', '10', 'This parameter value is used to specify the days to determine the temporary history records to be retained after check-in.', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:a51d1ac8e10463529cd018a8a79575cf', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::OLE_GOKB_PKG_T::ole
