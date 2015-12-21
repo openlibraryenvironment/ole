@@ -504,9 +504,11 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         //JSON.stringify(vars)
         var urlVars = getUrlVars();
         var profileId = urlVars['profileId'];
+        var action = urlVars['action'];
         if (profileId !== null && profileId !== undefined && profileId !== '') {
             var data = {};
             data["profileId"] = profileId;
+            data["action"] = action;
             $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
