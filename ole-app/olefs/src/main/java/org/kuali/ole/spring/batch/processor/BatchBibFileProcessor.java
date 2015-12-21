@@ -11,6 +11,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
@@ -73,7 +74,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             JSONObject bibData = new JSONObject();
 
             String profileName = batchProcessProfile.getBatchProcessProfileName();
-            doCustomProcessForProfile(marcRecord, profileName);
+            handleBatchProfileTransformations(marcRecord, batchProcessProfile);
 
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
             bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));
@@ -188,38 +189,21 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return dataMappingMap;
     }
 
-    private JSONObject processDataMapping(Record marcRecord, Map<String, String> dataMappingMap, String dataMappingType) throws JSONException {
-        JSONObject dataMapping = new JSONObject();
-        if (dataMappingMap.size() > 0) {
-            for (Iterator<String> iterator = dataMappingMap.keySet().iterator(); iterator.hasNext(); ) {
-                String key = iterator.next();
-                String[] keyArray = key.split("-");
-                if (keyArray.length > 1 && keyArray[0].equals(dataMappingType)) {
-                    String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, dataMappingMap.get(key));
-                    dataMapping.put(keyArray[1], value);
-                }
-            }
-        }
-        return dataMapping;
-    }
 
-    private void appendLocationToStrinBuilder(StringBuilder stringBuilder, String location) {
-        if (stringBuilder.length() > 0) {
-            stringBuilder.append(FORWARD_SLASH).append(location);
-        } else {
-            stringBuilder.append(location);
-        }
-    }
+    private void handleBatchProfileTransformations(Record record, BatchProcessProfile batchProcessProfile) {
+        List<BatchProfileDataTransformer> batchProfileDataTransformerList =
+                batchProcessProfile.getBatchProfileDataTransformerList();
 
-    private void doCustomProcessForProfile(Record record, String profileName) {
-        if (StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceCasalini")) {
-            // TODO : process For Casalini
-            processCasaliniProfile(record);
-        } else if (StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-            // TODO : process For YBP
-            processYBPProfile(record);
+        Map steps = new TreeMap();
+
+        for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
+            BatchProfileDataTransformer transformer = iterator.next();
+            steps.put(transformer.getStep(), transformer);
         }
-        getMarcRecordUtil().deleteFieldInRecord(record, "003");
+
+
+
+
     }
 
     private void processYBPProfile(Record record) {
