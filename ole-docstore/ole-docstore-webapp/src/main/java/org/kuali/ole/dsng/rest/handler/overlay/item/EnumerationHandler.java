@@ -20,4 +20,11 @@ public class EnumerationHandler extends ItemOverlayHandler {
         String enumeration = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(itemRecord.getEnumeration(),enumeration);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String enumeration = getStringValueFromJsonObject(jsonObject,TYPE);
+        itemRecord.setEnumeration(enumeration);
+        return itemRecord;
+    }
 }

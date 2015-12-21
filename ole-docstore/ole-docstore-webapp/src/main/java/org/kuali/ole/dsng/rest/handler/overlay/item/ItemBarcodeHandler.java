@@ -21,4 +21,11 @@ public class ItemBarcodeHandler extends ItemOverlayHandler {
         String itemBarcode = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(itemRecord.getBarCode(),itemBarcode);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String itemBarcode = getStringValueFromJsonObject(jsonObject,TYPE);
+        itemRecord.setBarCode(itemBarcode);
+        return itemRecord;
+    }
 }

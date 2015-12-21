@@ -201,11 +201,23 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     }
                 }
                 if(isMatchingHolding){
-                    //Todo : Process for Datamapping
-                    holdingsRecord.setUpdatedBy(updatedBy);
-                    holdingsRecord.setUpdatedDate(updatedDate);
-                    HoldingsRecord updatedHoldingsRecord = holdingDAO.save(holdingsRecord);
-                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                    if (holdingJsonObject.has("dataMapping")) {
+                        JSONObject dataMapping = holdingJsonObject.getJSONObject("dataMapping");
+                        boolean isUpdated = false;
+                        for (Iterator<HoldingsOverlayHandler> holdingsRecordIterator = getHoldingsMatchPointHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                            HoldingsOverlayHandler holdingsOverlayHandler = holdingsRecordIterator.next();
+                            if(holdingsOverlayHandler.isInterested(dataMapping)){
+                                holdingsRecord = holdingsOverlayHandler.process(holdingsRecord, dataMapping);
+                                isUpdated = true;
+                            }
+                        }
+                        if (isUpdated) {
+                            holdingsRecord.setUpdatedBy(updatedBy);
+                            holdingsRecord.setUpdatedDate(updatedDate);
+                            HoldingsRecord updatedHoldingsRecord = holdingDAO.save(holdingsRecord);
+                            solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                        }
+                    }
 
                     // Processing Items
                     List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
@@ -237,10 +249,23 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     }
                 }
                 if(isMatchingItem) {
-                    itemRecord.setUpdatedBy(updatedBy);
-                    itemRecord.setUpdatedDate(updatedDate);
-                    ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
-                    solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+                    if (itemJsonObject.has("dataMapping")) {
+                        JSONObject dataMapping = itemJsonObject.getJSONObject("dataMapping");
+                        boolean isUpdated = false;
+                        for (Iterator<ItemOverlayHandler> iterator = getItemOverlayMatchPointHandlers().iterator(); iterator.hasNext(); ) {
+                            ItemOverlayHandler itemOverlayHandler = iterator.next();
+                            if(itemOverlayHandler.isInterested(dataMapping)){
+                                itemRecord = itemOverlayHandler.process(itemRecord, dataMapping);
+                                isUpdated = true;
+                            }
+                        }
+                        if (isUpdated) {
+                            itemRecord.setUpdatedBy(updatedBy);
+                            itemRecord.setUpdatedDate(updatedDate);
+                            ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
+                            solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+                        }
+                    }
                 }
             }
         }

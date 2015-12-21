@@ -20,4 +20,11 @@ public class CallNumberPrefixHandler extends HoldingsOverlayHandler {
         String callNumberPrefix = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(holdingsRecord.getCallNumberPrefix(),callNumberPrefix);
     }
+
+    @Override
+    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
+        String callNumberPrefix = getStringValueFromJsonObject(jsonObject,TYPE);
+        holdingsRecord.setCallNumberPrefix(callNumberPrefix);
+        return holdingsRecord;
+    }
 }

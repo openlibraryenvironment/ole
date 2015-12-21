@@ -57,6 +57,19 @@ public class MarcRecordUtil {
         return stringBuilder.toString();
     }
 
+    /*This method will get the field and tags and will return return the concadinated value
+    * Eg:
+    *   fieldAndTag : 050 $a$b*/
+    public String getContentFromMarcRecord(Record marcRecord, String fieldAndTag) {
+        String[] fieldAndTagArray = fieldAndTag.split("[' ']");
+        if(fieldAndTagArray.length > 1) {
+            String field = fieldAndTagArray[0];
+            String tags = fieldAndTagArray[1];
+            return getContentFromMarcRecord(marcRecord,field,tags);
+        }
+        return null;
+    }
+
     public void updateDataFieldValue(Record marcRecord, String field, String tag,String value) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {

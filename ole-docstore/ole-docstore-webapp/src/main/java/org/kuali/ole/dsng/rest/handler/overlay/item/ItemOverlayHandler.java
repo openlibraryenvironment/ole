@@ -12,4 +12,6 @@ public abstract class ItemOverlayHandler extends OleDsNgOverlayUtil {
     public abstract boolean isInterested(JSONObject jsonObject);
 
     public abstract boolean isMatching(ItemRecord itemRecord, JSONObject jsonObject);
+
+    public abstract ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject);
 }

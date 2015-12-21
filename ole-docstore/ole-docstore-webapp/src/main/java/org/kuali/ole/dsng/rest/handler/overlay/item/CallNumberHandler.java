@@ -20,4 +20,11 @@ public class CallNumberHandler extends ItemOverlayHandler {
         String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(itemRecord.getCallNumber(),callNumber);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
+        itemRecord.setCallNumber(callNumber);
+        return itemRecord;
+    }
 }

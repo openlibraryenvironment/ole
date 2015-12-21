@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
@@ -89,6 +90,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             if (holdingsMatchPoints.length() > 0) {
                 holdingsData.put("matchPoints", holdingsMatchPoints);
             }
+
+            Map<String, String> dataMappingMap = getDataMappingMap(batchProcessProfile.getBatchProfileDataMappingList());
+
+            JSONObject holdingsDataMapping = processDataMapping(marcRecord, dataMappingMap,"Holdings");
+            if(holdingsDataMapping.length() > 0) {
+                holdingsData.put("dataMapping", holdingsDataMapping);
+            }
             bibData.put("holdings", holdingsData);
 
 
@@ -97,12 +105,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             if (holdingsMatchPoints.length() > 0) {
                 itemData.put("matchPoints", itemMatchPoints);
             }
+            JSONObject itemDataMapping = processDataMapping(marcRecord, dataMappingMap,"Item");
+            if(itemDataMapping.length() > 0) {
+                itemData.put("dataMapping", itemDataMapping);
+            }
             bibData.put("items", itemData);
 
             return bibData;
         }
         return null;
     }
+
     private JSONObject prepareMatchPointForHoldingsOrItem(List<BatchProfileMatchPoint> batchProfileMatchPoints, String matchPointType) throws JSONException {
         JSONObject matchPoints = new JSONObject();
         if(CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
@@ -119,6 +132,39 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         }
         return matchPoints;
+    }
+
+    public Map<String, String> getDataMappingMap(List<BatchProfileDataMapping> batchProfileDataMappingList) {
+        Map<String, String> dataMappingMap = new HashMap<>();
+        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+            for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
+                BatchProfileDataMapping batchProfileDataMapping = iterator.next();
+                String mapKey = batchProfileDataMapping.getDestination() + "-"
+                        + batchProfileDataMapping.getField();
+                String value = batchProfileDataMapping.getDataField() + " $" + batchProfileDataMapping.getSubField();
+                if(dataMappingMap.containsKey(mapKey)) {
+                    value = dataMappingMap.get(mapKey);
+                    value = value + "$" + batchProfileDataMapping.getSubField();
+                }
+                dataMappingMap.put(mapKey,value);
+            }
+        }
+        return dataMappingMap;
+    }
+
+    private JSONObject processDataMapping(Record marcRecord, Map<String, String> dataMappingMap, String dataMappingType) throws JSONException {
+        JSONObject dataMapping = new JSONObject();
+        if(dataMappingMap.size() > 0) {
+            for (Iterator<String> iterator = dataMappingMap.keySet().iterator(); iterator.hasNext(); ) {
+                String key = iterator.next();
+                String[] keyArray = key.split("-");
+                if(keyArray.length > 1 && keyArray[0].equals(dataMappingType)) {
+                    String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, dataMappingMap.get(key));
+                    dataMapping.put(keyArray[1], value);
+                }
+            }
+        }
+        return dataMapping;
     }
 
     private void appendLocationToStrinBuilder(StringBuilder stringBuilder, String location) {

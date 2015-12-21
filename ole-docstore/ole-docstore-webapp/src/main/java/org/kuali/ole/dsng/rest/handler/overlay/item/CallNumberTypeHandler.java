@@ -23,4 +23,15 @@ public class CallNumberTypeHandler extends ItemOverlayHandler {
         return (null != itemRecord.getCallNumberTypeRecord() &&
                 StringUtils.equals(itemRecord.getCallNumberTypeRecord().getCallNumberTypeId(),itemRecord.getCallNumberTypeId()));
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String callNumberType = getStringValueFromJsonObject(jsonObject, TYPE);
+        CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordById(callNumberType);
+        if (null != callNumberTypeRecord) {
+            itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
+            itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+        }
+        return itemRecord;
+    }
 }

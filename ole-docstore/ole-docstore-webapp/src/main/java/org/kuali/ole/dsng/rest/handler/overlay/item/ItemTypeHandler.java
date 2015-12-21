@@ -23,4 +23,15 @@ public class ItemTypeHandler extends ItemOverlayHandler {
         return (null != itemRecord.getItemTypeRecord() &&
                 StringUtils.equals(itemRecord.getItemTypeRecord().getName(),itemTypeName));
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String itemTypeName = getStringValueFromJsonObject(jsonObject,TYPE);
+        ItemTypeRecord itemTypeRecord = fetchItemTypeByName(itemTypeName);
+        if(null != itemTypeRecord) {
+            itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
+            itemRecord.setItemTypeRecord(itemTypeRecord);
+        }
+        return itemRecord;
+    }
 }

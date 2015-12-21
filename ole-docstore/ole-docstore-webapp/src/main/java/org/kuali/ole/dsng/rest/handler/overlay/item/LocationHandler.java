@@ -22,4 +22,17 @@ public class LocationHandler extends ItemOverlayHandler {
         String fullPathLocation = getFullLocationForOverlay(jsonObject, itemLocation, itemLocationLevel);
         return StringUtils.equals(itemRecord.getLocation(),fullPathLocation);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String fullPathLocation = getFullPathLocation(itemRecord, jsonObject);
+        itemRecord.setLocation(fullPathLocation);
+        return itemRecord;
+    }
+
+    private String getFullPathLocation(ItemRecord itemRecord, JSONObject jsonObject) {
+        String location = itemRecord.getLocation();
+        String locationLevel = itemRecord.getLocationLevel();
+        return getFullLocationForOverlay(jsonObject, location, locationLevel);
+    }
 }

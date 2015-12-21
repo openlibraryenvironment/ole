@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
@@ -207,20 +208,20 @@ public class OleDsHelperUtil implements DocstoreConstants {
         return null;
     }
 
-    public OLEDonorRecord fetchDonorCodeByCode(String donorCode) {
+    public OLEItemDonorRecord fetchDonorCodeByCode(String donorCode) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("donorCode", donorCode);
-        List<OLEDonorRecord> matching = (List<OLEDonorRecord>) getBusinessObjectService().findMatching(OLEDonorRecord.class, map);
+        List<OLEItemDonorRecord> matching = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
         }
         return null;
     }
 
-    public OLEDonorRecord fetchDonorCodeByPublicDisplay(String publicDisplay) {
+    public OLEItemDonorRecord fetchDonorCodeByPublicDisplay(String publicDisplay) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("donorPublicDisplay", publicDisplay);
-        List<OLEDonorRecord> matching = (List<OLEDonorRecord>) getBusinessObjectService().findMatching(OLEDonorRecord.class, map);
+        List<OLEItemDonorRecord> matching = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
         }

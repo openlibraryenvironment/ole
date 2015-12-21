@@ -20,4 +20,11 @@ public class VendorLineItemIdHandler extends ItemOverlayHandler {
         String vendorLineItemId = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(itemRecord.getVendorLineItemId(),vendorLineItemId);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String vendorLineItemIdentifier = getStringValueFromJsonObject(jsonObject,TYPE);
+        itemRecord.setVendorLineItemId(vendorLineItemIdentifier);
+        return itemRecord;
+    }
 }
