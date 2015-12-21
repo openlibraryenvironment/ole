@@ -172,6 +172,7 @@ public class ExportDataServiceImpl implements ExportDataService {
                         }
                     }
                     dataFields.addAll(holdingsItemDataField);
+                    Collections.sort(dataFields);
                 }
             }
         } catch (Exception ex) {
