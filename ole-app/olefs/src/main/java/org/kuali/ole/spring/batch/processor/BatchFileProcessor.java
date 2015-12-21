@@ -37,9 +37,9 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private MarcXMLConverter marcXMLConverter;
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
-    public void processBatch(String  rawMarc, String profileName) {
+    public void processBatch(String  rawMarc, String profileId) {
         try {
-            BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileName);
+            BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileId);
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
             String responseData = processRecords(records, batchProcessProfile);
             LOG.info("Response Data : " + responseData);
@@ -48,11 +48,11 @@ public abstract class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    private BatchProcessProfile fetchBatchProcessProfile(String profileName) {
+    private BatchProcessProfile fetchBatchProcessProfile(String profileId) {
         BatchProcessProfile batchProcessProfile = null;
 
         Map parameterMap = new HashedMap();
-        parameterMap.put("batchProcessProfileName",profileName);
+        parameterMap.put("batchProcessProfileId",profileId);
         List<BatchProcessProfile> matching = (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
         if(CollectionUtils.isNotEmpty(matching)){
             try {

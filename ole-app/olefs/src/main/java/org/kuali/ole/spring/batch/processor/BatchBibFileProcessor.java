@@ -72,7 +72,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
             JSONObject bibData = new JSONObject();
 
-            // Processing custom process based on profile (Casalini/YBP)
             String profileName = batchProcessProfile.getBatchProcessProfileName();
             doCustomProcessForProfile(marcRecord, profileName);
 
