@@ -6,7 +6,7 @@
 </head>
 <body onload="placeFocus()">
 <div id="header" title="Kuali Open Library Environment">
-    <p><img src="../images-portal/logo-ole.png" alt="Kuali OLE" width="214" height="70"</img></p>
+    <p><img src="../images-portal/ole-logo.png" alt="Kuali OLE" width="214" height="70"/></p>
 </div>
 
 <div>
