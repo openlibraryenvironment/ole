@@ -41,12 +41,9 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
-batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload', function($scope, fileUpload){
+batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$http', function($scope, fileUpload,$http){
 
-    $scope.profileNames = [
-        {id: 'BibForInvoiceCasalini', name: 'BibForInvoiceCasalini'},
-        {id: 'BibForInvoiceYBP', name: 'BibForInvoiceYBP'}
-    ];
+    $scope.profileNames = [];
     var url = "ole-kr-krad/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
@@ -55,6 +52,11 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload', fu
         console.log('Profile Name is '  + profileName);
         console.dir(file);
         fileUpload.uploadFileToUrl($scope,file,profileName, url);
+    };
+    $scope.init = function () {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function(data) {
+            $scope.profileNames = data;
+        });
     };
 
 }]);

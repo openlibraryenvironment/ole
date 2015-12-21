@@ -154,4 +154,23 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         }
         return jsonArray.toString();
     }
+
+    public String prepareProfileNames(){
+        List<BatchProcessProfile> allProfiles = batchProfileService.getAllProfiles();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(allProfiles)) {
+                for (Iterator<BatchProcessProfile> iterator = allProfiles.iterator(); iterator.hasNext(); ) {
+                    BatchProcessProfile batchProcessProfile = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
+                    jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
 }

@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.dao.impl;
 
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -44,6 +45,11 @@ public class DescribeDAOImpl implements DescribeDAO {
     @Override
     public List<OleItemAvailableStatus> fetchAllItemStatus() {
         return (List<OleItemAvailableStatus>) getBusinessObjectService().findAll(OleItemAvailableStatus.class);
+    }
+
+    @Override
+    public List<BatchProcessProfile> fetchAllProfiles() {
+        return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
     }
 
     public BusinessObjectService getBusinessObjectService() {
