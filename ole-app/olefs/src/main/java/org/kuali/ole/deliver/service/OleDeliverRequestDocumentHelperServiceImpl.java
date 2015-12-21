@@ -118,6 +118,22 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OlePatronHelperServiceImpl olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
+    private ParameterValueResolver parameterResolverInstance;
+    private OleMailer oleMailer;
+    public ParameterValueResolver getParameterResolverInstance() {
+        if (null == parameterResolverInstance) {
+            parameterResolverInstance = ParameterValueResolver.getInstance();
+        }
+        return parameterResolverInstance;
+    }
+
+    public OleMailer getOleMailer() {
+        if (null == oleMailer) {
+            oleMailer = GlobalResourceLoader.getService("oleMailer");
+        }
+        return oleMailer;
+    }
+
 
     public DateTimeService getDateTimeService() {
         return (DateTimeService) SpringContext.getService("dateTimeService");
@@ -1999,25 +2015,38 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public void deleteTemporaryHistoryRecord() throws Exception {
         List<OlePatronDocument> patronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findAll(OlePatronDocument.class);
+        String temporaryHistoryDay =  getParameterResolverInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.TEMPORARY_HISTORY_RECORD_DAYS);
+        int temporaryHistoryDays;
+        if(StringUtils.isNotEmpty(temporaryHistoryDay)){
+         temporaryHistoryDays = Integer.parseInt(temporaryHistoryDay);
         for (OlePatronDocument olePatronDocument : patronDocumentList) {
             Map<String, String> requestMap = new HashMap<String, String>();
             requestMap.put(OLEConstants.OlePatron.PATRON_ID, olePatronDocument.getOlePatronId());
             List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistoryList = (List<OleTemporaryCirculationHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OleTemporaryCirculationHistory.class, requestMap);
             List<OleTemporaryCirculationHistory> deleteRecords = new ArrayList<OleTemporaryCirculationHistory>();
             for (OleTemporaryCirculationHistory oleTemporaryCirculationHistory : oleTemporaryCirculationHistoryList) {
-                String agendaName = OLEConstants.BATCH_PROGRAM_AGENDA;
-                HashMap<String, Object> termValues = new HashMap<String, Object>();
-                termValues.put(OLEConstants.OleDeliverRequest.IS_TEMPORARY_HISTORY_RECORD, String.valueOf(Boolean.TRUE));
-                DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
-                dataCarrierService.addData(OLEConstants.DATE_CHECK_IN, oleTemporaryCirculationHistory.getCheckInDate());
-                EngineResults engineResults = getLoanProcessor().getEngineResults(agendaName, termValues);
-                Boolean deleteRecord = (Boolean) engineResults.getAttribute(OLEConstants.OVERLAY_OPTION_DELETE);
-                if (deleteRecord != null && deleteRecord) {
+                  if(temporaryHistoryDays<determineDifferenceInDays(oleTemporaryCirculationHistory.getCheckInDate())){
                     deleteRecords.add(oleTemporaryCirculationHistory);
-                }
+                  }
             }
             getBusinessObjectService().delete(deleteRecords);
         }
+        }
+    }
+
+
+    private  int determineDifferenceInDays(Date checkInDate) {
+        int result = 0;
+        if(checkInDate!=null){
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(checkInDate);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(new Date());
+            long diffInMillis = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+            result =(int) (diffInMillis / (24* 1000 * 60 * 60));
+        }
+        return result;
     }
 
     private OleNoticeBo getExpiredHoldNotice(OleDeliverRequestBo oleDeliverRequestBo) throws Exception {
