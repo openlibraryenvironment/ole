@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.service.impl;
 
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -46,5 +47,10 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     @Override
     public List<OleItemAvailableStatus> fetchAllItemStatus() {
         return describeDAO.fetchAllItemStatus();
+    }
+
+    @Override
+    public List<BatchProcessProfile> getAllProfiles() {
+        return describeDAO.fetchAllProfiles();
     }
 }

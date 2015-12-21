@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle ng-click="toggle(addOrOverlayPanel)">
+                <a bs-collapse-toggle href="#" ng-click="toggle(addOrOverlayPanel)">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !addOrOverlayPanel.collapsed, 'glyphicon-chevron-down': addOrOverlayPanel.collapsed}"></span>
                     Matching, Add and Overlay
@@ -12,7 +12,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
                         <th></th>

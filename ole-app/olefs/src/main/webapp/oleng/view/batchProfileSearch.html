@@ -47,8 +47,6 @@
                                 </button>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -63,7 +61,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="profile in profiles">
-                <td><a href="../../batchProcessProfile.html?profileId={{profile.profileId}}">edit</a> </td>
+                <td><a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=edit">edit</a> &nbsp;&nbsp;&nbsp;
+                    <a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=copy">copy</a> </td>
                 <td><a ng-click="profileInquiry(profile.profileId)" href=''>{{profile.profileName}}</a></td>
             </tr>
             </tbody>

@@ -56,13 +56,23 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
     public String prepareProfileForEdit(String requestContent) throws JSONException, IOException {
         JSONObject requestObject = new JSONObject(requestContent);
         String profileId = null;
+        String action = null;
         if(requestObject.has("profileId")){
            profileId =  getStringValueFromJsonObject(requestObject, "profileId");
+        }
+        if(requestObject.has("action")){
+           action =  getStringValueFromJsonObject(requestObject, "action");
         }
         BatchProcessProfile matching = getBatchProcessProfileById(Long.parseLong(profileId));
         if(null != matching){
             JSONObject jsonObject = new JSONObject(IOUtils.toString(matching.getContent()));
-            jsonObject.put("profileId",profileId);
+            if(StringUtils.equals(action,"copy")){
+                jsonObject.put("profileId",JSONObject.NULL);
+                jsonObject.put("profileName",JSONObject.NULL);
+                jsonObject.put("description",JSONObject.NULL);
+            }else if(StringUtils.equals(action,"edit")){
+                jsonObject.put("profileId",profileId);
+            }
             return jsonObject.toString();
         }
         return null;

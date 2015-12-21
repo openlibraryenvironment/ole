@@ -23,6 +23,9 @@ public class BatchProfileDataMapping extends MarcDataField {
     @JsonProperty("field")
     private String field;
 
+    @JsonProperty("priority")
+    private int priority;
+
     public long getDataMappingId() {
         return dataMappingId;
     }
@@ -53,5 +56,13 @@ public class BatchProfileDataMapping extends MarcDataField {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

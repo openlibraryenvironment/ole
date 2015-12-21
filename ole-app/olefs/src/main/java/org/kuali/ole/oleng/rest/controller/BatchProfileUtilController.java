@@ -51,4 +51,10 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getItemStatus() {
         return batchProfileRequestHandler.prepareItemStatus();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getProfileNames", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getProfileNames() {
+        return batchProfileRequestHandler.prepareProfileNames();
+    }
 }
