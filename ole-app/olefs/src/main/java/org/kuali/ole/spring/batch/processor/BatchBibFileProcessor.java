@@ -28,7 +28,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     private static final String FORWARD_SLASH = "/";
-    private static final String DASH = "-";
 
     @Autowired
     private MatchPointProcessor matchPointProcessor;
@@ -36,7 +35,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
-        String profileName = batchProcessProfile.getBatchProcessProfileName();
         Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
