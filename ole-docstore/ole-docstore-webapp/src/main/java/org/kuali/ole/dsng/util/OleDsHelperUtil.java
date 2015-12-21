@@ -4,11 +4,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
+import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
@@ -26,6 +29,19 @@ import java.util.List;
  * Created by SheikS on 11/30/2015.
  */
 public class OleDsHelperUtil implements DocstoreConstants {
+
+    public enum LEVEL_NAMES {
+        INSTITUTION("Institution"), CAMPUS("Campus"), LIBRARY("Library"), COLLECTION("Collection"), SHELVING("Shelving");
+        private String name;
+
+        LEVEL_NAMES(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    };
 
     private ObjectMapper objectMapper;
 
@@ -161,9 +177,9 @@ public class OleDsHelperUtil implements DocstoreConstants {
         return  marcXMLConverter.convertRawMarchToMarc(rawMarcContent);
     }
 
-    public CallNumberTypeRecord fetchCallNumberTypeRecordByName(String callNumberTypeName) {
+    public CallNumberTypeRecord fetchCallNumberTypeRecordById(String callNumberTypeId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name", callNumberTypeName);
+        map.put("callNumberTypeId", callNumberTypeId);
         List<CallNumberTypeRecord> matching = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
@@ -189,6 +205,69 @@ public class OleDsHelperUtil implements DocstoreConstants {
             return matching.get(0);
         }
         return null;
+    }
+
+    public OLEDonorRecord fetchDonorCodeByCode(String donorCode) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("donorCode", donorCode);
+        List<OLEDonorRecord> matching = (List<OLEDonorRecord>) getBusinessObjectService().findMatching(OLEDonorRecord.class, map);
+        if(CollectionUtils.isNotEmpty(matching)) {
+            return matching.get(0);
+        }
+        return null;
+    }
+
+    public OLEDonorRecord fetchDonorCodeByPublicDisplay(String publicDisplay) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("donorPublicDisplay", publicDisplay);
+        List<OLEDonorRecord> matching = (List<OLEDonorRecord>) getBusinessObjectService().findMatching(OLEDonorRecord.class, map);
+        if(CollectionUtils.isNotEmpty(matching)) {
+            return matching.get(0);
+        }
+        return null;
+    }
+
+
+    public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
+                               String locationLevel4, String locationLevel5) {
+        StringBuilder location = new StringBuilder();
+
+        if (StringUtils.isNotBlank(locationLevel1)) {
+            appendLocationToStringBuilder(location, locationLevel1);
+        }
+        if (StringUtils.isNotBlank(locationLevel2)) {
+            appendLocationToStringBuilder(location, locationLevel2);
+        }
+        if (StringUtils.isNotBlank(locationLevel3)) {
+            appendLocationToStringBuilder(location, locationLevel3);
+        }
+        if (StringUtils.isNotBlank(locationLevel4)) {
+            appendLocationToStringBuilder(location, locationLevel4);
+        }
+        if (StringUtils.isNotBlank(locationLevel5)) {
+            appendLocationToStringBuilder(location, locationLevel5);
+        }
+
+        return location.toString();
+    }
+
+
+    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
+        String returnValue = null;
+        try {
+            returnValue = jsonObject.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    private void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {
+        if (stringBuilder.length() > 0) {
+            stringBuilder.append(FORWARD_SLASH).append(location);
+        } else {
+            stringBuilder.append(location);
+        }
     }
 
 

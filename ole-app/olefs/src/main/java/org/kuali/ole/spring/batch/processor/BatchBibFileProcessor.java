@@ -36,21 +36,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String profileName = batchProcessProfile.getBatchProcessProfileName();
-        Map<Record, List<String>> queryMap = new HashedMap();
+        Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
-            matchPointProcessor.prepareSolrQueryMapForMatchPoint(marcRecord,queryMap,batchProcessProfile.getBatchProfileMatchPointList());
+            String query = matchPointProcessor.prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+            if (StringUtils.isNotBlank(query)) {
+                queryMap.put(marcRecord, query);
+            }
         }
         if(queryMap.size() > 0) {
             for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
                 Record key = iterator.next();
-                List<String> queryList = queryMap.get(key);
-                StringBuilder stringBuilder = new StringBuilder();
-                for (Iterator<String> queryListIterator = queryList.iterator(); queryListIterator.hasNext(); ) {
-                    String query = queryListIterator.next();
-                    appendQuery(stringBuilder,query);
-                }
-                JSONObject jsonObject = processOverlay(key, batchProcessProfile, stringBuilder.toString());
+                String query = queryMap.get(key);
+                JSONObject jsonObject = processOverlay(key, batchProcessProfile, query);
                 if(null != jsonObject) {
                     jsonArray.put(jsonObject);
                 }
@@ -60,13 +58,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
         }
         return null;
-    }
-
-    private void appendQuery(StringBuilder queryBuilder, String query) {
-        if(queryBuilder.length() > 0) {
-            queryBuilder.append(" OR ");
-        }
-        queryBuilder.append(query);
     }
 
     private JSONObject processOverlay(Record marcRecord, BatchProcessProfile batchProcessProfile,String query) throws JSONException {
@@ -93,40 +84,18 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("updatedDate", updatedDate);
 
 
-            //Holdings data
-            String locationLevel1 = "UC";
-            String locationLevel2 = null;
-            String locationLevel3 = "UCX";
-            String locationLevel4 = null;
-            String locationLevel5 = "InProc";
-
-            String locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
-                    locationLevel4, locationLevel5);
-
-            String callNumberForHolding = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "050", "$a$b");
-
             JSONObject holdingsData = new JSONObject();
-            holdingsData.put("location", locationForHolding);
-            holdingsData.put("callNumberType", "LCC - Library Of Congress classification");
-            holdingsData.put("callNumber", callNumberForHolding);
-            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                String callNumberPrefix = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "090", "$p");
-                locationLevel5 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$c");
-                locationLevel3 = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, "980", "$d");
-                locationForHolding = formLocation(locationLevel1, locationLevel2, locationLevel3,
-                        locationLevel4, locationLevel5);
-                holdingsData.put("callNumberPrefix", callNumberPrefix);
-                holdingsData.put("location", locationForHolding);
+            JSONObject holdingsMatchPoints = prepareMatchPointForHoldingsOrItem(batchProcessProfile.getBatchProfileMatchPointList(), "holdings");
+            if (holdingsMatchPoints.length() > 0) {
+                holdingsData.put("matchPoints", holdingsMatchPoints);
             }
             bibData.put("holdings", holdingsData);
 
-            //Item data
+
             JSONObject itemData = new JSONObject();
-            itemData.put("itemType", "stks - Regular loan");
-            itemData.put("itemStatus", "In Process");
-            if (profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
-                itemData.put("copyNumber", "c.1");
-                itemData.put("callNumberType", "LCC - Library Of Congress classification");
+            JSONObject itemMatchPoints = prepareMatchPointForHoldingsOrItem(batchProcessProfile.getBatchProfileMatchPointList(), "item");
+            if (holdingsMatchPoints.length() > 0) {
+                itemData.put("matchPoints", itemMatchPoints);
             }
             bibData.put("items", itemData);
 
@@ -134,28 +103,22 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
         return null;
     }
-
-    public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
-                               String locationLevel4, String locationLevel5) {
-        StringBuilder location = new StringBuilder();
-
-        if (StringUtils.isNotBlank(locationLevel1)) {
-            appendLocationToStrinBuilder(location, locationLevel1);
+    private JSONObject prepareMatchPointForHoldingsOrItem(List<BatchProfileMatchPoint> batchProfileMatchPoints, String matchPointType) throws JSONException {
+        JSONObject matchPoints = new JSONObject();
+        if(CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
+            for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
+                BatchProfileMatchPoint batchProfileMatchPoint =  iterator.next();
+                if(batchProfileMatchPoint.getDataType().equalsIgnoreCase(matchPointType)) {
+                    String matchPoint = batchProfileMatchPoint.getMatchPointType();
+                    if (StringUtils.isNotBlank(batchProfileMatchPoint.getMatchPointValue())) {
+                        matchPoints.put(matchPoint, batchProfileMatchPoint.getMatchPointValue());
+                    } else {
+                        matchPoints.put(matchPoint, batchProfileMatchPoint.getConstant());
+                    }
+                }
+            }
         }
-        if (StringUtils.isNotBlank(locationLevel2)) {
-            appendLocationToStrinBuilder(location, locationLevel2);
-        }
-        if (StringUtils.isNotBlank(locationLevel3)) {
-            appendLocationToStrinBuilder(location, locationLevel3);
-        }
-        if (StringUtils.isNotBlank(locationLevel4)) {
-            appendLocationToStrinBuilder(location, locationLevel4);
-        }
-        if (StringUtils.isNotBlank(locationLevel5)) {
-            appendLocationToStrinBuilder(location, locationLevel5);
-        }
-
-        return location.toString();
+        return matchPoints;
     }
 
     private void appendLocationToStrinBuilder(StringBuilder stringBuilder, String location) {

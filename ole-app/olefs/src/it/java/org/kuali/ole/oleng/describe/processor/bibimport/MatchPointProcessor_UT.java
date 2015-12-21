@@ -47,12 +47,16 @@ public class MatchPointProcessor_UT {
         batchProfileMatchPoints.add(batchProfileMatchPoint1);
         batchProfileMatchPoints.add(batchProfileMatchPoint2);
         batchProfileMatchPoints.add(batchProfileMatchPoint3);
+
+        List<String> queryList = new ArrayList<>();
+
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record record = iterator.next();
-            matchPointProcessor.prepareSolrQueryMapForMatchPoint(record, queryMap, batchProfileMatchPoints);
-            System.out.println(queryMap.get(record));
+            String query = matchPointProcessor.prepareSolrQueryMapForMatchPoint(record, batchProfileMatchPoints);
+            queryList.add(query);
+            System.out.println(query);
         }
-        assertTrue(queryMap.size() == 2);
+        assertTrue(queryList.size() == 2);
     }
 
 

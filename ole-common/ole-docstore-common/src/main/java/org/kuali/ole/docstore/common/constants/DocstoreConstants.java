@@ -357,6 +357,7 @@ public interface DocstoreConstants {
 
 
     public static final SimpleDateFormat DOCSTORE_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+    public static final String FORWARD_SLASH = "/";
 
 
 

@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.describe.processor.bibimport;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.spring.batch.BatchUtil;
@@ -21,33 +22,41 @@ import java.util.Map;
 @Service("matchPointProcessor")
 public class MatchPointProcessor extends BatchUtil {
 
-    public void prepareSolrQueryMapForMatchPoint(Record marcRecord, Map queryMap, List<BatchProfileMatchPoint> batchProfileMatchPoints) {
+    public String prepareSolrQueryMapForMatchPoint(Record marcRecord, List<BatchProfileMatchPoint> batchProfileMatchPoints) {
+        List<String> queryList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
                 BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                formSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPoint, queryMap);
+                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase("bibliographic")) {
+                    String query = formSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPoint);
+                    if(StringUtils.isNotBlank(query)){
+                        queryList.add(query) ;
+                    }
+                }
             }
         }
+        return prepareSolrQueryFromQueryList(queryList);
     }
 
-    private void formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint,
-                                               Map<Record, List<String>> queryMap) {
+    private String formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
         if (null != batchProfileMatchPoint.getControlField() &&
                 batchProfileMatchPoint.getControlField().equalsIgnoreCase(ControlFields.CONTROL_FIELD_001)) {
-            processForControlField(marcRecord, queryMap);
+            return processForControlField(marcRecord);
         } else {
-            processForDataField(marcRecord, batchProfileMatchPoint, queryMap);
+            return processForDataField(marcRecord, batchProfileMatchPoint);
         }
 
     }
 
-    private void processForControlField(Record marcRecord, Map<Record, List<String>> queryMap) {
+    private String processForControlField(Record marcRecord) {
         String valueOf001 = getMarcRecordUtil().getControlFieldValue(marcRecord, "001");
-        String query = "controlfield_001:" + "\"" + valueOf001 + "\"";  // Todo : need to verify that the value for the control field matching should come from profile or marc record
-        addQueryToMap(queryMap, marcRecord, query);
+        if(StringUtils.isNotBlank(valueOf001)){
+            return "controlfield_001:" + "\"" + valueOf001 + "\"";  // Todo : need to verify that the value for the control field matching should come from profile or marc record
+        }
+        return null;
     }
 
-    private void processForDataField(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint, Map<Record, List<String>> queryMap) {
+    private String processForDataField(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
         String field = batchProfileMatchPoint.getDataField();
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
@@ -57,19 +66,28 @@ public class MatchPointProcessor extends BatchUtil {
             for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                 Subfield subfield = subfieldIterator.next();
                 String matchPointValue = subfield.getData();
-                //Todo : Need to add ind1 and ind2 to the query.
-                String query = "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
-                addQueryToMap(queryMap, marcRecord, query);
+                if (StringUtils.isNotBlank(matchPointValue)) {
+                    //Todo : Need to add ind1 and ind2 to the query.
+                    return "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
+                }
             }
         }
+        return null;
     }
 
-    private void addQueryToMap(Map<Record, List<String>> queryMap, Record marcRecord, String query) {
-        List<String> queryList = new ArrayList<>();
-        if (queryMap.containsKey(marcRecord)) {
-            queryList = queryMap.get(marcRecord);
+    private String prepareSolrQueryFromQueryList(List<String> queryList) {
+        StringBuilder queryBuilder = new StringBuilder();
+        for (Iterator<String> iterator = queryList.iterator(); iterator.hasNext(); ) {
+            String query = iterator.next();
+            appendQuery(queryBuilder,query);
         }
-        queryList.add(query);
-        queryMap.put(marcRecord, queryList);
+        return queryBuilder.toString();
+    }
+
+    private void appendQuery(StringBuilder queryBuilder, String query) {
+        if(queryBuilder.length() > 0) {
+            queryBuilder.append(" OR ");
+        }
+        queryBuilder.append(query);
     }
 }
