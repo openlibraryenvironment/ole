@@ -7,16 +7,21 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.*;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberHandler;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberPrefixHandler;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberTypeHandler;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.CopyNumberHandler;
+import org.kuali.ole.dsng.rest.handler.overlay.holdings.LocationHandler;
+import org.kuali.ole.dsng.rest.handler.overlay.item.*;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.ControlFieldImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
@@ -37,6 +42,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     @Autowired
     ItemDAO itemDAO;
+
+    private List<HoldingsOverlayHandler> holdingsMatchPointHandlers;
+    private List<ItemOverlayHandler> itemOverlayMatchPointHandlers;
 
     public String processOverlayForBib(String jsonBody) {
         JSONArray responseJsonArray = null;
@@ -158,69 +166,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     // Processing Holdings
                     List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
                     if (CollectionUtils.isNotEmpty(holdingsRecords) && jsonObject.has("holdings")) {
-                        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-                            HoldingsRecord holdingsRecord = iterator.next();
-                            JSONObject holdingJsonObject = jsonObject.getJSONObject("holdings");
-                            String location = getStringValueFromJsonObject(holdingJsonObject, "location");
-                            String callNumberTypeName = getStringValueFromJsonObject(holdingJsonObject, "callNumberType");
-                            String callNumber = getStringValueFromJsonObject(holdingJsonObject, "callNumber");
-                            holdingsRecord.setLocation(location);
-                            CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordByName(callNumberTypeName);
-                            if (null != callNumberTypeRecord) {
-                                holdingsRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
-                                holdingsRecord.setCallNumberTypeRecord(callNumberTypeRecord);
-                            }
-                            holdingsRecord.setUpdatedBy(updatedBy);
-                            holdingsRecord.setUpdatedDate(updatedDate);
-                            holdingsRecord.setCallNumber(callNumber);
-                            if (holdingJsonObject.has("callNumberPrefix")) {
-                                String callNumberPrefix = getStringValueFromJsonObject(holdingJsonObject, "callNumberPrefix");
-                                holdingsRecord.setCallNumberPrefix(callNumberPrefix);
-                            }
-                            HoldingsRecord updatedHoldignsRecord = holdingDAO.save(holdingsRecord);
-                            solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-
-                            // Processing Items
-                            List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
-                            if(CollectionUtils.isNotEmpty(itemRecords) && jsonObject.has("items")) {
-                                for (Iterator<ItemRecord> itemRecordIterator = itemRecords.iterator(); itemRecordIterator.hasNext(); ) {
-                                    ItemRecord itemRecord = itemRecordIterator.next();
-                                    JSONObject itemJsonObject = jsonObject.getJSONObject("items");
-                                    String itemStatusName = getStringValueFromJsonObject(itemJsonObject, "itemStatus");
-                                    String itemTypeName = getStringValueFromJsonObject(itemJsonObject, "itemType");
-                                    ItemStatusRecord itemStatusRecord = fetchItemStatusByName(itemStatusName);
-                                    if(null != itemStatusRecord) {
-                                        itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
-                                        itemRecord.setItemStatusRecord(itemStatusRecord);
-                                    }
-
-                                    ItemTypeRecord itemTypeRecord = fetchItemTypeByName(itemTypeName);
-                                    if(null != itemTypeRecord) {
-                                        itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
-                                        itemRecord.setItemTypeRecord(itemTypeRecord);
-                                    }
-
-                                    if (itemJsonObject.has("callNumberType")) {
-                                        String callNumberTypeForItem = getStringValueFromJsonObject(itemJsonObject, "callNumberType");
-                                        CallNumberTypeRecord callNumberTypeRecordForItem = fetchCallNumberTypeRecordByName(callNumberTypeForItem);
-                                        if (null != callNumberTypeRecordForItem) {
-                                            itemRecord.setCallNumberTypeId(callNumberTypeRecordForItem.getCallNumberTypeId());
-                                            itemRecord.setCallNumberTypeRecord(callNumberTypeRecordForItem);
-                                        }
-
-                                    }
-                                    if (itemJsonObject.has("copyNumber")) {
-                                        String copyNumber = getStringValueFromJsonObject(itemJsonObject, "copyNumber");
-                                        itemRecord.setCopyNumber(copyNumber);
-                                    }
-
-                                    itemRecord.setUpdatedBy(updatedBy);
-                                    itemRecord.setUpdatedDate(updatedDate);
-                                    ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
-                                    solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
-                                }
-                            }
-                        }
+                        solrInputDocumentMap = processHoldings(solrInputDocumentMap, jsonObject, updatedBy, updatedDate, holdingsRecords);
                     }
                     responseJsonArray.put(responseObject);
                 } else {
@@ -233,6 +179,72 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return responseJsonArray.toString();
+    }
+
+    private Map<String, SolrInputDocument> processHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, JSONObject jsonObject,
+                                                           String updatedBy, Timestamp updatedDate, List<HoldingsRecord> holdingsRecords) throws JSONException {
+        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = iterator.next();
+            JSONObject holdingJsonObject = jsonObject.getJSONObject("holdings");
+            if (holdingJsonObject.has("matchPoints")) {
+                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
+                boolean isMatchingHolding = false;
+                for (Iterator<HoldingsOverlayHandler> holdingsRecordIterator = getHoldingsMatchPointHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                    HoldingsOverlayHandler holdingsOverlayHandler = holdingsRecordIterator.next();
+                    if(holdingsOverlayHandler.isInterested(matchPoints)){
+                        isMatchingHolding = true;
+                        boolean matching = holdingsOverlayHandler.isMatching(holdingsRecord, matchPoints);
+                        if (!matching) {
+                            isMatchingHolding = false;
+                            break;
+                        }
+                    }
+                }
+                if(isMatchingHolding){
+                    //Todo : Process for Datamapping
+                    holdingsRecord.setUpdatedBy(updatedBy);
+                    holdingsRecord.setUpdatedDate(updatedDate);
+                    HoldingsRecord updatedHoldingsRecord = holdingDAO.save(holdingsRecord);
+                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+
+                    // Processing Items
+                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                    if(CollectionUtils.isNotEmpty(itemRecords) && jsonObject.has("items")){
+                        solrInputDocumentMap = processItems(solrInputDocumentMap, jsonObject, updatedBy, updatedDate, itemRecords);
+                    }
+                }
+            }
+        }
+        return solrInputDocumentMap;
+    }
+
+    private Map<String, SolrInputDocument> processItems(Map<String, SolrInputDocument> solrInputDocumentMap, JSONObject jsonObject, String updatedBy, Timestamp updatedDate, List<ItemRecord> itemRecords) throws JSONException {
+        JSONObject itemJsonObject = jsonObject.getJSONObject("items");
+        if (itemJsonObject.has("matchPoints")) {
+            JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
+            for (Iterator<ItemRecord> itemRecordIterator = itemRecords.iterator(); itemRecordIterator.hasNext(); ) {
+                ItemRecord itemRecord = itemRecordIterator.next();
+                boolean isMatchingItem = false;
+                for (Iterator<ItemOverlayHandler> iterator = getItemOverlayMatchPointHandlers().iterator(); iterator.hasNext(); ) {
+                    ItemOverlayHandler itemOverlayHandler = iterator.next();
+                    if(itemOverlayHandler.isInterested(matchPoints)){
+                        isMatchingItem = true;
+                        boolean matching = itemOverlayHandler.isMatching(itemRecord, matchPoints);
+                        if(!matching){
+                            isMatchingItem = false;
+                            break;
+                        }
+                    }
+                }
+                if(isMatchingItem) {
+                    itemRecord.setUpdatedBy(updatedBy);
+                    itemRecord.setUpdatedDate(updatedDate);
+                    ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
+                    solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+                }
+            }
+        }
+        return solrInputDocumentMap;
     }
 
     private String doCustomProcessForProfile(String marcContent,String bibId) {
@@ -270,5 +282,39 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    public List<HoldingsOverlayHandler> getHoldingsMatchPointHandlers() {
+        if(CollectionUtils.isEmpty(holdingsMatchPointHandlers)) {
+            holdingsMatchPointHandlers = new ArrayList<HoldingsOverlayHandler>();
+            holdingsMatchPointHandlers.add(new CallNumberHandler());
+            holdingsMatchPointHandlers.add(new CallNumberPrefixHandler());
+            holdingsMatchPointHandlers.add(new CallNumberTypeHandler());
+            holdingsMatchPointHandlers.add(new CopyNumberHandler());
+            holdingsMatchPointHandlers.add(new LocationHandler());
+        }
+        return holdingsMatchPointHandlers;
+    }
+
+    public List<ItemOverlayHandler> getItemOverlayMatchPointHandlers() {
+        if(CollectionUtils.isEmpty(itemOverlayMatchPointHandlers)) {
+            itemOverlayMatchPointHandlers = new ArrayList<ItemOverlayHandler>();
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberPrefixHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberTypeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ChronologyHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CopyNumberHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorCodeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorNoteHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorPublicDisplayHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.EnumerationHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemBarcodeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemStatusHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemTypeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.LocationHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.StatisticalSearchCodeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.VendorLineItemIdHandler());
+        }
+        return itemOverlayMatchPointHandlers;
     }
 }
