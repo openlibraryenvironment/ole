@@ -7,6 +7,12 @@ var documentTypes = [
     {id: 'eHoldings', name: 'EHoldings'}
 ];
 
+var destinationDocumentTypes = [
+    {id: 'holdings', name: 'Holdings'},
+    {id: 'item', name: 'Item'},
+    {id: 'eHoldings', name: 'EHoldings'}
+];
+
 var addOrOverlayDocumentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
@@ -168,50 +174,52 @@ var transformationOperations = [
     {id: 'add', name: 'Add'},
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
-    {id: 'join', name: 'Join'}
+    {id: 'join', name: 'Join'},
+    {id: 'addDelete', name: 'Add and Delete'},
+    {id: 'prepend', name: 'Prepend'},
+    {id: 'remove', name: 'Remove'}
 ];
 
 
+app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
 
-app.controller('batchProfileController', ['$scope', '$http', function($scope, $http) {
-
-    $http.get('/olefs/batchProfile/batchProfileRestController/getBibStatus').success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getBibStatus').success(function (data) {
         $scope.bibStatuses = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getCallNumberTypes').success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getCallNumberTypes').success(function (data) {
         $scope.callNumberTypeValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getItemTypes').success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getItemTypes').success(function (data) {
         $scope.itemTypeValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getItemStatus').success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getItemStatus').success(function (data) {
         $scope.itemStatusValues = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getDonorCodes').success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getDonorCodes').success(function (data) {
         $scope.donorCodes = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 1}}).success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params: {"levelId": 1}}).success(function (data) {
         $scope.locationLevel1Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 2}}).success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params: {"levelId": 2}}).success(function (data) {
         $scope.locationLevel2Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 3}}).success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params: {"levelId": 3}}).success(function (data) {
         $scope.locationLevel3Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 4}}).success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params: {"levelId": 4}}).success(function (data) {
         $scope.locationLevel4Values = data;
     });
 
-    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params:{"levelId": 5}}).success(function(data) {
+    $http.get('/olefs/batchProfile/batchProfileRestController/getLocations', {params: {"levelId": 5}}).success(function (data) {
         $scope.locationLevel5Values = data;
     });
 
@@ -287,10 +295,9 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             title: 'Data Mappings',
             dataMappingDocTypes: documentTypes,
             dataMappingDocType: 'Bibliographic',
-            destinations: documentTypes,
-            destination: 'Bibliographic',
+            destinations: destinationDocumentTypes,
             fields: fields,
-            destination: 'URL',
+            priority: 0,
             isAddLine: false,
             collapsed: true
         }
@@ -407,6 +414,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
             subField: $scope.dataMappingsPanel[0].subField,
             destination: $scope.dataMappingsPanel[0].destination,
             field: $scope.dataMappingsPanel[0].field,
+            priority: $scope.dataMappingsPanel[0].priority,
             isAddLine: true
         });
         $scope.dataMappingsPanel[0].dataMappingDocType = 'Bibliographic';
@@ -416,6 +424,7 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
         $scope.dataMappingsPanel[0].subField = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
+        $scope.dataMappingsPanel[0].priority = 0;
     };
 
     $scope.dataMappingRemove = function (dataMapping) {
@@ -586,10 +595,9 @@ app.controller('batchProfileController', ['$scope', '$http', function($scope, $h
                 title: 'Data Mappings',
                 dataMappingDocTypes: documentTypes,
                 dataMappingDocType: 'Bibliographic',
-                destinations: documentTypes,
-                destination: 'Bibliographic',
+                destinations: destinationDocumentTypes,
                 fields: fields,
-                destination: 'URL',
+                priority: 0,
                 isAddLine: false,
                 collapsed: true
             }

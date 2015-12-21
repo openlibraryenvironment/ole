@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle ng-click="toggle(fieldOperationsPanel)">
+                <a bs-collapse-toggle href="#" ng-click="toggle(fieldOperationsPanel)">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !fieldOperationsPanel.collapsed, 'glyphicon-chevron-down': fieldOperationsPanel.collapsed}"></span>
                     Field Operations
@@ -12,7 +12,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
                         <th></th>

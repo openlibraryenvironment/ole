@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle ng-click="toggle(dataTransformationsPanel)">
+                <a bs-collapse-toggle href="#" ng-click="toggle(dataTransformationsPanel)">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !dataTransformationsPanel.collapsed, 'glyphicon-chevron-down': dataTransformationsPanel.collapsed}"></span>
                     Data Transformations
@@ -12,7 +12,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
                         <th>Doc Type</th>
@@ -24,7 +24,6 @@
                         <th>Operation</th>
                         <th>Destination</th>
                         <th>Constant</th>
-                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
