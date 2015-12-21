@@ -13,7 +13,7 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class StatisticalSearchCodeHandler extends ItemOverlayHandler {
-    private final String TYPE = "Call Number";
+    private final String TYPE = "Statistical Code";
 
     @Override
     public boolean isInterested(JSONObject jsonObject) {
