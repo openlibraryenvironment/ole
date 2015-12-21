@@ -35,4 +35,13 @@ public class DonorNoteHandler extends ItemOverlayHandler {
         }
         return false;
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String donorCode = getStringValueFromJsonObject(jsonObject,TYPE);
+
+        //Todo : need to get the information about the process.
+
+        return itemRecord;
+    }
 }

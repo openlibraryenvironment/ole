@@ -22,4 +22,15 @@ public class ItemStatusHandler extends ItemOverlayHandler {
         String itemStatusName = getStringValueFromJsonObject(jsonObject, "itemStatus");
         return StringUtils.equals(itemRecord.getItemStatusRecord().getCode(),itemStatusName);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String itemStatusName = getStringValueFromJsonObject(jsonObject, "itemStatus");
+        ItemStatusRecord itemStatusRecord = fetchItemStatusByName(itemStatusName);
+        if(null != itemStatusRecord) {
+            itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
+            itemRecord.setItemStatusRecord(itemStatusRecord);
+        }
+        return itemRecord;
+    }
 }

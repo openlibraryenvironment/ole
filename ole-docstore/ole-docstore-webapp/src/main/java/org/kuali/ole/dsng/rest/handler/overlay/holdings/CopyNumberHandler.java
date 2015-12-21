@@ -21,4 +21,11 @@ public class CopyNumberHandler extends HoldingsOverlayHandler {
         String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
         return StringUtils.equals(holdingsRecord.getCopyNumber(),copyNumber);
     }
+
+    @Override
+    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
+        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
+        holdingsRecord.setCopyNumber(copyNumber);
+        return holdingsRecord;
+    }
 }

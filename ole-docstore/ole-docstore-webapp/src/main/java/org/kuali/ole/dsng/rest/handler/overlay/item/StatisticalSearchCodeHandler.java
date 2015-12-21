@@ -35,4 +35,14 @@ public class StatisticalSearchCodeHandler extends ItemOverlayHandler {
         }
         return false;
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String statisticalSearchCode = getStringValueFromJsonObject(jsonObject,TYPE);
+        List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
+
+        //Todo : Need to get the information about the process.
+
+        return itemRecord;
+    }
 }

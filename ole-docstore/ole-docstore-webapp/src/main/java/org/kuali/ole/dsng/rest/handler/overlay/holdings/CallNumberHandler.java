@@ -21,4 +21,11 @@ public class CallNumberHandler extends HoldingsOverlayHandler {
         String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
         return StringUtils.equals(holdingsRecord.getCallNumber(),callNumber);
     }
+
+    @Override
+    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
+        String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
+        holdingsRecord.setCallNumber(callNumber);
+        return holdingsRecord;
+    }
 }

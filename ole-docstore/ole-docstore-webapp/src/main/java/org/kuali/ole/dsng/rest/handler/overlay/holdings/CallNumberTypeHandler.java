@@ -23,4 +23,15 @@ public class CallNumberTypeHandler extends HoldingsOverlayHandler {
         return (null != holdingsRecord.getCallNumberTypeRecord() &&
                 StringUtils.equals(holdingsRecord.getCallNumberTypeRecord().getCode(),callNumber));
     }
+
+    @Override
+    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
+        String callNumber = getStringValueFromJsonObject(jsonObject, TYPE);
+        CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordById(callNumber);
+        if (null != callNumberTypeRecord) {
+            holdingsRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
+            holdingsRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+        }
+        return holdingsRecord;
+    }
 }

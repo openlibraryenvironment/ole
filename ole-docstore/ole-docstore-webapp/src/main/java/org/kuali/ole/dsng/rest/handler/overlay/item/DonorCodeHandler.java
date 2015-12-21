@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,5 +37,22 @@ public class DonorCodeHandler extends ItemOverlayHandler {
             }
         }
         return false;
+    }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String donorCode = getStringValueFromJsonObject(jsonObject,TYPE);
+
+        //Todo : need to get the information about the process.
+
+        /*OLEItemDonorRecord oleItemDonorRecord = fetchDonorCodeByCode(donorCode);
+        if(null != oleItemDonorRecord) {
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(null == donorList) {
+                donorList = new ArrayList<OLEItemDonorRecord>();
+                donorList.add(oleDonorRecord);
+            }
+        }*/
+        return itemRecord;
     }
 }

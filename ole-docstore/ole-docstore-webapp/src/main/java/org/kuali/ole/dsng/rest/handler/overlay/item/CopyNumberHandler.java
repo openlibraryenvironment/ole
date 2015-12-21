@@ -21,4 +21,11 @@ public class CopyNumberHandler extends ItemOverlayHandler {
         String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
         return StringUtils.equals(itemRecord.getCopyNumber(),copyNumber);
     }
+
+    @Override
+    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
+        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
+        itemRecord.setCopyNumber(copyNumber);
+        return itemRecord;
+    }
 }
