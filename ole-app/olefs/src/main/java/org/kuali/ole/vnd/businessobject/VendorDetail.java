@@ -124,6 +124,10 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private List<VendorEventLog> eventLogs;
 
     private Timestamp gokbLastUpdated;
+
+
+
+    private Map<Integer,List<VendorContactPhoneNumber>> vendorContactPhoneNumberMap=new HashMap<Integer,List<VendorContactPhoneNumber>>();
     /**
      * Default constructor.
      */
@@ -142,6 +146,15 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         eventLogs  = new ArrayList<VendorEventLog>();
 
     }
+
+    public Map<Integer, List<VendorContactPhoneNumber>> getVendorContactPhoneNumberMap() {
+        return vendorContactPhoneNumberMap;
+    }
+
+    public void setVendorContactPhoneNumberMap(Map<Integer, List<VendorContactPhoneNumber>> vendorContactPhoneNumberMap) {
+        this.vendorContactPhoneNumberMap = vendorContactPhoneNumberMap;
+    }
+
 
     public Integer getVendorHeaderGeneratedIdentifier() {
         return vendorHeaderGeneratedIdentifier;
