@@ -43,12 +43,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 queryMap.put(marcRecord, query);
             }
         }
-        if(queryMap.size() > 0) {
+        if (queryMap.size() > 0) {
             for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
                 Record key = iterator.next();
                 String query = queryMap.get(key);
-                JSONObject jsonObject = processOverlay(key, batchProcessProfile, query);
-                if(null != jsonObject) {
+                JSONObject jsonObject = prepareRequest(key, batchProcessProfile, query);
+                if (null != jsonObject) {
                     jsonArray.put(jsonObject);
                 }
             }
@@ -59,8 +59,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return null;
     }
 
-    private JSONObject processOverlay(Record marcRecord, BatchProcessProfile batchProcessProfile,String query) throws JSONException {
-        LOG.info("Overlay processing started");
+    private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
+        LOG.info("Preparing JSON Request for Bib/Holdings/Items");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
             JSONObject bib = new JSONObject();
@@ -83,30 +83,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("updatedDate", updatedDate);
 
 
-            JSONObject holdingsData = new JSONObject();
-            JSONObject holdingsMatchPoints = prepareMatchPointForHoldingsOrItem(batchProcessProfile.getBatchProfileMatchPointList(), "holdings");
-            if (holdingsMatchPoints.length() > 0) {
-                holdingsData.put("matchPoints", holdingsMatchPoints);
-            }
-
-            Map<String, String> dataMappingMap = getDataMappingMap(batchProcessProfile.getBatchProfileDataMappingList());
-
-            JSONObject holdingsDataMapping = processDataMapping(marcRecord, dataMappingMap,"Holdings");
-            if(holdingsDataMapping.length() > 0) {
-                holdingsData.put("dataMapping", holdingsDataMapping);
-            }
+            JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
+            prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
             bibData.put("holdings", holdingsData);
 
 
-            JSONObject itemData = new JSONObject();
-            JSONObject itemMatchPoints = prepareMatchPointForHoldingsOrItem(batchProcessProfile.getBatchProfileMatchPointList(), "item");
-            if (holdingsMatchPoints.length() > 0) {
-                itemData.put("matchPoints", itemMatchPoints);
-            }
-            JSONObject itemDataMapping = processDataMapping(marcRecord, dataMappingMap,"Item");
-            if(itemDataMapping.length() > 0) {
-                itemData.put("dataMapping", itemDataMapping);
-            }
+            JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
+            prepareDataMappings(marcRecord, batchProcessProfile, itemData, "item");
             bibData.put("items", itemData);
 
             return bibData;
@@ -114,37 +97,93 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return null;
     }
 
-    private JSONObject prepareMatchPointForHoldingsOrItem(List<BatchProfileMatchPoint> batchProfileMatchPoints, String matchPointType) throws JSONException {
+    private JSONObject prepareMatchPointsForItem(BatchProcessProfile batchProcessProfile) throws JSONException {
+        JSONObject itemData = new JSONObject();
+        JSONObject itemMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "item");
+        if (itemMatchPoints.length() > 0) {
+            itemData.put("matchPoints", itemMatchPoints);
+        }
+
+        return itemData;
+    }
+
+
+    private JSONObject prepareMatchPointsForHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
+        JSONObject holdingsData = new JSONObject();
+        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "holdings");
+        if (holdingsMatchPoints.length() > 0) {
+            holdingsData.put("matchPoints", holdingsMatchPoints);
+        }
+        return holdingsData;
+    }
+
+    private void prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject jsonObject, String docType) throws JSONException {
+
+        JSONObject dataMappings = new JSONObject();
+
+        List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
+        for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
+            BatchProfileDataMapping batchProfileDataMapping = iterator.next();
+            String destination = batchProfileDataMapping.getDestination();
+            if(destination.equalsIgnoreCase(docType)){
+                String newValue;
+                String destinationField = batchProfileDataMapping.getField();
+                String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+                if(dataMappings.has(destinationField)){
+                    newValue = dataMappings.get(destinationField) + " " + value;
+                } else {
+                    newValue = value;
+                }
+
+                dataMappings.put(destinationField, newValue);
+            }
+        }
+
+        jsonObject.put("dataMapping", dataMappings);
+    }
+
+    private JSONObject prepareMatchPointsForDocType(List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {
         JSONObject matchPoints = new JSONObject();
-        if(CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
+        if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
-                BatchProfileMatchPoint batchProfileMatchPoint =  iterator.next();
-                if(batchProfileMatchPoint.getDataType().equalsIgnoreCase(matchPointType)) {
+                BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
+                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(docType)) {
                     String matchPoint = batchProfileMatchPoint.getMatchPointType();
-                    if (StringUtils.isNotBlank(batchProfileMatchPoint.getMatchPointValue())) {
-                        matchPoints.put(matchPoint, batchProfileMatchPoint.getMatchPointValue());
+                    String newValue;
+                    if (matchPoints.has(matchPoint)) {
+                        newValue = matchPoints.getString(matchPoint) + "," + getMatchPointValue(batchProfileMatchPoint);
                     } else {
-                        matchPoints.put(matchPoint, batchProfileMatchPoint.getConstant());
+                        newValue = getMatchPointValue(batchProfileMatchPoint);
                     }
+                    matchPoints.put(matchPoint, newValue);
                 }
             }
         }
         return matchPoints;
     }
 
+    private String getMatchPointValue(BatchProfileMatchPoint batchProfileMatchPoint) {
+        String matchPointValue = batchProfileMatchPoint.getMatchPointValue();
+        if (StringUtils.isNotBlank(matchPointValue)) {
+            return matchPointValue;
+        }
+
+        return batchProfileMatchPoint.getConstant();
+    }
+
     public Map<String, String> getDataMappingMap(List<BatchProfileDataMapping> batchProfileDataMappingList) {
         Map<String, String> dataMappingMap = new HashMap<>();
-        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
             for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
                 BatchProfileDataMapping batchProfileDataMapping = iterator.next();
                 String mapKey = batchProfileDataMapping.getDestination() + "-"
                         + batchProfileDataMapping.getField();
                 String value = batchProfileDataMapping.getDataField() + " $" + batchProfileDataMapping.getSubField();
-                if(dataMappingMap.containsKey(mapKey)) {
+                if (dataMappingMap.containsKey(mapKey)) {
                     value = dataMappingMap.get(mapKey);
                     value = value + "$" + batchProfileDataMapping.getSubField();
                 }
-                dataMappingMap.put(mapKey,value);
+                dataMappingMap.put(mapKey, value);
             }
         }
         return dataMappingMap;
@@ -152,11 +191,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private JSONObject processDataMapping(Record marcRecord, Map<String, String> dataMappingMap, String dataMappingType) throws JSONException {
         JSONObject dataMapping = new JSONObject();
-        if(dataMappingMap.size() > 0) {
+        if (dataMappingMap.size() > 0) {
             for (Iterator<String> iterator = dataMappingMap.keySet().iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 String[] keyArray = key.split("-");
-                if(keyArray.length > 1 && keyArray[0].equals(dataMappingType)) {
+                if (keyArray.length > 1 && keyArray[0].equals(dataMappingType)) {
                     String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, dataMappingMap.get(key));
                     dataMapping.put(keyArray[1], value);
                 }
@@ -173,22 +212,22 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
     }
 
-    private void doCustomProcessForProfile(Record record,String profileName) {
-        if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceCasalini")) {
+    private void doCustomProcessForProfile(Record record, String profileName) {
+        if (StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceCasalini")) {
             // TODO : process For Casalini
             processCasaliniProfile(record);
-        } else if(StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
+        } else if (StringUtils.isNotBlank(profileName) && profileName.equalsIgnoreCase("BibForInvoiceYBP")) {
             // TODO : process For YBP
             processYBPProfile(record);
         }
-        getMarcRecordUtil().deleteFieldInRecord(record,"003");
+        getMarcRecordUtil().deleteFieldInRecord(record, "003");
     }
 
     private void processYBPProfile(Record record) {
         String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
         //Removeing ocn,ocm prefix from controlFieldValue
-        controlFieldValue = controlFieldValue.replace("ocm","");
-        controlFieldValue = controlFieldValue.replace("ocn","");
+        controlFieldValue = controlFieldValue.replace("ocm", "");
+        controlFieldValue = controlFieldValue.replace("ocn", "");
 
         String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
         String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
@@ -204,7 +243,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         subfield.setCode('a');
         subfield.setData(valueToUpdate030);
         dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
+        getMarcRecordUtil().addVariableFieldToRecord(record, dataField);
 
         //update 001 value by bibId
 
@@ -226,6 +265,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         subfield.setCode('a');
         subfield.setData(valueToUpdate030);
         dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record,dataField);
+        getMarcRecordUtil().addVariableFieldToRecord(record, dataField);
     }
 }

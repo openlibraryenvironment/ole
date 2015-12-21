@@ -49,7 +49,6 @@ public abstract class BatchFileProcessor extends BatchUtil {
     }
 
     private BatchProcessProfile fetchBatchProcessProfile(String profileName) {
-        //TODO : Need to fetch profile from database. As of now its has been hardcoded.
         BatchProcessProfile batchProcessProfile = null;
 
         Map parameterMap = new HashedMap();

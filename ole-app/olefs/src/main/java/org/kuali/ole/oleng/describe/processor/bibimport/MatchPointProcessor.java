@@ -51,7 +51,7 @@ public class MatchPointProcessor extends BatchUtil {
     private String processForControlField(Record marcRecord) {
         String valueOf001 = getMarcRecordUtil().getControlFieldValue(marcRecord, "001");
         if(StringUtils.isNotBlank(valueOf001)){
-            return "controlfield_001:" + "\"" + valueOf001 + "\"";  // Todo : need to verify that the value for the control field matching should come from profile or marc record
+            return "controlfield_001:" + "\"" + valueOf001 + "\"";
         }
         return null;
     }
