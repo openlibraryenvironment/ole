@@ -1157,7 +1157,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
     <div align="center"><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.itemPublicViewIndicator}"
             property="document.item[${ctr}].itemPublicViewIndicator"
-            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+            readOnly="${(not amendmentEntry)}"
             tabindexOverride="${tabindexOverrideBase + 0}" />
 </td>
 
@@ -1167,7 +1167,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
     <div align="center"><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.doNotClaim}"
             property="document.item[${ctr}].doNotClaim"
-            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+            readOnly="${(not amendmentEntry)}"
             tabindexOverride="${tabindexOverrideBase + 0}" />
 </td>
 
@@ -1256,7 +1256,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.receiptStatusId}"
                 property="document.item[${ctr}].receiptStatusId"
-                tabindexOverride="${tabindexOverrideBase + 0}" readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"/>
+                tabindexOverride="${tabindexOverrideBase + 0}" readOnly="true"/>
 
     </td>
 
@@ -1268,7 +1268,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.noOfCopiesReceived}"
                 property="document.item[${ctr}].noOfCopiesReceived"
-                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+                readOnly="true"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1279,7 +1279,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.noOfPartsReceived}"
                 property="document.item[${ctr}].noOfPartsReceived"
-                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+                readOnly="true"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
