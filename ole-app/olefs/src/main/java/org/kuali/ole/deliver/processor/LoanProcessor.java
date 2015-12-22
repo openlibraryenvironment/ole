@@ -14,7 +14,6 @@ import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
-import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.form.OleLoanForm;
@@ -72,7 +71,6 @@ import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.kim.impl.role.RoleServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
@@ -81,9 +79,6 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -3799,9 +3794,9 @@ public class LoanProcessor extends PatronBillResolver {
 
     public void updateInTransitHistory(OleLoanDocument oleLoanDocument,String routeToLocation){
         if (StringUtils.isNotEmpty(oleLoanDocument.getItemStatusCode()) && (oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT) || oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
-            OLELoanIntransitRecordHistory oleLoanIntransitRecordHistory = new OLELoanIntransitRecordHistory();
-            oleLoanIntransitRecordHistory.setItemBarcode(oleLoanDocument.getItemId());
-            oleLoanIntransitRecordHistory.setItemUUID(oleLoanDocument.getItemUuid());
+            OLEReturnHistoryRecord oleReturnHistoryRecord = new OLEReturnHistoryRecord();
+            oleReturnHistoryRecord.setItemBarcode(oleLoanDocument.getItemId());
+            oleReturnHistoryRecord.setItemUUID(oleLoanDocument.getItemUuid());
             OleLocation oleLocation=null;
             try{
                 oleLocation = getCircDeskLocationResolver().getLocationByLocationCode(oleLoanDocument.getItemLocation());
@@ -3812,11 +3807,11 @@ public class LoanProcessor extends PatronBillResolver {
             String routeTo = routeToLocation != null ? routeToLocation :
                     (oleLoanDocument.getRouteToLocation() != null ? oleLoanDocument.getRouteToLocation() :
                             (oleLocation != null ? oleLocation.getLocationCode() : null));
-            oleLoanIntransitRecordHistory.setRouteCirculationDesk(routeTo);
-            oleLoanIntransitRecordHistory.setOperator(GlobalVariables.getUserSession().getPrincipalId());
-            oleLoanIntransitRecordHistory.setHomeCirculationDesk(oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode());
-            oleLoanIntransitRecordHistory.setReturnedDateTime(oleLoanDocument.getCheckInDate());
-            KRADServiceLocator.getBusinessObjectService().save(oleLoanIntransitRecordHistory);
+            oleReturnHistoryRecord.setRouteCirculationDesk(routeTo);
+            oleReturnHistoryRecord.setOperator(GlobalVariables.getUserSession().getPrincipalId());
+            oleReturnHistoryRecord.setHomeCirculationDesk(oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode());
+            oleReturnHistoryRecord.setReturnedDateTime(oleLoanDocument.getCheckInDate());
+            KRADServiceLocator.getBusinessObjectService().save(oleReturnHistoryRecord);
         }
     }
 

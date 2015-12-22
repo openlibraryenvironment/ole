@@ -291,15 +291,17 @@ public class CheckinItemController extends OLEUifControllerBase {
                                                    HttpServletRequest request, HttpServletResponse response) {
         CheckinForm checkinForm = (CheckinForm) form;
         String routeToLocationValue = request.getParameter("checkinRouteToLocation");
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) checkinForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
         if (StringUtils.isNotBlank(routeToLocationValue)) {
             checkinForm.setRouteToLocation(routeToLocationValue);
             if (checkinForm.getCheckedInItemList().size() > 0) {
                 checkinForm.getCheckedInItemList().get(0).setRouteToLocation(routeToLocationValue);
             }
-            OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) checkinForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
-            oleItemRecordForCirc.setRouteToLocation(routeToLocationValue);
+            if(oleItemRecordForCirc != null) {
+                oleItemRecordForCirc.setRouteToLocation(routeToLocationValue);
+            }
         }
-        getCheckinUIController(checkinForm).updateLoanInTransitRecordHistory(checkinForm);
+        getCheckinUIController(checkinForm).updateReturnHistory(oleItemRecordForCirc, checkinForm);
         if(!checkinForm.isPrintOnHoldSlipQueue()) {
             printSlip(checkinForm, result, request, response);
         }

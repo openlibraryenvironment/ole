@@ -2996,7 +2996,7 @@
     </table>
 
 
-    <table name="OLE_LOAN_INTRANSIT_HISTORY_T">
+    <table name="OLE_RETURN_HISTORY_T">
         <column name="ID"   type="VARCHAR" size="36" primaryKey="true"/>
         <column name="ITEM_BARCODE"   type="VARCHAR"  size="40"/>
         <column name="ITEM_UUID"   type="VARCHAR" size="40"/>
@@ -3004,6 +3004,7 @@
         <column name="OPERATOR"   type="VARCHAR" size="36"/>
         <column name="CIR_DESK_LOC"  type="VARCHAR" size="100"/>
         <column name="CIR_DESK_ROUTE_TO"  type="VARCHAR" size="100"/>
+        <column name="RETURNED_ITEM_STATUS"  type="VARCHAR" size="200"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <index name="OLE_LOAN_INTRANSIT_HST_TI1">
@@ -3660,7 +3661,7 @@
     <sequence name="OLE_DS_SEARCH_FACET_SIZE_S" nextval="2"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_S" nextval="1"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_HSTRY_S" nextval="1"/>
-    <sequence name="OLE_LOAN_INTRANSIT_HISTORY_S" nextval="1"/>
+    <sequence name="OLE_RETURN_HISTORY_S" nextval="1"/>
     <sequence name="OLE_VRNT_TTL_S" nextval="1"/>
     <sequence name="ACTN_LST_ALRT_S" nextval="1"/>
     <sequence name="ALRT_S" nextval="1"/>

@@ -219,9 +219,9 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
         if (StringUtils.isNotBlank(singleItemResultDisplayRow.getId())) {
             Map map = new HashMap();
             map.put(OLEConstants.OVERLAY_ITEMUUID, singleItemResultDisplayRow.getId());
-            List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories = (List<OLELoanIntransitRecordHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELoanIntransitRecordHistory.class, map);
-            if (CollectionUtils.isNotEmpty(oleIntransitRecordHistories)) {
-                singleItemResultDisplayRow.setOleIntransitRecordHistories(oleIntransitRecordHistories);
+            List<OLEReturnHistoryRecord> oleReturnHistoryRecords = (List<OLEReturnHistoryRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEReturnHistoryRecord.class, map);
+            if (CollectionUtils.isNotEmpty(oleReturnHistoryRecords)) {
+                singleItemResultDisplayRow.setOleReturnHistoryRecords(oleReturnHistoryRecords);
             }
         }
     }
