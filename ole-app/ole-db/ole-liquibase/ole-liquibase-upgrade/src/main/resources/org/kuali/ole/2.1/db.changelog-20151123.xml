@@ -173,4 +173,22 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_RETURN_HISTORY_T">
+        <renameTable newTableName="OLE_RETURN_HISTORY_T"
+                     oldTableName="OLE_LOAN_INTRANSIT_HISTORY_T"/>
+
+        <addColumn tableName="OLE_RETURN_HISTORY_T">
+            <column name="RETURNED_ITEM_STATUS"   type="VARCHAR(200)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RETURN_HISTORY_S_MYSQL" dbms="mysql">
+        <renameTable newTableName="OLE_RETURN_HISTORY_S"
+                     oldTableName="OLE_LOAN_INTRANSIT_HISTORY_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RETURN_HISTORY_S_ORACLE" dbms="oracle">
+        <sql>RENAME OLE_LOAN_INTRANSIT_HISTORY_S to OLE_RETURN_HISTORY_S</sql>
+    </changeSet>
+
 </databaseChangeLog>

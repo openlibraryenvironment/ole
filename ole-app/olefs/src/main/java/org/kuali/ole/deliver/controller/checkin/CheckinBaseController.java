@@ -290,7 +290,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         handleMissingPieceIfExists(oleForm, loanDocument, oleItemSearch);
 
-        handleIntransitStatus(oleItemRecordForCirc, oleForm);
+        updateReturnHistory(oleItemRecordForCirc, oleForm);
 
         handleCheckinNote(oleForm, oleItemRecordForCirc);
 
@@ -402,32 +402,36 @@ public abstract class CheckinBaseController extends CircUtilController {
         return null;
     }
 
-    private void handleIntransitStatus(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
-        getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
-        if(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD)) {
-            updateLoanInTransitRecordHistory(oleForm);
+    public void updateReturnHistory(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
+        if(oleItemRecordForCirc != null) {
+            getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
+            if((oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))
+                    && StringUtils.isNotBlank(oleItemRecordForCirc.getRouteToLocation())) {
+                saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
+            } else if(!(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )) && !(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
+                oleItemRecordForCirc.setRouteToLocation("N/A");
+                saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
+            }
         }
     }
 
-    public void updateLoanInTransitRecordHistory(OLEForm oleForm) {
-        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc)getDroolsExchange(oleForm).getContext().get("oleItemRecordForCirc");
-        if (StringUtils.isNotBlank(oleItemRecordForCirc.getRouteToLocation())) {
-            ItemRecord itemRecord = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemRecord() : null;
-            OLELoanIntransitRecordHistory oleLoanIntransitRecordHistory = new OLELoanIntransitRecordHistory();
-            if(null != itemRecord) {
-                oleLoanIntransitRecordHistory.setItemBarcode(itemRecord.getBarCode());
-                oleLoanIntransitRecordHistory.setItemUUID(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(),itemRecord.getItemId()));
-            }
-            oleLoanIntransitRecordHistory.setHomeCirculationDesk(null != oleItemRecordForCirc.getCheckinLocation() ? oleItemRecordForCirc.getCheckinLocation().getCirculationDeskCode() : getSelectedCirculationDesk(oleForm));
-            oleLoanIntransitRecordHistory.setRouteCirculationDesk(oleItemRecordForCirc.getRouteToLocation());
-            oleLoanIntransitRecordHistory.setOperator(getOperatorId(oleForm));
-            try {
-                oleLoanIntransitRecordHistory.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            getBusinessObjectService().save(oleLoanIntransitRecordHistory);
+    private void saveReturnHistoryRecord(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
+        ItemRecord itemRecord = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemRecord() : null;
+        OLEReturnHistoryRecord oleReturnHistoryRecord = new OLEReturnHistoryRecord();
+        if(null != itemRecord) {
+            oleReturnHistoryRecord.setItemBarcode(itemRecord.getBarCode());
+            oleReturnHistoryRecord.setItemUUID(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), itemRecord.getItemId()));
         }
+        oleReturnHistoryRecord.setHomeCirculationDesk(null != oleItemRecordForCirc.getCheckinLocation() ? oleItemRecordForCirc.getCheckinLocation().getCirculationDeskCode() : getSelectedCirculationDesk(oleForm));
+        oleReturnHistoryRecord.setRouteCirculationDesk(oleItemRecordForCirc.getRouteToLocation());
+        oleReturnHistoryRecord.setOperator(getOperatorId(oleForm));
+        oleReturnHistoryRecord.setReturnedItemStatus(oleItemRecordForCirc.getItemStatusToBeUpdatedTo());
+        try {
+            oleReturnHistoryRecord.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getBusinessObjectService().save(oleReturnHistoryRecord);
     }
 
     private void handleAutoCheckout(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Time: 7:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLELoanIntransitRecordHistory extends PersistableBusinessObjectBase {
+public class OLEReturnHistoryRecord extends PersistableBusinessObjectBase {
     private String id;
     private String itemBarcode;
     private String itemUUID;
@@ -19,6 +19,7 @@ public class OLELoanIntransitRecordHistory extends PersistableBusinessObjectBase
     private String homeCirculationDesk;
     private String routeCirculationDesk;
     private Timestamp returnedDateTime;
+    private String returnedItemStatus;
 
     public String getId() {
         return id;
@@ -74,5 +75,13 @@ public class OLELoanIntransitRecordHistory extends PersistableBusinessObjectBase
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public String getReturnedItemStatus() {
+        return returnedItemStatus;
+    }
+
+    public void setReturnedItemStatus(String returnedItemStatus) {
+        this.returnedItemStatus = returnedItemStatus;
     }
 }

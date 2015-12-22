@@ -2164,47 +2164,47 @@ CREATE TABLE OLE_DLVR_RQST_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX flk1 (OLE_RQST_TYP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX flk2 (PCKUP_LOC_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX flk3 (CIRC_LOC_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX flk4 (OLE_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX flk5 (PROXY_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_RQST_TI1 (LOAN_TRAN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_RQST_TI2 (ITM_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_RQST_TI3 (ITEM_UUID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DLVR_RQST_TI4 (PTRN_Q_POS )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_RQST_TI5 (BIB_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_RQST_TI6 (OLE_PTRN_BARCD )
 
@@ -5604,12 +5604,12 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
 
 
 # -----------------------------------------------------------------------
-# OLE_LOAN_INTRANSIT_HISTORY_T
+# OLE_RETURN_HISTORY_T
 # -----------------------------------------------------------------------
-drop table if exists OLE_LOAN_INTRANSIT_HISTORY_T
+drop table if exists OLE_RETURN_HISTORY_T
 /
 
-CREATE TABLE OLE_LOAN_INTRANSIT_HISTORY_T
+CREATE TABLE OLE_RETURN_HISTORY_T
 (
       ID VARCHAR(36)
         , ITEM_BARCODE VARCHAR(40)
@@ -5618,17 +5618,18 @@ CREATE TABLE OLE_LOAN_INTRANSIT_HISTORY_T
         , OPERATOR VARCHAR(36)
         , CIR_DESK_LOC VARCHAR(100)
         , CIR_DESK_ROUTE_TO VARCHAR(100)
+        , RETURNED_ITEM_STATUS VARCHAR(200)
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
     
-    , CONSTRAINT OLE_LOAN_INTRANSIT_HISTORY_P1 PRIMARY KEY(ID)
+    , CONSTRAINT OLE_RETURN_HISTORY_TP1 PRIMARY KEY(ID)
 
 
 
 
 
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_LOAN_INTRANSIT_HST_TI1 (ITEM_UUID )
 
@@ -8834,17 +8835,17 @@ ALTER TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
-# OLE_LOAN_INTRANSIT_HISTORY_S
+# OLE_RETURN_HISTORY_S
 # -----------------------------------------------------------------------
-drop table if exists OLE_LOAN_INTRANSIT_HISTORY_S
+drop table if exists OLE_RETURN_HISTORY_S
 /
 
-CREATE TABLE OLE_LOAN_INTRANSIT_HISTORY_S
+CREATE TABLE OLE_RETURN_HISTORY_S
 (
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_LOAN_INTRANSIT_HISTORY_S auto_increment = 1
+ALTER TABLE OLE_RETURN_HISTORY_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
