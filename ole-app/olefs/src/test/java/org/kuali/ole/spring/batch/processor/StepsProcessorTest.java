@@ -11,7 +11,6 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.RecordImpl;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -20,7 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by pvsubrah on 12/21/15.
