@@ -24,11 +24,9 @@ public class PrependHandler extends StepHandler {
         String value = null;
         if(getMarcRecordUtil().isControlField(sourceField)) {
             value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
-            getMarcRecordUtil().replaceContentInControlField(marcRecord,sourceField,value,"");
         } else {
             String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
             value = getMarcRecordUtil().getDataFieldValue(marcRecord,sourceField,sourceSubField);
-            getMarcRecordUtil().replaceContentInDataField(marcRecord,sourceField,sourceSubField,value,"");
         }
         if(StringUtils.isBlank(value)) {
             value = getBatchProfileDataTransformer().getConstant();
@@ -44,12 +42,18 @@ public class PrependHandler extends StepHandler {
                 String destinationField = destinationArray[0];
                 String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
 
-                StringTokenizer stringTokenizer = new StringTokenizer(destinationSubField, "$");
-                while(stringTokenizer.hasMoreTokens()) {
-                    String tag = stringTokenizer.nextToken();
-                    String dataFieldValue = getMarcRecordUtil().getDataFieldValue(marcRecord, destinationField, tag);
+                if (!getMarcRecordUtil().isControlField(destinationField)) {
+                    StringTokenizer stringTokenizer = new StringTokenizer(destinationSubField, "$");
+                    while(stringTokenizer.hasMoreTokens()) {
+                        String tag = stringTokenizer.nextToken();
+                        String dataFieldValue = getMarcRecordUtil().getDataFieldValue(marcRecord, destinationField, tag);
+                        dataFieldValue = "(" + value + ")" + dataFieldValue;
+                        getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,tag,dataFieldValue);
+                    }
+                } else {
+                    String dataFieldValue = getMarcRecordUtil().getControlFieldValue(marcRecord, destinationField);
                     dataFieldValue = "(" + value + ")" + dataFieldValue;
-                    getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,tag,dataFieldValue);
+                    getMarcRecordUtil().updateControlFieldValue(marcRecord,destinationField, dataFieldValue);
                 }
 
             }

@@ -28,6 +28,8 @@ public class RemoveHandler extends StepHandler {
                     String constant = stringTokenizer.nextToken();
                     getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, constant, "");
                 }
+            } else {
+                getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField), "");
             }
 
         } else {
@@ -38,6 +40,8 @@ public class RemoveHandler extends StepHandler {
                     String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
                     getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, sourceSubField, constant, "");
                 }
+            } else {
+                getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, getMarcRecordUtil().getDataFieldValue(marcRecord, sourceField), "");
             }
         }
     }

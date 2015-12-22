@@ -1,10 +1,12 @@
 package org.kuali.ole.spring.batch.processor;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.docstore.common.document.content.bib.marc.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
-import org.kuali.ole.spring.batch.handlers.*;
+import org.kuali.ole.spring.batch.handlers.AddOperationStepHandler;
+import org.kuali.ole.spring.batch.handlers.PrependHandler;
+import org.kuali.ole.spring.batch.handlers.RemoveHandler;
+import org.kuali.ole.spring.batch.handlers.StepHandler;
 import org.marc4j.marc.Record;
 
 import java.util.*;
@@ -15,55 +17,30 @@ import java.util.*;
 public class StepsProcessor {
 
     List<StepHandler> stepHandlerList;
-    Map<String, List<StepHandler>> steps;
 
     public void processSteps(Record marcRecord, BatchProcessProfile batchProcessProfile) {
 
         List<BatchProfileDataTransformer> batchProfileDataTransformerList = batchProcessProfile.getBatchProfileDataTransformerList();
 
-        Collections.sort(batchProfileDataTransformerList, new BatchProfileDataTransformerComparator());
-
-        for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
-            BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
-            String destinationFieldString = batchProfileDataTransformer.getDestinationField();
-            if (StringUtils.isEmpty(destinationFieldString)) {
-                destinationFieldString = batchProfileDataTransformer.getConstant();
-            }
-
-            if (StringUtils.isNotEmpty(destinationFieldString)) {
-                if (getSteps().containsKey(destinationFieldString)) {
-                    getSteps().get(destinationFieldString).add(resolveStepHandler(batchProfileDataTransformer));
-                } else {
-                    ArrayList<StepHandler> stepHandlers = new ArrayList<>();
-                    stepHandlers.add(resolveStepHandler(batchProfileDataTransformer));
-                    getSteps().put(destinationFieldString, stepHandlers);
-                }
-
-            }
-        }
-
-
-        List<StepHandler> handlersToProcess = new ArrayList<>();
-        for (int i = 1; i <= steps.size(); i++) {
-            for (Iterator iterator = getSteps().keySet().iterator(); iterator.hasNext(); ) {
-                String key = (String) iterator.next();
-                List<StepHandler> stepHandlers = steps.get(key);
-//                Collections.sort(stepHandlers, new StepHandlerComparator());
-                for (Iterator<StepHandler> stepHandlerIterator = stepHandlers.iterator(); stepHandlerIterator.hasNext(); ) {
-                    StepHandler stepHandler = stepHandlerIterator.next();
-                    if (stepHandler.getBatchProfileDataTransformer().getStep() == i) {
-                        handlersToProcess.add(stepHandler);
-                    }
+        Map<BatchProfileDataTransformer, StepHandler> handlersToProcess = new HashedMap();
+        for (int i = 1; i <= batchProfileDataTransformerList.size(); i++) {
+            for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
+                BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
+                StepHandler stepHandler = resolveStepHandler(batchProfileDataTransformer);
+                if (batchProfileDataTransformer.getStep() == i) {
+                    handlersToProcess.put(batchProfileDataTransformer, stepHandler);
                 }
             }
-            for (Iterator<StepHandler> iterator = handlersToProcess.iterator(); iterator.hasNext(); ) {
-                StepHandler handler = iterator.next();
-                handler.processSteps(marcRecord);
+
+            for (Iterator<BatchProfileDataTransformer> iterator = handlersToProcess.keySet().iterator(); iterator.hasNext(); ) {
+                BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
+                StepHandler stepHandler = handlersToProcess.get(batchProfileDataTransformer);
+                stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
+                stepHandler.processSteps(marcRecord);
             }
+
+            handlersToProcess.clear();
         }
-
-
-        System.out.println();
 
     }
 
@@ -71,7 +48,6 @@ public class StepsProcessor {
         for (Iterator<StepHandler> iterator = getStepHandlerList().iterator(); iterator.hasNext(); ) {
             StepHandler stepHandler = iterator.next();
             if (stepHandler.isInterested(batchProfileDataTransformer.getOperation())) {
-                stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
                 return stepHandler;
             }
         }
@@ -81,7 +57,7 @@ public class StepsProcessor {
     public List<StepHandler> getStepHandlerList() {
         if (null == stepHandlerList) {
             stepHandlerList = new ArrayList<>();
-            stepHandlerList.add(new AddDeleteOperationStepHandler());
+            stepHandlerList.add(new AddOperationStepHandler());
             stepHandlerList.add(new PrependHandler());
             stepHandlerList.add(new RemoveHandler());
         }
@@ -92,16 +68,4 @@ public class StepsProcessor {
         this.stepHandlerList = stepHandlerList;
     }
 
-
-    public Map<String, List<StepHandler>> getSteps() {
-        if (null == steps) {
-            steps = new TreeMap<>();
-        }
-
-        return steps;
-    }
-
-    public void setSteps(Map<String, List<StepHandler>> steps) {
-        this.steps = steps;
-    }
 }

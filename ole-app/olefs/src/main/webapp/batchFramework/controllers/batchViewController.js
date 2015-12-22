@@ -7,6 +7,10 @@ var documentTypes = [
     {id: 'eHoldings', name: 'EHoldings'}
 ];
 
+var documentTypesForDataTransformations = [
+    {id: 'bibliographic', name: 'Bibliographic'}
+];
+
 var destinationDocumentTypes = [
     {id: 'holdings', name: 'Holdings'},
     {id: 'item', name: 'Item'},
@@ -187,7 +191,7 @@ var transformationOperations = [
     {id: 'replace', name: 'Replace'},
     {id: 'join', name: 'Join'},
     {id: 'addDelete', name: 'Add and Delete'},
-    {id: 'prepend', name: 'Prepend'},
+    {id: 'prepend', name: 'prepend with prefix'},
     {id: 'remove', name: 'Remove'}
 ];
 
@@ -320,7 +324,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     $scope.dataTransformationsPanel = [
         {
             title: 'Data Transformations',
-            dataTransformationDocTypes: documentTypes,
+            dataTransformationDocTypes: documentTypesForDataTransformations,
             dataTransformationDocType: 'Bibliographic',
             transformers: transformers,
             transformer: 'Regex Pattern Transformer',

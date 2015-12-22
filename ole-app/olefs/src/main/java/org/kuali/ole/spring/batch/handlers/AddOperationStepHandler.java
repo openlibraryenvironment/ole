@@ -27,11 +27,9 @@ public class AddOperationStepHandler extends StepHandler {
         String value = null;
         if(getMarcRecordUtil().isControlField(sourceField)) {
             value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
-            deleteContent(marcRecord, sourceField, null, value);
         } else {
             String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
             value = getMarcRecordUtil().getDataFieldValue(marcRecord,sourceField,sourceSubField);
-            deleteContent(marcRecord, sourceField, sourceSubField, value);
         }
         if(StringUtils.isBlank(value)) {
             value = getBatchProfileDataTransformer().getConstant();
@@ -69,11 +67,7 @@ public class AddOperationStepHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("AddAndDelete");
-
-    }
-
-    protected void deleteContent(Record marcRecord, String sourceField, String sourceSubField, String value){
+        return operation.equalsIgnoreCase("add");
 
     }
 }

@@ -39,6 +39,13 @@ public class StepsProcessorTest {
     @Mock
     BatchProfileDataTransformer mockBatchProfileDataTransformer3;
 
+    @Mock
+    BatchProfileDataTransformer mockBatchProfileDataTransformer4;
+
+    @Mock
+    BatchProfileDataTransformer mockBatchProfileDataTransformer5;
+
+
     private MarcRecordUtil marcRecordUtil;
 
 
@@ -58,25 +65,36 @@ public class StepsProcessorTest {
 
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer1);
-        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("AddAndDelete");
+        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("add");
         Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("035 $a");
         Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("001");
-        Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(2);
+        Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer2);
-        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("Prepend");
-        Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("035 $a");
+        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("prepend");
+        Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer2.getSourceField()).thenReturn("003");
-        Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(3);
+        Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(2);
 
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("remove");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
+
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("remove");
+        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
+        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("remove");
+        Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
@@ -120,6 +138,17 @@ public class StepsProcessorTest {
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
+        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(1);
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(1);
+
 
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);

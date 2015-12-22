@@ -14,7 +14,9 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
-import org.kuali.ole.spring.batch.handlers.AddDeleteOperationStepHandler;
+import org.kuali.ole.spring.batch.handlers.AddOperationStepHandler;
+import org.kuali.ole.spring.batch.handlers.PrependHandler;
+import org.kuali.ole.spring.batch.handlers.RemoveHandler;
 import org.kuali.ole.spring.batch.handlers.StepHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
@@ -29,7 +31,6 @@ import java.util.*;
 @Service("batchBibFileProcessor")
 public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
-    private List<StepHandler> stepHandlers;
 
     @Autowired
     private MatchPointProcessor matchPointProcessor;
@@ -71,10 +72,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
             //Bib data
-
             JSONObject bibData = new JSONObject();
 
-            String profileName = batchProcessProfile.getBatchProcessProfileName();
             handleBatchProfileTransformations(marcRecord, batchProcessProfile);
 
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
@@ -192,83 +191,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
 
     private void handleBatchProfileTransformations(Record record, BatchProcessProfile batchProcessProfile) {
-        List<BatchProfileDataTransformer> batchProfileDataTransformerList =
-                batchProcessProfile.getBatchProfileDataTransformerList();
-
-        Map steps = new TreeMap();
-
-        for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
-            BatchProfileDataTransformer transformer = iterator.next();
-            if (transformer.getDataType().equalsIgnoreCase("bibliographic")) {
-                steps.put(transformer.getStep(), transformer);
-            }
-        }
-
-        for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
-            BatchProfileDataTransformer transformer = iterator.next();
-            for(Iterator<StepHandler> stepHandlerIterator = getStepHandlers().iterator(); stepHandlerIterator.hasNext();){
-                StepHandler stepHandler = stepHandlerIterator.next();
-                if(stepHandler.isInterested(transformer.getOperation())){
-                    stepHandler.processSteps(record);
-                }
-            }
-        }
-    }
-
-    private void processYBPProfile(Record record) {
-        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
-        //Removeing ocn,ocm prefix from controlFieldValue
-        controlFieldValue = controlFieldValue.replace("ocm", "");
-        controlFieldValue = controlFieldValue.replace("ocn", "");
-
-        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
-        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
-
-        MarcFactory factory = MarcFactory.newInstance();
-
-        // Adding new field 035
-        DataField dataField = factory.newDataField();
-        dataField.setTag("035");
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
-        Subfield subfield = factory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData(valueToUpdate030);
-        dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record, dataField);
-
-        //update 001 value by bibId
-
-    }
-
-    private void processCasaliniProfile(Record record) {
-        String controlFieldValue = getMarcRecordUtil().getControlFieldValue(record, "001");
-        String valueOf003 = getMarcRecordUtil().getControlFieldValue(record, "003");
-        String valueToUpdate030 = "(" + valueOf003 + ")" + controlFieldValue;
-
-        MarcFactory factory = MarcFactory.newInstance();
-
-        // Adding new field 035
-        DataField dataField = factory.newDataField();
-        dataField.setTag("035");
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
-        Subfield subfield = factory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData(valueToUpdate030);
-        dataField.addSubfield(subfield);
-        getMarcRecordUtil().addVariableFieldToRecord(record, dataField);
-    }
-
-    public List<StepHandler> getStepHandlers() {
-        if (null == stepHandlers) {
-            stepHandlers = new ArrayList<>();
-            stepHandlers.add(new AddDeleteOperationStepHandler());
-        }
-        return stepHandlers;
-    }
-
-    public void setStepHandlers(List<StepHandler> stepHandlers) {
-        this.stepHandlers = stepHandlers;
+        new StepsProcessor().processSteps(record, batchProcessProfile);
     }
 }
