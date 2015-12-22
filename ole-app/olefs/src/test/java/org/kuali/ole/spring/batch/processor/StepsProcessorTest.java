@@ -74,7 +74,7 @@ public class StepsProcessorTest {
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
         Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Remove");
-        Mockito.when(mockBatchProfileDataTransformer3.getDestinationField()).thenReturn("ocm,ocn");
+        Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
