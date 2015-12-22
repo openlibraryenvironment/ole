@@ -26,35 +26,32 @@ public class StepsProcessor {
         for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
             BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
             String destinationFieldString = batchProfileDataTransformer.getDestinationField();
-            if(StringUtils.isEmpty(destinationFieldString)){
-               destinationFieldString = batchProfileDataTransformer.getConstant();
+            if (StringUtils.isEmpty(destinationFieldString)) {
+                destinationFieldString = batchProfileDataTransformer.getConstant();
             }
 
             if (StringUtils.isNotEmpty(destinationFieldString)) {
-                StringTokenizer stringTokenizer = new StringTokenizer(destinationFieldString, ",");
-                while(stringTokenizer.hasMoreTokens()){
-                    String destinationField = stringTokenizer.nextToken();
-                    if(getSteps().containsKey(destinationField)){
-                        getSteps().get(destinationField).add(resolveStepHandler(batchProfileDataTransformer));
-                    } else {
-                        ArrayList<StepHandler> stepHandlers = new ArrayList<>();
-                        stepHandlers.add(resolveStepHandler(batchProfileDataTransformer));
-                        getSteps().put(destinationField, stepHandlers);
-                    }
+                if (getSteps().containsKey(destinationFieldString)) {
+                    getSteps().get(destinationFieldString).add(resolveStepHandler(batchProfileDataTransformer));
+                } else {
+                    ArrayList<StepHandler> stepHandlers = new ArrayList<>();
+                    stepHandlers.add(resolveStepHandler(batchProfileDataTransformer));
+                    getSteps().put(destinationFieldString, stepHandlers);
                 }
+
             }
         }
 
 
         List<StepHandler> handlersToProcess = new ArrayList<>();
-        for(int i = 1; i <= steps.size(); i++){
+        for (int i = 1; i <= steps.size(); i++) {
             for (Iterator iterator = getSteps().keySet().iterator(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
                 List<StepHandler> stepHandlers = steps.get(key);
 //                Collections.sort(stepHandlers, new StepHandlerComparator());
                 for (Iterator<StepHandler> stepHandlerIterator = stepHandlers.iterator(); stepHandlerIterator.hasNext(); ) {
                     StepHandler stepHandler = stepHandlerIterator.next();
-                    if(stepHandler.getBatchProfileDataTransformer().getStep() == i){
+                    if (stepHandler.getBatchProfileDataTransformer().getStep() == i) {
                         handlersToProcess.add(stepHandler);
                     }
                 }
@@ -66,7 +63,6 @@ public class StepsProcessor {
         }
 
 
-
         System.out.println();
 
     }
@@ -74,7 +70,7 @@ public class StepsProcessor {
     private StepHandler resolveStepHandler(BatchProfileDataTransformer batchProfileDataTransformer) {
         for (Iterator<StepHandler> iterator = getStepHandlerList().iterator(); iterator.hasNext(); ) {
             StepHandler stepHandler = iterator.next();
-            if(stepHandler.isInterested(batchProfileDataTransformer.getOperation())){
+            if (stepHandler.isInterested(batchProfileDataTransformer.getOperation())) {
                 stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
                 return stepHandler;
             }

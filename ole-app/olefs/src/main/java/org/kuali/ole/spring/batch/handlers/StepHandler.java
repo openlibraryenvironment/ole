@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
+import org.kuali.ole.utility.MarcRecordUtil;
 import org.marc4j.marc.Record;
 
 /**
@@ -9,6 +10,7 @@ import org.marc4j.marc.Record;
 public abstract class StepHandler {
 
     BatchProfileDataTransformer batchProfileDataTransformer;
+    private MarcRecordUtil marcRecordUtil;
 
     public abstract void processSteps(Record marcRecord);
 
@@ -20,5 +22,12 @@ public abstract class StepHandler {
 
     public void setBatchProfileDataTransformer(BatchProfileDataTransformer batchProfileDataTransformer) {
         this.batchProfileDataTransformer = batchProfileDataTransformer;
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if(null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
     }
 }

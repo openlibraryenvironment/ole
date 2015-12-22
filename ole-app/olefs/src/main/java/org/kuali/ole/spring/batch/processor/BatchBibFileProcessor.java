@@ -129,7 +129,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             if(destination.equalsIgnoreCase(docType)){
                 String newValue;
                 String destinationField = batchProfileDataMapping.getField();
-                String value = getMarcRecordUtil().getContentFromMarcRecord(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+                String value = getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
                 if(dataMappings.has(destinationField)){
                     newValue = dataMappings.get(destinationField) + " " + value;
                 } else {

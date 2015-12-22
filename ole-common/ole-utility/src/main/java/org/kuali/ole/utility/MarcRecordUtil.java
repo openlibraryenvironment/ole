@@ -1,13 +1,10 @@
 package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
-import org.marc4j.marc.VariableField;
+import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
+import org.marc4j.marc.impl.Verifier;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -38,7 +35,7 @@ public class MarcRecordUtil {
     * Eg:
     *   field : 050
     *   tags  : $a$b*/
-    public String getContentFromMarcRecord(Record marcRecord, String field, String tags) {
+    public String getDataFieldValue(Record marcRecord, String field, String tags) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         StringBuilder stringBuilder = new StringBuilder();
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
@@ -60,12 +57,12 @@ public class MarcRecordUtil {
     /*This method will get the field and tags and will return return the concadinated value
     * Eg:
     *   fieldAndTag : 050 $a$b*/
-    public String getContentFromMarcRecord(Record marcRecord, String fieldAndTag) {
+    public String getDataFieldValue(Record marcRecord, String fieldAndTag) {
         String[] fieldAndTagArray = fieldAndTag.split("[' ']");
         if(fieldAndTagArray.length > 1) {
             String field = fieldAndTagArray[0];
             String tags = fieldAndTagArray[1];
-            return getContentFromMarcRecord(marcRecord,field,tags);
+            return getDataFieldValue(marcRecord,field,tags);
         }
         return null;
     }
@@ -96,7 +93,6 @@ public class MarcRecordUtil {
         }
     }
 
-
     private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
         if(stringBuilder.length() > 0 ) {
             stringBuilder.append(" ");
@@ -104,4 +100,37 @@ public class MarcRecordUtil {
         stringBuilder.append(location);
     }
 
+
+    public void replaceContentInControlField(Record marcRecord, String field, String replaceFrom, String replaceTo) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(field);
+        for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
+            ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
+            String data = controlField.getData();
+            data = data.replace(replaceFrom,replaceTo);
+            controlField.setData(data);
+        }
+    }
+
+    public void replaceContentInDataField(Record marcRecord, String field, String tags, String replaceFrom, String replaceTo) {
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
+            while(stringTokenizer.hasMoreTokens()) {
+                String tag = stringTokenizer.nextToken();
+                List <Subfield> subFields = dataField.getSubfields(tag);
+                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                    Subfield subfield = subfieldIterator.next();
+                    String data = subfield.getData();
+                    data = data.replace(replaceFrom,replaceTo);
+                    subfield.setData(data);
+                }
+            }
+
+        }
+    }
+
+    public boolean isControlField(String field) {
+        return Verifier.isControlField(field);
+    }
 }
