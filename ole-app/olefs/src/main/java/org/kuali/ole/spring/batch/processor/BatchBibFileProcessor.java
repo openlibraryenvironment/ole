@@ -14,6 +14,8 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
+import org.kuali.ole.spring.batch.handlers.AddDeleteOperationStepHandler;
+import org.kuali.ole.spring.batch.handlers.StepHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,7 @@ import java.util.*;
 @Service("batchBibFileProcessor")
 public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
-
-    private static final String FORWARD_SLASH = "/";
+    private List<StepHandler> stepHandlers;
 
     @Autowired
     private MatchPointProcessor matchPointProcessor;
@@ -198,12 +199,20 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
             BatchProfileDataTransformer transformer = iterator.next();
-            steps.put(transformer.getStep(), transformer);
+            if (transformer.getDataType().equalsIgnoreCase("bibliographic")) {
+                steps.put(transformer.getStep(), transformer);
+            }
         }
 
-
-
-
+        for (Iterator<BatchProfileDataTransformer> iterator = batchProfileDataTransformerList.iterator(); iterator.hasNext(); ) {
+            BatchProfileDataTransformer transformer = iterator.next();
+            for(Iterator<StepHandler> stepHandlerIterator = getStepHandlers().iterator(); stepHandlerIterator.hasNext();){
+                StepHandler stepHandler = stepHandlerIterator.next();
+                if(stepHandler.isInterested(transformer.getOperation())){
+                    stepHandler.processSteps(record);
+                }
+            }
+        }
     }
 
     private void processYBPProfile(Record record) {
@@ -249,5 +258,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         subfield.setData(valueToUpdate030);
         dataField.addSubfield(subfield);
         getMarcRecordUtil().addVariableFieldToRecord(record, dataField);
+    }
+
+    public List<StepHandler> getStepHandlers() {
+        if (null == stepHandlers) {
+            stepHandlers = new ArrayList<>();
+            stepHandlers.add(new AddDeleteOperationStepHandler());
+        }
+        return stepHandlers;
+    }
+
+    public void setStepHandlers(List<StepHandler> stepHandlers) {
+        this.stepHandlers = stepHandlers;
     }
 }

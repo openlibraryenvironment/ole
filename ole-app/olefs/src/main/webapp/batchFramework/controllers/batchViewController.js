@@ -311,7 +311,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataMappingDocType: 'Bibliographic',
             destinations: destinationDocumentTypes,
             fields: fields,
-            priority: 0,
+            priority: 1,
             isAddLine: false,
             collapsed: true
         }
@@ -337,7 +337,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataTransformationTransformHoldingsFields: holdingsMatchPoints,
             dataTransformationTransformItemFields: itemMatchPoints,
             dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
-            dataTransformationStep: 0,
+            dataTransformationStep: 1,
             isAddLine: false,
             collapsed: true
         }
@@ -440,7 +440,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].subField = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
-        $scope.dataMappingsPanel[0].priority = 0;
+        $scope.dataMappingsPanel[0].priority = 1;
     };
 
     $scope.dataMappingRemove = function (dataMapping) {
@@ -467,13 +467,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataTransformationsPanel[0].dataTransformationActionType = 'New';
         $scope.dataTransformationsPanel[0].dataTransformationAction = 'Add';
         $scope.dataTransformationsPanel[0].dataTransformationField = null;
-        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;
+        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;1
         $scope.dataTransformationsPanel[0].dataTransformationSourceField = null;
         $scope.dataTransformationsPanel[0].dataTransformationOperation = null;
         $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
         $scope.dataTransformationsPanel[0].dataTransformationConstant = null;
         $scope.dataTransformationsPanel[0].dataTransformationTransformField = null;
-        $scope.dataTransformationsPanel[0].dataTransformationStep = 0;
+        $scope.dataTransformationsPanel[0].dataTransformationStep = 1;
     };
 
     $scope.dataTransformationRemove = function (dataTransformation) {
@@ -617,7 +617,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataMappingDocType: 'Bibliographic',
                 destinations: destinationDocumentTypes,
                 fields: fields,
-                priority: 0,
+                priority: 1,
                 isAddLine: false,
                 collapsed: true
             }
@@ -643,7 +643,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataTransformationTransformHoldingsFields: holdingsMatchPoints,
                 dataTransformationTransformItemFields: itemMatchPoints,
                 dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
-                dataTransformationStep: 0,
+                dataTransformationStep: 1,
                 isAddLine: false,
                 collapsed: true
             }
