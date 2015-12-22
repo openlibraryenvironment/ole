@@ -279,7 +279,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
                 Record record = iterator.next();
                 //update 001 value by bibId
-                getMarcRecordUtil().updateControlField(record,"001", bibId);
+                getMarcRecordUtil().updateControlFieldValue(record,"001", bibId);
                 return marcXMLConverter.generateMARCXMLContent(record);
             }
         }

@@ -23,7 +23,7 @@ public class MarcRecordUtil {
         return null;
     }
 
-    public void updateControlField(Record marcRecord, String field,String value) {
+    public void updateControlFieldValue(Record marcRecord, String field, String value) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
@@ -67,14 +67,18 @@ public class MarcRecordUtil {
         return null;
     }
 
-    public void updateDataFieldValue(Record marcRecord, String field, String tag,String value) {
+    public void updateDataFieldValue(Record marcRecord, String field, String tags,String value) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            List <Subfield> subFields = dataField.getSubfields(tag);
-            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                Subfield subfield = subfieldIterator.next();
-                subfield.setData(value);
+            StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
+            while(stringTokenizer.hasMoreTokens()) {
+                String tag = stringTokenizer.nextToken();
+                List <Subfield> subFields = dataField.getSubfields(tag);
+                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                    Subfield subfield = subfieldIterator.next();
+                    subfield.setData(value);
+                }
             }
         }
     }

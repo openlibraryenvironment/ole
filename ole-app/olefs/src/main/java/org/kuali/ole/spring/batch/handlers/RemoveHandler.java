@@ -10,6 +10,9 @@ import java.util.StringTokenizer;
  */
 public class RemoveHandler extends StepHandler {
 
+    /*Eg of source field -  001 or 050 $a$b$c or any thing.
+     Eg of constant value - ocm or ocm,onc or anything.
+        */
     @Override
     public void processSteps(Record marcRecord) {
         String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
