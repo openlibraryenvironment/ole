@@ -214,7 +214,6 @@
                 <!--<ref bean="MessagePopUpSectionForCurrencyOverride"/>-->
                 <!--<ref bean="hiddenCurrencyOverrideBtn"/>-->
                 <ref bean="updateExchangeRateBtn"/>
-                <ref bean="updateVendorBtn"/>
 		 <ref bean="OLEInvoice-ConfirmationPopUp"/>
                 <ref bean="hdnsuccessFlag"/>
                 <ref bean="hdnCurrencyFormatFlag"/>
@@ -521,7 +520,7 @@
         <property name="headerText" value="Vendor Address"/>
         <property name="items">
             <list>
-                <bean id="invoice-vendorHeaderIdentifier" parent="Uif-InputField" p:label="Vendor"  p:propertyName="vendorId" p:required="true" p:onChangeScript="jq('#updateVendorBtn').click();" >
+                <bean id="invoice-vendorHeaderIdentifier" parent="Uif-InputField" p:label="Vendor"  p:propertyName="vendorId" p:required="true" p:onChangeScript="submitForm('searchVendor', null, null, null);">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
                     </property>
@@ -1270,8 +1269,6 @@
     </bean>-->
 
     <bean id="updateExchangeRateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateExchangeRate" p:hidden="true" />
-
-    <bean id="updateVendorBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchVendor" p:refreshId="OLEInvoiceView-vendorAddress" p:hidden="true"/>
 
     <bean id="hdnCurrencyFormatFlag" parent="Uif-InputField" p:propertyName="currencyFormat" p:hidden="true">
         <property name="control">
