@@ -79,41 +79,37 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
+
+        JSONObject bibData = new JSONObject();
+        String unmodifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+        String updatedUserName = getUpdatedUserName();
+        String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
+
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
             SolrDocument solrDocument = (SolrDocument) results.get(0);
-            String updatedUserName = getUpdatedUserName();
-            String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
-
-            String unmodifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
-
-            //Bib data
-            JSONObject bibData = new JSONObject();
-
-            handleBatchProfileTransformations(marcRecord, batchProcessProfile);
-
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
-            String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
-            bibData.put("modifiedContent", modifiedRecord);
-            bibData.put("unmodifiedContent", unmodifiedRecord);
-            bibData.put("bibStatus", "Cataloging complete");
-            bibData.put("updatedBy", updatedUserName);
-            bibData.put("updatedDate", updatedDate);
-            bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
-
-
-            JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
-            prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
-            bibData.put("holdings", holdingsData);
-
-
-            JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
-            prepareDataMappings(marcRecord, batchProcessProfile, itemData, "item");
-            bibData.put("items", itemData);
-
-            return bibData;
         }
-        return null;
+
+        //Transformations pertaining to Bib record (001,003,035$a etc..)
+        handleBatchProfileTransformations(marcRecord, batchProcessProfile);
+        String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+        bibData.put("modifiedContent", modifiedRecord);
+
+        bibData.put("updatedBy", updatedUserName);
+        bibData.put("updatedDate", updatedDate);
+        bibData.put("unmodifiedContent", unmodifiedRecord);
+        bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
+
+        JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
+        prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
+        bibData.put("holdings", holdingsData);
+
+        JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
+        prepareDataMappings(marcRecord, batchProcessProfile, itemData, "item");
+        bibData.put("items", itemData);
+
+        return bibData;
     }
 
     public List getOverlayOps(BatchProcessProfile batchProcessProfile) {
