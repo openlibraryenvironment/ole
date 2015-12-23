@@ -78,13 +78,16 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 String overlayOps = requestJsonObject.getString("overlayOps");
 
-                for (Iterator<Handler> iterator = bibHandlers.iterator(); iterator.hasNext(); ) {
+                for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
                     Handler handler = iterator.next();
                     if(handler.isInterested(overlayOps)){
                         handler.process(requestJsonObject, exchange);
                     }
                 }
-                solrInputDocumentMap = getBibIndexer().getInputDocumentForBib((BibRecord) exchange.get("bib"), solrInputDocumentMap);
+                BibRecord bibRecord = (BibRecord) exchange.get("bib");
+                if (null != bibRecord) {
+                    solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+                }
             }
 
 

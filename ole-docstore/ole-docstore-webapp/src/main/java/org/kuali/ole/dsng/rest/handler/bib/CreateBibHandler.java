@@ -6,8 +6,11 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.dsng.dao.BibDAO;
+import org.kuali.ole.dsng.dao.BibDAOImpl;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.dsng.service.OleDsNGDAOProvider;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -26,7 +29,7 @@ public class CreateBibHandler extends Handler {
 
             for (Iterator iterator = ops.iterator(); iterator.hasNext(); ) {
                 String op = (String) iterator.next();
-                return operation.equals("111") || operation.equals("211");
+                return op.equals("111") || op.equals("211");
             }
 
         } catch (IOException e) {
@@ -53,7 +56,8 @@ public class CreateBibHandler extends Handler {
             }
 
             bibRecord.setStatusUpdatedDate(updatedDate);
-            BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
+            BibDAO bibDAO = new BibDAOImpl();
+            BibRecord updatedBibRecord = bibDAO.save(bibRecord);
             exchange.add("bib", updatedBibRecord);
 
         } catch (JSONException e) {

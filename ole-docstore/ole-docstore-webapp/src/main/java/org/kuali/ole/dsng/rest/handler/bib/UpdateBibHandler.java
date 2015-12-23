@@ -26,7 +26,7 @@ public class UpdateBibHandler extends Handler {
 
             for (Iterator iterator = ops.iterator(); iterator.hasNext(); ) {
                 String op = (String) iterator.next();
-                return operation.equals("112") || operation.equals("212");
+                return op.equals("112") || op.equals("212");
             }
 
         } catch (IOException e) {
