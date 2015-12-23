@@ -4,6 +4,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.dsng.rest.processor.OleDsNgRestAPIProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +65,13 @@ public class OleDsNGRestAPIController {
     public String updateItem(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateItem(body);
         return savedBibJsonObject;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/processBibHoldingsItems", produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @ResponseBody
+    public ResponseEntity processBibAndHoldingOverlay(@RequestBody String body) throws Exception {
+        String overlayResponseObject = getOleDsNgRestAPIProcessor().processOverlayForBibAndHoldingsAndItems(body);
+        return new ResponseEntity<String>(overlayResponseObject, HttpStatus.CREATED);
     }
 
     public OleDsNgRestAPIProcessor getOleDsNgRestAPIProcessor() {
