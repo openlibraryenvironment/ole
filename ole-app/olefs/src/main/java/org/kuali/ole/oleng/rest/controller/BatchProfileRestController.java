@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.BatchProfileRequestHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class BatchProfileRestController extends BatchProfileUtilController{
 
+    @Autowired
     private BatchProfileRequestHandler batchProfileRequestHandler;
 
     @RequestMapping(method = RequestMethod.POST, value = "/profile/submit", produces = {MediaType.APPLICATION_JSON})
@@ -72,10 +74,21 @@ public class BatchProfileRestController extends BatchProfileUtilController{
         return responseString;
     }
 
-    public BatchProfileRequestHandler getBatchProfileRequestHandler() {
-        if(null == batchProfileRequestHandler) {
-            batchProfileRequestHandler = new BatchProfileRequestHandler();
+    @RequestMapping(method = RequestMethod.POST, value = "/profile/delete", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String deleteProfile(@RequestBody String requestBody) {
+        String responseString = "{}";
+        try {
+            responseString = getBatchProfileRequestHandler().deleteProfile(requestBody);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return responseString;
+    }
+
+    public BatchProfileRequestHandler getBatchProfileRequestHandler() {
         return batchProfileRequestHandler;
     }
 

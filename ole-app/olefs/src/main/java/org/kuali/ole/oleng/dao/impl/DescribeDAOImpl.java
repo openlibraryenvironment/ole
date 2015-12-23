@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.dao.impl;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -56,6 +58,13 @@ public class DescribeDAOImpl implements DescribeDAO {
     @Override
     public List<OleGloballyProtectedField> fetchAllGloballyProtectedFields() {
         return (List<OleGloballyProtectedField>) getBusinessObjectService().findAll(OleGloballyProtectedField.class);
+    }
+
+    @Override
+    public void deleteProfileById(Long profileId) {
+        Map parameterMap = new HashedMap();
+        parameterMap.put("batchProcessProfileId",profileId);
+        getBusinessObjectService().deleteMatching(BatchProcessProfile.class, parameterMap);
     }
 
     public BusinessObjectService getBusinessObjectService() {

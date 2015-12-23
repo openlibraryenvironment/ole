@@ -20,5 +20,6 @@ public interface BatchProfileService {
     public List<OleItemAvailableStatus> fetchAllItemStatus();
     public List<BatchProcessProfile> getAllProfiles();
     public List<OleGloballyProtectedField> getAllProtectedFields();
+    public void deleteProfileById(Long profileId);
 
 }

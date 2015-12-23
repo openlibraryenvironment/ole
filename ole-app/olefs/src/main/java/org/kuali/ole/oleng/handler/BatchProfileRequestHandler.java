@@ -77,4 +77,20 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
         }
         return null;
     }
+
+
+
+    public String deleteProfile(String requestContent) throws JSONException, IOException {
+        JSONObject requestObject = new JSONObject(requestContent);
+        String profileId = null;
+        String action = null;
+        if(requestObject.has("profileId")){
+            profileId =  getStringValueFromJsonObject(requestObject, "profileId");
+        }
+        getBatchProfileService().deleteProfileById(Long.parseLong(profileId));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("stauts","Successfully Deleted Profile");
+        return jsonObject.toString();
+    }
+
 }

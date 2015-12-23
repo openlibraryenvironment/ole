@@ -6,6 +6,7 @@
     <script src="../../framework/jquery/js/jquery-1.11.3.js"></script>
     <script src="../../framework/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../framework/angular/js/angular.js"></script>
+    <script src="../../framework/jquery/js/FileSaver.js"></script>
     <script src="../../oleng/js/oleng.js"></script>
     <script src="../js/batch/profileSearch.js"></script>
     <link rel="stylesheet" href="../../framework/bootstrap/css/bootstrap.min.css" type="text/css" />
@@ -62,7 +63,10 @@
             <tbody>
             <tr ng-repeat="profile in profiles">
                 <td><a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=edit">edit</a> &nbsp;&nbsp;&nbsp;
-                    <a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=copy">copy</a> </td>
+                    <a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=copy">copy</a> &nbsp;&nbsp;&nbsp;
+                    <a ng-click="deleteProfile(profile.profileId)" href="">delete</a> &nbsp;&nbsp;&nbsp;
+                    <a ng-click="exportProfile($index)" href="">export</a>
+                </td>
                 <td><a ng-click="profileInquiry(profile.profileId)" href=''>{{profile.profileName}}</a></td>
             </tr>
             </tbody>

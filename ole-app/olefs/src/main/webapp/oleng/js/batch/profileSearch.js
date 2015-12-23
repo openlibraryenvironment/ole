@@ -4,7 +4,7 @@
 
 var batchProfileSearchApp = angular.module('batchProfileSearchApp', []);
 
-batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile', function($scope,searchProfile){
+batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile','$http', function($scope,searchProfile,$http){
 
     $scope.profiles = [];
 
@@ -21,6 +21,21 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
     };
     $scope.closeModal = function(){
         $scope.showModal = false;
+    };
+
+    $scope.exportProfile = function (profileId) {
+        var blob = new Blob([$scope.profiles[profileId].content], {
+            type: "application/json;charset=utf-8"
+        });
+        saveAs(blob, $scope.profiles[profileId].profileName + ".txt");
+    };
+
+    $scope.deleteProfile = function (profileId) {
+        var data = {};
+        data["profileId"] = profileId;
+        $http.post(OLENG_CONSTANTS.PROFILE_DELETE, JSON.stringify(data))
+            .success(function (response) {
+            });
     };
 
 }]);

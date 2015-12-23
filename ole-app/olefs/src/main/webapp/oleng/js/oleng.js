@@ -16,6 +16,7 @@ var OLENG_CONSTANTS = {
     PROFILE_SEARCH : "../../rest/describe/profile/search",
     PROFILE_EDIT : "rest/describe/profile/edit",
     PROFILE_SUBMIT : "rest/describe/profile/submit",
+    PROFILE_DELETE : "../../rest/describe/profile/delete",
     PROFILE_CANCEL : "portal.jsp"
 
 };
