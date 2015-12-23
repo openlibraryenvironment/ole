@@ -9,10 +9,13 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
-import org.marc4j.marc.*;
+import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,19 +78,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
-
-        List addOverlayOps = new ArrayList();
-
-        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
-        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
-            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
-            String dataType = batchProfileAddOrOverlay.getDataType();
-            String matchOption = batchProfileAddOrOverlay.getMatchOption();
-            String operation = batchProfileAddOrOverlay.getOperation();
-
-            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
-        }
-
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
@@ -95,16 +85,21 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             String updatedUserName = getUpdatedUserName();
             String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
+            String unmodifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+
             //Bib data
             JSONObject bibData = new JSONObject();
 
             handleBatchProfileTransformations(marcRecord, batchProcessProfile);
 
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
-            bibData.put("content", getMarcXMLConverter().generateMARCXMLContent(marcRecord));
+            String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+            bibData.put("modifiedContent", modifiedRecord);
+            bibData.put("unmodifiedContent", unmodifiedRecord);
             bibData.put("bibStatus", "Cataloging complete");
             bibData.put("updatedBy", updatedUserName);
             bibData.put("updatedDate", updatedDate);
+            bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
 
 
             JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
@@ -119,6 +114,21 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             return bibData;
         }
         return null;
+    }
+
+    public List getOverlayOps(BatchProcessProfile batchProcessProfile) {
+        List addOverlayOps = new ArrayList();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String dataType = batchProfileAddOrOverlay.getDataType();
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            String operation = batchProfileAddOrOverlay.getOperation();
+
+            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
+        }
+        return addOverlayOps;
     }
 
     private JSONObject prepareMatchPointsForItem(BatchProcessProfile batchProcessProfile) throws JSONException {
