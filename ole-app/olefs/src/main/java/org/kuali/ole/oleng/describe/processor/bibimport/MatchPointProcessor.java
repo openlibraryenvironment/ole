@@ -39,8 +39,8 @@ public class MatchPointProcessor extends BatchUtil {
     }
 
     private String formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
-        if (null != batchProfileMatchPoint.getControlField() &&
-                batchProfileMatchPoint.getControlField().equalsIgnoreCase(ControlFields.CONTROL_FIELD_001)) {
+        String dataField = batchProfileMatchPoint.getDataField();
+        if (null != batchProfileMatchPoint.getDataField() && getMarcRecordUtil().isControlField(dataField)) {
             return processForControlField(marcRecord);
         } else {
             return processForDataField(marcRecord, batchProfileMatchPoint);
