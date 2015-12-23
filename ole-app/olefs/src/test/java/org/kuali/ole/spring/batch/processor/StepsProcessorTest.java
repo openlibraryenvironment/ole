@@ -103,6 +103,13 @@ public class StepsProcessorTest {
 
         String valueOf001 = getMarcRecordUtil().getControlFieldValue(mockMarcRecod, "001");
         assertTrue(StringUtils.isBlank(valueOf001));
+        System.out.println("001 : " + valueOf001);
+
+        String valueOf003 = getMarcRecordUtil().getControlFieldValue(mockMarcRecod, "003");
+        assertTrue(StringUtils.isBlank(valueOf003));
+        System.out.println("003 : " + valueOf003);
+
+
 
     }
 
@@ -119,17 +126,17 @@ public class StepsProcessorTest {
 
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer1);
-        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("AddAndDelete");
-        Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("035 $a");
+        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("add");
+        Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("060 $a");
         Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer2);
         Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("Prepend");
-        Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("035 $a");
+        Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer2.getSourceField()).thenReturn("003");
-        Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(4);
+        Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(2);
 
 
 
@@ -142,21 +149,28 @@ public class StepsProcessorTest {
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
         Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Remove");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
-        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(1);
+        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
         Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Remove");
         Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
-        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(1);
-
-
+        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
 
         stepsProcessor.processSteps(mockMarcRecod,mockBatchProcessProfile);
 
+        String valueOf001 = getMarcRecordUtil().getControlFieldValue(mockMarcRecod, "001");
+        assertTrue(StringUtils.isBlank(valueOf001));
+        System.out.println("001 : " + valueOf001);
+
+        String valueOf003 = getMarcRecordUtil().getControlFieldValue(mockMarcRecod, "003");
+        assertTrue(StringUtils.isBlank(valueOf003));
+        System.out.println("003 : " + valueOf003);
+
         String valueOf060 = getMarcRecordUtil().getDataFieldValue(mockMarcRecod, "060 $a");
         assertTrue(StringUtils.isNotBlank(valueOf060));
+        System.out.println("060 : " + valueOf060);
     }
 
     @Test
@@ -196,9 +210,11 @@ public class StepsProcessorTest {
 
         String valueOf035$a= getMarcRecordUtil().getDataFieldValue(record, "035 $a");
         assertFalse(StringUtils.contains(valueOf035$a,"ocn"));
+        System.out.println("035 $a : " + valueOf035$a);
 
         String valueOf035$b= getMarcRecordUtil().getDataFieldValue(record, "035 $b");
         assertFalse(StringUtils.contains(valueOf035$b,"ocm"));
+        System.out.println("035 $b : " + valueOf035$b);
     }
 
     /*This test case of prepend test.*/
