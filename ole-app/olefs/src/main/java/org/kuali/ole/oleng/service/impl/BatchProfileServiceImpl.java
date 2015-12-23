@@ -1,11 +1,11 @@
 package org.kuali.ole.oleng.service.impl;
 
-import org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +56,7 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     }
 
     @Override
-    public List<OLEBatchGloballyProtectedField> getAllProtectedFields() {
+    public List<OleGloballyProtectedField> getAllProtectedFields() {
         return describeDAO.fetchAllGloballyProtectedFields();
     }
 }

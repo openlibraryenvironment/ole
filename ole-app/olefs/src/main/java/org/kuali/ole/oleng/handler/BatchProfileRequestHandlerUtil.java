@@ -4,11 +4,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -176,19 +176,19 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
     }
 
     public String prepareGloballyProtectedField(){
-        List<OLEBatchGloballyProtectedField> globallyProtectedFields = batchProfileService.getAllProtectedFields();
+        List<OleGloballyProtectedField> globallyProtectedFields = batchProfileService.getAllProtectedFields();
         JSONArray jsonArray = new JSONArray();
         try {
             if(CollectionUtils.isNotEmpty(globallyProtectedFields)) {
-                for (Iterator<OLEBatchGloballyProtectedField> iterator = globallyProtectedFields.iterator(); iterator.hasNext(); ) {
-                    OLEBatchGloballyProtectedField batchGloballyProtectedField = iterator.next();
+                for (Iterator<OleGloballyProtectedField> iterator = globallyProtectedFields.iterator(); iterator.hasNext(); ) {
+                    OleGloballyProtectedField oleGloballyProtectedField = iterator.next();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("fieldOperationType","Globally Protected Field");
-                    jsonObject.put("dataField",batchGloballyProtectedField.getTag());
-                    jsonObject.put("ind1",batchGloballyProtectedField.getFirstIndicator());
-                    jsonObject.put("ind2",batchGloballyProtectedField.getSecondIndicator());
-                    jsonObject.put("subField",batchGloballyProtectedField.getSubField());
-                    jsonObject.put("ignoreGPF",batchGloballyProtectedField.isIgnoreValue());
+                    jsonObject.put("dataField",oleGloballyProtectedField.getTag());
+                    jsonObject.put("ind1",oleGloballyProtectedField.getFirstIndicator());
+                    jsonObject.put("ind2",oleGloballyProtectedField.getSecondIndicator());
+                    jsonObject.put("subField",oleGloballyProtectedField.getSubField());
+                    jsonObject.put("ignoreGPF",false);
                     jsonObject.put("isAddLine",Boolean.TRUE);
                     jsonArray.put(jsonObject);
                 }

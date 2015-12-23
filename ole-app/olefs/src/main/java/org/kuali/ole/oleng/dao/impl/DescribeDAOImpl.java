@@ -1,10 +1,10 @@
 package org.kuali.ole.oleng.dao.impl;
 
-import org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.context.annotation.Scope;
@@ -54,8 +54,8 @@ public class DescribeDAOImpl implements DescribeDAO {
     }
 
     @Override
-    public List<OLEBatchGloballyProtectedField> fetchAllGloballyProtectedFields() {
-        return (List<OLEBatchGloballyProtectedField>) getBusinessObjectService().findAll(OLEBatchGloballyProtectedField.class);
+    public List<OleGloballyProtectedField> fetchAllGloballyProtectedFields() {
+        return (List<OleGloballyProtectedField>) getBusinessObjectService().findAll(OleGloballyProtectedField.class);
     }
 
     public BusinessObjectService getBusinessObjectService() {
