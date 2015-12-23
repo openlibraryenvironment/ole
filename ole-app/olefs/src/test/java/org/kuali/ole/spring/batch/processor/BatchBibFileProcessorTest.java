@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileFieldOperation;
 import org.marc4j.marc.Record;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -16,7 +15,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by pvsubrah on 12/22/15.
