@@ -27,7 +27,7 @@
     <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
         <param name="append" value="false"/>
         <param name="Threshold" value="WARN" />
-        <param name="file" value="/Users/pvsubrah/Development/server/logs/olefs.log"/>
+        <param name="file" value="${catalina.base}/logs/olefs.log"/>
         <param name="MaxFileSize" value="100MB"/>
         <param name="MaxBackupIndex" value="100"/>
         <layout class="org.apache.log4j.PatternLayout">
