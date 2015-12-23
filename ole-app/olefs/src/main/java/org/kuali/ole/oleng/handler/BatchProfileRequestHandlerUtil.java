@@ -198,4 +198,9 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         }
         return jsonArray.toString();
     }
+
+
+    public BatchProfileService getBatchProfileService() {
+        return batchProfileService;
+    }
 }

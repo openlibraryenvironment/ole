@@ -20,5 +20,6 @@ public interface DescribeDAO {
     public List<OleItemAvailableStatus> fetchAllItemStatus();
     public List<BatchProcessProfile> fetchAllProfiles();
     public List<OleGloballyProtectedField> fetchAllGloballyProtectedFields();
+    public void deleteProfileById(Long profileId);
 
 }

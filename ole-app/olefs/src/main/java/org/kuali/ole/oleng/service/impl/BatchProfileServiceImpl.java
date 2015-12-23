@@ -59,4 +59,9 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     public List<OleGloballyProtectedField> getAllProtectedFields() {
         return describeDAO.fetchAllGloballyProtectedFields();
     }
+
+    @Override
+    public void deleteProfileById(Long profileId) {
+        describeDAO.deleteProfileById(profileId);
+    }
 }
