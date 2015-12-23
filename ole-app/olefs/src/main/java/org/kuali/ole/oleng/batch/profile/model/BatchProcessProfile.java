@@ -26,9 +26,6 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     @JsonProperty("batchProcessType")
     private String batchProcessType;
 
-    @JsonProperty("dataToImport")
-    private String dataToImport;
-
     @JsonProperty("forceLoad")
     private Boolean forceLoad;
 
@@ -111,14 +108,6 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setBatchProcessType(String batchProcessType) {
         this.batchProcessType = batchProcessType;
-    }
-
-    public String getDataToImport() {
-        return dataToImport;
-    }
-
-    public void setDataToImport(String dataToImport) {
-        this.dataToImport = dataToImport;
     }
 
     public Boolean getForceLoad() {

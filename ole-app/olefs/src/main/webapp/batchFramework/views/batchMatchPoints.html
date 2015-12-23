@@ -21,8 +21,7 @@
                         <th>Doc Type</th>
                         <th>Match Type</th>
                         <th>Match Type Value</th>
-                        <th>Control Field</th>
-                        <th>Data Field</th>
+                        <th>Data/Control Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Sub Field</th>
@@ -148,14 +147,6 @@
                                 </option>
                             </select>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointValue"></span>
-                        </td>
-                        <td>
-                            <input id="matchPointControlField_{{$index}}" name="matchPointControlField_{{$index}}"
-                                   type="text"
-                                   ng-model="matchPoint.controlField"
-                                   ng-show="matchPoint.matchPointDocType == 'Bibliographic' && !matchPoint.isAddLine"
-                                   style="height: 30px; width: 100px;"/>
-                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.controlField"></span>
                         </td>
                         <td>
                             <input id="matchPointDataField_{{$index}}" name="matchPointDataField_{{$index}}"
