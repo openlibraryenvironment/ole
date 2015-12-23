@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 /**
  * Created by pvsubrah on 12/7/15.
  */
-public class BatchFileProcessorTest {
+public class BatchFileProcessor_IT {
 
     @Test
     public void testProcessBatchForBib() throws Exception {

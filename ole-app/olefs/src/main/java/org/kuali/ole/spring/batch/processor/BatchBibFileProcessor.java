@@ -9,15 +9,8 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
-import org.kuali.ole.spring.batch.handlers.AddOperationStepHandler;
-import org.kuali.ole.spring.batch.handlers.PrependHandler;
-import org.kuali.ole.spring.batch.handlers.RemoveHandler;
-import org.kuali.ole.spring.batch.handlers.StepHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +23,9 @@ import java.util.*;
  */
 @Service("batchBibFileProcessor")
 public class BatchBibFileProcessor extends BatchFileProcessor {
+    private Map<String, String> operationIndMap;
+    private Map<String, String> matchOptionIndMap;
+    private Map<String, String> dataTypeIndMap;
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Autowired
@@ -37,15 +33,30 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
+
+        List addOverlayOps = new ArrayList();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String dataType = batchProfileAddOrOverlay.getDataType();
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            String operation = batchProfileAddOrOverlay.getOperation();
+
+            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
+        }
+
+
         JSONArray jsonArray = new JSONArray();
         Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record marcRecord = iterator.next();
-            String query = matchPointProcessor.prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+            String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
             if (StringUtils.isNotBlank(query)) {
                 queryMap.put(marcRecord, query);
             }
         }
+
         if (queryMap.size() > 0) {
             for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
                 Record key = iterator.next();
@@ -56,17 +67,30 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 }
             }
         }
+
+
         if (jsonArray.length() > 0) {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
         }
         return null;
     }
 
+    private String getOperationInd(String operation) {
+         return getOperationIndMap().get(operation);
+    }
+
+    private String getMatchOptionInd(String matchOption) {
+       return getMatchOptionIndMap().get(matchOption);
+    }
+
+    private String getDataTypeInd(String dataType) {
+        return getDataTypeIndMap().get(dataType);
+    }
+
     private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
-            JSONObject bib = new JSONObject();
             SolrDocument solrDocument = (SolrDocument) results.get(0);
             String updatedUserName = getUpdatedUserName();
             String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
@@ -192,5 +216,55 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private void handleBatchProfileTransformations(Record record, BatchProcessProfile batchProcessProfile) {
         new StepsProcessor().processSteps(record, batchProcessProfile);
+    }
+
+    public Map<String, String> getOperationIndMap() {
+        if (null == operationIndMap) {
+            operationIndMap = new HashedMap();
+            operationIndMap.put("add", "1");
+            operationIndMap.put("overlay", "2");
+            operationIndMap.put("discard", "3");
+        }
+        return operationIndMap;
+    }
+
+    public void setOperationIndMap(Map<String, String> operationIndMap) {
+        this.operationIndMap = operationIndMap;
+    }
+
+    public Map<String, String> getMatchOptionIndMap() {
+        if (null == matchOptionIndMap) {
+            matchOptionIndMap = new HashedMap();
+            matchOptionIndMap.put("do match", "1");
+            matchOptionIndMap.put("do not match", "2");
+        }
+        return matchOptionIndMap;
+    }
+
+    public void setMatchOptionIndMap(Map<String, String> matchOptionIndMap) {
+        this.matchOptionIndMap = matchOptionIndMap;
+    }
+
+    public Map<String, String> getDataTypeIndMap() {
+        if (null == dataTypeIndMap) {
+            dataTypeIndMap = new HashedMap();
+            dataTypeIndMap.put("bibliographic", "1");
+            dataTypeIndMap.put("holdings", "2");
+            dataTypeIndMap.put("items", "3");
+            dataTypeIndMap.put("eholdings", "4");
+        }
+        return dataTypeIndMap;
+    }
+
+    public void setDataTypeIndMap(Map<String, String> dataTypeIndMap) {
+        this.dataTypeIndMap = dataTypeIndMap;
+    }
+
+    public MatchPointProcessor getMatchPointProcessor() {
+        return matchPointProcessor;
+    }
+
+    public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
+        this.matchPointProcessor = matchPointProcessor;
     }
 }
