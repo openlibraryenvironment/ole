@@ -122,7 +122,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             String matchOption = batchProfileAddOrOverlay.getMatchOption();
             String operation = batchProfileAddOrOverlay.getOperation();
 
-            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
+            String matchOptionInd = getMatchOptionInd(matchOption);
+            String dataTypeInd = getDataTypeInd(dataType);
+            String operationInd = getOperationInd(operation);
+            addOverlayOps.add(matchOptionInd + dataTypeInd + operationInd);
         }
         return addOverlayOps;
     }
@@ -235,9 +238,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getOperationIndMap() {
         if (null == operationIndMap) {
             operationIndMap = new HashedMap();
-            operationIndMap.put("add", "1");
-            operationIndMap.put("overlay", "2");
-            operationIndMap.put("discard", "3");
+            operationIndMap.put("Add", "1");
+            operationIndMap.put("Overlay", "2");
+            operationIndMap.put("Discard", "3");
         }
         return operationIndMap;
     }
@@ -262,10 +265,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getDataTypeIndMap() {
         if (null == dataTypeIndMap) {
             dataTypeIndMap = new HashedMap();
-            dataTypeIndMap.put("bibliographic", "1");
-            dataTypeIndMap.put("holdings", "2");
-            dataTypeIndMap.put("items", "3");
-            dataTypeIndMap.put("eholdings", "4");
+            dataTypeIndMap.put("Bibliographic", "1");
+            dataTypeIndMap.put("Holdings", "2");
+            dataTypeIndMap.put("Item", "3");
+            dataTypeIndMap.put("EHoldings", "4");
         }
         return dataTypeIndMap;
     }
