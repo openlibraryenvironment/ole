@@ -1,8 +1,7 @@
-package org.kuali.ole.dsng.rest.handler.overlay.holdings;
+package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.kuali.ole.dsng.util.OleDsNgOverlayUtil;
 
 /**

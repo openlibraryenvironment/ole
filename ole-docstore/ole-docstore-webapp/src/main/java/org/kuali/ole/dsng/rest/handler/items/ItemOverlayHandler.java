@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.rest.handler.overlay.item;
+package org.kuali.ole.dsng.rest.handler.items;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;

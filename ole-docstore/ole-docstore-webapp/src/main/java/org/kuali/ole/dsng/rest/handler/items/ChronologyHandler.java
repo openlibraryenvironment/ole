@@ -1,13 +1,8 @@
-package org.kuali.ole.dsng.rest.handler.overlay.item;
+package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
-import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by SheikS on 12/20/2015.

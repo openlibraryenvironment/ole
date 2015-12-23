@@ -1,12 +1,8 @@
-package org.kuali.ole.dsng.rest.handler.overlay.holdings;
+package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by SheikS on 12/20/2015.

@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.rest.handler.overlay.holdings;
+package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
@@ -7,9 +7,9 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class CopyNumberHandler extends HoldingsOverlayHandler {
+public class CallNumberHandler extends HoldingsOverlayHandler {
 
-    private final String TYPE = "Copy Number";
+    private final String TYPE = "Call Number";
 
     @Override
     public boolean isInterested(JSONObject jsonObject) {
@@ -18,14 +18,14 @@ public class CopyNumberHandler extends HoldingsOverlayHandler {
 
     @Override
     public boolean isMatching(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
-        return StringUtils.equals(holdingsRecord.getCopyNumber(),copyNumber);
+        String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
+        return StringUtils.equals(holdingsRecord.getCallNumber(),callNumber);
     }
 
     @Override
     public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
-        holdingsRecord.setCopyNumber(copyNumber);
+        String callNumber = getStringValueFromJsonObject(jsonObject,TYPE);
+        holdingsRecord.setCallNumber(callNumber);
         return holdingsRecord;
     }
 }

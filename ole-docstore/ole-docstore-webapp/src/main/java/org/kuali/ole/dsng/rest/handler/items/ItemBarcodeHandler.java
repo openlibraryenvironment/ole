@@ -1,5 +1,5 @@
 
-package org.kuali.ole.dsng.rest.handler.overlay.item;
+package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;

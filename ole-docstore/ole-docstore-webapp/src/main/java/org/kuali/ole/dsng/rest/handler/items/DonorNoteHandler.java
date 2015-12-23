@@ -1,5 +1,5 @@
 
-package org.kuali.ole.dsng.rest.handler.overlay.item;
+package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class DonorPublicDisplayHandler extends ItemOverlayHandler {
-    private final String TYPE = "Donor Public Display";
+public class DonorNoteHandler extends ItemOverlayHandler {
+    private final String TYPE = "Donor Note";
 
     @Override
     public boolean isInterested(JSONObject jsonObject) {
@@ -23,20 +23,18 @@ public class DonorPublicDisplayHandler extends ItemOverlayHandler {
 
     @Override
     public boolean isMatching(ItemRecord itemRecord, JSONObject jsonObject) {
-        String donorPublicDisplay = getStringValueFromJsonObject(jsonObject,TYPE);
+        String donorNote = getStringValueFromJsonObject(jsonObject,TYPE);
         List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
         if(CollectionUtils.isNotEmpty(donorList)) {
             for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                if(StringUtils.equals(oleItemDonorRecord.getDonorPublicDisplay(),donorPublicDisplay)) {
+                if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
                     return true;
                 }
             }
         }
         return false;
     }
-
-
 
     @Override
     public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {

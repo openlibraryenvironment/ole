@@ -2,26 +2,31 @@ package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.*;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberHandler;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberPrefixHandler;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.CallNumberTypeHandler;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.CopyNumberHandler;
-import org.kuali.ole.dsng.rest.handler.overlay.holdings.LocationHandler;
-import org.kuali.ole.dsng.rest.handler.overlay.item.*;
+import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
+import org.kuali.ole.dsng.rest.handler.bib.UpdateBibHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CallNumberHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CallNumberPrefixHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CallNumberTypeHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CopyNumberHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.*;
+import org.kuali.ole.dsng.rest.handler.holdings.LocationHandler;
+import org.kuali.ole.dsng.rest.handler.items.*;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
-import org.marc4j.marc.*;
+import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
@@ -46,135 +51,46 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private List<HoldingsOverlayHandler> holdingsMatchPointHandlers;
     private List<ItemOverlayHandler> itemOverlayMatchPointHandlers;
 
-    public String processOverlayForBib(String jsonBody) {
-        JSONArray responseJsonArray = null;
-        try {
-            JSONArray requestJsonArray = new JSONArray(jsonBody);
-            responseJsonArray = new JSONArray();
-            for (int index = 0; index < requestJsonArray.length(); index++) {
-                JSONObject jsonObject = requestJsonArray.getJSONObject(index);
+    private List<Handler> bibHandlers;
 
-                String bibId = jsonObject.getString("id");
-
-                String updatedContent = jsonObject.getString("content");
-                String updatedBy = jsonObject.getString("updatedBy");
-                String updatedDateString = (String) jsonObject.get("updatedDate");
-
-                BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
-                if (null != bibRecord) {
-                    //TODO : process bib record with overlay
-                    bibRecord.setContent(updatedContent);
-                    bibRecord.setUpdatedBy(updatedBy);
-                    if (StringUtils.isNotBlank(updatedDateString)) {
-                        bibRecord.setDateEntered(getDateTimeStamp(updatedDateString));
-                    }
-                    BibRecord updatedBibRecord = bibDAO.save(bibRecord);
-
-                    getBibIndexer().updateDocument(updatedBibRecord);
-
-                    JSONObject responseObject = new JSONObject();
-                    responseObject.put("bibId", updatedBibRecord.getBibId());
-                    responseJsonArray.put(responseObject);
-                } else {
-                    // TODO : need to handle if bib record is not found
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public List<Handler> getBibHandlers() {
+        if (null == bibHandlers) {
+            bibHandlers = new ArrayList<Handler>();
+            bibHandlers.add(new CreateBibHandler());
+            bibHandlers.add(new UpdateBibHandler());
         }
-        return responseJsonArray.toString();
+        return bibHandlers;
     }
 
-
-    public String processOverlayForHolding(String jsonBody) {
-        JSONArray responseJsonArray = null;
-        try {
-            JSONArray requestJsonArray = new JSONArray(jsonBody);
-            responseJsonArray = new JSONArray();
-            for (int index = 0; index < requestJsonArray.length(); index++) {
-                JSONObject jsonObject = requestJsonArray.getJSONObject(index);
-
-                String holdingId = jsonObject.getString("id");
-
-                //String updatedContent = jsonObject.getString("content");
-                String updatedBy = jsonObject.getString("updatedBy");
-                String updatedDateString = (String) jsonObject.get("updatedDate");
-
-                HoldingsRecord holdingsRecord = holdingDAO.retrieveHoldingById(holdingId);
-                if (null != holdingsRecord) {
-                    //TODO : process holding record with overlay
-                    holdingsRecord.setUpdatedBy(updatedBy);
-                    if (StringUtils.isNotBlank(updatedDateString)) {
-                        holdingsRecord.setUpdatedDate(getDateTimeStamp(updatedDateString));
-                    }
-                    HoldingsRecord updatedHoldingRecord = holdingDAO.save(holdingsRecord);
-
-                    getHoldingIndexer().updateDocument(updatedHoldingRecord);
-
-                    JSONObject responseObject = new JSONObject();
-                    responseObject.put("holdingId", updatedHoldingRecord.getHoldingsId());
-                    responseJsonArray.put(responseObject);
-                } else {
-                    // TODO : need to handle if bib record is not found
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return responseJsonArray.toString();
+    public void setBibHandlers(List<Handler> bibHandlers) {
+        this.bibHandlers = bibHandlers;
     }
 
-
-    public String processOverlayForBibAndHoldingsAndItems(String jsonBody) {
+    public String processBibAndHoldingsAndItems(String jsonBody) {
         JSONArray responseJsonArray = null;
         Map<String,SolrInputDocument> solrInputDocumentMap = new HashedMap();
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
             for (int index = 0; index < requestJsonArray.length(); index++) {
-                JSONObject jsonObject = requestJsonArray.getJSONObject(index);
+                JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
+                Exchange exchange = new Exchange();
 
-                String bibId = jsonObject.getString("id");
+                String overlayOps = requestJsonObject.getString("overlayOps");
 
-                String updatedContent = jsonObject.getString("content");
-                String updatedBy = jsonObject.getString("updatedBy");
-                String updatedDateString = (String) jsonObject.get("updatedDate");
-                String bibStatus = getStringValueFromJsonObject(jsonObject,"bibStatus");
-
-
-                BibRecord bibRecord = bibDAO.retrieveBibById(bibId);
-                if (null != bibRecord) {
-                    //TODO : process bib record with overlay
-                    updatedContent = doCustomProcessForProfile(updatedContent,bibId);
-                    bibRecord.setContent(updatedContent);
-                    bibRecord.setUpdatedBy(updatedBy);
-                    Timestamp updatedDate = null;
-                    if (StringUtils.isNotBlank(updatedDateString)) {
-                        updatedDate =  getDateTimeStamp(updatedDateString);
+                for (Iterator<Handler> iterator = bibHandlers.iterator(); iterator.hasNext(); ) {
+                    Handler handler = iterator.next();
+                    if(handler.isInterested(overlayOps)){
+                        handler.process(requestJsonObject, exchange);
                     }
-                    bibRecord.setDateEntered(updatedDate);
-                    bibRecord.setStatus(bibStatus);
-                    bibRecord.setStatusUpdatedBy(updatedBy);
-                    bibRecord.setStatusUpdatedDate(updatedDate);
-                    BibRecord updatedBibRecord = bibDAO.save(bibRecord);
-
-                    solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
-
-                    JSONObject responseObject = new JSONObject();
-                    responseObject.put("bibId", updatedBibRecord.getBibId());
-
-                    // Processing Holdings
-                    List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
-                    if (CollectionUtils.isNotEmpty(holdingsRecords) && jsonObject.has("holdings")) {
-                        solrInputDocumentMap = processHoldings(solrInputDocumentMap, jsonObject, updatedBy, updatedDate, holdingsRecords);
-                    }
-                    responseJsonArray.put(responseObject);
-                } else {
-                    // TODO : need to handle if bib record is not found
                 }
+                solrInputDocumentMap = getBibIndexer().getInputDocumentForBib((BibRecord) exchange.get("bib"), solrInputDocumentMap);
             }
+
+
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
+
         }catch (JSONException e) {
             e.printStackTrace();
         }
@@ -324,21 +240,21 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     public List<ItemOverlayHandler> getItemOverlayMatchPointHandlers() {
         if(CollectionUtils.isEmpty(itemOverlayMatchPointHandlers)) {
             itemOverlayMatchPointHandlers = new ArrayList<ItemOverlayHandler>();
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberPrefixHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CallNumberTypeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ChronologyHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.CopyNumberHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorCodeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorNoteHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.DonorPublicDisplayHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.EnumerationHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemBarcodeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemStatusHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.ItemTypeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.LocationHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.StatisticalSearchCodeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.overlay.item.VendorLineItemIdHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberPrefixHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberTypeHandler());
+            itemOverlayMatchPointHandlers.add(new ChronologyHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CopyNumberHandler());
+            itemOverlayMatchPointHandlers.add(new DonorCodeHandler());
+            itemOverlayMatchPointHandlers.add(new DonorNoteHandler());
+            itemOverlayMatchPointHandlers.add(new DonorPublicDisplayHandler());
+            itemOverlayMatchPointHandlers.add(new EnumerationHandler());
+            itemOverlayMatchPointHandlers.add(new ItemBarcodeHandler());
+            itemOverlayMatchPointHandlers.add(new ItemStatusHandler());
+            itemOverlayMatchPointHandlers.add(new ItemTypeHandler());
+            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.LocationHandler());
+            itemOverlayMatchPointHandlers.add(new StatisticalSearchCodeHandler());
+            itemOverlayMatchPointHandlers.add(new VendorLineItemIdHandler());
         }
         return itemOverlayMatchPointHandlers;
     }

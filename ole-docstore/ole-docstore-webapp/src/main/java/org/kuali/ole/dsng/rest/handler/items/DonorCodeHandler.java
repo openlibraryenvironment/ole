@@ -1,5 +1,5 @@
 
-package org.kuali.ole.dsng.rest.handler.overlay.item;
+package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class DonorNoteHandler extends ItemOverlayHandler {
-    private final String TYPE = "Donor Note";
+public class DonorCodeHandler extends ItemOverlayHandler {
+    private final String TYPE = "Donor Code";
 
     @Override
     public boolean isInterested(JSONObject jsonObject) {
@@ -23,12 +23,12 @@ public class DonorNoteHandler extends ItemOverlayHandler {
 
     @Override
     public boolean isMatching(ItemRecord itemRecord, JSONObject jsonObject) {
-        String donorNote = getStringValueFromJsonObject(jsonObject,TYPE);
+        String donorCode = getStringValueFromJsonObject(jsonObject,TYPE);
         List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
         if(CollectionUtils.isNotEmpty(donorList)) {
             for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
+                if(StringUtils.equals(oleItemDonorRecord.getDonorCode(),donorCode)) {
                     return true;
                 }
             }
@@ -42,6 +42,14 @@ public class DonorNoteHandler extends ItemOverlayHandler {
 
         //Todo : need to get the information about the process.
 
+        /*OLEItemDonorRecord oleItemDonorRecord = fetchDonorCodeByCode(donorCode);
+        if(null != oleItemDonorRecord) {
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(null == donorList) {
+                donorList = new ArrayList<OLEItemDonorRecord>();
+                donorList.add(oleDonorRecord);
+            }
+        }*/
         return itemRecord;
     }
 }
