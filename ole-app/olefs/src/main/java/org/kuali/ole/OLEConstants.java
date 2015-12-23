@@ -3730,7 +3730,8 @@ public class OLEConstants {
     public static final String LOAN_DOCUMENTS = "loanDocuments";
     public static final String DELIVER_NOTICES = "deliverNotices";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
-
+    public static final String NUMBER_OF_WORKING_DAYS = "numberOfWorkingDays";
+    public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
     public static final String TEMPORARY_HISTORY_RECORD_DAYS = "TEMPORARY_HISTORY_RECORD_DAYS";
 
 }
