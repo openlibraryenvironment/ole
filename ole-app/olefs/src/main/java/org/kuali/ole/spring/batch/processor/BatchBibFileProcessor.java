@@ -60,7 +60,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
 
         if (jsonArray.length() > 0) {
-            return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.OVERLAY_BIB_HOLDING, jsonArray, OleDsNgRestClient.Format.JSON);
+            return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
         }
         return null;
     }

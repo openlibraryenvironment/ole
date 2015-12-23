@@ -15,7 +15,7 @@ public class OleDsNgRestClient {
     public static final class Service {
         public static final String OVERLAY_BIB = "processBibOverlay";
         public static final String OVERLAY_HOLDING = "processHoldingOverlay";
-        public static final String OVERLAY_BIB_HOLDING = "processBibHoldingItemOverlay";
+        public static final String PROCESS_BIB_HOLDING_ITEM = "processBibHoldingsItems";
     }
 
     public static final class Format {
