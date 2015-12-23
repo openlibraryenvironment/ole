@@ -34,19 +34,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
 
-        List addOverlayOps = new ArrayList();
-
-        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
-        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
-            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
-            String dataType = batchProfileAddOrOverlay.getDataType();
-            String matchOption = batchProfileAddOrOverlay.getMatchOption();
-            String operation = batchProfileAddOrOverlay.getOperation();
-
-            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
-        }
-
-
         JSONArray jsonArray = new JSONArray();
         Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
@@ -88,6 +75,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
+
+        List addOverlayOps = new ArrayList();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String dataType = batchProfileAddOrOverlay.getDataType();
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            String operation = batchProfileAddOrOverlay.getOperation();
+
+            addOverlayOps.add(getDataTypeInd(dataType) + getMatchOptionInd(matchOption) + getOperationInd(operation));
+        }
+
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (null != results && results.size() == 1) {
