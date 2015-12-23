@@ -541,7 +541,7 @@
                     </property>
                 </bean>
 
-                <bean id="HoldExpirationDate-MaintenanceView" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{maintenanceAction eq 'Edit' and document.newMaintainableObject.dataObject.requestTypeId ne null and (document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4')}">
+                <bean id="HoldExpirationDate-MaintenanceView" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{maintenanceAction eq 'Edit' and document.newMaintainableObject.dataObject.requestTypeId ne null and (document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '6')}">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10"/>
                     </property>
