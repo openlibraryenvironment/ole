@@ -158,7 +158,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             if(destination.equalsIgnoreCase(docType)){
                 String newValue;
                 String destinationField = batchProfileDataMapping.getField();
-                String value = getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+                String value = getDestFieldValue(marcRecord, batchProfileDataMapping);
                 if(dataMappings.has(destinationField)){
                     newValue = dataMappings.get(destinationField) + " " + value;
                 } else {
@@ -170,6 +170,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
 
         jsonObject.put("dataMapping", dataMappings);
+    }
+
+    private String getDestFieldValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
+        if (StringUtils.isBlank(batchProfileDataMapping.getConstant())) {
+            return getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+        }
+
+        return batchProfileDataMapping.getConstant();
     }
 
     private JSONObject prepareMatchPointsForDocType(List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {

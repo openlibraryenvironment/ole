@@ -10,7 +10,6 @@ import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.BibDAOImpl;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
-import org.kuali.ole.dsng.service.OleDsNGDAOProvider;
 
 import java.io.IOException;
 import java.sql.Timestamp;

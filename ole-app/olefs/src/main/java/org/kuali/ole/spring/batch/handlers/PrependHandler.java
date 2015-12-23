@@ -62,6 +62,6 @@ public class PrependHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("prepend");
+        return operation.equalsIgnoreCase("prepend with prefix");
     }
 }
