@@ -3746,4 +3746,6 @@ public class OLEConstants {
     public static final String PREQ_DOC = "OLE_PREQ";
     public static final String ERROR_REPORT_FILE_NM = "/ErrorReport";
     public static final String TEMPORARY_HISTORY_RECORD_DAYS = "TEMPORARY_HISTORY_RECORD_DAYS";
+    public static final String NUMBER_OF_WORKING_DAYS = "numberOfWorkingDays";
+    public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
 }

@@ -248,7 +248,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 oleItemRecordForCirc.setItemRecord((ItemRecord)getDroolsExchange(oleForm).getContext().get("itemRecord"));
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, getCustomDueDateMap(oleForm), itemFineRate);
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), itemFineRate);
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -675,12 +675,12 @@ public abstract class CheckinBaseController extends CircUtilController {
         return null;
     }
 
-    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Date customDueDateMap, ItemFineRate itemFineRate) throws Exception {
+    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, ItemFineRate itemFineRate) throws Exception {
         String billPayment = null;
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
-            Double overdueFine = new OleCalendarServiceImpl().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), new Timestamp(customDueDateMap.getTime()), itemFineRate);
+            Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), customDueDateMap, itemFineRate);
             overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
 
             if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
