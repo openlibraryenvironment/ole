@@ -18,8 +18,6 @@ public class BatchProfileMatchPoint extends MarcDataField {
 
     private String matchPointValue;
 
-    private String controlField;
-
     private String constant;
 
     public long getMatchPointId() {
@@ -52,14 +50,6 @@ public class BatchProfileMatchPoint extends MarcDataField {
 
     public void setMatchPointValue(String matchPointValue) {
         this.matchPointValue = matchPointValue;
-    }
-
-    public String getControlField() {
-        return controlField;
-    }
-
-    public void setControlField(String controlField) {
-        this.controlField = controlField;
     }
 
     public String getConstant() {

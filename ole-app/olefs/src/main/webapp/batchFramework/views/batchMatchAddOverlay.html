@@ -46,7 +46,7 @@
                         <td>
                             <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
-                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))"
+                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))"
                                     ng-change="getMaintenanceValuesForType(addOrOverlay)">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.operations" value="{{option.name}}">
@@ -55,7 +55,7 @@
                             </select>
                             <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
-                                    ng-show="addOrOverlay.matchOption == 'Do Not Match' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                    ng-show="addOrOverlay.matchOption == 'If Match Not Found' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.bibDoNotMatchOperations"
                                         value="{{option.name}}">
@@ -65,7 +65,7 @@
                             <select name="doNotMatchAddOrOverlayOperation_{{$index}}"
                                     id="doNotMatchAddOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
-                                    ng-show="addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && !addOrOverlay.isAddLine">
+                                    ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.doNotMatchOperations" value="{{option.name}}">
                                     {{option.name}}
@@ -76,17 +76,17 @@
                         <td>
                             <select name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}"
                                     ng-model="addOrOverlay.addOperation"
-                                    ng-show="addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
+                                    ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.addOperation}}"
                                         ng-repeat="option in addOrOverlay.addOperations" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
-                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add'"
+                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add'"
                                   ng-bind="addOrOverlay.addOperation"></span>
-                            <label ng-show="addOrOverlay.matchOption == 'Do Match' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine"><input
+                            <label ng-show="addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine"><input
                                     type="checkbox" ng-model="addOrOverlay.addItems"> Add Items</label>
-                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'Do Match' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add'">Add Items {{addOrOverlay.addItems}}</span>
+                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add'">Add Items {{addOrOverlay.addItems}}</span>
                         </td>
                         <td>
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
