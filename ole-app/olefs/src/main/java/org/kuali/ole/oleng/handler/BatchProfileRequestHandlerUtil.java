@@ -183,11 +183,13 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OLEBatchGloballyProtectedField> iterator = globallyProtectedFields.iterator(); iterator.hasNext(); ) {
                     OLEBatchGloballyProtectedField batchGloballyProtectedField = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("tag",batchGloballyProtectedField.getTag());
-                    jsonObject.put("firstIndicator",batchGloballyProtectedField.getFirstIndicator());
-                    jsonObject.put("secondIndicator",batchGloballyProtectedField.getSecondIndicator());
+                    jsonObject.put("fieldOperationType","Globally Protected Field");
+                    jsonObject.put("dataField",batchGloballyProtectedField.getTag());
+                    jsonObject.put("ind1",batchGloballyProtectedField.getFirstIndicator());
+                    jsonObject.put("ind2",batchGloballyProtectedField.getSecondIndicator());
                     jsonObject.put("subField",batchGloballyProtectedField.getSubField());
                     jsonObject.put("ignoreGPF",batchGloballyProtectedField.isIgnoreValue());
+                    jsonObject.put("isAddLine",Boolean.TRUE);
                     jsonArray.put(jsonObject);
                 }
             }

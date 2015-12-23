@@ -20,6 +20,7 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Sub Field</th>
+                        <th>Ignore GPF</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -61,6 +62,12 @@
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.subField"></span>
                         </td>
                         <td>
+                            <input id="fieldOperationIgnoreGPF_{{$index}}" name="fieldOperationIgnoreGPF_{{$index}}"
+                                   type="checkbox" ng-model="fieldOperation.ignoreGPF"
+                                   ng-show="fieldOperation.fieldOperationType == 'Globally Protected Field'"
+                                   ng-disabled="submitted">
+                        </td>
+                        <td>
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
                                     ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine">Add
@@ -68,7 +75,7 @@
                             <button id="fieldOperationRemoveButton_{{$index}}"
                                     name="fieldOperationRemoveButton_{{$index}}"
                                     ng-click="fieldOperationRemove(fieldOperation)"
-                                    ng-show="fieldOperation.isAddLine && !submitted">
+                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'">
                                 Remove
                             </button>
                         </td>

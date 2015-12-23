@@ -1,5 +1,12 @@
 var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
 
+var dataToImportValues = [
+    {id: 'bibDataOnly', name: 'Bibliographic Data Only'},
+    {id: 'bibHoldingsItemData', name: 'Bibliographic, Holdings and Item Data'},
+    {id: 'bibEHoldingsData', name: 'Bibliographic and EHoldings Data'},
+    {id: 'bibHoldingsItemEHoldingsData', name: 'Bibliographic, Holdings, Item and EHoldings Data'}
+];
+
 var documentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
@@ -21,8 +28,7 @@ var addOrOverlayDocumentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
     {id: 'item', name: 'Item'},
-    {id: 'eHoldings', name: 'EHoldings'},
-    {id: 'po', name: 'Purchase Order'}
+    {id: 'eHoldings', name: 'EHoldings'}
 ];
 
 var holdingsMatchPoints = [
@@ -106,7 +112,7 @@ var operations = [
     {id: 'discard', name: 'Discard'}
 ];
 
-var bibDonotMatchOperations = [
+var bibDoNotMatchOperations = [
     {id: 'add', name: 'Add'}
 ];
 
@@ -115,18 +121,12 @@ var doNotMatchOperations = [
     {id: 'discard', name: 'Discard'}
 ];
 
-var poOperations = [
-    {id: 'create', name: 'Create PO if matched'},
-    {id: 'update', name: 'Update PO if matched'}
-];
-
 var addOperations = [
     {id: 'deleteAll', name: 'Delete all existing and add'},
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
 
 var fieldOperations = [
-    {id: 'global', name: 'Globally Protected Field'},
     {id: 'profile', name: 'Profile Protected Field'}
 ];
 
@@ -148,6 +148,7 @@ var transformers = [
 ];
 
 var actionTypes = [
+    {id: 'all', name: 'All'},
     {id: 'new', name: 'New'},
     {id: 'overlay', name: 'Overlay'}
 ];
@@ -199,46 +200,6 @@ var transformationOperations = [
 
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
 
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
-        $scope.bibStatuses = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function(data) {
-        $scope.callNumberTypeValues = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
-        $scope.itemTypeValues = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
-        $scope.itemStatusValues = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function(data) {
-        $scope.donorCodes = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 1}}).success(function(data) {
-        $scope.locationLevel1Values = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 2}}).success(function(data) {
-        $scope.locationLevel2Values = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 3}}).success(function(data) {
-        $scope.locationLevel3Values = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 4}}).success(function(data) {
-        $scope.locationLevel4Values = data;
-    });
-
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 5}}).success(function(data) {
-        $scope.locationLevel5Values = data;
-    });
-
     $scope.booleanOptions = booleanOptions;
 
     $scope.submitted = false;
@@ -263,7 +224,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.mainSectionPanel = [
         {
-            title: 'Main Section', collapsed: false
+            title: 'Main Section',
+            batchProcessType: 'Bib Import',
+            dataToImportValues: dataToImportValues,
+            dataToImport: 'Bibliographic Data Only',
+            collapsed: false
         }
     ];
 
@@ -288,9 +253,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             addOrOverlayDocType: 'Bibliographic',
             operations: operations,
             operation: 'Add',
-            bibDonotMatchOperations: bibDonotMatchOperations,
+            bibDoNotMatchOperations: bibDoNotMatchOperations,
             doNotMatchOperations: doNotMatchOperations,
-            poOperations: poOperations,
             addOperations: addOperations,
             addItems: false,
             isAddLine: false,
@@ -298,15 +262,20 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
     ];
 
-    $scope.fieldOperationsPanel = [
-        {
-            title: 'Field Operations',
-            fieldOperationTypes: fieldOperations,
-            fieldOperationType: 'Globally Protected Field',
-            isAddLine: false,
-            collapsed: true
-        }
-    ];
+    $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function(data) {
+        $scope.fieldOperationsPanel = data;
+
+        $scope.fieldOperationsPanel.unshift(
+            {
+                title: 'Field Operations',
+                fieldOperationTypes: fieldOperations,
+                fieldOperationType: 'Profile Protected Field',
+                ignoreGPF: false,
+                isAddLine: false,
+                collapsed: true
+            }
+        );
+    });
 
     $scope.dataMappingsPanel = [
         {
@@ -314,7 +283,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataMappingDocTypes: documentTypes,
             dataMappingDocType: 'Bibliographic',
             destinations: destinationDocumentTypes,
-            fields: fields,
+            holdingsFields: holdingsMatchPoints,
+            itemFields: itemMatchPoints,
+            eHoldingsFields: eHoldingsMatchPoints,
             priority: 1,
             isAddLine: false,
             collapsed: true
@@ -329,7 +300,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             transformers: transformers,
             transformer: 'Regex Pattern Transformer',
             dataTransformationActionTypes: actionTypes,
-            dataTransformationActionType: 'New',
+            dataTransformationActionType: 'All',
             dataTransformationActions: actions,
             dataTransformationAction: 'Add',
             dataTransformationBibFields: bibFields,
@@ -411,13 +382,15 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.fieldOperationsPanel[0].ind1,
             ind2: $scope.fieldOperationsPanel[0].ind2,
             subField: $scope.fieldOperationsPanel[0].subField,
+            ignoreGPF: false,
             isAddLine: true
         });
-        $scope.fieldOperationsPanel[0].fieldOperationType = 'Globally Protected Field';
+        $scope.fieldOperationsPanel[0].fieldOperationType = 'Profile Protected Field';
         $scope.fieldOperationsPanel[0].dataField = null;
         $scope.fieldOperationsPanel[0].ind1 = null;
         $scope.fieldOperationsPanel[0].ind2 = null;
         $scope.fieldOperationsPanel[0].subField = null;
+        $scope.fieldOperationsPanel[0].ignoreGPF = false;
     };
 
     $scope.fieldOperationRemove = function (fieldOperation) {
@@ -432,6 +405,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.dataMappingsPanel[0].ind1,
             ind2: $scope.dataMappingsPanel[0].ind2,
             subField: $scope.dataMappingsPanel[0].subField,
+            constant: $scope.dataMappingsPanel[0].constant,
             destination: $scope.dataMappingsPanel[0].destination,
             field: $scope.dataMappingsPanel[0].field,
             priority: $scope.dataMappingsPanel[0].priority,
@@ -442,6 +416,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].ind1 = null;
         $scope.dataMappingsPanel[0].ind2 = null;
         $scope.dataMappingsPanel[0].subField = null;
+        $scope.dataMappingsPanel[0].constant = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].priority = 1;
@@ -468,10 +443,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             isAddLine: true
         });
         $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bibliographic';
-        $scope.dataTransformationsPanel[0].dataTransformationActionType = 'New';
+        $scope.dataTransformationsPanel[0].dataTransformationActionType = 'All';
         $scope.dataTransformationsPanel[0].dataTransformationAction = 'Add';
         $scope.dataTransformationsPanel[0].dataTransformationField = null;
-        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;1
+        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;
         $scope.dataTransformationsPanel[0].dataTransformationSourceField = null;
         $scope.dataTransformationsPanel[0].dataTransformationOperation = null;
         $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
@@ -486,19 +461,16 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.setDefaultsMatchPoint = function (matchPoint) {
-        if (matchPoint.matchPointDocType == 'Bibliographic') {
-            matchPoint.matchPointType = null;
-        } else {
-            matchPoint.controlField = null;
-            matchPoint.dataField = null;
-            matchPoint.ind1 = null;
-            matchPoint.ind2 = null;
-            matchPoint.subField = null;
-        }
+        matchPoint.matchPointType = null;
+        matchPoint.controlField = null;
+        matchPoint.dataField = null;
+        matchPoint.ind1 = null;
+        matchPoint.ind2 = null;
+        matchPoint.subField = null;
     };
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
-        dataTransformation.dataTransformationActionType = 'New';
+        dataTransformation.dataTransformationActionType = 'All';
         dataTransformation.dataTransformationAction = 'Add';
         dataTransformation.dataTransformationField = null;
         dataTransformation.dataTransformationFieldValue = null;
@@ -511,6 +483,72 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationField = null;
     };
 
+    $scope.setDefaultsDestination = function (dataMapping) {
+        dataMapping.field = null;
+    };
+
+    $scope.getMaintenanceValuesForType = function (dataObject) {
+        if (dataObject.title == 'Match Points') {
+            if ((dataObject.matchPointType == 'Call Number Type' || dataObject.matchPointType == 'Holdings Call Number Type') && $scope.callNumberTypeValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function(data) {
+                    $scope.callNumberTypeValues = data;
+                });
+            } else if (dataObject.matchPointType == 'Item Type' && $scope.itemTypeValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
+                    $scope.itemTypeValues = data;
+                });
+            } else if (dataObject.matchPointType == 'Item Status' && $scope.itemStatusValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
+                    $scope.itemStatusValues = data;
+                });
+            } else if (dataObject.matchPointType == 'Donor Code' && $scope.donorCodeValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function(data) {
+                    $scope.donorCodes = data;
+                });
+            } else if ((dataObject.matchPointType == 'Location Level1' || dataObject.matchPointType == 'Holdings Location Level1') && $scope.locationLevel1Values == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 1}}).success(function(data) {
+                    $scope.locationLevel1Values = data;
+                });
+            } else if ((dataObject.matchPointType == 'Location Level2' || dataObject.matchPointType == 'Holdings Location Level2') && $scope.locationLevel2Values == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 2}}).success(function(data) {
+                    $scope.locationLevel2Values = data;
+                });
+            } else if ((dataObject.matchPointType == 'Location Level3' || dataObject.matchPointType == 'Holdings Location Level3') && $scope.locationLevel3Values == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 3}}).success(function(data) {
+                    $scope.locationLevel3Values = data;
+                });
+            } else if ((dataObject.matchPointType == 'Location Level4' || dataObject.matchPointType == 'Holdings Location Level4') && $scope.locationLevel4Values == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 4}}).success(function(data) {
+                    $scope.locationLevel4Values = data;
+                });
+            } else if ((dataObject.matchPointType == 'Location Level5' || dataObject.matchPointType == 'Holdings Location Level5') && $scope.locationLevel5Values == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 5}}).success(function(data) {
+                    $scope.locationLevel5Values = data;
+                });
+            }
+        } /*else if (dataObject.title == 'Matching, Add and Overlay') {
+            if (dataObject.matchOption == 'Do Match' && dataObject.addOrOverlayDocType == 'Bibliographic' && dataObject.operation == 'Overlay' && $scope.bibStatuses == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
+                    $scope.bibStatuses = data;
+                });
+            }
+        }*/ else if (dataObject.title == 'Data Transformations') {
+            if (dataObject.dataTransformationDocType == 'Bibliographic' && dataObject.dataTransformationField == 'Bib Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.bibStatuses == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
+                    $scope.bibStatuses = data;
+                });
+            } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Type' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemTypeValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
+                    $scope.itemTypeValues = data;
+                });
+            } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemStatusValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
+                    $scope.itemStatusValues = data;
+                });
+            }
+        }
+    };
+
     $scope.submit = function () {
         $scope.submitted = true;
         removeEmptyValues();
@@ -518,6 +556,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             "profileId": $scope.mainSectionPanel[0].profileId,
             "profileName": $scope.mainSectionPanel[0].profileName,
             "description": $scope.mainSectionPanel[0].profileDescription,
+            "batchProcessType": $scope.mainSectionPanel[0].batchProcessType,
+            "dataToImport": $scope.mainSectionPanel[0].dataToImport,
+            "forceLoad": $scope.matchPointsActivePanel.forceLoad,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
             "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
             "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
@@ -546,6 +587,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                     $scope.mainSectionPanel[0].profileId = data.profileId;
                     $scope.mainSectionPanel[0].profileName = data.profileName;
                     $scope.mainSectionPanel[0].profileDescription = data.description;
+                    $scope.mainSectionPanel[0].batchProcessType = data.batchProcessType;
+                    $scope.mainSectionPanel[0].dataToImport = data.dataToImport;
+                    $scope.matchPointsActivePanel.forceLoad = data.forceLoad;
                     $scope.matchPointsPanel = data.batchProfileMatchPointList;
                     $scope.addOrOverlayPanel = data.batchProfileAddOrOverlayList;
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
@@ -553,13 +597,12 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
 
                     addEmptyValueToAddNew();
-
                 });
         }
     };
 
     $scope.cancel = function () {
-        window.location = '/olefs/portal.jsp';
+        window.location = OLENG_CONSTANTS.PROFILE_CANCEL;
     };
 
     var removeEmptyValues = function () {
@@ -594,9 +637,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 addOrOverlayDocType: 'Bibliographic',
                 operations: operations,
                 operation: 'Add',
-                bibDonotMatchOperations: bibDonotMatchOperations,
+                bibDoNotMatchOperations: bibDoNotMatchOperations,
                 doNotMatchOperations: doNotMatchOperations,
-                poOperations: poOperations,
                 addOperations: addOperations,
                 addItems: false,
                 isAddLine: false,
@@ -608,7 +650,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             {
                 title: 'Field Operations',
                 fieldOperationTypes: fieldOperations,
-                fieldOperationType: 'Globally Protected Field',
+                fieldOperationType: 'Profile Protected Field',
+                ignoreGPF: false,
                 isAddLine: false,
                 collapsed: true
             }
@@ -620,7 +663,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataMappingDocTypes: documentTypes,
                 dataMappingDocType: 'Bibliographic',
                 destinations: destinationDocumentTypes,
-                fields: fields,
+                holdingsFields: holdingsMatchPoints,
+                itemFields: itemMatchPoints,
+                eHoldingsFields: eHoldingsMatchPoints,
                 priority: 1,
                 isAddLine: false,
                 collapsed: true
@@ -635,7 +680,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 transformers: transformers,
                 transformer: 'Regex Pattern Transformer',
                 dataTransformationActionTypes: actionTypes,
-                dataTransformationActionType: 'New',
+                dataTransformationActionType: 'All',
                 dataTransformationActions: actions,
                 dataTransformationAction: 'Add',
                 dataTransformationBibFields: bibFields,

@@ -14,6 +14,9 @@ public class BatchProfileFieldOperation extends MarcDataField {
     @JsonProperty("fieldOperationType")
     private String fieldOperationType;
 
+    @JsonProperty("ignoreGPF")
+    private Boolean ignoreGPF;
+
     public String getFieldOperationType() {
         return fieldOperationType;
     }
@@ -30,4 +33,11 @@ public class BatchProfileFieldOperation extends MarcDataField {
         this.fieldOperationId = fieldOperationId;
     }
 
+    public Boolean getIgnoreGPF() {
+        return ignoreGPF;
+    }
+
+    public void setIgnoreGPF(Boolean ignoreGPF) {
+        this.ignoreGPF = ignoreGPF;
+    }
 }

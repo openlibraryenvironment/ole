@@ -10,10 +10,12 @@ var OLENG_CONSTANTS = {
     PROFILE_GET_DONOR_CODES : "rest/describe/getDonorCodes",
     PROFILE_GET_LOCATIONS : "rest/describe/getLocations",
     PROFILE_GET_NAMES : "rest/describe/getProfileNames",
+    PROFILE_GET_GLOBALLY_PROTECTED_FIELDS : "rest/describe/getGloballyProtectedFields",
 
     /*Profile Actions*/
     PROFILE_SEARCH : "../../rest/describe/profile/search",
     PROFILE_EDIT : "rest/describe/profile/edit",
-    PROFILE_SUBMIT : "rest/describe/profile/submit"
+    PROFILE_SUBMIT : "rest/describe/profile/submit",
+    PROFILE_CANCEL : "portal.jsp"
 
 };

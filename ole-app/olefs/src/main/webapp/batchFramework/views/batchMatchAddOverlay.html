@@ -18,6 +18,7 @@
                         <th></th>
                         <th>Document Type</th>
                         <th>Operation</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,7 +46,8 @@
                         <td>
                             <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
-                                    ng-hide="addOrOverlay.isAddLine || addOrOverlay.addOrOverlayDocType == 'Purchase Order' || (addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
+                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))"
+                                    ng-change="getMaintenanceValuesForType(addOrOverlay)">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.operations" value="{{option.name}}">
                                     {{option.name}}
@@ -55,7 +57,7 @@
                                     ng-model="addOrOverlay.operation"
                                     ng-show="addOrOverlay.matchOption == 'Do Not Match' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
-                                        ng-repeat="option in addOrOverlay.bibDonotMatchOperations"
+                                        ng-repeat="option in addOrOverlay.bibDoNotMatchOperations"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -69,19 +71,9 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select name="addOrOverlayPoOperation_{{$index}}" id="addOrOverlayPoOperation_{{$index}}"
-                                    ng-model="addOrOverlay.operation"
-                                    ng-show="addOrOverlay.addOrOverlayDocType == 'Purchase Order' && !addOrOverlay.isAddLine">
-                                <option ng-selected="{{option.name == addOrOverlay.operation}}"
-                                        ng-repeat="option in addOrOverlay.poOperations" value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.operation"></span>
                         </td>
                         <td>
-                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'Do Match' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && addOrOverlay.operation == 'Overlay'"
-                                  ng-bind="addOrOverlay.bibStatus"></span>
                             <select name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}"
                                     ng-model="addOrOverlay.addOperation"
                                     ng-show="addOrOverlay.matchOption == 'Do Not Match' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">

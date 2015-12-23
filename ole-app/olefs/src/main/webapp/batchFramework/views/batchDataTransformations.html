@@ -73,7 +73,8 @@
                             <select name="dataTransformationBibField_{{$index}}"
                                     id="dataTransformationBibField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
+                                    ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(dataTransformation)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationBibFields"
                                         value="{{option.name}}">{{option.name}}
@@ -91,7 +92,8 @@
                             <select name="dataTransformationItemField_{{$index}}"
                                     id="dataTransformationItemField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
+                                    ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(dataTransformation)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationItemFields"
                                         value="{{option.name}}">{{option.name}}

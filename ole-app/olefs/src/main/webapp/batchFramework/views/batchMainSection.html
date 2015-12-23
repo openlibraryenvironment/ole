@@ -14,14 +14,42 @@
             <div class="panel-body">
                 <input type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId"
                        ng-model="mainSectionPanel[0].profileId">
-                <span class="col-sm-6">Batch Profile Name:
-                <input id="profileName" name="profileName" type="text"
-                       ng-model="mainSectionPanel[0].profileName" style="height: 30px; width: 150px;"
-                       ng-disabled="submitted"/></span>
-                <span class="col-sm-6">Description:
-                <input id="profileDescription" name="profileDescription" type="text"
-                       ng-model="mainSectionPanel[0].profileDescription" style="height: 30px; width: 150px;"
-                       ng-disabled="submitted"/></span>
+                <table class="table table-condensed table-bordered batchTable">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-6">
+                            <span class="col-sm-3">Batch Profile Name:</span>
+                            <input id="profileName" name="profileName" type="text"
+                                   ng-model="mainSectionPanel[0].profileName" style="height: 30px; width: 150px;"
+                                   ng-disabled="submitted"/>
+                        </td>
+                        <td class="col-sm-6">
+                            <span class="col-sm-3">Description:</span>
+                            <input id="profileDescription" name="profileDescription" type="text"
+                                   ng-model="mainSectionPanel[0].profileDescription" style="height: 30px; width: 150px;"
+                                   ng-disabled="submitted"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <span class="col-sm-3">Batch Process Type:</span>
+                            <input id="batchProcessType" name="batchProcessType" type="text"
+                                   ng-model="mainSectionPanel[0].batchProcessType" style="height: 30px; width: 150px;"
+                                   ng-disabled="true"/>
+                        </td>
+                        <td class="col-sm-6">
+                            <span class="col-sm-3">Data To Import:</span>
+                            <select id="dataToImport" name="dataToImport"
+                                    ng-model="mainSectionPanel[0].dataToImport"
+                                    ng-disabled="submitted">
+                                <option ng-repeat="option in mainSectionPanel[0].dataToImportValues" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

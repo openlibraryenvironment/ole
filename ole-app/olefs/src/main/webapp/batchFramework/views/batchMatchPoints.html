@@ -12,6 +12,9 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
+
+                <pre><label>Force Load: <input id="forceLoad" name="forceLoad" type="checkbox" ng-model="matchPointsActivePanel.forceLoad" ng-disabled="submitted"></label></pre>
+
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -43,7 +46,8 @@
                         <td>
                             <select id="matchPointHoldings_{{$index}}" name="matchPointHoldings_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'Holdings' && !matchPoint.isAddLine">
+                                    ng-show="matchPoint.matchPointDocType == 'Holdings' && !matchPoint.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.holdingsMatchPoints" value="{{option.name}}">
                                     {{option.name}}
@@ -51,7 +55,8 @@
                             </select>
                             <select id="matchPointItem_{{$index}}" name="matchPointItem_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'Item' && !matchPoint.isAddLine">
+                                    ng-show="matchPoint.matchPointDocType == 'Item' && !matchPoint.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.itemMatchPoints" value="{{option.name}}">
                                     {{option.name}}
@@ -59,7 +64,8 @@
                             </select>
                             <select id="matchPointEholdings_{{$index}}" name="matchPointEholdings_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'EHoldings' && !matchPoint.isAddLine">
+                                    ng-show="matchPoint.matchPointDocType == 'EHoldings' && !matchPoint.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.eHoldingsMatchPoints" value="{{option.name}}">
                                     {{option.name}}
@@ -70,9 +76,10 @@
                         <td>
                             <select id="matchPointCallNumberType_{{$index}}" name="matchPointCallNumberType_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Call Number Type' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Call Number Type' || matchPoint.matchPointType == 'Holdings Call Number Type') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.callNumberTypeCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in callNumberTypeValues" value="{{option.callNumberTypeCode}}">
+                                        ng-repeat="option in callNumberTypeValues"
+                                        value="{{option.callNumberTypeCode}}">
                                     {{option.callNumberTypeCode}}
                                 </option>
                             </select>
@@ -102,7 +109,7 @@
                             </select>
                             <select id="matchPointLocationLevel1_{{$index}}" name="matchPointLocationLevel1_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Location Level1' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Location Level1' || matchPoint.matchPointType == 'Holdings Location Level1') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
                                         ng-repeat="option in locationLevel1Values" value="{{option.locationCode}}">
                                     {{option.locationCode}}
@@ -110,7 +117,7 @@
                             </select>
                             <select id="matchPointLocationLevel2_{{$index}}" name="matchPointLocationLevel2_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Location Level2' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Location Level2' || matchPoint.matchPointType == 'Holdings Location Level2') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
                                         ng-repeat="option in locationLevel2Values" value="{{option.locationCode}}">
                                     {{option.locationCode}}
@@ -118,7 +125,7 @@
                             </select>
                             <select id="matchPointLocationLevel3_{{$index}}" name="matchPointLocationLevel3_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Location Level3' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Location Level3' || matchPoint.matchPointType == 'Holdings Location Level3') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
                                         ng-repeat="option in locationLevel3Values" value="{{option.locationCode}}">
                                     {{option.locationCode}}
@@ -126,7 +133,7 @@
                             </select>
                             <select id="matchPointLocationLevel4_{{$index}}" name="matchPointLocationLevel4_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Location Level4' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Location Level4' || matchPoint.matchPointType == 'Holdings Location Level4') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
                                         ng-repeat="option in locationLevel4Values" value="{{option.locationCode}}">
                                     {{option.locationCode}}
@@ -134,7 +141,7 @@
                             </select>
                             <select id="matchPointLocationLevel5_{{$index}}" name="matchPointLocationLevel5_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Location Level5' && !matchPoint.isAddLine">
+                                    ng-show="(matchPoint.matchPointType == 'Location Level5' || matchPoint.matchPointType == 'Holdings Location Level5') && !matchPoint.isAddLine">
                                 <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
                                         ng-repeat="option in locationLevel5Values" value="{{option.locationCode}}">
                                     {{option.locationCode}}
@@ -154,35 +161,35 @@
                             <input id="matchPointDataField_{{$index}}" name="matchPointDataField_{{$index}}"
                                    type="text"
                                    ng-model="matchPoint.dataField"
-                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || (matchPoint.matchPointType == 'Call Number' || matchPoint.matchPointType == 'Call Number Prefix' || matchPoint.matchPointType == 'Copy Number'  || matchPoint.matchPointType == 'Item Barcode')) && !matchPoint.isAddLine"
+                                   ng-hide="matchPoint.isAddLine"
                                    style="height: 30px; width: 100px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.dataField"></span>
                         </td>
                         <td>
                             <input id="matchPointInd1_{{$index}}" name="matchPointInd1_{{$index}}" type="text"
                                    ng-model="matchPoint.ind1"
-                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || (matchPoint.matchPointType == 'Call Number' || matchPoint.matchPointType == 'Call Number Prefix' || matchPoint.matchPointType == 'Copy Number'  || matchPoint.matchPointType == 'Item Barcode')) && !matchPoint.isAddLine"
+                                   ng-hide="matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.ind1"></span>
                         </td>
                         <td>
                             <input id="matchPointInd2_{{$index}}" name="matchPointInd2_{{$index}}" type="text"
                                    ng-model="matchPoint.ind2"
-                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || (matchPoint.matchPointType == 'Call Number' || matchPoint.matchPointType == 'Call Number Prefix' || matchPoint.matchPointType == 'Copy Number'  || matchPoint.matchPointType == 'Item Barcode')) && !matchPoint.isAddLine"
+                                   ng-hide="matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.ind2"></span>
                         </td>
                         <td>
                             <input id="matchPointSubField_{{$index}}" name="matchPointSubField_{{$index}}" type="text"
                                    ng-model="matchPoint.subField"
-                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || (matchPoint.matchPointType == 'Call Number' || matchPoint.matchPointType == 'Call Number Prefix' || matchPoint.matchPointType == 'Copy Number'  || matchPoint.matchPointType == 'Item Barcode')) && !matchPoint.isAddLine"
+                                   ng-hide="matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.subField"></span>
                         </td>
                         <td>
                             <input id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"
                                    ng-model="matchPoint.constant"
-                                   ng-show="(matchPoint.matchPointDocType == 'Holdings' || matchPoint.matchPointDocType == 'Item' || matchPoint.matchPointDocType == 'EHoldings') && (matchPoint.matchPointType == 'Call Number' || matchPoint.matchPointType == 'Call Number Prefix' || matchPoint.matchPointType == 'Copy Number'  || matchPoint.matchPointType == 'Item Barcode') && !matchPoint.isAddLine"
+                                   ng-show="(matchPoint.matchPointDocType == 'Holdings' || matchPoint.matchPointDocType == 'Item' || matchPoint.matchPointDocType == 'EHoldings') && !matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.constant"></span>
                         </td>
