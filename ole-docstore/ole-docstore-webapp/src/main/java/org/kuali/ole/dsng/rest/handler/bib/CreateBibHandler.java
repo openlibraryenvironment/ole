@@ -55,8 +55,7 @@ public class CreateBibHandler extends Handler {
             }
 
             bibRecord.setStatusUpdatedDate(updatedDate);
-            BibDAO bibDAO = new BibDAOImpl();
-            BibRecord updatedBibRecord = bibDAO.save(bibRecord);
+            BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
             exchange.add("bib", updatedBibRecord);
 
         } catch (JSONException e) {

@@ -81,6 +81,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
                     Handler handler = iterator.next();
                     if(handler.isInterested(overlayOps)){
+                        handler.setBibDAO(bibDAO);
                         handler.process(requestJsonObject, exchange);
                     }
                 }
