@@ -42,7 +42,7 @@ public class MatchPointProcessor_UT {
 
         BatchProfileMatchPoint batchProfileMatchPoint3 = new BatchProfileMatchPoint();
         batchProfileMatchPoint3.setDataType("bibliographic");
-        batchProfileMatchPoint3.setControlField("001");
+        batchProfileMatchPoint3.setDataField("001");
 
         batchProfileMatchPoints.add(batchProfileMatchPoint1);
         batchProfileMatchPoints.add(batchProfileMatchPoint2);

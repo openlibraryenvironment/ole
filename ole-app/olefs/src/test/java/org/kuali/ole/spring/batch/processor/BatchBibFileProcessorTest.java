@@ -52,37 +52,37 @@ public class BatchBibFileProcessorTest {
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay.setDataType("bibliographic");
-        batchProfileAddOrOverlay.setMatchOption("do match");
+        batchProfileAddOrOverlay.setMatchOption("If Match Found");
         batchProfileAddOrOverlay.setOperation("overlay");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay);
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay2 = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay2.setDataType("bibliographic");
-        batchProfileAddOrOverlay2.setMatchOption("do not match");
+        batchProfileAddOrOverlay2.setMatchOption("If Match Not Found");
         batchProfileAddOrOverlay2.setOperation("add");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay2);
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay3 = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay3.setDataType("holdings");
-        batchProfileAddOrOverlay3.setMatchOption("do match");
+        batchProfileAddOrOverlay3.setMatchOption("If Match Found");
         batchProfileAddOrOverlay3.setOperation("overlay");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay3);
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay4 = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay4.setDataType("holdings");
-        batchProfileAddOrOverlay4.setMatchOption("do not match");
+        batchProfileAddOrOverlay4.setMatchOption("If Match Not Found");
         batchProfileAddOrOverlay4.setOperation("add");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay4);
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay5 = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay5.setDataType("items");
-        batchProfileAddOrOverlay5.setMatchOption("do match");
+        batchProfileAddOrOverlay5.setMatchOption("If Match Found");
         batchProfileAddOrOverlay5.setOperation("overlay");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay5);
 
         BatchProfileAddOrOverlay batchProfileAddOrOverlay6 = new BatchProfileAddOrOverlay();
         batchProfileAddOrOverlay6.setDataType("items");
-        batchProfileAddOrOverlay6.setMatchOption("do not match");
+        batchProfileAddOrOverlay6.setMatchOption("If Match Not Found");
         batchProfileAddOrOverlay6.setOperation("discard");
         batchProfileAddOrOverlays.add(batchProfileAddOrOverlay6);
 

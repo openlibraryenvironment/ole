@@ -245,8 +245,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getMatchOptionIndMap() {
         if (null == matchOptionIndMap) {
             matchOptionIndMap = new HashedMap();
-            matchOptionIndMap.put("do match", "1");
-            matchOptionIndMap.put("do not match", "2");
+            matchOptionIndMap.put("If Match Found", "1");
+            matchOptionIndMap.put("If Match Not Found", "2");
         }
         return matchOptionIndMap;
     }

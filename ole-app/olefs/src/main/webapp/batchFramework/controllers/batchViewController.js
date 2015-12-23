@@ -1,12 +1,5 @@
 var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
 
-var dataToImportValues = [
-    {id: 'bibDataOnly', name: 'Bibliographic Data Only'},
-    {id: 'bibHoldingsItemData', name: 'Bibliographic, Holdings and Item Data'},
-    {id: 'bibEHoldingsData', name: 'Bibliographic and EHoldings Data'},
-    {id: 'bibHoldingsItemEHoldingsData', name: 'Bibliographic, Holdings, Item and EHoldings Data'}
-];
-
 var documentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
@@ -102,8 +95,8 @@ var eHoldingsMatchPoints = [
 ];
 
 var matchOptions = [
-    {id: 'doMatch', name: 'Do Match'},
-    {id: 'doNotMatch', name: 'Do Not Match'}
+    {id: 'matchFound', name: 'If Match Found'},
+    {id: 'matchNotFound', name: 'If Match Not Found'}
 ];
 
 var operations = [
@@ -191,7 +184,6 @@ var transformationOperations = [
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
     {id: 'join', name: 'Join'},
-    {id: 'addDelete', name: 'Add and Delete'},
     {id: 'prepend', name: 'prepend with prefix'},
     {id: 'remove', name: 'Remove'}
 ];
@@ -226,8 +218,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         {
             title: 'Main Section',
             batchProcessType: 'Bib Import',
-            dataToImportValues: dataToImportValues,
-            dataToImport: 'Bibliographic Data Only',
             collapsed: false
         }
     ];
@@ -248,7 +238,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         {
             title: 'Matching, Add and Overlay',
             matchOptions: matchOptions,
-            matchOption: 'Do Match',
+            matchOption: 'If Match Found',
             addOrOverlayDocTypes: addOrOverlayDocumentTypes,
             addOrOverlayDocType: 'Bibliographic',
             operations: operations,
@@ -330,7 +320,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             matchPointDocType: $scope.matchPointsPanel[0].matchPointDocType,
             matchPointType: $scope.matchPointsPanel[0].matchPointType,
             matchPointValue: $scope.matchPointsPanel[0].matchPointValue,
-            controlField: $scope.matchPointsPanel[0].controlField,
             dataField: $scope.matchPointsPanel[0].dataField,
             ind1: $scope.matchPointsPanel[0].ind1,
             ind2: $scope.matchPointsPanel[0].ind2,
@@ -341,7 +330,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
-        $scope.matchPointsPanel[0].controlField = null;
         $scope.matchPointsPanel[0].dataField = null;
         $scope.matchPointsPanel[0].ind1 = null;
         $scope.matchPointsPanel[0].ind2 = null;
@@ -364,7 +352,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             addItems: $scope.addOrOverlayPanel[0].addItems,
             isAddLine: true
         });
-        $scope.addOrOverlayPanel[0].matchOption = 'Do Match';
+        $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
         $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'Bibliographic';
         $scope.addOrOverlayPanel[0].operation = 'Add';
 
@@ -462,7 +450,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.setDefaultsMatchPoint = function (matchPoint) {
         matchPoint.matchPointType = null;
-        matchPoint.controlField = null;
         matchPoint.dataField = null;
         matchPoint.ind1 = null;
         matchPoint.ind2 = null;
@@ -557,7 +544,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             "profileName": $scope.mainSectionPanel[0].profileName,
             "description": $scope.mainSectionPanel[0].profileDescription,
             "batchProcessType": $scope.mainSectionPanel[0].batchProcessType,
-            "dataToImport": $scope.mainSectionPanel[0].dataToImport,
             "forceLoad": $scope.matchPointsActivePanel.forceLoad,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
             "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
@@ -588,7 +574,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                     $scope.mainSectionPanel[0].profileName = data.profileName;
                     $scope.mainSectionPanel[0].profileDescription = data.description;
                     $scope.mainSectionPanel[0].batchProcessType = data.batchProcessType;
-                    $scope.mainSectionPanel[0].dataToImport = data.dataToImport;
                     $scope.matchPointsActivePanel.forceLoad = data.forceLoad;
                     $scope.matchPointsPanel = data.batchProfileMatchPointList;
                     $scope.addOrOverlayPanel = data.batchProfileAddOrOverlayList;
@@ -632,7 +617,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             {
                 title: 'Matching, Add and Overlay',
                 matchOptions: matchOptions,
-                matchOption: 'Do Match',
+                matchOption: 'If Match Found',
                 addOrOverlayDocTypes: addOrOverlayDocumentTypes,
                 addOrOverlayDocType: 'Bibliographic',
                 operations: operations,
