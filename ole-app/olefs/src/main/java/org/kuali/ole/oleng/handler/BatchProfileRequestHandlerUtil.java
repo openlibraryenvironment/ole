@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.service.BatchProfileService;
@@ -165,6 +166,28 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
                     jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
+
+    public String prepareGloballyProtectedField(){
+        List<OLEBatchGloballyProtectedField> globallyProtectedFields = batchProfileService.getAllProtectedFields();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(globallyProtectedFields)) {
+                for (Iterator<OLEBatchGloballyProtectedField> iterator = globallyProtectedFields.iterator(); iterator.hasNext(); ) {
+                    OLEBatchGloballyProtectedField batchGloballyProtectedField = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("tag",batchGloballyProtectedField.getTag());
+                    jsonObject.put("firstIndicator",batchGloballyProtectedField.getFirstIndicator());
+                    jsonObject.put("secondIndicator",batchGloballyProtectedField.getSecondIndicator());
+                    jsonObject.put("subField",batchGloballyProtectedField.getSubField());
+                    jsonObject.put("ignoreGPF",batchGloballyProtectedField.isIgnoreValue());
                     jsonArray.put(jsonObject);
                 }
             }

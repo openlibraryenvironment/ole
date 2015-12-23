@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.dao.impl;
 
+import org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
@@ -50,6 +51,11 @@ public class DescribeDAOImpl implements DescribeDAO {
     @Override
     public List<BatchProcessProfile> fetchAllProfiles() {
         return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
+    }
+
+    @Override
+    public List<OLEBatchGloballyProtectedField> fetchAllGloballyProtectedFields() {
+        return (List<OLEBatchGloballyProtectedField>) getBusinessObjectService().findAll(OLEBatchGloballyProtectedField.class);
     }
 
     public BusinessObjectService getBusinessObjectService() {
