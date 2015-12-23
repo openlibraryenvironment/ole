@@ -61,13 +61,14 @@ public class OleVendorRule extends VendorRule {
         if (!vendorDetail.isActiveIndicator()) {
             vendor.put("vendorHeaderGeneratedIdentifier", vendorDetail.getVendorHeaderGeneratedIdentifier());
             vendor.put("vendorDetailAssignedIdentifier", vendorDetail.getVendorDetailAssignedIdentifier());
-            List<OleRequisitionDocument> oleRequisitionDocuments = (List<OleRequisitionDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleRequisitionDocument.class, vendor);
             List<OlePurchaseOrderDocument> purchaseOrderDocuments = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, vendor);
-            if (oleRequisitionDocuments.size() > 0) {
-                putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_REQUISITION_LINKED);
-            }
             if (purchaseOrderDocuments.size() > 0) {
-                putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_PURCHSEORDER_LINKED);
+                for(OlePurchaseOrderDocument olePurchaseOrderDocument : purchaseOrderDocuments) {
+                    if(olePurchaseOrderDocument.getApplicationDocumentStatus().equals(VendorPropertyConstants.OPEN_PO)) {
+                        putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_PURCHSEORDER_LINKED);
+                    }
+                }
+
             }
         }
         vendor = new HashMap();

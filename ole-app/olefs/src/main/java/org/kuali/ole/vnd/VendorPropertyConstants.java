@@ -132,5 +132,6 @@ public class VendorPropertyConstants {
 
     public static final String CURRENCY_TYPE = "currencyTypeId";
     public static final String PAYMENT_METHOD_ID = "paymentMethodId";
+    public static final String OPEN_PO = "Open";
 
 }
