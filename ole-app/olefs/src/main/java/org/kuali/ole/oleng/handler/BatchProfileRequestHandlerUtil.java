@@ -89,7 +89,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     OleBibliographicRecordStatus bibliographicRecordStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("bibStatusId",bibliographicRecordStatus.getBibliographicRecordStatusId());
-                    jsonObject.put("bibStatusCode",bibliographicRecordStatus.getBibliographicRecordStatusCode());
+                    jsonObject.put("bibStatusName",bibliographicRecordStatus.getBibliographicRecordStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
