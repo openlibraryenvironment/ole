@@ -3413,6 +3413,29 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         return getUIFModelAndView(oleInvoiceForm);
     }
 
+    @RequestMapping(params = "methodToCall=validateInvoiceNumber")
+    public ModelAndView validateInvoiceNumber(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        oleInvoiceDocument.setDuplicateValidationFlag(false);
+        boolean duplicationExists = false;
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,false);
+        if (duplicationExists) {
+            oleInvoiceDocument.setDuplicateValidationFlag(true);
+            String message = oleInvoiceForm.getDuplicationMessage();
+            if(message.length() > 0){
+                if(message.contains("Do you want to approve this INV anyway?")){
+                    message = message.substring(1,message.lastIndexOf("D"));
+                }
+                oleInvoiceForm.setDuplicationMessage(message);
+            }
+            return getUIFModelAndView(form);
+        }
+        return getUIFModelAndView(oleInvoiceForm);
+    }
+
 
     /*public Integer getIndexNumberFromJsonObject(String sequenceObject) {
         Integer returnValue = null;
