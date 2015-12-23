@@ -62,6 +62,7 @@ public class OLEConstants {
     public static final String ITEM_TITLE_ID = "itemTitleId";
     public static final String POSTING_YEAR = "postingYear";
     public static final String TOTAL_DOLLAR_AMOUNT = "financialDocumentTotalAmount";
+    public static final String SUBSCRIPTION_RENEWAL = "Subscription_Renewal";
 
     public static final String FAST_ADD_LINK = "/ole-kr-krad/circFastAddController?viewId=CircFastAddItemView&methodToCall=start";
     public static final String ITEM_ALREADY_LOANED = "Item is already loaned.";

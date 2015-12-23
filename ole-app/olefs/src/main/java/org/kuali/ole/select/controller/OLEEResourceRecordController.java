@@ -203,14 +203,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (oleeResourceRecordDocument.getOleERSIdentifier() == null) {
             String noticePeriod = getOleEResourceSearchService().getParameter("NOTICE_PERIOD", OLEConstants.ERESOURCE_CMPNT);
             String alertEnabled = getOleEResourceSearchService().getParameter("ALERT_ENABLED", OLEConstants.ERESOURCE_CMPNT);
-            String user = getOleEResourceSearchService().getParameter("USER", OLEConstants.ERESOURCE_CMPNT);
             oleeResourceRecordDocument.setRenewalNoticePeriod(noticePeriod);
             if (alertEnabled.equalsIgnoreCase("Y")) {
                 oleeResourceRecordDocument.setRenewalAlertEnabled(true);
             } else {
                 oleeResourceRecordDocument.setRenewalAlertEnabled(false);
             }
-            oleeResourceRecordDocument.setRecipientId(user);
+        } else {
+            getOleeResourceHelperService().setRenewalRecipient(oleeResourceRecordDocument);
         }
         return modelAndView;
     }
@@ -495,9 +495,18 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
         if (oleeResourceRecordDocument.getCurrentSubscriptionEndDate() != null) {
             if (oleeResourceRecordDocument.isRenewalAlertEnabled()) {
-                if (oleeResourceRecordDocument.getRecipientId() == null) {
-                    GlobalVariables.getMessageMap().putError(OLEConstants.OLEEResourceRecord.RECIPIENT_ID, OLEConstants.OLEEResourceRecord.ERROR_RECIPIENT_ID);
-                    return getUIFModelAndView(oleERSform);
+                if((OLEConstants.SELECTOR_ROLE).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validateRole(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
+                } else if((OLEConstants.SELECTOR_GROUP).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validateGroup(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
+                } else if((OLEConstants.SELECTOR_PERSON).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validatePerson(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
                 }
             }
         }
