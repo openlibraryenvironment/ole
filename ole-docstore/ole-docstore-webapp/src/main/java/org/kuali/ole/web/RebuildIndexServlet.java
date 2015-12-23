@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.util.CallNumberMigration;
+import org.kuali.ole.docstore.common.dao.CallNumberMigrationDao;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.process.RebuildIndexesHandler;
 import org.kuali.ole.logger.DocStoreLogger;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,6 +36,7 @@ public class RebuildIndexServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         try {
 
             String docCategory = DocCategory.WORK.getCode();
@@ -44,30 +46,30 @@ public class RebuildIndexServlet extends HttpServlet {
             String batchSizeReq = req.getParameter("batchSize");
             String startIndexReq = req.getParameter("startIndex");
             String endIndexReq = req.getParameter("endIndex");
-            String updateDate=null;
-            if(req.getParameter("updateDate")!=null){
-                updateDate=req.getParameter("updateDate").trim();
+            String updateDate = null;
+            if (req.getParameter("updateDate") != null) {
+                updateDate = req.getParameter("updateDate").trim();
             }
             int batchSize = 0;
             int startIndex = 0;
             int endIndex = 0;
-            if(StringUtils.isNotEmpty(batchSizeReq)) {
+            if (StringUtils.isNotEmpty(batchSizeReq)) {
                 batchSize = Integer.parseInt(batchSizeReq);
             }
-            if(StringUtils.isNotEmpty(startIndexReq)) {
+            if (StringUtils.isNotEmpty(startIndexReq)) {
                 startIndex = Integer.parseInt(startIndexReq);
             }
-            if(StringUtils.isNotEmpty(endIndexReq)) {
+            if (StringUtils.isNotEmpty(endIndexReq)) {
                 endIndex = Integer.parseInt(endIndexReq);
             }
-            if(startIndex > endIndex) {
-                String result = "Please provide valid input " +  startIndex + " > " + endIndex;
+            if (startIndex > endIndex) {
+                String result = "Please provide valid input " + startIndex + " > " + endIndex;
                 outputMessage(resp, result);
             }
             RebuildIndexesHandler rebuildIndexesHandler = RebuildIndexesHandler.getInstance();
 
             if (action.equalsIgnoreCase("start")) {
-                String result = rebuildIndexesHandler.startProcess(docCategory, docType, docFormat, batchSize, startIndex, endIndex,updateDate);
+                String result = rebuildIndexesHandler.startProcess(docCategory, docType, docFormat, batchSize, startIndex, endIndex, updateDate);
                 outputMessage(resp, result);
             } else if (action.equalsIgnoreCase("stop")) {
                 String result = rebuildIndexesHandler.stopProcess();
@@ -86,14 +88,9 @@ public class RebuildIndexServlet extends HttpServlet {
             } else if (action.equalsIgnoreCase("store")) {
                 String result = rebuildIndexesHandler.storeBibInfo(batchSize);
                 outputMessage(resp, result);
-            }else if (action.equalsIgnoreCase("shelfKey")) {
-                CallNumberMigration callNumberMigration = new CallNumberMigration();
+            } else if (action.equalsIgnoreCase("shelfKey")) {
+                CallNumberMigrationDao callNumberMigration = (CallNumberMigrationDao) org.kuali.ole.dsng.service.SpringContext.getBean("callNumberMigrationDao");
                 callNumberMigration.init();
-                callNumberMigration.getHoldingsDetails();
-                callNumberMigration.calculateAndUpdateHoldingsShelvingOrder();
-                callNumberMigration.getItemDetails();
-                callNumberMigration.calculateAndUpdateItemShelvingOrder();
-                callNumberMigration.closeConnections();
             } else {
                 String result = "Invalid action :" + action;
                 outputMessage(resp, result);
@@ -101,6 +98,8 @@ public class RebuildIndexServlet extends HttpServlet {
         } catch (Exception e) {
             docStoreLogger.log("Error during rebuilding of the indexes from documentstore", e);
         }
+
+
     }
 
     private void outputMessage(HttpServletResponse resp, String s) throws IOException {
