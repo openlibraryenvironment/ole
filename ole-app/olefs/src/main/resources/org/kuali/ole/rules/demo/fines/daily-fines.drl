@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.checkout
+package org.kuali.ole.deliver.rules.demo.fines
 
 import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.bo.OleLoanDocument
@@ -10,19 +10,22 @@ import org.kuali.ole.deliver.bo.PatronBillPayment
 
 
 
-rule "No Fines for InDef Staff"
+rule "Items Daily fines "
 agenda-group "fine validation"
 activation-group "fine validation"
 when
 
-$b: ItemFineRate()
+$f: ItemFineRate()
 
-$i: OleItemRecordForCirc(getItemLibraryLocation() in ("LSC","B-HPER","DLL","SCL","DOCS"))
+$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+getItemLibraryLocation() in ("B-EDUC"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("UGRAD"))
 
 then
-$b.setFineRate(0.00);
-$b.setMaxFine(0.00);
+$f.setFineRate(5.00);
+$f.setMaxFine(120.00);
+$f.setInterval("D"); //Options are H-Hours; D-Days
 
- end
+end
+
