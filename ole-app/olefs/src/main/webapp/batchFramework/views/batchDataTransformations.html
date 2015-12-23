@@ -130,9 +130,9 @@
                                     name="dataTransformationBibStatus_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationFieldValue"
                                     ng-show="dataTransformation.dataTransformationField == 'Bib Status' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.bibStatusCode == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in bibStatuses" value="{{option.bibStatusCode}}">
-                                    {{option.bibStatusCode}}
+                                <option ng-selected="{{option.bibStatusName == dataTransformation.dataTransformationFieldValue}}"
+                                        ng-repeat="option in bibStatuses" value="{{option.bibStatusName}}">
+                                    {{option.bibStatusName}}
                                 </option>
                             </select>
                             <select id="dataTransformationItemStatus_{{$index}}"
