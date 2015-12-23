@@ -1647,7 +1647,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OleDeliverRequest.DATE_FORMAT);
             for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
                 try {
-                    if ((fmt.format(oleDeliverRequestBoList.get(i).getRequestExpiryDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
+                    if(oleDeliverRequestBoList.get(i).getHoldExpirationDate()==null || ( oleDeliverRequestBoList.get(i).getHoldExpirationDate()!=null && (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)){
                         //newOleDeliverRequestBoList.add(oleDeliverRequestBoList.get(i));
                         deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
                     }
