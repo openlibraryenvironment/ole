@@ -76,7 +76,7 @@
         </#if>
 
     </TR>
-    <#if oleNoticeBo.noticeTitle == "Overdue Notice">
+    <#if (oleNoticeBo.noticeTitle == "Overdue Notice") || (oleNoticeBo.noticeTitle == "Courtesy Notice")>
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item was due")} :</TD>
       <#if oleNoticeBo.dueDateString??>
