@@ -48,8 +48,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     @Autowired
     ItemDAO itemDAO;
 
-    private List<ItemOverlayHandler> itemOverlayMatchPointHandlers;
-
     private List<Handler> bibHandlers;
     private List<Handler> holdingHandlers;
     private List<Handler> itemHandlers;
@@ -152,27 +150,5 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
-    }
-
-    public List<ItemOverlayHandler> getItemOverlayMatchPointHandlers() {
-        if(CollectionUtils.isEmpty(itemOverlayMatchPointHandlers)) {
-            itemOverlayMatchPointHandlers = new ArrayList<ItemOverlayHandler>();
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberPrefixHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberTypeHandler());
-            itemOverlayMatchPointHandlers.add(new ChronologyHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CopyNumberHandler());
-            itemOverlayMatchPointHandlers.add(new DonorCodeHandler());
-            itemOverlayMatchPointHandlers.add(new DonorNoteHandler());
-            itemOverlayMatchPointHandlers.add(new DonorPublicDisplayHandler());
-            itemOverlayMatchPointHandlers.add(new EnumerationHandler());
-            itemOverlayMatchPointHandlers.add(new ItemBarcodeHandler());
-            itemOverlayMatchPointHandlers.add(new ItemStatusHandler());
-            itemOverlayMatchPointHandlers.add(new ItemTypeHandler());
-            itemOverlayMatchPointHandlers.add(new org.kuali.ole.dsng.rest.handler.items.LocationHandler());
-            itemOverlayMatchPointHandlers.add(new StatisticalSearchCodeHandler());
-            itemOverlayMatchPointHandlers.add(new VendorLineItemIdHandler());
-        }
-        return itemOverlayMatchPointHandlers;
     }
 }

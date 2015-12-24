@@ -25,7 +25,7 @@ public class CallNumberHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(holdingRecord.getCallNumber(), callNumber)) {
             exchange.add("matchedHoldings", holdingRecord);
@@ -35,7 +35,7 @@ public class CallNumberHandler extends HoldingsHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String callNumberValue = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         holdingRecord.setCallNumber(callNumberValue);
     }
 }
