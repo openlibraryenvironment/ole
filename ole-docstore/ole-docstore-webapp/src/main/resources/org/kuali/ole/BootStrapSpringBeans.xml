@@ -119,4 +119,38 @@
 
     <bean name="oleConfigurer" class="org.kuali.ole.OleDocstoreModuleConfigurer" lazy-init="false" />
 
+
+
+    <!-- parent bean to make the definitions below easier to read -->
+    <bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
+
+    <!-- beans below here are extended by KFS beans, and so the "parent" relationship does not work and they must be redefined -->
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
+        <property name="objectType">
+            <value>${datasource.platform}</value>
+        </property>
+    </bean>
+
+
+    <bean id="platformAwareDaoJdbc" abstract="true"
+          class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
+        <property name="dataSource" ref="dataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
+    <bean id="applicationContextProvider" class="org.kuali.ole.dsng.service.ApplicationContextProvider"/>
+
+
+    <bean id="oleNGPlatformAwareDao" parent="platformAwareDao" class="org.kuali.ole.dsng.dao.OleNGPlatformAwareDao" />
+
+
+    <bean id="platformAwareDao" abstract="true"
+          class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
 </beans>
