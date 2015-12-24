@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -88,7 +89,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     public String processBibAndHoldingsAndItems(String jsonBody) {
         JSONArray responseJsonArray = null;
-        Map<String,SolrInputDocument> solrInputDocumentMap = new HashedMap();
+        Map<String, SolrInputDocument> solrInputDocumentMap = new HashedMap();
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
@@ -108,29 +109,47 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 processHoldings(requestJsonObject, exchange, overlayOps);
             }
 
-
-           List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsUpdated");
-            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
-                for (Iterator<HoldingsRecord> iterator = holdingsRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = iterator.next();
-                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-                }
-            }
-
+            solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
 
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return responseJsonArray.toString();
     }
 
+    private Map<String, SolrInputDocument> prepareHoldingsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
+        List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsUpdated");
+        List<HoldingsRecord> holdingsRecordsToCreate = (List<HoldingsRecord>) exchange.get("holdingRecordsToCreate");
+
+        List<HoldingsRecord> finalHoldingsForSolr = new ArrayList<HoldingsRecord>();
+        if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)){
+            finalHoldingsForSolr.addAll(holdingsRecordsToUpdate);
+        }
+        if(CollectionUtils.isNotEmpty(holdingsRecordsToCreate)){
+            finalHoldingsForSolr.addAll(holdingsRecordsToCreate);
+        }
+
+        solrInputDocumentMap = prepareSolrInputDocumentsForHoldings(solrInputDocumentMap, finalHoldingsForSolr);
+        return solrInputDocumentMap;
+    }
+
+    private Map<String, SolrInputDocument> prepareSolrInputDocumentsForHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, List<HoldingsRecord> holdingsRecordsToUpdate) {
+        if (CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
+            for (Iterator<HoldingsRecord> iterator = holdingsRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+            }
+        }
+        return solrInputDocumentMap;
+    }
+
     private void processHoldings(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
         for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
             Handler holdingHandler = iterator.next();
-            if(holdingHandler.isInterested(overlayOps)){
+            if (holdingHandler.isInterested(overlayOps)) {
                 holdingHandler.setHoldingDAO(holdingDAO);
                 holdingHandler.process(requestJsonObject, exchange);
             }
@@ -140,7 +159,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private void processBib(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
         for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
             Handler handler = iterator.next();
-            if(handler.isInterested(overlayOps)){
+            if (handler.isInterested(overlayOps)) {
                 handler.setBibDAO(bibDAO);
                 handler.setBusinessObjectService(getBusinessObjectService());
                 handler.process(requestJsonObject, exchange);
