@@ -323,20 +323,9 @@ function deleteRelatedInstances(){
     showLightboxComponent("OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp");
 }
 
-function deleteInstance() {
-    jq(".fancybox-close").click();
-    displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp')
-    /*if(jq("#OLEEResourceRecordView-Instance_control").val() > 0 ){
-        showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesPopUp');
-    }else{*/
-        //showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp');
-    //}
-}
-
 function closeDeleteInstance(){
     jq("div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp").fadeOut(300);
     jq('#mask').fadeOut(300);
-    location.reload();
 }
 
 function eResourceSearch(){
