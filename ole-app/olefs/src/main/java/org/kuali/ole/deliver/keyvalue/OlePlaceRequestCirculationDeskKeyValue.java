@@ -1,8 +1,11 @@
 package org.kuali.ole.deliver.keyvalue;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
+import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.form.OLEPlaceRequestForm;
 import org.kuali.ole.describe.form.BoundwithForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -22,9 +25,10 @@ import java.util.List;
 public class OlePlaceRequestCirculationDeskKeyValue extends UifKeyValuesFinderBase {
 
     private BusinessObjectService businessObjectService;
+    private RuleExecutor ruleExecutor;
 
     public BusinessObjectService getBusinessObjectService() {
-        if(businessObjectService == null){
+        if (businessObjectService == null) {
             this.businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
@@ -34,20 +38,49 @@ public class OlePlaceRequestCirculationDeskKeyValue extends UifKeyValuesFinderBa
         this.businessObjectService = businessObjectService;
     }
 
+    public RuleExecutor getRuleExecutor() {
+        if (ruleExecutor == null) {
+            this.ruleExecutor = new RuleExecutor();
+        }
+        return ruleExecutor;
+    }
+
+    public void setRuleExecutor(RuleExecutor ruleExecutor) {
+        this.ruleExecutor = ruleExecutor;
+    }
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
-        OLEPlaceRequestForm olePlaceRequestForm = (OLEPlaceRequestForm) viewModel;
-        HashMap<String,String> circulationDeskMap = new HashMap<String,String>();
-        circulationDeskMap.put("circulationPickUpDeskLocation",olePlaceRequestForm.getItemLocation());
-        List<OleCirculationDeskLocation> oleCirculationDeskLocations = (List<OleCirculationDeskLocation>)getBusinessObjectService().findMatching(OleCirculationDeskLocation.class,circulationDeskMap);
+        List<Object> facts = new ArrayList<>();
         List<KeyValue> options = new ArrayList<KeyValue>();
-        //TODO: Get drop-down values dynamically by parsing DocumentConfig.xml file
-          if(oleCirculationDeskLocations!=null && oleCirculationDeskLocations.size()>0){
+        OLEPlaceRequestForm olePlaceRequestForm = (OLEPlaceRequestForm) viewModel;
+        facts.add(olePlaceRequestForm);
+        facts.add(olePlaceRequestForm.getOlePatronDocument());
+        getRuleExecutor().fireRules(facts, null, "pickup-location");
+        List<String> pickUpLocationList = new ArrayList<>();
+        if (StringUtils.isNotBlank(olePlaceRequestForm.getPickUpLocation())) {
+            String[] pickUpLocations = olePlaceRequestForm.getPickUpLocation().split(",");
+            for (String location : pickUpLocations) {
+                pickUpLocationList.add(location);
+            }
+        }
 
-          for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocations){
-            options.add(new ConcreteKeyValue(oleCirculationDeskLocation.getCirculationDeskId(),oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode()));
-          }
-          }
+
+        if (CollectionUtils.isNotEmpty(pickUpLocationList)) {
+
+            List<OleCirculationDesk> oleCirculationDeskLocations = (List<OleCirculationDesk>) getBusinessObjectService().findAll(OleCirculationDesk.class);
+            //TODO: Get drop-down values dynamically by parsing DocumentConfig.xml file
+            if (oleCirculationDeskLocations != null && oleCirculationDeskLocations.size() > 0) {
+
+                for (OleCirculationDesk oleCirculationDeskLocation : oleCirculationDeskLocations) {
+                    if (pickUpLocationList.contains(oleCirculationDeskLocation.getCirculationDeskCode())) {
+                    options.add(new ConcreteKeyValue(oleCirculationDeskLocation.getCirculationDeskId(), oleCirculationDeskLocation.getCirculationDeskCode()));
+                    }
+                }
+            }
+        }
         return options;
     }
+
+
 }
