@@ -39,10 +39,7 @@ public class ExceptionPeriodLoanDateTimeUtil {
     }
 
     private int doDatesMatch(Calendar date1Calendar, Calendar date2Calendar) {
-        int date1Day = date1Calendar.get(Calendar.DAY_OF_YEAR);
-        int date2Day = date2Calendar.get(Calendar.DAY_OF_YEAR);
-
-        return date1Day < date2Day ? -1 : date1Day == date2Day ? 0 : 1;
+        return date1Calendar.compareTo(date2Calendar);
     }
 
     private List<Calendar> prepareCalendars(Date date1, Date date2) {
