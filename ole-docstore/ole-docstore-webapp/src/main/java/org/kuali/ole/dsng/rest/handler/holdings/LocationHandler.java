@@ -7,6 +7,9 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by SheikS on 12/20/2015.
  */
@@ -26,14 +29,20 @@ public class LocationHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        System.out.println();
+
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        String fullPathLocation = getFullPathLocation(holdingRecord, requestJsonObject);
+        if (StringUtils.equals(holdingRecord.getLocation(), fullPathLocation)) {
+            exchange.add("matchedHoldings", holdingRecord);
+        }
     }
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
 
     }
-//
+
+    //
 //    @Override
 //    public boolean isInterested(JSONObject jsonObject) {
 //        return (jsonObject.has(LOCATION_LEVEL_1) || jsonObject.has(LOCATION_LEVEL_2) ||jsonObject.has(LOCATION_LEVEL_3) ||
@@ -53,11 +62,12 @@ public class LocationHandler extends HoldingsHandler {
 //        return holdingsRecord;
 //    }
 //
-//    private String getFullPathLocation(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String location = holdingsRecord.getLocation();
-//        String locationLevel = holdingsRecord.getLocationLevel();
-//        return getFullLocationForOverlay(jsonObject, location, locationLevel);
+    private String getFullPathLocation(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
+        String location = holdingsRecord.getLocation();
+        String locationLevel = holdingsRecord.getLocationLevel();
+        return getFullLocationForOverlay(jsonObject, location, locationLevel);
 //    }
 
 
+    }
 }

@@ -24,4 +24,8 @@ public class Exchange {
         }
         return context;
     }
+
+    public void remove(String key) {
+        getContext().remove(key);
+    }
 }

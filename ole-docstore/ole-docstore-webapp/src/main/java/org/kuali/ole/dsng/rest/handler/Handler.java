@@ -7,7 +7,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.kuali.ole.dsng.util.OleDsNgOverlayUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by pvsubrah on 12/23/15.
  */
-public abstract class  Handler extends OleDsHelperUtil {
+public abstract class  Handler extends OleDsNgOverlayUtil {
 
     BibDAO bibDAO;
 

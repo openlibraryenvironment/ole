@@ -25,31 +25,17 @@ public class CallNumberHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        List<HoldingsRecord> matchedHoldingRecords = new ArrayList<HoldingsRecord>();
-        List<HoldingsRecord> holdingRecords = (List<HoldingsRecord>) exchange.get("holdingRecords");
-        for (Iterator<HoldingsRecord> iterator = holdingRecords.iterator(); iterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = iterator.next();
-            JSONObject matchPoints = null;
-            try {
-                matchPoints = requestJsonObject.getJSONObject("matchPoints");
-                String callNumber = getStringValueFromJsonObject(matchPoints, TYPE);
-                if (StringUtils.equals(holdingsRecord.getCallNumber(), callNumber)) {
-                    matchedHoldingRecords.add(holdingsRecord);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            exchange.add("matchedHoldingRecords", matchedHoldingRecords);
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        if (StringUtils.equals(holdingRecord.getCallNumber(), callNumber)) {
+            exchange.add("matchedHoldings", holdingRecord);
         }
     }
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String callNumberValue = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsRecord> matchedHoldingRecords = (List<HoldingsRecord>) exchange.get("matchedHoldingRecords");
-        for (Iterator<HoldingsRecord> iterator = matchedHoldingRecords.iterator(); iterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = iterator.next();
-            holdingsRecord.setCallNumber(callNumberValue);
-        }
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        holdingRecord.setCallNumber(callNumberValue);
     }
 }

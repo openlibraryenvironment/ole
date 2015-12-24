@@ -47,44 +47,54 @@ public class UpdateHoldingsHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
+        List<HoldingsRecord> holdingsRecordsToUpdate = new ArrayList<HoldingsRecord>();
         try {
-            JSONObject holdingJsonObject = requestJsonObject.getJSONObject("holdings");
-            if (holdingJsonObject.has("matchPoints")) {
-                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
-                HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                });
+            BibRecord bibRecord = (BibRecord) exchange.get("bib");
+            List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
 
-                BibRecord bibRecord = (BibRecord) exchange.get("bib");
-                List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
-                exchange.add("holdingRecords", holdingsRecords);
-                for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
-                    String key = (String) iterator1.next();
-                    for (Iterator<HoldingsHandler> iterator = getHoldingMetaDataHandlers().iterator(); iterator.hasNext(); ) {
-                        Handler holdingsMetaDataHandlelr = iterator.next();
+            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
 
-                        if (holdingsMetaDataHandlelr.isInterested(key)) {
-                            holdingsMetaDataHandlelr.process(holdingJsonObject, exchange);
+                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("holdings");
+                if (holdingJsonObject.has("matchPoints")) {
+                    JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
+                    HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                    });
+
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    exchange.add("holdingsRecord", holdingsRecord);
+
+                    matchPointsLoop:
+                    for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
+                        String key = (String) iterator1.next();
+                        for (Iterator<HoldingsHandler> iterator2 = getHoldingMetaDataHandlers().iterator(); iterator2.hasNext(); ) {
+                            Handler holdingsMetaDataHandlelr = iterator2.next();
+                            if (holdingsMetaDataHandlelr.isInterested(key)) {
+                                holdingsMetaDataHandlelr.process(matchPoints, exchange);
+                                if (null != exchange.get("matchedHoldings")) {
+                                    JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+
+                                    HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
+                                    });
+                                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                                        String key1 = (String) iterator3.next();
+                                        for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                                            HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
+                                            if (holdingsMetaDataHandlelr1.isInterested(key1)) {
+                                                holdingsMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
+                                            }
+                                        }
+                                    }
+                                    holdingsRecordsToUpdate.add(holdingsRecord);
+                                    exchange.remove("matchedHoldings");
+                                    break matchPointsLoop;
+                                }
+                            }
                         }
                     }
                 }
-
-                JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
-
-                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-                });
-                for (Iterator iterator1 = dataMappingsMap.keySet().iterator(); iterator1.hasNext(); ) {
-                    String key = (String) iterator1.next();
-                    for (Iterator<HoldingsHandler> iterator = getHoldingMetaDataHandlers().iterator(); iterator.hasNext(); ) {
-                        HoldingsHandler holdingsMetaDataHandlelr = iterator.next();
-                        if (holdingsMetaDataHandlelr.isInterested(key)) {
-                            holdingsMetaDataHandlelr.processDataMappings(dataMappings, exchange);
-                        }
-                    }
-                }
-
             }
 
-//            getHoldingDAO().saveAll(exchange.get("matchedHoldingRecords"));
+//            getHoldingDAO().saveAll(holdingsRecordsToUpdate);
 
 
         } catch (JSONException e) {
