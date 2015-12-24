@@ -58,6 +58,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             bibHandlers = new ArrayList<Handler>();
             bibHandlers.add(new CreateBibHandler());
             bibHandlers.add(new UpdateBibHandler());
+            bibHandlers.add(new CreateHoldingsHandler());
+            bibHandlers.add(new UpdateHoldingsHandler());
         }
         return bibHandlers;
     }

@@ -1,15 +1,12 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
@@ -20,19 +17,13 @@ import java.util.List;
 public class UpdateBibHandler extends Handler {
     @Override
     public Boolean isInterested(String operation) {
-        try {
-            List ops = new ObjectMapper().readValue(operation, new TypeReference<List<String>>() {
-            });
-
-            for (Iterator iterator = ops.iterator(); iterator.hasNext(); ) {
-                String op = (String) iterator.next();
-                return op.equals("112") || op.equals("212");
+        List<String> operationsList = getOperationsList(operation);
+        for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
+            String op = (String) iterator.next();
+            if(op.equals("112") || op.equals("212")){
+                return true;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return false;
     }
 
@@ -48,10 +39,7 @@ public class UpdateBibHandler extends Handler {
             bibRecord.setContent(newBibContent);
             bibRecord.setStatusUpdatedBy(updatedBy);
 
-            Timestamp updatedDate = null;
-            if (StringUtils.isNotBlank(updatedDateString)) {
-                updatedDate = getDateTimeStamp(updatedDateString);
-            }
+            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
             bibRecord.setStatusUpdatedDate(updatedDate);
             BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
