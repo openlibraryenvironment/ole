@@ -344,7 +344,6 @@ public abstract class CheckoutBaseController extends CircUtilController {
         noticeInfo = new NoticeInfo();
 
         currentLoanDocument.setOleCirculationDesk(getSelectedCirculationDesk(oleForm));
-
         List<Object> facts = new ArrayList<>();
 
         facts.add(oleItemRecordForCirc);
