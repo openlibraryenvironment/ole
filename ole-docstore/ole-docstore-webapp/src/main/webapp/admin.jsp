@@ -35,10 +35,7 @@
 
 <%@ include file="oleHeader.jsp" %>
 
-
-
 <script>
-
     function showReindexResult(action) {
         document.getElementById("reindexResult").value = "";
         $.post("./rebuildIndex",
@@ -86,7 +83,6 @@
                     document.getElementById("storeResult").value = data.toString();
                 }, 'html');
     }
-
 
     $(function() {
         $("#sections").tabs({
@@ -245,11 +241,6 @@
             </table>
         </form>
     </div>
-
-
-
-
-
     <div id="section-callNumberMigration">
         <form name="callNumberMigration" method="POST">
             <table width="850">
@@ -262,12 +253,8 @@
                         <input id="shelvingkeyGeneration" type="button" value="Generate Shelving key"
                                onclick='generateShelfkeys();'/>
                     </td>
-
                 </tr>
             </table>
-
         </form>
     </div>
-
-
 </div>
