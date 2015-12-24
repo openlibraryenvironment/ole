@@ -1,5 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -94,9 +96,18 @@ public class UpdateHoldingsHandler extends Handler {
                 }
             }
 
-//            getHoldingDAO().saveAll(holdingsRecordsToUpdate);
-
-
+            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
+                getHoldingDAO().saveAll(holdingsRecordsToUpdate);
+                Map<String, SolrInputDocument> solrInputDocumentMap = (Map<String, SolrInputDocument>) exchange.get("solrInputDocumentMap");
+                if(null == solrInputDocumentMap) {
+                    solrInputDocumentMap = new HashMap<String,SolrInputDocument>();
+                }
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                }
+                exchange.add("solrInputDocumentMap",solrInputDocumentMap);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (JsonParseException e) {

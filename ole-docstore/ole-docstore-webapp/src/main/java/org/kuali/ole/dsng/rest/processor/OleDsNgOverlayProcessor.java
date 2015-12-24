@@ -57,8 +57,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             bibHandlers = new ArrayList<Handler>();
             bibHandlers.add(new CreateBibHandler());
             bibHandlers.add(new UpdateBibHandler());
-            bibHandlers.add(new CreateHoldingsHandler());
-            bibHandlers.add(new UpdateHoldingsHandler());
         }
         return bibHandlers;
     }
@@ -104,14 +102,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 BibRecord bibRecord = (BibRecord) exchange.get("bib");
 
-                processHoldings(requestJsonObject, exchange, overlayOps);
-
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+                    exchange.add("solrInputDocumentMap",solrInputDocumentMap);
                 }
+                processHoldings(requestJsonObject, exchange, overlayOps);
             }
-
-
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
 
