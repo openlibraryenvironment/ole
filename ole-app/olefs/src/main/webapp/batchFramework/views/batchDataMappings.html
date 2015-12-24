@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle href="#" ng-click="toggle(dataMappingsPanel)">
+                <a bs-collapse-toggle href="#" ng-click="dataMappingsPanel.collapsed = !dataMappingsPanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !dataMappingsPanel.collapsed, 'glyphicon-chevron-down': dataMappingsPanel.collapsed}"></span>
                     Data Mappings
@@ -15,13 +15,13 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th></th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'"></th>
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Sub Field</th>
                         <th>Constant</th>
-                        <th>Destination</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Destination</th>
                         <th>Field</th>
                         <th>Priority</th>
                         <th></th>
@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
-                        <td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
                             <select name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
                                     ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.dataMappingDocType}}"
@@ -70,7 +70,7 @@
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>
-                        <td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
                             <select name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
                                     ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine" ng-change="setDefaultsDestination(dataMapping)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
@@ -103,6 +103,15 @@
                                     ng-show="dataMapping.destination == 'EHoldings' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.eHoldingsFields" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <select id="dataMappingOrderField_{{$index}}"
+                                    name="dataMappingOrderField_{{$index}}"
+                                    ng-model="dataMapping.field"
+                                    ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.destination}}"
+                                        ng-repeat="option in dataMapping.dataMappingOrderFields" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>

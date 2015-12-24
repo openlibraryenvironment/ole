@@ -23,11 +23,12 @@
         <br><br>
     </div>
     <div ng-include="'batchFramework/views/batchMainSection.html'"></div>
-    <div ng-include="'batchFramework/views/batchMatchPoints.html'"></div>
-    <div ng-include="'batchFramework/views/batchMatchAddOverlay.html'"></div>
-    <div ng-include="'batchFramework/views/batchFieldOperations.html'"></div>
-    <div ng-include="'batchFramework/views/batchDataMappings.html'"></div>
-    <div ng-include="'batchFramework/views/batchDataTransformations.html'"></div>
+    <div ng-include="'batchFramework/views/batchMatchPoints.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+    <div ng-include="'batchFramework/views/batchMatchAddOverlay.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+    <div ng-include="'batchFramework/views/batchFieldOperations.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+    <div ng-include="'batchFramework/views/batchConstantsAndDefaults.html'" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
+    <div ng-include="'batchFramework/views/batchDataMappings.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
+    <div ng-include="'batchFramework/views/batchDataTransformations.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
     <button id="profileSubmit_button" name="profileSubmit_button" class="btn btn-primary" ng-click="submit()"
             ng-disabled="submitted" style="margin-left: 40em;">Submit
     </button>

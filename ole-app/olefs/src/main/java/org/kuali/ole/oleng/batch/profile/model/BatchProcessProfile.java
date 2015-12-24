@@ -26,8 +26,17 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     @JsonProperty("batchProcessType")
     private String batchProcessType;
 
+    @JsonProperty("bibImportProfileForOrderImport")
+    private String bibImportProfileForOrderImport;
+
+    @JsonProperty("requisitionForTitlesOption")
+    private String requisitionForTitlesOption;
+
     @JsonProperty("forceLoad")
     private Boolean forceLoad;
+
+    @JsonProperty("marcOnly")
+    private Boolean marcOnly;
 
     @JsonIgnore
     private byte[] content;
@@ -35,6 +44,7 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     private List<BatchProfileMatchPoint> batchProfileMatchPointList = new ArrayList<>();
     private List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = new ArrayList<>();
     private List<BatchProfileFieldOperation> batchProfileFieldOperationList = new ArrayList<>();
+    private List<BatchProfileConstantAndDefault> batchProfileConstantAndDefaultList = new ArrayList<>();
     private List<BatchProfileDataMapping> batchProfileDataMappingList = new ArrayList<>();
     private List<BatchProfileDataTransformer> batchProfileDataTransformerList = new ArrayList<>();
 
@@ -78,6 +88,14 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
         this.batchProfileFieldOperationList = batchProfileFieldOperationList;
     }
 
+    public List<BatchProfileConstantAndDefault> getBatchProfileConstantAndDefaultList() {
+        return batchProfileConstantAndDefaultList;
+    }
+
+    public void setBatchProfileConstantAndDefaultList(List<BatchProfileConstantAndDefault> batchProfileConstantAndDefaultList) {
+        this.batchProfileConstantAndDefaultList = batchProfileConstantAndDefaultList;
+    }
+
     public List<BatchProfileDataMapping> getBatchProfileDataMappingList() {
         return batchProfileDataMappingList;
     }
@@ -110,12 +128,36 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
         this.batchProcessType = batchProcessType;
     }
 
+    public String getBibImportProfileForOrderImport() {
+        return bibImportProfileForOrderImport;
+    }
+
+    public void setBibImportProfileForOrderImport(String bibImportProfileForOrderImport) {
+        this.bibImportProfileForOrderImport = bibImportProfileForOrderImport;
+    }
+
+    public String getRequisitionForTitlesOption() {
+        return requisitionForTitlesOption;
+    }
+
+    public void setRequisitionForTitlesOption(String requisitionForTitlesOption) {
+        this.requisitionForTitlesOption = requisitionForTitlesOption;
+    }
+
     public Boolean getForceLoad() {
         return forceLoad;
     }
 
     public void setForceLoad(Boolean forceLoad) {
         this.forceLoad = forceLoad;
+    }
+
+    public Boolean getMarcOnly() {
+        return marcOnly;
+    }
+
+    public void setMarcOnly(Boolean marcOnly) {
+        this.marcOnly = marcOnly;
     }
 
     public byte[] getContent() {

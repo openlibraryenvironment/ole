@@ -1,14 +1,20 @@
 var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
 
+var batchProcessTypeValues = [
+    {id: 'bibImport', name: 'Bib Import'},
+    {id: 'orderRecordImport', name: 'Order Record Import'}
+];
+
+var requisitionForTitlesValues = [
+    {id: 'oneReqPerTitle', name: 'One Requisition Per Title'},
+    {id: 'oneReqWithAllTitles', name: 'One Requisition With All Titles'}
+];
+
 var documentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
     {id: 'holdings', name: 'Holdings'},
     {id: 'item', name: 'Item'},
     {id: 'eHoldings', name: 'EHoldings'}
-];
-
-var documentTypesForDataTransformations = [
-    {id: 'bibliographic', name: 'Bibliographic'}
 ];
 
 var destinationDocumentTypes = [
@@ -188,6 +194,70 @@ var transformationOperations = [
     {id: 'remove', name: 'Remove'}
 ];
 
+var dataMappingOrderFields = [
+    {id: 'accountNumber', name: 'Account Number'},
+    {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
+    {id: 'assignToUser', name: 'Assign To User'},
+    {id: 'buildingCode', name: 'Building Code'},
+    {id: 'deliveryBuildingRoomNumber', name: 'Building Room Number'},
+    {id: 'caption', name: 'Caption'},
+    {id: 'chartCode', name: 'Chart Code'},
+    {id: 'contractManager', name: 'Contract Manager'},
+    {id: 'costSource', name: 'Cost Source'},
+    {id: 'defaultLocation', name: 'Default Location'},
+    {id: 'deliveryCampusCode', name: 'Delivery Campus Code'},
+    {id: 'discount', name: 'Discount'},
+    {id: 'discountType', name: 'Discount Type'},
+    {id: 'fundCode', name: 'Fund Code'},
+    {id: 'fundingSource', name: 'Funding Source'},
+    {id: 'itemChartCode', name: 'Item Chart Code'},
+    {id: 'itemStatus', name: 'Item Status'},
+    {id: 'listPrice', name: 'List Price'},
+    {id: 'methodOfPOTransmission', name: 'Method Of PO Transmission'},
+    {id: 'itemNoOfParts', name: 'No Of Parts'},
+    {id: 'financialObjectCode', name: 'Object Code'},
+    {id: 'orderType', name: 'Order Type'},
+    {id: 'orgCode', name: 'Org Code'},
+    {id: 'payReqPositiveApprovalReq', name: 'Pay Req Positive Approval Req'},
+    {id: 'percent', name: 'Percent'},
+    {id: 'purchaseOrderConfirmationIndicator', name: 'Purchase Order Confirmation Indicator'},
+    {id: 'quantity', name: 'Quantity'}
+];
+
+var constantsAndDefaultsOrderFields = [
+    {id: 'accountNumber', name: 'Account Number'},
+    {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
+    {id: 'assignToUser', name: 'Assign To User'},
+    {id: 'buildingCode', name: 'Building Code'},
+    {id: 'deliveryBuildingRoomNumber', name: 'Building Room Number'},
+    {id: 'caption', name: 'Caption'},
+    {id: 'chartCode', name: 'Chart Code'},
+    {id: 'contractManager', name: 'Contract Manager'},
+    {id: 'costSource', name: 'Cost Source'},
+    {id: 'defaultLocation', name: 'Default Location'},
+    {id: 'deliveryCampusCode', name: 'Delivery Campus Code'},
+    {id: 'discount', name: 'Discount'},
+    {id: 'discountType', name: 'Discount Type'},
+    {id: 'fundCode', name: 'Fund Code'},
+    {id: 'fundingSource', name: 'Funding Source'},
+    {id: 'itemChartCode', name: 'Item Chart Code'},
+    {id: 'itemStatus', name: 'Item Status'},
+    {id: 'listPrice', name: 'List Price'},
+    {id: 'methodOfPOTransmission', name: 'Method Of PO Transmission'},
+    {id: 'itemNoOfParts', name: 'No Of Parts'},
+    {id: 'financialObjectCode', name: 'Object Code'},
+    {id: 'orderType', name: 'Order Type'},
+    {id: 'orgCode', name: 'Org Code'},
+    {id: 'payReqPositiveApprovalReq', name: 'Pay Req Positive Approval Req'},
+    {id: 'percent', name: 'Percent'},
+    {id: 'purchaseOrderConfirmationIndicator', name: 'Purchase Order Confirmation Indicator'},
+    {id: 'quantity', name: 'Quantity'}
+];
+
+var constantOrDefaultTypes = [
+    {id: 'constant', name: 'Constant'},
+    {id: 'default', name: 'Default'}
+];
 
 
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
@@ -196,31 +266,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.submitted = false;
 
-    $scope.toggle = function (panel) {
-        var panelTitle = panel[0].title;
-
-        if (panelTitle == 'Main Section') {
-            $scope.mainSectionPanel.collapsed = !$scope.mainSectionPanel.collapsed;
-        } else if (panelTitle == 'Match Points') {
-            $scope.matchPointsPanel.collapsed = !$scope.matchPointsPanel.collapsed;
-        } else if (panelTitle == 'Matching, Add and Overlay') {
-            $scope.addOrOverlayPanel.collapsed = !$scope.addOrOverlayPanel.collapsed;
-        } else if (panelTitle == 'Field Operations') {
-            $scope.fieldOperationsPanel.collapsed = !$scope.fieldOperationsPanel.collapsed;
-        } else if (panelTitle == 'Data Mappings') {
-            $scope.dataMappingsPanel.collapsed = !$scope.dataMappingsPanel.collapsed;
-        } else if (panelTitle == 'Data Transformations') {
-            $scope.dataTransformationsPanel.collapsed = !$scope.dataTransformationsPanel.collapsed;
-        }
+    $scope.mainSectionPanel = {
+        title: 'Main Section',
+        batchProcessTypeValues: batchProcessTypeValues,
+        requisitionForTitlesValues: requisitionForTitlesValues,
+        marcOnly: false,
+        collapsed: false
     };
-
-    $scope.mainSectionPanel = [
-        {
-            title: 'Main Section',
-            batchProcessType: 'Bib Import',
-            collapsed: false
-        }
-    ];
 
     $scope.matchPointsPanel = [
         {
@@ -252,20 +304,26 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
     ];
 
-    $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function(data) {
-        $scope.fieldOperationsPanel = data;
+    $scope.setValuesForBatchProcessType = function (mainSectionPanel) {
+        if (mainSectionPanel.batchProcessType == 'Bib Import') {
+            $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function (data) {
+                $scope.fieldOperationsPanel = data;
 
-        $scope.fieldOperationsPanel.unshift(
-            {
-                title: 'Field Operations',
-                fieldOperationTypes: fieldOperations,
-                fieldOperationType: 'Profile Protected Field',
-                ignoreGPF: false,
-                isAddLine: false,
-                collapsed: true
-            }
-        );
-    });
+                $scope.fieldOperationsPanel.unshift(
+                    {
+                        title: 'Field Operations',
+                        fieldOperationTypes: fieldOperations,
+                        fieldOperationType: 'Profile Protected Field',
+                        ignoreGPF: false,
+                        isAddLine: false,
+                        collapsed: true
+                    }
+                );
+            });
+        } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
+            $scope.fieldOperationsPanel = [{}];
+        }
+    };
 
     $scope.dataMappingsPanel = [
         {
@@ -276,6 +334,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             holdingsFields: holdingsMatchPoints,
             itemFields: itemMatchPoints,
             eHoldingsFields: eHoldingsMatchPoints,
+            dataMappingOrderFields: dataMappingOrderFields,
             priority: 1,
             isAddLine: false,
             collapsed: true
@@ -285,7 +344,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     $scope.dataTransformationsPanel = [
         {
             title: 'Data Transformations',
-            dataTransformationDocTypes: documentTypesForDataTransformations,
+            dataTransformationDocTypes: documentTypes,
             dataTransformationDocType: 'Bibliographic',
             transformers: transformers,
             transformer: 'Regex Pattern Transformer',
@@ -308,12 +367,24 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
     ];
 
+    $scope.constantsAndDefaultsPanel = [
+        {
+            title: 'Constants And Defaults',
+            constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
+            constantOrDefaultTypes: constantOrDefaultTypes,
+            constantOrDefault: 'Constant',
+            isAddLine: false,
+            collapsed: true
+        }
+    ];
+
     $scope.mainSectionActivePanel = [0];
     $scope.matchPointsActivePanel = [];
     $scope.addOrOverlayActivePanel = [];
     $scope.fieldOperationsActivePanel = [];
     $scope.dataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
+    $scope.constantsAndDefaultsActivePanel = [];
 
     $scope.matchPointAdd = function () {
         $scope.matchPointsPanel.push({
@@ -448,6 +519,23 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataTransformationsPanel.splice(index, 1);
     };
 
+    $scope.constantsAndDefaultAdd = function () {
+        $scope.constantsAndDefaultsPanel.push({
+            fieldName: $scope.constantsAndDefaultsPanel[0].fieldName,
+            fieldValue: $scope.constantsAndDefaultsPanel[0].fieldValue,
+            constantOrDefault: $scope.constantsAndDefaultsPanel[0].constantOrDefault,
+            isAddLine: true
+        });
+        $scope.constantsAndDefaultsPanel[0].fieldName = null;
+        $scope.constantsAndDefaultsPanel[0].fieldValue = null;
+        $scope.constantsAndDefaultsPanel[0].constantOrDefault = 'Constant';
+    };
+
+    $scope.constantsAndDefaultRemove = function (constantsAndDefault) {
+        var index = $scope.constantsAndDefaultsPanel.indexOf(constantsAndDefault);
+        $scope.constantsAndDefaultsPanel.splice(index, 1);
+    };
+
     $scope.setDefaultsMatchPoint = function (matchPoint) {
         matchPoint.matchPointType = null;
         matchPoint.dataField = null;
@@ -477,59 +565,61 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     $scope.getMaintenanceValuesForType = function (dataObject) {
         if (dataObject.title == 'Match Points') {
             if ((dataObject.matchPointType == 'Call Number Type' || dataObject.matchPointType == 'Holdings Call Number Type') && $scope.callNumberTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function (data) {
                     $scope.callNumberTypeValues = data;
                 });
             } else if (dataObject.matchPointType == 'Item Type' && $scope.itemTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function (data) {
                     $scope.itemTypeValues = data;
                 });
             } else if (dataObject.matchPointType == 'Item Status' && $scope.itemStatusValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
                     $scope.itemStatusValues = data;
                 });
             } else if (dataObject.matchPointType == 'Donor Code' && $scope.donorCodeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function (data) {
                     $scope.donorCodes = data;
                 });
             } else if ((dataObject.matchPointType == 'Location Level1' || dataObject.matchPointType == 'Holdings Location Level1') && $scope.locationLevel1Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 1}}).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 1}}).success(function (data) {
                     $scope.locationLevel1Values = data;
                 });
             } else if ((dataObject.matchPointType == 'Location Level2' || dataObject.matchPointType == 'Holdings Location Level2') && $scope.locationLevel2Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 2}}).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 2}}).success(function (data) {
                     $scope.locationLevel2Values = data;
                 });
             } else if ((dataObject.matchPointType == 'Location Level3' || dataObject.matchPointType == 'Holdings Location Level3') && $scope.locationLevel3Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 3}}).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 3}}).success(function (data) {
                     $scope.locationLevel3Values = data;
                 });
             } else if ((dataObject.matchPointType == 'Location Level4' || dataObject.matchPointType == 'Holdings Location Level4') && $scope.locationLevel4Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 4}}).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 4}}).success(function (data) {
                     $scope.locationLevel4Values = data;
                 });
             } else if ((dataObject.matchPointType == 'Location Level5' || dataObject.matchPointType == 'Holdings Location Level5') && $scope.locationLevel5Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params:{"levelId": 5}}).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 5}}).success(function (data) {
                     $scope.locationLevel5Values = data;
                 });
             }
-        } /*else if (dataObject.title == 'Matching, Add and Overlay') {
-            if (dataObject.matchOption == 'Do Match' && dataObject.addOrOverlayDocType == 'Bibliographic' && dataObject.operation == 'Overlay' && $scope.bibStatuses == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
-                    $scope.bibStatuses = data;
-                });
-            }
-        }*/ else if (dataObject.title == 'Data Transformations') {
+        } else if (dataObject.title == 'Data Transformations') {
             if (dataObject.dataTransformationDocType == 'Bibliographic' && dataObject.dataTransformationField == 'Bib Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.bibStatuses == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function (data) {
                     $scope.bibStatuses = data;
                 });
             } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Type' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function (data) {
                     $scope.itemTypeValues = data;
                 });
             } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemStatusValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function(data) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
+                    $scope.itemStatusValues = data;
+                });
+            }
+        } else if (dataObject.title == 'Constants And Defaults') {
+            dataObject.fieldValue = null;
+            dataObject.constantsAndDefault = 'Constant';
+            if (dataObject.fieldName == 'Item Status' && $scope.itemStatusValues == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
                     $scope.itemStatusValues = data;
                 });
             }
@@ -540,16 +630,20 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.submitted = true;
         removeEmptyValues();
         var profile = {
-            "profileId": $scope.mainSectionPanel[0].profileId,
-            "profileName": $scope.mainSectionPanel[0].profileName,
-            "description": $scope.mainSectionPanel[0].profileDescription,
-            "batchProcessType": $scope.mainSectionPanel[0].batchProcessType,
+            "profileId": $scope.mainSectionPanel.profileId,
+            "profileName": $scope.mainSectionPanel.profileName,
+            "description": $scope.mainSectionPanel.profileDescription,
+            "batchProcessType": $scope.mainSectionPanel.batchProcessType,
+            "bibImportProfileForOrderImport": $scope.mainSectionPanel.bibImportProfileForOrderImport,
+            "requisitionForTitlesOption": $scope.mainSectionPanel.requisitionForTitlesOption,
+            "marcOnly": $scope.mainSectionPanel.marcOnly,
             "forceLoad": $scope.matchPointsActivePanel.forceLoad,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
             "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
             "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
-            "batchProfileDataTransformerList": $scope.dataTransformationsPanel
+            "batchProfileDataTransformerList": $scope.dataTransformationsPanel,
+            "batchProfileConstantAndDefaultList": $scope.constantsAndDefaultsPanel
         };
         $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile)
             .success(function (data) {
@@ -570,18 +664,22 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
-                    $scope.mainSectionPanel[0].profileId = data.profileId;
-                    $scope.mainSectionPanel[0].profileName = data.profileName;
-                    $scope.mainSectionPanel[0].profileDescription = data.description;
-                    $scope.mainSectionPanel[0].batchProcessType = data.batchProcessType;
+                    $scope.mainSectionPanel.profileId = data.profileId;
+                    $scope.mainSectionPanel.profileName = data.profileName;
+                    $scope.mainSectionPanel.profileDescription = data.description;
+                    $scope.mainSectionPanel.batchProcessType = data.batchProcessType;
+                    $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
+                    $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;
+                    $scope.mainSectionPanel.marcOnly = data.marcOnly;
                     $scope.matchPointsActivePanel.forceLoad = data.forceLoad;
                     $scope.matchPointsPanel = data.batchProfileMatchPointList;
                     $scope.addOrOverlayPanel = data.batchProfileAddOrOverlayList;
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
                     $scope.dataMappingsPanel = data.batchProfileDataMappingList;
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
+                    $scope.constantsAndDefaultsPanel = data.batchProfileConstantAndDefaultList;
 
-                    addEmptyValueToAddNew();
+                    addEmptyValueToAddNew(data.batchProcessType);
                 });
         }
     };
@@ -596,10 +694,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
+        $scope.constantsAndDefaultsPanel.splice(0, 1);
     };
 
 
-    var addEmptyValueToAddNew = function () {
+    var addEmptyValueToAddNew = function (batchProcessType) {
 
         $scope.matchPointsPanel.unshift(
             {
@@ -651,6 +750,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 holdingsFields: holdingsMatchPoints,
                 itemFields: itemMatchPoints,
                 eHoldingsFields: eHoldingsMatchPoints,
+                dataMappingOrderFields: dataMappingOrderFields,
                 priority: 1,
                 isAddLine: false,
                 collapsed: true
@@ -682,6 +782,19 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 collapsed: true
             }
         );
+
+        if (batchProcessType == 'Order Record Import') {
+            $scope.constantsAndDefaultsPanel.unshift(
+                {
+                    title: 'Constants And Defaults',
+                    constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
+                    constantOrDefaultTypes: constantOrDefaultTypes,
+                    constantOrDefault: 'Constant',
+                    isAddLine: false,
+                    collapsed: true
+                }
+            );
+        }
     };
 
     var getUrlVars = function () {

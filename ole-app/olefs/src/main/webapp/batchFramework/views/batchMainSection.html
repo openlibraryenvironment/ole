@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle href="#" ng-click="toggle(mainSectionPanel)">
+                <a bs-collapse-toggle href="#" ng-click="mainSectionPanel.collapsed = !mainSectionPanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': mainSectionPanel.collapsed, 'glyphicon-chevron-down': !mainSectionPanel.collapsed}"></span>
                     Main Section
@@ -13,29 +13,63 @@
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
                 <input type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId"
-                       ng-model="mainSectionPanel[0].profileId">
+                       ng-model="mainSectionPanel.profileId">
                 <table class="table table-condensed table-bordered batchTable">
                     <tbody>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-3">Batch Profile Name:</span>
+                            <span class="col-sm-4">Batch Profile Name:</span>
                             <input id="profileName" name="profileName" type="text"
-                                   ng-model="mainSectionPanel[0].profileName" style="height: 30px; width: 150px;"
+                                   ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"
                                    ng-disabled="submitted"/>
                         </td>
                         <td class="col-sm-6">
-                            <span class="col-sm-3">Description:</span>
+                            <span class="col-sm-4">Description:</span>
                             <input id="profileDescription" name="profileDescription" type="text"
-                                   ng-model="mainSectionPanel[0].profileDescription" style="height: 30px; width: 150px;"
+                                   ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"
                                    ng-disabled="submitted"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-3">Batch Process Type:</span>
-                            <input id="batchProcessType" name="batchProcessType" type="text"
-                                   ng-model="mainSectionPanel[0].batchProcessType" style="height: 30px; width: 150px;"
-                                   ng-disabled="true"/>
+                            <span class="col-sm-4">Batch Process Type:</span>
+                            <select id="batchProcessType" name="batchProcessType"
+                                    ng-model="mainSectionPanel.batchProcessType"
+                                    ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
+                                    style="width: 170px">
+                                <option ng-selected="{{option.name == mainSectionPanel.batchProcessType}}"
+                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                            <span class="col-sm-4">Bib Import Profile:</span>
+                            <input id="bibImportProfile" name="bibImportProfile" type="text"
+                                   ng-model="mainSectionPanel.bibImportProfileForOrderImport"
+                                   style="height: 30px; width: 150px;"
+                                   ng-disabled="submitted"/>
+                        </td>
+                    </tr>
+                    <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td class="col-sm-6">
+                            <span class="col-sm-4">Requisitions For Titles:</span>
+                            <select id="requisitionForTitles" name="requisitionForTitles"
+                                    ng-model="mainSectionPanel.requisitionForTitlesOption"
+                                    ng-disabled="submitted" style="width: 230px">
+                                <option ng-selected="{{option.name == mainSectionPanel.requisitionForTitlesOption}}"
+                                        ng-repeat="option in mainSectionPanel.requisitionForTitlesValues"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td class="col-sm-6">
+                            <span class="col-sm-4">Marc Only:</span>
+                            <input id="marcOnly" name="marcOnly" type="checkbox"
+                                   ng-model="mainSectionPanel.marcOnly"
+                                   ng-disabled="submitted">
                         </td>
                     </tr>
                     </tbody>
