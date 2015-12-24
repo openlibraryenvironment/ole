@@ -14,35 +14,22 @@ public class CallNumberPrefixHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
+        String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        holdingRecord.setCallNumberPrefix(callNumberPrefix);
     }
 
     @Override
     public Boolean isInterested(String operation) {
-        return null;
+        return operation.equals(TYPE);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        if(StringUtils.equals(holdingRecord.getCallNumberPrefix(),callNumberPrefix)) {
+            exchange.add("matchedHoldings", holdingRecord);
+        }
     }
-
-
-//    @Override
-//    public boolean isInterested(JSONObject jsonObject) {
-//        return jsonObject.has(TYPE);
-//    }
-//
-//    @Override
-//    public boolean isMatching(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String callNumberPrefix = getStringValueFromJsonObject(jsonObject,TYPE);
-//        return StringUtils.equals(holdingsRecord.getCallNumberPrefix(),callNumberPrefix);
-//    }
-//
-//    @Override
-//    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String callNumberPrefix = getStringValueFromJsonObject(jsonObject,TYPE);
-//        holdingsRecord.setCallNumberPrefix(callNumberPrefix);
-//        return holdingsRecord;
-//    }
 }

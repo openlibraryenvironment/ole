@@ -12,37 +12,26 @@ public class CopyNumberHandler extends HoldingsHandler {
 
     private final String TYPE = "Copy Number";
 
-    @Override
-    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-    }
 
     @Override
     public Boolean isInterested(String operation) {
-        return null;
+        return operation.equals(TYPE);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        if (StringUtils.equals(holdingsRecord.getCopyNumber(),copyNumber)) {
+            exchange.add("matchedHoldings", holdingsRecord);
+        }
     }
 
-
-//    @Override
-//    public boolean isInterested(JSONObject jsonObject) {
-//        return jsonObject.has(TYPE);
-//    }
-//
-//    @Override
-//    public boolean isMatching(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
-//        return StringUtils.equals(holdingsRecord.getCopyNumber(),copyNumber);
-//    }
-//
-//    @Override
-//    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String copyNumber = getStringValueFromJsonObject(jsonObject, TYPE);
-//        holdingsRecord.setCopyNumber(copyNumber);
-//        return holdingsRecord;
-//    }
+    @Override
+    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
+        String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        holdingsRecord.setCopyNumber(copyNumber);
+        exchange.add("holdingsRecord", holdingsRecord);
+    }
 }

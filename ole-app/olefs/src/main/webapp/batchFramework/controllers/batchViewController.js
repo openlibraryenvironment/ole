@@ -694,7 +694,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
-        $scope.constantsAndDefaultsPanel.splice(0, 1);
+        if($scope.mainSectionPanel.profileName === 'Order Record Import'){
+            $scope.constantsAndDefaultsPanel.splice(0, 1);
+        }
     };
 
 

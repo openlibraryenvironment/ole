@@ -39,35 +39,15 @@ public class LocationHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String fullPathLocation = getFullPathLocation(holdingsRecord, requestJsonObject);
+        holdingsRecord.setLocation(fullPathLocation);
+        exchange.add("holdingsRecord", holdingsRecord);
     }
 
-    //
-//    @Override
-//    public boolean isInterested(JSONObject jsonObject) {
-//        return (jsonObject.has(LOCATION_LEVEL_1) || jsonObject.has(LOCATION_LEVEL_2) ||jsonObject.has(LOCATION_LEVEL_3) ||
-//                jsonObject.has(LOCATION_LEVEL_4) || jsonObject.has(LOCATION_LEVEL_5));
-//    }
-//
-//    @Override
-//    public boolean isMatching(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String fullPathLocation = getFullPathLocation(holdingsRecord,jsonObject);
-//        return StringUtils.equals(holdingsRecord.getLocation(),fullPathLocation);
-//    }
-//
-//    @Override
-//    public HoldingsRecord process(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-//        String fullPathLocation = getFullPathLocation(holdingsRecord, jsonObject);
-//        holdingsRecord.setLocation(fullPathLocation);
-//        return holdingsRecord;
-//    }
-//
     private String getFullPathLocation(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
         String location = holdingsRecord.getLocation();
         String locationLevel = holdingsRecord.getLocationLevel();
         return getFullLocationForOverlay(jsonObject, location, locationLevel);
-//    }
-
-
     }
 }

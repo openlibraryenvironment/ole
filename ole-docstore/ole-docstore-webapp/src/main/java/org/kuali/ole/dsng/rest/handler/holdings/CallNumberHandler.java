@@ -37,5 +37,6 @@ public class CallNumberHandler extends HoldingsHandler {
         String callNumberValue = getStringValueFromJsonObject(requestJsonObject, TYPE);
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         holdingRecord.setCallNumber(callNumberValue);
+        exchange.add("holdingsRecord", holdingRecord);
     }
 }
