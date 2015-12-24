@@ -92,9 +92,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             responseJsonArray = new JSONArray();
+            Exchange exchange = new Exchange();
             for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
-                Exchange exchange = new Exchange();
 
                 String overlayOps = requestJsonObject.getString("overlayOps");
 
@@ -104,10 +104,20 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
-                    exchange.add("solrInputDocumentMap",solrInputDocumentMap);
                 }
                 processHoldings(requestJsonObject, exchange, overlayOps);
             }
+
+
+           List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsUpdated");
+            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
+                for (Iterator<HoldingsRecord> iterator = holdingsRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                }
+            }
+
+
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
 

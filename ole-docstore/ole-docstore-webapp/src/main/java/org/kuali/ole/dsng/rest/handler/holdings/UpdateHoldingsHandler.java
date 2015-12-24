@@ -95,19 +95,9 @@ public class UpdateHoldingsHandler extends Handler {
                     }
                 }
             }
+            getHoldingDAO().saveAll(holdingsRecordsToUpdate);
+            exchange.add("holdingRecordsUpdated",holdingsRecordsToUpdate);
 
-            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
-                getHoldingDAO().saveAll(holdingsRecordsToUpdate);
-                Map<String, SolrInputDocument> solrInputDocumentMap = (Map<String, SolrInputDocument>) exchange.get("solrInputDocumentMap");
-                if(null == solrInputDocumentMap) {
-                    solrInputDocumentMap = new HashMap<String,SolrInputDocument>();
-                }
-                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = iterator.next();
-                    solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-                }
-                exchange.add("solrInputDocumentMap",solrInputDocumentMap);
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (JsonParseException e) {
