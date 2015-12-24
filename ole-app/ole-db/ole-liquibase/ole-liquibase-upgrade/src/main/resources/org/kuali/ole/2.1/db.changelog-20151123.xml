@@ -201,4 +201,25 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="PRINT_RECEIPT_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/2.1/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PRINT_RECEIPT_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/2.1/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>
