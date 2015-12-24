@@ -71,6 +71,17 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     private String requestNote;
 
+    private String pickUpLocation;
+
+
+    public String getPickUpLocation() {
+        return pickUpLocation;
+    }
+
+    public void setPickUpLocation(String pickUpLocation) {
+        this.pickUpLocation = pickUpLocation;
+    }
+
     public boolean isAddressUpdated() {
         return addressUpdated;
     }
