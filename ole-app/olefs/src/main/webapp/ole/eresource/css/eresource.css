@@ -262,7 +262,7 @@ div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp{
     padding: 10px;
     border: 2px solid #ddd;
     float: left;
-    width: auto;
+    width: 60%;
     height: auto;
     position: fixed;
     top: 50%; left: 50%;
@@ -281,7 +281,7 @@ div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp{
     padding: 10px;
     border: 2px solid #ddd;
     float: left;
-    width: auto;
+    width: 60%;
     height: auto;
     position: fixed;
     top: 50%; left: 50%;
