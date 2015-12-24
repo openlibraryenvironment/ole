@@ -30,7 +30,7 @@ public class LocationHandler extends HoldingsHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
 
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String fullPathLocation = getFullPathLocation(holdingRecord, requestJsonObject);
         if (StringUtils.equals(holdingRecord.getLocation(), fullPathLocation)) {
             exchange.add("matchedHoldings", holdingRecord);
