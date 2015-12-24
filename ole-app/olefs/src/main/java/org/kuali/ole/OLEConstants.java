@@ -3640,6 +3640,7 @@ public class OLEConstants {
         public static final String VEN_DTL_ASSIGN_ID = "vendorDetailAssignedIdentifier";
     }
 
+
     public static final String RECEIPT_PRINTER_PAGE_SIZE = "B7";
     public static final String RECEIPT_PRINTER_FONT_SIZE = "13";
     public static final String REGULAR_PRINTER_PAGE_SIZE = "A4";

@@ -134,6 +134,7 @@ public abstract class PdfFormatUtil {
         return pdfPCell;
     }
 
+
     public String getParameter(String parameterName) {
         String parameter = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants
                 .DLVR_CMPNT, parameterName);

@@ -27,6 +27,7 @@ public class RegularPdfFormatUtil extends PdfFormatUtil{
         return document;
     }
 
+
     @Override
     public Font getDefaultFont() {
         String regularPrinterFontSize = getParameter("REGULAR_PRINTER_FONT_SIZE");

@@ -210,6 +210,7 @@
         </rollback>
     </changeSet>
 
+
     <changeSet context="bootstrap" author="ole" id="PRINT_RECEIPT_KRCR_PARM_T_mysql" dbms="mysql">
         <sql>
             SET sql_mode='NO_BACKSLASH_ESCAPES'
