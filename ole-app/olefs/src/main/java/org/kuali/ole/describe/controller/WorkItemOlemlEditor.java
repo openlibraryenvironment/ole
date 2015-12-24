@@ -1184,19 +1184,6 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         if (donorInfos.size() == 0) {
             DonorInfo donorInfo = new DonorInfo();
             donorInfos.add(donorInfo);
-        }else{
-            for(DonorInfo donorInfo : donorInfos){
-                if (donorInfo != null && StringUtils.isNotEmpty(donorInfo.getDonorCode())) {
-                    Map map = new HashMap();
-                    map.put("donorCode", donorInfo.getDonorCode());
-                    OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-                    if (oleDonor != null) {
-                        donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
-                        donorInfo.setDonorNote(oleDonor.getDonorNote());
-                    }
-                }
-                //donorInfo.
-            }
         }
         return donorInfos;
     }
