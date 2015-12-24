@@ -20,29 +20,29 @@ import java.util.concurrent.Callable;
 
 public class HoldingsCallNumberProcessor implements Callable {
     private static final Logger LOG = LoggerFactory.getLogger(HoldingsCallNumberProcessor.class);
-    private SqlRowSet holdingsCallNumberResultSet;
+    Map<String, String> holdingsDetails;
     private JdbcTemplate jdbcTemplate;
     Map<String, String> callNumberType;
     private PlatformTransactionManager transactionManager;
 
-    public HoldingsCallNumberProcessor(SqlRowSet holdingsCallNumberResultSet, JdbcTemplate jdbcTemplate, Map<String, String> callNumberType) {
-        this.holdingsCallNumberResultSet = holdingsCallNumberResultSet;
+    public HoldingsCallNumberProcessor(Map<String, String> holdingsDetails, JdbcTemplate jdbcTemplate, Map<String, String> callNumberType) {
+        this.holdingsDetails = holdingsDetails;
         this.jdbcTemplate = jdbcTemplate;
         this.callNumberType = callNumberType;
     }
 
     @Override
     public Object call() throws Exception {
-        final SqlRowSet localholdingsCallNumberResultSet = this.holdingsCallNumberResultSet;
+        final  Map<String, String> localHoldingsDetails = this.holdingsDetails;
         final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
         try {
             template.execute(new TransactionCallback<Object>() {
                 @Override
                 public Object doInTransaction(TransactionStatus status) {
                     StringBuilder holdingsQuery = new StringBuilder("UPDATE OLE_DS_HOLDINGS_T SET SHELVING_ORDER = ");
-                    String callNumberTypeId = holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID");
-                    String callNumber = holdingsCallNumberResultSet.getString("CALL_NUMBER");
-                    int holdingsId = holdingsCallNumberResultSet.getInt("HOLDINGS_ID");
+                    String callNumberTypeId = holdingsDetails.get("callNumberTypeId");
+                    String callNumber = holdingsDetails.get("callNumber");
+                    String holdingsId = holdingsDetails.get("holdingsId");
                     if (StringUtils.isNotEmpty(callNumberTypeId) && StringUtils.isNotEmpty(callNumber)) {
                         String callNumberCode = callNumberType.get(callNumberTypeId);
                         holdingsQuery.append("'" + CallNumberMigrationDao.getShelfKey(callNumber, callNumberCode) + "'  WHERE  HOLDINGS_ID = '");
@@ -53,18 +53,18 @@ public class HoldingsCallNumberProcessor implements Callable {
                             LOG.error("Exception while updating into OLE_DS_HOLDINGS_T, Holdings Id = " + holdingsId + " callNumber = " + callNumber + " : ", e1);
                         }
                     }
-                    return localholdingsCallNumberResultSet;
+                    return localHoldingsDetails;
 
                 }
             });
         } catch (Exception ex) {
             throw ex;
         } finally {
-            holdingsCallNumberResultSet = null;
+            holdingsDetails.clear();
             this.transactionManager = null;
 
         }
-        return localholdingsCallNumberResultSet;
+        return localHoldingsDetails;
     }
 
     public PlatformTransactionManager getTransactionManager() {

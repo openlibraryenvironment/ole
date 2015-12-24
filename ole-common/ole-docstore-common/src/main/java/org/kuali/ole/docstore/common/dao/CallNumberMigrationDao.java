@@ -52,109 +52,60 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
 
     }
 
-
-
-  /*  private void calculateAndUpdateHoldingsShelvingOrder(SqlRowSet holdingsCallNumberResultSet) throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        stopWatch.start();
-        int count = 0;
-        while (holdingsCallNumberResultSet.next()) {
-            count++;
-            futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsCallNumberResultSet, getJdbcTemplate(), callNumberType)));
-
-        }
-        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
-            Future future = iterator.next();
-            try {
-                SqlRowSet sqlRowSet = (SqlRowSet) future.get();
-            } catch (InterruptedException e) {
-                LOG.info(e.getMessage());
-            } catch (ExecutionException e) {
-                LOG.info(e.getMessage());
-            }
-        }
-        executorService.shutdown();
-        stopWatch.stop();
-        LOG.debug("Total Time taken " + count + " - for Holdings ::" + stopWatch.getTotalTimeMillis());
-    }
-
-    private void calculateAndUpdateItemShelvingOrder(SqlRowSet itemCallNumberResultSet) throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        stopWatch.start();
-        int count = 0;
-        while (itemCallNumberResultSet.next()) {
-            count++;
-            futures.add(executorService.submit(new ItemCallNumberProcessor(itemCallNumberResultSet, getJdbcTemplate(), callNumberType)));
-        }
-        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
-            Future future = iterator.next();
-            try {
-                SqlRowSet sqlRowSet = (SqlRowSet) future.get();
-            } catch (InterruptedException e) {
-                LOG.info(e.getMessage());
-            } catch (ExecutionException e) {
-                LOG.info(e.getMessage());
-            }
-        }
-        executorService.shutdown();
-        stopWatch.stop();
-        LOG.debug("Total Time taken " + count + " - for Item ::" + stopWatch.getTotalTimeMillis());
-    }
-*/
-
-
-
     private void calculateAndUpdateHoldingsShelvingOrder(SqlRowSet holdingsCallNumberResultSet) throws Exception {
         StopWatch stopWatch = new StopWatch();
+        List<Future> futures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         stopWatch.start();
         int count = 0;
         while (holdingsCallNumberResultSet.next()) {
             count++;
-            StringBuilder holdingsQuery = new StringBuilder("UPDATE OLE_DS_HOLDINGS_T SET SHELVING_ORDER = ");
-            String callNumberTypeId = holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID");
-            String callNumber = holdingsCallNumberResultSet.getString("CALL_NUMBER");
-            int holdingsId = holdingsCallNumberResultSet.getInt("HOLDINGS_ID");
-            if (StringUtils.isNotEmpty(callNumberTypeId) && StringUtils.isNotEmpty(callNumber)) {
-                String callNumberCode = callNumberType.get(callNumberTypeId);
-                holdingsQuery.append("'" + CallNumberMigrationDao.getShelfKey(callNumber, callNumberCode) + "'  WHERE  HOLDINGS_ID = '");
-                holdingsQuery.append(holdingsId + "'");
-                try {
-                    getJdbcTemplate().update(holdingsQuery.toString());
-                } catch (Exception e1) {
-                    LOG.error("Exception while updating into OLE_DS_HOLDINGS_T, Holdings Id = " + holdingsId + " callNumber = " + callNumber + " : ", e1);
-                }
+            Map<String,String> holdingsDetails = new HashMap<>();
+            holdingsDetails.put("callNumberTypeId",holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
+            holdingsDetails.put("callNumber", holdingsCallNumberResultSet.getString("CALL_NUMBER"));
+            holdingsDetails.put("holdingsId", String.valueOf(holdingsCallNumberResultSet.getInt("HOLDINGS_ID")));
+            futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsDetails, getJdbcTemplate(), callNumberType)));
+        }
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+            try {
+                Map<String,String> holdingsDetails = (Map<String,String>) future.get();
+            } catch (InterruptedException e) {
+                LOG.info(e.getMessage());
+            } catch (ExecutionException e) {
+                LOG.info(e.getMessage());
             }
         }
-
+        executorService.shutdown();
         stopWatch.stop();
         LOG.debug("Total Time taken " + count + " - for Holdings ::" + stopWatch.getTotalTimeMillis());
     }
 
     private void calculateAndUpdateItemShelvingOrder(SqlRowSet itemCallNumberResultSet) throws Exception {
         StopWatch stopWatch = new StopWatch();
+        List<Future> futures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         stopWatch.start();
         int count = 0;
         while (itemCallNumberResultSet.next()) {
             count++;
-            StringBuilder itemQuery = new StringBuilder("UPDATE OLE_DS_ITEM_T SET SHELVING_ORDER = ");
-            String callNumberTypeId = itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID");
-            String callNumber = itemCallNumberResultSet.getString("CALL_NUMBER");
-            int itemId = itemCallNumberResultSet.getInt("ITEM_ID");
-            if (StringUtils.isNotEmpty(callNumberTypeId) && StringUtils.isNotEmpty(callNumber)) {
-                String callNumberCode = callNumberType.get(callNumberTypeId);
-                itemQuery.append("'" + CallNumberMigrationDao.getShelfKey(callNumber, callNumberCode) + "'  WHERE  ITEM_ID = '");
-                itemQuery.append(itemId + "'");
-                try {
-                    getJdbcTemplate().update(itemQuery.toString());
-                } catch (Exception e1) {
-                    LOG.error("Exception while updating into OLE_DS_ITEM_T, Item Id = " + itemId + " callNumber = " + callNumber + " : ", e1);
-                }
+            Map<String,String> ItemDetails = new HashMap<>();
+            ItemDetails.put("callNumberTypeId",itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
+            ItemDetails.put("callNumber", itemCallNumberResultSet.getString("CALL_NUMBER"));
+            ItemDetails.put("itemId", String.valueOf(itemCallNumberResultSet.getInt("ITEM_ID")));
+            futures.add(executorService.submit(new ItemCallNumberProcessor(ItemDetails, getJdbcTemplate(), callNumberType)));
+        }
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+            try {
+                Map<String,String> itemDetails = (Map<String,String>) future.get();
+            } catch (InterruptedException e) {
+                LOG.info(e.getMessage());
+            } catch (ExecutionException e) {
+                LOG.info(e.getMessage());
             }
         }
+        executorService.shutdown();
         stopWatch.stop();
         LOG.debug("Total Time taken " + count + " - for Item ::" + stopWatch.getTotalTimeMillis());
     }
