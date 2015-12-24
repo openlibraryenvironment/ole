@@ -103,6 +103,7 @@ function displayRelatedPOs(){
 function urgentNote(){
     if(jq("#serialHiddenFields_h5").val()=="true" && jq("#urgentNoteField_control").val()!=""){
         displayDialogWindow("div#UrgentNote-HorizontalBoxSection");
+        jq("#receiveAckBtnForUrgNoteLbl").focus();
       //  jq('#mask').fadeOut(300);
     }
 }
@@ -137,6 +138,7 @@ function closeClaimNoteDialog(){
 function treatmentNote(){
     if(jq("#serialHiddenFields_h0").val()=='true'){
         displayDialogWindow("div#TreatmentInstructionNote-HorizontalBoxSection");
+        jq("#receiveAckBtnLbl").focus();
        // jq('#mask').fadeOut(300);
     }else{
         createItemLink();
