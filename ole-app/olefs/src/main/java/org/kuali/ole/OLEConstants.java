@@ -62,6 +62,7 @@ public class OLEConstants {
     public static final String ITEM_TITLE_ID = "itemTitleId";
     public static final String POSTING_YEAR = "postingYear";
     public static final String TOTAL_DOLLAR_AMOUNT = "financialDocumentTotalAmount";
+    public static final String SUBSCRIPTION_RENEWAL = "Subscription_Renewal";
 
     public static final String FAST_ADD_LINK = "/ole-kr-krad/circFastAddController?viewId=CircFastAddItemView&methodToCall=start";
     public static final String ITEM_ALREADY_LOANED = "Item is already loaned.";
@@ -3746,4 +3747,6 @@ public class OLEConstants {
     public static final String PREQ_DOC = "OLE_PREQ";
     public static final String ERROR_REPORT_FILE_NM = "/ErrorReport";
     public static final String TEMPORARY_HISTORY_RECORD_DAYS = "TEMPORARY_HISTORY_RECORD_DAYS";
+    public static final String NUMBER_OF_WORKING_DAYS = "numberOfWorkingDays";
+    public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
 }

@@ -75,7 +75,7 @@
 <br/>
 
 
-<table width=\"100%\">
+<table>
     <TR>
 
         <#if oleNoticeBo.noticeTitle??>

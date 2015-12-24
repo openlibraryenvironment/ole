@@ -172,6 +172,7 @@ div#enumerationSaveDialog {
     border-radius:3px 3px 3px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    top:150px;
 }
 
 div#chronologySaveDialog {
@@ -191,6 +192,7 @@ div#chronologySaveDialog {
     border-radius:3px 3px 3px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    top:200px;
 }
 
 

@@ -191,4 +191,14 @@
         <sql>RENAME OLE_LOAN_INTRANSIT_HISTORY_S to OLE_RETURN_HISTORY_S</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="ADD_RCP_ROLE_GROUP">
+        <addColumn tableName="OLE_E_RES_REC_T">
+            <column name="E_RES_RCP_ROLE_ID"   type="VARCHAR(40)"/>
+        </addColumn>
+
+        <addColumn tableName="OLE_E_RES_REC_T">
+            <column name="E_RES_RCP_GROUP_ID"   type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

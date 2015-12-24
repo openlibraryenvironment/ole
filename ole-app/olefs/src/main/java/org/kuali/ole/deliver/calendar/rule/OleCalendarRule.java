@@ -379,7 +379,7 @@ public class OleCalendarRule extends MaintenanceDocumentRuleBase {
                 Timestamp calendarBeginDateTimestamp=calendarExceptionPeriod.getBeginDate();
                 long calendarBeginDate=calendarBeginDateTimestamp.getTime();
                 Timestamp calendarEndDateTimestamp=calendarExceptionPeriod.getEndDate();
-                long  calendarEndDate=endDateTimestamp.getTime();
+                long  calendarEndDate=calendarEndDateTimestamp.getTime();
                 if(calendarExceptionPeriod.getCalendarExceptionPeriodId()!=null && !oleCalendarExceptionPeriod.getCalendarExceptionPeriodId().equals(calendarExceptionPeriod.getCalendarExceptionPeriodId())){
                     if(beginDate>=calendarBeginDate &&  beginDate <= calendarBeginDate ){
                         isSuccess=true;

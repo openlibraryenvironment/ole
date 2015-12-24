@@ -248,7 +248,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 oleItemRecordForCirc.setItemRecord((ItemRecord)getDroolsExchange(oleForm).getContext().get("itemRecord"));
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, getCustomDueDateMap(oleForm), itemFineRate);
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), itemFineRate);
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -452,14 +452,18 @@ public abstract class CheckinBaseController extends CircUtilController {
     private void handleOnHoldRequestIfExists(OleItemRecordForCirc oleItemRecordForCirc) {
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
         List<String> requestTypes = getRequestTypes();
+       boolean expirationDateToBeModified = false;
         if (null != oleItemRecordForCirc.getItemStatusToBeUpdatedTo() && oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) &&
                 null != oleDeliverRequestBo && requestTypes.contains(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode())) {
             if(null == oleDeliverRequestBo.getHoldExpirationDate()) {
                 Date holdExpiryDate = generateHoldExpirationDate(oleDeliverRequestBo);
                 oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(holdExpiryDate.getTime()));
+                if(oleDeliverRequestBo.getRequestExpiryDate().compareTo(oleDeliverRequestBo.getHoldExpirationDate())<0){
+                    expirationDateToBeModified = true;
+                }
                 List<OLEDeliverNotice> oleDeliverNotices = oleDeliverRequestBo.getDeliverNotices();
                 for(OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
-                    if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)) {
+                    if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE) || (expirationDateToBeModified && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.REQUEST_EXPIRATION_NOTICE))) {
                         oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(holdExpiryDate.getTime()));
                     }
                 }
@@ -675,12 +679,12 @@ public abstract class CheckinBaseController extends CircUtilController {
         return null;
     }
 
-    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Date customDueDateMap, ItemFineRate itemFineRate) throws Exception {
+    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, ItemFineRate itemFineRate) throws Exception {
         String billPayment = null;
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
-            Double overdueFine = new OleCalendarServiceImpl().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), new Timestamp(customDueDateMap.getTime()), itemFineRate);
+            Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), customDueDateMap, itemFineRate);
             overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
 
             if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {

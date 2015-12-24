@@ -15,7 +15,7 @@ activation-group "checkout validation"
 when
 $l: OleLoanDocument()
 
-$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+$i: OleItemRecordForCirc(getItemType() in ("BOOK", "DAY01"),
 getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
 getItemLocation() in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
 
@@ -36,7 +36,7 @@ $l: OleLoanDocument()
 
 $d : DroolsResponse()
 
-$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+$i: OleItemRecordForCirc(getItemType() in ("BOOK", "DAY01"),
 getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
 getItemLocation() in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
 
