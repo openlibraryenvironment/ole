@@ -475,25 +475,34 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="headerText" value="" />
-                    <property name="items">
-                        <list>
-                            <ref bean="OLEEResourceRecordView-DeleteInstanceDetails"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean id="errorMessage_deleteInstances" parent="Uif-MessageField" p:messageText="Atleast one Holding should be selected" p:hidden="true" p:cssClasses="messageClass"/>
+                <ref bean="OLEEResourceRecordView-DeleteInstanceDetails"/>
+                <bean parent="Uif-HorizontalBoxSection" p:render="@{document.oleERSInstances ne null and document.oleERSInstances.size() > 0}">
                     <property name="items">
                         <list>
                             <bean id="Delete-button" parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:5em"
-                                  p:actionScript="deleteRelatedInstances();"
+                                  p:actionScript="if(jq('.instanceCheckboxCssClasses:checked').length == 0){
+                                        jq('#errorMessage_deleteInstances').attr('style','display:inline');
+                                  }else{
+                                        deleteRelatedInstances();
+                                  }"
                                   p:actionLabel="Delete" p:ajaxSubmit="true" p:successCallback="close()"/>
                             <bean parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:5em"
                                   p:actionScript="closeDeleteRelatedInstances()"
                                   p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:render="@{document.oleERSInstances eq null or document.oleERSInstances.size() == 0}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="Currently there are no Holdings attached to the E-Resource Record."/>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:5em"
+                                  p:actionScript="closeDeleteRelatedInstances()"
+                                  p:actionLabel="Ok" />
                         </list>
                     </property>
                 </bean>
@@ -513,12 +522,18 @@
                         <list>
                             <bean parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:5em"
-                                  p:actionScript="close()"
+                                  p:actionScript="jq.fancybox.close();"
                                   p:actionLabel="Cancel" />
                             <bean parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:5em"
-                                  p:methodToCall="deleteInstance"
-                                  p:actionLabel="Ok" p:ajaxSubmit="true" p:successCallback="deleteInstance()"/>
+                                  p:actionScript="submitForm('deleteInstance', null, null, true, function(){
+                                        submitForm('deleteInstanceFromDocstore', null, null, true, function(){
+
+                                                jq('.fancybox-close').click();
+                                                displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp');
+
+                                        }); });"
+                                  p:actionLabel="Ok"/>
                         </list>
                     </property>
                 </bean>
@@ -528,18 +543,16 @@
 
     <bean id="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
-        <property name="headerText" value="Instances not deleted"/>
+        <property name="headerText" value=""/>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-MessageField"
-                      p:messageText="The following instances were not deleted because they have one or more purchase order attached @{deletedInstanceInfo}." p:style="float:left;margin-left:5em"/>-->
                 <ref bean="OLEEResourceRecordView-DeletedInstance"/>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Not Deleted E-Holdings Details"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="The following instances were not deleted because they have one or more purchase order attached."/>
+                                  p:messageText="The following instances were not deleted because they have one or more purchase order attached."
+                                  p:render="@{document.purchaseOrderInstances ne null and document.purchaseOrderInstances.size() > 0}"/>
                             <ref bean="OLEEResourceRecordView-PurchaseOrderInstanceDetails"/>
                         </list>
                     </property>
@@ -549,7 +562,7 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-DeletedInstance" parent="Uif-Disclosure-TableCollectionSection">
+    <bean id="OLEEResourceRecordView-DeletedInstance" parent="Uif-Disclosure-TableCollectionSection" p:render="@{document.deletedInstances ne null and document.deletedInstances.size() > 0}">
         <property name="headerText" value="Deleted E-Holdings Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="deletedInstances" />
@@ -560,11 +573,6 @@
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
@@ -579,8 +587,8 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-PurchaseOrderInstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="" />
+    <bean id="OLEEResourceRecordView-PurchaseOrderInstanceDetails" parent="Uif-Disclosure-TableCollectionSection" p:render="@{document.purchaseOrderInstances ne null and document.purchaseOrderInstances.size() > 0}">
+        <property name="headerText" value="Not Deleted E-Holdings Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="purchaseOrderInstances" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -590,11 +598,6 @@
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
@@ -609,7 +612,7 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-DeleteInstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
+    <bean id="OLEEResourceRecordView-DeleteInstanceDetails" parent="Uif-Disclosure-TableCollectionSection" p:render="@{document.oleERSInstances ne null and document.oleERSInstances.size() > 0}">
         <property name="headerText" value="E-Holdings Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="oleERSInstances" />
@@ -625,9 +628,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                <bean id="deleteInstanceDetailCheckbox" parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="instanceCheckboxCssClasses"/>
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
