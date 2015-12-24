@@ -759,6 +759,15 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             ItemTypeRecord itemTypeRecord = saveItemTypeRecord(item.getItemType());
             itemRecord.setItemTypeId(itemTypeRecord == null ? null : itemTypeRecord.getItemTypeId());
             itemRecord.setItemTypeRecord(itemTypeRecord);
+        }else{
+            String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
+            if (StringUtils.isNotBlank(itemTypeCode)) {
+                ItemType itemType = new ItemType();
+                itemType.setCodeValue(itemTypeCode.toUpperCase());
+                ItemTypeRecord itemTypeRecord = saveItemTypeRecord(itemType);
+                itemRecord.setItemTypeId(itemTypeRecord == null ? null : itemTypeRecord.getItemTypeId());
+                itemRecord.setItemTypeRecord(itemTypeRecord);
+            }
         }
         if (item.getTemporaryItemType() != null) {
             ItemTypeRecord tempItemTypeRecord = saveItemTypeRecord(item.getTemporaryItemType());
@@ -1386,7 +1395,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
 
     protected ItemTypeRecord saveItemTypeRecord(ItemType itemType) {
         Map map = new HashMap();
-        map.put("code", itemType.getCodeValue());
+        if(StringUtils.isNotBlank(itemType.getCodeValue())){
+            map.put("code", itemType.getCodeValue());
+        }else{
+            String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
+            map.put("code", itemTypeCode);
+        }
         List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
         if (itemTypeRecords.size() == 0) {
             if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {

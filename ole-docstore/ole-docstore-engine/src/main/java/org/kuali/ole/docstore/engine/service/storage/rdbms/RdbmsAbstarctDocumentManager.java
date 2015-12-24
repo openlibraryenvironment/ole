@@ -11,6 +11,9 @@ import org.kuali.ole.docstore.service.OleWebServiceProvider;
 import org.kuali.ole.docstore.service.impl.OleWebServiceProviderImpl;
 import org.kuali.ole.utility.Constants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
@@ -171,6 +174,12 @@ public abstract class RdbmsAbstarctDocumentManager implements DocumentManager {
         LOG.info(" uuidCheckServiceURL --------> " + serviceURL);
         OleWebServiceProvider oleWebServiceProvider = new OleWebServiceProviderImpl();
         return (OleUuidCheckWebService) oleWebServiceProvider.getService(DocStoreConstants.UUID_CHECK_WEB_SERVICE_CLASS, DocStoreConstants.UUID_CHECK_WEB_SERVICE, serviceURL);
+    }
+
+    public String getParameter(String applicationId, String namespace, String componentId, String parameterName) {
+        ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId, parameterName);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
     }
 
 }
