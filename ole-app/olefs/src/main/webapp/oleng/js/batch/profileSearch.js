@@ -30,11 +30,12 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
         saveAs(blob, $scope.profiles[profileId].profileName + ".txt");
     };
 
-    $scope.deleteProfile = function (profileId) {
+    $scope.deleteProfile = function (profileId,index) {
         var data = {};
         data["profileId"] = profileId;
         $http.post(OLENG_CONSTANTS.PROFILE_DELETE, JSON.stringify(data))
             .success(function (response) {
+                $scope.profiles.splice(index, 1);
             });
     };
 

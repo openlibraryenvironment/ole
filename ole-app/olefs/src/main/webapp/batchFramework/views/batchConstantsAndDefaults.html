@@ -1,0 +1,84 @@
+<div class="panel-group" ng-model="constantsAndDefaultsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="constantsAndDefaultsPanel.collapsed = !constantsAndDefaultsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !constantsAndDefaultsPanel.collapsed, 'glyphicon-chevron-down': constantsAndDefaultsPanel.collapsed}"></span>
+                    Constants And Defaults
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Field Value</th>
+                        <th>Default/Constant</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="constantsAndDefault in constantsAndDefaultsPanel">
+                        <td>
+                            <select name="constantsAndDefaultField_{{$index}}" id="constantsAndDefaultField_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
+                                    ng-change="getMaintenanceValuesForType(constantsAndDefault)">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
+                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsOrderFields"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.fieldName"></span>
+                        </td>
+                        <td>
+                            <select name="constantsAndDefaultItemStatus_{{$index}}"
+                                    id="constantsAndDefaultItemStatus_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.itemStatusName == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in itemStatusValues"
+                                        value="{{option.itemStatusName}}">{{option.itemStatusName}}
+                                </option>
+                            </select>
+                            <input id="constantsAndDefaultValue_{{$index}}" name="constantsAndDefaultValue_{{$index}}"
+                                   type="text"
+                                   ng-model="constantsAndDefault.fieldValue" style="height: 30px; width: 100px;"
+                                   ng-hide="constantsAndDefault.fieldName == 'Item Status' || constantsAndDefault.isAddLine"/>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.fieldValue"></span>
+                        </td>
+                        <td>
+                            <select name="constantsAndDefaultType_{{$index}}" id="constantsAndDefaultType_{{$index}}"
+                                    ng-model="constantsAndDefault.constantOrDefault" ng-hide="constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.constantOrDefault}}"
+                                        ng-repeat="option in constantsAndDefault.constantOrDefaultTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="constantsAndDefault.isAddLine" ng-bind="constantsAndDefault.constantOrDefault"></span>
+                        </td>
+                        <td>
+                            <button id="constantsAndDefaultAddButton_{{$index}}"
+                                    name="constantsAndDefaultAddButton_{{$index}}"
+                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine">Add
+                            </button>
+                            <button id="constantsAndDefaultRemoveButton_{{$index}}"
+                                    name="constantsAndDefaultRemoveButton_{{$index}}"
+                                    ng-click="constantsAndDefaultRemove(constantsAndDefault)"
+                                    ng-show="constantsAndDefault.isAddLine && !submitted">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
