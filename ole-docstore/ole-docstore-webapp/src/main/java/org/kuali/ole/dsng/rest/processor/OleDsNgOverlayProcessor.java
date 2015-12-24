@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
+import org.kuali.ole.dsng.dao.OleNGPlatformAwareDao;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
@@ -26,6 +27,7 @@ import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.holdings.LocationHandler;
 import org.kuali.ole.dsng.rest.handler.items.*;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,8 +39,6 @@ import java.util.*;
  * Created by SheikS on 12/8/2015.
  */
 public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements DocstoreConstants {
-
-
     @Autowired
     BibDAO bibDAO;
 
@@ -48,10 +48,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     @Autowired
     ItemDAO itemDAO;
 
-    private List<HoldingsOverlayHandler> holdingsMatchPointHandlers;
     private List<ItemOverlayHandler> itemOverlayMatchPointHandlers;
 
     private List<Handler> bibHandlers;
+    private List<Handler> holdingHandlers;
+    private List<Handler> itemHandlers;
 
     public List<Handler> getBibHandlers() {
         if (null == bibHandlers) {
@@ -68,6 +69,27 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         this.bibHandlers = bibHandlers;
     }
 
+    public List<Handler> getHoldingHandlers() {
+        if (null == holdingHandlers) {
+            holdingHandlers = new ArrayList<Handler>();
+            holdingHandlers.add(new CreateHoldingsHandler());
+            holdingHandlers.add(new UpdateHoldingsHandler());
+        }
+        return holdingHandlers;
+    }
+
+    public void setHoldingHandlers(List<Handler> holdingHandlers) {
+        this.holdingHandlers = holdingHandlers;
+    }
+
+    public List<Handler> getItemHandlers() {
+        return itemHandlers;
+    }
+
+    public void setItemHandlers(List<Handler> itemHandlers) {
+        this.itemHandlers = itemHandlers;
+    }
+
     public String processBibAndHoldingsAndItems(String jsonBody) {
         JSONArray responseJsonArray = null;
         Map<String,SolrInputDocument> solrInputDocumentMap = new HashedMap();
@@ -80,14 +102,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 String overlayOps = requestJsonObject.getString("overlayOps");
 
-                for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
-                    Handler handler = iterator.next();
-                    if(handler.isInterested(overlayOps)){
-                        handler.setBibDAO(bibDAO);
-                        handler.process(requestJsonObject, exchange);
-                    }
-                }
+                processBib(requestJsonObject, exchange, overlayOps);
+
                 BibRecord bibRecord = (BibRecord) exchange.get("bib");
+
+                processHoldings(requestJsonObject, exchange, overlayOps);
+
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
                 }
@@ -103,122 +123,25 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return responseJsonArray.toString();
     }
 
-    private Map<String, SolrInputDocument> processHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, JSONObject jsonObject,
-                                                           String updatedBy, Timestamp updatedDate, List<HoldingsRecord> holdingsRecords) throws JSONException {
-        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = iterator.next();
-            JSONObject holdingJsonObject = jsonObject.getJSONObject("holdings");
-            if (holdingJsonObject.has("matchPoints")) {
-                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
-                boolean isMatchingHolding = false;
-                for (Iterator<HoldingsOverlayHandler> holdingsRecordIterator = getHoldingsMatchPointHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
-                    HoldingsOverlayHandler holdingsOverlayHandler = holdingsRecordIterator.next();
-                    if(holdingsOverlayHandler.isInterested(matchPoints)){
-                        isMatchingHolding = true;
-                        boolean matching = holdingsOverlayHandler.isMatching(holdingsRecord, matchPoints);
-                        if (!matching) {
-                            isMatchingHolding = false;
-                            break;
-                        }
-                    }
-                }
-                if(isMatchingHolding){
-                    if (holdingJsonObject.has("dataMapping")) {
-                        JSONObject dataMapping = holdingJsonObject.getJSONObject("dataMapping");
-                        boolean isUpdated = false;
-                        for (Iterator<HoldingsOverlayHandler> holdingsRecordIterator = getHoldingsMatchPointHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
-                            HoldingsOverlayHandler holdingsOverlayHandler = holdingsRecordIterator.next();
-                            if(holdingsOverlayHandler.isInterested(dataMapping)){
-                                holdingsRecord = holdingsOverlayHandler.process(holdingsRecord, dataMapping);
-                                isUpdated = true;
-                            }
-                        }
-                        if (isUpdated) {
-                            holdingsRecord.setUpdatedBy(updatedBy);
-                            holdingsRecord.setUpdatedDate(updatedDate);
-                            HoldingsRecord updatedHoldingsRecord = holdingDAO.save(holdingsRecord);
-                            solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-                        }
-                    }
-
-                    // Processing Items
-                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
-                    if(CollectionUtils.isNotEmpty(itemRecords) && jsonObject.has("items")){
-                        solrInputDocumentMap = processItems(solrInputDocumentMap, jsonObject, updatedBy, updatedDate, itemRecords);
-                    }
-                }
+    private void processHoldings(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
+        for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
+            Handler holdingHandler = iterator.next();
+            if(holdingHandler.isInterested(overlayOps)){
+                holdingHandler.setHoldingDAO(holdingDAO);
+                holdingHandler.process(requestJsonObject, exchange);
             }
         }
-        return solrInputDocumentMap;
     }
 
-    private Map<String, SolrInputDocument> processItems(Map<String, SolrInputDocument> solrInputDocumentMap, JSONObject jsonObject, String updatedBy, Timestamp updatedDate, List<ItemRecord> itemRecords) throws JSONException {
-        JSONObject itemJsonObject = jsonObject.getJSONObject("items");
-        if (itemJsonObject.has("matchPoints")) {
-            JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
-            for (Iterator<ItemRecord> itemRecordIterator = itemRecords.iterator(); itemRecordIterator.hasNext(); ) {
-                ItemRecord itemRecord = itemRecordIterator.next();
-                boolean isMatchingItem = false;
-                for (Iterator<ItemOverlayHandler> iterator = getItemOverlayMatchPointHandlers().iterator(); iterator.hasNext(); ) {
-                    ItemOverlayHandler itemOverlayHandler = iterator.next();
-                    if(itemOverlayHandler.isInterested(matchPoints)){
-                        isMatchingItem = true;
-                        boolean matching = itemOverlayHandler.isMatching(itemRecord, matchPoints);
-                        if(!matching){
-                            isMatchingItem = false;
-                            break;
-                        }
-                    }
-                }
-                if(isMatchingItem) {
-                    if (itemJsonObject.has("dataMapping")) {
-                        JSONObject dataMapping = itemJsonObject.getJSONObject("dataMapping");
-                        boolean isUpdated = false;
-                        for (Iterator<ItemOverlayHandler> iterator = getItemOverlayMatchPointHandlers().iterator(); iterator.hasNext(); ) {
-                            ItemOverlayHandler itemOverlayHandler = iterator.next();
-                            if(itemOverlayHandler.isInterested(dataMapping)){
-                                itemRecord = itemOverlayHandler.process(itemRecord, dataMapping);
-                                isUpdated = true;
-                            }
-                        }
-                        if (isUpdated) {
-                            itemRecord.setUpdatedBy(updatedBy);
-                            itemRecord.setUpdatedDate(updatedDate);
-                            ItemRecord updatedItemRecord = itemDAO.save(itemRecord);
-                            solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
-                        }
-                    }
-                }
+    private void processBib(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
+        for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
+            Handler handler = iterator.next();
+            if(handler.isInterested(overlayOps)){
+                handler.setBibDAO(bibDAO);
+                handler.setBusinessObjectService(getBusinessObjectService());
+                handler.process(requestJsonObject, exchange);
             }
         }
-        return solrInputDocumentMap;
-    }
-
-    private String doCustomProcessForProfile(String marcContent,String bibId) {
-        MarcXMLConverter marcXMLConverter = new MarcXMLConverter();
-        List<Record> records = marcXMLConverter.convertMarcXmlToRecord(marcContent);
-        if(CollectionUtils.isNotEmpty(records)) {
-            for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-                Record record = iterator.next();
-                //update 001 value by bibId
-                getMarcRecordUtil().updateControlFieldValue(record,"001", bibId);
-                return marcXMLConverter.generateMARCXMLContent(record);
-            }
-        }
-        return marcContent;
-    }
-
-    private Timestamp getDateTimeStamp(String updatedDateString) {
-        Timestamp timeStamp = null;
-        try {
-            Date parse = DocstoreConstants.DOCSTORE_DATE_FORMAT.parse(updatedDateString);
-            if (null != parse) {
-                timeStamp = new Timestamp(parse.getTime());
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return timeStamp;
     }
 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
@@ -229,18 +152,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
-    }
-
-    public List<HoldingsOverlayHandler> getHoldingsMatchPointHandlers() {
-        if(CollectionUtils.isEmpty(holdingsMatchPointHandlers)) {
-            holdingsMatchPointHandlers = new ArrayList<HoldingsOverlayHandler>();
-            holdingsMatchPointHandlers.add(new CallNumberHandler());
-            holdingsMatchPointHandlers.add(new CallNumberPrefixHandler());
-            holdingsMatchPointHandlers.add(new CallNumberTypeHandler());
-            holdingsMatchPointHandlers.add(new CopyNumberHandler());
-            holdingsMatchPointHandlers.add(new LocationHandler());
-        }
-        return holdingsMatchPointHandlers;
     }
 
     public List<ItemOverlayHandler> getItemOverlayMatchPointHandlers() {

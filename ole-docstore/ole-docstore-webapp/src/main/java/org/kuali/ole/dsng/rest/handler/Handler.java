@@ -5,7 +5,10 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.dsng.dao.BibDAO;
+import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -17,9 +20,13 @@ import java.util.List;
 /**
  * Created by pvsubrah on 12/23/15.
  */
-public abstract class  Handler {
+public abstract class  Handler extends OleDsHelperUtil {
 
     BibDAO bibDAO;
+
+    HoldingDAO holdingDAO;
+
+    BusinessObjectService businessObjectService;
 
     public abstract Boolean isInterested(String operation);
 
@@ -38,9 +45,6 @@ public abstract class  Handler {
         return timeStamp;
     }
 
-    public BibDAO getBibDAO() {
-        return bibDAO;
-    }
 
     public List<String> getOperationsList(String operation){
         List ops = new ArrayList();
@@ -55,7 +59,28 @@ public abstract class  Handler {
 
     }
 
+
+    public BibDAO getBibDAO() {
+        return bibDAO;
+    }
+
     public void setBibDAO(BibDAO bibDAO) {
         this.bibDAO = bibDAO;
+    }
+
+    public HoldingDAO getHoldingDAO() {
+        return holdingDAO;
+    }
+
+    public void setHoldingDAO(HoldingDAO holdingDAO) {
+        this.holdingDAO = holdingDAO;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
