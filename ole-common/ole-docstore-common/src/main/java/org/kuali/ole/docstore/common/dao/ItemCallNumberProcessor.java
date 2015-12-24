@@ -21,13 +21,12 @@ import java.util.concurrent.Callable;
 public class ItemCallNumberProcessor implements Callable {
     private static final Logger LOG = LoggerFactory.getLogger(ItemCallNumberProcessor.class);
     Map<String, String> itemdetails;
-    private JdbcTemplate jdbcTemplate;
     Map<String, String> callNumberType;
     private PlatformTransactionManager transactionManager;
+    StringBuilder itemQuery = new StringBuilder("UPDATE OLE_DS_ITEM_T SET SHELVING_ORDER = ");
 
-    public ItemCallNumberProcessor(Map<String, String> itemdetails, JdbcTemplate jdbcTemplate, Map<String, String> callNumberType) {
+    public ItemCallNumberProcessor(Map<String, String> itemdetails, Map<String, String> callNumberType) {
         this.itemdetails = itemdetails;
-        this.jdbcTemplate = jdbcTemplate;
         this.callNumberType = callNumberType;
     }
 
@@ -39,7 +38,6 @@ public class ItemCallNumberProcessor implements Callable {
             template.execute(new TransactionCallback<Object>() {
                 @Override
                 public Object doInTransaction(TransactionStatus status) {
-                    StringBuilder itemQuery = new StringBuilder("UPDATE OLE_DS_ITEM_T SET SHELVING_ORDER = ");
                     String callNumberTypeId = localItemdetails.get("callNumberTypeId");
                     String callNumber = localItemdetails.get("callNumber");
                     String itemId = localItemdetails.get("itemId");
@@ -47,13 +45,8 @@ public class ItemCallNumberProcessor implements Callable {
                         String callNumberCode = callNumberType.get(callNumberTypeId);
                         itemQuery.append("'" + CallNumberMigrationDao.getShelfKey(callNumber, callNumberCode) + "'  WHERE  ITEM_ID = '");
                         itemQuery.append(itemId + "'");
-                        try {
-                            jdbcTemplate.update(itemQuery.toString());
-                        } catch (Exception e1) {
-                            LOG.error("Exception while updating into OLE_DS_ITEM_T, Item Id = " + itemId + " callNumber = " + callNumber + " : ", e1);
-                        }
                     }
-                    return localItemdetails;
+                    return itemQuery.toString();
 
                 }
             });
@@ -64,7 +57,7 @@ public class ItemCallNumberProcessor implements Callable {
             this.transactionManager = null;
 
         }
-        return localItemdetails;
+        return itemQuery.toString();
     }
 
     public PlatformTransactionManager getTransactionManager() {
