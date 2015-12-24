@@ -115,7 +115,7 @@ public class LoanProcessor extends PatronBillResolver {
     private static Map<String, String> locationName = new HashMap<>();
 
     private CircDeskLocationResolver circDeskLocationResolver;
-    private OlePatronHelperServiceImpl olePatronHelperService;
+    private OlePatronHelperService olePatronHelperService;
     private DocstoreClientLocator docstoreClientLocator;
     private OleNoticeService oleNoticeService;
 
@@ -174,7 +174,7 @@ public class LoanProcessor extends PatronBillResolver {
         return olePatronHelperService;
     }
 
-    public void setOlePatronHelperService(OlePatronHelperServiceImpl olePatronHelperService) {
+    public void setOlePatronHelperService(OlePatronHelperService olePatronHelperService) {
         this.olePatronHelperService = olePatronHelperService;
     }
 
