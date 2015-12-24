@@ -24,10 +24,7 @@ import org.kuali.ole.module.purap.document.LineItemReceivingDocument;
 import org.kuali.ole.module.purap.document.ReceivingDocument;
 import org.kuali.ole.module.purap.document.validation.impl.LineItemReceivingDocumentRule;
 import org.kuali.ole.select.OleSelectConstant;
-import org.kuali.ole.select.businessobject.OleCopies;
-import org.kuali.ole.select.businessobject.OleLineItemReceivingItem;
-import org.kuali.ole.select.businessobject.OleLineItemReceivingReceiptNotes;
-import org.kuali.ole.select.businessobject.OleReceivingItem;
+import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.OleLineItemReceivingDocument;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -205,16 +202,43 @@ public class OleLineItemReceivingDocumentRule extends LineItemReceivingDocumentR
         boolean isNotesAck = true;
         for (OleLineItemReceivingItem item : (List<OleLineItemReceivingItem>) receivingDocument.getItems()) {
             boolean ack = item.isConsideredEntered();
-            boolean isAck = false;
+            boolean received = false;
+            List<OleCopy> copyList = item.getCopyList();
+            boolean copiesReceived = false;
+            boolean isAcknowledge = false;
+            if(ack) {
+                if(item.getOleReceiptStatus() != null) {
+                    if(item.getOleReceiptStatus().getReceiptStatus().equalsIgnoreCase("Fully Received")) {
+                        received = true;
+                        continue;
+                    }
+                }
+                else {
+                    if(!received) {
+                        for(OleCopy oleCopy :copyList) {
+                            if(oleCopy.getReceiptStatus().equalsIgnoreCase("Received")) {
+                                copiesReceived = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if(copiesReceived) {
             for (OleLineItemReceivingReceiptNotes notes : item.getSpecialHandlingNoteList()) {
-                isAck = notes.isNotesAck();
-                isNotesAck &= isAck;
+                isAcknowledge = notes.isNotesAck();
+                isNotesAck &= isAcknowledge;
             }
-            if (ack & isNotesAck) {
-                return true;
-            } else if (!ack) {
-                return true;
             }
+
+           /* if (ack & isNotesAck) {
+                return true;
+            }*/
+           /* else if (!ack) {
+                return true;
+            }*/
+        }
+        if(isNotesAck) {
+            return true;
         }
         GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, OLEKeyConstants.ERROR_RECEIVING_LINE_NOTACKNOWLEDGED);
         return false;
