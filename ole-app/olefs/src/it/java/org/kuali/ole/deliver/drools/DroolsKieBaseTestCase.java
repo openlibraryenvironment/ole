@@ -16,6 +16,7 @@ import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.form.OLEPlaceRequestForm;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
@@ -41,6 +42,10 @@ public class DroolsKieBaseTestCase {
 
     @Mock
     protected OlePatronDocument mockOlePatronDocument;
+
+    @Mock
+    protected OLEPlaceRequestForm mockOlePlaceRequestForm;
+
     @Mock
     protected OleItemRecordForCirc mockItemRecordForCirc;
     @Mock
@@ -86,6 +91,7 @@ public class DroolsKieBaseTestCase {
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/lookup-user-vufind.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/lookup-user-sip2.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/requests/place-request.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/rules/demo/request/pickup-location.drl"));
 
         for (Iterator<Resource> iterator = resourceList.iterator(); iterator.hasNext(); ) {
             Resource resource = iterator.next();

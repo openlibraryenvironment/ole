@@ -3,11 +3,15 @@ package org.kuali.ole.deliver.controller.drools;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.Agenda;
+import org.kie.api.runtime.rule.AgendaGroup;
 import org.kuali.ole.deliver.bo.drools.DroolsEditorBo;
 import org.kuali.ole.deliver.bo.drools.DroolsRuleBo;
-import org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo;
+import org.kuali.ole.deliver.drools.CustomAgendaFilter;
 import org.kuali.ole.deliver.drools.DroolFileGenerator;
 import org.kuali.ole.deliver.drools.DroolsConstants;
+import org.kuali.ole.deliver.drools.DroolsKieEngine;
 import org.kuali.ole.deliver.drools.rules.CheckoutDroolsFileGenerator;
 import org.kuali.ole.deliver.drools.rules.GeneralChecksDroolFileGenerator;
 import org.kuali.ole.deliver.form.drools.DroolEditorMaintenanceForm;
@@ -60,6 +64,24 @@ public class DroolsEditorController extends MaintenanceDocumentController {
         droolFileGenerators.add(new GeneralChecksDroolFileGenerator());
         droolFileGenerators.add(new CheckoutDroolsFileGenerator());
         return droolFileGenerators;
+    }
+
+    public void fireRules(List<Object> facts, String[] expectedRules, String agendaGroup) {
+        KieSession session = DroolsKieEngine.getInstance().getSession();
+        for (Iterator<Object> iterator = facts.iterator(); iterator.hasNext(); ) {
+            Object fact = iterator.next();
+            session.insert(fact);
+        }
+
+        if (null != expectedRules && expectedRules.length > 0) {
+            session.fireAllRules(new CustomAgendaFilter(expectedRules));
+        } else {
+            Agenda agenda = session.getAgenda();
+            AgendaGroup group = agenda.getAgendaGroup(agendaGroup);
+            group.setFocus();
+            session.fireAllRules();
+        }
+        session.dispose();
     }
 
     @Override
