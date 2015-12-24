@@ -58,25 +58,39 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         stopWatch.start();
         int count = 0;
+
         while (holdingsCallNumberResultSet.next()) {
             count++;
             Map<String,String> holdingsDetails = new HashMap<>();
             holdingsDetails.put("callNumberTypeId",holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
             holdingsDetails.put("callNumber", holdingsCallNumberResultSet.getString("CALL_NUMBER"));
             holdingsDetails.put("holdingsId", String.valueOf(holdingsCallNumberResultSet.getInt("HOLDINGS_ID")));
-            futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsDetails, getJdbcTemplate(), callNumberType)));
+            futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsDetails, callNumberType)));
         }
+        List<String> batchSqls= new ArrayList<>();
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
-                Map<String,String> holdingsDetails = (Map<String,String>) future.get();
+                String sql = (String) future.get();
+                batchSqls.add(sql);
             } catch (InterruptedException e) {
                 LOG.info(e.getMessage());
             } catch (ExecutionException e) {
                 LOG.info(e.getMessage());
             }
+
+            if(batchSqls.size() == 10){
+                String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
+                getJdbcTemplate().batchUpdate(arraysqls);
+                batchSqls.clear();
+            }
         }
         executorService.shutdown();
+
+        if(batchSqls.size() > 0){
+            String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
+            getJdbcTemplate().batchUpdate(arraysqls);
+        }
         stopWatch.stop();
         LOG.debug("Total Time taken " + count + " - for Holdings ::" + stopWatch.getTotalTimeMillis());
     }
@@ -93,19 +107,33 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
             ItemDetails.put("callNumberTypeId",itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
             ItemDetails.put("callNumber", itemCallNumberResultSet.getString("CALL_NUMBER"));
             ItemDetails.put("itemId", String.valueOf(itemCallNumberResultSet.getInt("ITEM_ID")));
-            futures.add(executorService.submit(new ItemCallNumberProcessor(ItemDetails, getJdbcTemplate(), callNumberType)));
+            futures.add(executorService.submit(new ItemCallNumberProcessor(ItemDetails, callNumberType)));
         }
+        List<String> batchSqls= new ArrayList<>();
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
-                Map<String,String> itemDetails = (Map<String,String>) future.get();
+                String sql = (String) future.get();
+                batchSqls.add(sql);
             } catch (InterruptedException e) {
                 LOG.info(e.getMessage());
             } catch (ExecutionException e) {
                 LOG.info(e.getMessage());
             }
+
+            if(batchSqls.size() == 10){
+                String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
+                getJdbcTemplate().batchUpdate(arraysqls);
+                batchSqls.clear();
+            }
         }
         executorService.shutdown();
+
+        if(batchSqls.size() > 0){
+            String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
+            getJdbcTemplate().batchUpdate(arraysqls);
+        }
+
         stopWatch.stop();
         LOG.debug("Total Time taken " + count + " - for Item ::" + stopWatch.getTotalTimeMillis());
     }
