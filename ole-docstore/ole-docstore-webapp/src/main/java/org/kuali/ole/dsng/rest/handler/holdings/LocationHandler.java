@@ -15,12 +15,6 @@ import java.util.List;
  */
 public class LocationHandler extends HoldingsHandler {
 
-    private final String LOCATION_LEVEL_1 = "Location Level1";
-    private final String LOCATION_LEVEL_2 = "Location Level2";
-    private final String LOCATION_LEVEL_3 = "Location Level3";
-    private final String LOCATION_LEVEL_4 = "Location Level4";
-    private final String LOCATION_LEVEL_5 = "Location Level5";
-
     @Override
     public Boolean isInterested(String operation) {
         return (operation.equals(LOCATION_LEVEL_1) || operation.equals(LOCATION_LEVEL_2) || operation.equals(LOCATION_LEVEL_3) ||

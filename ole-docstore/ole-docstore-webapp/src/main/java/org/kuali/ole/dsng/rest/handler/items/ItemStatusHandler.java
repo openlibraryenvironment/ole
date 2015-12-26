@@ -5,32 +5,38 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
+import org.kuali.ole.dsng.rest.Exchange;
 
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class ItemStatusHandler extends ItemOverlayHandler {
+public class ItemStatusHandler extends ItemHandler {
     private final String TYPE = "Item Status";
 
     @Override
-    public boolean isInterested(JSONObject jsonObject) {
-        return jsonObject.has(TYPE);
+    public Boolean isInterested(String operation) {
+        return operation.equals(TYPE);
     }
 
     @Override
-    public boolean isMatching(ItemRecord itemRecord, JSONObject jsonObject) {
-        String itemStatusName = getStringValueFromJsonObject(jsonObject, "itemStatus");
-        return StringUtils.equals(itemRecord.getItemStatusRecord().getCode(),itemStatusName);
+    public void process(JSONObject requestJsonObject, Exchange exchange) {
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        String itemStatusName = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        if (null != itemRecord.getItemStatusRecord() &&
+                StringUtils.equals(itemRecord.getItemStatusRecord().getName(),itemStatusName)) {
+            exchange.add("matchedItem", itemRecord);
+        }
     }
 
     @Override
-    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
-        String itemStatusName = getStringValueFromJsonObject(jsonObject, "itemStatus");
+    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
+        String itemStatusName = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
         ItemStatusRecord itemStatusRecord = fetchItemStatusByName(itemStatusName);
         if(null != itemStatusRecord) {
             itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
             itemRecord.setItemStatusRecord(itemStatusRecord);
         }
-        return itemRecord;
+        exchange.add("itemRecord", itemRecord);
     }
 }

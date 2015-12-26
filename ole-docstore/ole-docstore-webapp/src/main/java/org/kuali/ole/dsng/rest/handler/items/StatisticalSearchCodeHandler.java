@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord;
+import org.kuali.ole.dsng.rest.Exchange;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,37 +13,33 @@ import java.util.List;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class StatisticalSearchCodeHandler extends ItemOverlayHandler {
+public class StatisticalSearchCodeHandler extends ItemHandler {
     private final String TYPE = "Statistical Code";
 
     @Override
-    public boolean isInterested(JSONObject jsonObject) {
-        return jsonObject.has(TYPE);
+    public Boolean isInterested(String operation) {
+        return operation.equals(TYPE);
     }
 
     @Override
-    public boolean isMatching(ItemRecord itemRecord, JSONObject jsonObject) {
-        String statisticalSearchCode = getStringValueFromJsonObject(jsonObject,TYPE);
+    public void process(JSONObject requestJsonObject, Exchange exchange) {
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
         List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
         if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
             for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
                 ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
                 if(null != itemStatisticalSearchRecord.getStatisticalSearchRecord() &&
                         StringUtils.equals(itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
-                    return true;
+                    exchange.add("matchedItem", itemRecord);
                 }
             }
         }
-        return false;
     }
 
     @Override
-    public ItemRecord process(ItemRecord itemRecord, JSONObject jsonObject) {
-        String statisticalSearchCode = getStringValueFromJsonObject(jsonObject,TYPE);
-        List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
+    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
 
         //Todo : Need to get the information about the process.
 
-        return itemRecord;
     }
 }
