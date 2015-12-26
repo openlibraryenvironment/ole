@@ -146,7 +146,7 @@ public class BibIndexer extends OleDsNgIndexer {
     }
 
     protected void setCommonFields(BibRecord bibRecord, SolrInputDocument solrInputDocument) {
-        String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(bibRecord.getUniqueIdPrefix(), String.valueOf(bibRecord.getBibId()));
+        String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, String.valueOf(bibRecord.getBibId()));
         solrInputDocument.setField(ID, bibIdWithPrefix);
         solrInputDocument.setField(LOCALID_SEARCH, DocumentLocalId.getDocumentId(bibRecord.getBibId()));
         solrInputDocument.setField(LOCALID_DISPLAY, DocumentLocalId.getDocumentIdDisplay(bibRecord.getBibId()));

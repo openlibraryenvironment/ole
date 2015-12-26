@@ -3,13 +3,10 @@ package org.kuali.ole.dsng.indexer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
-import org.kuali.ole.docstore.common.exception.DocstoreSearchException;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
@@ -48,6 +45,27 @@ public class HoldingIndexer extends OleDsNgIndexer {
     public Map<String,SolrInputDocument> getInputDocumentForHoldings(HoldingsRecord holdingsRecord,Map parameterMap) {
         SolrInputDocument holdingsSolrInputDocument = buildSolrInputDocument(holdingsRecord, parameterMap);
 
+
+        Date date = new Date();
+        holdingsSolrInputDocument.addField(UPDATED_BY, holdingsRecord.getUpdatedBy());
+        holdingsSolrInputDocument.addField(DATE_UPDATED, date);
+        if(StringUtils.isNotBlank(holdingsRecord.getBibId())){
+
+            String bibIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, holdingsRecord.getBibId());
+
+            SolrInputDocument bibSolrInputDocument = getSolrInputDocumentFromMap(parameterMap,bibIdentifierWithPrefix);
+
+            if(null == bibIdentifierWithPrefix) {
+                // Todo : Need to form solrInputDocument for Bib.
+            }
+
+            addBibInfoForHoldingsOrItems(holdingsSolrInputDocument,bibSolrInputDocument);
+            holdingsSolrInputDocument.addField(BIB_IDENTIFIER, bibIdentifierWithPrefix);
+            bibSolrInputDocument = addHoldingsDetailsToBib(holdingsSolrInputDocument,bibSolrInputDocument);
+
+            addSolrInputDocumentToMap(parameterMap,bibSolrInputDocument);
+        }
+        addSolrInputDocumentToMap(parameterMap,holdingsSolrInputDocument);
         List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
         List<String> itemUUIds = new ArrayList<String>();
         if(CollectionUtils.isNotEmpty(itemRecords)){
@@ -55,34 +73,12 @@ public class HoldingIndexer extends OleDsNgIndexer {
                 ItemRecord itemRecord = iterator.next();
                 ItemIndexer itemIndexer = new ItemIndexer();
                 //Todo : Need to do for Item.
-                addSolrInputDocumentToMap(parameterMap,holdingsSolrInputDocument);
                 parameterMap = itemIndexer.getInputDocumentForItem(itemRecord, parameterMap);
-                String itemIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), String.valueOf(itemRecord.getItemId()));
+                String itemIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML, String.valueOf(itemRecord.getItemId()));
                 itemUUIds.add(itemIdentifierWithPrefix);
             }
-            holdingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemUUIds);
-            Date date = new Date();
-            holdingsSolrInputDocument.addField(UPDATED_BY, holdingsRecord.getUpdatedBy());
-            holdingsSolrInputDocument.addField(DATE_UPDATED, date);
-            if(StringUtils.isNotBlank(holdingsRecord.getBibId())){
-
-                String bibIdentifierWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, holdingsRecord.getBibId());
-
-                SolrInputDocument bibSolrInputDocument = getSolrInputDocumentFromMap(parameterMap,bibIdentifierWithPrefix);
-
-                if(null == bibIdentifierWithPrefix) {
-                    // Todo : Need to form solrInputDocument for Bib.
-                }
-
-                addBibInfoForHoldingsOrItems(holdingsSolrInputDocument,bibSolrInputDocument);
-                holdingsSolrInputDocument.addField(BIB_IDENTIFIER, bibIdentifierWithPrefix);
-                bibSolrInputDocument = addHoldingsDetailsToBib(holdingsSolrInputDocument,bibSolrInputDocument);
-
-                addSolrInputDocumentToMap(parameterMap,holdingsSolrInputDocument);
-                addSolrInputDocumentToMap(parameterMap,bibSolrInputDocument);
-            }
         }
-        return  parameterMap;
+        return parameterMap;
     }
 
     @Override
@@ -203,13 +199,17 @@ public class HoldingIndexer extends OleDsNgIndexer {
     }
 
     private void indexPHoldingsInformation(HoldingsRecord holdingsRecord, SolrInputDocument solrInputDocument) {
-        for (HoldingsNoteRecord holdingNote : holdingsRecord.getHoldingsNoteRecords()) {
-            solrInputDocument.addField(HOLDING_NOTE_SEARCH, holdingNote.getNote());
-            solrInputDocument.addField(HOLDING_NOTE_DISPLAY, holdingNote.getNote());
+        if (CollectionUtils.isNotEmpty(holdingsRecord.getHoldingsNoteRecords())) {
+            for (HoldingsNoteRecord holdingNote : holdingsRecord.getHoldingsNoteRecords()) {
+                solrInputDocument.addField(HOLDING_NOTE_SEARCH, holdingNote.getNote());
+                solrInputDocument.addField(HOLDING_NOTE_DISPLAY, holdingNote.getNote());
+            }
         }
-        for (HoldingsUriRecord uri : holdingsRecord.getHoldingsUriRecords()) {
-            solrInputDocument.addField(URI_SEARCH, uri.getUri());
-            solrInputDocument.addField(URI_DISPLAY, uri.getUri());
+        if (CollectionUtils.isNotEmpty(holdingsRecord.getHoldingsUriRecords())) {
+            for (HoldingsUriRecord uri : holdingsRecord.getHoldingsUriRecords()) {
+                solrInputDocument.addField(URI_SEARCH, uri.getUri());
+                solrInputDocument.addField(URI_DISPLAY, uri.getUri());
+            }
         }
         List<ExtentOfOwnerShipRecord> extentOfOwnerShipRecords = holdingsRecord.getExtentOfOwnerShipRecords();
         if (CollectionUtils.isNotEmpty(extentOfOwnerShipRecords)) {

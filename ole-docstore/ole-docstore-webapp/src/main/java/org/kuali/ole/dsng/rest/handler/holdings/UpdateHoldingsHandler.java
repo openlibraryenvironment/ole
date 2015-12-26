@@ -8,6 +8,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -86,6 +88,8 @@ public class UpdateHoldingsHandler extends Handler {
                                             }
                                         }
                                     }
+                                    holdingsRecord.setHoldingsType(PHoldings.PRINT);
+                                    holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
                                     holdingsRecordsToUpdate.add(holdingsRecord);
                                     exchange.remove("matchedHoldings");
                                     break matchPointsLoop;
@@ -96,7 +100,15 @@ public class UpdateHoldingsHandler extends Handler {
                 }
             }
             getHoldingDAO().saveAll(holdingsRecordsToUpdate);
-            exchange.add("holdingRecordsUpdated",holdingsRecordsToUpdate);
+
+
+            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToCreate");
+            if(null == holdingRecordsToUpdate) {
+                holdingRecordsToUpdate = new ArrayList();
+            }
+            holdingRecordsToUpdate.addAll(holdingsRecordsToUpdate);
+
+            exchange.add("holdingRecordsUpdated",holdingRecordsToUpdate);
 
         } catch (JSONException e) {
             e.printStackTrace();

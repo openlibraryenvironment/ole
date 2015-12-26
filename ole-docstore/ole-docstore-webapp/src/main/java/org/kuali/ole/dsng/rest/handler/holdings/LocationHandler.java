@@ -32,7 +32,7 @@ public class LocationHandler extends HoldingsHandler {
 
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String fullPathLocation = getFullPathLocation(holdingRecord, requestJsonObject);
-        if (StringUtils.equals(holdingRecord.getLocation(), fullPathLocation)) {
+        if (StringUtils.isNotBlank(fullPathLocation) && StringUtils.equals(holdingRecord.getLocation(), fullPathLocation)) {
             exchange.add("matchedHoldings", holdingRecord);
         }
     }
@@ -48,6 +48,9 @@ public class LocationHandler extends HoldingsHandler {
     private String getFullPathLocation(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
         String location = holdingsRecord.getLocation();
         String locationLevel = holdingsRecord.getLocationLevel();
-        return getFullLocationForOverlay(jsonObject, location, locationLevel);
+        if(StringUtils.isNotBlank(location) && StringUtils.isNotBlank(locationLevel)) {
+            return getFullLocationForOverlay(jsonObject, location, locationLevel);
+        }
+        return null;
     }
 }
