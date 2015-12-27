@@ -23,7 +23,7 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="circDeskSection" parent="Loan-Uif-InputField" p:propertyName="selectedCirculationDesk"
-          p:style="float:right;margin-top:0%;margin-right:13%"
+          p:style="float:right;margin-right:4%;height:0px"
           p:label="Circulation Desk" p:required="false"
           p:onChangeScript="submitForm('changeCirculationDeskLocation', null, null, true, function(){
           });">

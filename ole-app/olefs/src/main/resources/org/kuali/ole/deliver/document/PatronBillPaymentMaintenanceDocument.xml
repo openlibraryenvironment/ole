@@ -46,6 +46,20 @@
     <bean id="PatronBillMaintenanceDocument-MaintenanceView" parent="Uif-OleMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.PatronBillPayment"/>
         <property name="headerText" value="Patron Bill"/>
+        <property name="header">
+            <bean parent="Uif-Ole-DocumentViewHeader"/>
+        </property>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean="PatronBill-FooterBase-Header"/>
+                        <ref bean="expandCollapse_OlePatronBillBtn"/>
+                        <!--<bean parent="Uif-Message" p:messageText="* indicates required field"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -61,34 +75,51 @@
                 <ref bean="PatronBillMaintenanceDocument-FeeSection" />
                 <ref bean="PatronBillMaintenanceDocument-TotalAmount"/>
                 <ref bean="footer"/>
-                <bean parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}">
-                    <property name="items">
-                        <list>
-                            <bean id="deleteButton" parent="Uif-PrimaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete"/>
-                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
-                        </list>
-                    </property>
-                </bean>
+
             </list>
         </property>
-        <!-- <property name="page.footer">
-             <bean parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
-                 <property name="items">
-                     <list>
-                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
-                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
-                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
-                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
-                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="close"
-                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
-                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-                     </list>
-                 </property>
-             </bean>
-         </property> -->
+        <property name="page.footer">
+
+            <bean id="PatronBill-FooterBase" parent="Uif-OleDocumentPageFooter">
+                <property name="items">
+                    <list merge="false">
+                        <!--<bean id="deleteButton" parent="Uif-SecondaryActionButton" p:methodToCall= "deleteDocument" p:render="@{maintenanceAction eq 'Delete'}" p:actionLabel="Delete"/>
+                        <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:render="@{maintenanceAction eq 'Delete'}" p:actionLabel="Cancel"/>
+-->
+                        <bean id="olePatronBillRouteReport" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillSendAdHoc" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillSubmit" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillSave" parent="OlePatron-Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillReload" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="Reload"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillBlanketApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="Blanket Approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve"  p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillDisapprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillFYI" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="FYI"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillAcknowledge" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+
+                        <bean id="olePatronBillCancel" parent="OlePatron-Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBillCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP">
+                            <property name="cssClasses">
+                                <list merge="false">
+                                    <value>uif-secondaryActionButton</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/deliver/billPayment/script/BillPayment.js</value>
@@ -115,20 +146,35 @@
                 <value>uif-documentPage</value>
             </list>
         </property>
-        <property name="defaultItemPosition" value="11"/>
+        <property name="defaultItemPosition" value="12"/>
         <property name="items">
             <list>
-                <bean id="PatronBillMaintenanceDocument-ViewBillsLink" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.olePatron.viewBillUrl}"  p:linkText="@{#dp.olePatron.patronBillFileName}"  p:target="_blank" p:order="10"/>
-                <bean parent="Uif-DocumentOverviewSection" p:order="11"/>
-                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
-                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
-                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+
+                <ref bean="PatronBillDelete-FooterBase-Header"/>
+                <bean id="PatronBillMaintenanceDocument-ViewBillsLink" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.olePatron.viewBillUrl}"  p:linkText="@{#dp.olePatron.patronBillFileName}"  p:target="_blank" p:order="11"/>
+                <bean id="PatronBillMaintenanceDocument-DocumentOverviewSection" parent="Uif-DocumentOverviewSection" p:order="12"/>
+                <bean id="PatronBillMaintenanceDocument-DocumentNotesSection" parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
+                <bean id="PatronBillMaintenanceDocument-DocumentAdHocRecipientsSection" parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean id="PatronBillMaintenanceDocument-DocumentRouteLogSection" parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+                <bean id="PatronBillDelete-FooterBase" parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="60">
+                    <property name="items">
+                        <list>
+                            <bean id="deleteButton" parent="Uif-SecondaryActionButton" p:methodToCall= "deleteDocument"  p:actionLabel="Delete"/>
+                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"  p:actionLabel="Cancel"/>
+
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer">
             <bean parent="Uif-OleDocumentPageFooter"/>
         </property>
     </bean>
+    <bean id="PatronBill-FooterBase-Header" parent="PatronBill-FooterBase" p:render="@{maintenanceAction ne 'Delete'}" p:order="10"/>
+
+    <bean id="PatronBillDelete-FooterBase-Header" parent="PatronBillDelete-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="10"/>
+
     <bean id="PatronBillMaintenanceDocument-PatronSection" parent="Uif-VerticalBoxSection" >
         <property name="headerText" value="Patron Section" />
         <property name="items">
@@ -178,6 +224,39 @@
         </property>
     </bean>
 
+    <bean id="expandCollapse_OlePatronBillBtn" parent="Uif-HorizontalBoxSection"  p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="olePatronBill_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="
+                if(jq('#PatronBillMaintenanceDocument-DocumentOverviewSection_disclosureContent').attr('data-open') == 'false'){
+                jq('#PatronBillMaintenanceDocument-DocumentOverviewSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentNotesSection_disclosureContent').attr('data-open') == 'false'){
+                jq('#PatronBillMaintenanceDocument-DocumentNotesSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentAdHocRecipientsSection_disclosureContent').attr('data-open') == 'false'){
+                jq('#PatronBillMaintenanceDocument-DocumentAdHocRecipientsSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentRouteLogSection_disclosureContent').attr('data-open') == 'false'){
+                jq('#PatronBillMaintenanceDocument-DocumentRouteLogSection_toggle').focus().click();
+                }"/>
+                <bean id="olePatronBill_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="
+                if(jq('#PatronBillMaintenanceDocument-DocumentOverviewSection_disclosureContent').attr('data-open') == 'true'){
+                jq('#PatronBillMaintenanceDocument-DocumentOverviewSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentNotesSection_disclosureContent').attr('data-open') == 'true'){
+                jq('#PatronBillMaintenanceDocument-DocumentNotesSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentAdHocRecipientsSection_disclosureContent').attr('data-open') == 'true'){
+                jq('#PatronBillMaintenanceDocument-DocumentAdHocRecipientsSection_toggle').focus().click();
+                }
+                if(jq('#PatronBillMaintenanceDocument-DocumentRouteLogSection_disclosureContent').attr('data-open') == 'true'){
+                jq('#PatronBillMaintenanceDocument-DocumentRouteLogSection_toggle').focus().click();
+                }"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="PatronBillMaintenanceDocument-FeeSection" parent="Uif-VerticalBoxSection" >
         <property name="headerText" value="FeeType Section" />
         <property name="items">
@@ -207,9 +286,6 @@
         <property name="headerText" value="FeeType Section"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType" />
         <property name="propertyName" value="feeType" />
-        <!--<property name="layoutManager.expandDetailsActionPrototype">
-            <bean parent="Uif-ExpandDetailsImageAction" p:width="10px"/>
-        </property>-->
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
@@ -263,22 +339,7 @@
                     </property>
 
                 </bean>
-               <!-- <bean  id="fee_itemTitle"  parent="Uif-InputField" p:propertyName="itemTitle" p:label="Item Title" p:readOnly="@{!#isAddLine}">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
-                    </property>
-                </bean>
-                <bean  id="fee_itemType"  parent="Uif-InputField" p:propertyName="itemType" p:label="Item Type" p:readOnly="@{!#isAddLine}">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
-                    </property>
-                </bean>-->
+
                 <bean  id="bill_paymentStatus" parent="Uif-InputField" p:propertyName="paymentStatus" p:label="Payment Status" p:required="true" p:enableAutoQuickfinder="false" p:readOnly="@{maintenanceAction eq 'New' and !#isAddLine}">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OlePaymentStatusKeyValues" />
@@ -356,7 +417,7 @@
     <bean id="footer" parent="Uif-FooterBase">
         <property name="items">
             <list merge="false">
-                <bean id="calculate" parent="Uif-PrimaryActionButton" p:methodToCall= "calculateTotal" p:actionLabel="Calculate Total" p:ajaxSubmit="true" p:hidden="true" />
+                <bean id="calculate" parent="Uif-SecondaryActionButton" p:methodToCall= "calculateTotal" p:actionLabel="Calculate Total" p:ajaxSubmit="true" p:hidden="true" />
             </list>
         </property>
     </bean>

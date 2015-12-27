@@ -201,7 +201,10 @@ public class OlePatronBillLookupableImpl extends LookupableImpl {
         } catch (Exception e) {
             LOG.error("Exception Occurred In Searching of Patrons------>Patron Bill Lookup");
         }
-        Iterator iterator=patronBillPayments.iterator();
+        List<PatronBillPayment> sortedPatronBillPayments = new ArrayList<PatronBillPayment>();
+
+
+        Iterator iterator = patronBillPayments.iterator();
         while (iterator.hasNext()){
             PatronBillPayment patronBillPayment=(PatronBillPayment)iterator.next();
             Map<String, String> map = new HashMap<String, String>();
@@ -213,8 +216,15 @@ public class OlePatronBillLookupableImpl extends LookupableImpl {
             }
             finalResult.add(patronBillPayment);
         }
+        sortedPatronBillPayments.addAll(finalResult);
+        Collections.sort(sortedPatronBillPayments, new Comparator<PatronBillPayment>() {
+            @Override
+            public int compare(PatronBillPayment patronBillPayment1, PatronBillPayment patronBillPayment2) {
+                return Integer.parseInt(patronBillPayment1.getBillNumber()) > Integer.parseInt(patronBillPayment2.getBillNumber()) ? 1 : -1;
+            }
+        });
 
-        return finalResult;
+        return sortedPatronBillPayments;
     }
 
     public boolean isWildCardMatches(String word, String wildCardString) {

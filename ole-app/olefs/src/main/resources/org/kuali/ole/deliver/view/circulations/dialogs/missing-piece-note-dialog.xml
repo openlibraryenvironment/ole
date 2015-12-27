@@ -25,7 +25,9 @@
 
     <!--Missing Piece Item-->
     <bean id="missingPieceNoteDialog" parent="Uif-DialogGroup">
-        <property name="headerText" value=""/>
+        <property name="header.rightGroup">
+            <ref bean="headerBtnAndInstructionalTextMsgMissingPiece"/>
+        </property>
         <property name="promptText" value=""/>
         <property name="availableResponses">
             <list>
@@ -35,6 +37,14 @@
         <property name="items">
             <list merge="false">
                 <ref bean="missingPiece-information"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="headerBtnAndInstructionalTextMsgMissingPiece" p:style="width:95%;position:relative;float:right" parent="Uif-HeaderRightGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree"  p:headerText="Missing Piece"/>
+                <bean parent="Uif-Message" p:style="margin-top:15px;float:right" p:messageText="*indicates required field"/>
             </list>
         </property>
     </bean>
@@ -91,10 +101,10 @@
         </property>
     </bean>
 
-    <bean id="missingPiece-buttons" parent="Uif-HorizontalBoxSection">
+    <bean id="missingPiece-buttons" p:style="position: absolute;float:left;top:90%;left: 50%;margin-right: -50%;transform: translate(-50%, 50%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="missingPiece-missingPieceButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="save"
+                <bean id="missingPiece-missingPieceButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit"
                       p:actionScript="if(jq('#kualiLightboxForm').valid()){
                           var missingPieceCnt = parseInt(jq('#missingPiece-count_control').val());
                           var noOfPieces = parseInt(jq('#missingPiece-noOfPieces_control').val());
@@ -128,13 +138,13 @@
                               });
                           }
                     }"/>
-                <bean id="missingPiece-closeButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="missingPiece-closeButton" parent="Uif-SecondaryActionButton" p:actionScript="
                 jq.fancybox.close();
                 jq('#checkoutItem_control').focus();
                 jq('.loanedItemCBClass').removeAttr('checked');
-                jq('.loaningItemCBClass').removeAttr('checked');" p:actionLabel="Close" />
+                jq('.loaningItemCBClass').removeAttr('checked');" p:actionLabel="Cancel" />
 
-                <bean id="missingPiece-removeMissingPieceButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="missingPiece-removeMissingPieceButton" parent="Uif-SecondaryActionButton" p:actionScript="
                       submitForm('removeMissingPieceItem', null, null, true,
                       function () {
                           jq.fancybox.close();

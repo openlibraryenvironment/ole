@@ -110,7 +110,7 @@
 
 
 <#macro existing_pagesize manager>
-<div class="dataTables_length">
+<div class="dataTables_length" style="height: -11px;position: relative">
     <label>Show
         <select id="existingLoanItemTable_length">
             <#list manager.pageSizeOptions as pso>
