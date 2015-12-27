@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="uif-Ole-LookupPage" parent="uif-Ole-LookupPage-parentBean"/>
+    <bean id="uif-Ole-LookupPage-parentBean" abstract="true" parent="Uif-LookupPage">
+        <property name="header">
+            <ref bean="uif-Ole-LookupPageHeader"/>
+        </property>
+    </bean>
+
+    <bean id="uif-Ole-LookupPageHeader" parent="Uif-LookupPageHeader">
+        <property name="lowerGroup">
+            <bean parent="uif-Ole-LookupPageHeaderGroup"/>
+        </property>
+    </bean>
+
+    <bean id="uif-Ole-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
+        <property name="items">
+            <list>
+                <ref bean="uif-Ole-LookupPageCriteriaHeader"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="uif-Ole-LookupPageCriteriaHeader" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <ref bean="uif-Ole-CreateNewLink"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
+                      p:render="@{#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
+                      p:render="@{#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="uif-Ole-CreateNewLink" parent="Uif-SecondaryActionButton" p:actionLabel="Create New"
+          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-Ole-InquiryFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="export" p:actionLabel="export"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}" p:disableBlocking="true"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+                <bean parent="Uif-BackAction" p:actionLabel="Close" p:render="@{!#form.renderedInLightBox}"/>
+            </list>
+        </property>
+    </bean>
+
+
+    </beans>

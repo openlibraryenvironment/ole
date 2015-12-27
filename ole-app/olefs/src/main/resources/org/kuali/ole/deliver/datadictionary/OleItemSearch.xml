@@ -219,6 +219,10 @@
                 <bean id="result_itemStatus" parent="Uif-DataField" p:propertyName="itemStatus" />
             </list>
         </property>
+        <property name="page">
+            <bean parent="uif-Ole-LookupPage"/>
+        </property>
     </bean>
+
 
 </beans>

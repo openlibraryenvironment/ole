@@ -23,9 +23,10 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="circShowExistingLoans"
-          parent="Uif-SecondaryActionButton-Small"
+          parent="Uif-SecondaryActionButton"
           p:methodToCall="showExistingLoan"
-          p:actionLabel="Show All Items Currently Checked Out"
-          p:render="@{proceedWithCheckout and !showExistingLoan}" p:style="float:left;margin-left:5em"/>
+          p:successCallback="jq('#existingLoanItemTable').tableExport();"
+          p:actionLabel="Checked Out Items"
+          p:render="@{proceedWithCheckout and !showExistingLoan}" />
 
 </beans>

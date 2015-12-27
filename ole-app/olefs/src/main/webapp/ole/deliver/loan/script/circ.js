@@ -142,7 +142,6 @@ jq(document).ready(function () {
             submitForm('clearSession', null, null, null, null)
         }
     }, 60000);
-
 });
 
 function setTimeoutInterval(interval){
