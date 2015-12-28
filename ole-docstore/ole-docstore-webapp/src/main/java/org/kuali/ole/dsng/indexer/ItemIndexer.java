@@ -264,13 +264,15 @@ public class ItemIndexer extends OleDsNgIndexer  {
             solrInputDocument.addField(ITEM_URI_DISPLAY, itemRecord.getUri());
 
             List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
-            for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
-                ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
-                if (null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
-                    solrInputDocument.addField(STATISTICAL_SEARCHING_CODE_VALUE_SEARCH, itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode());
-                    solrInputDocument.addField(STATISTICAL_SEARCHING_CODE_VALUE_DISPLAY, itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode());
-                    solrInputDocument.addField(STATISTICAL_SEARCHING_FULL_VALUE_SEARCH, itemStatisticalSearchRecord.getStatisticalSearchRecord().getName());
-                    solrInputDocument.addField(STATISTICAL_SEARCHING_FULL_VALUE_DISPLAY, itemStatisticalSearchRecord.getStatisticalSearchRecord().getName());
+            if (CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
+                for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
+                    ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
+                    if (null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
+                        solrInputDocument.addField(STATISTICAL_SEARCHING_CODE_VALUE_SEARCH, itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode());
+                        solrInputDocument.addField(STATISTICAL_SEARCHING_CODE_VALUE_DISPLAY, itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode());
+                        solrInputDocument.addField(STATISTICAL_SEARCHING_FULL_VALUE_SEARCH, itemStatisticalSearchRecord.getStatisticalSearchRecord().getName());
+                        solrInputDocument.addField(STATISTICAL_SEARCHING_FULL_VALUE_DISPLAY, itemStatisticalSearchRecord.getStatisticalSearchRecord().getName());
+                    }
                 }
             }
 
@@ -298,12 +300,14 @@ public class ItemIndexer extends OleDsNgIndexer  {
             solrInputDocument.setField(DATE_ENTERED, itemRecord.getCreatedDate());
 
             List<OLEItemDonorRecord> itemDonorRecords = itemRecord.getDonorList();
-            for (Iterator<OLEItemDonorRecord> iterator = itemDonorRecords.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord itemDonorRecord = iterator.next();
-                solrInputDocument.addField(DONOR_CODE_SEARCH, itemDonorRecord.getDonorCode());
-                solrInputDocument.addField(DONOR_CODE_DISPLAY, itemDonorRecord.getDonorCode());
-                solrInputDocument.addField(DONOR_PUBLIC_DISPLAY, itemDonorRecord.getDonorPublicDisplay());
-                solrInputDocument.addField(DONOR_NOTE_DISPLAY, itemDonorRecord.getDonorNote());
+            if (CollectionUtils.isNotEmpty(itemDonorRecords)) {
+                for (Iterator<OLEItemDonorRecord> iterator = itemDonorRecords.iterator(); iterator.hasNext(); ) {
+                    OLEItemDonorRecord itemDonorRecord = iterator.next();
+                    solrInputDocument.addField(DONOR_CODE_SEARCH, itemDonorRecord.getDonorCode());
+                    solrInputDocument.addField(DONOR_CODE_DISPLAY, itemDonorRecord.getDonorCode());
+                    solrInputDocument.addField(DONOR_PUBLIC_DISPLAY, itemDonorRecord.getDonorPublicDisplay());
+                    solrInputDocument.addField(DONOR_NOTE_DISPLAY, itemDonorRecord.getDonorNote());
+                }
             }
             if (itemRecord.getHighDensityStorageRecord() != null) {
                 solrInputDocument.addField(HIGHDENSITYSTORAGE_ROW_DISPLAY, itemRecord.getHighDensityStorageRecord().getRow());
@@ -312,10 +316,12 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 solrInputDocument.addField(HIGHDENSITYSTORAGE_TRAY_DISPLAY, itemRecord.getHighDensityStorageRecord().getTray());
             }
             List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
-            for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
-                ItemNoteRecord oleDsItemNitemNoteRecordteT = iterator.next();
-                solrInputDocument.addField(ITEMNOTE_VALUE_DISPLAY, oleDsItemNitemNoteRecordteT.getNote());
-                solrInputDocument.addField(ITEMNOTE_TYPE_DISPLAY, oleDsItemNitemNoteRecordteT.getType());
+            if (CollectionUtils.isNotEmpty(itemNoteRecords)) {
+                for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
+                    ItemNoteRecord oleDsItemNitemNoteRecordteT = iterator.next();
+                    solrInputDocument.addField(ITEMNOTE_VALUE_DISPLAY, oleDsItemNitemNoteRecordteT.getNote());
+                    solrInputDocument.addField(ITEMNOTE_TYPE_DISPLAY, oleDsItemNitemNoteRecordteT.getType());
+                }
             }
             solrInputDocument.addField(NUMBER_OF_RENEW, itemRecord.getNumberOfRenew());
             solrInputDocument.addField(UNIQUE_ID, itemIdentifierWithPrefix);
@@ -451,27 +457,31 @@ public class ItemIndexer extends OleDsNgIndexer  {
 
 
         List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-            OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-            if(null != oleItemDonorRecord) {
-                String donorCode = oleItemDonorRecord.getDonorCode();
-                String donorNote = oleItemDonorRecord.getDonorNote();
-                String donorPublicDisplay = oleItemDonorRecord.getDonorPublicDisplay();
-                getOleDsHelperUtil().appendData(sb, donorCode);
-                getOleDsHelperUtil().appendData(sb, donorNote);
-                getOleDsHelperUtil().appendData(sb, donorPublicDisplay);
+        if (CollectionUtils.isNotEmpty(donorList)) {
+            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
+                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
+                if(null != oleItemDonorRecord) {
+                    String donorCode = oleItemDonorRecord.getDonorCode();
+                    String donorNote = oleItemDonorRecord.getDonorNote();
+                    String donorPublicDisplay = oleItemDonorRecord.getDonorPublicDisplay();
+                    getOleDsHelperUtil().appendData(sb, donorCode);
+                    getOleDsHelperUtil().appendData(sb, donorNote);
+                    getOleDsHelperUtil().appendData(sb, donorPublicDisplay);
+                }
             }
         }
 
 
         List<FormerIdentifierRecord> formerIdentifierRecords = itemRecord.getFormerIdentifierRecords();
-        for (Iterator<FormerIdentifierRecord> iterator = formerIdentifierRecords.iterator(); iterator.hasNext(); ) {
-            FormerIdentifierRecord formerIdentifierRecord = iterator.next();
-            if(null != formerIdentifierRecord) {
-                String identifierType = formerIdentifierRecord.getType();
-                String identifierValue = formerIdentifierRecord.getValue();
-                getOleDsHelperUtil().appendData(sb, identifierType);
-                getOleDsHelperUtil().appendData(sb, identifierValue);
+        if (CollectionUtils.isNotEmpty(formerIdentifierRecords)) {
+            for (Iterator<FormerIdentifierRecord> iterator = formerIdentifierRecords.iterator(); iterator.hasNext(); ) {
+                FormerIdentifierRecord formerIdentifierRecord = iterator.next();
+                if(null != formerIdentifierRecord) {
+                    String identifierType = formerIdentifierRecord.getType();
+                    String identifierValue = formerIdentifierRecord.getValue();
+                    getOleDsHelperUtil().appendData(sb, identifierType);
+                    getOleDsHelperUtil().appendData(sb, identifierValue);
+                }
             }
         }
 
@@ -504,35 +514,41 @@ public class ItemIndexer extends OleDsNgIndexer  {
         }
 
         List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
-        for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
-            ItemNoteRecord itemNoteRecord = iterator.next();
-            String itemNoteValue = itemNoteRecord.getNote();
-            String itemNoteType = itemNoteRecord.getType();
-            getOleDsHelperUtil().appendData(sb, itemNoteValue);
-            getOleDsHelperUtil().appendData(sb, itemNoteType);
+        if (CollectionUtils.isNotEmpty(itemNoteRecords)) {
+            for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
+                ItemNoteRecord itemNoteRecord = iterator.next();
+                String itemNoteValue = itemNoteRecord.getNote();
+                String itemNoteType = itemNoteRecord.getType();
+                getOleDsHelperUtil().appendData(sb, itemNoteValue);
+                getOleDsHelperUtil().appendData(sb, itemNoteType);
+            }
         }
 
         List<LocationsCheckinCountRecord> locationsCheckinCountRecords = itemRecord.getLocationsCheckinCountRecords();
-        for (Iterator<LocationsCheckinCountRecord> iterator = locationsCheckinCountRecords.iterator(); iterator.hasNext(); ) {
-            LocationsCheckinCountRecord locationsCheckinCountRecord = iterator.next();
-            if (null != locationsCheckinCountRecord) {
-                String checkInLocationCount = locationsCheckinCountRecord.getLocationCount().toString();
-                getOleDsHelperUtil().appendData(sb, checkInLocationCount);
-                String checkInLocationInHouseCount = locationsCheckinCountRecord.getLocationInhouseCount().toString();
-                getOleDsHelperUtil().appendData(sb, checkInLocationInHouseCount);
-                String checkInLocationName = locationsCheckinCountRecord.getLocationName();
-                getOleDsHelperUtil().appendData(sb, checkInLocationName);
+        if (CollectionUtils.isNotEmpty(locationsCheckinCountRecords)) {
+            for (Iterator<LocationsCheckinCountRecord> iterator = locationsCheckinCountRecords.iterator(); iterator.hasNext(); ) {
+                LocationsCheckinCountRecord locationsCheckinCountRecord = iterator.next();
+                if (null != locationsCheckinCountRecord) {
+                    String checkInLocationCount = locationsCheckinCountRecord.getLocationCount().toString();
+                    getOleDsHelperUtil().appendData(sb, checkInLocationCount);
+                    String checkInLocationInHouseCount = locationsCheckinCountRecord.getLocationInhouseCount().toString();
+                    getOleDsHelperUtil().appendData(sb, checkInLocationInHouseCount);
+                    String checkInLocationName = locationsCheckinCountRecord.getLocationName();
+                    getOleDsHelperUtil().appendData(sb, checkInLocationName);
+                }
             }
         }
 
         List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
-        for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
-            ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
-            if(null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
-                String codeValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode();
-                getOleDsHelperUtil().appendData(sb, codeValue);
-                String fullValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getName();
-                getOleDsHelperUtil().appendData(sb, fullValue);
+        if (CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
+            for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
+                ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
+                if(null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
+                    String codeValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode();
+                    getOleDsHelperUtil().appendData(sb, codeValue);
+                    String fullValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getName();
+                    getOleDsHelperUtil().appendData(sb, fullValue);
+                }
             }
         }
 

@@ -29,6 +29,9 @@ public class CreateHoldingsHandler extends Handler {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
             holdingMetaDataHandlers.add(new LocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
+            holdingMetaDataHandlers.add(new CallNumberTypeHandler());
+            holdingMetaDataHandlers.add(new CallNumberPrefixHandler());
+            holdingMetaDataHandlers.add(new CopyNumberHandler());
         }
         return holdingMetaDataHandlers;
     }
@@ -67,6 +70,7 @@ public class CreateHoldingsHandler extends Handler {
                 for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
                     HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
                     if (holdingsMetaDataHandlelr1.isInterested(key1)) {
+                        holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
                         holdingsMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
                     }
                 }

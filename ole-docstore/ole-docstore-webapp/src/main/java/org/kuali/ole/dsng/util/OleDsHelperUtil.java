@@ -180,7 +180,7 @@ public class OleDsHelperUtil implements DocstoreConstants {
 
     public CallNumberTypeRecord fetchCallNumberTypeRecordById(String callNumberTypeId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("callNumberTypeId", callNumberTypeId);
+        map.put("name", callNumberTypeId);
         List<CallNumberTypeRecord> matching = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);

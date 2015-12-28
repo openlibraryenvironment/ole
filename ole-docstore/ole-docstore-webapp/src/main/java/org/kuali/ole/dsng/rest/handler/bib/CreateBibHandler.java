@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
@@ -36,6 +37,7 @@ public class CreateBibHandler extends Handler {
             BibRecord bibRecord = new BibRecord();
             bibRecord.setContent(newBibContent);
             bibRecord.setStatusUpdatedBy(updatedBy);
+            bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 

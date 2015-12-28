@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
+import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.OleDsNgOverlayUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -25,6 +26,8 @@ public abstract class  Handler extends OleDsNgOverlayUtil {
     BibDAO bibDAO;
 
     HoldingDAO holdingDAO;
+
+    ItemDAO itemDAO;
 
     BusinessObjectService businessObjectService;
 
@@ -74,6 +77,14 @@ public abstract class  Handler extends OleDsNgOverlayUtil {
 
     public void setHoldingDAO(HoldingDAO holdingDAO) {
         this.holdingDAO = holdingDAO;
+    }
+
+    public ItemDAO getItemDAO() {
+        return itemDAO;
+    }
+
+    public void setItemDAO(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
     }
 
     public BusinessObjectService getBusinessObjectService() {

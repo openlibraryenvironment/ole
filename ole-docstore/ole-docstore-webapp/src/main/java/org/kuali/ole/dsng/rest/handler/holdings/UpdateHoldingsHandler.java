@@ -29,6 +29,9 @@ public class UpdateHoldingsHandler extends Handler {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
             holdingMetaDataHandlers.add(new LocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
+            holdingMetaDataHandlers.add(new CallNumberTypeHandler());
+            holdingMetaDataHandlers.add(new CallNumberPrefixHandler());
+            holdingMetaDataHandlers.add(new CopyNumberHandler());
         }
         return holdingMetaDataHandlers;
     }
@@ -57,6 +60,7 @@ public class UpdateHoldingsHandler extends Handler {
             List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
 
             for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
 
                 JSONObject holdingJsonObject = requestJsonObject.getJSONObject("holdings");
                 if (holdingJsonObject.has("matchPoints")) {
@@ -64,7 +68,6 @@ public class UpdateHoldingsHandler extends Handler {
                     HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
                     });
 
-                    HoldingsRecord holdingsRecord = iterator.next();
                     exchange.add("holdingsRecord", holdingsRecord);
 
                     matchPointsLoop:
@@ -84,6 +87,7 @@ public class UpdateHoldingsHandler extends Handler {
                                         for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
                                             HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
                                             if (holdingsMetaDataHandlelr1.isInterested(key1)) {
+                                                holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
                                                 holdingsMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
                                             }
                                         }
@@ -102,13 +106,13 @@ public class UpdateHoldingsHandler extends Handler {
             getHoldingDAO().saveAll(holdingsRecordsToUpdate);
 
 
-            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToCreate");
+            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
             if(null == holdingRecordsToUpdate) {
                 holdingRecordsToUpdate = new ArrayList();
             }
             holdingRecordsToUpdate.addAll(holdingsRecordsToUpdate);
 
-            exchange.add("holdingRecordsUpdated",holdingRecordsToUpdate);
+            exchange.add("holdingRecordsToUpdate",holdingRecordsToUpdate);
 
         } catch (JSONException e) {
             e.printStackTrace();
