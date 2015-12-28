@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -88,6 +89,8 @@ public class CreateHoldingsHandler extends Handler {
 
             getHoldingDAO().save(holdingsRecord);
 
+            createItem(requestJsonObject, exchange,holdingsRecord);
+
             List createdHoldingsDocuments = (List) exchange.get("holdingRecordsToCreate");
             if(null == createdHoldingsDocuments) {
                 createdHoldingsDocuments = new ArrayList();
@@ -105,5 +108,14 @@ public class CreateHoldingsHandler extends Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createItem(JSONObject requestJsonObject, Exchange exchange, HoldingsRecord holdingsRecord) {
+        exchange.add("holdings",holdingsRecord);
+        CreateItemHandler createItemHandler = new CreateItemHandler();
+        createItemHandler.setItemDAO(getItemDAO());
+        createItemHandler.setBusinessObjectService(getBusinessObjectService());
+        createItemHandler.process(requestJsonObject,exchange);
+        exchange.remove("holdings");
     }
 }

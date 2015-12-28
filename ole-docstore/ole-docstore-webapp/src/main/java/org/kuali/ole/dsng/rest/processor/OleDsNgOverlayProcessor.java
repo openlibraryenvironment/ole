@@ -188,6 +188,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             Handler handler = iterator.next();
             if (handler.isInterested(overlayOps)) {
                 handler.setBibDAO(bibDAO);
+                handler.setHoldingDAO(holdingDAO);
+                handler.setItemDAO(itemDAO);
                 handler.setBusinessObjectService(getBusinessObjectService());
                 handler.process(requestJsonObject, exchange);
             }

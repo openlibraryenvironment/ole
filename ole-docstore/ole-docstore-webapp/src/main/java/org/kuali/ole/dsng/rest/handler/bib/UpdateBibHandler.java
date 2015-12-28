@@ -34,17 +34,19 @@ public class UpdateBibHandler extends Handler {
             String updatedBy = requestJsonObject.getString("updatedBy");
             String updatedDateString = (String) requestJsonObject.get("updatedDate");
 
-            String bibId = requestJsonObject.getString("id");
-            BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
-            bibRecord.setContent(newBibContent);
-            bibRecord.setStatusUpdatedBy(updatedBy);
-            bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
+            if (requestJsonObject.has("id")) {
+                String bibId = requestJsonObject.getString("id");
+                BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
+                bibRecord.setContent(newBibContent);
+                bibRecord.setStatusUpdatedBy(updatedBy);
+                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-            bibRecord.setStatusUpdatedDate(updatedDate);
-            BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
-            exchange.add("bib", updatedBibRecord);
+                bibRecord.setStatusUpdatedDate(updatedDate);
+                BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
+                exchange.add("bib", updatedBibRecord);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
