@@ -203,14 +203,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (oleeResourceRecordDocument.getOleERSIdentifier() == null) {
             String noticePeriod = getOleEResourceSearchService().getParameter("NOTICE_PERIOD", OLEConstants.ERESOURCE_CMPNT);
             String alertEnabled = getOleEResourceSearchService().getParameter("ALERT_ENABLED", OLEConstants.ERESOURCE_CMPNT);
-            String user = getOleEResourceSearchService().getParameter("USER", OLEConstants.ERESOURCE_CMPNT);
             oleeResourceRecordDocument.setRenewalNoticePeriod(noticePeriod);
             if (alertEnabled.equalsIgnoreCase("Y")) {
                 oleeResourceRecordDocument.setRenewalAlertEnabled(true);
             } else {
                 oleeResourceRecordDocument.setRenewalAlertEnabled(false);
             }
-            oleeResourceRecordDocument.setRecipientId(user);
+        } else {
+            getOleeResourceHelperService().setRenewalRecipient(oleeResourceRecordDocument);
         }
         return modelAndView;
     }
@@ -495,9 +495,18 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
         if (oleeResourceRecordDocument.getCurrentSubscriptionEndDate() != null) {
             if (oleeResourceRecordDocument.isRenewalAlertEnabled()) {
-                if (oleeResourceRecordDocument.getRecipientId() == null) {
-                    GlobalVariables.getMessageMap().putError(OLEConstants.OLEEResourceRecord.RECIPIENT_ID, OLEConstants.OLEEResourceRecord.ERROR_RECIPIENT_ID);
-                    return getUIFModelAndView(oleERSform);
+                if((OLEConstants.SELECTOR_ROLE).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validateRole(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
+                } else if((OLEConstants.SELECTOR_GROUP).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validateGroup(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
+                } else if((OLEConstants.SELECTOR_PERSON).equalsIgnoreCase(oleeResourceRecordDocument.getRecipientSelector())) {
+                    if(!getOleeResourceHelperService().validatePerson(oleeResourceRecordDocument)) {
+                        getUIFModelAndView(oleERSform);
+                    }
                 }
             }
         }
@@ -1950,65 +1959,71 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         OLEEResourceRecordDocument document = (OLEEResourceRecordDocument) form.getDocument();
         List<OLEEResourceInstance> oleInstancesDeleteList = new ArrayList<>();
-        List<OLEEResourceInstance> oleInstancesAddList = new ArrayList<>();
+        List<OLEEResourceInstance> purchaseOrderInstances = new ArrayList<>();
         List<OLEEResourceInstance> oleERSInstances = document.getOleERSInstances();
-        if (oleERSInstances != null) {
+        if (CollectionUtils.isNotEmpty(oleERSInstances)) {
+
             for (OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
-                int purchaseOrderCount = 0;
                 if (oleeResourceInstance.isSelect()) {
-                    String instanceId = oleeResourceInstance.getInstanceId();
+                    boolean linkedToPO = false;
                     Map instanceMap = new HashMap();
-                    instanceMap.put("instanceId", instanceId);
+                    instanceMap.put("instanceId", oleeResourceInstance.getInstanceId());
                     List<OleCopy> oleCopyList = (List<OleCopy>) getBusinessObjectService().findMatching(OleCopy.class, instanceMap);
-                    for (OleCopy oleCopy : oleCopyList) {
-                        if (oleCopy.getPoItemId() != null) {
-                            purchaseOrderCount++;
+                    if (CollectionUtils.isNotEmpty(oleCopyList)) {
+                        for (OleCopy oleCopy : oleCopyList) {
+                            if (oleCopy.getPoItemId() != null || oleCopy.getReqItemId() != null) {
+                                linkedToPO = true;
+                            }
                         }
                     }
-
-                    if (purchaseOrderCount == 0) {
-                        oleInstancesDeleteList.add(oleeResourceInstance);
+                    if (linkedToPO) {
+                        purchaseOrderInstances.add(oleeResourceInstance);
                     } else {
-                        oleInstancesAddList.add(oleeResourceInstance);
+                        oleInstancesDeleteList.add(oleeResourceInstance);
+
+                        getBusinessObjectService().delete(oleCopyList);
+                        getBusinessObjectService().delete(oleeResourceInstance);
                     }
                 }
             }
         }
         document.setDeletedInstances(oleInstancesDeleteList);
-        document.setPurchaseOrderInstances(oleInstancesAddList);
-        //form.setDeletedInstance(oleInstancesDeleteList.size());
-        BibTrees bibTrees = new BibTrees();
-        //StringBuffer deletdInfo  = new StringBuffer();
-        for (OLEEResourceInstance oleeResourceInstance : oleInstancesDeleteList) {
-            //deletdInfo.append(oleeResourceInstance.getInstanceTitle());
-            //deletdInfo.append(",");
-            BibTree bibTree = new BibTree();
-            Bib bib = new Bib();
-            bib.setId(oleeResourceInstance.getBibId());
-            bibTree.setBib(bib);
-            bibTrees.getBibTrees().add(bibTree);
-            HoldingsTree holdingsTree = new HoldingsTree();
-            Holdings holdings = new Holdings();
-            holdings.setOperation(DocstoreDocument.OperationType.DELETE);
-            holdings.setId(oleeResourceInstance.getInstanceId());
-            holdingsTree.setHoldings(holdings);
-            bibTree.getHoldingsTrees().add(holdingsTree);
-            getBusinessObjectService().delete(oleeResourceInstance);
-            Map<String, String> criteriaMap = new HashMap<>();
-            criteriaMap.put(OLEConstants.INSTANCE_ID, oleeResourceInstance.getInstanceId());
-            getBusinessObjectService().deleteMatching(OleCopy.class, criteriaMap);
-        }
-        try {
-            getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
-        } catch (Exception e) {
-
-        }
-       /* if (deletdInfo.length() > 0) {
-            String info = deletdInfo.toString().substring(0, deletdInfo.lastIndexOf(","));
-            form.setDeletedInstanceInfo(info);
-        }*/
-
+        document.setPurchaseOrderInstances(purchaseOrderInstances);
+        getOleEResourceSearchService().populateInstanceAndEInstance(document);
+        getOleEResourceSearchService().getBannerMessage(document);
         return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=deleteInstanceFromDocstore")
+    public ModelAndView deleteInstanceFromDocstore(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) uifForm;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleeResourceRecordForm.getDocument();
+        List<OLEEResourceInstance> deletedInstances = oleeResourceRecordDocument.getDeletedInstances();
+        if (CollectionUtils.isNotEmpty(deletedInstances)){
+            BibTrees bibTrees = new BibTrees();
+            for (OLEEResourceInstance oleeResourceInstance : deletedInstances){
+                BibTree bibTree = new BibTree();
+                Bib bib = new Bib();
+                bib.setId(oleeResourceInstance.getBibId());
+                bibTree.setBib(bib);
+                bibTrees.getBibTrees().add(bibTree);
+                HoldingsTree holdingsTree = new HoldingsTree();
+                Holdings holdings = new Holdings();
+                holdings.setOperation(DocstoreDocument.OperationType.DELETE);
+                holdings.setId(oleeResourceInstance.getInstanceId());
+                holdingsTree.setHoldings(holdings);
+                bibTree.getHoldingsTrees().add(holdingsTree);
+            }
+            if (CollectionUtils.isNotEmpty(bibTrees.getBibTrees())) {
+                try {
+                    getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        return getUIFModelAndView(oleeResourceRecordForm);
     }
 
     @RequestMapping(params = "methodToCall=addSearchCriteria")

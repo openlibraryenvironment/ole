@@ -388,7 +388,7 @@
     </bean>
 
 
-    <bean id="Subscription_Renewal" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+    <bean id="Subscription_Renewal" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="12">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:label="Renewal Alert Enabled?" p:propertyName="renewalAlertEnabled">
@@ -402,13 +402,44 @@
                     </property>
 
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="recipientId" p:label="Recipient">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleCirculationDeskMapping"
-                              p:fieldConversions="principalId:recipientId" p:lookupParameters="recipientId:principalId"/>
+
+                <bean id="renewal_recipientSelector" parent="Uif-InputField" p:propertyName="recipientSelector" p:label="Recipient Selector" p:onChangeScript="setRecipientSelectorValue();">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.AlertSelectorKeyValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
 
+                <bean id="renewal_recipientRoleName" parent="Uif-InputField" p:propertyName="recipientRoleName" p:label="Recipient Role Name">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
+                              p:fieldConversions="name:recipientRoleName,id:recipientRoleId"
+                              p:lookupParameters="recipientRoleName:name"/>
+                    </property>
+                </bean>
+
+                <bean id="renewal_recipientGroupName" p:propertyName="recipientGroupName" parent="Uif-InputField" p:label="Recipient Group Name">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo"
+                              p:fieldConversions="id:recipientGroupId,name:recipientGroupName"
+                              p:lookupParameters="recipientGroupName:name" />
+
+                    </property>
+                </bean>
+
+                <bean id="renewal_recipientUserName" p:propertyName="recipientName" parent="Uif-InputField" p:label="Recipient User Name" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="principalName:recipientName,principalId:recipientId"
+                              p:lookupParameters="recipientName:principalName" />
+                    </property>
+                </bean>
+
+                <bean id="renewal_recipientRoleId" parent="Uif-InputField" p:propertyName="recipientRoleId" p:hidden="true"/>
+                <bean id="renewal_recipientGroupId" parent="Uif-InputField" p:propertyName="recipientGroupId" p:hidden="true"/>
+                <bean id="renewal_recipientUserId" parent="Uif-InputField" p:propertyName="recipientId" p:hidden="true"/>
             </list>
         </property>
     </bean>

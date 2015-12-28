@@ -775,6 +775,9 @@
                 <bean id="patronLoanInquiry_pendingRequestLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:linkText="@{#ViewHelper.getCountOfPendingRequests(#line.itemId)}"  p:target="_blank"  p:label="Pending Requests" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
+                <bean id="patronLoanInquiry_viewSendNotices" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#line.sentNoticesUrl}"  p:linkText="View Sent Notices in a New Window"  p:target="_blank" p:label="Send Notices">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

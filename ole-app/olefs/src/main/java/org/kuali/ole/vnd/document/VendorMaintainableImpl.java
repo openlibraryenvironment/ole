@@ -18,10 +18,7 @@
 package org.kuali.ole.vnd.document;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
@@ -324,6 +321,17 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         if (vendorDetail.isVendorParentIndicator()) {
             SpringContext.getBean(VendorService.class).saveVendorHeader(vendorDetail);
         }
+
+        List<VendorContact> vendorContacts = vendorDetail.getVendorContacts();
+
+        Map<Integer, List<VendorContactPhoneNumber>> vendorContactPhoneNumberMap = vendorDetail.getVendorContactPhoneNumberMap();
+        for (Iterator<Integer> vendorContactIterator = vendorContactPhoneNumberMap.keySet().iterator(); vendorContactIterator.hasNext(); ) {
+            Integer key = vendorContactIterator.next();
+            VendorContact vendorContact = vendorContacts.get(key);
+            vendorContact.setVendorContactPhoneNumbers(vendorContactPhoneNumberMap.get(key));
+        }
+
+
         super.saveBusinessObject();
     }
 

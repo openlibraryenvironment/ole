@@ -5,16 +5,11 @@ import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.vnd.VendorKeyConstants;
 import org.kuali.ole.vnd.VendorPropertyConstants;
-import org.kuali.ole.vnd.businessobject.VendorAlias;
-import org.kuali.ole.vnd.businessobject.VendorDetail;
-import org.kuali.ole.vnd.businessobject.VendorTransmissionFormatDetail;
+import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +24,12 @@ public class OleVendorRule extends VendorRule {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = processValidation(document);
         VendorDetail vendorDetail =  (VendorDetail)document.getNewMaintainableObject().getDataObject();
+
+        List<VendorContact> vendorContacts = vendorDetail.getVendorContacts();
+        for (Iterator<VendorContact> iterator = vendorContacts.iterator(); iterator.hasNext(); ) {
+            VendorContact vendorContact = iterator.next();
+            vendorDetail.getVendorContactPhoneNumberMap().put(vendorContacts.indexOf(vendorContact),vendorContact.getVendorContactPhoneNumbers());
+        }
         List<VendorTransmissionFormatDetail> vendorTransmissionFormatDetailList = vendorDetail.getVendorTransmissionFormat();
         List formatId = new ArrayList();
         if(!vendorDetail.isNonBillable()){
@@ -60,13 +61,14 @@ public class OleVendorRule extends VendorRule {
         if (!vendorDetail.isActiveIndicator()) {
             vendor.put("vendorHeaderGeneratedIdentifier", vendorDetail.getVendorHeaderGeneratedIdentifier());
             vendor.put("vendorDetailAssignedIdentifier", vendorDetail.getVendorDetailAssignedIdentifier());
-            List<OleRequisitionDocument> oleRequisitionDocuments = (List<OleRequisitionDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleRequisitionDocument.class, vendor);
             List<OlePurchaseOrderDocument> purchaseOrderDocuments = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, vendor);
-            if (oleRequisitionDocuments.size() > 0) {
-                putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_REQUISITION_LINKED);
-            }
             if (purchaseOrderDocuments.size() > 0) {
-                putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_PURCHSEORDER_LINKED);
+                for(OlePurchaseOrderDocument olePurchaseOrderDocument : purchaseOrderDocuments) {
+                    if(olePurchaseOrderDocument.getApplicationDocumentStatus().equals(VendorPropertyConstants.OPEN_PO)) {
+                        putFieldError(VendorPropertyConstants.VENDOR_ACTIVE_INDICATOR, VendorKeyConstants.OLE_VENDOR_PURCHSEORDER_LINKED);
+                    }
+                }
+
             }
         }
         vendor = new HashMap();

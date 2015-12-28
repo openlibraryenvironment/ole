@@ -49,12 +49,6 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
     public int performBatchDelete(List docBibIds, String profileField) throws Exception {
         int count = docBibIds.size();
         List<Response> responseList = null;
-        /*if (docBibIds != null && docBibIds.size() > 0) {
-            responseList = getDocstoreHelperService().batchDeleteRecords(docBibIds);
-        }
-        if (responseList != null && responseList.size() > 0) {
-            count = responseList.get(0).getDocuments().size();
-        }*/
         try {
             // Remove duplicates from docBibIds
             List<String> docBibIdList = new ArrayList<>();
@@ -65,11 +59,26 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
                         docBibIdList.add(bibIdDelete);
                     }
                 }
-            getDocstoreClientLocator().getDocstoreClient().deleteBibs(docBibIdList);
+            deleteBatch(docBibIdList);
         } catch (Exception e) {
             count = 0;
         }
         return count;
+    }
+
+    private void deleteBatch(List<String> docBibIdList) throws Exception {
+        List<String> tempBibIdList = new ArrayList<>();
+        if(docBibIdList.size() > 300){
+            tempBibIdList.addAll(docBibIdList.subList(0,300));
+            getDocstoreClientLocator().getDocstoreClient().deleteBibs(tempBibIdList);
+          }else{
+            getDocstoreClientLocator().getDocstoreClient().deleteBibs(docBibIdList);
+            docBibIdList.clear();
+        }
+        docBibIdList.removeAll(tempBibIdList);
+        if(docBibIdList.size() > 0){
+            deleteBatch(docBibIdList);
+        }
     }
 
     /**

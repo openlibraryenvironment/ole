@@ -166,6 +166,7 @@ jq(document).ready(function () {
 
     })
     window.onbeforeunload = unloadPage;
+    setRecipientSelectorValue();
 });
 
 function defaultCoverage() {
@@ -322,20 +323,9 @@ function deleteRelatedInstances(){
     showLightboxComponent("OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp");
 }
 
-function deleteInstance() {
-    jq(".fancybox-close").click();
-    displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp')
-    /*if(jq("#OLEEResourceRecordView-Instance_control").val() > 0 ){
-        showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesPopUp');
-    }else{*/
-        //showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp');
-    //}
-}
-
 function closeDeleteInstance(){
     jq("div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp").fadeOut(300);
     jq('#mask').fadeOut(300);
-    location.reload();
 }
 
 function eResourceSearch(){
@@ -558,3 +548,30 @@ function oleHoldingsPager(linkElement, collectionId) {
     }, true);
 }
 
+function setRecipientSelectorValue() {
+    if(jq("#renewal_recipientSelector_control").val() == 'Role') {
+        jq("#renewal_recipientRoleName").show();
+        jq("#renewal_recipientGroupName_control").val("");
+        jq("#renewal_recipientGroupId_control").val("");
+        jq("#renewal_recipientGroupName").hide();
+        jq("#renewal_recipientUserName_control").val("");
+        jq("#renewal_recipientUserId_control").val("");
+        jq("#renewal_recipientUserName").hide();
+    } else if(jq("#renewal_recipientSelector_control").val() == 'Group') {
+        jq("#renewal_recipientGroupName").show();
+        jq("#renewal_recipientRoleName_control").val("");
+        jq("#renewal_recipientRoleId_control").val("");
+        jq("#renewal_recipientRoleName").hide();
+        jq("#renewal_recipientUserName_control").val("");
+        jq("#renewal_recipientUserId_control").val("");
+        jq("#renewal_recipientUserName").hide();
+    } else if(jq("#renewal_recipientSelector_control").val() == 'Person') {
+        jq("#renewal_recipientUserName").show();
+        jq("#renewal_recipientRoleName_control").val("");
+        jq("#renewal_recipientRoleId_control").val("");
+        jq("#renewal_recipientRoleName").hide();
+        jq("#renewal_recipientGroupName_control").val("");
+        jq("#renewal_recipientGroupId_control").val("");
+        jq("#renewal_recipientGroupName").hide();
+    }
+}
