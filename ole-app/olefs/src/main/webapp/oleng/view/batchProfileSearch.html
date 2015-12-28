@@ -7,9 +7,13 @@
     <script src="../../framework/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../framework/angular/js/angular.js"></script>
     <script src="../../framework/jquery/js/FileSaver.js"></script>
+    <script src="../../framework/plugins/js/spin.min.js"></script>
+    <script src="../../framework/angular/js/angular-loading-spinner.js"></script>
+    <script src="../../framework/angular/js/angular-spinner.min.js"></script>
     <script src="../../oleng/js/oleng.js"></script>
     <script src="../js/batch/profileSearch.js"></script>
     <link rel="stylesheet" href="../../framework/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../oleng/css/oleng.css" type="text/css" />
 </head>
 
 <body ng-controller="batchProfileSearchController">
@@ -18,6 +22,7 @@
 
 
 <div class="container">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
     <div class="jumbotron">
         <h2 align="center">OLE NG Batch Profile Search</h2>
     </div>

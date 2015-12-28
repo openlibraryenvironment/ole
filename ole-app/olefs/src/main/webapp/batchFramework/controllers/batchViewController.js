@@ -1,4 +1,4 @@
-var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
+var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap','ngLoadingSpinner']);
 
 var batchProcessTypeValues = [
     {id: 'bibImport', name: 'Bib Import'},
