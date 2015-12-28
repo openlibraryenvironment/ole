@@ -90,11 +90,11 @@
                         </td>
                         <td>
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
-                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-hide="addOrOverlay.isAddLine">Add
+                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-hide="addOrOverlay.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="addOrOverlayRemoveButton_{{$index}}" name="addOrOverlayRemoveButton_{{$index}}"
                                     ng-click="addOrOverlayRemove(addOrOverlay)"
-                                    ng-show="addOrOverlay.isAddLine && !submitted">Remove
+                                    ng-show="addOrOverlay.isAddLine && !submitted" class="btn btn-danger">Remove
                             </button>
                         </td>
                     </tr>

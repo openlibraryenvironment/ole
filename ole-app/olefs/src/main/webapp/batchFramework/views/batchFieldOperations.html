@@ -70,12 +70,12 @@
                         <td>
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
-                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine">Add
+                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="fieldOperationRemoveButton_{{$index}}"
                                     name="fieldOperationRemoveButton_{{$index}}"
                                     ng-click="fieldOperationRemove(fieldOperation)"
-                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'">
+                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'" class="btn btn-danger">
                                 Remove
                             </button>
                         </td>

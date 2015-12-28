@@ -66,12 +66,12 @@
                         <td>
                             <button id="constantsAndDefaultAddButton_{{$index}}"
                                     name="constantsAndDefaultAddButton_{{$index}}"
-                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine">Add
+                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="constantsAndDefaultRemoveButton_{{$index}}"
                                     name="constantsAndDefaultRemoveButton_{{$index}}"
                                     ng-click="constantsAndDefaultRemove(constantsAndDefault)"
-                                    ng-show="constantsAndDefault.isAddLine && !submitted">
+                                    ng-show="constantsAndDefault.isAddLine && !submitted" class="btn btn-danger">
                                 Remove
                             </button>
                         </td>

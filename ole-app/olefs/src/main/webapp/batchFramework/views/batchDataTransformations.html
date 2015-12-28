@@ -244,12 +244,12 @@
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
                                     ng-click="dataTransformationAdd(dataTransformation)"
-                                    ng-hide="dataTransformation.isAddLine">Add
+                                    ng-hide="dataTransformation.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
                                     ng-click="dataTransformationRemove(dataTransformation)"
-                                    ng-show="dataTransformation.isAddLine && !submitted">Remove
+                                    ng-show="dataTransformation.isAddLine && !submitted" class="btn btn-danger">Remove
                             </button>
                         </td>
                     </tr>

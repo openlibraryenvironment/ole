@@ -125,11 +125,11 @@
                         </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine">Add
+                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
                                     ng-click="dataMappingRemove(dataMapping)"
-                                    ng-show="dataMapping.isAddLine && !submitted">Remove
+                                    ng-show="dataMapping.isAddLine && !submitted" class="btn btn-danger">Remove
                             </button>
                         </td>
                     </tr>

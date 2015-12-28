@@ -186,11 +186,11 @@
                         </td>
                         <td>
                             <button id="matchPointAddButton_{{$indshowRemoveex}}" name="matchPointAddButton_{{$index}}"
-                                    ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine">Add
+                                    ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine" class="btn btn-success">Add
                             </button>
                             <button id="matchPointRemoveButton_{{$index}}" name="matchPointRemoveButton_{{$index}}"
                                     ng-click="matchPointRemove(matchPoint)"
-                                    ng-show="matchPoint.isAddLine && !submitted">Remove
+                                    ng-show="matchPoint.isAddLine && !submitted" class="btn btn-danger">Remove
                             </button>
                         </td>
                     </tr>
