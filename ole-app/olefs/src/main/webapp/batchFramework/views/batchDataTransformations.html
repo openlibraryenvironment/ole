@@ -3,7 +3,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle href="#" ng-click="dataTransformationsPanel.collapsed = !dataTransformationsPanel.collapsed">
+                <a bs-collapse-toggle href="#"
+                   ng-click="dataTransformationsPanel.collapsed = !dataTransformationsPanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !dataTransformationsPanel.collapsed, 'glyphicon-chevron-down': dataTransformationsPanel.collapsed}"></span>
                     Data Transformations
@@ -34,7 +35,8 @@
                             <select name="dataTransformationDocumentType_{{$index}}"
                                     id="dataTransformationDocumentType_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationDocType"
-                                    ng-hide="dataTransformation.isAddLine" ng-change="setDefaultsDataTransformation(dataTransformation)">
+                                    ng-hide="dataTransformation.isAddLine"
+                                    ng-change="setDefaultsDataTransformation(dataTransformation)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationDocType}}"
                                         ng-repeat="option in dataTransformation.dataTransformationDocTypes"
                                         value="{{option.name}}">{{option.name}}
@@ -60,7 +62,8 @@
                             <select name="dataTransformationAction_{{$index}}"
                                     id="dataTransformationAction_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationAction"
-                                    ng-hide="dataTransformation.isAddLine" ng-change="setDefaultsAction(dataTransformation)">
+                                    ng-hide="dataTransformation.isAddLine"
+                                    ng-change="setDefaultsAction(dataTransformation)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationAction}}"
                                         ng-repeat="option in dataTransformation.dataTransformationActions"
                                         value="{{option.name}}">{{option.name}}
@@ -244,12 +247,13 @@
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
                                     ng-click="dataTransformationAdd(dataTransformation)"
-                                    ng-hide="dataTransformation.isAddLine" class="btn btn-success">Add
+                                    ng-hide="dataTransformation.isAddLine" class="btn btn-success btn-sm">Add
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
                                     ng-click="dataTransformationRemove(dataTransformation)"
-                                    ng-show="dataTransformation.isAddLine && !submitted" class="btn btn-danger">Remove
+                                    ng-show="dataTransformation.isAddLine && !submitted" class="btn btn-danger btn-xs">
+                                Remove
                             </button>
                         </td>
                     </tr>

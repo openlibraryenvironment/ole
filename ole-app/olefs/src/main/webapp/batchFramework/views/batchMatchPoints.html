@@ -13,7 +13,9 @@
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
 
-                <pre><label>Force Load: <input id="forceLoad" name="forceLoad" type="checkbox" ng-model="matchPointsActivePanel.forceLoad" ng-disabled="submitted"></label></pre>
+                <pre><label>Force Load: <input id="forceLoad" name="forceLoad" type="checkbox"
+                                               ng-model="matchPointsActivePanel.forceLoad"
+                                               ng-disabled="submitted"></label></pre>
 
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
@@ -185,12 +187,15 @@
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.constant"></span>
                         </td>
                         <td>
-                            <button id="matchPointAddButton_{{$indshowRemoveex}}" name="matchPointAddButton_{{$index}}"
-                                    ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine" class="btn btn-success">Add
+                            <button type="button" id="matchPointAddButton_{{$indshowRemoveex}}"
+                                    name="matchPointAddButton_{{$index}}"
+                                    ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine"
+                                    class="btn btn-success btn-sm">Add
                             </button>
-                            <button id="matchPointRemoveButton_{{$index}}" name="matchPointRemoveButton_{{$index}}"
+                            <button type="button" id="matchPointRemoveButton_{{$index}}"
+                                    name="matchPointRemoveButton_{{$index}}"
                                     ng-click="matchPointRemove(matchPoint)"
-                                    ng-show="matchPoint.isAddLine && !submitted" class="btn btn-danger">Remove
+                                    ng-show="matchPoint.isAddLine && !submitted" class="btn btn-danger btn-xs">Remove
                             </button>
                         </td>
                     </tr>

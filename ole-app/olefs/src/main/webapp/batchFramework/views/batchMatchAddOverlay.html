@@ -19,6 +19,7 @@
                         <th>Document Type</th>
                         <th>Operation</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,11 +91,12 @@
                         </td>
                         <td>
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
-                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-hide="addOrOverlay.isAddLine" class="btn btn-success">Add
+                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-hide="addOrOverlay.isAddLine"
+                                    class="btn btn-success btn-sm">Add
                             </button>
                             <button id="addOrOverlayRemoveButton_{{$index}}" name="addOrOverlayRemoveButton_{{$index}}"
                                     ng-click="addOrOverlayRemove(addOrOverlay)"
-                                    ng-show="addOrOverlay.isAddLine && !submitted" class="btn btn-danger">Remove
+                                    ng-show="addOrOverlay.isAddLine && !submitted" class="btn btn-danger btn-xs">Remove
                             </button>
                         </td>
                     </tr>
