@@ -126,6 +126,8 @@
 
     <bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
 
+    <bean id="callNumberMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.docstore.common.dao.CallNumberMigrationDao"/>
+
     <!-- beans below here are extended by KFS beans, and so the "parent" relationship does not work and they must be redefined -->
 
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
@@ -143,14 +145,11 @@
 
     <bean id="applicationContextProvider" class="org.kuali.ole.dsng.service.ApplicationContextProvider"/>
 
-
     <bean id="oleNGPlatformAwareDao" parent="platformAwareDao" class="org.kuali.ole.dsng.dao.OleNGPlatformAwareDao" />
-
 
     <bean id="platformAwareDao" abstract="true"
           class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
-
 </beans>
