@@ -152,4 +152,6 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
+
+
 </beans>
