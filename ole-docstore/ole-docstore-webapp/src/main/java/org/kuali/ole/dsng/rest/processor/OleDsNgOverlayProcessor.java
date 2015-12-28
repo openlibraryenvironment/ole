@@ -103,11 +103,17 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
                 }
-                processHoldings(requestJsonObject, exchange, overlayOps);
+                if (requestJsonObject.has("id")) {
+                    processHoldings(requestJsonObject, exchange, overlayOps);
+                    processItem(requestJsonObject,exchange, overlayOps);
+                }
                 solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
-
-                processItem(requestJsonObject,exchange, overlayOps);
                 solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
+
+                exchange.remove("holdingRecordsToCreate");
+                exchange.remove("holdingRecordsToUpdate");
+                exchange.remove("itemRecordsToCreate");
+                exchange.remove("itemRecordsToUpdate");
             }
 
 
@@ -177,6 +183,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             Handler holdingHandler = iterator.next();
             if (holdingHandler.isInterested(overlayOps)) {
                 holdingHandler.setHoldingDAO(holdingDAO);
+                holdingHandler.setItemDAO(itemDAO);
                 holdingHandler.setBusinessObjectService(getBusinessObjectService());
                 holdingHandler.process(requestJsonObject, exchange);
             }
@@ -199,14 +206,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private void processItem(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
 
         List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
-        List<HoldingsRecord> holdingsRecordsToCreate = (List<HoldingsRecord>) exchange.get("holdingRecordsToCreate");
 
         List<HoldingsRecord> finalHoldings = new ArrayList<HoldingsRecord>();
         if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)){
             finalHoldings.addAll(holdingsRecordsToUpdate);
-        }
-        if(CollectionUtils.isNotEmpty(holdingsRecordsToCreate)){
-            finalHoldings.addAll(holdingsRecordsToCreate);
         }
         for (Iterator<HoldingsRecord> iterator = finalHoldings.iterator(); iterator.hasNext(); ) {
             HoldingsRecord holdingsRecord = iterator.next();
@@ -217,6 +220,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     handler.setItemDAO(itemDAO);
                     handler.setBusinessObjectService(getBusinessObjectService());
                     handler.process(requestJsonObject, exchange);
+                    exchange.remove("holdings");
                 }
             }
 
