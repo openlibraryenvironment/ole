@@ -5,7 +5,9 @@
     <title>Batch Profile Search</title>
     <script src="../../framework/jquery/js/jquery-1.11.3.js"></script>
     <script src="../../framework/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../framework/plugins/js/datatables.min.js"></script>
     <script src="../../framework/angular/js/angular.js"></script>
+    <script src="../../framework/angular/js/angular-datatables.min.js"></script>
     <script src="../../framework/jquery/js/FileSaver.js"></script>
     <script src="../../framework/plugins/js/spin.min.js"></script>
     <script src="../../framework/angular/js/angular-loading-spinner.js"></script>
@@ -13,6 +15,7 @@
     <script src="../../oleng/js/oleng.js"></script>
     <script src="../js/batch/profileSearch.js"></script>
     <link rel="stylesheet" href="../../framework/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../framework/plugins/css/datatables.min.css" type="text/css" />
     <link rel="stylesheet" href="../../oleng/css/oleng.css" type="text/css" />
 </head>
 
@@ -58,7 +61,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered">
+        <table datatable="ng" class="row-border hover">
             <thead>
             <tr>
                 <th>Action</th>

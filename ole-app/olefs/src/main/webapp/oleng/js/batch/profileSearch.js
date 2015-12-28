@@ -2,7 +2,7 @@
  * Created by SheikS on 12/16/2015.
  */
 
-var batchProfileSearchApp = angular.module('batchProfileSearchApp', ['ngLoadingSpinner']);
+var batchProfileSearchApp = angular.module('batchProfileSearchApp', ['ngLoadingSpinner','datatables']);
 
 batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile','$http', function($scope,searchProfile,$http){
 
