@@ -344,6 +344,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
 
             oleDeliverRequestBo = service.processRequester(oleDeliverRequestBo);
              if(oleDeliverRequestBo.isValidToProcess()){
+               service.processRequestExpirationDate(oleDeliverRequestBo);
                service.fireRules(oleDeliverRequestBo,false,false);
             //  oleDeliverRequestBo = service.reOrderQueuePosition(oleDeliverRequestBo);
         }

@@ -73,8 +73,8 @@ public class CheckoutUIController extends CheckoutBaseController {
 
     @Override
     public OleCirculationDesk getSelectedCirculationDesk(OLEForm oleForm) {
-        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId
-                (GlobalVariables.getUserSession().getPrincipalId());
+        CircForm circForm =(CircForm)oleForm;
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circForm.getSelectedCirculationDesk());
         return oleCirculationDesk;
     }
 

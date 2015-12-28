@@ -614,9 +614,9 @@
         <property name="headerText" value="Item History"/>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="In Transit History"
-                      p:render="@{oleSingleItemResultDisplayRow.oleIntransitRecordHistories.size() > 0}"/>
-                <ref bean="OLEDeliverItemSearchResult-IntransitLoanRecords"/>
+                <bean parent="Uif-MessageField" p:messageText="Return History"
+                      p:render="@{oleSingleItemResultDisplayRow.oleReturnHistoryRecords.size() > 0}"/>
+                <ref bean="OLEDeliverItemSearchResult-ReturnHistoryRecords"/>
                 <bean parent="Uif-MessageField" p:messageText="Item Record History"/>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
@@ -651,10 +651,10 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchResult-IntransitLoanRecords" parent="Uif-TableCollectionSection"
+    <bean id="OLEDeliverItemSearchResult-ReturnHistoryRecords" parent="Uif-TableCollectionSection"
           p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false" p:style="width:auto">
-        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory"/>
-        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleIntransitRecordHistories"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEReturnHistoryRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleReturnHistoryRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="renderAddLine" value="false"/>
@@ -662,12 +662,13 @@
         <property name="renderLineActions" value="false"/>
         <property name="items">
             <list>
-                <bean id="operator" parent="Uif-DataField" p:propertyName="operator" p:label="Operator"/>
-                <bean id="homeCirculationDesk" parent="Uif-DataField" p:propertyName="homeCirculationDesk"
+                <bean id="oleDeliverItemSearchResult_operator" parent="Uif-DataField" p:propertyName="operator" p:label="Operator"/>
+                <bean id="oleDeliverItemSearchResult_returnedItemStatus" parent="Uif-DataField" p:propertyName="returnedItemStatus" p:label="Item Status"/>
+                <bean id="oleDeliverItemSearchResult_homeCirculationDesk" parent="Uif-DataField" p:propertyName="homeCirculationDesk"
                       p:label="Routed From"/>
-                <bean id="routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
+                <bean id="oleDeliverItemSearchResult_routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
                       p:label="Routed To"/>
-                <bean id="returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
+                <bean id="oleDeliverItemSearchResult_returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
                       p:label="Transit Date"/>
             </list>
         </property>

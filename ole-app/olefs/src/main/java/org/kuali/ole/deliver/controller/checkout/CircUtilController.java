@@ -3,18 +3,14 @@ package org.kuali.ole.deliver.controller.checkout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.Agenda;
-import org.kie.api.runtime.rule.AgendaGroup;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration;
+import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
-import org.kuali.ole.deliver.drools.CustomAgendaFilter;
-import org.kuali.ole.deliver.drools.DroolsKieEngine;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.NoticeInfo;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -41,31 +37,13 @@ import java.util.regex.Pattern;
 /**
  * Created by pvsubrah on 6/4/15.
  */
-public class CircUtilController {
+public class CircUtilController extends RuleExecutor {
     private static final Logger LOG = Logger.getLogger(CircUtilController.class);
     private BusinessObjectService businessObjectService;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
     private DocstoreClientLocator docstoreClientLocator;
     private SimpleDateFormat dateFormatForDocstoreDueDate;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
-
-    public void fireRules(List<Object> facts, String[] expectedRules, String agendaGroup) {
-        KieSession session = DroolsKieEngine.getInstance().getSession();
-        for (Iterator<Object> iterator = facts.iterator(); iterator.hasNext(); ) {
-            Object fact = iterator.next();
-            session.insert(fact);
-        }
-
-        if (null != expectedRules && expectedRules.length > 0) {
-            session.fireAllRules(new CustomAgendaFilter(expectedRules));
-        } else {
-            Agenda agenda = session.getAgenda();
-            AgendaGroup group = agenda.getAgendaGroup(agendaGroup);
-            group.setFocus();
-            session.fireAllRules();
-        }
-        session.dispose();
-    }
 
     public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord) {
         List<OLEDeliverNotice> deliverNotices = new ArrayList<>();

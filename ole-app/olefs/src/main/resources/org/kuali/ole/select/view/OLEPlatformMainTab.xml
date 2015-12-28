@@ -70,38 +70,19 @@
                                     </list>
                                 </property>
                             </bean>
-                            <!--<bean parent="Uif-InputField" p:label="Platform Provider" p:propertyName="vendorId">
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder"/>
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:disabled="@{document.gokbId ne null}"/>
-                                </property>
-                            </bean>-->
                             <bean parent="Uif-Label" p:labelText="Platform Provider"/>
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
-                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and document.activeVendor}"/>
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and document.documentHeader.workflowDocument.final and document.activeVendor}"/>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
-                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
-                                        <!--<bean parent="Uif-InputField" p:propertyName="platformProviderName" p:label=" "
-                                              p:render="@{!(document.gokbId ne null and !document.editableFlag or document.documentHeader.workflowDocument.final)}">
-                                            <property name="quickfinder">
-                                                <bean parent="Uif-QuickFinder"
-                                                      p:dataObjectClassName="org.kuali.ole.vnd.businessobject.VendorDetail"
-                                                      p:fieldConversions="vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,vendorName:platformProviderName"/>
-                                            </property>
-                                            <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="40"/>
-                                            </property>
-                                        </bean>-->
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and document.documentHeader.workflowDocument.final and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                                         <bean id="platformProviderName" parent="Uif-InputField"
                                               p:propertyName="platformProviderName"
                                               p:label=" "
                                               p:instructionalText="Type * for all platform providers, other letters for matching platform providers"
-                                              p:render="@{!(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null))}">
+                                              p:render="@{!(document.gokbId ne null or document.documentHeader.workflowDocument.final)}">
                                             <property name="suggest">
                                                 <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                                     <property name="suggestQuery">
@@ -117,6 +98,10 @@
                                                 </bean>
                                             </property>
                                         </bean>
+                                        <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=""
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and !document.documentHeader.workflowDocument.final and document.activeVendor}"/>
+                                        <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=""
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and !document.documentHeader.workflowDocument.final and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                                     </list>
                                 </property>
                             </bean>

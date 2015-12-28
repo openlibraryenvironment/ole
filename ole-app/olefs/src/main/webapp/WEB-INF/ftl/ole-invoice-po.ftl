@@ -188,6 +188,8 @@
             <th><span class="infoline"><label>Seq No</label></span></th>
             <th></th>
             <th><span class="infoline"><label>PO #</label></span></th>
+            <th><span class="infoline"><label>Subscription From Date</label></span></th>
+            <th><span class="infoline"><label>To Date</label></span></th>
             <th><span class="infoline"><label>Open Qty</label></span></th>
             <th><span class="infoline"><label>Title</label></span></th>
             <th><span class="infoline"><label>Donor</label></span></th>
@@ -227,6 +229,8 @@
                 <td><#if line.item.tempPurchaseOrderIdentifier?? && line.item.poItemLink??>
                     <a href="${line.item.poItemLink}" target="_blank">${line.item.tempPurchaseOrderIdentifier}</a>
 				</#if></td>
+                <td>${line.item.subscriptionFromDate!}</td>
+                <td>${line.item.subscriptionToDate!}</td>
                 <td>${line.item.oleOpenQuantity!}</td>
                 <td>
 					<#if line.item.itemTitleId?? && line.item.docFormat?? && line.item.title??>

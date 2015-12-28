@@ -1503,6 +1503,8 @@
         <column name="GOKB_PROFILE" size="10" type="VARCHAR"/>
         <column name="GOKB_PACKAGE_STATUS" size="40" type="VARCHAR"/>
         <column name="GOKB_LAST_UPDATED_DATE" type="DATE"/>
+        <column name="E_RES_RCP_ROLE_ID" size="40" type="VARCHAR"/>
+        <column name="E_RES_RCP_GROUP_ID" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_PCKG_SCP_T" name="OLE_E_RES_REC_FK6">
             <reference foreign="PCKG_SCP_ID" local="PCKG_SCP_ID"/>
         </foreign-key>
@@ -2996,7 +2998,7 @@
     </table>
 
 
-    <table name="OLE_LOAN_INTRANSIT_HISTORY_T">
+    <table name="OLE_RETURN_HISTORY_T">
         <column name="ID"   type="VARCHAR" size="36" primaryKey="true"/>
         <column name="ITEM_BARCODE"   type="VARCHAR"  size="40"/>
         <column name="ITEM_UUID"   type="VARCHAR" size="40"/>
@@ -3004,6 +3006,7 @@
         <column name="OPERATOR"   type="VARCHAR" size="36"/>
         <column name="CIR_DESK_LOC"  type="VARCHAR" size="100"/>
         <column name="CIR_DESK_ROUTE_TO"  type="VARCHAR" size="100"/>
+        <column name="RETURNED_ITEM_STATUS"  type="VARCHAR" size="200"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <index name="OLE_LOAN_INTRANSIT_HST_TI1">
@@ -3668,7 +3671,7 @@
     <sequence name="OLE_DS_SEARCH_FACET_SIZE_S" nextval="2"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_S" nextval="1"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_HSTRY_S" nextval="1"/>
-    <sequence name="OLE_LOAN_INTRANSIT_HISTORY_S" nextval="1"/>
+    <sequence name="OLE_RETURN_HISTORY_S" nextval="1"/>
     <sequence name="OLE_VRNT_TTL_S" nextval="1"/>
     <sequence name="ACTN_LST_ALRT_S" nextval="1"/>
     <sequence name="ALRT_S" nextval="1"/>

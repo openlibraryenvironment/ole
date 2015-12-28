@@ -1127,4 +1127,129 @@ public class LoanDateTimeUtil_IT {
             return "25-m";
         }
     }
+
+
+
+    @Test
+    public void dueDateCheck() throws Exception {
+        OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
+
+        OleCalendarGroup oleCalendarGroup = new OleCalendarGroup();
+        oleCalendarGroup.setCalendarGroupId("1");
+        oleCalendarGroup.setCalendarGroupName("Mock Fall Calendar with Exception Period having partial work days");
+
+        oleCirculationDesk.setOleCalendarGroup(oleCalendarGroup);
+        oleCirculationDesk.setCalendarGroupId(oleCalendarGroup.getCalendarGroupId());
+
+
+
+        mockOleCalendar = new OleCalendar();
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(calendar1.DATE, -1);
+        mockOleCalendar.setBeginDate(null);
+
+
+        ArrayList<OleCalendarWeek> oleCalendarWeekList = new ArrayList<>();
+
+        OleCalendarWeek oleCalendarWeek = new OleCalendarWeek();
+        oleCalendarWeek.setOleCalendar(mockOleCalendar);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        mockOleCalendar.setBeginDate(new Timestamp(calendar.getTimeInMillis()));
+        oleCalendarWeek.setEachDayWeek(true);
+        oleCalendarWeek.setOpenTime("12:00");
+        oleCalendarWeek.setOpenTimeSession("PM");
+        oleCalendarWeek.setCloseTime("22:00");
+        oleCalendarWeek.setCloseTimeSession("PM");
+        oleCalendarWeek.setStartDay("0");
+        oleCalendarWeek.setEndDay("0");
+        oleCalendarWeekList.add(oleCalendarWeek);
+
+        OleCalendarWeek oleCalendarWeek2 = new OleCalendarWeek();
+        oleCalendarWeek2.setOleCalendar(mockOleCalendar);
+        oleCalendarWeek2.setEachDayWeek(true);
+        oleCalendarWeek2.setOpenTime("09:00");
+        oleCalendarWeek2.setOpenTimeSession("AM");
+        oleCalendarWeek2.setCloseTime("17:00");
+        oleCalendarWeek2.setCloseTimeSession("PM");
+        oleCalendarWeek2.setStartDay("1");
+        oleCalendarWeek2.setEndDay("4");
+        oleCalendarWeekList.add(oleCalendarWeek2);
+
+        OleCalendarWeek oleCalendarWeek3 = new OleCalendarWeek();
+        oleCalendarWeek3.setOleCalendar(mockOleCalendar);
+        oleCalendarWeek3.setEachDayWeek(true);
+        oleCalendarWeek3.setOpenTime("09:00");
+        oleCalendarWeek3.setOpenTimeSession("AM");
+        oleCalendarWeek3.setCloseTime("19:00");
+        oleCalendarWeek3.setCloseTimeSession("PM");
+        oleCalendarWeek3.setStartDay("5");
+        oleCalendarWeek3.setEndDay("5");
+        oleCalendarWeekList.add(oleCalendarWeek3);
+
+        OleCalendarWeek oleCalendarWeek4 = new OleCalendarWeek();
+        oleCalendarWeek4.setOleCalendar(mockOleCalendar);
+        oleCalendarWeek4.setEachDayWeek(true);
+        oleCalendarWeek4.setOpenTime("10:00");
+        oleCalendarWeek4.setOpenTimeSession("AM");
+        oleCalendarWeek4.setCloseTime("17:00");
+        oleCalendarWeek4.setCloseTimeSession("PM");
+        oleCalendarWeek4.setStartDay("6");
+        oleCalendarWeek4.setEndDay("6");
+        oleCalendarWeekList.add(oleCalendarWeek4);
+
+        mockOleCalendar.setOleCalendarWeekList(oleCalendarWeekList);
+
+        OleCalendarExceptionPeriod oleCalendarExceptionPeriod1 = new OleCalendarExceptionPeriod();
+
+        Calendar beginDate = Calendar.getInstance();
+        beginDate.add(Calendar.DAY_OF_MONTH, 4);
+        oleCalendarExceptionPeriod1.setBeginDate(new Timestamp(beginDate.getTime().getTime()));
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.DAY_OF_MONTH, 13);
+        oleCalendarExceptionPeriod1.setEndDate(new Timestamp(endDate.getTime().getTime()));
+
+        oleCalendarExceptionPeriod1.setExceptionPeriodType("Holidays");
+
+        List<OleCalendarExceptionPeriod> oleCalendarExceptionPeriodList = new ArrayList<>();
+        OleCalendarExceptionPeriod oleCalendarExceptionPeriod = new OleCalendarExceptionPeriod();
+
+        Calendar beginDate2 = Calendar.getInstance();
+        Date beginDate2Time = beginDate2.getTime();
+        oleCalendarExceptionPeriod.setBeginDate(new Timestamp(beginDate2Time.getTime()));
+
+        Calendar endDate2 = Calendar.getInstance();
+        endDate2.add(Calendar.DAY_OF_MONTH, 3);
+        oleCalendarExceptionPeriod.setEndDate(new Timestamp(endDate2.getTime().getTime()));
+
+        oleCalendarExceptionPeriod.setExceptionPeriodType("Partial");
+
+        ArrayList<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodWeekList = new ArrayList<>();
+
+        OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek4 = new OleCalendarExceptionPeriodWeek();
+        oleCalendarExceptionPeriodWeek4.setOpenTime("09:00");
+        oleCalendarExceptionPeriodWeek4.setOpenTimeSession("AM");
+        oleCalendarExceptionPeriodWeek4.setCloseTime("17:00");
+        oleCalendarExceptionPeriodWeek4.setCloseTimeSession("PM");
+        oleCalendarExceptionPeriodWeek4.setStartDay("1");
+        oleCalendarExceptionPeriodWeek4.setEndDay("6");
+        oleCalendarExceptionPeriodWeek4.setEachDayOfExceptionWeek(true);
+
+        oleCalendarExceptionPeriodWeekList.add(oleCalendarExceptionPeriodWeek4);
+
+        oleCalendarExceptionPeriod.setOleCalendarExceptionPeriodWeekList(oleCalendarExceptionPeriodWeekList);
+        oleCalendarExceptionPeriodList.add(oleCalendarExceptionPeriod);
+        oleCalendarExceptionPeriodList.add(oleCalendarExceptionPeriod1);
+        mockOleCalendar.setOleCalendarExceptionPeriodList(oleCalendarExceptionPeriodList);
+
+        mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
+
+        LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("3-D", oleCirculationDesk);
+        assertNotNull(loanDueDate);
+        System.out.println(loanDueDate);
+    }
+
+
 }

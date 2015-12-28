@@ -40,3 +40,4 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-SELECT","Select","COPY_NO","OLE7044","1","CONFG","1","This parameter is to get the default copy number for Requisition document","A","OLE"
 "OLE-SELECT","Select","DEFAULT_EVENT_TYPE","OLE7045","1","CONFG","Troubleshooting","This parameter is to set the default event type in the event log section of the e-resource record","A","OLE"
 "OLE-SELECT","Select","DEFAULT_PROBLEM_TYPE","OLE7046","1","CONFG","Access","This parameter is to set the default problem type in the event log section of the e-resource record","A","OLE"
+"OLE-DLVR","Deliver","TEMPORARY_HISTORY_RECORD_DAYS","OLE7047","1","CONFG","10","This parameter value is used to specify the days to determine the temporary history records to be retained after check-in.","A","OLE"

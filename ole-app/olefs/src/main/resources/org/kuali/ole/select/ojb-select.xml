@@ -5384,6 +5384,8 @@
         <field-descriptor name="profile" column="GOKB_IMPORT_PROFILE" jdbc-type="VARCHAR"/>
         <field-descriptor name="gokbProfile" column="GOKB_PROFILE" jdbc-type="VARCHAR"/>
         <field-descriptor name="gokbLastUpdatedDate" column="GOKB_LAST_UPDATED_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="recipientRoleId" column="E_RES_RCP_ROLE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="recipientGroupId" column="E_RES_RCP_GROUP_ID" jdbc-type="VARCHAR"/>
         <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader"
                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <foreignkey field-ref="documentNumber" />
