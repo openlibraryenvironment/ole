@@ -55,23 +55,26 @@
                         </td>
                         <td>
                             <select name="constantsAndDefaultType_{{$index}}" id="constantsAndDefaultType_{{$index}}"
-                                    ng-model="constantsAndDefault.constantOrDefault" ng-hide="constantsAndDefault.isAddLine">
+                                    ng-model="constantsAndDefault.constantOrDefault"
+                                    ng-hide="constantsAndDefault.isAddLine">
                                 <option ng-selected="{{option.name == constantsAndDefault.constantOrDefault}}"
                                         ng-repeat="option in constantsAndDefault.constantOrDefaultTypes"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
-                            <span ng-show="constantsAndDefault.isAddLine" ng-bind="constantsAndDefault.constantOrDefault"></span>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.constantOrDefault"></span>
                         </td>
                         <td>
                             <button id="constantsAndDefaultAddButton_{{$index}}"
                                     name="constantsAndDefaultAddButton_{{$index}}"
-                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine" class="btn btn-success">Add
+                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine"
+                                    class="btn btn-success btn-sm">Add
                             </button>
                             <button id="constantsAndDefaultRemoveButton_{{$index}}"
                                     name="constantsAndDefaultRemoveButton_{{$index}}"
                                     ng-click="constantsAndDefaultRemove(constantsAndDefault)"
-                                    ng-show="constantsAndDefault.isAddLine && !submitted" class="btn btn-danger">
+                                    ng-show="constantsAndDefault.isAddLine && !submitted" class="btn btn-danger btn-xs">
                                 Remove
                             </button>
                         </td>

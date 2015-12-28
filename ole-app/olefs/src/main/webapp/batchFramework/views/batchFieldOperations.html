@@ -3,7 +3,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle href="#" ng-click="fieldOperationsPanel.collapsed = !fieldOperationsPanel.collapsed">
+                <a bs-collapse-toggle href="#"
+                   ng-click="fieldOperationsPanel.collapsed = !fieldOperationsPanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !fieldOperationsPanel.collapsed, 'glyphicon-chevron-down': fieldOperationsPanel.collapsed}"></span>
                     Field Operations
@@ -70,12 +71,14 @@
                         <td>
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
-                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine" class="btn btn-success">Add
+                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine"
+                                    class="btn btn-success btn-sm">Add
                             </button>
                             <button id="fieldOperationRemoveButton_{{$index}}"
                                     name="fieldOperationRemoveButton_{{$index}}"
                                     ng-click="fieldOperationRemove(fieldOperation)"
-                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'" class="btn btn-danger">
+                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    class="btn btn-danger btn-xs">
                                 Remove
                             </button>
                         </td>

@@ -1,383 +1,8 @@
-var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap','ngLoadingSpinner']);
-
-var batchProcessTypeValues = [
-    {id: 'bibImport', name: 'Bib Import'},
-    {id: 'orderRecordImport', name: 'Order Record Import'}
-];
-
-var requisitionForTitlesValues = [
-    {id: 'oneReqPerTitle', name: 'One Requisition Per Title'},
-    {id: 'oneReqWithAllTitles', name: 'One Requisition With All Titles'}
-];
-
-var documentTypes = [
-    {id: 'bibliographic', name: 'Bibliographic'},
-    {id: 'holdings', name: 'Holdings'},
-    {id: 'item', name: 'Item'},
-    {id: 'eHoldings', name: 'EHoldings'}
-];
-
-var destinationDocumentTypes = [
-    {id: 'holdings', name: 'Holdings'},
-    {id: 'item', name: 'Item'},
-    {id: 'eHoldings', name: 'EHoldings'}
-];
-
-var addOrOverlayDocumentTypes = [
-    {id: 'bibliographic', name: 'Bibliographic'},
-    {id: 'holdings', name: 'Holdings'},
-    {id: 'item', name: 'Item'},
-    {id: 'eHoldings', name: 'EHoldings'}
-];
-
-var holdingsMatchPoints = [
-    {id: 'callNumber', name: 'Call Number'},
-    {id: 'callNumberPrefix', name: 'Call Number Prefix'},
-    {id: 'callNumberType', name: 'Call Number Type'},
-    {id: 'copyNumber', name: 'Copy Number'},
-    {id: 'locationLevel1', name: 'Location Level1'},
-    {id: 'locationLevel2', name: 'Location Level2'},
-    {id: 'locationLevel3', name: 'Location Level3'},
-    {id: 'locationLevel4', name: 'Location Level4'},
-    {id: 'locationLevel5', name: 'Location Level5'}
-];
-
-var itemMatchPoints = [
-    {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
-    {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
-    {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
-    {id: 'holdingsLocationLevel4', name: 'Holdings Location Level4'},
-    {id: 'holdingsLocationLevel5', name: 'Holdings Location Level5'},
-    {id: 'holdingsCallNumber', name: 'Holdings Call Number'},
-    {id: 'holdingsCallNumberPrefix', name: 'Holdings Call Number Prefix'},
-    {id: 'holdingsCallNumberType', name: 'Holdings Call Number Type'},
-    {id: 'holdingsCopyNumber', name: 'Holdings Copy Number'},
-    {id: 'callNumber', name: 'Call Number'},
-    {id: 'callNumberPrefix', name: 'Call Number Prefix'},
-    {id: 'callNumberType', name: 'Call Number Type'},
-    {id: 'copyNumber', name: 'Copy Number'},
-    {id: 'locationLevel1', name: 'Location Level1'},
-    {id: 'locationLevel2', name: 'Location Level2'},
-    {id: 'locationLevel3', name: 'Location Level3'},
-    {id: 'locationLevel4', name: 'Location Level4'},
-    {id: 'locationLevel5', name: 'Location Level5'},
-    {id: 'barcode', name: 'Item Barcode'},
-    {id: 'type', name: 'Item Type'},
-    {id: 'status', name: 'Item Status'},
-    {id: 'donorCode', name: 'Donor Code'},
-    {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-    {id: 'donorNote', name: 'Donor Note'},
-    {id: 'enumeration', name: 'Enumeration'},
-    {id: 'chronology', name: 'Chronology'},
-    {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
-];
-
-var eHoldingsMatchPoints = [
-    {id: 'callNumber', name: 'Call Number'},
-    {id: 'accessStatus', name: 'Access Status'},
-    {id: 'callNumberType', name: 'Call Number Type'},
-    {id: 'locationLevel1', name: 'Location Level1'},
-    {id: 'locationLevel2', name: 'Location Level2'},
-    {id: 'locationLevel3', name: 'Location Level3'},
-    {id: 'locationLevel4', name: 'Location Level4'},
-    {id: 'locationLevel5', name: 'Location Level5'},
-    {id: 'url', name: 'URL'},
-    {id: 'persistentLink', name: 'Persistent Link'},
-    {id: 'linkText', name: 'Link Text'},
-    {id: 'donorCode', name: 'Donor Code'},
-    {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-    {id: 'donorNote', name: 'Donor Note'},
-    {id: 'statisticalCode', name: 'Statistical Code'},
-    {id: 'platform', name: 'Platform'},
-    {id: 'publisher', name: 'Publisher'},
-    {id: 'coverageStartDate', name: 'Coverage Start Date'},
-    {id: 'coverageStartIssue', name: 'Coverage Start Issue'},
-    {id: 'coverageStartVolume', name: 'Coverage Start Volume'},
-    {id: 'coverageEndDate', name: 'Coverage End Date'},
-    {id: 'coverageEndIssue', name: 'Coverage End Issue'},
-    {id: 'coverageEndVolume', name: 'Coverage End Volume'},
-    {id: 'eResourceName', name: 'EResource Name'},
-    {id: 'eResourceId', name: 'EResource Id'}
-];
-
-var matchOptions = [
-    {id: 'matchFound', name: 'If Match Found'},
-    {id: 'matchNotFound', name: 'If Match Not Found'}
-];
-
-var operations = [
-    {id: 'add', name: 'Add'},
-    {id: 'overlay', name: 'Overlay'},
-    {id: 'discard', name: 'Discard'}
-];
-
-var bibDoNotMatchOperations = [
-    {id: 'add', name: 'Add'}
-];
-
-var doNotMatchOperations = [
-    {id: 'add', name: 'Add'},
-    {id: 'discard', name: 'Discard'}
-];
-
-var addOperations = [
-    {id: 'deleteAll', name: 'Delete all existing and add'},
-    {id: 'keepAll', name: 'Keep all existing and add'}
-];
-
-var fieldOperations = [
-    {id: 'profile', name: 'Profile Protected Field'}
-];
-
-var fields = [
-    {id: 'callNumber', name: 'Call Number'},
-    {id: 'callNumberPrefix', name: 'Call Number Prefix'},
-    {id: 'callNumberType', name: 'Call Number Type'},
-    {id: 'copyNumber', name: 'Copy Number'},
-    {id: 'locationLevel1', name: 'Location Level1'},
-    {id: 'locationLevel2', name: 'Location Level2'},
-    {id: 'locationLevel3', name: 'Location Level3'},
-    {id: 'locationLevel4', name: 'Location Level4'},
-    {id: 'locationLevel5', name: 'Location Level5'}
-];
-
-var transformers = [
-    {id: 'regex', name: 'Regex Pattern Transformer'},
-    {id: '', name: ''}
-];
-
-var actionTypes = [
-    {id: 'all', name: 'All'},
-    {id: 'new', name: 'New'},
-    {id: 'overlay', name: 'Overlay'}
-];
-
-var actions = [
-    {id: 'add', name: 'Add'},
-    {id: 'update', name: 'Update'},
-    {id: 'transform', name: 'Transform'}
-];
-
-var bibFields = [
-    {id: 'bibStatus', name: 'Bib Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
-];
-
-var booleanOptions = [
-    {id: 'true', value: 'True'},
-    {id: 'false', value: 'False'}
-];
-
-var holdingsFields = [
-    {id: 'receiptStatus', name: 'Receipt Status'},
-    {id: 'subscriptionStatus', name: 'Subscription Status'},
-    {id: 'accessStatus', name: 'Access Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
-];
-
-var itemFields = [
-    {id: 'itemType', name: 'Item Type'},
-    {id: 'itemStatus', name: 'Item Status'}
-];
-
-var eHoldingsFields = [
-    {id: 'accessStatus', name: 'Access Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
-];
-
-var transformationOperations = [
-    {id: 'add', name: 'Add'},
-    {id: 'delete', name: 'Delete'},
-    {id: 'replace', name: 'Replace'},
-    {id: 'join', name: 'Join'},
-    {id: 'prepend', name: 'prepend with prefix'},
-    {id: 'remove', name: 'Remove'}
-];
-
-var dataMappingOrderFields = [
-    {id: 'accountNumber', name: 'Account Number'},
-    {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
-    {id: 'assignToUser', name: 'Assign To User'},
-    {id: 'buildingCode', name: 'Building Code'},
-    {id: 'deliveryBuildingRoomNumber', name: 'Building Room Number'},
-    {id: 'caption', name: 'Caption'},
-    {id: 'chartCode', name: 'Chart Code'},
-    {id: 'contractManager', name: 'Contract Manager'},
-    {id: 'costSource', name: 'Cost Source'},
-    {id: 'defaultLocation', name: 'Default Location'},
-    {id: 'deliveryCampusCode', name: 'Delivery Campus Code'},
-    {id: 'discount', name: 'Discount'},
-    {id: 'discountType', name: 'Discount Type'},
-    {id: 'fundCode', name: 'Fund Code'},
-    {id: 'fundingSource', name: 'Funding Source'},
-    {id: 'itemChartCode', name: 'Item Chart Code'},
-    {id: 'itemStatus', name: 'Item Status'},
-    {id: 'listPrice', name: 'List Price'},
-    {id: 'methodOfPOTransmission', name: 'Method Of PO Transmission'},
-    {id: 'itemNoOfParts', name: 'No Of Parts'},
-    {id: 'financialObjectCode', name: 'Object Code'},
-    {id: 'orderType', name: 'Order Type'},
-    {id: 'orgCode', name: 'Org Code'},
-    {id: 'payReqPositiveApprovalReq', name: 'Pay Req Positive Approval Req'},
-    {id: 'percent', name: 'Percent'},
-    {id: 'purchaseOrderConfirmationIndicator', name: 'Purchase Order Confirmation Indicator'},
-    {id: 'quantity', name: 'Quantity'}
-];
-
-var constantsAndDefaultsOrderFields = [
-    {id: 'accountNumber', name: 'Account Number'},
-    {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
-    {id: 'assignToUser', name: 'Assign To User'},
-    {id: 'buildingCode', name: 'Building Code'},
-    {id: 'deliveryBuildingRoomNumber', name: 'Building Room Number'},
-    {id: 'caption', name: 'Caption'},
-    {id: 'chartCode', name: 'Chart Code'},
-    {id: 'contractManager', name: 'Contract Manager'},
-    {id: 'costSource', name: 'Cost Source'},
-    {id: 'defaultLocation', name: 'Default Location'},
-    {id: 'deliveryCampusCode', name: 'Delivery Campus Code'},
-    {id: 'discount', name: 'Discount'},
-    {id: 'discountType', name: 'Discount Type'},
-    {id: 'fundCode', name: 'Fund Code'},
-    {id: 'fundingSource', name: 'Funding Source'},
-    {id: 'itemChartCode', name: 'Item Chart Code'},
-    {id: 'itemStatus', name: 'Item Status'},
-    {id: 'listPrice', name: 'List Price'},
-    {id: 'methodOfPOTransmission', name: 'Method Of PO Transmission'},
-    {id: 'itemNoOfParts', name: 'No Of Parts'},
-    {id: 'financialObjectCode', name: 'Object Code'},
-    {id: 'orderType', name: 'Order Type'},
-    {id: 'orgCode', name: 'Org Code'},
-    {id: 'payReqPositiveApprovalReq', name: 'Pay Req Positive Approval Req'},
-    {id: 'percent', name: 'Percent'},
-    {id: 'purchaseOrderConfirmationIndicator', name: 'Purchase Order Confirmation Indicator'},
-    {id: 'quantity', name: 'Quantity'}
-];
-
-var constantOrDefaultTypes = [
-    {id: 'constant', name: 'Constant'},
-    {id: 'default', name: 'Default'}
-];
-
+var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ngLoadingSpinner']);
 
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
-
     $scope.booleanOptions = booleanOptions;
-
     $scope.submitted = false;
-
-    $scope.mainSectionPanel = {
-        title: 'Main Section',
-        batchProcessTypeValues: batchProcessTypeValues,
-        requisitionForTitlesValues: requisitionForTitlesValues,
-        marcOnly: false,
-        collapsed: false
-    };
-
-    $scope.matchPointsPanel = [
-        {
-            title: 'Match Points',
-            matchPointDocTypes: documentTypes,
-            matchPointDocType: 'Bibliographic',
-            holdingsMatchPoints: holdingsMatchPoints,
-            itemMatchPoints: itemMatchPoints,
-            eHoldingsMatchPoints: eHoldingsMatchPoints,
-            isAddLine: false
-        }
-    ];
-
-    $scope.addOrOverlayPanel = [
-        {
-            title: 'Matching, Add and Overlay',
-            matchOptions: matchOptions,
-            matchOption: 'If Match Found',
-            addOrOverlayDocTypes: addOrOverlayDocumentTypes,
-            addOrOverlayDocType: 'Bibliographic',
-            operations: operations,
-            operation: 'Add',
-            bibDoNotMatchOperations: bibDoNotMatchOperations,
-            doNotMatchOperations: doNotMatchOperations,
-            addOperations: addOperations,
-            addItems: false,
-            isAddLine: false,
-            collapsed: true
-        }
-    ];
-
-    $scope.setValuesForBatchProcessType = function (mainSectionPanel) {
-        if (mainSectionPanel.batchProcessType == 'Bib Import') {
-            $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function (data) {
-                $scope.fieldOperationsPanel = data;
-
-                $scope.fieldOperationsPanel.unshift(
-                    {
-                        title: 'Field Operations',
-                        fieldOperationTypes: fieldOperations,
-                        fieldOperationType: 'Profile Protected Field',
-                        ignoreGPF: false,
-                        isAddLine: false,
-                        collapsed: true
-                    }
-                );
-            });
-        } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
-            $scope.fieldOperationsPanel = [{}];
-        }
-    };
-
-    $scope.dataMappingsPanel = [
-        {
-            title: 'Data Mappings',
-            dataMappingDocTypes: documentTypes,
-            dataMappingDocType: 'Bibliographic',
-            destinations: destinationDocumentTypes,
-            holdingsFields: holdingsMatchPoints,
-            itemFields: itemMatchPoints,
-            eHoldingsFields: eHoldingsMatchPoints,
-            dataMappingOrderFields: dataMappingOrderFields,
-            priority: 1,
-            isAddLine: false,
-            collapsed: true
-        }
-    ];
-
-    $scope.dataTransformationsPanel = [
-        {
-            title: 'Data Transformations',
-            dataTransformationDocTypes: documentTypes,
-            dataTransformationDocType: 'Bibliographic',
-            transformers: transformers,
-            transformer: 'Regex Pattern Transformer',
-            dataTransformationActionTypes: actionTypes,
-            dataTransformationActionType: 'All',
-            dataTransformationActions: actions,
-            dataTransformationAction: 'Add',
-            dataTransformationBibFields: bibFields,
-            dataTransformationStaffOnlyFields: booleanOptions,
-            dataTransformationHoldingsFields: holdingsFields,
-            dataTransformationItemFields: itemFields,
-            dataTransformationEHoldingsFields: eHoldingsFields,
-            dataTransformationOperations: transformationOperations,
-            dataTransformationTransformHoldingsFields: holdingsMatchPoints,
-            dataTransformationTransformItemFields: itemMatchPoints,
-            dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
-            dataTransformationStep: 1,
-            isAddLine: false,
-            collapsed: true
-        }
-    ];
-
-    $scope.constantsAndDefaultsPanel = [
-        {
-            title: 'Constants And Defaults',
-            constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
-            constantOrDefaultTypes: constantOrDefaultTypes,
-            constantOrDefault: 'Constant',
-            isAddLine: false,
-            collapsed: true
-        }
-    ];
-
     $scope.mainSectionActivePanel = [0];
     $scope.matchPointsActivePanel = [];
     $scope.addOrOverlayActivePanel = [];
@@ -385,6 +10,57 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     $scope.dataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
     $scope.constantsAndDefaultsActivePanel = [];
+    $scope.mainSectionPanel = mainSection;
+
+    $scope.setValuesForBatchProcessType = function (mainSectionPanel) {
+        if (mainSectionPanel.batchProcessType == 'Bib Import') {
+            $scope.matchPointsPanel = [matchPoint];
+            $scope.addOrOverlayPanel = [addOrOverlay];
+            $scope.dataMappingsPanel = [dataMapping];
+            $scope.dataTransformationsPanel = [dataTransformation];
+            $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function (data) {
+                $scope.fieldOperationsPanel = data;
+                $scope.fieldOperationsPanel.unshift(fieldOperation);
+            });
+            $scope.matchPointsActivePanel = [];
+            $scope.addOrOverlayActivePanel = [];
+            $scope.fieldOperationsActivePanel = [];
+            $scope.dataMappingsActivePanel = [];
+            $scope.dataTransformationsActivePanel = [];
+            $scope.mainSectionPanel.requisitionForTitlesOption = null;
+            $scope.mainSectionPanel.marcOnly = false;
+            $scope.dataMappingsPanel[0].dataMappingDocType = 'Bibliographic';
+            $scope.dataMappingsPanel[0].dataField = null;
+            $scope.dataMappingsPanel[0].ind1 = null;
+            $scope.dataMappingsPanel[0].ind2 = null;
+            $scope.dataMappingsPanel[0].subField = null;
+            $scope.dataMappingsPanel[0].constant = null;
+            $scope.dataMappingsPanel[0].destination = null;
+            $scope.dataMappingsPanel[0].field = null;
+            $scope.dataMappingsPanel[0].priority = 1;
+            $scope.constantsAndDefaultsPanel = [];
+        } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
+            $scope.constantsAndDefaultsPanel = [constantAndDefault];
+            $scope.dataMappingsPanel = [dataMapping];
+            $scope.matchPointsPanel = [];
+            $scope.addOrOverlayPanel = [];
+            $scope.fieldOperationsPanel = [];
+            $scope.dataTransformationsPanel = [];
+            $scope.constantsAndDefaultsActivePanel = [];
+            $scope.dataMappingsActivePanel = [];
+            $scope.constantsAndDefaultsPanel[0].fieldName = null;
+            $scope.constantsAndDefaultsPanel[0].fieldValue = null;
+            $scope.dataMappingsPanel[0].dataMappingDocType = null;
+            $scope.dataMappingsPanel[0].dataField = null;
+            $scope.dataMappingsPanel[0].ind1 = null;
+            $scope.dataMappingsPanel[0].ind2 = null;
+            $scope.dataMappingsPanel[0].subField = null;
+            $scope.dataMappingsPanel[0].constant = null;
+            $scope.dataMappingsPanel[0].destination = null;
+            $scope.dataMappingsPanel[0].field = null;
+            $scope.dataMappingsPanel[0].priority = 1;
+        }
+    };
 
     $scope.matchPointAdd = function () {
         $scope.matchPointsPanel.push({
@@ -552,6 +228,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationSourceField = null;
         dataTransformation.dataTransformationOperation = null;
         dataTransformation.dataTransformationDestinationField = null;
+        dataTransformation.dataTransformationTransformField = null;
     };
 
     $scope.setDefaultsAction = function (dataTransformation) {
@@ -563,67 +240,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.getMaintenanceValuesForType = function (dataObject) {
-        if (dataObject.title == 'Match Points') {
-            if ((dataObject.matchPointType == 'Call Number Type' || dataObject.matchPointType == 'Holdings Call Number Type') && $scope.callNumberTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function (data) {
-                    $scope.callNumberTypeValues = data;
-                });
-            } else if (dataObject.matchPointType == 'Item Type' && $scope.itemTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function (data) {
-                    $scope.itemTypeValues = data;
-                });
-            } else if (dataObject.matchPointType == 'Item Status' && $scope.itemStatusValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
-                    $scope.itemStatusValues = data;
-                });
-            } else if (dataObject.matchPointType == 'Donor Code' && $scope.donorCodeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_DONOR_CODES).success(function (data) {
-                    $scope.donorCodes = data;
-                });
-            } else if ((dataObject.matchPointType == 'Location Level1' || dataObject.matchPointType == 'Holdings Location Level1') && $scope.locationLevel1Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 1}}).success(function (data) {
-                    $scope.locationLevel1Values = data;
-                });
-            } else if ((dataObject.matchPointType == 'Location Level2' || dataObject.matchPointType == 'Holdings Location Level2') && $scope.locationLevel2Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 2}}).success(function (data) {
-                    $scope.locationLevel2Values = data;
-                });
-            } else if ((dataObject.matchPointType == 'Location Level3' || dataObject.matchPointType == 'Holdings Location Level3') && $scope.locationLevel3Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 3}}).success(function (data) {
-                    $scope.locationLevel3Values = data;
-                });
-            } else if ((dataObject.matchPointType == 'Location Level4' || dataObject.matchPointType == 'Holdings Location Level4') && $scope.locationLevel4Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 4}}).success(function (data) {
-                    $scope.locationLevel4Values = data;
-                });
-            } else if ((dataObject.matchPointType == 'Location Level5' || dataObject.matchPointType == 'Holdings Location Level5') && $scope.locationLevel5Values == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_LOCATIONS, {params: {"levelId": 5}}).success(function (data) {
-                    $scope.locationLevel5Values = data;
-                });
-            }
-        } else if (dataObject.title == 'Data Transformations') {
-            if (dataObject.dataTransformationDocType == 'Bibliographic' && dataObject.dataTransformationField == 'Bib Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.bibStatuses == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function (data) {
-                    $scope.bibStatuses = data;
-                });
-            } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Type' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemTypeValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_TYPES).success(function (data) {
-                    $scope.itemTypeValues = data;
-                });
-            } else if (dataObject.dataTransformationDocType == 'Item' && dataObject.dataTransformationField == 'Item Status' && (dataObject.dataTransformationAction == 'Add' || dataObject.dataTransformationAction == 'Update') && $scope.itemStatusValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
-                    $scope.itemStatusValues = data;
-                });
-            }
-        } else if (dataObject.title == 'Constants And Defaults') {
-            dataObject.fieldValue = null;
-            dataObject.constantsAndDefault = 'Constant';
-            if (dataObject.fieldName == 'Item Status' && $scope.itemStatusValues == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
-                    $scope.itemStatusValues = data;
-                });
-            }
-        }
+        getMaintenanceData(dataObject, $scope, $http);
     };
 
     $scope.submit = function () {
@@ -694,108 +311,19 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
-        if($scope.mainSectionPanel.profileName === 'Order Record Import'){
+        if ($scope.mainSectionPanel.profileName === 'Order Record Import') {
             $scope.constantsAndDefaultsPanel.splice(0, 1);
         }
     };
 
-
     var addEmptyValueToAddNew = function (batchProcessType) {
-
-        $scope.matchPointsPanel.unshift(
-            {
-                title: 'Match Points',
-                matchPointDocTypes: documentTypes,
-                matchPointDocType: 'Bibliographic',
-                holdingsMatchPoints: holdingsMatchPoints,
-                itemMatchPoints: itemMatchPoints,
-                eHoldingsMatchPoints: eHoldingsMatchPoints,
-                isAddLine: false
-            }
-        );
-
-        $scope.addOrOverlayPanel.unshift(
-            {
-                title: 'Matching, Add and Overlay',
-                matchOptions: matchOptions,
-                matchOption: 'If Match Found',
-                addOrOverlayDocTypes: addOrOverlayDocumentTypes,
-                addOrOverlayDocType: 'Bibliographic',
-                operations: operations,
-                operation: 'Add',
-                bibDoNotMatchOperations: bibDoNotMatchOperations,
-                doNotMatchOperations: doNotMatchOperations,
-                addOperations: addOperations,
-                addItems: false,
-                isAddLine: false,
-                collapsed: true
-            }
-        );
-
-        $scope.fieldOperationsPanel.unshift(
-            {
-                title: 'Field Operations',
-                fieldOperationTypes: fieldOperations,
-                fieldOperationType: 'Profile Protected Field',
-                ignoreGPF: false,
-                isAddLine: false,
-                collapsed: true
-            }
-        );
-
-        $scope.dataMappingsPanel.unshift(
-            {
-                title: 'Data Mappings',
-                dataMappingDocTypes: documentTypes,
-                dataMappingDocType: 'Bibliographic',
-                destinations: destinationDocumentTypes,
-                holdingsFields: holdingsMatchPoints,
-                itemFields: itemMatchPoints,
-                eHoldingsFields: eHoldingsMatchPoints,
-                dataMappingOrderFields: dataMappingOrderFields,
-                priority: 1,
-                isAddLine: false,
-                collapsed: true
-            }
-        );
-
-        $scope.dataTransformationsPanel.unshift(
-            {
-                title: 'Data Transformations',
-                dataTransformationDocTypes: documentTypes,
-                dataTransformationDocType: 'Bibliographic',
-                transformers: transformers,
-                transformer: 'Regex Pattern Transformer',
-                dataTransformationActionTypes: actionTypes,
-                dataTransformationActionType: 'All',
-                dataTransformationActions: actions,
-                dataTransformationAction: 'Add',
-                dataTransformationBibFields: bibFields,
-                dataTransformationStaffOnlyFields: booleanOptions,
-                dataTransformationHoldingsFields: holdingsFields,
-                dataTransformationItemFields: itemFields,
-                dataTransformationEHoldingsFields: eHoldingsFields,
-                dataTransformationOperations: transformationOperations,
-                dataTransformationTransformHoldingsFields: holdingsMatchPoints,
-                dataTransformationTransformItemFields: itemMatchPoints,
-                dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
-                dataTransformationStep: 1,
-                isAddLine: false,
-                collapsed: true
-            }
-        );
-
+        $scope.matchPointsPanel.unshift(matchPoint);
+        $scope.addOrOverlayPanel.unshift(addOrOverlay);
+        $scope.fieldOperationsPanel.unshift(fieldOperation);
+        $scope.dataMappingsPanel.unshift(dataMapping);
+        $scope.dataTransformationsPanel.unshift(dataTransformation);
         if (batchProcessType == 'Order Record Import') {
-            $scope.constantsAndDefaultsPanel.unshift(
-                {
-                    title: 'Constants And Defaults',
-                    constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
-                    constantOrDefaultTypes: constantOrDefaultTypes,
-                    constantOrDefault: 'Constant',
-                    isAddLine: false,
-                    collapsed: true
-                }
-            );
+            $scope.constantsAndDefaultsPanel.unshift(constantAndDefault);
         }
     };
 
@@ -808,6 +336,4 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
         return vars;
     }
-
-
 }]);

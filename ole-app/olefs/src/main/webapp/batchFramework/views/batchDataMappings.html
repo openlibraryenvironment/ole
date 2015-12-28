@@ -72,7 +72,8 @@
                         </td>
                         <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
                             <select name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
-                                    ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine" ng-change="setDefaultsDestination(dataMapping)">
+                                    ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine"
+                                    ng-change="setDefaultsDestination(dataMapping)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.destinations" value="{{option.name}}">
                                     {{option.name}}
@@ -83,7 +84,7 @@
                         <td>
                             <select id="dataMappingHoldingsField_{{$index}}" name="dataMappingHoldingsField_{{$index}}"
                                     ng-model="dataMapping.field"
-                                    ng-show="dataMapping.destination == 'Holdings' && !dataMapping.isAddLine">
+                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Holdings' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.holdingsFields" value="{{option.name}}">
                                     {{option.name}}
@@ -91,7 +92,7 @@
                             </select>
                             <select id="dataMappingItemField_{{$index}}" name="dataMappingItemField_{{$index}}"
                                     ng-model="dataMapping.field"
-                                    ng-show="dataMapping.destination == 'Item' && !dataMapping.isAddLine">
+                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Item' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.itemFields" value="{{option.name}}">
                                     {{option.name}}
@@ -100,7 +101,7 @@
                             <select id="dataMappingEHoldingsField_{{$index}}"
                                     name="dataMappingEHoldingsField_{{$index}}"
                                     ng-model="dataMapping.field"
-                                    ng-show="dataMapping.destination == 'EHoldings' && !dataMapping.isAddLine">
+                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'EHoldings' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.eHoldingsFields" value="{{option.name}}">
                                     {{option.name}}
@@ -111,7 +112,8 @@
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.dataMappingOrderFields" value="{{option.name}}">
+                                        ng-repeat="option in dataMapping.dataMappingOrderFields"
+                                        value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
@@ -125,11 +127,12 @@
                         </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine" class="btn btn-success">Add
+                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine"
+                                    class="btn btn-success btn-sm">Add
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
                                     ng-click="dataMappingRemove(dataMapping)"
-                                    ng-show="dataMapping.isAddLine && !submitted" class="btn btn-danger">Remove
+                                    ng-show="dataMapping.isAddLine && !submitted" class="btn btn-danger btn-xs">Remove
                             </button>
                         </td>
                     </tr>
