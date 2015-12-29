@@ -63,4 +63,10 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getGloballyProtectedField() {
         return batchProfileRequestHandler.prepareGloballyProtectedField();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getOrderImportFieldValues", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getOrderImportFieldValues(@RequestParam("fieldName") String fieldName) {
+        return batchProfileRequestHandler.prepareOrderImportFieldValues(fieldName);
+    }
 }

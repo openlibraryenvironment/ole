@@ -37,19 +37,89 @@
                                   ng-bind="constantsAndDefault.fieldName"></span>
                         </td>
                         <td>
-                            <select name="constantsAndDefaultItemStatus_{{$index}}"
-                                    id="constantsAndDefaultItemStatus_{{$index}}"
+                            <select name="constantsAndDefaultBoolean_{{$index}}"
+                                    id="constantsAndDefaultBoolean_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
-                                    ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
-                                <option ng-selected="{{option.itemStatusName == constantsAndDefault.fieldValue}}"
-                                        ng-repeat="option in itemStatusValues"
-                                        value="{{option.itemStatusName}}">{{option.itemStatusName}}
+                                    ng-show="(constantsAndDefault.fieldName == 'Receiving Required' || constantsAndDefault.fieldName == 'Use Tax Indicator' || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req' || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator' || constantsAndDefault.fieldName == 'Route To Requestor') && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in booleanOptions"
+                                        value="{{option.value}}">{{option.value}}
+                                </option>
+                            </select>
+                            <select name="constantsAndDefaultDiscountType_{{$index}}"
+                                    id="constantsAndDefaultDiscountType_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="constantsAndDefault.fieldName == 'Discount Type' && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in constantsAndDefault.discountTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <select name="constantsAndDefaultFieldValues_{{$index}}"
+                                    id="constantsAndDefaultFieldValues_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="(constantsAndDefault.fieldName == 'Chart Code'
+                                            || constantsAndDefault.fieldName == 'Org Code'
+                                            || constantsAndDefault.fieldName == 'Item Chart Code'
+                                            || constantsAndDefault.fieldName == 'Contract Manager'
+                                            || constantsAndDefault.fieldName == 'Order Type'
+                                            || constantsAndDefault.fieldName == 'Funding Source'
+                                            || constantsAndDefault.fieldName == 'Delivery Campus Code'
+                                            || constantsAndDefault.fieldName == 'Building Code'
+                                            || constantsAndDefault.fieldName == 'Building Room Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Choice'
+                                            || constantsAndDefault.fieldName == 'Cost Source'
+                                            || constantsAndDefault.fieldName == 'Default Location'
+                                            || constantsAndDefault.fieldName == 'Vendor Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Alias Name'
+                                            || constantsAndDefault.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || constantsAndDefault.fieldName == 'Requestor Name'
+                                            || constantsAndDefault.fieldName == 'Item Status'
+                                            || constantsAndDefault.fieldName == 'Account Number'
+                                            || constantsAndDefault.fieldName == 'Object Code'
+                                            || constantsAndDefault.fieldName == 'Request Source'
+                                            || constantsAndDefault.fieldName == 'Assign To User'
+                                            || constantsAndDefault.fieldName == 'Method Of PO Transmission'
+                                            || constantsAndDefault.fieldName == 'Recurring Payment Type'
+                                            || constantsAndDefault.fieldName == 'Fund Code') && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in fieldValues"
+                                        value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
                             <input id="constantsAndDefaultValue_{{$index}}" name="constantsAndDefaultValue_{{$index}}"
                                    type="text"
                                    ng-model="constantsAndDefault.fieldValue" style="height: 30px; width: 100px;"
-                                   ng-hide="constantsAndDefault.fieldName == 'Item Status' || constantsAndDefault.isAddLine"/>
+                                   ng-hide="constantsAndDefault.fieldName == 'Chart Code'
+                                            || constantsAndDefault.fieldName == 'Org Code'
+                                            || constantsAndDefault.fieldName == 'Item Chart Code'
+                                            || constantsAndDefault.fieldName == 'Contract Manager'
+                                            || constantsAndDefault.fieldName == 'Order Type'
+                                            || constantsAndDefault.fieldName == 'Funding Source'
+                                            || constantsAndDefault.fieldName == 'Delivery Campus Code'
+                                            || constantsAndDefault.fieldName == 'Building Code'
+                                            || constantsAndDefault.fieldName == 'Building Room Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Choice'
+                                            || constantsAndDefault.fieldName == 'Cost Source'
+                                            || constantsAndDefault.fieldName == 'Default Location'
+                                            || constantsAndDefault.fieldName == 'Vendor Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Alias Name'
+                                            || constantsAndDefault.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || constantsAndDefault.fieldName == 'Requestor Name'
+                                            || constantsAndDefault.fieldName == 'Item Status'
+                                            || constantsAndDefault.fieldName == 'Discount Type'
+                                            || constantsAndDefault.fieldName == 'Account Number'
+                                            || constantsAndDefault.fieldName == 'Object Code'
+                                            || constantsAndDefault.fieldName == 'Request Source'
+                                            || constantsAndDefault.fieldName == 'Assign To User'
+                                            || constantsAndDefault.fieldName == 'Method Of PO Transmission'
+                                            || constantsAndDefault.fieldName == 'Recurring Payment Type'
+                                            || constantsAndDefault.fieldName == 'Receiving Required'
+                                            || constantsAndDefault.fieldName == 'Use Tax Indicator'
+                                            || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req'
+                                            || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator'
+                                            || constantsAndDefault.fieldName == 'Route To Requestor'
+                                            || constantsAndDefault.fieldName == 'Fund Code' || constantsAndDefault.isAddLine"/>
                             <span ng-show="constantsAndDefault.isAddLine"
                                   ng-bind="constantsAndDefault.fieldValue"></span>
                         </td>

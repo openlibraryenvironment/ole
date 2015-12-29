@@ -1,4 +1,4 @@
-var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ngLoadingSpinner']);
+var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
 
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
     $scope.booleanOptions = booleanOptions;
@@ -22,6 +22,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 $scope.fieldOperationsPanel = data;
                 $scope.fieldOperationsPanel.unshift(fieldOperation);
             });
+            $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
             $scope.matchPointsActivePanel = [];
             $scope.addOrOverlayActivePanel = [];
             $scope.fieldOperationsActivePanel = [];
@@ -40,6 +41,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[0].priority = 1;
             $scope.constantsAndDefaultsPanel = [];
         } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
+            $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
+            if ($scope.bibImportProfileNames == undefined) {
+                $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
+                    $scope.bibImportProfileNames = data;
+                });
+            }
+            $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
             $scope.constantsAndDefaultsPanel = [constantAndDefault];
             $scope.dataMappingsPanel = [dataMapping];
             $scope.matchPointsPanel = [];
@@ -297,6 +305,12 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                     $scope.constantsAndDefaultsPanel = data.batchProfileConstantAndDefaultList;
 
                     addEmptyValueToAddNew(data.batchProcessType);
+
+                    if (data.batchProcessType == 'Order Record Import' && $scope.bibImportProfileNames == undefined) {
+                        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
+                            $scope.bibImportProfileNames = data;
+                        });
+                    }
                 });
         }
     };
@@ -311,7 +325,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
-        if ($scope.mainSectionPanel.profileName === 'Order Record Import') {
+        if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
             $scope.constantsAndDefaultsPanel.splice(0, 1);
         }
     };

@@ -3,6 +3,7 @@ package org.kuali.ole.oleng.service.impl;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
+import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -19,6 +21,9 @@ public class BatchProfileServiceImpl implements BatchProfileService{
 
     @Autowired
     private DescribeDAO describeDAO;
+
+    @Autowired
+    private SelectDAO selectDAO;
 
     @Override
     public List<OleShelvingScheme> getAllCallNumberTypes() {
@@ -58,6 +63,11 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     @Override
     public List<OleGloballyProtectedField> getAllProtectedFields() {
         return describeDAO.fetchAllGloballyProtectedFields();
+    }
+
+    @Override
+    public Map<String, String> fetchOrderImportFieldValues(String fieldName) {
+        return selectDAO.fetchOrderImportFieldValues(fieldName);
     }
 
     @Override
