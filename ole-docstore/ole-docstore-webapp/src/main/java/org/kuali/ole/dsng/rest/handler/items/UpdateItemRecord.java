@@ -49,12 +49,13 @@ public class UpdateItemRecord extends Handler {
                     if (CollectionUtils.isNotEmpty(itemRecords)) {
                         for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
                             JSONObject itemJsonObject = requestJsonObject.getJSONObject("items");
+                            ItemRecord itemRecord = iterator.next();
                             if (itemJsonObject.has("matchPoints")) {
                                 JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
                                 HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
                                 });
 
-                                ItemRecord itemRecord = iterator.next();
+
                                 exchange.add("itemRecord",itemRecord);
 
                                 matchPointsLoop:
