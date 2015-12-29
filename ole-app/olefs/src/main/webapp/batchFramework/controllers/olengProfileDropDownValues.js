@@ -292,10 +292,16 @@ var constantOrDefaultTypes = [
     {id: 'default', name: 'Default'}
 ];
 
+var discountTypes = [
+    {id: '%', name: '%'},
+    {id: '#', name: '#'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: batchProcessTypeValues,
     requisitionForTitlesValues: requisitionForTitlesValues,
+    requisitionForTitlesOption: 'One Requisition Per Title',
     marcOnly: false,
     collapsed: false
 };
@@ -369,6 +375,8 @@ var constantAndDefault = {
     title: 'Constants And Defaults',
     constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
     constantOrDefaultTypes: constantOrDefaultTypes,
+    booleanOptions: booleanOptions,
+    discountTypes: discountTypes,
     constantOrDefault: 'Constant',
     isAddLine: false,
     collapsed: true

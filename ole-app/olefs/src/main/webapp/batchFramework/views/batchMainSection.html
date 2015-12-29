@@ -46,10 +46,16 @@
                         </td>
                         <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
                             <span class="col-sm-4">Bib Import Profile:</span>
-                            <input id="bibImportProfile" name="bibImportProfile" type="text"
-                                   ng-model="mainSectionPanel.bibImportProfileForOrderImport"
-                                   style="height: 30px; width: 150px;"
-                                   ng-disabled="submitted"/>
+                            <select id="bibImportProfile" name="bibImportProfile"
+                                    ng-model="mainSectionPanel.bibImportProfileForOrderImport"
+                                    ng-disabled="submitted"
+                                    style="width: 170px">
+                                <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
+                                        ng-repeat="option in bibImportProfileNames"
+                                        value="{{option.profileName}}">
+                                    {{option.profileName}}
+                                </option>
+                            </select>
                         </td>
                     </tr>
                     <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">

@@ -1,4 +1,4 @@
-getMaintenanceData = function(dataObject, $scope, $http) {
+getMaintenanceData = function (dataObject, $scope, $http) {
     if (dataObject.title == 'Match Points') {
         if ((dataObject.matchPointType == 'Call Number Type' || dataObject.matchPointType == 'Holdings Call Number Type') && $scope.callNumberTypeValues == undefined) {
             $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function (data) {
@@ -54,9 +54,32 @@ getMaintenanceData = function(dataObject, $scope, $http) {
     } else if (dataObject.title == 'Constants And Defaults') {
         dataObject.fieldValue = null;
         dataObject.constantsAndDefault = 'Constant';
-        if (dataObject.fieldName == 'Item Status' && $scope.itemStatusValues == undefined) {
-            $http.get(OLENG_CONSTANTS.PROFILE_GET_ITEM_STATUS).success(function (data) {
-                $scope.itemStatusValues = data;
+        if (dataObject.fieldName == 'Chart Code'
+            || dataObject.fieldName == 'Org Code'
+            || dataObject.fieldName == 'Item Chart Code'
+            || dataObject.fieldName == 'Contract Manager'
+            || dataObject.fieldName == 'Order Type'
+            || dataObject.fieldName == 'Funding Source'
+            || dataObject.fieldName == 'Delivery Campus Code'
+            || dataObject.fieldName == 'Building Code'
+            || dataObject.fieldName == 'Building Room Number'
+            || dataObject.fieldName == 'Vendor Choice'
+            || dataObject.fieldName == 'Cost Source'
+            || dataObject.fieldName == 'Default Location'
+            || dataObject.fieldName == 'Vendor Number'
+            || dataObject.fieldName == 'Vendor Alias Name'
+            || dataObject.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+            || dataObject.fieldName == 'Requestor Name'
+            || dataObject.fieldName == 'Item Status'
+            || dataObject.fieldName == 'Account Number'
+            || dataObject.fieldName == 'Object Code'
+            || dataObject.fieldName == 'Request Source'
+            || dataObject.fieldName == 'Assign To User'
+            || dataObject.fieldName == 'Method Of PO Transmission'
+            || dataObject.fieldName == 'Recurring Payment Type'
+            || dataObject.fieldName == 'Fund Code') {
+            $http.get(OLENG_CONSTANTS.PROFILE_GET_ORDER_FIELD_VALUES, {params: {"fieldName": dataObject.fieldName}}).success(function (data) {
+                $scope.fieldValues = data;
             });
         }
     }

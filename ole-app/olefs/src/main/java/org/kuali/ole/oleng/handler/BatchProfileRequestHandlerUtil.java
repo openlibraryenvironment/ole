@@ -199,6 +199,24 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return jsonArray.toString();
     }
 
+    public String prepareOrderImportFieldValues(String fieldName) {
+        Map<String, String> fieldValues = batchProfileService.fetchOrderImportFieldValues(fieldName);
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if (!fieldValues.isEmpty()) {
+                for (Iterator iterator = fieldValues.entrySet().iterator(); iterator.hasNext(); ) {
+                    Map.Entry<String, String> fieldValue = (Map.Entry<String, String>) iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", fieldValue.getKey());
+                    jsonObject.put("name", fieldValue.getValue());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
 
     public BatchProfileService getBatchProfileService() {
         return batchProfileService;

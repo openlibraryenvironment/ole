@@ -6,6 +6,7 @@ import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -20,6 +21,7 @@ public interface BatchProfileService {
     public List<OleItemAvailableStatus> fetchAllItemStatus();
     public List<BatchProcessProfile> getAllProfiles();
     public List<OleGloballyProtectedField> getAllProtectedFields();
+    public Map<String, String> fetchOrderImportFieldValues(String fieldName);
     public void deleteProfileById(Long profileId);
 
 }
