@@ -103,10 +103,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
                 }
-                if (requestJsonObject.has("id")) {
-                    processHoldings(requestJsonObject, exchange, overlayOps);
-                    processItem(requestJsonObject,exchange, overlayOps);
-                }
+
+                processHoldings(requestJsonObject, exchange, overlayOps);
+                processItem(requestJsonObject,exchange, overlayOps);
+
                 solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
                 solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
 
@@ -204,26 +204,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
     private void processItem(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
-
-        List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
-
-        List<HoldingsRecord> finalHoldings = new ArrayList<HoldingsRecord>();
-        if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)){
-            finalHoldings.addAll(holdingsRecordsToUpdate);
-        }
-        for (Iterator<HoldingsRecord> iterator = finalHoldings.iterator(); iterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = iterator.next();
-            for (Iterator<Handler> handlerIterator = getItemHandlers().iterator(); handlerIterator.hasNext(); ) {
-                Handler handler = handlerIterator.next();
-                if (handler.isInterested(overlayOps)) {
-                    exchange.add("holdings",holdingsRecord);
-                    handler.setItemDAO(itemDAO);
-                    handler.setBusinessObjectService(getBusinessObjectService());
-                    handler.process(requestJsonObject, exchange);
-                    exchange.remove("holdings");
-                }
+        for (Iterator<Handler> handlerIterator = getItemHandlers().iterator(); handlerIterator.hasNext(); ) {
+            Handler handler = handlerIterator.next();
+            if (handler.isInterested(overlayOps)) {
+                handler.setItemDAO(itemDAO);
+                handler.setBusinessObjectService(getBusinessObjectService());
+                handler.process(requestJsonObject, exchange);
             }
-
         }
     }
 

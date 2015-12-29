@@ -40,42 +40,44 @@ public class CreateItemHandler extends Handler {
 
         try {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
-            JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
-            ItemRecord itemRecord = new ItemRecord();
-            exchange.add("itemRecord",itemRecord);
+            if (null != holdingsRecord) {
+                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
+                ItemRecord itemRecord = new ItemRecord();
+                exchange.add("itemRecord",itemRecord);
 
-            JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
-            HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-            });
-            for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                String key1 = (String) iterator3.next();
-                for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                    ItemHandler itemHandler = iterator4.next();
-                    if (itemHandler.isInterested(key1)) {
-                        itemHandler.setBusinessObjectService(getBusinessObjectService());
-                        itemHandler.processDataMappings(dataMappings, exchange);
+                JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
+                });
+                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                    String key1 = (String) iterator3.next();
+                    for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                        ItemHandler itemHandler = iterator4.next();
+                        if (itemHandler.isInterested(key1)) {
+                            itemHandler.setBusinessObjectService(getBusinessObjectService());
+                            itemHandler.processDataMappings(dataMappings, exchange);
+                        }
                     }
                 }
+
+                String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+                itemRecord.setUpdatedBy(updatedBy);
+                itemRecord.setUpdatedDate(updatedDate);
+                itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                itemRecord.setHoldingsRecord(holdingsRecord);
+                itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
+
+                getItemDAO().save(itemRecord);
+
+                List createdItemDocuments = (List) exchange.get("itemRecordsToCreate");
+                if(null == createdItemDocuments) {
+                    createdItemDocuments = new ArrayList();
+                }
+                createdItemDocuments.add(itemRecord);
+
+                exchange.add("itemRecordsToCreate", createdItemDocuments);
             }
-
-            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
-            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
-            String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
-            itemRecord.setUpdatedBy(updatedBy);
-            itemRecord.setUpdatedDate(updatedDate);
-            itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-            itemRecord.setHoldingsRecord(holdingsRecord);
-            itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-
-            getItemDAO().save(itemRecord);
-
-            List createdItemDocuments = (List) exchange.get("itemRecordsToCreate");
-            if(null == createdItemDocuments) {
-                createdItemDocuments = new ArrayList();
-            }
-            createdItemDocuments.add(itemRecord);
-
-            exchange.add("itemRecordsToCreate", createdItemDocuments);
 
         } catch (JSONException e) {
             e.printStackTrace();

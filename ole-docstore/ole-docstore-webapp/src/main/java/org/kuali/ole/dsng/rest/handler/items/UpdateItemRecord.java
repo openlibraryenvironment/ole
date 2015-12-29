@@ -39,63 +39,66 @@ public class UpdateItemRecord extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
         try {
-            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
-            List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+            List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
+            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
+                for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsRecordsToUpdate.iterator(); holdingsRecordIterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
+                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                    if (CollectionUtils.isNotEmpty(itemRecords)) {
+                        for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                            JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
+                            if (holdingJsonObject.has("matchPoints")) {
+                                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
+                                HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                                });
 
-            if (CollectionUtils.isNotEmpty(itemRecords)) {
-                for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                                ItemRecord itemRecord = iterator.next();
+                                exchange.add("itemRecord",itemRecord);
 
-                    JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
-                    if (holdingJsonObject.has("matchPoints")) {
-                        JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
-                        HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                        });
+                                matchPointsLoop:
+                                for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
+                                    String key = (String) iterator1.next();
+                                    for (Iterator<ItemHandler> iterator2 = getItemMetaDataHandlers().iterator(); iterator2.hasNext(); ) {
+                                        Handler itemMetaDataHandlelr = iterator2.next();
+                                        if (itemMetaDataHandlelr.isInterested(key)) {
+                                            itemMetaDataHandlelr.process(matchPoints, exchange);
+                                            if (null != exchange.get("matchedItem")) {
+                                                JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
 
-                        ItemRecord itemRecord = iterator.next();
-                        exchange.add("itemRecord",itemRecord);
-
-                        matchPointsLoop:
-                        for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
-                            String key = (String) iterator1.next();
-                            for (Iterator<ItemHandler> iterator2 = getItemMetaDataHandlers().iterator(); iterator2.hasNext(); ) {
-                                Handler itemMetaDataHandlelr = iterator2.next();
-                                if (itemMetaDataHandlelr.isInterested(key)) {
-                                    itemMetaDataHandlelr.process(matchPoints, exchange);
-                                    if (null != exchange.get("matchedItem")) {
-                                        JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
-
-                                        HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-                                        });
-                                        for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                                            String key1 = (String) iterator3.next();
-                                            for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                                                ItemHandler itemMetaDataHandlelr1 = iterator4.next();
-                                                if (itemMetaDataHandlelr1.isInterested(key1)) {
-                                                    itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                                                    itemMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
+                                                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
+                                                });
+                                                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                                                    String key1 = (String) iterator3.next();
+                                                    for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                                                        ItemHandler itemMetaDataHandlelr1 = iterator4.next();
+                                                        if (itemMetaDataHandlelr1.isInterested(key1)) {
+                                                            itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
+                                                            itemMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
+                                                        }
+                                                    }
                                                 }
+                                                itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
+                                                itemRecordsToUpdate.add(itemRecord);
+                                                exchange.remove("matchedItem");
+                                                break matchPointsLoop;
                                             }
                                         }
-                                        itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-                                        itemRecordsToUpdate.add(itemRecord);
-                                        exchange.remove("matchedItem");
-                                        break matchPointsLoop;
                                     }
                                 }
                             }
                         }
+                        getItemDAO().saveAll(itemRecordsToUpdate);
+
+
+                        List itemsToUpdate = (List) exchange.get("itemRecordsToUpdate");
+                        if(null == itemsToUpdate) {
+                            itemsToUpdate = new ArrayList();
+                        }
+                        itemsToUpdate.addAll(itemRecordsToUpdate);
+
+                        exchange.add("itemRecordsToUpdate",itemsToUpdate);
                     }
                 }
-                getItemDAO().saveAll(itemRecordsToUpdate);
-
-
-                List itemsToUpdate = (List) exchange.get("itemRecordsToUpdate");
-                if(null == itemsToUpdate) {
-                    itemsToUpdate = new ArrayList();
-                }
-                itemsToUpdate.addAll(itemRecordsToUpdate);
-
-                exchange.add("itemRecordsToUpdate",itemsToUpdate);
             }
 
         } catch (JSONException e) {
