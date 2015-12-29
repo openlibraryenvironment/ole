@@ -39,16 +39,18 @@ public class UpdateItemRecord extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
         try {
+            String overlayOps = requestJsonObject.getString("overlayOps");
             List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
             if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
                 for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsRecordsToUpdate.iterator(); holdingsRecordIterator.hasNext(); ) {
                     HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
                     List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                    boolean isItemMatched = false;
                     if (CollectionUtils.isNotEmpty(itemRecords)) {
                         for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                            JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
-                            if (holdingJsonObject.has("matchPoints")) {
-                                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
+                            JSONObject itemJsonObject = requestJsonObject.getJSONObject("items");
+                            if (itemJsonObject.has("matchPoints")) {
+                                JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
                                 HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
                                 });
 
@@ -63,23 +65,9 @@ public class UpdateItemRecord extends Handler {
                                         if (itemMetaDataHandlelr.isInterested(key)) {
                                             itemMetaDataHandlelr.process(matchPoints, exchange);
                                             if (null != exchange.get("matchedItem")) {
-                                                JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
-
-                                                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-                                                });
-                                                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                                                    String key1 = (String) iterator3.next();
-                                                    for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                                                        ItemHandler itemMetaDataHandlelr1 = iterator4.next();
-                                                        if (itemMetaDataHandlelr1.isInterested(key1)) {
-                                                            itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                                                            itemMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
-                                                        }
-                                                    }
-                                                }
-                                                itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-                                                itemRecordsToUpdate.add(itemRecord);
-                                                exchange.remove("matchedItem");
+                                                isItemMatched = true;
+                                                ItemRecord record = processOverlay(exchange, itemJsonObject, itemRecord);
+                                                itemRecordsToUpdate.add(record);
                                                 break matchPointsLoop;
                                             }
                                         }
@@ -88,8 +76,6 @@ public class UpdateItemRecord extends Handler {
                             }
                         }
                         getItemDAO().saveAll(itemRecordsToUpdate);
-
-
                         List itemsToUpdate = (List) exchange.get("itemRecordsToUpdate");
                         if(null == itemsToUpdate) {
                             itemsToUpdate = new ArrayList();
@@ -97,6 +83,9 @@ public class UpdateItemRecord extends Handler {
                         itemsToUpdate.addAll(itemRecordsToUpdate);
 
                         exchange.add("itemRecordsToUpdate",itemsToUpdate);
+                    }
+                    if(!isItemMatched) {
+                        createItem(requestJsonObject, exchange, overlayOps, holdingsRecord);
                     }
                 }
             }
@@ -110,6 +99,37 @@ public class UpdateItemRecord extends Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createItem(JSONObject requestJsonObject, Exchange exchange, String overlayOps, HoldingsRecord holdingsRecord) {
+        CreateItemHandler createItemHandler = new CreateItemHandler();
+        if(createItemHandler.isInterested(overlayOps)) {
+            exchange.add("holdings",holdingsRecord);
+            createItemHandler.setItemDAO(getItemDAO());
+            createItemHandler.setBusinessObjectService(getBusinessObjectService());
+            createItemHandler.process(requestJsonObject,exchange);
+            exchange.remove("holdings");
+        }
+    }
+
+    private ItemRecord processOverlay(Exchange exchange,JSONObject holdingJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
+        JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+
+        HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
+        });
+        for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+            String key1 = (String) iterator3.next();
+            for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                ItemHandler itemMetaDataHandlelr1 = iterator4.next();
+                if (itemMetaDataHandlelr1.isInterested(key1)) {
+                    itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
+                    itemMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
+                }
+            }
+        }
+        itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
+        exchange.remove("matchedItem");
+        return itemRecord;
     }
 
     private Collection getCollletion(String values) {

@@ -104,9 +104,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
                 }
 
-                processHoldings(requestJsonObject, exchange, overlayOps);
-                processItem(requestJsonObject,exchange, overlayOps);
-
                 solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
                 solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
 
