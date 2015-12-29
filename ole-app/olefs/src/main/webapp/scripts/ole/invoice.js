@@ -436,17 +436,7 @@ jq(window).load(function () {
             jq("#ProcessItemsLink").click();
         }
     }
-    var id = jq("#invoice-vendorHeaderIdentifier_control").val();
-    if(id.length > 0){
-        var amount = jq("#invoice-invoiceNumber_control").val();
-        if(amount.length > 0){
-            jq("#invoice-invoiceDate_control").focus();
-        } else{
-            jq("#invoice-invoiceNumber_control").focus();
-        }
-    }else{
-        jq("#invoice-vendorHeaderIdentifier_control").focus();
-    }
+
 });
 
 jq(document).ready(function(){
@@ -582,3 +572,16 @@ function modifyAccountNumber() {
     });
 }
 
+function focus(){
+    var id = jq("#invoice-vendorHeaderIdentifier_control").val();
+    if(id.length > 0){
+        var amount = jq("#invoice-invoiceNumber_control").val();
+        if(amount.length > 0){
+            jq("#invoice-invoiceDate_control").focus();
+        } else{
+            jq("#invoice-invoiceNumber_control").focus();
+        }
+    }else{
+        jq("#invoice-vendorHeaderIdentifier_control").focus();
+    }
+}
