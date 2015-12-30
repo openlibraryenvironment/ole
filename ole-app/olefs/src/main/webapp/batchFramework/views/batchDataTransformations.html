@@ -18,9 +18,6 @@
                     <tr>
                         <th>Doc Type</th>
                         <th>Action Type</th>
-                        <th>Action</th>
-                        <th>Field</th>
-                        <th>Value</th>
                         <th>Source</th>
                         <th>Operation</th>
                         <th>Destination</th>
@@ -59,111 +56,10 @@
                                   ng-bind="dataTransformation.dataTransformationActionType"></span>
                         </td>
                         <td>
-                            <select name="dataTransformationAction_{{$index}}"
-                                    id="dataTransformationAction_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationAction"
-                                    ng-hide="dataTransformation.isAddLine"
-                                    ng-change="setDefaultsAction(dataTransformation)">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationAction}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationActions"
-                                        value="{{option.name}}">{{option.name}}
-                                </option>
-                            </select>
-                            <span ng-show="dataTransformation.isAddLine"
-                                  ng-bind="dataTransformation.dataTransformationAction"></span>
-                        </td>
-                        <td>
-                            <select name="dataTransformationBibField_{{$index}}"
-                                    id="dataTransformationBibField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(dataTransformation, dataTransformation.dataTransformationField)">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationBibFields"
-                                        value="{{option.name}}">{{option.name}}
-                                </option>
-                            </select>
-                            <select name="dataTransformationHoldingsField_{{$index}}"
-                                    id="dataTransformationHoldingsField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Holdings' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationHoldingsFields  | orderBy:'name'"
-                                        value="{{option.name}}">{{option.name}}
-                                </option>
-                            </select>
-                            <select name="dataTransformationItemField_{{$index}}"
-                                    id="dataTransformationItemField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(dataTransformation, dataTransformation.dataTransformationField)">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationItemFields  | orderBy:'name'"
-                                        value="{{option.name}}">{{option.name}}
-                                </option>
-                            </select>
-                            <select name="dataTransformationEHoldingsField_{{$index}}"
-                                    id="dataTransformationEHoldingsField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'EHoldings' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationEHoldingsFields  | orderBy:'name'"
-                                        value="{{option.name}}">{{option.name}}
-                                </option>
-                            </select>
-                            <span ng-show="dataTransformation.isAddLine"
-                                  ng-bind="dataTransformation.dataTransformationField"></span>
-                        </td>
-                        <td>
-                            <input id="dataTransformationFieldValue_{{$index}}"
-                                   name="dataTransformationFieldValue_{{$index}}" type="text"
-                                   ng-model="dataTransformation.dataTransformationFieldValue"
-                                   ng-show="(dataTransformation.dataTransformationField == 'Subscription Status' || dataTransformation.dataTransformationField == 'Access Status' || dataTransformation.dataTransformationField == 'Receipt Status') && !dataTransformation.isAddLine"
-                                   style="height: 30px; width: 150px;"/>
-                            <select id="dataTransformationStaffOnly_{{$index}}"
-                                    name="dataTransformationStaffOnly_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationFieldValue"
-                                    ng-show="dataTransformation.dataTransformationField == 'Staff Only' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.id == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in booleanOptions" value="{{option.id}}">
-                                    {{option.value}}
-                                </option>
-                            </select>
-                            <select id="dataTransformationBibStatus_{{$index}}"
-                                    name="dataTransformationBibStatus_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationFieldValue"
-                                    ng-show="dataTransformation.dataTransformationField == 'Bib Status' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.bibStatusName == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in bibStatuses" value="{{option.bibStatusName}}">
-                                    {{option.bibStatusName}}
-                                </option>
-                            </select>
-                            <select id="dataTransformationItemStatus_{{$index}}"
-                                    name="dataTransformationItemStatus_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationFieldValue"
-                                    ng-show="dataTransformation.dataTransformationField == 'Item Status' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.itemStatusName == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in itemStatusValues  | orderBy:'itemStatusName'" value="{{option.itemStatusName}}">
-                                    {{option.itemStatusName}}
-                                </option>
-                            </select>
-                            <select id="dataTransformationItemType_{{$index}}"
-                                    name="dataTransformationItemType_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationFieldValue"
-                                    ng-show="dataTransformation.dataTransformationField == 'Item Type' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.itemTypeName == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in itemTypeValues  | orderBy:'itemTypeName'" value="{{option.itemTypeName}}">
-                                    {{option.itemTypeName}}
-                                </option>
-                            </select>
-                            <span ng-show="dataTransformation.isAddLine"
-                                  ng-bind="dataTransformation.dataTransformationFieldValue"></span>
-                        </td>
-                        <td>
                             <input id="dataTransformationSourceField_{{$index}}"
                                    name="dataTransformationSourceField_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationSourceField"
-                                   ng-show="dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine"
+                                   ng-show="!dataTransformation.isAddLine"
                                    style="height: 30px; width: 150px;"/>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationSourceField"></span>
@@ -172,7 +68,7 @@
                             <select id="dataTransformationOperation_{{$index}}"
                                     name="dataTransformationOperation_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationOperation"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
+                                    ng-show="!dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationOperation}}"
                                         ng-repeat="option in dataTransformation.dataTransformationOperations  | orderBy:'name'"
                                         value="{{option.name}}">
@@ -186,7 +82,7 @@
                             <input id="dataTransformationDestinationField_{{$index}}"
                                    name="dataTransformationDestinationField_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationDestinationField"
-                                   ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine"
+                                   ng-show="!dataTransformation.isAddLine"
                                    style="height: 30px; width: 150px;"/>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationDestinationField"></span>
@@ -195,7 +91,7 @@
                             <input id="dataTransformationConstant_{{$index}}"
                                    name="dataTransformationConstant_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationConstant"
-                                   ng-show="dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine"
+                                   ng-show="!dataTransformation.isAddLine"
                                    style="height: 30px; width: 150px;"/>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationConstant"></span>
@@ -208,40 +104,6 @@
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationStep"></span>
-                        </td>
-                        <td>
-                            <select id="dataTransformationTransformHoldingsField_{{$index}}"
-                                    name="dataTransformationTransformHoldingsField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationTransformField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Holdings' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformHoldingsFields  | orderBy:'name'"
-                                        value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select id="dataTransformationTransformItemField_{{$index}}"
-                                    name="dataTransformationTransformItemField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationTransformField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'Item' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformItemFields  | orderBy:'name'"
-                                        value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select id="dataTransformationTransformEHoldingsField_{{$index}}"
-                                    name="dataTransformationTransformEHoldingsField_{{$index}}"
-                                    ng-model="dataTransformation.dataTransformationTransformField"
-                                    ng-show="dataTransformation.dataTransformationDocType == 'EHoldings' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
-                                <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformEHoldingsFields  | orderBy:'name'"
-                                        value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <span ng-show="dataTransformation.isAddLine"
-                                  ng-bind="dataTransformation.dataTransformationTransformField"></span>
                         </td>
                         <td>
                             <button id="dataTransformationAddButton_{{$index}}"

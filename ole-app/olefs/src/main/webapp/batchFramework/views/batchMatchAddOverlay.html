@@ -84,9 +84,10 @@
                             </select>
                             <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add'"
                                   ng-bind="addOrOverlay.addOperation"></span>
-                            <label ng-show="addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine"><input
-                                    type="checkbox" ng-model="addOrOverlay.addItems"> Add Items</label>
-                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && addOrOverlay.operation == 'Add'">Add Items {{addOrOverlay.addItems}}</span>
+                            <label ng-show="addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings'  && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine">
+                                <input type="checkbox" ng-model="addOrOverlay.addItems"> Add Items
+                            </label>
+                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay')">Add Items {{addOrOverlay.addItems}}</span>
                         </td>
                         <td>
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"

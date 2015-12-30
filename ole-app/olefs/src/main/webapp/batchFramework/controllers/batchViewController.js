@@ -283,10 +283,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             constant: $scope.dataMappingsPanel[0].constant,
             destination: $scope.dataMappingsPanel[0].destination,
             field: $scope.dataMappingsPanel[0].field,
+            transferOption: $scope.dataMappingsPanel[0].transferOption,
             priority: $scope.dataMappingsPanel[0].priority,
             isAddLine: true
         });
-        $scope.dataMappingsPanel[0].dataMappingDocType = 'Bibliographic';
+        $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
         $scope.dataMappingsPanel[0].dataField = null;
         $scope.dataMappingsPanel[0].ind1 = null;
         $scope.dataMappingsPanel[0].ind2 = null;
@@ -294,6 +295,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].constant = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
+        $scope.dataMappingsPanel[0].transferOption = 'Pre Transfer';
         $scope.dataMappingsPanel[0].priority = 1;
     };
 
@@ -308,11 +310,12 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 constant: $scope.dataMappingsPanel[index].constant,
                 destination: $scope.dataMappingsPanel[index].destination,
                 field: $scope.dataMappingsPanel[index].field,
+                transferOption: $scope.dataMappingsPanel[index].transferOption,
                 priority: $scope.dataMappingsPanel[index].priority,
                 isAddLine: true
             }
             $scope.dataMappingsPanel[index].isEdit = true;
-            $scope.dataMappingsPanel[index].dataMappingDocTypes = documentTypes;
+            $scope.dataMappingsPanel[index].dataMappingDocTypes = transformationDocumentTypes;
             $scope.dataMappingsPanel[index].destinations = destinationDocumentTypes;
             $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
             $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
@@ -320,6 +323,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].dataMappingOrderFields = dataMappingOrderFields;
             $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
             $scope.dataMappingsPanel[index].discountTypes = discountTypes;
+            $scope.dataMappingsPanel[index].transferOptions = transferOptions;
             $scope.dataMappingsPanel[index].isAddLine = false;
         }
     }
@@ -334,6 +338,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             constant: $scope.dataMappingsPanel[index].constant,
             destination: $scope.dataMappingsPanel[index].destination,
             field: $scope.dataMappingsPanel[index].field,
+            transferOption: $scope.dataMappingsPanel[index].transferOption,
             priority: $scope.dataMappingsPanel[index].priority,
             isAddLine: true
         }
@@ -357,27 +362,19 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataTransformationsPanel.push({
             dataTransformationDocType: $scope.dataTransformationsPanel[0].dataTransformationDocType,
             dataTransformationActionType: $scope.dataTransformationsPanel[0].dataTransformationActionType,
-            dataTransformationAction: $scope.dataTransformationsPanel[0].dataTransformationAction,
-            dataTransformationField: $scope.dataTransformationsPanel[0].dataTransformationField,
-            dataTransformationFieldValue: $scope.dataTransformationsPanel[0].dataTransformationFieldValue,
             dataTransformationSourceField: $scope.dataTransformationsPanel[0].dataTransformationSourceField,
             dataTransformationOperation: $scope.dataTransformationsPanel[0].dataTransformationOperation,
             dataTransformationDestinationField: $scope.dataTransformationsPanel[0].dataTransformationDestinationField,
             dataTransformationConstant: $scope.dataTransformationsPanel[0].dataTransformationConstant,
-            dataTransformationTransformField: $scope.dataTransformationsPanel[0].dataTransformationTransformField,
             dataTransformationStep: $scope.dataTransformationsPanel[0].dataTransformationStep,
             isAddLine: true
         });
-        $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bibliographic';
+        $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bib Marc';
         $scope.dataTransformationsPanel[0].dataTransformationActionType = 'All';
-        $scope.dataTransformationsPanel[0].dataTransformationAction = 'Add';
-        $scope.dataTransformationsPanel[0].dataTransformationField = null;
-        $scope.dataTransformationsPanel[0].dataTransformationFieldValue = null;
         $scope.dataTransformationsPanel[0].dataTransformationSourceField = null;
         $scope.dataTransformationsPanel[0].dataTransformationOperation = null;
         $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
         $scope.dataTransformationsPanel[0].dataTransformationConstant = null;
-        $scope.dataTransformationsPanel[0].dataTransformationTransformField = null;
         $scope.dataTransformationsPanel[0].dataTransformationStep = 1;
     };
 
@@ -386,31 +383,17 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.rowToEdit = {
                 dataTransformationDocType: $scope.dataTransformationsPanel[index].dataTransformationDocType,
                 dataTransformationActionType: $scope.dataTransformationsPanel[index].dataTransformationActionType,
-                dataTransformationAction: $scope.dataTransformationsPanel[index].dataTransformationAction,
-                dataTransformationField: $scope.dataTransformationsPanel[index].dataTransformationField,
-                dataTransformationFieldValue: $scope.dataTransformationsPanel[index].dataTransformationFieldValue,
                 dataTransformationSourceField: $scope.dataTransformationsPanel[index].dataTransformationSourceField,
                 dataTransformationOperation: $scope.dataTransformationsPanel[index].dataTransformationOperation,
                 dataTransformationDestinationField: $scope.dataTransformationsPanel[index].dataTransformationDestinationField,
                 dataTransformationConstant: $scope.dataTransformationsPanel[index].dataTransformationConstant,
-                dataTransformationTransformField: $scope.dataTransformationsPanel[index].dataTransformationTransformField,
                 dataTransformationStep: $scope.dataTransformationsPanel[index].dataTransformationStep,
                 isAddLine: true
             };
             $scope.dataTransformationsPanel[index].isEdit = true;
             $scope.dataTransformationsPanel[index].dataTransformationDocTypes = transformationDocumentTypes;
-            $scope.dataTransformationsPanel[index].transformers = transformers;
             $scope.dataTransformationsPanel[index].dataTransformationActionTypes = actionTypes;
-            $scope.dataTransformationsPanel[index].dataTransformationActions = actions;
-            $scope.dataTransformationsPanel[index].dataTransformationBibFields = bibFields;
-            $scope.dataTransformationsPanel[index].dataTransformationStaffOnlyFields = booleanOptions;
-            $scope.dataTransformationsPanel[index].dataTransformationHoldingsFields = holdingsFields;
-            $scope.dataTransformationsPanel[index].dataTransformationItemFields = itemFields;
-            $scope.dataTransformationsPanel[index].dataTransformationEHoldingsFields = eHoldingsFields;
             $scope.dataTransformationsPanel[index].dataTransformationOperations = transformationOperations;
-            $scope.dataTransformationsPanel[index].dataTransformationTransformHoldingsFields = holdingsMatchPoints;
-            $scope.dataTransformationsPanel[index].dataTransformationTransformItemFields = itemMatchPoints;
-            $scope.dataTransformationsPanel[index].dataTransformationTransformEHoldingsFields = eHoldingsMatchPoints;
             $scope.dataTransformationsPanel[index].isAddLine = false;
         }
     }
@@ -419,14 +402,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         var updatedRow = {
             dataTransformationDocType: $scope.dataTransformationsPanel[index].dataTransformationDocType,
             dataTransformationActionType: $scope.dataTransformationsPanel[index].dataTransformationActionType,
-            dataTransformationAction: $scope.dataTransformationsPanel[index].dataTransformationAction,
-            dataTransformationField: $scope.dataTransformationsPanel[index].dataTransformationField,
-            dataTransformationFieldValue: $scope.dataTransformationsPanel[index].dataTransformationFieldValue,
             dataTransformationSourceField: $scope.dataTransformationsPanel[index].dataTransformationSourceField,
             dataTransformationOperation: $scope.dataTransformationsPanel[index].dataTransformationOperation,
             dataTransformationDestinationField: $scope.dataTransformationsPanel[index].dataTransformationDestinationField,
             dataTransformationConstant: $scope.dataTransformationsPanel[index].dataTransformationConstant,
-            dataTransformationTransformField: $scope.dataTransformationsPanel[index].dataTransformationTransformField,
             dataTransformationStep: $scope.dataTransformationsPanel[index].dataTransformationStep,
             isAddLine: true
         };
@@ -517,7 +496,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationSourceField = null;
         dataTransformation.dataTransformationOperation = null;
         dataTransformation.dataTransformationDestinationField = null;
-        dataTransformation.dataTransformationTransformField = null;
     };
 
     $scope.setDefaultsAction = function (dataTransformation) {
@@ -526,7 +504,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationSourceField = null;
         dataTransformation.dataTransformationOperation = null;
         dataTransformation.dataTransformationDestinationField = null;
-        dataTransformation.dataTransformationTransformField = null;
     };
 
     $scope.setDefaultsDestination = function (dataMapping) {

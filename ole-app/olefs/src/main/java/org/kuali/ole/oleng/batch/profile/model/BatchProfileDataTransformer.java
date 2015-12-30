@@ -17,15 +17,6 @@ public class BatchProfileDataTransformer extends MarcDataField {
     @JsonProperty("dataTransformationActionType")
     private String actionType;
 
-    @JsonProperty("dataTransformationAction")
-    private String action;
-
-    @JsonProperty("dataTransformationField")
-    private String field;
-
-    @JsonProperty("dataTransformationFieldValue")
-    private String fieldValue;
-
     @JsonProperty("dataTransformationSourceField")
     private String sourceField;
 
@@ -37,9 +28,6 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     @JsonProperty("dataTransformationConstant")
     private String constant;
-
-    @JsonProperty("dataTransformationTransformField")
-    private String transformField;
 
     @JsonProperty("dataTransformationStep")
     private Integer step;
@@ -66,30 +54,6 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public void setActionType(String actionType) {
         this.actionType = actionType;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getFieldValue() {
-        return fieldValue;
-    }
-
-    public void setFieldValue(String fieldValue) {
-        this.fieldValue = fieldValue;
     }
 
     public String getSourceField() {
@@ -122,14 +86,6 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public void setConstant(String constant) {
         this.constant = constant;
-    }
-
-    public String getTransformField() {
-        return transformField;
-    }
-
-    public void setTransformField(String transformField) {
-        this.transformField = transformField;
     }
 
     public Integer getStep() {

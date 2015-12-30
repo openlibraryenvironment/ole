@@ -16,7 +16,7 @@ var documentTypes = [
 ];
 
 var transformationDocumentTypes = [
-    {id: 'bibliographic', name: 'Bibliographic'}
+    {id: 'bibMarc', name: 'Bib Marc'}
 ];
 
 var destinationDocumentTypes = [
@@ -114,7 +114,8 @@ var operations = [
 ];
 
 var bibDoNotMatchOperations = [
-    {id: 'add', name: 'Add'}
+    {id: 'add', name: 'Add'},
+    {id: 'discard', name: 'Discard'}
 ];
 
 var doNotMatchOperations = [
@@ -143,21 +144,10 @@ var fields = [
     {id: 'locationLevel5', name: 'Location Level5'}
 ];
 
-var transformers = [
-    {id: 'regex', name: 'Regex Pattern Transformer'},
-    {id: '', name: ''}
-];
-
 var actionTypes = [
     {id: 'all', name: 'All'},
     {id: 'new', name: 'New'},
     {id: 'overlay', name: 'Overlay'}
-];
-
-var actions = [
-    {id: 'add', name: 'Add'},
-    {id: 'update', name: 'Update'},
-    {id: 'transform', name: 'Transform'}
 ];
 
 var bibFields = [
@@ -168,6 +158,11 @@ var bibFields = [
 var booleanOptions = [
     {id: 'true', value: 'True'},
     {id: 'false', value: 'False'}
+];
+
+var transferOptions = [
+    {id: 'preTransfer', name: 'Pre Transfer'},
+    {id: 'postTransfer', name: 'Post Transfer'}
 ];
 
 var holdingsFields = [
@@ -188,7 +183,7 @@ var eHoldingsFields = [
 ];
 
 var transformationOperations = [
-    {id: 'add', name: 'Add'},
+    {id: 'new', name: 'New'},
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
     {id: 'join', name: 'Join'},
@@ -338,14 +333,16 @@ var addOrOverlay = {
 
 var dataMapping = {
     title: 'Data Mappings',
-    dataMappingDocTypes: documentTypes,
-    dataMappingDocType: 'Bibliographic',
+    dataMappingDocTypes: transformationDocumentTypes,
+    dataMappingDocType: 'Bib Marc',
     destinations: destinationDocumentTypes,
     holdingsFields: holdingsMatchPoints,
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsMatchPoints,
     dataMappingOrderFields: dataMappingOrderFields,
     discountTypes: discountTypes,
+    transferOptions: transferOptions,
+    transferOption: 'Pre Transfer',
     priority: 1,
     isAddLine: false,
     collapsed: true
@@ -354,22 +351,10 @@ var dataMapping = {
 var dataTransformation = {
     title: 'Data Transformations',
     dataTransformationDocTypes: transformationDocumentTypes,
-    dataTransformationDocType: 'Bibliographic',
-    transformers: transformers,
-    transformer: 'Regex Pattern Transformer',
+    dataTransformationDocType: 'Bib Marc',
     dataTransformationActionTypes: actionTypes,
     dataTransformationActionType: 'All',
-    dataTransformationActions: actions,
-    dataTransformationAction: 'Add',
-    dataTransformationBibFields: bibFields,
-    dataTransformationStaffOnlyFields: booleanOptions,
-    dataTransformationHoldingsFields: holdingsFields,
-    dataTransformationItemFields: itemFields,
-    dataTransformationEHoldingsFields: eHoldingsFields,
     dataTransformationOperations: transformationOperations,
-    dataTransformationTransformHoldingsFields: holdingsMatchPoints,
-    dataTransformationTransformItemFields: itemMatchPoints,
-    dataTransformationTransformEHoldingsFields: eHoldingsMatchPoints,
     dataTransformationStep: 1,
     isAddLine: false,
     collapsed: true

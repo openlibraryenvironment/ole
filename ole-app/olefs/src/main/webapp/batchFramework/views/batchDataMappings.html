@@ -15,7 +15,7 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'"></th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Source</th>
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
@@ -23,6 +23,7 @@
                         <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Destination</th>
                         <th>Field</th>
                         <th>Constant</th>
+                        <th>Pre/Post Transform</th>
                         <th>Priority</th>
                         <th></th>
                     </tr>
@@ -309,6 +310,16 @@
                                             || dataMapping.field == 'Fund Code'
                                             || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
+                        </td>
+                        <td>
+                            <select name="dataMappingTransferOption__{{$index}}" id="dataMappingTransferOption__{{$index}}"
+                                    ng-model="dataMapping.transferOption" ng-hide="dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.transferOption}}"
+                                        ng-repeat="option in dataMapping.transferOptions" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.transferOption"></span>
                         </td>
                         <td>
                             <input id="dataMappingPriority_{{$index}}" name="dataMappingPriority_{{$index}}" type="text"
