@@ -107,7 +107,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             };
             $scope.matchPointsPanel[index].isEdit = true;
             $scope.matchPointsPanel[index].matchPointDocTypes = documentTypes;
-            $scope.matchPointsPanel[index].matchPointDocType = 'Bibliographic';
             $scope.matchPointsPanel[index].holdingsMatchPoints = holdingsMatchPoints;
             $scope.matchPointsPanel[index].itemMatchPoints = itemMatchPoints;
             $scope.matchPointsPanel[index].eHoldingsMatchPoints = eHoldingsMatchPoints;
@@ -310,7 +309,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             }
             $scope.dataMappingsPanel[index].isEdit = true;
             $scope.dataMappingsPanel[index].dataMappingDocTypes = documentTypes;
-            $scope.dataMappingsPanel[index].dataMappingDocType = 'Bibliographic';
             $scope.dataMappingsPanel[index].destinations = destinationDocumentTypes;
             $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
             $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
