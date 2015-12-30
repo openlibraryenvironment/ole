@@ -717,3 +717,9 @@ function changeDocType(index){
     submitForm('changeDocType', null, null, null);
 }
 
+
+
+jq(".uif-checkboxControl").live("click", function () {
+    holdingsOReholdings();
+})
+
