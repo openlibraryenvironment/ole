@@ -25,7 +25,7 @@
                     <tbody>
                     <tr ng-repeat="constantsAndDefault in constantsAndDefaultsPanel">
                         <td>
-                            <select name="constantsAndDefaultField_{{$index}}" id="constantsAndDefaultField_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultField_{{$index}}" id="constantsAndDefaultField_{{$index}}"
                                     ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
                                     ng-change="getMaintenanceValuesForFieldType(constantsAndDefault, constantsAndDefault.fieldName)">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
@@ -37,7 +37,7 @@
                                   ng-bind="constantsAndDefault.fieldName"></span>
                         </td>
                         <td>
-                            <select name="constantsAndDefaultBoolean_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultBoolean_{{$index}}"
                                     id="constantsAndDefaultBoolean_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="(constantsAndDefault.fieldName == 'Receiving Required' || constantsAndDefault.fieldName == 'Use Tax Indicator' || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req' || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator' || constantsAndDefault.fieldName == 'Route To Requestor') && !constantsAndDefault.isAddLine">
@@ -46,7 +46,7 @@
                                         value="{{option.value}}">{{option.value}}
                                 </option>
                             </select>
-                            <select name="constantsAndDefaultDiscountType_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultDiscountType_{{$index}}"
                                     id="constantsAndDefaultDiscountType_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="constantsAndDefault.fieldName == 'Discount Type' && !constantsAndDefault.isAddLine">
@@ -55,7 +55,7 @@
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
-                            <select name="constantsAndDefaultItemStatus_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultItemStatus_{{$index}}"
                                     id="constantsAndDefaultItemStatus_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
@@ -64,7 +64,7 @@
                                         value="{{option.itemStatusName}}">{{option.itemStatusName}}
                                 </option>
                             </select>
-                            <select name="constantsAndDefaultFieldValues_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultFieldValues_{{$index}}"
                                     id="constantsAndDefaultFieldValues_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="(constantsAndDefault.fieldName == 'Chart Code'
@@ -95,7 +95,7 @@
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
-                            <input id="constantsAndDefaultValue_{{$index}}" name="constantsAndDefaultValue_{{$index}}"
+                            <input class="form-control" id="constantsAndDefaultValue_{{$index}}" name="constantsAndDefaultValue_{{$index}}"
                                    type="text"
                                    ng-model="constantsAndDefault.fieldValue" style="height: 30px; width: 100px;"
                                    ng-hide="constantsAndDefault.fieldName == 'Chart Code'
@@ -132,7 +132,7 @@
                                   ng-bind="constantsAndDefault.fieldValue"></span>
                         </td>
                         <td>
-                            <select name="constantsAndDefaultType_{{$index}}" id="constantsAndDefaultType_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultType_{{$index}}" id="constantsAndDefaultType_{{$index}}"
                                     ng-model="constantsAndDefault.constantOrDefault"
                                     ng-hide="constantsAndDefault.isAddLine">
                                 <option ng-selected="{{option.name == constantsAndDefault.constantOrDefault}}"

@@ -29,7 +29,7 @@
                     <tbody>
                     <tr ng-repeat="dataTransformation in dataTransformationsPanel">
                         <td>
-                            <select name="dataTransformationDocumentType_{{$index}}"
+                            <select class="form-control" name="dataTransformationDocumentType_{{$index}}"
                                     id="dataTransformationDocumentType_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationDocType"
                                     ng-hide="dataTransformation.isAddLine"
@@ -43,7 +43,7 @@
                                   ng-bind="dataTransformation.dataTransformationDocType"></span>
                         </td>
                         <td>
-                            <select name="dataTransformationActionType_{{$index}}"
+                            <select class="form-control" name="dataTransformationActionType_{{$index}}"
                                     id="dataTransformationActionType_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationActionType"
                                     ng-hide="dataTransformation.isAddLine">
@@ -56,7 +56,7 @@
                                   ng-bind="dataTransformation.dataTransformationActionType"></span>
                         </td>
                         <td>
-                            <input id="dataTransformationSourceField_{{$index}}"
+                            <input class="form-control" id="dataTransformationSourceField_{{$index}}"
                                    name="dataTransformationSourceField_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationSourceField"
                                    ng-show="!dataTransformation.isAddLine"
@@ -65,7 +65,7 @@
                                   ng-bind="dataTransformation.dataTransformationSourceField"></span>
                         </td>
                         <td>
-                            <select id="dataTransformationOperation_{{$index}}"
+                            <select class="form-control" id="dataTransformationOperation_{{$index}}"
                                     name="dataTransformationOperation_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationOperation"
                                     ng-show="!dataTransformation.isAddLine">
@@ -79,7 +79,7 @@
                                   ng-bind="dataTransformation.dataTransformationOperation"></span>
                         </td>
                         <td>
-                            <input id="dataTransformationDestinationField_{{$index}}"
+                            <input class="form-control" id="dataTransformationDestinationField_{{$index}}"
                                    name="dataTransformationDestinationField_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationDestinationField"
                                    ng-show="!dataTransformation.isAddLine"
@@ -88,7 +88,7 @@
                                   ng-bind="dataTransformation.dataTransformationDestinationField"></span>
                         </td>
                         <td>
-                            <input id="dataTransformationConstant_{{$index}}"
+                            <input class="form-control" id="dataTransformationConstant_{{$index}}"
                                    name="dataTransformationConstant_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationConstant"
                                    ng-show="!dataTransformation.isAddLine"
@@ -97,7 +97,7 @@
                                   ng-bind="dataTransformation.dataTransformationConstant"></span>
                         </td>
                         <td>
-                            <input id="dataTransformationStep_{{$index}}"
+                            <input class="form-control" id="dataTransformationStep_{{$index}}"
                                    name="dataTransformationStep_{{$index}}" type="text"
                                    ng-model="dataTransformation.dataTransformationStep"
                                    ng-show="!dataTransformation.isAddLine"

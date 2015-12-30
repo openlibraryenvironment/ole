@@ -25,8 +25,8 @@
                     <tbody>
                     <tr ng-repeat="addOrOverlay in addOrOverlayPanel">
                         <td>
-                            <select name="addOrOverlayMatchOption__{{$index}}" id="addOrOverlayMatchOption__{{$index}}"
-                                    ng-model="addOrOverlay.matchOption" ng-hide="addOrOverlay.isAddLine">
+                            <select class="form-control" name="addOrOverlayMatchOption__{{$index}}" id="addOrOverlayMatchOption__{{$index}}"
+                                    ng-model="addOrOverlay.matchOption" ng-hide="addOrOverlay.isAddLine" style="height: 30px; width: 200px;">
                                 <option ng-selected="{{option.name == addOrOverlay.matchOption}}"
                                         ng-repeat="option in addOrOverlay.matchOptions" value="{{option.name}}">
                                     {{option.name}}
@@ -35,7 +35,7 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.matchOption"></span>
                         </td>
                         <td>
-                            <select name="addOrOverlayDocumentType_{{$index}}" id="addOrOverlayDocumentType_{{$index}}"
+                            <select class="form-control" name="addOrOverlayDocumentType_{{$index}}" id="addOrOverlayDocumentType_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOrOverlayDocType" ng-hide="addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayDocType}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayDocTypes" value="{{option.name}}">
@@ -45,7 +45,7 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.addOrOverlayDocType"></span>
                         </td>
                         <td>
-                            <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
+                            <select  name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
                                     ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
@@ -53,7 +53,7 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}"
+                            <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
@@ -62,7 +62,7 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select name="doNotMatchAddOrOverlayOperation_{{$index}}"
+                            <select name="doNotMatchAddOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
                                     id="doNotMatchAddOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && !addOrOverlay.isAddLine">
@@ -74,7 +74,7 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.operation"></span>
                         </td>
                         <td>
-                            <select name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}"
+                            <select class="form-control" name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOperation"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.addOperation}}"

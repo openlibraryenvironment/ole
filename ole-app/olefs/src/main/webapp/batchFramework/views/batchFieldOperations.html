@@ -20,15 +20,15 @@
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
-                        <th>Sub Field</th>
+                        <th>Subfield</th>
                         <th>Ignore GPF</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="fieldOperation in fieldOperationsPanel">
-                        <td>
-                            <select name="fieldOperationType_{{$index}}" id="fieldOperationType_{{$index}}"
+                        <td class="col-xs-2">
+                            <select class="form-control" name="fieldOperationType_{{$index}}" id="fieldOperationType_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="fieldOperation.fieldOperationType" ng-hide="fieldOperation.isAddLine">
                                 <option ng-selected="{{option.name == fieldOperation.fieldOperationType}}"
                                         ng-repeat="option in fieldOperation.fieldOperationTypes"
@@ -37,38 +37,38 @@
                             </select>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.fieldOperationType"></span>
                         </td>
-                        <td>
-                            <input id="fieldOperationDataField_{{$index}}" name="fieldOperationDataField_{{$index}}"
+                        <td class="col-xs-2">
+                            <input class="form-control" id="fieldOperationDataField_{{$index}}" name="fieldOperationDataField_{{$index}}"
                                    type="text"
                                    ng-model="fieldOperation.dataField" style="height: 30px; width: 100px;"
                                    ng-hide="fieldOperation.isAddLine"/>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.dataField"></span>
                         </td>
-                        <td>
-                            <input id="fieldOperationInd1_{{$index}}" name="fieldOperationInd1_{{$index}}"
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationInd1_{{$index}}" name="fieldOperationInd1_{{$index}}"
                                    type="text" ng-model="fieldOperation.ind1"
                                    style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.ind1"></span>
                         </td>
-                        <td>
-                            <input id="fieldOperationInd2_{{$index}}" name="fieldOperationInd2_{{$index}}"
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationInd2_{{$index}}" name="fieldOperationInd2_{{$index}}"
                                    type="text" ng-model="fieldOperation.ind2"
                                    style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.ind2"></span>
                         </td>
-                        <td>
-                            <input id="fieldOperationSubField_{{$index}}" name="fieldOperationSubField_{{$index}}"
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationSubField_{{$index}}" name="fieldOperationSubField_{{$index}}"
                                    type="text" ng-model="fieldOperation.subField"
                                    style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.subField"></span>
                         </td>
-                        <td>
-                            <input id="fieldOperationIgnoreGPF_{{$index}}" name="fieldOperationIgnoreGPF_{{$index}}"
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationIgnoreGPF_{{$index}}" name="fieldOperationIgnoreGPF_{{$index}}"
                                    type="checkbox" ng-model="fieldOperation.ignoreGPF"
                                    ng-show="fieldOperation.fieldOperationType == 'Globally Protected Field'"
                                    ng-disabled="submitted">
                         </td>
-                        <td>
+                        <td class="col-sm-1">
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
                                     ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine || fieldOperation.isEdit"
