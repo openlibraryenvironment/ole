@@ -40,7 +40,7 @@
     <div ng-include="'batchFramework/views/batchDataMappings.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
     <div ng-include="'batchFramework/views/batchDataTransformations.html'" ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
     <button id="profileSubmit_button" name="profileSubmit_button" class="btn btn-primary" ng-click="submit()"
-            ng-disabled="submitted || isEdit" style="margin-left: 40em;">Submit
+            ng-disabled="submitted || (rowToEdit !== null)" style="margin-left: 40em;">Submit
     </button>
     <button id="profileCancel_button" name="profileCancel_button" class="btn btn-primary" ng-click="cancel()"
             style="margin-left: 10px;">Cancel
