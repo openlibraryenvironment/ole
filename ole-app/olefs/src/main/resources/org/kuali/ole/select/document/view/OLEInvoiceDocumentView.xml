@@ -1271,7 +1271,7 @@
 
     <bean id="updateExchangeRateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateExchangeRate" p:hidden="true" />
 
-    <bean id="updateVendorBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchVendor" p:refreshId="OLEInvoiceView-vendorAddress" p:hidden="true"/>
+    <bean id="updateVendorBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchVendor" p:refreshId="OLEInvoiceView-vendorAddress" p:successCallback="focus()" p:hidden="true"/>
 
     <bean id="hdnCurrencyFormatFlag" parent="Uif-InputField" p:propertyName="currencyFormat" p:hidden="true">
         <property name="control">
