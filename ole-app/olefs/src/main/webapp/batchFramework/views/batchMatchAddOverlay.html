@@ -47,8 +47,7 @@
                         <td>
                             <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
-                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))"
-                                    ng-change="getMaintenanceValuesForType(addOrOverlay)">
+                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.operations" value="{{option.name}}">
                                     {{option.name}}
