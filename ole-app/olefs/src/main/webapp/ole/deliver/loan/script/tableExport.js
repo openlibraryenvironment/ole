@@ -103,7 +103,7 @@
             }
 
             function createButton(dataURL, myFile, myContent, myClass) {
-                var exportButton = "<a href='" + dataURL + "' download='" + myFile + "' role='button' style='width: 15px;margin-right:-6%;margin-top:-6%;height: 22px;' class='" + bootstrapClass + bootstrapTheme + myClass + "'>" + myContent + "</a>";
+                var exportButton = "<a href='" + dataURL + "' download='" + myFile + "' role='button' style='width: 15px;margin-right:50px;height: 22px;' class='" + bootstrapClass + bootstrapTheme + myClass + "'>" + myContent + "</a>";
                 checkCaption(exportButton);
             }
 

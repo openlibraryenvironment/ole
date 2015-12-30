@@ -25,7 +25,6 @@
     <bean id="circShowExistingLoans"
           parent="Uif-SecondaryActionButton"
           p:methodToCall="showExistingLoan"
-          p:successCallback="jq('#existingLoanItemTable').tableExport();"
           p:actionLabel="Checked Out Items"
           p:render="@{proceedWithCheckout and !showExistingLoan}" />
 

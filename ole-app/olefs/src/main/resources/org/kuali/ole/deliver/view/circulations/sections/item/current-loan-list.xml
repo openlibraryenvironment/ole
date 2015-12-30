@@ -26,14 +26,14 @@
         <property name="headerText" value="Items Checked Out This Session"/>
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="jq('.loaningItemCBClass').attr('checked','true');" p:style="margin-left:9.5em;"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="jq('.loaningItemCBClass').attr('checked','true');" p:style="margin-left:0.5em;"/>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="jq('.loaningItemCBClass').removeAttr('checked');" />
                 <ref bean="currentLoanListSection-HorizontalBoxSection-parentBean"/>
             </list>
         </property>
     </bean>
 
-    <bean id="currentLoanListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1000px" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
+    <bean id="currentLoanListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1420px" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
         <property name="headerText" value="" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="loanDocumentListForCurrentSession"/>
@@ -47,6 +47,8 @@
                 <entry key="bPaginate" value="true"/>
                 <entry key="bInfo" value="true"/>
                 <entry key="bFilter" value="false"/>
+                <entry key="oTableTools"
+                       value="{&quot;aButtons&quot; : [ &quot;csv&quot;, &quot;xls&quot; ]}"/>
             </map>
         </property>
         <property name="footer">

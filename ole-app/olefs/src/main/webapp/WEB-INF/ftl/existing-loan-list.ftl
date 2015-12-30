@@ -5,7 +5,7 @@
     <table id="existingLoanItemTable" class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
-            <th></th>
+            <th>Select</th>
             <th>Barcode</a></th>
             <th>Title</th>
             <th>Author</th>
@@ -110,7 +110,7 @@
 
 
 <#macro existing_pagesize manager>
-<div class="dataTables_length" style="height: -11px;position: relative">
+<div class="dataTables_length" style="float:left; width:400px;position: relative">
     <label>Show
         <select id="existingLoanItemTable_length">
             <#list manager.pageSizeOptions as pso>

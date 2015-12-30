@@ -30,9 +30,6 @@
                 <ref bean="circPatronLink-HorizontalBoxSection"/>
                 <ref bean="circPatronBarcodeSearch-HorizontalBoxSection"/>
                 <ref bean="circCheckoutItemBarcodeSearch-VerticalBoxSection"/>
-              <!--  <ref bean="circFastAddItem"/>-->
-                <!--<ref bean="circShowExistingLoans"/>-->
-               <!-- <ref bean="circHideExistingLoans"/>-->
                 <ref bean="currentLoanListSection-HorizontalBoxSection"/>
                 <ref bean="existingLoanItemListSection-HorizontalBoxSection"/>
                 <ref bean="circGeneralButtons"/>
