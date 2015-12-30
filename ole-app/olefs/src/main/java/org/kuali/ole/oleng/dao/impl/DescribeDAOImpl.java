@@ -6,6 +6,7 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.context.annotation.Scope;
@@ -65,6 +66,11 @@ public class DescribeDAOImpl implements DescribeDAO {
         Map parameterMap = new HashedMap();
         parameterMap.put("batchProcessProfileId",profileId);
         getBusinessObjectService().deleteMatching(BatchProcessProfile.class, parameterMap);
+    }
+
+    @Override
+    public <T extends PersistableBusinessObject> T save(T bo) {
+        return getBusinessObjectService().save(bo);
     }
 
     public BusinessObjectService getBusinessObjectService() {

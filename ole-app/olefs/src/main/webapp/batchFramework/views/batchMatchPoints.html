@@ -27,6 +27,7 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Sub Field</th>
+                        <th>Destination</th>
                         <th>Constant</th>
                         <th></th>
                     </tr>
@@ -178,6 +179,13 @@
                                    ng-hide="matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.subField"></span>
+                        </td>
+                        <td>
+                            <input id="matchPointDestination_{{$index}}" name="matchPointDestination_{{$index}}" type="text"
+                                   ng-model="matchPoint.destination"
+                                   ng-hide="matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destination"></span>
                         </td>
                         <td>
                             <input id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"

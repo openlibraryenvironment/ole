@@ -80,6 +80,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.matchPointsPanel[0].ind1,
             ind2: $scope.matchPointsPanel[0].ind2,
             subField: $scope.matchPointsPanel[0].subField,
+            destination: $scope.matchPointsPanel[0].destination,
             constant: $scope.matchPointsPanel[0].constant,
             isAddLine: true
         });
@@ -90,6 +91,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.matchPointsPanel[0].ind1 = null;
         $scope.matchPointsPanel[0].ind2 = null;
         $scope.matchPointsPanel[0].subField = null;
+        $scope.matchPointsPanel[0].destination = null;
         $scope.matchPointsPanel[0].constant = null;
     };
     $scope.matchPointEditRow = function(index) {
@@ -102,6 +104,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 ind1: $scope.matchPointsPanel[index].ind1,
                 ind2: $scope.matchPointsPanel[index].ind2,
                 subField: $scope.matchPointsPanel[index].subField,
+                destination: $scope.matchPointsPanel[index].destination,
                 constant: $scope.matchPointsPanel[index].constant,
                 isAddLine: true
             };
@@ -124,6 +127,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.matchPointsPanel[index].ind1,
             ind2: $scope.matchPointsPanel[index].ind2,
             subField: $scope.matchPointsPanel[index].subField,
+            destination: $scope.matchPointsPanel[index].destination,
             constant: $scope.matchPointsPanel[index].constant,
             isAddLine: true
         };
@@ -502,6 +506,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         matchPoint.ind2 = null;
         matchPoint.subField = null;
         matchPoint.matchPointValue = null;
+        matchPoint.destination = null;
     };
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {

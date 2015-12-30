@@ -217,9 +217,7 @@ public class OrderImportFieldValuesUtil {
                 }
             }
         }
-
-        Map<String, String> sortedFieldValues = new TreeMap<>(fieldValues);
-        return sortedFieldValues;
+        return fieldValues;
     }
 
     public List<String> getItemLocation() {

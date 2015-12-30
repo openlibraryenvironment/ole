@@ -1,20 +1,18 @@
 package org.kuali.ole.oleng.rest.controller;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.BatchProfileRequestHandler;
+import org.kuali.ole.utility.OleStopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by rajeshbabuk on 12/9/15.
@@ -86,6 +84,26 @@ public class BatchProfileRestController extends BatchProfileUtilController{
             e.printStackTrace();
         }
         return responseString;
+    }
+
+    @RequestMapping(value = "/profile/import", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String UploadFile(@RequestParam("file") MultipartFile file,HttpServletRequest request) throws IOException, JSONException {
+        JSONObject responseObject = new JSONObject();
+        String rawContent = IOUtils.toString(file.getBytes());
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
+        JSONObject jsonObject = new JSONObject(rawContent);
+        jsonObject.put("profileId",0);
+        BatchProcessProfile batchProcessProfile = getBatchProfileRequestHandler().convertJsonToProfile(jsonObject.toString());
+        if (null != batchProcessProfile) {
+            batchProcessProfile.setContent(jsonObject.toString().getBytes());
+            getBatchProfileRequestHandler().getBatchProfileService().saveProfile(batchProcessProfile);
+        }
+        oleStopWatch.end();
+        long totalTime = oleStopWatch.getTotalTime();
+        responseObject.put("processTime",totalTime + "ms");
+        return responseObject.toString();
     }
 
     public BatchProfileRequestHandler getBatchProfileRequestHandler() {

@@ -23,5 +23,6 @@ public interface BatchProfileService {
     public List<OleGloballyProtectedField> getAllProtectedFields();
     public Map<String, String> fetchOrderImportFieldValues(String fieldName);
     public void deleteProfileById(Long profileId);
+    public BatchProcessProfile saveProfile(BatchProcessProfile batchProcessProfile);
 
 }
