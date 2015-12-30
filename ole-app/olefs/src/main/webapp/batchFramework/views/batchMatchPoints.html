@@ -48,7 +48,7 @@
                             <select id="matchPointHoldings_{{$index}}" name="matchPointHoldings_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType == 'Holdings' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(matchPoint.matchPointType)">
+                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.holdingsMatchPoints  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -57,7 +57,7 @@
                             <select id="matchPointItem_{{$index}}" name="matchPointItem_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType == 'Item' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(matchPoint.matchPointType)">
+                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.itemMatchPoints  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -66,7 +66,7 @@
                             <select id="matchPointEholdings_{{$index}}" name="matchPointEholdings_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType == 'EHoldings' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(matchPoint.matchPointType)">
+                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.eHoldingsMatchPoints  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}

@@ -345,6 +345,7 @@ var dataMapping = {
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsMatchPoints,
     dataMappingOrderFields: dataMappingOrderFields,
+    discountTypes: discountTypes,
     priority: 1,
     isAddLine: false,
     collapsed: true

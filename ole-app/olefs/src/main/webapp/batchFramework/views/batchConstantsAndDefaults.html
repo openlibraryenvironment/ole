@@ -27,7 +27,7 @@
                         <td>
                             <select name="constantsAndDefaultField_{{$index}}" id="constantsAndDefaultField_{{$index}}"
                                     ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(constantsAndDefault)">
+                                    ng-change="getMaintenanceValuesForFieldType(constantsAndDefault, constantsAndDefault.fieldName)">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
                                         ng-repeat="option in constantsAndDefault.constantsAndDefaultsOrderFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
@@ -55,6 +55,15 @@
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
+                            <select name="constantsAndDefaultItemStatus_{{$index}}"
+                                    id="constantsAndDefaultItemStatus_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.itemStatusName == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in itemStatusValues | orderBy:'itemStatusName'"
+                                        value="{{option.itemStatusName}}">{{option.itemStatusName}}
+                                </option>
+                            </select>
                             <select name="constantsAndDefaultFieldValues_{{$index}}"
                                     id="constantsAndDefaultFieldValues_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
@@ -74,7 +83,6 @@
                                             || constantsAndDefault.fieldName == 'Vendor Alias Name'
                                             || constantsAndDefault.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
                                             || constantsAndDefault.fieldName == 'Requestor Name'
-                                            || constantsAndDefault.fieldName == 'Item Status'
                                             || constantsAndDefault.fieldName == 'Account Number'
                                             || constantsAndDefault.fieldName == 'Object Code'
                                             || constantsAndDefault.fieldName == 'Request Source'
@@ -83,7 +91,7 @@
                                             || constantsAndDefault.fieldName == 'Recurring Payment Type'
                                             || constantsAndDefault.fieldName == 'Fund Code') && !constantsAndDefault.isAddLine">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
-                                        ng-repeat="option in fieldValues  | orderBy:'name'"
+                                        ng-repeat="option in constantAndDefaultFieldValues  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>

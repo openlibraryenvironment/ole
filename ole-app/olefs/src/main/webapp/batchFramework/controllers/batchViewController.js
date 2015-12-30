@@ -315,6 +315,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
             $scope.dataMappingsPanel[index].dataMappingOrderFields = dataMappingOrderFields;
             $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
+            $scope.dataMappingsPanel[index].discountTypes = discountTypes;
             $scope.dataMappingsPanel[index].isAddLine = false;
         }
     }
@@ -527,12 +528,15 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataMapping.field = null;
     };
 
-    $scope.getMaintenanceValuesForType = function (dataObject) {
-        getMaintenanceData(dataObject, $scope, $http);
-    };
-
-    $scope.getMaintenanceValuesForBibImportByType = function (fieldType) {
-        getMaintenanceDataForBibImport(fieldType, $scope, $http);
+    $scope.getMaintenanceValuesForFieldType = function (dataObject, fieldType) {
+        if (dataObject.title == 'Constants And Defaults') {
+            dataObject.fieldValue = null;
+            dataObject.constantsAndDefault = 'Constant';
+            $scope.constantAndDefaultFieldValues = null;
+        } else if (dataObject.title == 'Data Mappings') {
+            $scope.dataMappingFieldValues = null;
+        }
+        getMaintenanceDataForFieldType(dataObject.title, fieldType, $scope, $http);
     };
 
     $scope.submit = function () {

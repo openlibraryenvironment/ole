@@ -77,7 +77,7 @@
                                     id="dataTransformationBibField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataTransformation.dataTransformationField)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataTransformation, dataTransformation.dataTransformationField)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationBibFields"
                                         value="{{option.name}}">{{option.name}}
@@ -96,7 +96,7 @@
                                     id="dataTransformationItemField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataTransformation.dataTransformationField)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataTransformation, dataTransformation.dataTransformationField)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationItemFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
