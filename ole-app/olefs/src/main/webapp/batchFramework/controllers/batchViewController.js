@@ -3,6 +3,7 @@ var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgc
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
     $scope.booleanOptions = booleanOptions;
     $scope.submitted = false;
+    $scope.rowToEdit = null;
     $scope.mainSectionActivePanel = [0];
     $scope.matchPointsActivePanel = [];
     $scope.addOrOverlayActivePanel = [];
@@ -91,6 +92,52 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.matchPointsPanel[0].subField = null;
         $scope.matchPointsPanel[0].constant = null;
     };
+    $scope.matchPointEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                matchPointDocType: $scope.matchPointsPanel[index].matchPointDocType,
+                matchPointType: $scope.matchPointsPanel[index].matchPointType,
+                matchPointValue: $scope.matchPointsPanel[index].matchPointValue,
+                dataField: $scope.matchPointsPanel[index].dataField,
+                ind1: $scope.matchPointsPanel[index].ind1,
+                ind2: $scope.matchPointsPanel[index].ind2,
+                subField: $scope.matchPointsPanel[index].subField,
+                constant: $scope.matchPointsPanel[index].constant,
+                isAddLine: true
+            };
+            $scope.matchPointsPanel[index].isEdit = true;
+            $scope.matchPointsPanel[index].matchPointDocTypes = documentTypes;
+            $scope.matchPointsPanel[index].matchPointDocType = 'Bibliographic';
+            $scope.matchPointsPanel[index].holdingsMatchPoints = holdingsMatchPoints;
+            $scope.matchPointsPanel[index].itemMatchPoints = itemMatchPoints;
+            $scope.matchPointsPanel[index].eHoldingsMatchPoints = eHoldingsMatchPoints;
+            $scope.matchPointsPanel[index].matchPointValue = null;
+            $scope.matchPointsPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.matchPointUpdateRow = function(index) {
+        var updatedRow = {
+            matchPointDocType: $scope.matchPointsPanel[index].matchPointDocType,
+            matchPointType: $scope.matchPointsPanel[index].matchPointType,
+            matchPointValue: $scope.matchPointsPanel[index].matchPointValue,
+            dataField: $scope.matchPointsPanel[index].dataField,
+            ind1: $scope.matchPointsPanel[index].ind1,
+            ind2: $scope.matchPointsPanel[index].ind2,
+            subField: $scope.matchPointsPanel[index].subField,
+            constant: $scope.matchPointsPanel[index].constant,
+            isAddLine: true
+        };
+        $scope.matchPointsPanel[index] = updatedRow;
+        $scope.matchPointsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.matchPointCancelUpdate = function(index) {
+        $scope.matchPointsPanel[index].isEdit = false;
+        $scope.matchPointsPanel[index] = $scope.rowToEdit;
+        $scope.matchPointsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
 
     $scope.matchPointRemove = function (matchPoint) {
         var index = $scope.matchPointsPanel.indexOf(matchPoint);
@@ -112,6 +159,48 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.addOrOverlayPanel[0].operation = 'Add';
 
     };
+    $scope.addOrOverlayEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                matchOption: $scope.addOrOverlayPanel[index].matchOption,
+                addOrOverlayDocType: $scope.addOrOverlayPanel[index].addOrOverlayDocType,
+                operation: $scope.addOrOverlayPanel[index].operation,
+                bibStatus: $scope.addOrOverlayPanel[index].bibStatus,
+                addOperation: $scope.addOrOverlayPanel[index].addOperation,
+                addItems: $scope.addOrOverlayPanel[index].addItems,
+                isAddLine: true
+            };
+            $scope.addOrOverlayPanel[index].isEdit = true;
+            $scope.addOrOverlayPanel[index].matchOptions = matchOptions;
+            $scope.addOrOverlayPanel[index].addOrOverlayDocTypes = addOrOverlayDocumentTypes;
+            $scope.addOrOverlayPanel[index].operations = operations;
+            $scope.addOrOverlayPanel[index].bibDoNotMatchOperations = bibDoNotMatchOperations;
+            $scope.addOrOverlayPanel[index].doNotMatchOperations = doNotMatchOperations;
+            $scope.addOrOverlayPanel[index].addOperations = addOperations;
+            $scope.addOrOverlayPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.addOrOverlayUpdateRow = function(index) {
+        var updatedRow = {
+            matchOption: $scope.addOrOverlayPanel[index].matchOption,
+            addOrOverlayDocType: $scope.addOrOverlayPanel[index].addOrOverlayDocType,
+            operation: $scope.addOrOverlayPanel[index].operation,
+            bibStatus: $scope.addOrOverlayPanel[index].bibStatus,
+            addOperation: $scope.addOrOverlayPanel[index].addOperation,
+            addItems: $scope.addOrOverlayPanel[index].addItems,
+            isAddLine: true
+        };
+        $scope.addOrOverlayPanel[index] = updatedRow;
+        $scope.addOrOverlayPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.addOrOverlayCancelUpdate = function(index) {
+        $scope.addOrOverlayPanel[index].isEdit = false;
+        $scope.addOrOverlayPanel[index] = $scope.rowToEdit;
+        $scope.addOrOverlayPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
 
     $scope.addOrOverlayRemove = function (addOrOverlay) {
         var index = $scope.addOrOverlayPanel.indexOf(addOrOverlay);
@@ -135,6 +224,46 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel[0].subField = null;
         $scope.fieldOperationsPanel[0].ignoreGPF = false;
     };
+
+    $scope.fieldOperationEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                fieldOperationType: $scope.fieldOperationsPanel[index].fieldOperationType,
+                dataField: $scope.fieldOperationsPanel[index].dataField,
+                ind1: $scope.fieldOperationsPanel[index].ind1,
+                ind2: $scope.fieldOperationsPanel[index].ind2,
+                subField: $scope.fieldOperationsPanel[index].subField,
+                ignoreGPF: false,
+                isAddLine: true
+            };
+            $scope.fieldOperationsPanel[index].isEdit = true;
+            $scope.fieldOperationsPanel[index].fieldOperationTypes = fieldOperations;
+            $scope.fieldOperationsPanel[index].fieldOperationType = 'Profile Protected Field';
+            $scope.fieldOperationsPanel[index].ignoreGPF = false;
+            $scope.fieldOperationsPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.fieldOperationUpdateRow = function(index) {
+        var updatedRow = {
+            fieldOperationType: $scope.fieldOperationsPanel[index].fieldOperationType,
+            dataField: $scope.fieldOperationsPanel[index].dataField,
+            ind1: $scope.fieldOperationsPanel[index].ind1,
+            ind2: $scope.fieldOperationsPanel[index].ind2,
+            subField: $scope.fieldOperationsPanel[index].subField,
+            ignoreGPF: false,
+            isAddLine: true
+        };
+        $scope.fieldOperationsPanel[index] = updatedRow;
+        $scope.fieldOperationsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.fieldOperationCancelUpdate = function(index) {
+        $scope.fieldOperationsPanel[index].isEdit = false;
+        $scope.fieldOperationsPanel[index] = $scope.rowToEdit;
+        $scope.fieldOperationsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
 
     $scope.fieldOperationRemove = function (fieldOperation) {
         var index = $scope.fieldOperationsPanel.indexOf(fieldOperation);
@@ -164,6 +293,57 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].priority = 1;
     };
+
+    $scope.dataMappingEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                dataMappingDocType: $scope.dataMappingsPanel[index].dataMappingDocType,
+                dataField: $scope.dataMappingsPanel[index].dataField,
+                ind1: $scope.dataMappingsPanel[index].ind1,
+                ind2: $scope.dataMappingsPanel[index].ind2,
+                subField: $scope.dataMappingsPanel[index].subField,
+                constant: $scope.dataMappingsPanel[index].constant,
+                destination: $scope.dataMappingsPanel[index].destination,
+                field: $scope.dataMappingsPanel[index].field,
+                priority: $scope.dataMappingsPanel[index].priority,
+                isAddLine: true
+            }
+            $scope.dataMappingsPanel[index].isEdit = true;
+            $scope.dataMappingsPanel[index].dataMappingDocTypes = documentTypes;
+            $scope.dataMappingsPanel[index].dataMappingDocType = 'Bibliographic';
+            $scope.dataMappingsPanel[index].destinations = destinationDocumentTypes;
+            $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
+            $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
+            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
+            $scope.dataMappingsPanel[index].dataMappingOrderFields = dataMappingOrderFields;
+            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
+            $scope.dataMappingsPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.dataMappingUpdateRow = function(index) {
+        var updatedRow = {
+            dataMappingDocType: $scope.dataMappingsPanel[index].dataMappingDocType,
+            dataField: $scope.dataMappingsPanel[index].dataField,
+            ind1: $scope.dataMappingsPanel[index].ind1,
+            ind2: $scope.dataMappingsPanel[index].ind2,
+            subField: $scope.dataMappingsPanel[index].subField,
+            constant: $scope.dataMappingsPanel[index].constant,
+            destination: $scope.dataMappingsPanel[index].destination,
+            field: $scope.dataMappingsPanel[index].field,
+            priority: $scope.dataMappingsPanel[index].priority,
+            isAddLine: true
+        }
+        $scope.dataMappingsPanel[index] = updatedRow;
+        $scope.dataMappingsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.dataMappingCancelUpdate = function(index) {
+        $scope.dataMappingsPanel[index].isEdit = false;
+        $scope.dataMappingsPanel[index] = $scope.rowToEdit;
+        $scope.dataMappingsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
 
     $scope.dataMappingRemove = function (dataMapping) {
         var index = $scope.dataMappingsPanel.indexOf(dataMapping);
@@ -198,6 +378,66 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataTransformationsPanel[0].dataTransformationStep = 1;
     };
 
+    $scope.dataTransformationEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                dataTransformationDocType: $scope.dataTransformationsPanel[index].dataTransformationDocType,
+                dataTransformationActionType: $scope.dataTransformationsPanel[index].dataTransformationActionType,
+                dataTransformationAction: $scope.dataTransformationsPanel[index].dataTransformationAction,
+                dataTransformationField: $scope.dataTransformationsPanel[index].dataTransformationField,
+                dataTransformationFieldValue: $scope.dataTransformationsPanel[index].dataTransformationFieldValue,
+                dataTransformationSourceField: $scope.dataTransformationsPanel[index].dataTransformationSourceField,
+                dataTransformationOperation: $scope.dataTransformationsPanel[index].dataTransformationOperation,
+                dataTransformationDestinationField: $scope.dataTransformationsPanel[index].dataTransformationDestinationField,
+                dataTransformationConstant: $scope.dataTransformationsPanel[index].dataTransformationConstant,
+                dataTransformationTransformField: $scope.dataTransformationsPanel[index].dataTransformationTransformField,
+                dataTransformationStep: $scope.dataTransformationsPanel[index].dataTransformationStep,
+                isAddLine: true
+            };
+            $scope.dataTransformationsPanel[index].isEdit = true;
+            $scope.dataTransformationsPanel[index].dataTransformationDocTypes = transformationDocumentTypes;
+            $scope.dataTransformationsPanel[index].transformers = transformers;
+            $scope.dataTransformationsPanel[index].dataTransformationActionTypes = actionTypes;
+            $scope.dataTransformationsPanel[index].dataTransformationActions = actions;
+            $scope.dataTransformationsPanel[index].dataTransformationBibFields = bibFields;
+            $scope.dataTransformationsPanel[index].dataTransformationStaffOnlyFields = booleanOptions;
+            $scope.dataTransformationsPanel[index].dataTransformationHoldingsFields = holdingsFields;
+            $scope.dataTransformationsPanel[index].dataTransformationItemFields = itemFields;
+            $scope.dataTransformationsPanel[index].dataTransformationEHoldingsFields = eHoldingsFields;
+            $scope.dataTransformationsPanel[index].dataTransformationOperations = transformationOperations;
+            $scope.dataTransformationsPanel[index].dataTransformationTransformHoldingsFields = holdingsMatchPoints;
+            $scope.dataTransformationsPanel[index].dataTransformationTransformItemFields = itemMatchPoints;
+            $scope.dataTransformationsPanel[index].dataTransformationTransformEHoldingsFields = eHoldingsMatchPoints;
+            $scope.dataTransformationsPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.dataTransformationUpdateRow = function(index) {
+        var updatedRow = {
+            dataTransformationDocType: $scope.dataTransformationsPanel[index].dataTransformationDocType,
+            dataTransformationActionType: $scope.dataTransformationsPanel[index].dataTransformationActionType,
+            dataTransformationAction: $scope.dataTransformationsPanel[index].dataTransformationAction,
+            dataTransformationField: $scope.dataTransformationsPanel[index].dataTransformationField,
+            dataTransformationFieldValue: $scope.dataTransformationsPanel[index].dataTransformationFieldValue,
+            dataTransformationSourceField: $scope.dataTransformationsPanel[index].dataTransformationSourceField,
+            dataTransformationOperation: $scope.dataTransformationsPanel[index].dataTransformationOperation,
+            dataTransformationDestinationField: $scope.dataTransformationsPanel[index].dataTransformationDestinationField,
+            dataTransformationConstant: $scope.dataTransformationsPanel[index].dataTransformationConstant,
+            dataTransformationTransformField: $scope.dataTransformationsPanel[index].dataTransformationTransformField,
+            dataTransformationStep: $scope.dataTransformationsPanel[index].dataTransformationStep,
+            isAddLine: true
+        };
+        $scope.dataTransformationsPanel[index] = updatedRow;
+        $scope.dataTransformationsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.dataTransformationCancelUpdate = function(index) {
+        $scope.dataTransformationsPanel[index].isEdit = false;
+        $scope.dataTransformationsPanel[index] = $scope.rowToEdit;
+        $scope.dataTransformationsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
+
     $scope.dataTransformationRemove = function (dataTransformation) {
         var index = $scope.dataTransformationsPanel.indexOf(dataTransformation);
         $scope.dataTransformationsPanel.splice(index, 1);
@@ -215,6 +455,42 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.constantsAndDefaultsPanel[0].constantOrDefault = 'Constant';
     };
 
+    $scope.constantsAndDefaultEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = {
+                fieldName: $scope.constantsAndDefaultsPanel[index].fieldName,
+                fieldValue: $scope.constantsAndDefaultsPanel[index].fieldValue,
+                constantOrDefault: $scope.constantsAndDefaultsPanel[index].constantOrDefault,
+                isAddLine: true
+            };
+            $scope.constantsAndDefaultsPanel[index].isEdit = true;
+            $scope.constantsAndDefaultsPanel[index].constantsAndDefaultsOrderFields = constantsAndDefaultsOrderFields;
+            $scope.constantsAndDefaultsPanel[index].constantOrDefaultTypes = constantOrDefaultTypes;
+            $scope.constantsAndDefaultsPanel[index].booleanOptions = booleanOptions;
+            $scope.constantsAndDefaultsPanel[index].discountTypes = discountTypes;
+            $scope.constantsAndDefaultsPanel[index].isAddLine = false;
+        }
+    }
+
+    $scope.constantsAndDefaultUpdateRow = function(index) {
+        var updatedRow = {
+            fieldName: $scope.constantsAndDefaultsPanel[index].fieldName,
+            fieldValue: $scope.constantsAndDefaultsPanel[index].fieldValue,
+            constantOrDefault: $scope.constantsAndDefaultsPanel[index].constantOrDefault,
+            isAddLine: true
+        };
+        $scope.constantsAndDefaultsPanel[index] = updatedRow;
+        $scope.constantsAndDefaultsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    }
+    $scope.constantsAndDefaultCancelUpdate = function(index) {
+        $scope.constantsAndDefaultsPanel[index].isEdit = false;
+        $scope.constantsAndDefaultsPanel[index] = $scope.rowToEdit;
+        $scope.constantsAndDefaultsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    }
+
+
     $scope.constantsAndDefaultRemove = function (constantsAndDefault) {
         var index = $scope.constantsAndDefaultsPanel.indexOf(constantsAndDefault);
         $scope.constantsAndDefaultsPanel.splice(index, 1);
@@ -226,6 +502,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         matchPoint.ind1 = null;
         matchPoint.ind2 = null;
         matchPoint.subField = null;
+        matchPoint.matchPointValue = null;
     };
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
@@ -241,6 +518,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.setDefaultsAction = function (dataTransformation) {
         dataTransformation.dataTransformationField = null;
+        dataTransformation.dataTransformationFieldValue = null;
+        dataTransformation.dataTransformationSourceField = null;
+        dataTransformation.dataTransformationOperation = null;
+        dataTransformation.dataTransformationDestinationField = null;
+        dataTransformation.dataTransformationTransformField = null;
     };
 
     $scope.setDefaultsDestination = function (dataMapping) {
@@ -249,6 +531,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.getMaintenanceValuesForType = function (dataObject) {
         getMaintenanceData(dataObject, $scope, $http);
+    };
+
+    $scope.getMaintenanceValuesForBibImportByType = function (fieldType) {
+        getMaintenanceDataForBibImport(fieldType, $scope, $http);
     };
 
     $scope.submit = function () {

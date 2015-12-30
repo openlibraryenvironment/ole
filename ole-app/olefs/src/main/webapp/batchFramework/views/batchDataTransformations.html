@@ -77,7 +77,7 @@
                                     id="dataTransformationBibField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataTransformation)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataTransformation.dataTransformationField)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationBibFields"
                                         value="{{option.name}}">{{option.name}}
@@ -96,7 +96,7 @@
                                     id="dataTransformationItemField_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataTransformation)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataTransformation.dataTransformationField)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
                                         ng-repeat="option in dataTransformation.dataTransformationItemFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
@@ -247,13 +247,25 @@
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
                                     ng-click="dataTransformationAdd(dataTransformation)"
-                                    ng-hide="dataTransformation.isAddLine" class="btn btn-success btn-sm">Add
+                                    ng-hide="dataTransformation.isAddLine || dataTransformation.isEdit"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="dataTransformationEditButton_{{$index}}" name="dataTransformationEditButton_{{$index}}"
+                                    ng-click="dataTransformationEditRow($index)" ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="dataTransformationUpdateButton_{{$index}}" name="dataTransformationUpdateButton_{{$index}}"
+                                    ng-click="dataTransformationUpdateRow($index)" ng-show="dataTransformation.isEdit"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="dataTransformationUpdateCancelButton_{{$index}}" name="dataTransformationUpdateCancelButton_{{$index}}"
+                                    ng-click="dataTransformationCancelUpdate($index)" ng-show="dataTransformation.isEdit"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
                                     ng-click="dataTransformationRemove(dataTransformation)"
-                                    ng-show="dataTransformation.isAddLine && !submitted" class="btn btn-danger btn-xs">
-                                Remove
+                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>

@@ -79,7 +79,7 @@
                             <select id="dataMappingHoldingsField_{{$index}}" name="dataMappingHoldingsField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Holdings' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataMapping)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.holdingsFields  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -88,7 +88,7 @@
                             <select id="dataMappingItemField_{{$index}}" name="dataMappingItemField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Item' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataMapping)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.itemFields  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -98,7 +98,7 @@
                                     name="dataMappingEHoldingsField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'EHoldings' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataMapping)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.eHoldingsFields  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -108,7 +108,7 @@
                                     name="dataMappingOrderField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForType(dataMapping)">
+                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.dataMappingOrderFields"
                                         value="{{option.name}}">
@@ -209,12 +209,24 @@
                         </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine"
-                                    class="btn btn-success btn-sm">Add
+                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine || dataMapping.isEdit"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="dataMappingEditButton_{{$index}}" name="dataMappingEditButton_{{$index}}"
+                                    ng-click="dataMappingEditRow($index)" ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="dataMappingUpdateButton_{{$index}}" name="dataMappingUpdateButton_{{$index}}"
+                                    ng-click="dataMappingUpdateRow($index)" ng-show="dataMapping.isEdit"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="dataMappingUpdateCancelButton_{{$index}}" name="dataMappingUpdateCancelButton_{{$index}}"
+                                    ng-click="dataMappingCancelUpdate($index)" ng-show="dataMapping.isEdit"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
                                     ng-click="dataMappingRemove(dataMapping)"
-                                    ng-show="dataMapping.isAddLine && !submitted" class="btn btn-danger btn-xs">Remove
+                                    ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>
