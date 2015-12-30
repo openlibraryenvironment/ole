@@ -71,15 +71,26 @@
                         <td>
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
-                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine"
-                                    class="btn btn-success btn-sm">Add
+                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine || fieldOperation.isEdit"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="fieldOperationEditButton_{{$index}}" name="fieldOperationEditButton_{{$index}}"
+                                    ng-click="fieldOperationEditRow($index)" ng-show="fieldOperation.isAddLine && !fieldOperation.isEdit && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="fieldOperationUpdateButton_{{$index}}" name="fieldOperationUpdateButton_{{$index}}"
+                                    ng-click="fieldOperationUpdateRow($index)" ng-show="fieldOperation.isEdit && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="fieldOperationUpdateCancelButton_{{$index}}" name="fieldOperationUpdateCancelButton_{{$index}}"
+                                    ng-click="fieldOperationCancelUpdate($index)" ng-show="fieldOperation.isEdit && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="fieldOperationRemoveButton_{{$index}}"
                                     name="fieldOperationRemoveButton_{{$index}}"
                                     ng-click="fieldOperationRemove(fieldOperation)"
-                                    ng-show="fieldOperation.isAddLine && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'"
-                                    class="btn btn-danger btn-xs">
-                                Remove
+                                    ng-show="fieldOperation.isAddLine && !fieldOperation.isEdit && !submitted  && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>

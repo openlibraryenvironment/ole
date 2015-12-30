@@ -138,14 +138,25 @@
                         <td>
                             <button id="constantsAndDefaultAddButton_{{$index}}"
                                     name="constantsAndDefaultAddButton_{{$index}}"
-                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine"
-                                    class="btn btn-success btn-sm">Add
+                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine || constantsAndDefault.isEdit"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="constantsAndDefaultEditButton_{{$index}}" name="constantsAndDefaultEditButton_{{$index}}"
+                                    ng-click="constantsAndDefaultEditRow($index)" ng-show="constantsAndDefault.isAddLine && !constantsAndDefault.isEdit && !submitted"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="constantsAndDefaultUpdateButton_{{$index}}" name="constantsAndDefaultUpdateButton_{{$index}}"
+                                    ng-click="constantsAndDefaultUpdateRow($index)" ng-show="constantsAndDefault.isEdit"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="constantsAndDefaultUpdateCancelButton_{{$index}}" name="constantsAndDefaultUpdateCancelButton_{{$index}}"
+                                    ng-click="constantsAndDefaultCancelUpdate($index)" ng-show="constantsAndDefault.isEdit"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="constantsAndDefaultRemoveButton_{{$index}}"
                                     name="constantsAndDefaultRemoveButton_{{$index}}"
                                     ng-click="constantsAndDefaultRemove(constantsAndDefault)"
-                                    ng-show="constantsAndDefault.isAddLine && !submitted" class="btn btn-danger btn-xs">
-                                Remove
+                                    ng-show="constantsAndDefault.isAddLine && !constantsAndDefault.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>
