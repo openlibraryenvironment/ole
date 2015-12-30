@@ -38,7 +38,6 @@ getMaintenanceData = function (dataObject, $scope, $http) {
             });
         }
     } else if (dataObject.title == 'Data Mappings') {
-        alert("cmg");
         if ((dataObject.field == 'Call Number Type' || dataObject.field == 'Holdings Call Number Type') && $scope.callNumberTypeValues == undefined) {
             $http.get(OLENG_CONSTANTS.PROFILE_GET_CALLNUMBER_TYPES).success(function (data) {
                 $scope.callNumberTypeValues = data;
