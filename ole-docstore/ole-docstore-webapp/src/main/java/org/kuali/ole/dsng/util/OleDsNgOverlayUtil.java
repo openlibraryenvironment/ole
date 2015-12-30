@@ -1,7 +1,10 @@
 package org.kuali.ole.dsng.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.marc4j.marc.Record;
 
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -60,5 +63,15 @@ public class OleDsNgOverlayUtil extends OleDsHelperUtil {
         }
         return formLocation(locationLevel1, locationLevel2, locationLevel3,
                 locationLevel4, locationLevel5);
+    }
+
+    public String replaceBibIdTo001Tag(String marcContent,String bibId) {
+        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(marcContent);
+        if(CollectionUtils.isNotEmpty(records)) {
+            Record record = records.get(0);
+            getMarcRecordUtil().updateControlFieldValue(record,"001",bibId);
+            return getMarcRecordUtil().convertMarcRecordToMarcContent(record);
+        }
+        return null;
     }
 }

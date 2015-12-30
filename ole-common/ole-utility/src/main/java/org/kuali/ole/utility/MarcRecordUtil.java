@@ -1,6 +1,7 @@
 package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
@@ -13,6 +14,8 @@ import java.util.StringTokenizer;
  * Created by SheikS on 12/11/2015.
  */
 public class MarcRecordUtil {
+
+    private MarcXMLConverter marcXMLConverter;
 
     public String getControlFieldValue(Record marcRecord, String field) {
         List<VariableField> variableFields = marcRecord.getVariableFields(field);
@@ -136,5 +139,20 @@ public class MarcRecordUtil {
 
     public boolean isControlField(String field) {
         return Verifier.isControlField(field);
+    }
+
+    public List<Record> convertMarcXmlContentToMarcRecord(String marcRecord) {
+        return getMarcXMLConverter().convertMarcXmlToRecord(marcRecord);
+    }
+
+    public String convertMarcRecordToMarcContent(Record marcRecord) {
+        return getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+    }
+
+    public MarcXMLConverter getMarcXMLConverter() {
+        if(null == marcXMLConverter) {
+            marcXMLConverter = new MarcXMLConverter();
+        }
+        return marcXMLConverter;
     }
 }

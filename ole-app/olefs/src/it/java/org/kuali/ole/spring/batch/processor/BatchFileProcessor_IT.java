@@ -180,7 +180,7 @@ public class BatchFileProcessor_IT {
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         BatchProfileDataTransformer batchProfileDataTransformer1 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer1.setOperation("remove");
+        batchProfileDataTransformer1.setOperation("delete");
         batchProfileDataTransformer1.setConstant("ocm,ocn");
         batchProfileDataTransformer1.setSourceField("001");
         batchProfileDataTransformer1.setStep(1);
@@ -201,13 +201,13 @@ public class BatchFileProcessor_IT {
         batchProfileDataTransformers.add(batchProfileDataTransformer3);
 
         BatchProfileDataTransformer batchProfileDataTransformer4 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer4.setOperation("remove");
+        batchProfileDataTransformer4.setOperation("delete");
         batchProfileDataTransformer4.setSourceField("001");
         batchProfileDataTransformer4.setStep(4);
         batchProfileDataTransformers.add(batchProfileDataTransformer4);
 
         BatchProfileDataTransformer batchProfileDataTransformer5 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer5.setOperation("remove");
+        batchProfileDataTransformer5.setOperation("delete");
         batchProfileDataTransformer5.setSourceField("003");
         batchProfileDataTransformer5.setStep(5);
         batchProfileDataTransformers.add(batchProfileDataTransformer5);

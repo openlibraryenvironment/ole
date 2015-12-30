@@ -45,6 +45,12 @@ public class CreateBibHandler extends Handler {
 
                 bibRecord.setStatusUpdatedDate(updatedDate);
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
+
+                String modifiedcontent = replaceBibIdTo001Tag(newBibContent, updatedBibRecord.getBibId());
+                bibRecord.setContent(modifiedcontent);
+
+                updatedBibRecord = getBibDAO().save(bibRecord);
+
                 exchange.add("bib", updatedBibRecord);
 
                 createHoldings(requestJsonObject, exchange);

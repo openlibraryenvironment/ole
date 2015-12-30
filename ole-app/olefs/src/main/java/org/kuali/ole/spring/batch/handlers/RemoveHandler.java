@@ -48,6 +48,6 @@ public class RemoveHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-       return operation.equalsIgnoreCase("remove");
+       return operation.equalsIgnoreCase("delete");
     }
 }
