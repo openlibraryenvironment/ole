@@ -27,7 +27,6 @@ public class ReceiptPdfFormatUtil extends PdfFormatUtil{
         return document;
     }
 
-
     @Override
     public Font getDefaultFont() {
         String receiptPrinterFontSize = getParameter("RECEIPT_PRINTER_FONT_SIZE");
