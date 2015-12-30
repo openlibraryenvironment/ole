@@ -845,3 +845,7 @@ OLE-DLVR,Deliver,ASR_ITEM_RETRIVED,118,"1","CONFG",csp,This is for configuring A
 "OLE-DESC","Describe","ITEM_CALL_NUMBER_TYPE","5A689075D35B7AEBE0404F8189D81923","1","CONFG","LCC","To set Item Default value in editor","A","KUALI"
 "OLE-DESC","Describe","E-HOLDINGS_CALL_NUMBER_TYPE","5A689075D35B7AEBE0404F8189D81924","1","CONFG","LCC","To set Holdings Default value in editor","A","KUALI"
 "OLE-DLVR","Deliver","TEMPORARY_HISTORY_RECORD_DAYS","OLE7047","1","CONFG","10","This parameter value is used to specify the days to determine the temporary history records to be retained after check-in.","A","OLE"
+"OLE-DLVR","Deliver","RECEIPT_PRINTER_PAGE_SIZE","OLE7048","1","CONFG","B7","This parameter value is used for configuring the page size for receipt printer.","A","OLE"
+"OLE-DLVR","Deliver","RECEIPT_PRINTER_FONT_SIZE","OLE7049","1","CONFG","13","This parameter value is used for configuring the font size for receipt printer.","A","OLE"
+"OLE-DLVR","Deliver","REGULAR_PRINTER_PAGE_SIZE","OLE7050","1","CONFG","A4","This parameter value is used for configuring the page size for regular printer.","A","OLE"
+"OLE-DLVR","Deliver","REGULAR_PRINTER_FONT_SIZE","OLE7051","1","CONFG","10","This parameter value is used for configuring the font size for regular printer","A","OLE"
