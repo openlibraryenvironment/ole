@@ -30,6 +30,7 @@ import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -211,6 +212,14 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         }
         oleAdHocRoutingForAccessActivation.setAdHocPrincipalId(person.getPrincipalId());
         return true;
+    }
+
+    @Override
+    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
+        getDocumentService().validateAndPersistDocument(maintenanceDocument,new SaveDocumentEvent(maintenanceDocument));
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_SAVED);
+        return super.navigate(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=approve")
