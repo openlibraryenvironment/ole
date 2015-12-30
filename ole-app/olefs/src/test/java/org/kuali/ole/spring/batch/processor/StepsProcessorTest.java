@@ -80,19 +80,19 @@ public class StepsProcessorTest {
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("remove");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("remove");
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
-        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("remove");
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
@@ -141,18 +141,18 @@ public class StepsProcessorTest {
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
-        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
@@ -199,7 +199,7 @@ public class StepsProcessorTest {
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Remove");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("035 $a$b");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);

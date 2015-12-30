@@ -15,6 +15,10 @@ var documentTypes = [
     {id: 'eHoldings', name: 'EHoldings'}
 ];
 
+var transformationDocumentTypes = [
+    {id: 'bibliographic', name: 'Bibliographic'}
+];
+
 var destinationDocumentTypes = [
     {id: 'holdings', name: 'Holdings'},
     {id: 'item', name: 'Item'},
@@ -188,8 +192,7 @@ var transformationOperations = [
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
     {id: 'join', name: 'Join'},
-    {id: 'prepend', name: 'prepend with prefix'},
-    {id: 'remove', name: 'Remove'}
+    {id: 'prepend', name: 'prepend with prefix'}
 ];
 
 var constantsAndDefaultsOrderFields = [
@@ -349,7 +352,7 @@ var dataMapping = {
 
 var dataTransformation = {
     title: 'Data Transformations',
-    dataTransformationDocTypes: documentTypes,
+    dataTransformationDocTypes: transformationDocumentTypes,
     dataTransformationDocType: 'Bibliographic',
     transformers: transformers,
     transformer: 'Regex Pattern Transformer',

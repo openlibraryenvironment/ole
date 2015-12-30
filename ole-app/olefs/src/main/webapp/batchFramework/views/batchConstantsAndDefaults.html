@@ -29,7 +29,7 @@
                                     ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
                                     ng-change="getMaintenanceValuesForType(constantsAndDefault)">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
-                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsOrderFields"
+                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsOrderFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
@@ -83,7 +83,7 @@
                                             || constantsAndDefault.fieldName == 'Recurring Payment Type'
                                             || constantsAndDefault.fieldName == 'Fund Code') && !constantsAndDefault.isAddLine">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
-                                        ng-repeat="option in fieldValues"
+                                        ng-repeat="option in fieldValues  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>

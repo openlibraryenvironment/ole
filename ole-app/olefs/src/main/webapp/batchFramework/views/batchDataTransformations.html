@@ -88,7 +88,7 @@
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Holdings' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationHoldingsFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationHoldingsFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
@@ -98,7 +98,7 @@
                                     ng-show="dataTransformation.dataTransformationDocType == 'Item' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine"
                                     ng-change="getMaintenanceValuesForType(dataTransformation)">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationItemFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationItemFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
@@ -107,7 +107,7 @@
                                     ng-model="dataTransformation.dataTransformationField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'EHoldings' && (dataTransformation.dataTransformationAction == 'Add' || dataTransformation.dataTransformationAction == 'Update') && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationEHoldingsFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationEHoldingsFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
@@ -143,7 +143,7 @@
                                     ng-model="dataTransformation.dataTransformationFieldValue"
                                     ng-show="dataTransformation.dataTransformationField == 'Item Status' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.itemStatusName == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in itemStatusValues" value="{{option.itemStatusName}}">
+                                        ng-repeat="option in itemStatusValues  | orderBy:'itemStatusName'" value="{{option.itemStatusName}}">
                                     {{option.itemStatusName}}
                                 </option>
                             </select>
@@ -152,7 +152,7 @@
                                     ng-model="dataTransformation.dataTransformationFieldValue"
                                     ng-show="dataTransformation.dataTransformationField == 'Item Type' && dataTransformation.dataTransformationAction != 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.itemTypeName == dataTransformation.dataTransformationFieldValue}}"
-                                        ng-repeat="option in itemTypeValues" value="{{option.itemTypeName}}">
+                                        ng-repeat="option in itemTypeValues  | orderBy:'itemTypeName'" value="{{option.itemTypeName}}">
                                     {{option.itemTypeName}}
                                 </option>
                             </select>
@@ -174,7 +174,7 @@
                                     ng-model="dataTransformation.dataTransformationOperation"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Bibliographic' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationOperation}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationOperations"
+                                        ng-repeat="option in dataTransformation.dataTransformationOperations  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -215,7 +215,7 @@
                                     ng-model="dataTransformation.dataTransformationTransformField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Holdings' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformHoldingsFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationTransformHoldingsFields  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -225,7 +225,7 @@
                                     ng-model="dataTransformation.dataTransformationTransformField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'Item' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformItemFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationTransformItemFields  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -235,7 +235,7 @@
                                     ng-model="dataTransformation.dataTransformationTransformField"
                                     ng-show="dataTransformation.dataTransformationDocType == 'EHoldings' && dataTransformation.dataTransformationAction == 'Transform' && !dataTransformation.isAddLine">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationTransformField}}"
-                                        ng-repeat="option in dataTransformation.dataTransformationTransformEHoldingsFields"
+                                        ng-repeat="option in dataTransformation.dataTransformationTransformEHoldingsFields  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
