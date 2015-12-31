@@ -836,6 +836,20 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             }
 
         }
+        if((((OlePatronDocument) document.getNewMaintainableObject().getDataObject()).getOlePatronId() != null) && (newOlePatronDocument.isBarcodeEditable())){
+            Map<String,String> requestMap = new HashMap<>();
+            List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<OleDeliverRequestBo>();
+            requestMap.put("borrowerId",((OlePatronDocument) document.getNewMaintainableObject().getDataObject()).getOlePatronId());
+            List<OleDeliverRequestBo> deliverRequestBoList = (List<OleDeliverRequestBo>)getBusinessObjectService().findMatching(OleDeliverRequestBo.class,requestMap);
+            if(CollectionUtils.isNotEmpty(deliverRequestBoList)){
+                for(OleDeliverRequestBo oleDeliverRequestBo : deliverRequestBoList){
+                    oleDeliverRequestBo.setBorrowerBarcode(((OlePatronDocument) document.getNewMaintainableObject().getDataObject()).getBarcode());
+                    oleDeliverRequestBos.add(oleDeliverRequestBo);
+                }
+                List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)getBusinessObjectService().save(oleDeliverRequestBos);
+            }
+
+        }
         if(!olePatronHelperService.validatePatron(newOlePatronDocument)) {
             return getUIFModelAndView(form);
         }
