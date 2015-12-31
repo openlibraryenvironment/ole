@@ -15,14 +15,15 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'"></th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Source</th>
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
-                        <th>Sub Field</th>
+                        <th>Subfield</th>
                         <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Destination</th>
                         <th>Field</th>
                         <th>Constant</th>
+                        <th>Pre/Post Transform</th>
                         <th>Priority</th>
                         <th></th>
                     </tr>
@@ -30,7 +31,7 @@
                     <tbody>
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
                         <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
-                            <select name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
+                            <select class="form-control" name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
                                     ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.dataMappingDocType}}"
                                         ng-repeat="option in dataMapping.dataMappingDocTypes" value="{{option.name}}">
@@ -40,75 +41,79 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataMappingDocType"></span>
                         </td>
                         <td>
-                            <input id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}"
+                            <input class="form-control" id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}"
                                    type="text"
                                    ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"
                                    ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataField"></span>
                         </td>
                         <td>
-                            <input id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text"
                                    ng-model="dataMapping.ind1"
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind1"></span>
                         </td>
                         <td>
-                            <input id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text"
                                    ng-model="dataMapping.ind2"
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind2"></span>
                         </td>
                         <td>
-                            <input id="dataMappingSubField_{{$index}}" name="dataMappingSubField_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingSubField_{{$index}}" name="dataMappingSubField_{{$index}}" type="text"
                                    ng-model="dataMapping.subField"
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.subField"></span>
                         </td>
                         <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
-                            <select name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
+                            <select class="form-control" name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
                                     ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine"
                                     ng-change="setDefaultsDestination(dataMapping)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.destinations  | orderBy:'name'" value="{{option.name}}">
+                                        ng-repeat="option in dataMapping.destinations  | orderBy:'name'"
+                                        value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.destination"></span>
                         </td>
                         <td>
-                            <select id="dataMappingHoldingsField_{{$index}}" name="dataMappingHoldingsField_{{$index}}"
+                            <select id="dataMappingHoldingsField_{{$index}}" name="dataMappingHoldingsField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Holdings' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.holdingsFields  | orderBy:'name'" value="{{option.name}}">
+                                        ng-repeat="option in dataMapping.holdingsFields  | orderBy:'name'"
+                                        value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select id="dataMappingItemField_{{$index}}" name="dataMappingItemField_{{$index}}"
+                            <select id="dataMappingItemField_{{$index}}" name="dataMappingItemField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'Item' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.itemFields  | orderBy:'name'" value="{{option.name}}">
+                                        ng-repeat="option in dataMapping.itemFields  | orderBy:'name'"
+                                        value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select id="dataMappingEHoldingsField_{{$index}}"
+                            <select id="dataMappingEHoldingsField_{{$index}}" style="height: 30px; width: 200px;"
                                     name="dataMappingEHoldingsField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && dataMapping.destination == 'EHoldings' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.eHoldingsFields  | orderBy:'name'" value="{{option.name}}">
+                                        ng-repeat="option in dataMapping.eHoldingsFields  | orderBy:'name'"
+                                        value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select id="dataMappingOrderField_{{$index}}"
+                            <select id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 200px;"
                                     name="dataMappingOrderField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForBibImportByType(dataMapping.field)">
+                                    ng-change="getMaintenanceValuesForFieldType(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
                                         ng-repeat="option in dataMapping.dataMappingOrderFields"
                                         value="{{option.name}}">
@@ -118,7 +123,8 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.field"></span>
                         </td>
                         <td>
-                            <select id="dataMappingConstantCallNumberType_{{$index}}" name="dataMappingConstantCallNumberType_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantCallNumberType_{{$index}}"
+                                    name="dataMappingConstantCallNumberType_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Call Number Type' || dataMapping.field == 'Holdings Call Number Type') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.callNumberTypeCode == dataMapping.constant}}"
@@ -127,106 +133,223 @@
                                     {{option.callNumberTypeCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantItemType_{{$index}}" name="dataMappingConstantItemType_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantItemType_{{$index}}"
+                                    name="dataMappingConstantItemType_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="dataMapping.field == 'Item Type' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.itemTypeName == dataMapping.constant}}"
-                                        ng-repeat="option in itemTypeValues | orderBy:'itemTypeName'" value="{{option.itemTypeName}}">
+                                        ng-repeat="option in itemTypeValues | orderBy:'itemTypeName'"
+                                        value="{{option.itemTypeName}}">
                                     {{option.itemTypeName}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantItemStatus_{{$index}}" name="dataMappingConstantItemStatus_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantItemStatus_{{$index}}"
+                                    name="dataMappingConstantItemStatus_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="dataMapping.field == 'Item Status' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.itemStatusName == dataMapping.constant}}"
-                                        ng-repeat="option in itemStatusValues | orderBy:'itemStatusName'" value="{{option.itemStatusName}}">
+                                        ng-repeat="option in itemStatusValues | orderBy:'itemStatusName'"
+                                        value="{{option.itemStatusName}}">
                                     {{option.itemStatusName}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantDonorCode_{{$index}}" name="dataMappingConstantDonorCode_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantDonorCode_{{$index}}"
+                                    name="dataMappingConstantDonorCode_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="dataMapping.field == 'Donor Code' && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.donorCode == dataMapping.constant}}"
-                                        ng-repeat="option in donorCodes | orderBy:'donorCode'" value="{{option.donorCode}}">
+                                        ng-repeat="option in donorCodes | orderBy:'donorCode'"
+                                        value="{{option.donorCode}}">
                                     {{option.donorCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantLocationLevel1_{{$index}}" name="dataMappingConstantLocationLevel1_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantLocationLevel1_{{$index}}"
+                                    name="dataMappingConstantLocationLevel1_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Location Level1' || dataMapping.field == 'Holdings Location Level1') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.locationCode == dataMapping.constant}}"
-                                        ng-repeat="option in locationLevel1Values | orderBy:'locationCode'" value="{{option.locationCode}}">
+                                        ng-repeat="option in locationLevel1Values | orderBy:'locationCode'"
+                                        value="{{option.locationCode}}">
                                     {{option.locationCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantLocationLevel2_{{$index}}" name="dataMappingConstantLocationLevel2_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantLocationLevel2_{{$index}}"
+                                    name="dataMappingConstantLocationLevel2_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Location Level2' || dataMapping.field == 'Holdings Location Level2') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.locationCode == dataMapping.constant}}"
-                                        ng-repeat="option in locationLevel2Values | orderBy:'locationCode'" value="{{option.locationCode}}">
+                                        ng-repeat="option in locationLevel2Values | orderBy:'locationCode'"
+                                        value="{{option.locationCode}}">
                                     {{option.locationCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantLocationLevel3_{{$index}}" name="dataMappingConstantLocationLevel3_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantLocationLevel3_{{$index}}"
+                                    name="dataMappingConstantLocationLevel3_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Location Level3' || dataMapping.field == 'Holdings Location Level3') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.locationCode == dataMapping.constant}}"
-                                        ng-repeat="option in locationLevel3Values | orderBy:'locationCode'" value="{{option.locationCode}}">
+                                        ng-repeat="option in locationLevel3Values | orderBy:'locationCode'"
+                                        value="{{option.locationCode}}">
                                     {{option.locationCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantLocationLevel4_{{$index}}" name="dataMappingConstantLocationLevel4_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantLocationLevel4_{{$index}}"
+                                    name="dataMappingConstantLocationLevel4_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Location Level4' || dataMapping.field == 'Holdings Location Level4') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.locationCode == dataMapping.constant}}"
-                                        ng-repeat="option in locationLevel4Values | orderBy:'locationCode'" value="{{option.locationCode}}">
+                                        ng-repeat="option in locationLevel4Values | orderBy:'locationCode'"
+                                        value="{{option.locationCode}}">
                                     {{option.locationCode}}
                                 </option>
                             </select>
-                            <select id="dataMappingConstantLocationLevel5_{{$index}}" name="dataMappingConstantLocationLevel5_{{$index}}"
+                            <select class="form-control" id="dataMappingConstantLocationLevel5_{{$index}}"
+                                    name="dataMappingConstantLocationLevel5_{{$index}}"
                                     ng-model="dataMapping.constant"
                                     ng-show="(dataMapping.field == 'Location Level5' || dataMapping.field == 'Holdings Location Level5') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.locationCode == dataMapping.constant}}"
-                                        ng-repeat="option in locationLevel5Values | orderBy:'locationCode'" value="{{option.locationCode}}">
+                                        ng-repeat="option in locationLevel5Values | orderBy:'locationCode'"
+                                        value="{{option.locationCode}}">
                                     {{option.locationCode}}
                                 </option>
                             </select>
-
-                            <input id="dataMappingConstant_{{$index}}" name="dataMappingConstant_{{$index}}" type="text"
-                                   ng-model="dataMapping.constant"
-                                   style="height: 30px; width: 50px;" ng-show="!(dataMapping.field == 'Call Number Type' || dataMapping.field == 'Holdings Call Number Type' || dataMapping.field == 'Item Type'
-                                            || dataMapping.field == 'Item Status' || dataMapping.field == 'Donor Code' || dataMapping.field == 'Location Level1' || dataMapping.field == 'Holdings Location Level1'
-                                            || dataMapping.field == 'Location Level2' || dataMapping.field == 'Holdings Location Level2' || dataMapping.field == 'Location Level3' || dataMapping.field == 'Holdings Location Level3'
-                                            || dataMapping.field == 'Location Level4' || dataMapping.field == 'Holdings Location Level4' || dataMapping.field == 'Location Level5' || dataMapping.field == 'Holdings Location Level5')
-                                            && !dataMapping.isAddLine"/>
+                            <select class="form-control" name="dataMappingConstantBoolean_{{$index}}"
+                                    id="dataMappingConstantBoolean_{{$index}}"
+                                    ng-model="dataMapping.constant"
+                                    ng-show="(dataMapping.field == 'Receiving Required' || dataMapping.field == 'Use Tax Indicator' || dataMapping.field == 'Pay Req Positive Approval Req' || dataMapping.field == 'Purchase Order Confirmation Indicator' || dataMapping.field == 'Route To Requestor') && !dataMapping.isAddLine">
+                                <option ng-selected="{{option.value == dataMapping.field}}"
+                                        ng-repeat="option in booleanOptions"
+                                        value="{{option.value}}">{{option.value}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="dataMappingConstantDiscountType_{{$index}}"
+                                    id="dataMappingConstantDiscountType_{{$index}}"
+                                    ng-model="dataMapping.constant"
+                                    ng-show="dataMapping.field == 'Discount Type' && !dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.constant}}"
+                                        ng-repeat="option in dataMapping.discountTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="dataMappingConstantFieldValues_{{$index}}"
+                                    id="dataMappingConstantFieldValues_{{$index}}"
+                                    ng-model="dataMapping.constant"
+                                    ng-show="(dataMapping.field == 'Chart Code'
+                                            || dataMapping.field == 'Org Code'
+                                            || dataMapping.field == 'Item Chart Code'
+                                            || dataMapping.field == 'Contract Manager'
+                                            || dataMapping.field == 'Order Type'
+                                            || dataMapping.field == 'Funding Source'
+                                            || dataMapping.field == 'Delivery Campus Code'
+                                            || dataMapping.field == 'Building Code'
+                                            || dataMapping.field == 'Building Room Number'
+                                            || dataMapping.field == 'Vendor Choice'
+                                            || dataMapping.field == 'Cost Source'
+                                            || dataMapping.field == 'Default Location'
+                                            || dataMapping.field == 'Vendor Number'
+                                            || dataMapping.field == 'Vendor Alias Name'
+                                            || dataMapping.field == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || dataMapping.field == 'Requestor Name'
+                                            || dataMapping.field == 'Account Number'
+                                            || dataMapping.field == 'Object Code'
+                                            || dataMapping.field == 'Request Source'
+                                            || dataMapping.field == 'Assign To User'
+                                            || dataMapping.field == 'Method Of PO Transmission'
+                                            || dataMapping.field == 'Recurring Payment Type'
+                                            || dataMapping.field == 'Fund Code') && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.constant}}"
+                                        ng-repeat="option in dataMappingFieldValues  | orderBy:'name'"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <input class="form-control" id="dataMappingConstant_{{$index}}" name="dataMappingConstant_{{$index}}" type="text"
+                                   ng-model="dataMapping.constant" ng-hide="dataMapping.field == 'Call Number Type'
+                                            || dataMapping.field == 'Holdings Call Number Type'
+                                            || dataMapping.field == 'Item Type'
+                                            || dataMapping.field == 'Item Status'
+                                            || dataMapping.field == 'Donor Code'
+                                            || dataMapping.field == 'Location Level1'
+                                            || dataMapping.field == 'Holdings Location Level1'
+                                            || dataMapping.field == 'Location Level2'
+                                            || dataMapping.field == 'Holdings Location Level2'
+                                            || dataMapping.field == 'Location Level3'
+                                            || dataMapping.field == 'Holdings Location Level3'
+                                            || dataMapping.field == 'Location Level4'
+                                            || dataMapping.field == 'Holdings Location Level4'
+                                            || dataMapping.field == 'Location Level5'
+                                            || dataMapping.field == 'Holdings Location Level5'
+                                            || dataMapping.field == 'Chart Code'
+                                            || dataMapping.field == 'Org Code'
+                                            || dataMapping.field == 'Item Chart Code'
+                                            || dataMapping.field == 'Contract Manager'
+                                            || dataMapping.field == 'Order Type'
+                                            || dataMapping.field == 'Funding Source'
+                                            || dataMapping.field == 'Delivery Campus Code'
+                                            || dataMapping.field == 'Building Code'
+                                            || dataMapping.field == 'Building Room Number'
+                                            || dataMapping.field == 'Vendor Choice'
+                                            || dataMapping.field == 'Cost Source'
+                                            || dataMapping.field == 'Default Location'
+                                            || dataMapping.field == 'Vendor Number'
+                                            || dataMapping.field == 'Vendor Alias Name'
+                                            || dataMapping.field == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || dataMapping.field == 'Requestor Name'
+                                            || dataMapping.field == 'Discount Type'
+                                            || dataMapping.field == 'Account Number'
+                                            || dataMapping.field == 'Object Code'
+                                            || dataMapping.field == 'Request Source'
+                                            || dataMapping.field == 'Assign To User'
+                                            || dataMapping.field == 'Method Of PO Transmission'
+                                            || dataMapping.field == 'Recurring Payment Type'
+                                            || dataMapping.field == 'Receiving Required'
+                                            || dataMapping.field == 'Use Tax Indicator'
+                                            || dataMapping.field == 'Pay Req Positive Approval Req'
+                                            || dataMapping.field == 'Purchase Order Confirmation Indicator'
+                                            || dataMapping.field == 'Route To Requestor'
+                                            || dataMapping.field == 'Fund Code'
+                                            || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>
                         <td>
-                            <input id="dataMappingPriority_{{$index}}" name="dataMappingPriority_{{$index}}" type="text"
+                            <select class="form-control" name="dataMappingTransferOption__{{$index}}" id="dataMappingTransferOption__{{$index}}"
+                                    ng-model="dataMapping.transferOption" ng-hide="dataMapping.isAddLine">
+                                <option ng-selected="{{option.name == dataMapping.transferOption}}"
+                                        ng-repeat="option in dataMapping.transferOptions" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.transferOption"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataMappingPriority_{{$index}}" name="dataMappingPriority_{{$index}}" type="text"
                                    ng-model="dataMapping.priority"
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.priority"></span>
                         </td>
                         <td>
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
-                                    ng-click="dataMappingAdd(dataMapping)" ng-hide="dataMapping.isAddLine || dataMapping.isEdit"
+                                    ng-click="dataMappingAdd(dataMapping)"
+                                    ng-hide="dataMapping.isAddLine || dataMapping.isEdit"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
                             </button>
                             <button id="dataMappingEditButton_{{$index}}" name="dataMappingEditButton_{{$index}}"
-                                    ng-click="dataMappingEditRow($index)" ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    ng-click="dataMappingEditRow($index)"
+                                    ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="dataMappingUpdateButton_{{$index}}" name="dataMappingUpdateButton_{{$index}}"
                                     ng-click="dataMappingUpdateRow($index)" ng-show="dataMapping.isEdit"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
-                            <button id="dataMappingUpdateCancelButton_{{$index}}" name="dataMappingUpdateCancelButton_{{$index}}"
+                            <button id="dataMappingUpdateCancelButton_{{$index}}"
+                                    name="dataMappingUpdateCancelButton_{{$index}}"
                                     ng-click="dataMappingCancelUpdate($index)" ng-show="dataMapping.isEdit"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
                                     ng-click="dataMappingRemove(dataMapping)"
-                                    ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                    ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>

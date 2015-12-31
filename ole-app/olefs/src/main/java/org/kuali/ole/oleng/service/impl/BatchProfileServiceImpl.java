@@ -74,4 +74,9 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     public void deleteProfileById(Long profileId) {
         describeDAO.deleteProfileById(profileId);
     }
+
+    @Override
+    public BatchProcessProfile saveProfile(BatchProcessProfile batchProcessProfile) {
+        return describeDAO.save(batchProcessProfile);
+    }
 }

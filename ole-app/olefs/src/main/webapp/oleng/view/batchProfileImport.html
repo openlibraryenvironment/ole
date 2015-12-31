@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="batchProfileImportApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch Profile Import</title>
+    <script src="../../framework/angular/js/angular.js"></script>
+    <script src="../../oleng/js/batch/profileImport.js"></script>
+    <script src="../../oleng/js/oleng.js"></script>
+    <link rel="stylesheet" href="../../framework/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body ng-controller="batchProfileImportController" >
+<div class="container">
+    <div class="jumbotron">
+        <h2 align="center">Batch Profile Import</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+
+            <div id="profileImportDiv">
+                <br/><br/>
+                <!-- Horizonatal Form -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form name="profileImportForm" class="form-horizontal" data-toggle="validator">
+                            <div class="form-group">
+                                <label for="file" class="col-sm-6">Select file to ingest</label>
+
+                                <div class="col-sm-6">
+                                    <input type="file" file-model="selectedFile" id="file" name="file"
+                                           placeholder="Select File to Ingest"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="run" class="col-sm-6"></label>
+
+                                <div class="col-sm-6">
+                                    <button id="run" type="button"
+                                            class="btn btn-info active  pull-right" ng-click="importFile()">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                            <textarea type="text" class="form-control" id="profileImportStatus" ng-model="profileImportStatus"
+                                                      placeholder="Profile Import Status" readonly></textarea>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

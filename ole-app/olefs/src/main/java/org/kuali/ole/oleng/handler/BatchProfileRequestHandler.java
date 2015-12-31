@@ -46,7 +46,8 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
                 JSONObject profile = new JSONObject();
                 profile.put("profileName",batchProcessProfile.getBatchProcessProfileName());
                 profile.put("profileId",batchProcessProfile.getBatchProcessProfileId());
-                profile.put("content", IOUtils.toString(batchProcessProfile.getContent()));
+                byte[] content = batchProcessProfile.getContent();
+                profile.put("content", (null != content ? IOUtils.toString(content) : "{}"));
                 jsonArray.put(profile);
             }
         }
@@ -65,7 +66,8 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
         }
         BatchProcessProfile matching = getBatchProcessProfileById(Long.parseLong(profileId));
         if(null != matching){
-            JSONObject jsonObject = new JSONObject(IOUtils.toString(matching.getContent()));
+            byte[] content = matching.getContent();
+            JSONObject jsonObject = new JSONObject((null != content ? IOUtils.toString(content) : "{}"));
             if(StringUtils.equals(action,"copy")){
                 jsonObject.put("profileId",JSONObject.NULL);
                 jsonObject.put("profileName",JSONObject.NULL);
@@ -77,8 +79,6 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
         }
         return null;
     }
-
-
 
     public String deleteProfile(String requestContent) throws JSONException, IOException {
         JSONObject requestObject = new JSONObject(requestContent);
