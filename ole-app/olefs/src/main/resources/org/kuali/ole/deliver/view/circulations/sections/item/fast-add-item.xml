@@ -24,11 +24,10 @@
 
 
     <bean id="circFastAddItem"
-          parent="Uif-SecondaryActionButton-Small"
+          parent="Uif-SecondaryActionButton"
           p:methodToCall="fastAddItemDialog"
           p:actionLabel="Fast-Add item"
           p:render="@{proceedWithCheckout and !autoCheckout}"
-          p:style="float:left;margin-left:5em"
           p:actionEvent="openFastAdd"
           p:componentSecurity.performActionAuthz="true" />
 </beans>

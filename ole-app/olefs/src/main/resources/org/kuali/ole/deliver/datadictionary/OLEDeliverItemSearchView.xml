@@ -146,7 +146,7 @@
                 <property name="pager">
                     <bean parent="Uif-Pager" p:linkScript="oleItemSearchPager(this,'OLEDeliverItemSearchPage')" />
                 </property>
-                <property name="rowDetailsGroup">
+               <property name="rowDetailsGroup">
                     <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
@@ -531,15 +531,15 @@
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="items">
-            <list>
-                <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
-                <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
-                <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
-                <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                <bean parent="Uif-LinkField" p:label="Associate Patron Barcode"
-                      p:linkText="@{#line.patronBarcode}" p:target="_blank"
-                      p:href="@{#line.patronURL}"/>
-            </list>
+                <list>
+                    <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
+                    <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
+                    <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
+                    <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                    <bean parent="Uif-LinkField" p:label="Associate Patron Barcode"
+                          p:linkText="@{#line.patronBarcode}" p:target="_blank"
+                          p:href="@{#line.patronURL}"/>
+                </list>
         </property>
         <property name="renderLineActions" value="false"/>
     </bean>

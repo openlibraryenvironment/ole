@@ -25,3 +25,17 @@ div.ui-widget-overlay{
     width: 1105px;
     z-index: 999 !important;
 }
+
+.fast-add-error{
+    display:inline;
+    vertical-align:top;
+    margin-top:4px;
+    top:37px;
+    position:fixed;
+}
+
+.dataTables_paginate {
+    float: right;
+    text-align: right;
+    margin: 0px 0px !important;
+}
