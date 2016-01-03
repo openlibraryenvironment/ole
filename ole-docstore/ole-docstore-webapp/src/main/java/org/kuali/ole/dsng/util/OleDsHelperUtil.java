@@ -8,10 +8,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
@@ -184,6 +181,16 @@ public class OleDsHelperUtil implements DocstoreConstants {
         List<CallNumberTypeRecord> matching = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
+        }
+        return null;
+    }
+
+    public AuthenticationTypeRecord fetchAuthenticationTypeRecordByCode(String authenticationType) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("code", authenticationType);
+        List<AuthenticationTypeRecord> authenticationTypeRecords = (List<AuthenticationTypeRecord>) getBusinessObjectService().findMatching(AuthenticationTypeRecord.class, map);
+        if(CollectionUtils.isNotEmpty(authenticationTypeRecords)) {
+            return authenticationTypeRecords.get(0);
         }
         return null;
     }

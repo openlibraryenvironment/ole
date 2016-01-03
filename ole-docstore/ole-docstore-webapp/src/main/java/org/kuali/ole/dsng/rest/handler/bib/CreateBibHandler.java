@@ -6,7 +6,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
-import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -63,10 +63,10 @@ public class CreateBibHandler extends Handler {
     }
 
     private void createHoldings(JSONObject requestJsonObject, Exchange exchange) {
-        CreateHoldingsHandler createHoldingsHandler = new CreateHoldingsHandler();
-        createHoldingsHandler.setHoldingDAO(getHoldingDAO());
-        createHoldingsHandler.setItemDAO(getItemDAO());
-        createHoldingsHandler.setBusinessObjectService(getBusinessObjectService());
-        createHoldingsHandler.process(requestJsonObject,exchange);
+        CreateHoldingsProcessor createHoldingsProcessor = new CreateHoldingsProcessor();
+        createHoldingsProcessor.setHoldingDAO(getHoldingDAO());
+        createHoldingsProcessor.setItemDAO(getItemDAO());
+        createHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
+        createHoldingsProcessor.processHoldings(requestJsonObject,exchange);
     }
 }

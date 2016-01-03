@@ -6,8 +6,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
-import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsHandler;
-import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsProcessor;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -53,7 +52,7 @@ public class UpdateBibHandler extends Handler {
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
                 exchange.add("bib", updatedBibRecord);
 
-                processHoldings(requestJsonObject,exchange,overlayOps);
+                processHoldings(requestJsonObject,exchange);
             }
 
         } catch (JSONException e) {
@@ -62,25 +61,11 @@ public class UpdateBibHandler extends Handler {
 
     }
 
-    private void processHoldings(JSONObject requestJsonObject, Exchange exchange,String overlayOps) {
-        UpdateHoldingsHandler updateHoldingsHandler = new UpdateHoldingsHandler();
-        if(updateHoldingsHandler.isInterested(overlayOps)) {
-            updateHoldingsHandler.setHoldingDAO(getHoldingDAO());
-            updateHoldingsHandler.setItemDAO(getItemDAO());
-            updateHoldingsHandler.setBusinessObjectService(getBusinessObjectService());
-            updateHoldingsHandler.process(requestJsonObject,exchange);
-        } else {
-            createHolding(requestJsonObject,exchange,overlayOps);
-        }
-    }
-
-    private void createHolding(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
-        CreateHoldingsHandler createHoldingsHandler = new CreateHoldingsHandler();
-        if(createHoldingsHandler.isInterested(overlayOps)) {
-            createHoldingsHandler.setHoldingDAO(getHoldingDAO());
-            createHoldingsHandler.setItemDAO(getItemDAO());
-            createHoldingsHandler.setBusinessObjectService(getBusinessObjectService());
-            createHoldingsHandler.process(requestJsonObject,exchange);
-        }
+    private void processHoldings(JSONObject requestJsonObject, Exchange exchange) {
+        UpdateHoldingsProcessor updateHoldingsProcessor = new UpdateHoldingsProcessor();
+        updateHoldingsProcessor.setHoldingDAO(getHoldingDAO());
+        updateHoldingsProcessor.setItemDAO(getItemDAO());
+        updateHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
+        updateHoldingsProcessor.processHoldings(requestJsonObject,exchange);
     }
 }
