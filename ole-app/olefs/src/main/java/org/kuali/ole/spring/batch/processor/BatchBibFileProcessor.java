@@ -105,6 +105,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
         bibData.put("holdings", holdingsData);
 
+        JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
+        prepareDataMappings(marcRecord, batchProcessProfile, eholdingsData, "eholdings");
+        bibData.put("eholdings", eholdingsData);
+
         JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
         prepareDataMappings(marcRecord, batchProcessProfile, itemData, "item");
         bibData.put("items", itemData);
@@ -144,6 +148,15 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private JSONObject prepareMatchPointsForHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject holdingsData = new JSONObject();
         JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "holdings");
+        if (holdingsMatchPoints.length() > 0) {
+            holdingsData.put("matchPoints", holdingsMatchPoints);
+        }
+        return holdingsData;
+    }
+
+    private JSONObject prepareMatchPointsForEHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
+        JSONObject holdingsData = new JSONObject();
+        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "eholdings");
         if (holdingsMatchPoints.length() > 0) {
             holdingsData.put("matchPoints", holdingsMatchPoints);
         }

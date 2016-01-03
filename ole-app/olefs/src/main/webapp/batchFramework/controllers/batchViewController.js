@@ -319,9 +319,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].destinations = destinationDocumentTypes;
             $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
             $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
-            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
+            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsDataMappings;
             $scope.dataMappingsPanel[index].dataMappingOrderFields = dataMappingOrderFields;
-            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsMatchPoints;
             $scope.dataMappingsPanel[index].discountTypes = discountTypes;
             $scope.dataMappingsPanel[index].transferOptions = transferOptions;
             $scope.dataMappingsPanel[index].isAddLine = false;

@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class CreateHoldingsHandler extends Handler {
 
-    List<HoldingsHandler> holdingMetaDataHandlers;
+    protected List<HoldingsHandler> holdingMetaDataHandlers;
 
     public List<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
@@ -58,7 +58,7 @@ public class CreateHoldingsHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         try {
             BibRecord bibRecord = (BibRecord) exchange.get("bib");
-            JSONObject holdingJsonObject = requestJsonObject.getJSONObject("holdings");
+            JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
             HoldingsRecord holdingsRecord = new HoldingsRecord();
             exchange.add("holdingsRecord", holdingsRecord);
 
@@ -83,7 +83,9 @@ public class CreateHoldingsHandler extends Handler {
             holdingsRecord.setUpdatedBy(updatedBy);
             holdingsRecord.setUpdatedDate(updatedDate);
             holdingsRecord.setBibId(bibRecord.getBibId());
-            holdingsRecord.setHoldingsType(PHoldings.PRINT);
+
+            setHoldingType(holdingsRecord);
+
             holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
             holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
 
@@ -110,12 +112,20 @@ public class CreateHoldingsHandler extends Handler {
         }
     }
 
-    private void createItem(JSONObject requestJsonObject, Exchange exchange, HoldingsRecord holdingsRecord) {
+    public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
+        return requestJsonObject.getJSONObject("holdings");
+    }
+
+    public void createItem(JSONObject requestJsonObject, Exchange exchange, HoldingsRecord holdingsRecord) {
         exchange.add("holdings",holdingsRecord);
         CreateItemHandler createItemHandler = new CreateItemHandler();
         createItemHandler.setItemDAO(getItemDAO());
         createItemHandler.setBusinessObjectService(getBusinessObjectService());
         createItemHandler.process(requestJsonObject,exchange);
         exchange.remove("holdings");
+    }
+
+    public void setHoldingType(HoldingsRecord holdingsRecord) {
+        holdingsRecord.setHoldingsType(PHoldings.PRINT);
     }
 }
