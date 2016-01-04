@@ -175,35 +175,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return solrInputDocumentMap;
     }
 
-    private void processHoldings(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
-        for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
-            Handler holdingHandler = iterator.next();
-            if (holdingHandler.isInterested(overlayOps)) {
-                holdingHandler.setHoldingDAO(holdingDAO);
-                holdingHandler.setItemDAO(itemDAO);
-                holdingHandler.setBusinessObjectService(getBusinessObjectService());
-                holdingHandler.process(requestJsonObject, exchange);
-            }
-        }
-    }
-
     private void processBib(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
         for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
             Handler handler = iterator.next();
             if (handler.isInterested(overlayOps)) {
                 handler.setBibDAO(bibDAO);
                 handler.setHoldingDAO(holdingDAO);
-                handler.setItemDAO(itemDAO);
-                handler.setBusinessObjectService(getBusinessObjectService());
-                handler.process(requestJsonObject, exchange);
-            }
-        }
-    }
-
-    private void processItem(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
-        for (Iterator<Handler> handlerIterator = getItemHandlers().iterator(); handlerIterator.hasNext(); ) {
-            Handler handler = handlerIterator.next();
-            if (handler.isInterested(overlayOps)) {
                 handler.setItemDAO(itemDAO);
                 handler.setBusinessObjectService(getBusinessObjectService());
                 handler.process(requestJsonObject, exchange);
