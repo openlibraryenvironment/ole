@@ -2247,6 +2247,8 @@ public class OLEConstants {
     public static final String ERROR_EMPTY_ROLE_PERSON_GROUP = "error.empty.role.person.group";
     public static final String NO_USER_FOR_GROUP = "error.no.user.group";
     public static final String NO_USER_FOR_ROLE = "error.no.user.role";
+    public static final String EMPTY_MAIL_CONTENT = "error.empty.mail.content";
+    public static final String EMPTY_USER_FOR_MAIL = "error.empty.mail.user";
 
     public static final class OleNoticeContentConfigurationRule {
         public static final String NOTICE_NAME_FIELD = "dataObject.noticeName";
