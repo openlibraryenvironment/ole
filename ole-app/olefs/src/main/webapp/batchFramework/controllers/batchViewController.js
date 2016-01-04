@@ -1,4 +1,4 @@
-var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
+var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap','ui.bootstrap']);
 
 app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
     $scope.booleanOptions = booleanOptions;
