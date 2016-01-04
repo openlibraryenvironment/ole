@@ -18,7 +18,7 @@
                 <bean id="OLEDeliverItemSearchPage" parent="Uif-Page">
                     <property name="items">
                         <list>
-                            <ref bean="ExpandCollapse_buttons"/>
+                            <ref bean="OLEDeliverItemHeaderButton"/>
                             <ref bean="OLEDeliverItemSearchPanel"/>
                             <ref bean="OLEDeliverItemSearchButtons"/>
                             <ref bean="OLEDeliverBibSearchResults"/>
@@ -42,11 +42,20 @@
         </property>
     </bean>
 
+    <bean id="OLEDeliverItemHeaderButton" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="OLEDeliverItemSearchButtons"/>
+                <ref bean="ExpandCollapse_buttons"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="ExpandCollapse_buttons" parent="Uif-HorizontalBoxSection" p:render="@{singleItemFlag}" p:style="float:right;margin-top:0%;margin-right:13%">
         <property name="items">
             <list>
-                <bean id="Expand_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
-                <bean id="Collapse_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+                <bean id="Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
             </list>
         </property>
     </bean>
@@ -112,14 +121,15 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="text-align:center;" >
+    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="position:relative;top:54%;left: 37%;justify-content: center;align-items: center;margin-right:45%" >
         <property name="items">
             <list>
                 <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton"
-                      p:style="margin-left:50%;"
                       p:methodToCall="search" p:actionLabel="Search" p:successCallback="disableLink()"/>
                 <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton"
-                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                      p:methodToCall="clearSearch" p:actionLabel="Clear Values"/>
+                <bean id="itemSearch_cancel_button" parent="Uif-SecondaryActionButton"
+                      p:actionLabel="Cancel" p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);"/>
             </list>
         </property>
     </bean>

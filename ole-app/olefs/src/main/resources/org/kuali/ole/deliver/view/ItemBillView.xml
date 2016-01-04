@@ -124,7 +124,7 @@
         <property name="items">
             <list>
                 <bean id="item_Barcode" parent="Uif-DataField" p:label="Item Barcode" p:propertyName="itemBarcode"/>
-                <bean id="bill_Number" parent="Uif-DataField" p:label="Bill No" p:propertyName="billNumber"/>
+                <bean id="bill_Number" parent="Uif-DataField" p:label="Bill No" p:propertyName="viewBillNumber"/>
                 <bean id="bill_Date" parent="Uif-DataField" p:label="Bill Date" p:propertyName="billDate"/>
                 <bean id="item_feeTypeName" parent="Uif-DataField" p:label="Fee Type" p:propertyName="feeTypeName"/>
                 <bean id="item_feeAmount" parent="Uif-DataField" p:label="Fee Amount" p:propertyName="feeAmount"/>

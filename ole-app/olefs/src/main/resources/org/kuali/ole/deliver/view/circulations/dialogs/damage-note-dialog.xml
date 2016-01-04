@@ -25,7 +25,9 @@
 
     <!--Damage Item-->
     <bean id="damageNoteDialog" parent="Uif-DialogGroup">
-        <property name="headerText" value=""/>
+        <property name="header.rightGroup">
+            <ref bean="headerBtnAndInstructionalTextMsgDamagedItm"/>
+        </property>
         <property name="promptText" value=""/>
         <property name="availableResponses">
             <list>
@@ -36,6 +38,15 @@
             <list merge="false">
                 <ref bean="damageNote-note"/>
                 <ref bean="damageNote-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="headerBtnAndInstructionalTextMsgDamagedItm" p:style="width:95%;position:relative;float:right" parent="Uif-HeaderRightGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree"  p:headerText="Damaged"/>
+                <bean parent="Uif-Message" p:style="margin-top:15px;float:right" p:messageText="*indicates required field"/>
             </list>
         </property>
     </bean>
@@ -54,10 +65,10 @@
     </bean>
 
 
-    <bean id="damageNote-buttons" parent="Uif-HorizontalBoxSection">
+    <bean id="damageNote-buttons" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="damageItemNoteButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="save"
+                <bean id="damageItemNoteButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit"
                       p:actionScript="if(jq('#kualiLightboxForm').valid()){
                           var damageItemDescription = jq('#damageNote_control').val();
                           submitForm('applyDamagedItem', {damageItemDescription:damageItemDescription}, null, true,
@@ -68,13 +79,13 @@
                               jq('.loaningItemCBClass').removeAttr('checked');
                           });
                       }"/>
-                <bean id="damageItemCloseButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="damageItemCloseButton" parent="Uif-SecondaryActionButton" p:actionScript="
                 jq.fancybox.close();
                 jq('#checkoutItem_control').focus();
                 jq('.loanedItemCBClass').removeAttr('checked');
-                jq('.loaningItemCBClass').removeAttr('checked');"  p:actionLabel="Close" />
+                jq('.loaningItemCBClass').removeAttr('checked');"  p:actionLabel="Cancel" />
 
-                <bean id="damageItemRemoveNoteButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="damageItemRemoveNoteButton" parent="Uif-SecondaryActionButton" p:actionScript="
                       submitForm('removeDamagedItem', null, null, true,
                       function () {
                           jq.fancybox.close();

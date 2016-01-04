@@ -23,30 +23,35 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 <bean id="circGeneralButtons" parent="circGeneralButtons-HorizontalBoxSection-parentBean" />
-<bean id="circGeneralButtons-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+<bean id="circGeneralButtons-HorizontalBoxSection-parentBean" p:style="height:43px" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
 <property name="items">
     <list>
-        <bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"
+        <bean id="circGoToReturn" parent="Uif-SecondaryActionButton" p:actionLabel="Return" p:methodToCall="goToReturn"/>
+        <ref bean="circFastAddItem"/>
+        <ref bean="circShowExistingLoans"/>
+        <ref bean="circHideExistingLoans"/>
+        <bean id="circRenewItemButton" parent="Uif-SecondaryActionButton" p:methodToCall="renew" p:actionLabel="Renew"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:ajaxSubmit="true"  p:successCallback="jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');"/>
+        <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:ajaxSubmit="true" />
+        <bean id="circClaimsReturnButton" parent="Uif-SecondaryActionButton" p:actionLabel="Claims Return"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openClaimsReturnDialog',null,null,true,function(){
+                            });"/>
+        <bean id="circMissingPieceButton" parent="Uif-SecondaryActionButton" p:actionLabel="Missing Piece"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openMissingPieceItemDialog',null,null,true,function(){
+                            });"/>
+        <bean id="circDamagedItemButton" parent="Uif-SecondaryActionButton" p:actionLabel="Damaged"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openDamagedItemDialog',null,null,true,function(){
+                            });" />
+        <bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"
               p:successCallback="jq('#barcodeFieldSection_control').focus();
               if(parent.jq !== undefined){
                  parent.jq.fancybox.close();
               }
               "/>
-        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
+        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
               p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
-        <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:ajaxSubmit="true" />
-        <bean id="circClaimsReturnButton" parent="Uif-SecondaryActionButton" p:actionLabel="Claims Return" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:actionScript="submitForm('openClaimsReturnDialog',null,null,true,function(){
-                            });"/>
-        <bean id="circMissingPieceButton" parent="Uif-SecondaryActionButton" p:actionLabel="Missing Piece" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:actionScript="submitForm('openMissingPieceItemDialog',null,null,true,function(){
-                            });"/>
-        <bean id="circDamagedItemButton" parent="Uif-SecondaryActionButton" p:actionLabel="Damaged" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:actionScript="submitForm('openDamagedItemDialog',null,null,true,function(){
-                            });" />
-        <bean id="circRenewItemButton" parent="Uif-SecondaryActionButton" p:methodToCall="renew" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:ajaxSubmit="true"  p:successCallback="jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');"/>
+        <bean id="circGoToHome" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="returnToHub"/>
     </list>
 </property>
 </bean>

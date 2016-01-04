@@ -69,7 +69,6 @@
         <property name="propertyName" value="deliverRequestBos"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <!--<property name="collectionLookup.render" value="false"/>-->
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
@@ -109,14 +108,12 @@
 
 
     <bean id="DeliverRequestSearch-buttons" parent="DeliverRequestSearch-buttons-parentBean" />
-    <bean id="DeliverRequestSearch-buttons-parentBean" parent="Uif-FooterBase" p:componentSecurity.viewAuthz="true">
+    <bean id="DeliverRequestSearch-buttons-parentBean" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="Uif-FooterBase" p:componentSecurity.viewAuthz="true">
         <property name="items">
             <list>
-
                 <bean id="searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search" p:style="float:left;margin-left:5em" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="draggable()"/>
                 <bean id="reOrderButton" parent="Uif-SecondaryActionButton" p:methodToCall="reOrder" p:actionLabel="Submit" p:style="float:left;margin-left:5em" p:render="@{deliverRequestBos ne null and deliverRequestBos.size() > 0}"/>
-                <!--<ref bean="SecondarySearchPatron" />
-                <ref bean="SecondarySearchItem" />-->
+                <bean id="reOrderCancelBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel" p:render="@{deliverRequestBos ne null and deliverRequestBos.size() > 0}"/>
             </list>
         </property>
     </bean>
