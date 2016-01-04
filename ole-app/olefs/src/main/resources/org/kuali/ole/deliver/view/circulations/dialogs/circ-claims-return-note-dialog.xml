@@ -25,7 +25,7 @@
 
     <!--Claims Return Dialog-->
     <bean id="claimsReturnNoteDialog" parent="Uif-DialogGroup">
-        <property name="headerText" value=""/>
+        <property name="headerText" value="Claims Return"/>
         <property name="promptText" value=""/>
         <property name="availableResponses">
             <list>
@@ -34,11 +34,14 @@
         </property>
         <property name="items">
             <list merge="false">
+                <ref bean="infoMessageForClaims"/>
                 <ref bean="claimsReturn-note"/>
                 <ref bean="claimsReturn-buttons"/>
             </list>
         </property>
     </bean>
+
+    <bean id="infoMessageForClaims" parent="Uif-MessageField" p:messageText="Note required for claims returned.Note is applied to all checked items." p:cssClasses="alert-info" />
 
     <bean id="claimsReturn-note" parent="claimsReturn-note-parentBean" />
     <bean id="claimsReturn-note-parentBean" parent="Uif-VerticalBoxSection">
@@ -54,10 +57,10 @@
     </bean>
 
 
-    <bean id="claimsReturn-buttons" parent="Uif-HorizontalBoxSection">
+    <bean id="claimsReturn-buttons" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="circ-claimsReturnNote-save" parent="Uif-SecondaryActionButton-Small" p:actionLabel="save"
+                <bean id="circ-claimsReturnNote-save" parent="Uif-SecondaryActionButton" p:actionLabel="Submit"
                       p:actionScript="if(jq('#kualiLightboxForm').valid()){
                           var claimDescription = jq('#claimsReturnDescription_control').val();
                           submitForm('applyClaimsReturn', {claimDescription:claimDescription}, null, true,
@@ -68,13 +71,13 @@
                               jq('.loaningItemCBClass').removeAttr('checked');
                           });
                       }"/>
-                <bean id="circ-claimsReturnNote-close" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="circ-claimsReturnNote-close" parent="Uif-SecondaryActionButton" p:actionScript="
                 jq.fancybox.close();
                 jq('#checkoutItem_control').focus();
                 jq('.loanedItemCBClass').removeAttr('checked');
                 jq('.loaningItemCBClass').removeAttr('checked');
-                " p:actionLabel="close"/>
-                <bean id="circ-RemoveClaimsReturn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Remove Claims Return" p:render="@{claimsReturnFlag}"
+                " p:actionLabel="Cancel"/>
+                <bean id="circ-RemoveClaimsReturn" parent="Uif-SecondaryActionButton" p:actionLabel="Remove Claims Return" p:render="@{claimsReturnFlag}"
                       p:actionScript="
                       submitForm('removeClaimsReturn', null, null, true,
                       function () {

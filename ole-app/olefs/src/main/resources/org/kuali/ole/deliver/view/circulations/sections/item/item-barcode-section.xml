@@ -35,7 +35,6 @@
     <bean id="checkoutItem-parentBean" parent="Uif-InputField"
           p:propertyName="itemBarcode"
           p:label="Item"
-          p:style="float:left;margin-left:1em"
           p:render="@{proceedWithCheckout}" p:readOnly="@{autoCheckout}">
         <property name="control">
             <bean parent="Uif-TextControl">

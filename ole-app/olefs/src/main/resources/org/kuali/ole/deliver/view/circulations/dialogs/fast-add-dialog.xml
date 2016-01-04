@@ -23,7 +23,11 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="fastAddItemDialog" parent="Uif-DialogGroup">
-        <property name="headerText" value="Fast-Add item"/>
+      <!--  <property name="headerText" value="Fast-Add item"/>-->
+
+        <property name="header.rightGroup">
+            <ref bean="headerButtonAndInstructionalTextMessage"/>
+        </property>
         <property name="promptText" value=""/>
         <property name="availableResponses">
             <list>
@@ -32,10 +36,11 @@
         </property>
         <property name="items">
             <list merge="false">
+
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <ref bean="fastAddErrorMessage"/>
+                            <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please provide the mandatory information" p:hidden="true" p:cssClasses="alert-error fast-add-error" />
                             <ref bean="fastAddItemSection"/>
                             <ref bean="fastAddItem-HorizontalBoxSection-button"/>
                         </list>
@@ -44,12 +49,29 @@
             </list>
         </property>
     </bean>
-    <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please provide the mandatory information" p:hidden="true" p:cssClasses="alert-error" />
+    <bean id="headerButtonAndInstructionalTextMessage" p:style="width:95%;position:relative;float:right" parent="Uif-HeaderRightGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree"  p:headerText="Fast-Add item"/>
+                <bean id="fastAddItemHeader-button" p:style="margin-left:41%;width:50%;position:absolute;" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="saveFastAddBtn"/>
+                            <ref bean="btnCancelFastAdd"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message" p:style="margin-top:15px;float:right" p:messageText="*indicates required field"/>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="fastAddItemSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
 
         <property name="items">
             <list>
+
                 <bean id="addFastAddTitle" parent="Uif-InputField" p:label="Title" p:propertyName="oleLoanFastAdd.title" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -149,13 +171,18 @@
     </bean>
 
 
-    <bean id="fastAddItem-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+    <bean id="fastAddItem-HorizontalBoxSection-button" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
         <property name="items">
             <list>
-                <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please enter the required fields" p:hidden="true" p:cssClasses="alert-error" />
-                <bean id="saveFastAddBtn" parent="Uif-SecondaryActionButton-Small"
-                      p:style="float:left;margin-left:27em;width:10%"
-                      p:actionScript="
+                <ref bean="saveFastAddBtn"/>
+                <ref bean="btnCancelFastAdd"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="saveFastAddBtn" parent="Uif-SecondaryActionButton"
+          p:actionScript="
                       var itemType = jq('#addFastAddItemType_control').val();
                       var callNumberType = jq('#addFastAddCallNumberType_control').val();
                       var note = jq('#addFastAddNote_control').val();
@@ -174,12 +201,10 @@
                          jq('#fastAddErrorMessage').attr('style','display:inline');
                          jq('#fastAddErrorMessage').focus();
                       }"
-                      p:actionLabel="Submit" p:focusOnIdAfterSubmit="fastAddErrorMessage" p:jumpToIdAfterSubmit="fastAddErrorMessage"/>
+          p:actionLabel="Submit" p:focusOnIdAfterSubmit="fastAddErrorMessage" p:jumpToIdAfterSubmit="fastAddErrorMessage"/>
 
-                <bean id="btnCancelFastAdd" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel"
-                      p:actionScript="jq.fancybox.close();jq('#checkoutItem_control').focus();" />
-            </list>
-        </property>
-    </bean>
+    <bean id="btnCancelFastAdd" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel"
+          p:actionScript="jq.fancybox.close();jq('#checkoutItem_control').focus();" />
+
 
 </beans>

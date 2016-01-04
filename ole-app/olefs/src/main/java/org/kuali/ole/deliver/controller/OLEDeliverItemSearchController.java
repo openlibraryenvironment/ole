@@ -16,6 +16,8 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -490,7 +492,16 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         return search(oleDeliverItemSearchForm, result, request, response);
     }
 
+    @RequestMapping(params = "methodToCall=returnToDeliverTab")
+    public ModelAndView redirect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response){
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.REFRESH);
 
+        if (org.apache.commons.lang.StringUtils.isNotBlank(form.getReturnFormKey())) {
+            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
+        }
+        return performRedirect(form, form.getReturnLocation(),props);
+    }
 
 
 }

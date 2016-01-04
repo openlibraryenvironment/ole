@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
@@ -15,6 +16,8 @@ import org.kuali.ole.docstore.common.search.SearchResultField;
 
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -177,6 +181,17 @@ public class OleDeliverRequestReOrderController extends UifControllerBase {
         ((OleDeliverRequestReOrderForm) form).setMessage(null);
         super.refresh(form, result, request, response);
         return search(form, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=returnToDeliverTab")
+    public ModelAndView redirect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response){
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.REFRESH);
+
+        if (StringUtils.isNotBlank(form.getReturnFormKey())) {
+            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
+        }
+        return performRedirect(form, form.getReturnLocation(),props);
     }
 
 }

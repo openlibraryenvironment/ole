@@ -73,6 +73,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/deliver/loan/script/circ.js</value>
+                <!--<value>ole/deliver/loan/script/tableExport.js</value>-->
             </list>
         </property>
         <property name="additionalCssFiles">

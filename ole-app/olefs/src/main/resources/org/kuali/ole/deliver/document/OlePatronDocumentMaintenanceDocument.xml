@@ -48,7 +48,20 @@
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
         <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceImpl"/>
         <property name="authorizerClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceViewAuthorizer"/>
+        <property name="header">
+            <bean parent="Uif-Ole-DocumentViewHeader"/>
+        </property>
         <property name="headerText" value="Patron"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean="expandCollapse_OlePatronBtn"/>
+                        <!--<bean parent="Uif-Message" p:messageText="* indicates required field"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
 	    <property name="formClass" value="org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm"/>
         <property name="help">
             <bean parent="Uif-Help">
@@ -86,7 +99,7 @@
                 <bean id="OlePatronDocument-FooterBase" parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}">
                     <property name="items">
                         <list>
-                            <bean id="deleteButton" parent="Uif-PrimaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete"/>
+                            <bean id="deleteButton" parent="Uif-SecondaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete"/>
                             <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                         </list>
                     </property>
@@ -98,30 +111,37 @@
             <bean id="Patron-FooterBase" parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
                 <property name="items">
                     <list merge="false">
-                        <bean id="olePatronRouteReport" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
+                        <bean id="olePatronRouteReport" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronSendAdHoc" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+                        <bean id="olePatronSendAdHoc" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronSubmit" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                        <bean id="olePatronSubmit" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronSave" parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronReload" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="reload"
+                        <bean id="olePatronSave" parent="OlePatron-Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronReload" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="Reload"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronBlanketApprove" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                        <bean id="olePatronBlanketApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="Blanket Approve" p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronApprove" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve"  p:performClientSideValidation="true"
+                        <bean id="olePatronApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve"  p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronDisapprove" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                        <bean id="olePatronDisapprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronFYI" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="fyi"
+                        <bean id="olePatronFYI" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="FYI"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronAcknowledge" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
+                        <bean id="olePatronAcknowledge" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronCancel" parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
-                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="lostBarcode_edit" parent="Uif-PrimaryActionButton" p:methodToCall="lostBarcode" p:actionLabel="Update Barcode" p:ajaxSubmit="true"  p:successCallback="showBarcodeUpdateDialogBox();"  p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
+                        <bean id="olePatronClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+
+                        <bean id="olePatronCancel" parent="OlePatron-Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP">
+                            <property name="cssClasses">
+                                <list merge="false">
+                                    <value>uif-secondaryActionButton</value>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean id="lostBarcode_edit" parent="Uif-SecondaryActionButton" p:methodToCall="lostBarcode" p:actionLabel="Update Barcode" p:ajaxSubmit="true"  p:successCallback="showBarcodeUpdateDialogBox();"  p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
                         <!--p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (document.newMaintainableObject.dataObject.olePatronId ne null)}"-->
                         <!--<bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  />
@@ -148,6 +168,49 @@
             </list>
         </property>
     </bean>
+
+    <!--<bean id="Uif-OlePatron-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="rightGroup">
+                <bean parent="Uif-OlePatron-DocumentInfoGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-docheader</value>
+                        </list>
+                    </property>
+                </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-OlePatron-DocumentInfoGroup" parent="Uif-GridGroup" p:style="height:30px;overflow:hidden" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNumber"/>
+                <bean parent="Uif-DocumentStatus"/>
+                <bean parent="Uif-DocumentInitiatorNetworkId"/>
+                <bean parent="Uif-DocumentCreateDate"/>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="8" p:applyDefaultCellWidths="false"/>
+        </property>
+        <property name="fieldBindingObjectPath" value="document"/>
+    </bean>-->
+
+    <bean id="expandCollapse_OlePatronBtn" parent="Uif-HorizontalBoxSection"  p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="olePatron_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="olePatron_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatron-Uif-SaveAction" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+          p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"
+          p:loadingMessageText="Saving..." p:clearDirtyOnAction="true" p:id="usave"/>
+
+    <bean id="OlePatron-Uif-CancelAction" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+          p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="ucancel"/>
 
     <bean id="Patron-MaintenanceView" abstract="true" parent="Patron-MaintenanceView-parentBean"/>
     <bean id="Patron-MaintenanceView-parentBean"  parent="Uif-OLEMaintenanceView">
@@ -206,7 +269,7 @@
 	<bean abstract="true" id="OlePatron-DataField" parent="Uif-DataField"
 		p:enableAutoInquiry="false" />
 
-    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -360,7 +423,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -456,7 +519,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -756,13 +819,13 @@
     </bean>
 
 
-    <bean id="OlePatronDocument-Affiliation-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-Affiliation-Wrapper" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
 		      	<property name="inlineComponents">
 		      		<list>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{filterAffiliation}"
+		      			<bean  parent="Uif-ActionImage" p:hidden="@{filterAffiliation}"
 		      					p:methodToCall="refresh"
 			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
 		      				<property name="actionImage">
@@ -774,7 +837,7 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterAffiliation}"
+		      			<bean  parent="Uif-ActionImage" p:hidden="@{!filterAffiliation}"
 		      					p:methodToCall="refresh"
 			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
 		      				<property name="actionImage">
@@ -929,7 +992,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-LibraryPoliciesSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-LibraryPoliciesSection-Wrapper" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -981,27 +1044,27 @@
           p:filterModelProperty="filterLibraryPolicies" p:componentSecurity.editAuthz="true">
         <property name="items">
             <list>
-                <bean id="generalBlock" parent="OlePatron-InputField" p:propertyName="generalBlock">
+                <bean id="generalBlock" parent="Uif-InputField" p:propertyName="generalBlock">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="generalBlockNotes" parent="OlePatron-InputField" p:propertyName="generalBlockNotes">
+                <bean id="generalBlockNotes" parent="Uif-InputField"  p:propertyName="generalBlockNotes">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:textExpand="true"/>
                     </property>
                 </bean>
-                <bean id="deliveryPrivilege" parent="OlePatron-InputField" p:propertyName="deliveryPrivilege" >
+                <bean id="deliveryPrivilege" parent="Uif-InputField" p:propertyName="deliveryPrivilege" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="pagingPrivilege" parent="OlePatron-InputField" p:propertyName="pagingPrivilege" >
+                <bean id="pagingPrivilege" parent="Uif-InputField" p:propertyName="pagingPrivilege" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="courtesyNotice" parent="OlePatron-InputField" p:propertyName="courtesyNotice">
+                <bean id="courtesyNotice" parent="Uif-InputField" p:propertyName="courtesyNotice">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
@@ -1028,7 +1091,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-NotesSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-NotesSection-Wrapper" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1466,7 +1529,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-ProxySection-Wrapper"  p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-ProxySection-Wrapper"  p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1581,7 +1644,7 @@
         </property>
     </bean>
     
-    <bean id="OlePatronDocument-ProxyForSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-ProxyForSection-Wrapper" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1653,7 +1716,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-PatronLocalIdSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-PatronLocalIdSection-Wrapper" parent="Uif-VerticalBoxSection">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1728,7 +1791,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" parent="Uif-VerticalBoxGroup" p:render="@{maintenanceAction eq 'Edit'}">
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" parent="Uif-VerticalBoxSection" p:render="@{maintenanceAction eq 'Edit'}">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1919,8 +1982,8 @@
     <bean id="OlePatronDocument-messagePopupSection-button" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="continue" p:methodToCall="route" p:actionScript="continueSubmit()" p:successCallback="openPatronMessagePopup()"/>
-                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="cancel" p:actionScript="closePatronMessagePopup();"/>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="Continue" p:methodToCall="route" p:actionScript="continueSubmit()" p:successCallback="openPatronMessagePopup()"/>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="Cancel" p:actionScript="closePatronMessagePopup();"/>
             </list>
         </property>
     </bean>

@@ -25,15 +25,18 @@
     <bean id="fastAddView" parent="fastAddView-parentBean" />
     <bean id="fastAddView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="Fast-Add item"/>
+        <property name="header.rightGroup">
+            <ref bean="instructionalTextMessage"/>
+        </property>
         <property name="items">
             <list>
                 <bean id="fastAddViewPage" parent="Uif-Page" >
                     <property name="items">
                         <list merge="false">
+                            <ref bean="fastAddErrorMessage"/>
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <ref bean="fastAddErrorMessage"/>
                                         <ref bean="fastAddItemSection"/>
                                     </list>
                                 </property>
@@ -48,14 +51,33 @@
         </property>
         <property name="formClass" value="org.kuali.ole.deliver.form.CircForm"/>
     </bean>
-
-    <bean id="fastAddItem-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+    <bean id="instructionalTextMessage" p:style="width:53%" parent="Uif-HeaderRightGroup">
         <property name="items">
             <list>
-                <ref bean="fastAddErrorMessage"/>
-                <bean id="saveItemFastAddBtn" parent="Uif-SecondaryActionButton-Small"
-                      p:style="float:left;margin-left:27em;width:10%"
-                      p:actionScript="
+                <bean id="fastAddItem-Header-button" p:style="margin:auto;width:50%" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="saveItemFastAddBtn"/>
+                            <ref bean="btnCancelItemFastAdd"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message" p:style="margin-top:15px;float:right" p:messageText="*indicates required field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="fastAddItem-button" p:style="position: absolute;top:100%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="saveItemFastAddBtn"/>
+                <ref bean="btnCancelItemFastAdd"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="saveItemFastAddBtn" parent="Uif-SecondaryActionButton"
+          p:actionScript="
                        var itemType = jq('#addFastAddItemType_control').val();
                       var callNumberType = jq('#addFastAddCallNumberType_control').val();
                       var note = jq('#addFastAddNote_control').val();
@@ -74,10 +96,7 @@
                          jq('#fastAddErrorMessage').focus();
                       }" p:actionLabel="Submit"/>
 
-                <bean id="btnCancelItemFastAdd" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel"
-                      p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);" />
-            </list>
-        </property>
-    </bean>
+    <bean id="btnCancelItemFastAdd" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel"
+          p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);" />
 
 </beans>
