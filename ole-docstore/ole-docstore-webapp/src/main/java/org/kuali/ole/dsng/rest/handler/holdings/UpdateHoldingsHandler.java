@@ -12,6 +12,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -54,6 +55,9 @@ public class UpdateHoldingsHandler extends Handler {
 
         try {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
+            String updatedBy = requestJsonObject.getString("updatedBy");
+            String updatedDateString = (String) requestJsonObject.get("updatedDate");
+            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
 
@@ -71,7 +75,8 @@ public class UpdateHoldingsHandler extends Handler {
                         if (holdingsMetaDataHandlelr.isInterested(key)) {
                             holdingsMetaDataHandlelr.process(matchPoints, exchange);
                             if (null != exchange.get("matchedHoldings")) {
-
+                                holdingsRecord.setUpdatedDate(updatedDate);
+                                holdingsRecord.setUpdatedBy(updatedBy);
                                 setMatchFound(exchange);
 
                                 HoldingsRecord processedHoldings = processOverlay(exchange, holdingsRecord, holdingJsonObject);
@@ -121,6 +126,7 @@ public class UpdateHoldingsHandler extends Handler {
                 }
             }
         }
+
         holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
         exchange.remove("matchedHoldings");
         return  holdingsRecord;

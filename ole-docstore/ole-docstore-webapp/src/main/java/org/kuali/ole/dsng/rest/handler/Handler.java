@@ -8,8 +8,10 @@ import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.service.SpringContext;
 import org.kuali.ole.dsng.util.OleDsNgOverlayUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -88,6 +90,9 @@ public abstract class  Handler extends OleDsNgOverlayUtil {
     }
 
     public BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
         return businessObjectService;
     }
 
