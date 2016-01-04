@@ -163,7 +163,7 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService, DocstoreC
     @Override
     public void deleteBibs(List<String> bibIds) {
         for (String id : bibIds) {
-            deleteBib(id);
+            deleteBatchBib(id);
         }
         DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
         try {
