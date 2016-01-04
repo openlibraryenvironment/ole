@@ -2,9 +2,9 @@
 <chapter xmlns="http://docbook.org/ns/docbook"
     xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
      <title>Introduction to OLE</title>
-    <para role="No Spacing"><emphasis role="bold">September 2015, Release 2.0</emphasis></para>
+    <para role="No Spacing"><emphasis role="bold">January 2016, Release 2.0</emphasis></para>
     <para>The user documentation is broken down into 6 chapters and also includes the Technical
-        Documentation (a work in progress) and the Glossary of Terms</para>
+        Documentation and the Glossary of Terms</para>
     <note>
         <para>The Technical Documentation continues to be developed.  Works in progress are
             available in <link
@@ -64,10 +64,10 @@
                 reserves.</para>
         </listitem>
         <listitem>
-            <para>Describe (and Manage) Module - The Describe and Manage Module strives to achieve
-                two goals: 1) To describe the library’s materials so staff and the public can find
-                them and access their contents.  2) To manage the library’s physical and electronic
-                inventory so that it is accurately represented in the system. </para>
+            <para>Describe Module - The Describe Module strives to achieve two goals: 1) To describe
+                the library’s materials so staff and the public can find them and access their
+                contents. 2) To manage the library’s physical and electronic inventory so that it is
+                accurately represented in the system. </para>
         </listitem>
         <listitem>
             <para>Select and Acquire Module - The Select and Acquire module encompasses selection,
@@ -119,13 +119,15 @@
         <itemizedlist>
             <listitem>
                 <para><link xlink:href="https://kis.kuali.org/projectTeams/team/190">Technical User
-                    Group</link>  Create a KIS account or Login to add or remove yourself from
-                    this group.  Ask technical questions.</para>
+                        Group</link> Allows you to ask technical questions about the software to the
+                    community (without membership). Create a KIS account or Login to add or remove
+                    yourself from this group.</para>
             </listitem>
             <listitem>
                 <para><link xlink:href="https://kis.kuali.org/projectTeams/team/273">Functional User
-                    Group</link> Create a KIS account or Login to add or remove yourself from
-                    this group.  Ask functional questions.</para>
+                        Group</link> Allows you to ask functional questions about the software or
+                    project to the community (without membership).  Create a KIS account or Login to
+                    add or remove yourself from this group.</para>
             </listitem>
             <listitem>
                 <para>Visit the Kuali OLE website <link xlink:href="https://www.kuali.org/ole"
@@ -138,8 +140,8 @@
                 <para><link xlink:href="http://kuali.org/kd/">Attend Kuali Days</link></para>
             </listitem>
             <listitem>
-                <para><link xlink:href="https://wiki.kuali.org/display/OLE/Home">OLE Wiki</link> -
-                    information about the project, developer documentation, and more </para>
+                <para><link xlink:href="https://wiki.kuali.org/display/OLE/Home">OLE Wiki</link>
+                    includes information about the project, developer documentation, and more </para>
             </listitem>
             <listitem>
                 <para><link xlink:href="https://jira.kuali.org/browse/OLE">Track OLE Jira
@@ -159,8 +161,8 @@
                             >OLE Published Documentation wiki page</link></para>
                 </listitem>
                 <listitem>
-                    <para>Release Notes - for each of the current release's notes (beginning 1.5.0),
-                        see the linked pages on <link
+                    <para>Release Notes - for each of the current release's notes, see the linked
+                        pages on <link
                             xlink:href="https://wiki.kuali.org/display/OLE/OLE+Current+Release+Status+Report"
                             >OLE Current Release Status Report</link>.</para>
                 </listitem>
@@ -311,7 +313,7 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">general block flag (for any reason)</para>
+                        <para role="List Paragraph">general blocks (for any reason)</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">flags to permit delivery, paging or courtesy
@@ -393,7 +395,8 @@
                     assigned by default). Supervisors authorized for multiple Circulation Desks can
                     thus switch back and forth as needed. </para>
                 <para role="Normal"/>
-                <para role="Normal">Each Circulation Desk has certain parameters:</para>
+                <para role="Normal">Each Circulation Desk has certain parameters, those to highlight
+                    are:</para>
                 <para role="Normal"/>
                 <orderedlist numeration="arabic" spacing="normal">
                     <listitem>
@@ -411,6 +414,10 @@
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">whether it prints circulation slips</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">unique email addresses for patron notice
+                            replies</para>
                     </listitem>
                 </orderedlist>
                 <para role="Normal"/>
@@ -526,7 +533,7 @@
                 <para role="Normal">During Return, the system also applies any overdue policies that
                     may be in effect, e.g., if fines are charged per day/hour, the Return
                     transaction calculates the amount and creates an overdue fine bill; this is then
-                    sent to the patron after running a batch process See <link
+                    sent to the patron after running a batch process. See <link
                         linkend="_Notices_and_Other">Notices and Other Batch Processes</link> for
                     more information.</para>
                 <para role="Normal"/>
@@ -598,14 +605,12 @@
                             are routed to designated staff for manual fulfillment. </para>
                     </listitem>
                 </orderedlist>
-                <para role="Normal"> </para>
-                <para role="Normal">*Delivery and/or paging privileges may be set to apply—or not—to
-                    all patrons or all patrons of a particular borrower type. These privileges may
-                    also be granted on an individual basis (e.g., a physically disabled patron) as
-                    desired.</para>
-                <para role="Normal"/>
-                <para role="Normal">For now, OLE supports requests at the individual item level.
-                    Title-level requests are planned for a future release. </para>
+                <note>
+                    <para role="Normal">*Delivery and/or paging privileges may be set to apply—or
+                        not—to all patrons or all patrons of a particular borrower type. These
+                        privileges may also be granted on an individual basis (e.g., a physically
+                        disabled patron) as desired.</para>
+                </note>
                 <para role="Normal"/>
                 <para role="Normal">OLE supports the ability of patrons to place their own requests.
                     See <link linkend="_-My_Account-_Features">My Account Features for
@@ -622,7 +627,9 @@
                 <para role="Normal">OLE provides a number of batch processes to generate patron
                     notices, bills, and perform other maintenance functions. Notices and bills can
                     be emailed or printed for mailing. Batch process schedules are locally
-                    configurable to support a variety of institutional needs. These include:</para>
+                    configurable to support a variety of institutional needs and notices can be
+                    customized to fit the needs of each circulation desk.  Batch processes
+                    include:</para>
                 <para role="Normal"/>
                 <orderedlist numeration="arabic" spacing="normal">
                     <listitem>
@@ -649,9 +656,11 @@
                     </listitem>
                 </orderedlist>
                 <para role="Normal"/>
-                <para role="Normal">*Considered “courtesy” notices, libraries can decide to send
-                    these or not. Also, if such are sent, a flag in the patron record can be set so
-                    that no courtesy notices are generated for that patron. </para>
+                <tip>
+                    <para role="Normal">*Considered “courtesy” notices, libraries can decide to send
+                        these or not. Also, if such are sent, a flag in the patron record can be set
+                        so that no courtesy notices are generated for that patron. </para>
+                </tip>
                 <note>
                 <para role="Normal"> To learn more about the Deliver Module’s Batch Processes, see
                             <link linkend="BatchProcesses">batch processes</link> under the
@@ -737,10 +746,9 @@
                     </inlinemediaobject></para>
                 <section>
                     <title>Bibliographic records </title>
-                    <para role="Normal">MARC and Dublin Core are supported but eventually
-                        bibliographic records can be in a variety of formats. The MARC Editor has
-                        undergone extensive modifications since 0.8; the Dublin Core Editor remains
-                        available as a proof of concept. It is anticipated that support for
+                    <para role="Normal">MARC and Dublin Core are curently supported; eventually
+                        bibliographic records can be in a variety of formats. The Dublin Core Editor
+                        is only available as a proof of concept. It is anticipated that support for
                         additional or newer formats (such as BIBFRAME) will be added later as
                         required by the OLE member community. OLE is also compliant with Unicode
                         standards.</para>
@@ -759,9 +767,10 @@
                         record stores data that is unique to the title level, such as URL, coverage
                         dates, and post-cancellation access dates. The E-Holdings also inherits data
                         from its parent E-Resource record. This inherited data can be customized
-                        with the E-Holdings editor. In future releases, the link to the parent
-                        E-Resource will provide a convenient link to the license, trial, access, and
-                        purchase information that pertains to the E-Holdings.</para>
+                        with the E-Holdings editor. The link to the parent E-Resource will provide a
+                        convenient link to the license, access, and purchase information that
+                        pertains to the E-Holdings.  Access to trials will be available in a future
+                        release.</para>
                     <note>
                         <para role="Normal"> To learn more about <link linkend="_EInstanceEditor"
                                 >E-Holdings records</link> and how to create and modify them, see
@@ -775,7 +784,7 @@
                         <title>Holdings records</title>
                         <para role="Normal">OLE Holding Records store information about particular
                             copies, including “base” call numbers and shelving locations. In OLE
-                            1.6, holdings are maintained in a format specific to OLE called “OLE
+                            2.0, holdings are maintained in a format specific to OLE called “OLE
                             holdings” which also provides the ability to record summary holdings
                             information. In the future, other types of holdings formats
                             (collectively referred to as “source holdings”) will be supported. “OLE
@@ -1067,11 +1076,11 @@
                 <para role="Normal">Financial and budgeting structures within the system allow
                     flexibility for library materials to be purchased outright, leased, or licensed.
                     OLE offers fully automated EDI features for direct data exchange with vendors.
-                    With the 2.0 release, the ERM component will support the lifecycle of electronic
-                    resources and packages including licensing, purchasing, and daily
-                    administration. The Global Open Knowledgebase (GOKb), a community-managed
-                    knowledge base of subscribed resources, will be tightly integrated with OLE for
-                    ingesting and maintaining acquired electronic books and serials. </para>
+                    The ERM component supports the lifecycle of electronic resources and packages
+                    including licensing, purchasing, and daily administration. The Global Open
+                    Knowledgebase (GOKb), a community-managed knowledge base of subscribed
+                    resources, is tightly integrated with OLE for ingesting and maintaining acquired
+                    electronic books and serials. </para>
                 <section>
                     <title>Overview Diagram</title>
                     <para role="Normal"/>
@@ -1332,8 +1341,11 @@
                             <para role="List Paragraph">Deposits and prepayments</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Claiming reports; Unpaid subscriptions
-                                reports (scheduled for a future release)</para>
+                            <para role="List Paragraph">Claiming reports</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Unpaid subscriptions reports (scheduled for
+                                a future release)</para>
                         </listitem>
                     </itemizedlist>
                     <note>
@@ -1458,8 +1470,7 @@
                             specialized rules and processing of invoices</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">Many-to-one purchase order to invoices (credit
-                            memo in a later release)</para>
+                        <para role="List Paragraph">Many-to-one purchase order to invoices</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Prepayments</para>
@@ -1491,17 +1502,6 @@
                         <para role="List Paragraph">Purchase order payment holds (remove
                             hold)</para>
                     </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Payment methods</para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Payment request (single purchase order or
-                            multiple purchase order)</para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Credit memo (single purchase order only in
-                            1.6)</para>
-                    </listitem>
                 </itemizedlist>
                 <note>
                     <para role="Normal"> To learn more about the <link linkend="_Invoice"
@@ -1527,9 +1527,7 @@
                     is no physical item being tracked through a cataloging process. Electronic
                     resources also require ongoing monitoring and management over their lifecycle to
                     ensure continuous access in addition to workflows for disabling access to a
-                    resource no longer being licensed. While much work will still need to occur in
-                    future releases, OLE has taken some initial steps with an E-Resource Record in
-                    the 1.0 release, much more development will occur in the 2.0 release. </para>
+                    resource no longer being licensed.</para>
                 <section>
                     <title>E-Resource Records</title>
                     <para role="Normal">The E-Resource Record provides a place to store and view
