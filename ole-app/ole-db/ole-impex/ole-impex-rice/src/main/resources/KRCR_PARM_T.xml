@@ -246,4 +246,9 @@
                  OBJ_ID="5A689075D35B7AEBE0404F8189D80321"
                  PARM_DESC_TXT="Time in milliseconds that the scheduleStep should wait between iterations."
                  PARM_NM="STATUS_CHECK_INTERVAL" PARM_TYP_CD="CONFG" VAL="30000" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="OLE" CMPNT_CD="Describe"
+                 EVAL_OPRTR_CD="A" NMSPC_CD="OLE-DESC"
+                 OBJ_ID="cf9be31497244401-bb48-220fb4b49de"
+                 PARM_DESC_TXT="This parameter is added for docstore API process for solr indexing."
+                 PARM_NM="PROCESS_SOLR_IND" PARM_TYP_CD="CONFG" VAL="true" VER_NBR="1"/>
 </dataset>
