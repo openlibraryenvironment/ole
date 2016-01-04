@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class LocationHandler extends HoldingsHandler {
+public class HoldingsLocationHandler extends HoldingsHandler {
 
     @Override
     public Boolean isInterested(String operation) {
@@ -51,41 +51,10 @@ public class LocationHandler extends HoldingsHandler {
         }
     }
 
-    private String getLevelId(String token) {
-        OleLocation levelIdForLocationCode = getLevelIdForLocationCode(token);
-        if(null != levelIdForLocationCode){
-            return levelIdForLocationCode.getLevelId();
-        }
-        return null;
-    }
-
-
-    private OleLocation getLevelIdForLocationCode(String locationCode) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("locationCode", locationCode);
-        List<OleLocation> locations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, map);
-        if (locations.size() > 0) {
-            return locations.get(0);
-        }
-        return null;
-
-    }
-
-
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
-        String fullPathLocation = getFullPathLocation(holdingsRecord, requestJsonObject);
-        holdingsRecord.setLocation(fullPathLocation);
+        // Todo : Set Location.
         exchange.add("holdingsRecord", holdingsRecord);
-    }
-
-    private String getFullPathLocation(HoldingsRecord holdingsRecord, JSONObject jsonObject) {
-        String location = holdingsRecord.getLocation();
-        String locationLevel = holdingsRecord.getLocationLevel();
-        if (StringUtils.isNotBlank(location) && StringUtils.isNotBlank(locationLevel)) {
-            return getFullLocationForOverlay(jsonObject, location, locationLevel);
-        }
-        return null;
     }
 }

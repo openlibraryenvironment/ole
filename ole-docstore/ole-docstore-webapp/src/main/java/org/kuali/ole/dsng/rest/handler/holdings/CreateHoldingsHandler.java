@@ -28,7 +28,7 @@ public class CreateHoldingsHandler extends Handler {
     public List<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
-            holdingMetaDataHandlers.add(new LocationHandler());
+            holdingMetaDataHandlers.add(new HoldingsLocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
             holdingMetaDataHandlers.add(new CallNumberTypeHandler());
             holdingMetaDataHandlers.add(new CallNumberPrefixHandler());
@@ -77,11 +77,11 @@ public class CreateHoldingsHandler extends Handler {
                 }
             }
 
-            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
-            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
-            String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
-            holdingsRecord.setUpdatedBy(updatedBy);
-            holdingsRecord.setUpdatedDate(updatedDate);
+            String createdDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+            Timestamp createdDate = getDateTimeStamp(createdDateString);
+            String createdBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+            holdingsRecord.setCreatedBy(createdBy);
+            holdingsRecord.setCreatedDate(createdDate);
             holdingsRecord.setBibId(bibRecord.getBibId());
 
             setHoldingType(holdingsRecord);

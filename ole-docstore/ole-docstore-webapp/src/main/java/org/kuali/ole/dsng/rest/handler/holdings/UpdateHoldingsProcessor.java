@@ -2,10 +2,6 @@ package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.document.PHoldings;
@@ -15,13 +11,11 @@ import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.eholdings.CreateEholdingsHandler;
 import org.kuali.ole.dsng.rest.handler.eholdings.UpdateEholdingsHandler;
-import org.kuali.ole.dsng.rest.handler.items.UpdateItemRecord;
+import org.kuali.ole.dsng.rest.handler.items.UpdateItemHandler;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -113,12 +107,12 @@ public class UpdateHoldingsProcessor {
     }
 
     private void processItems(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
-        UpdateItemRecord updateItemRecord = new UpdateItemRecord();
-        if(updateItemRecord.isInterested(overlayOps)) {
-            updateItemRecord.setHoldingDAO(getHoldingDAO());
-            updateItemRecord.setItemDAO(getItemDAO());
-            updateItemRecord.setBusinessObjectService(getBusinessObjectService());
-            updateItemRecord.process(requestJsonObject,exchange);
+        UpdateItemHandler updateItemHandler = new UpdateItemHandler();
+        if(updateItemHandler.isInterested(overlayOps)) {
+            updateItemHandler.setHoldingDAO(getHoldingDAO());
+            updateItemHandler.setItemDAO(getItemDAO());
+            updateItemHandler.setBusinessObjectService(getBusinessObjectService());
+            updateItemHandler.process(requestJsonObject,exchange);
         }
     }
 

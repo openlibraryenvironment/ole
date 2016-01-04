@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by SheikS on 12/20/2015.
  */
-public class LocationHandler extends ItemHandler {
+public class ItemLocationHandler extends ItemHandler {
 
     @Override
     public Boolean isInterested(String operation) {
@@ -58,37 +58,7 @@ public class LocationHandler extends ItemHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        String fullPathLocation = getFullPathLocation(itemRecord, requestJsonObject);
-        itemRecord.setLocation(fullPathLocation);
+        // Todo : Set Location.
         exchange.add("itemRecord", itemRecord);
-    }
-
-    private String getFullPathLocation(ItemRecord itemRecord, JSONObject jsonObject) {
-        String location = itemRecord.getLocation();
-        String locationLevel = itemRecord.getLocationLevel();
-        if(StringUtils.isNotBlank(location) && StringUtils.isNotBlank(locationLevel)) {
-            return getFullLocationForOverlay(jsonObject, location, locationLevel);
-        }
-        return null;
-    }
-
-    private String getLevelId(String token) {
-        OleLocation levelIdForLocationCode = getLevelIdForLocationCode(token);
-        if(null != levelIdForLocationCode){
-            return levelIdForLocationCode.getLevelId();
-        }
-        return null;
-    }
-
-
-    private OleLocation getLevelIdForLocationCode(String locationCode) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("locationCode", locationCode);
-        List<OleLocation> locations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, map);
-        if (locations.size() > 0) {
-            return locations.get(0);
-        }
-        return null;
-
     }
 }

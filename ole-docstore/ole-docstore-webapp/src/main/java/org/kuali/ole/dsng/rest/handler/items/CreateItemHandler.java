@@ -61,11 +61,11 @@ public class CreateItemHandler extends Handler {
                     }
                 }
 
-                String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
-                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
-                String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
-                itemRecord.setUpdatedBy(updatedBy);
-                itemRecord.setUpdatedDate(updatedDate);
+                String createdDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+                Timestamp createdDate = getDateTimeStamp(createdDateString);
+                String createdBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+                itemRecord.setCreatedBy(createdBy);
+                itemRecord.setCreatedDate(createdDate);
                 itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                 itemRecord.setHoldingsRecord(holdingsRecord);
                 itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
@@ -108,7 +108,7 @@ public class CreateItemHandler extends Handler {
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());
-            itemMetaDataHandlers.add(new LocationHandler());
+            itemMetaDataHandlers.add(new ItemLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
         }

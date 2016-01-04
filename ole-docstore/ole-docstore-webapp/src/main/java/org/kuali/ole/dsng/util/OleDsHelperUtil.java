@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
@@ -235,6 +236,23 @@ public class OleDsHelperUtil implements DocstoreConstants {
         return null;
     }
 
+    public String getLevelId(String locationCode) {
+        OleLocation levelIdForLocationCode = getLevelIdForLocationCode(locationCode);
+        if(null != levelIdForLocationCode){
+            return levelIdForLocationCode.getLevelId();
+        }
+        return null;
+    }
+
+    public OleLocation getLevelIdForLocationCode(String locationCode) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("locationCode", locationCode);
+        List<OleLocation> locations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, map);
+        if (locations.size() > 0) {
+            return locations.get(0);
+        }
+        return null;
+    }
 
     public String formLocation(String locationLevel1, String locationLevel2, String locationLevel3,
                                String locationLevel4, String locationLevel5) {

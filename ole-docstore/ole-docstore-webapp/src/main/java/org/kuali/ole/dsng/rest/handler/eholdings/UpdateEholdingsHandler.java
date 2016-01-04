@@ -2,8 +2,6 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.docstore.common.document.PHoldings;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 
@@ -32,7 +30,7 @@ public class UpdateEholdingsHandler extends UpdateHoldingsHandler {
     public List<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
-            holdingMetaDataHandlers.add(new LocationHandler());
+            holdingMetaDataHandlers.add(new HoldingsLocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
             holdingMetaDataHandlers.add(new CallNumberTypeHandler());
             holdingMetaDataHandlers.add(new CallNumberPrefixHandler());

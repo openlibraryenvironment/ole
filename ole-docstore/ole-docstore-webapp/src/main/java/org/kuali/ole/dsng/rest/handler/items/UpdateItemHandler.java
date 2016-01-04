@@ -14,12 +14,13 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
  * Created by SheikS on 12/26/2015.
  */
-public class UpdateItemRecord extends Handler {
+public class UpdateItemHandler extends Handler {
 
     List<ItemHandler> itemMetaDataHandlers;
 
@@ -40,6 +41,10 @@ public class UpdateItemRecord extends Handler {
         List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
         try {
             String overlayOps = requestJsonObject.getString("overlayOps");
+            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+            String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+
             List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
             if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
                 for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsRecordsToUpdate.iterator(); holdingsRecordIterator.hasNext(); ) {
@@ -67,6 +72,8 @@ public class UpdateItemRecord extends Handler {
                                             itemMetaDataHandlelr.process(matchPoints, exchange);
                                             if (null != exchange.get("matchedItem")) {
                                                 isItemMatched = true;
+                                                itemRecord.setUpdatedBy(updatedBy);
+                                                itemRecord.setUpdatedDate(updatedDate);
                                                 ItemRecord record = processOverlay(exchange, itemJsonObject, itemRecord);
                                                 itemRecordsToUpdate.add(record);
                                                 break matchPointsLoop;
@@ -160,7 +167,7 @@ public class UpdateItemRecord extends Handler {
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());
-            itemMetaDataHandlers.add(new LocationHandler());
+            itemMetaDataHandlers.add(new ItemLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
         }

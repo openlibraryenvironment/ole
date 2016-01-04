@@ -24,7 +24,7 @@ public class UpdateHoldingsHandler extends Handler {
     public List<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
-            holdingMetaDataHandlers.add(new LocationHandler());
+            holdingMetaDataHandlers.add(new HoldingsLocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
             holdingMetaDataHandlers.add(new CallNumberTypeHandler());
             holdingMetaDataHandlers.add(new CallNumberPrefixHandler());

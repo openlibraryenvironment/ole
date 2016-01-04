@@ -33,17 +33,17 @@ public class CreateBibHandler extends Handler {
         if (!requestJsonObject.has("id")) {
             try {
                 String newBibContent = requestJsonObject.getString("unmodifiedContent");
-                String updatedBy = requestJsonObject.getString("updatedBy");
-                String updatedDateString = (String) requestJsonObject.get("updatedDate");
+                String createdBy = requestJsonObject.getString("updatedBy");
+                String createdDateString = (String) requestJsonObject.get("updatedDate");
 
                 BibRecord bibRecord = new BibRecord();
                 bibRecord.setContent(newBibContent);
-                bibRecord.setStatusUpdatedBy(updatedBy);
+                bibRecord.setCreatedBy(createdBy);
                 bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                Timestamp createdDate = getDateTimeStamp(createdDateString);
 
-                bibRecord.setStatusUpdatedDate(updatedDate);
+                bibRecord.setDateCreated(createdDate);
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
 
                 String modifiedcontent = replaceBibIdTo001Tag(newBibContent, updatedBibRecord.getBibId());

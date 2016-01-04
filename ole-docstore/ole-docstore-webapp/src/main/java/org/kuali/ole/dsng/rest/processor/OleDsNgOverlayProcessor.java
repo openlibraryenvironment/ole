@@ -20,7 +20,7 @@ import org.kuali.ole.dsng.rest.handler.bib.UpdateBibHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
-import org.kuali.ole.dsng.rest.handler.items.UpdateItemRecord;
+import org.kuali.ole.dsng.rest.handler.items.UpdateItemHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -76,7 +76,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         if(null == itemHandlers) {
             itemHandlers = new ArrayList<Handler>();
             itemHandlers.add(new CreateItemHandler());
-            itemHandlers.add(new UpdateItemRecord());
+            itemHandlers.add(new UpdateItemHandler());
         }
         return itemHandlers;
     }
