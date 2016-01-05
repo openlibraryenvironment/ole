@@ -27,7 +27,7 @@ public class LocationUtil extends OleDsHelperUtil {
         return null;
     }
 
-    public String updateLocation(String oldLocationName, String levelId, String locationLevelName) {
+    public String updateLocation(String oldLocationName, String locationCode) {
         Map levelMap = new TreeMap();
         StringTokenizer stringTokenizer = new StringTokenizer(oldLocationName, "/");
         while (stringTokenizer.hasMoreTokens()) {
@@ -35,7 +35,7 @@ public class LocationUtil extends OleDsHelperUtil {
             levelMap.put(getLevelIdByLocationCode(token), token);
         }
 
-        levelMap.put(levelId, locationLevelName);
+        levelMap.put(getLevelIdByLocationCode(locationCode), locationCode);
 
         return buildLocationName(levelMap);
 
