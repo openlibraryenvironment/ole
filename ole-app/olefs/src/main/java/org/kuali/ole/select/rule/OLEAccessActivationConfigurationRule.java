@@ -57,7 +57,22 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         processNotificationUser(accessConfiguration);
         isValid &= validateRole(accessConfiguration);
         isValid &= validatePerson(accessConfiguration);
+        isValid &= validateMailNoification(accessConfiguration);
         return isValid;
+    }
+
+    private boolean validateMailNoification(OLEAccessActivationConfiguration accessConfiguration) {
+        boolean valid = true;
+        if(accessConfiguration.isMailNotification()) {
+            if(StringUtils.isBlank(accessConfiguration.getMailContent())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.EMPTY_MAIL_CONTENT);
+                valid = false;
+            }
+            if(!(StringUtils.isNotBlank(accessConfiguration.getRecipientRoleName()) || StringUtils.isNotBlank(accessConfiguration.getMailId()) || StringUtils.isNotBlank(accessConfiguration.getRecipientUserName()))) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION_NOTIFIER, OLEConstants.EMPTY_USER_FOR_MAIL);
+            }
+        }
+        return valid;
     }
 
     public boolean validateUniqueAccessName(OLEAccessActivationConfiguration accessConfiguration) {
