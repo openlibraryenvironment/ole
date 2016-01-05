@@ -67,7 +67,7 @@ public class AddOperationStepHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("add");
+        return operation.equalsIgnoreCase("move");
 
     }
 }
