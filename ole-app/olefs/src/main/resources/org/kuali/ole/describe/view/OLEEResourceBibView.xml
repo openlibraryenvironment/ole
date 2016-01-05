@@ -47,7 +47,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/describe/scripts/workbench.js</value>
-
+                <value>ole/describe/scripts/eresourcebib.js</value>
             </list>
         </property>
         <property name="footer">
