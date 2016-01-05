@@ -3753,4 +3753,5 @@ public class OLEConstants {
     public static final String TEMPORARY_HISTORY_RECORD_DAYS = "TEMPORARY_HISTORY_RECORD_DAYS";
     public static final String NUMBER_OF_WORKING_DAYS = "numberOfWorkingDays";
     public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
+    public static final String MAIN_REC_REC_TYP = "Main";
 }

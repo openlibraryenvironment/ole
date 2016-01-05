@@ -319,6 +319,30 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         long end = System.currentTimeMillis();
         long total = end - begin;
         LOG.info("Time taken Inside docHandler"+total);
+        if(oleSerialReceivingDocument.getReceivingRecordType() != null && !oleSerialReceivingDocument.getReceivingRecordType().equals("Main")) {
+            String receivingId = oleSerialReceivingDocument.getSerialReceivingRecordId();
+            Map map = new HashMap();
+            map.put("serialReceivingRecordId",receivingId);
+            map.put("receivingRecordType",OLEConstants.MAIN_REC_REC_TYP);
+            OLESerialReceivingType serialReceivingType =  getBusinessObjectService().findByPrimaryKey(OLESerialReceivingType.class,map);
+            if(serialReceivingType != null) {
+                oleSerialReceivingDocument.setReceivingRecordType(OLEConstants.MAIN_REC_REC_TYP);
+                oleSerialReceivingDocument.setEnumerationCaptionLevel1(serialReceivingType.getEnumerationCaptionLevel1());
+                oleSerialReceivingDocument.setEnumerationCaptionLevel2(serialReceivingType.getEnumerationCaptionLevel2());
+                oleSerialReceivingDocument.setEnumerationCaptionLevel3(serialReceivingType.getEnumerationCaptionLevel3());
+                oleSerialReceivingDocument.setEnumerationCaptionLevel4(serialReceivingType.getEnumerationCaptionLevel4());
+                oleSerialReceivingDocument.setEnumerationCaptionLevel5(serialReceivingType.getEnumerationCaptionLevel5());
+                oleSerialReceivingDocument.setEnumerationCaptionLevel6(serialReceivingType.getEnumerationCaptionLevel6());
+                oleSerialReceivingDocument.setChronologyCaptionLevel1(serialReceivingType.getChronologyCaptionLevel1());
+                oleSerialReceivingDocument.setChronologyCaptionLevel2(serialReceivingType.getChronologyCaptionLevel2());
+                oleSerialReceivingDocument.setChronologyCaptionLevel3(serialReceivingType.getChronologyCaptionLevel3());
+                oleSerialReceivingDocument.setChronologyCaptionLevel4(serialReceivingType.getChronologyCaptionLevel4());
+                oleSerialReceivingService.receiveRecord(oleSerialReceivingDocument, OLEConstants.RECEIVED);
+                save(oleSerialReceivingForm, result, request, response);
+                GlobalVariables.getMessageMap().getInfoMessages().clear();
+
+            }
+        }
         return modelAndView;
     }
 
