@@ -1,11 +1,13 @@
 package org.kuali.ole.docstore.engine.service.index;
 
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.engine.factory.DocumentIndexerManagerFactory;
 import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.DocumentIndexer;
@@ -106,6 +108,13 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService, DocstoreC
 
     }
 
+
+    public void deleteBatchBib(String bibId) {
+        DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
+        documentIndexer.deleteBatch(bibId);
+
+    }
+
     @Override
     public void deleteHoldings(String holdingsId) {
         DocumentIndexer documentIndexer = HoldingsOlemlIndexer.getInstance();
@@ -154,8 +163,18 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService, DocstoreC
     @Override
     public void deleteBibs(List<String> bibIds) {
         for (String id : bibIds) {
-            deleteBib(id);
+            deleteBatchBib(id);
         }
+        DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
+        try {
+            SolrServer server = SolrServerManager.getInstance().getSolrServer();
+            documentIndexer.commitRecordsToSolr(server);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
