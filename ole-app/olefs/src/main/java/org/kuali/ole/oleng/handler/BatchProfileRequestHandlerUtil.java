@@ -218,6 +218,12 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return jsonArray.toString();
     }
 
+    public String prepareValuesForDowndown(String dropDownType) {
+        return batchProfileService.fetchValues(dropDownType).toString();
+    }
+
+
+
     public BatchProfileService getBatchProfileService() {
         return batchProfileService;
     }

@@ -2,6 +2,8 @@ package org.kuali.ole.oleng.dao.impl;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -59,6 +61,16 @@ public class DescribeDAOImpl implements DescribeDAO {
     @Override
     public List<OleGloballyProtectedField> fetchAllGloballyProtectedFields() {
         return (List<OleGloballyProtectedField>) getBusinessObjectService().findAll(OleGloballyProtectedField.class);
+    }
+
+    @Override
+    public List<AuthenticationTypeRecord> fetchAuthenticationTypeRecords() {
+        return (List<AuthenticationTypeRecord>) getBusinessObjectService().findAll(AuthenticationTypeRecord.class);
+    }
+
+    @Override
+    public List<ReceiptStatusRecord> fetchReceiptStatusRecords() {
+        return (List<ReceiptStatusRecord>) getBusinessObjectService().findAll(ReceiptStatusRecord.class);
     }
 
     @Override

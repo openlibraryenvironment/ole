@@ -120,11 +120,18 @@ getMaintenanceDataForFieldTypeForDropDown = function (title, fieldType, $scope, 
             $scope.constantValues = data;
         });
     } else if (fieldType == 'Bib Status') {
-        $http.get(OLENG_CONSTANTS.PROFILE_GET_BIB_STATUS).success(function (data) {
-            $scope.bibStatuses = data;
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
             $scope.constantValues = data;
         });
-    } else if (fieldType == 'Chart Code'
+    } else if (fieldType == 'Authentication Type') {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
+            $scope.constantValues = data;
+        });
+    }else if (fieldType == 'Receipt Status') {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
+            $scope.constantValues = data;
+        });
+    }else if (fieldType == 'Chart Code'
         || fieldType == 'Org Code'
         || fieldType == 'Item Chart Code'
         || fieldType == 'Contract Manager'

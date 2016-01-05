@@ -106,7 +106,7 @@
                             <select class="form-control" id="dataMappingDestinationValue_{{$index}}"
                                     name="dataMappingDestinationValue_{{$index}}"
                                     ng-model="dataMapping.constant"
-                                    ng-show="dataMapping.field != null && dataMapping.field != undefined && (dataMapping.field == 'Call Number Type'
+                                    ng-show="(dataMapping.field != null && dataMapping.field != undefined) && (dataMapping.field == 'Call Number Type'
                                             || dataMapping.field == 'Holdings Call Number Type'
                                             || dataMapping.field == 'Item Type'
                                             || dataMapping.field == 'Item Status'
@@ -121,6 +121,9 @@
                                             || dataMapping.field == 'Holdings Location Level4'
                                             || dataMapping.field == 'Location Level5'
                                             || dataMapping.field == 'Holdings Location Level5'
+                                            || dataMapping.field == 'Bib Status'
+                                            || dataMapping.field == 'Receipt Status'
+                                            || dataMapping.field == 'Authentication Type'
                                             || dataMapping.field == 'Chart Code'
                                             || dataMapping.field == 'Org Code'
                                             || dataMapping.field == 'Item Chart Code'
@@ -221,6 +224,9 @@
                                             || dataMapping.field == 'Holdings Location Level4'
                                             || dataMapping.field == 'Location Level5'
                                             || dataMapping.field == 'Holdings Location Level5'
+                                            || dataMapping.field == 'Bib Status'
+                                            || dataMapping.field == 'Receipt Status'
+                                            || dataMapping.field == 'Authentication Type'
                                             || dataMapping.field == 'Chart Code'
                                             || dataMapping.field == 'Org Code'
                                             || dataMapping.field == 'Item Chart Code'

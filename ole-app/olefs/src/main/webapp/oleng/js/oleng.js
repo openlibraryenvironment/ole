@@ -12,6 +12,7 @@ var OLENG_CONSTANTS = {
     PROFILE_GET_NAMES : "rest/describe/getProfileNames",
     PROFILE_GET_GLOBALLY_PROTECTED_FIELDS : "rest/describe/getGloballyProtectedFields",
     PROFILE_GET_ORDER_FIELD_VALUES : "rest/describe/getOrderImportFieldValues",
+    PROFILE_GET_DROP_DOWN_VALUES : "rest/describe/getValuesForDropDown",
 
     /*Profile Actions*/
     PROFILE_SEARCH : "../../rest/describe/profile/search",

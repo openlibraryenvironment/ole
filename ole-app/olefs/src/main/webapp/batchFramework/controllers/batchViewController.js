@@ -540,6 +540,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.populateDestinationFieldValues = function (dataObject, fieldType) {
         $scope.constantValues = [];
+        if (dataObject.title == 'Constants And Defaults') {
+            dataObject.fieldValue = null;
+            dataObject.constantsAndDefault = 'Constant';
+            $scope.constantAndDefaultFieldValues = null;
+        } else if (dataObject.title == 'Data Mappings') {
+            $scope.dataMappingFieldValues = null;
+        }
         getMaintenanceDataForFieldTypeForDropDown(dataObject.title, fieldType, $scope, $http);
     };
 
