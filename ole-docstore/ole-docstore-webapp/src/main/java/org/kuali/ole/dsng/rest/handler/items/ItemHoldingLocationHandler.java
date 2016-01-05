@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -36,7 +37,7 @@ public class ItemHoldingLocationHandler extends ItemHandler {
             String value = getStringValueFromJsonObject(requestJsonObject, key);
 
 
-            OleLocation locationBasedOnCode = locationUtil.getLocationByCode(value);
+            OleLocation locationBasedOnCode = getLocationUtil().getLocationByCode(value);
 
             OleLocationLevel oleLocationLevel = locationBasedOnCode.getOleLocationLevel();
             String matchPointLevelId = oleLocationLevel.getLevelId();
@@ -45,16 +46,18 @@ public class ItemHoldingLocationHandler extends ItemHandler {
             HoldingsRecord holdingsRecord  = getHoldingsRecordById(holdingsId);
             Map map = new TreeMap();
             String location = holdingsRecord.getLocation();
-            StringTokenizer stringTokenizer = new StringTokenizer(location, "/");
+            if (StringUtils.isNotBlank(location)) {
+                StringTokenizer stringTokenizer = new StringTokenizer(location, "/");
 
 
-            while (stringTokenizer.hasMoreTokens()) {
-                String token = stringTokenizer.nextToken();
-                map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
-            }
-            if (map.get(matchPointLevelId).equals(value)) {
-                exchange.add("matchedItem", itemRecord);
-                break;
+                while (stringTokenizer.hasMoreTokens()) {
+                    String token = stringTokenizer.nextToken();
+                    map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
+                }
+                if (map.get(matchPointLevelId).equals(value)) {
+                    exchange.add("matchedItem", itemRecord);
+                    break;
+                }
             }
 
         }
@@ -71,7 +74,7 @@ public class ItemHoldingLocationHandler extends ItemHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        // Todo : Set Location.
+        // No need to any process.
         exchange.add("itemRecord", itemRecord);
     }
 }

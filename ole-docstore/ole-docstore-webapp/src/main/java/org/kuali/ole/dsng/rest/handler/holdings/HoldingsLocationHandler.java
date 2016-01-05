@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -35,17 +36,19 @@ public class HoldingsLocationHandler extends HoldingsHandler {
             String matchPointLevelId = oleLocationLevel.getLevelId();
 
             String location = holdingRecord.getLocation();
-            Map map = new TreeMap();
-            StringTokenizer stringTokenizer = new StringTokenizer(location, "/");
+            if (StringUtils.isNotBlank(location)) {
+                Map map = new TreeMap();
+                StringTokenizer stringTokenizer = new StringTokenizer(location, "/");
 
 
-            while (stringTokenizer.hasMoreTokens()) {
-                String token = stringTokenizer.nextToken();
-                map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
-            }
-            if (map.get(matchPointLevelId).equals(value)) {
-                exchange.add("matchedHoldings", holdingRecord);
-                break;
+                while (stringTokenizer.hasMoreTokens()) {
+                    String token = stringTokenizer.nextToken();
+                    map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
+                }
+                if (map.get(matchPointLevelId).equals(value)) {
+                    exchange.add("matchedHoldings", holdingRecord);
+                    break;
+                }
             }
 
         }
@@ -64,7 +67,18 @@ public class HoldingsLocationHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         // Todo : Set Location.
+        String holdingsLocation = holdingsRecord.getLocation();
+        if (StringUtils.isNotBlank(holdingsLocation)) {
+            for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
+                String key = (String) iterator.next();
+                if(key.contains("Location Level")) {
+                    String value = getStringValueFromJsonObject(requestJsonObject, key);
+                    holdingsLocation = getLocationUtil().updateLocation(holdingsLocation, value);
+                }
+            }
 
+            holdingsRecord.setLocation(holdingsLocation);
+        }
         exchange.add("holdingsRecord", holdingsRecord);
     }
 }
