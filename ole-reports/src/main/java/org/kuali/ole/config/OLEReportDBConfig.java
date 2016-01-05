@@ -69,12 +69,22 @@ public class OLEReportDBConfig {
             prop.setProperty("report.dba.url", prop.getProperty("oracle.dba.url"));
             prop.setProperty("report.dba.username", prop.getProperty("jdbc.username"));
             prop.setProperty("report.dba.password", prop.getProperty("jdbc.username"));
-            prop.setProperty("report.dba.driver", "oracle.jdbc.driver.OracleDriver");
+
+            String oracleDriver = prop.getProperty("oracle.driver");
+            if (StringUtils.isBlank(oracleDriver)) {
+                oracleDriver = "oracle.jdbc.driver.OracleDriver";
+            }
+            prop.setProperty("report.dba.driver", oracleDriver);
         } else if (StringUtils.isNotBlank(dbaVendor) && dbaVendor.equalsIgnoreCase("mysql")) {
             prop.setProperty("report.dba.url", prop.getProperty("mysql.dba.url") + File.separator + prop.getProperty("jdbc.username"));
             prop.setProperty("report.dba.username", prop.getProperty("mysql.dba.username"));
             prop.setProperty("report.dba.password", prop.getProperty("mysql.dba.password"));
-            prop.setProperty("report.dba.driver", prop.getProperty("mysql.driver"));
+
+            String mysqlDriver = prop.getProperty("mysql.driver");
+            if (StringUtils.isBlank(mysqlDriver)) {
+                mysqlDriver = "com.mysql.jdbc.Driver";
+            }
+            prop.setProperty("report.dba.driver", mysqlDriver);
         }
     }
 
