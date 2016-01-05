@@ -164,8 +164,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchProcessProfile> iterator = allProfiles.iterator(); iterator.hasNext(); ) {
                     BatchProcessProfile batchProcessProfile = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",batchProcessProfile.getBatchProcessProfileId());
-                    jsonObject.put("value",batchProcessProfile.getBatchProcessProfileName());
+                    jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
+                    jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
                     jsonArray.put(jsonObject);
                 }
             }
