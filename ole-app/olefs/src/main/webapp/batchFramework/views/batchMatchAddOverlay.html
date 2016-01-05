@@ -18,6 +18,9 @@
                         <th></th>
                         <th>Document Type</th>
                         <th>Operation</th>
+                        <th>Field</th>
+                        <th>Field Operation</th>
+                        <th>Value</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -25,8 +28,10 @@
                     <tbody>
                     <tr ng-repeat="addOrOverlay in addOrOverlayPanel">
                         <td>
-                            <select class="form-control" name="addOrOverlayMatchOption__{{$index}}" id="addOrOverlayMatchOption__{{$index}}"
-                                    ng-model="addOrOverlay.matchOption" ng-hide="addOrOverlay.isAddLine" style="height: 30px; width: 200px;">
+                            <select class="form-control" name="addOrOverlayMatchOption__{{$index}}"
+                                    id="addOrOverlayMatchOption__{{$index}}"
+                                    ng-model="addOrOverlay.matchOption" ng-hide="addOrOverlay.isAddLine"
+                                    style="height: 30px; width: 200px;">
                                 <option ng-selected="{{option.name == addOrOverlay.matchOption}}"
                                         ng-repeat="option in addOrOverlay.matchOptions" value="{{option.name}}">
                                     {{option.name}}
@@ -35,7 +40,8 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.matchOption"></span>
                         </td>
                         <td>
-                            <select class="form-control" name="addOrOverlayDocumentType_{{$index}}" id="addOrOverlayDocumentType_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" name="addOrOverlayDocumentType_{{$index}}"
+                                    id="addOrOverlayDocumentType_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOrOverlayDocType" ng-hide="addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayDocType}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayDocTypes" value="{{option.name}}">
@@ -45,7 +51,55 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.addOrOverlayDocType"></span>
                         </td>
                         <td>
-                            <select  name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
+                            <select class="form-control" name="addOrOverlayField_{{$index}}"
+                                    id="addOrOverlayField_{{$index}}" style="height: 30px; width: 200px;"
+                                    ng-model="addOrOverlay.addOrOverlayField"
+                                    ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                <option ng-selected="{{option.name == addOrOverlay.addOrOverlayField}}"
+                                        ng-repeat="option in addOrOverlay.addOrOverlayFields" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.addOrOverlayField"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="addOrOverlayFieldOperation_{{$index}}"
+                                    id="addOrOverlayFieldOperation_{{$index}}" style="height: 30px; width: 200px;"
+                                    ng-model="addOrOverlay.addOrOverlayFieldOperation"
+                                    ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                <option ng-selected="{{option.name == addOrOverlay.addOrOverlayFieldOperation}}"
+                                        ng-repeat="option in addOrOverlay.addOrOverlayFieldOperations"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="addOrOverlay.isAddLine"
+                                  ng-bind="addOrOverlay.addOrOverlayFieldOperation"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="addOrOverlayFieldValueStaffOnly_{{$index}}"
+                                    id="addOrOverlayFieldValueStaffOnly_{{$index}}" style="height: 30px; width: 200px;"
+                                    ng-model="addOrOverlay.addOrOverlayFieldValue"
+                                    ng-show="addOrOverlay.addOrOverlayField == 'Staff Only' && !addOrOverlay.isAddLine">
+                                <option ng-selected="{{option.value == addOrOverlay.addOrOverlayFieldValue}}"
+                                        ng-repeat="option in addOrOverlay.booleanOptions" value="{{option.value}}">
+                                    {{option.value}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="addOrOverlayFieldValueBibStatus_{{$index}}"
+                                    id="addOrOverlayFieldValueBibStatus_{{$index}}" style="height: 30px; width: 200px;"
+                                    ng-model="addOrOverlay.addOrOverlayFieldValue"
+                                    ng-show="addOrOverlay.addOrOverlayField == 'Bib Status' && !addOrOverlay.isAddLine">
+                                <option ng-selected="{{option.name == addOrOverlay.addOrOverlayFieldValue}}"
+                                        ng-repeat="option in addOrOverlay.addOrOverlayFieldBibStatus" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.addOrOverlayFieldValue"></span>
+                        </td>
+                        <td>
+                            <select name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
+                                    style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
                                     ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
@@ -53,7 +107,8 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
+                            <select name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}"
+                                    style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
@@ -74,7 +129,8 @@
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.operation"></span>
                         </td>
                         <td>
-                            <select class="form-control" name="addOrOverlayAddOperation_{{$index}}" id="addOrOverlayAddOperation_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" name="addOrOverlayAddOperation_{{$index}}"
+                                    id="addOrOverlayAddOperation_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOperation"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.addOperation}}"
@@ -91,24 +147,28 @@
                         </td>
                         <td>
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
-                                    ng-click="addOrOverlayAdd(addOrOverlay)" ng-hide="addOrOverlay.isAddLine || addOrOverlay.isEdit"
+                                    ng-click="addOrOverlayAdd(addOrOverlay)"
+                                    ng-hide="addOrOverlay.isAddLine || addOrOverlay.isEdit"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
                             </button>
                             <button id="addOrOverlayEditButton_{{$index}}" name="addOrOverlayEditButton_{{$index}}"
-                                    ng-click="addOrOverlayEditRow($index)" ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
+                                    ng-click="addOrOverlayEditRow($index)"
+                                    ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="addOrOverlayUpdateButton_{{$index}}" name="addOrOverlayUpdateButton_{{$index}}"
                                     ng-click="addOrOverlayUpdateRow($index)" ng-show="addOrOverlay.isEdit"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
-                            <button id="addOrOverlayUpdateCancelButton_{{$index}}" name="addOrOverlayUpdateCancelButton_{{$index}}"
+                            <button id="addOrOverlayUpdateCancelButton_{{$index}}"
+                                    name="addOrOverlayUpdateCancelButton_{{$index}}"
                                     ng-click="addOrOverlayCancelUpdate($index)" ng-show="addOrOverlay.isEdit"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="addOrOverlayRemoveButton_{{$index}}" name="addOrOverlayRemoveButton_{{$index}}"
                                     ng-click="addOrOverlayRemove(addOrOverlay)"
-                                    ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                    ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>
