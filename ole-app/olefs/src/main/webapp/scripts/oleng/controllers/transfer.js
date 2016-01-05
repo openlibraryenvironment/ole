@@ -3,7 +3,7 @@ var app = angular.module("transferApp", ['ui.tree']);
 
 app.controller('searchController', ['$scope', '$http', '$rootScope', searchConditions]);
 function searchConditions($scope, $http, $rootScope) {
-    $rootScope.baseUri = 'http://192.168.55.69:9090/oledocstore/bib/select?q='
+    $rootScope.baseUri = 'http://localhost:8080/oledocstore/bib/select?q='
     $rootScope.searched = true;
     $scope.rows = 10;
     $scope.start = 0;
