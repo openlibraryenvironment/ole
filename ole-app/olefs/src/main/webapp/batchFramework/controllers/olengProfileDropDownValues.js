@@ -468,6 +468,23 @@ var operations = [
     {id: 'discard', name: 'Discard'}
 ];
 
+var addOrOverlayFields = [
+    {id: 'bibStatus', name: 'Bib Status'},
+    {id: 'staffOnly', name: 'Staff Only'}
+];
+
+var addOrOverlayFieldOperations = [
+    {id: 'equalsTo', name: 'Equals To'},
+    {id: 'notEqualsTo', name: 'Not Equals To'}
+];
+
+var addOrOverlayFieldBibStatus = [
+    {id: 'none', name: 'None'},
+    {id: 'cataloguing', name: 'Cataloguing'},
+    {id: 'catalogued', name: 'Catalogued'}
+];
+
+
 var bibDoNotMatchOperations = [
     {id: 'add', name: 'Add'},
     {id: 'discard', name: 'Discard'}
@@ -661,6 +678,10 @@ var addOrOverlay = {
     addOrOverlayDocTypes: addOrOverlayDocumentTypes,
     addOrOverlayDocType: 'Bibliographic',
     operations: operations,
+    addOrOverlayFields: addOrOverlayFields,
+    addOrOverlayFieldOperations: addOrOverlayFieldOperations,
+    booleanOptions: booleanOptions,
+    addOrOverlayFieldBibStatus: addOrOverlayFieldBibStatus,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
