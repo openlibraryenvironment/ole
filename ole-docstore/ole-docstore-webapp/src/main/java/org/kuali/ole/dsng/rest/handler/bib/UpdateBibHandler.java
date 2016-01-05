@@ -31,7 +31,6 @@ public class UpdateBibHandler extends BibHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         try {
-            String overlayOps = requestJsonObject.getString("overlayOps");
             String newBibContent = requestJsonObject.getString("modifiedContent");
             String updatedBy = requestJsonObject.getString("updatedBy");
             String updatedDateString = (String) requestJsonObject.get("updatedDate");
