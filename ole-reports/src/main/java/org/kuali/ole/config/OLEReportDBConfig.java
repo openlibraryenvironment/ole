@@ -74,7 +74,7 @@ public class OLEReportDBConfig {
             prop.setProperty("report.dba.url", prop.getProperty("mysql.dba.url") + File.separator + prop.getProperty("jdbc.username"));
             prop.setProperty("report.dba.username", prop.getProperty("mysql.dba.username"));
             prop.setProperty("report.dba.password", prop.getProperty("mysql.dba.password"));
-            prop.setProperty("report.dba.driver", "com.mysql.jdbc.Driver");
+            prop.setProperty("report.dba.driver", prop.getProperty("mysql.driver"));
         }
     }
 
