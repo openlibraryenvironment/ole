@@ -248,8 +248,8 @@ var transformationOperations = [
     {id: 'new', name: 'New'},
     {id: 'delete', name: 'Delete'},
     {id: 'replace', name: 'Replace'},
-    {id: 'join', name: 'Join'},
-    {id: 'prepend', name: 'prepend with prefix'}
+    {id: 'move', name: 'Move'},
+    {id: 'prepend', name: 'Prepend with Prefix'}
 ];
 
 var constantsAndDefaultsOrderFields = [
