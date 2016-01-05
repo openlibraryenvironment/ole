@@ -154,6 +154,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             operation: $scope.addOrOverlayPanel[0].operation,
             bibStatus: $scope.addOrOverlayPanel[0].bibStatus,
             addOperation: $scope.addOrOverlayPanel[0].addOperation,
+            addOrOverlayField: $scope.addOrOverlayPanel[0].addOrOverlayField,
+            addOrOverlayFieldOperation: $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation,
+            addOrOverlayFieldValue: $scope.addOrOverlayPanel[0].addOrOverlayFieldValue,
             addItems: $scope.addOrOverlayPanel[0].addItems,
             isAddLine: true
         });
