@@ -310,7 +310,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].constant = null;
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
-        $scope.dataMappingsPanel[0].transferOption = 'Pre Transfer';
+        $scope.dataMappingsPanel[0].transferOption = 'Pre Marc Transformation';
         $scope.dataMappingsPanel[0].priority = 1;
     };
 

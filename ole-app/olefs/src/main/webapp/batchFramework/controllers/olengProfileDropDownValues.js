@@ -527,8 +527,8 @@ var booleanOptionsYorN = [
 ];
 
 var transferOptions = [
-    {id: 'preTransfer', name: 'Pre Transfer'},
-    {id: 'postTransfer', name: 'Post Transfer'}
+    {id: 'preMarcTransformation', name: 'Pre Marc Transformation'},
+    {id: 'postMarcTransformation', name: 'Post Marc Transformation'}
 ];
 
 var transformationOperations = [
@@ -693,7 +693,7 @@ var dataMapping = {
     dataMappingOrderFields: dataMappingOrderFields,
     discountTypes: discountTypes,
     transferOptions: transferOptions,
-    transferOption: 'Pre Transfer',
+    transferOption: 'Pre Marc Transformation',
     priority: 1,
     isAddLine: false,
     collapsed: true
