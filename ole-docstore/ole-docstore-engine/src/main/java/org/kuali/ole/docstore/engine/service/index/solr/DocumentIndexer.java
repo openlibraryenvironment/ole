@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.index.solr;
 
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.kuali.ole.docstore.common.document.BibTrees;
 
@@ -21,6 +22,8 @@ public interface DocumentIndexer {
 
     public void delete(String id);
 
+    public void deleteBatch(String id);
+
     public void transfer(List<String> sourceIds, String destinationId);
 
     public void bind(String holdingsId, List<String> bibIds) throws SolrServerException, IOException;
@@ -36,5 +39,7 @@ public interface DocumentIndexer {
     public void unbindOne(List<String> holdingsIds, String bibId) throws SolrServerException, IOException;
 
     public void unbindAll(List<String> holdingsIds, String bibId) throws SolrServerException, IOException;
+
+    public void commitRecordsToSolr(SolrServer solr) throws SolrServerException, IOException;
 
 }

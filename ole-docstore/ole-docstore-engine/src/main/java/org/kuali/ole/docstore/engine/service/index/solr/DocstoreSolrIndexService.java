@@ -91,6 +91,19 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
         }
     }
 
+    @Override
+    public void deleteBatch(String id) {
+        try {
+            SolrServer server = SolrServerManager.getInstance().getSolrServer();
+            deleteRecordInSolr(server, id);
+        } catch (SolrServerException e) {
+            LOG.info("Exception :", e);
+            throw new DocstoreIndexException();
+        } catch (IOException e) {
+            LOG.info("Exception :", e);
+            throw new DocstoreIndexException();
+        }
+    }
     /**
      *  Deleting  documents and committing to solr at once
      * @param ids
@@ -304,7 +317,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
     }
 
 
-    private void commitRecordsToSolr(SolrServer solr) throws SolrServerException, IOException {
+    public void commitRecordsToSolr(SolrServer solr) throws SolrServerException, IOException {
 
         if(commitCounter < MAX_WARM_SEARCH_COUNT) {
             solr.commit(false, false, false);

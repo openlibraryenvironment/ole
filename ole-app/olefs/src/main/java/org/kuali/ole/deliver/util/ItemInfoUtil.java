@@ -221,4 +221,12 @@ public class ItemInfoUtil extends OLEUtil {
         List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
     }
+
+    public OleDeliverRequestBo getRequestByPatronId(String patronId, String itemBarcode) {
+        Map requestMap = new HashMap();
+        requestMap.put("borrowerId", patronId);
+        requestMap.put("itemId", itemBarcode);
+        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
+        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
+    }
 }
