@@ -80,7 +80,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.matchPointsPanel[0].ind1,
             ind2: $scope.matchPointsPanel[0].ind2,
             subField: $scope.matchPointsPanel[0].subField,
-            destination: $scope.matchPointsPanel[0].destination,
+            destDataField: $scope.matchPointsPanel[0].destDataField,
+            destInd1: $scope.matchPointsPanel[0].destInd1,
+            destInd2: $scope.matchPointsPanel[0].destInd2,
+            destSubField: $scope.matchPointsPanel[0].destSubField,
             constant: $scope.matchPointsPanel[0].constant,
             isAddLine: true
         });
@@ -91,7 +94,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.matchPointsPanel[0].ind1 = null;
         $scope.matchPointsPanel[0].ind2 = null;
         $scope.matchPointsPanel[0].subField = null;
-        $scope.matchPointsPanel[0].destination = null;
+        $scope.matchPointsPanel[0].destDataField = null;
+        $scope.matchPointsPanel[0].destInd1 = null;
+        $scope.matchPointsPanel[0].destInd2 = null;
+        $scope.matchPointsPanel[0].destSubField = null;
         $scope.matchPointsPanel[0].constant = null;
     };
     $scope.matchPointEditRow = function(index) {
@@ -104,7 +110,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 ind1: $scope.matchPointsPanel[index].ind1,
                 ind2: $scope.matchPointsPanel[index].ind2,
                 subField: $scope.matchPointsPanel[index].subField,
-                destination: $scope.matchPointsPanel[index].destination,
+                destDataField: $scope.matchPointsPanel[index].destDataField,
+                destInd1: $scope.matchPointsPanel[index].destInd1,
+                destInd2: $scope.matchPointsPanel[index].destInd2,
+                destSubField: $scope.matchPointsPanel[index].destSubField,
                 constant: $scope.matchPointsPanel[index].constant,
                 isAddLine: true
             };
@@ -136,7 +145,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             ind1: $scope.matchPointsPanel[index].ind1,
             ind2: $scope.matchPointsPanel[index].ind2,
             subField: $scope.matchPointsPanel[index].subField,
-            destination: $scope.matchPointsPanel[index].destination,
+            destDataField: $scope.matchPointsPanel[index].destDataField,
+            destInd1: $scope.matchPointsPanel[index].destInd1,
+            destInd2: $scope.matchPointsPanel[index].destInd2,
+            destSubField: $scope.matchPointsPanel[index].destSubField,
             constant: $scope.matchPointsPanel[index].constant,
             isAddLine: true
         };
@@ -499,7 +511,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         matchPoint.ind2 = null;
         matchPoint.subField = null;
         matchPoint.matchPointValue = null;
-        matchPoint.destination = null;
+        matchPoint.destDataField = null;
+        matchPoint.destInd1 = null;
+        matchPoint.destInd2 = null;
+        matchPoint.destSubField = null;
 
         if(matchPoint.matchPointDocType == 'Holdings') {
             matchPoint.matchPointTypes = matchPointObject.matchPointTypeForHoldings;

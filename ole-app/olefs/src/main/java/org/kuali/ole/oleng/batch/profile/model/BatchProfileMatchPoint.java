@@ -10,15 +10,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class BatchProfileMatchPoint extends MarcDataField {
 
     private long matchPointId;
-
     @JsonProperty("matchPointDocType")
     private String dataType;
-
     private String matchPointType;
-
     private String matchPointValue;
-
     private String constant;
+    private String destDataField;
+    private String destInd1;
+    private String destInd2;
+    private String destSubField;
 
     public long getMatchPointId() {
         return matchPointId;
@@ -59,4 +59,37 @@ public class BatchProfileMatchPoint extends MarcDataField {
     public void setConstant(String constant) {
         this.constant = constant;
     }
+
+    public String getDestDataField() {
+        return destDataField;
+    }
+
+    public void setDestDataField(String destDataField) {
+        this.destDataField = destDataField;
+    }
+
+    public String getDestInd1() {
+        return destInd1;
+    }
+
+    public void setDestInd1(String destInd1) {
+        this.destInd1 = destInd1;
+    }
+
+    public String getDestInd2() {
+        return destInd2;
+    }
+
+    public void setDestInd2(String destInd2) {
+        this.destInd2 = destInd2;
+    }
+
+    public String getDestSubField() {
+        return destSubField;
+    }
+
+    public void setDestSubField(String destSubField) {
+        this.destSubField = destSubField;
+    }
+
 }

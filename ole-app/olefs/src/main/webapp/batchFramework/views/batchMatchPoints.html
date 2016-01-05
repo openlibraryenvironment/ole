@@ -23,7 +23,10 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Subfield</th>
-                        <th>Destination <a href="#" data-toggle="tooltip" uib-tooltip="Allows an incoming Data/Control Field to match on a different existing field; i.e. 001 maps to 035 in OLE."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Data/Control Field <a href="#" data-toggle="tooltip" uib-tooltip="Allows an incoming Data/Control Field to match on a different existing field; i.e. 001 maps to 035 in OLE."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Ind1 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind1."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Ind2 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind2."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Subfield <a href="#" data-toggle="tooltip" uib-tooltip="Destination Subfield"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                         <th>Value</th>
                         <th></th>
                     </tr>
@@ -95,11 +98,32 @@
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.subField"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="matchPointDestination_{{$index}}" name="matchPointDestination_{{$index}}" type="text"
-                                   ng-model="matchPoint.destination"
-                                   ng-hide="matchPoint.isAddLine"
+                            <input class="form-control" id="matchPointDestDataField_{{$index}}" name="matchPointDestDataField_{{$index}}" type="text"
+                                   ng-model="matchPoint.destDataField"
+                                   ng-hide="matchPoint.matchPointDocType != 'Bibliographic' || matchPoint.isAddLine"
                                    style="height: 30px; width: 100px;"/>
-                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destination"></span>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destDataField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestInd1_{{$index}}" name="matchPointDestInd1_{{$index}}" type="text"
+                                   ng-model="matchPoint.destInd1"
+                                   ng-hide="matchPoint.matchPointDocType != 'Bibliographic' || matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destInd1"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestInd2_{{$index}}" name="matchPointDestInd2_{{$index}}" type="text"
+                                   ng-model="matchPoint.destInd2"
+                                   ng-hide="matchPoint.matchPointDocType != 'Bibliographic' || matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destInd2"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestSubField_{{$index}}" name="matchPointDestSubField_{{$index}}" type="text"
+                                   ng-model="matchPoint.destSubField"
+                                   ng-hide="matchPoint.matchPointDocType != 'Bibliographic' || matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destSubField"></span>
                         </td>
                         <td>
                             <input class="form-control" id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"
