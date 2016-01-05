@@ -163,12 +163,18 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             operation: $scope.addOrOverlayPanel[0].operation,
             bibStatus: $scope.addOrOverlayPanel[0].bibStatus,
             addOperation: $scope.addOrOverlayPanel[0].addOperation,
+            addOrOverlayField: $scope.addOrOverlayPanel[0].addOrOverlayField,
+            addOrOverlayFieldOperation: $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation,
+            addOrOverlayFieldValue: $scope.addOrOverlayPanel[0].addOrOverlayFieldValue,
             addItems: $scope.addOrOverlayPanel[0].addItems,
             isAddLine: true
         });
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
         $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'Bibliographic';
         $scope.addOrOverlayPanel[0].operation = 'Add';
+        $scope.addOrOverlayPanel[0].addOrOverlayField = null;
+        $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation = null;
+        $scope.addOrOverlayPanel[0].addOrOverlayFieldValue = null;
 
     };
     $scope.addOrOverlayEditRow = function(index) {
@@ -523,6 +529,12 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationDestinationField = null;
     };
 
+    $scope.setDefaultsAddOrOverlay = function (addOrOverlay) {
+        addOrOverlay.addOrOverlayField = null;
+        addOrOverlay.addOrOverlayFieldOperation = null;
+        addOrOverlay.addOrOverlayFieldValue = null;
+    };
+
     $scope.populateDestinationFields = function (dataMapping) {
         if(dataMapping.dataMappingDocType == 'Bib Marc') {
             if(dataMapping.destination == 'Holdings') {
@@ -584,6 +596,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
         return [];
     }
+
+    $scope.populateAddOrOverlayValues = function (addOrOverlay) {
+        if (addOrOverlay.addOrOverlayField == 'Staff Only') {
+            $scope.constantValues = booleanOptions;
+        }
+        getMaintenanceDataForFieldTypeForDropDown(addOrOverlay.title, addOrOverlay.addOrOverlayField, $scope, $http);
+    };
 
     $scope.getMaintenanceValuesForFieldType = function (dataObject, fieldType) {
         if (dataObject.title == 'Constants And Defaults') {

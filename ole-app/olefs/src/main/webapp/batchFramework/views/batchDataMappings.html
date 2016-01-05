@@ -79,7 +79,7 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.destination"></span>
                         </td>
                         <td>
-                            <select id="dataMappingdestinationField_{{$index}}" name="dataMappingdestinationField_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" id="dataMappingdestinationField_{{$index}}" name="dataMappingdestinationField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && !dataMapping.isAddLine"
                                     ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
@@ -89,7 +89,7 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 200px;"
                                     name="dataMappingOrderField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine"
