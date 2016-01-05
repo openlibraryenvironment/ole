@@ -46,7 +46,7 @@ public class UpdateBibHandler extends BibHandler {
 
                 bibRecord.setStatusUpdatedDate(updatedDate);
 
-                String newContent = replaceBibIdTo001Tag(newBibContent, bibId);
+                String newContent = process001And003(newBibContent, bibId);
                 bibRecord.setContent(newContent);
 
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
