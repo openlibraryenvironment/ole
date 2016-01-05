@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.util.ItemUtil;
 
 /**
  * Created by SheikS on 12/20/2015.
@@ -32,7 +33,7 @@ public class ItemStatusHandler extends ItemHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String itemStatusName = getStringValueFromJsonObject(requestJsonObject, TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        ItemStatusRecord itemStatusRecord = fetchItemStatusByName(itemStatusName);
+        ItemStatusRecord itemStatusRecord = new ItemUtil().fetchItemStatusByName(itemStatusName);
         if(null != itemStatusRecord) {
             itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
             itemRecord.setItemStatusRecord(itemStatusRecord);

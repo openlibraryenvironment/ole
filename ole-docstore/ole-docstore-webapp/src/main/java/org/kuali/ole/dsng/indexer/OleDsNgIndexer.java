@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
@@ -232,6 +233,40 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
         solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceInputDocument.getFieldValue(SHELVING_SCHEME_CODE_DISPLAY));
         solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_SEARCH));
         solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_DISPLAY));
+    }
+
+
+    public void addLocationLevelsToSolrInputodument(String locationName, String locationLevel, SolrInputDocument solrInputDocument, StringBuffer loactionLevelStr) {
+        if (StringUtils.isNotBlank(locationLevel)) {
+            if (LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel)) {
+                solrInputDocument.addField(LEVEL1LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL1LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
+            } else if (LOCATION_LEVEL_CAMPUS.equalsIgnoreCase(locationLevel)) {
+                solrInputDocument.addField(LEVEL2LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL2LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
+            } else if (LOCATION_LEVEL_LIBRARY.equalsIgnoreCase(locationLevel)) {
+                solrInputDocument.addField(LEVEL3LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL3LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
+            } else if (LOCATION_LEVEL_COLLECTION.equalsIgnoreCase(locationLevel)) {
+                solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL4LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
+            } else if (LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel) || LOCATION_LEVEL_SHELVING_1.equalsIgnoreCase(locationLevel)) {
+                solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL5LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
+            }
+        }
+    }
+
+    public void appendData(StringBuffer stringBuffer, String data) {
+        if(StringUtils.isNotEmpty(data)) {
+            stringBuffer.append(data);
+            stringBuffer.append(" ");
+        }
     }
 
 

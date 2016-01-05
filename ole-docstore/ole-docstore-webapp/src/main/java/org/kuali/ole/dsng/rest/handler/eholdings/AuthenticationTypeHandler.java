@@ -6,6 +6,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTy
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
+import org.kuali.ole.dsng.util.AuthenticationTypeUtil;
 
 /**
  * Created by SheikS on 12/31/2015.
@@ -33,7 +34,7 @@ public class AuthenticationTypeHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String authentication = getStringValueFromJsonObject(requestJsonObject, TYPE);
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
-        AuthenticationTypeRecord authenticationTypeRecord = fetchAuthenticationTypeRecordByCode(authentication);
+        AuthenticationTypeRecord authenticationTypeRecord = new AuthenticationTypeUtil().fetchAuthenticationTypeRecordByCode(authentication);
         if (null != authenticationTypeRecord) {
             holdingRecord.setAuthenticationTypeId(authenticationTypeRecord.getAuthenticationTypeId());
             holdingRecord.setAuthenticationType(authenticationTypeRecord);

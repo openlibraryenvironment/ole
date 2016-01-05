@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.util.CallNumberUtil;
 
 /**
  * Created by SheikS on 12/20/2015.
@@ -32,7 +33,7 @@ public class CallNumberTypeHandler extends ItemHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String callNumberType = getStringValueFromJsonObject(requestJsonObject, TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordById(callNumberType);
+        CallNumberTypeRecord callNumberTypeRecord = new CallNumberUtil().fetchCallNumberTypeRecordById(callNumberType);
         if (null != callNumberTypeRecord) {
             itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
             itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);

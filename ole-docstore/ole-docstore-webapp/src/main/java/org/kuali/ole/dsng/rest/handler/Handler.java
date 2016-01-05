@@ -8,8 +8,7 @@ import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.service.SpringContext;
-import org.kuali.ole.dsng.util.OleDsNgOverlayUtil;
+import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -23,7 +22,19 @@ import java.util.List;
 /**
  * Created by pvsubrah on 12/23/15.
  */
-public abstract class  Handler extends OleDsNgOverlayUtil {
+public abstract class Handler extends OleDsHelperUtil {
+
+    public final static String LOCATION_LEVEL_1 = "Location Level1";
+    public final static String LOCATION_LEVEL_2 = "Location Level2";
+    public final static String LOCATION_LEVEL_3 = "Location Level3";
+    public final static String LOCATION_LEVEL_4 = "Location Level4";
+    public final static String LOCATION_LEVEL_5 = "Location Level5";
+
+    public final static String HOLDINGS_LOCATION_LEVEL_1 = "Location Level1";
+    public final static String HOLDINGS_LOCATION_LEVEL_2 = "Location Level2";
+    public final static String HOLDINGS_LOCATION_LEVEL_3 = "Location Level3";
+    public final static String HOLDINGS_LOCATION_LEVEL_4 = "Location Level4";
+    public final static String HOLDINGS_LOCATION_LEVEL_5 = "Location Level5";
 
     BibDAO bibDAO;
 

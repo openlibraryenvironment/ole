@@ -11,6 +11,8 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.ole.dsng.util.CallNumberUtil;
+import org.kuali.ole.dsng.util.LocationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,7 +149,7 @@ public class HoldingIndexer extends OleDsNgIndexer {
                 shelvingOrder = holdingsRecord.getShelvingOrder();
             } else {
                 if (StringUtils.isNotEmpty(holdingsRecord.getCallNumber())) {
-                    shelvingOrder = getOleDsHelperUtil().buildSortableCallNumber(holdingsRecord.getCallNumber(), shelvingSchemeCodeValue);
+                    shelvingOrder = new CallNumberUtil().buildSortableCallNumber(holdingsRecord.getCallNumber(), shelvingSchemeCodeValue);
                 }
             }
             if (StringUtils.isNotEmpty(shelvingOrder)) {
@@ -170,7 +172,7 @@ public class HoldingIndexer extends OleDsNgIndexer {
             while (locationLevelTokenizer.hasMoreTokens()) {
                 String locationLevel = locationLevelTokenizer.nextToken();
                 String location = locationTokenizer.nextToken();
-                getOleDsHelperUtil().buildLocationLevels(location, locationLevel, solrInputDocument, loactionLevelStr);
+                addLocationLevelsToSolrInputodument(location, locationLevel, solrInputDocument, loactionLevelStr);
             }
         }
         if (null != holdingsRecord.getHoldingsType() && holdingsRecord.getHoldingsType().equalsIgnoreCase(PHoldings.PRINT)) {
@@ -356,26 +358,26 @@ public class HoldingIndexer extends OleDsNgIndexer {
         String subscriptionStatus = holdingsRecord.getSubscriptionStatus();
 
 
-        getOleDsHelperUtil().appendData(sb, holdingsIdentifier);
-        getOleDsHelperUtil().appendData(sb, accessStatus);
-        getOleDsHelperUtil().appendData(sb, copyNumber);
-        getOleDsHelperUtil().appendData(sb, eResourceId);
-        getOleDsHelperUtil().appendData(sb, holdingsType);
-        getOleDsHelperUtil().appendData(sb, imprint);
-        getOleDsHelperUtil().appendData(sb, localPersistentLink);
-        getOleDsHelperUtil().appendData(sb, publisher);
-        getOleDsHelperUtil().appendData(sb, receiptStatus);
-        getOleDsHelperUtil().appendData(sb, statusDate);
-        getOleDsHelperUtil().appendData(sb, subscriptionStatus);
+        appendData(sb, holdingsIdentifier);
+        appendData(sb, accessStatus);
+        appendData(sb, copyNumber);
+        appendData(sb, eResourceId);
+        appendData(sb, holdingsType);
+        appendData(sb, imprint);
+        appendData(sb, localPersistentLink);
+        appendData(sb, publisher);
+        appendData(sb, receiptStatus);
+        appendData(sb, statusDate);
+        appendData(sb, subscriptionStatus);
 
         if (CollectionUtils.isNotEmpty(holdingsRecord.getExtentOfOwnerShipRecords())) {
             for (ExtentOfOwnerShipRecord extentOfOwnership : holdingsRecord.getExtentOfOwnerShipRecords()) {
                 if (extentOfOwnership != null) {
                     String textualHoldings = extentOfOwnership.getText();
-                    getOleDsHelperUtil().appendData(sb, textualHoldings);
+                    appendData(sb, textualHoldings);
                     if (null != extentOfOwnership.getExtentOfOwnerShipTypeRecord()) {
                         String type = extentOfOwnership.getExtentOfOwnerShipTypeRecord().getCode();
-                        getOleDsHelperUtil().appendData(sb, type);
+                        appendData(sb, type);
                     }
 
                     List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
@@ -388,12 +390,12 @@ public class HoldingIndexer extends OleDsNgIndexer {
                             String coverageStartDate = eInstanceCoverageRecord.getCoverageStartDate();
                             String coverageStartVolume = eInstanceCoverageRecord.getCoverageStartVolume();
                             String coverageStartIssue = eInstanceCoverageRecord.getCoverageStartIssue();
-                            getOleDsHelperUtil().appendData(sb, coverageEndDate);
-                            getOleDsHelperUtil().appendData(sb, coverageEndIssue);
-                            getOleDsHelperUtil().appendData(sb, coverageEndVolume);
-                            getOleDsHelperUtil().appendData(sb, coverageStartDate);
-                            getOleDsHelperUtil().appendData(sb, coverageStartVolume);
-                            getOleDsHelperUtil().appendData(sb, coverageStartIssue);
+                            appendData(sb, coverageEndDate);
+                            appendData(sb, coverageEndIssue);
+                            appendData(sb, coverageEndVolume);
+                            appendData(sb, coverageStartDate);
+                            appendData(sb, coverageStartVolume);
+                            appendData(sb, coverageStartIssue);
                         }
                     }
 
@@ -408,12 +410,12 @@ public class HoldingIndexer extends OleDsNgIndexer {
                                 String perpetualAccessStartDate = eInstancePerpetualAccessRecord.getPerpetualAccessStartDate();
                                 String perpetualAccessStartIssue = eInstancePerpetualAccessRecord.getPerpetualAccessStartIssue();
                                 String perpetualAccessStartVolume = eInstancePerpetualAccessRecord.getPerpetualAccessStartVolume();
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessEndDate);
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessEndIssue);
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessEndVolume);
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessStartDate);
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessStartIssue);
-                                getOleDsHelperUtil().appendData(sb, perpetualAccessStartVolume);
+                                appendData(sb, perpetualAccessEndDate);
+                                appendData(sb, perpetualAccessEndIssue);
+                                appendData(sb, perpetualAccessEndVolume);
+                                appendData(sb, perpetualAccessStartDate);
+                                appendData(sb, perpetualAccessStartIssue);
+                                appendData(sb, perpetualAccessStartVolume);
                             }
                         }
                     }
@@ -424,8 +426,8 @@ public class HoldingIndexer extends OleDsNgIndexer {
                             ExtentNoteRecord extentNoteRecord = iterator.next();
                             String noteType = extentNoteRecord.getType();
                             String noteValue = extentNoteRecord.getNote();
-                            getOleDsHelperUtil().appendData(sb, noteType);
-                            getOleDsHelperUtil().appendData(sb, noteValue);
+                            appendData(sb, noteType);
+                            appendData(sb, noteValue);
                         }
                     }
                 }
@@ -436,16 +438,16 @@ public class HoldingIndexer extends OleDsNgIndexer {
         if (null != callNumberTypeRecord && StringUtils.isNotBlank(holdingsRecord.getCallNumber())) {
             String number = holdingsRecord.getCallNumber();
             String prefix = holdingsRecord.getCallNumberPrefix();
-            getOleDsHelperUtil().appendData(sb, number);
-            getOleDsHelperUtil().appendData(sb, prefix);
+            appendData(sb, number);
+            appendData(sb, prefix);
             String shelvingSchemeCodeValue = holdingsRecord.getShelvingOrder();
             String shelvingSchemeFullValue = holdingsRecord.getShelvingOrder();
-            getOleDsHelperUtil().appendData(sb, shelvingSchemeCodeValue);
-            getOleDsHelperUtil().appendData(sb, shelvingSchemeFullValue);
+            appendData(sb, shelvingSchemeCodeValue);
+            appendData(sb, shelvingSchemeFullValue);
             String shelvingOrderCodeValue = holdingsRecord.getShelvingOrder();
             String shelvingOrderFullValue = holdingsRecord.getShelvingOrder();
-            getOleDsHelperUtil().appendData(sb, shelvingOrderCodeValue);
-            getOleDsHelperUtil().appendData(sb, shelvingOrderFullValue);
+            appendData(sb, shelvingOrderCodeValue);
+            appendData(sb, shelvingOrderFullValue);
         }
 
         List<OLEHoldingsDonorRecord> donorList = holdingsRecord.getDonorList();
@@ -456,9 +458,9 @@ public class HoldingIndexer extends OleDsNgIndexer {
                     String donorCode = oleHoldingsDonorRecord.getDonorCode();
                     String donorInfoNote = oleHoldingsDonorRecord.getDonorNote();
                     String donorInfoPublicDisplay = oleHoldingsDonorRecord.getDonorPublicDisplay();
-                    getOleDsHelperUtil().appendData(sb, donorCode);
-                    getOleDsHelperUtil().appendData(sb, donorInfoNote);
-                    getOleDsHelperUtil().appendData(sb, donorInfoPublicDisplay);
+                    appendData(sb, donorCode);
+                    appendData(sb, donorInfoNote);
+                    appendData(sb, donorInfoPublicDisplay);
 
                 }
             }
@@ -470,11 +472,11 @@ public class HoldingIndexer extends OleDsNgIndexer {
         String authenticationType = (null != authenticationTypeRecord ? authenticationTypeRecord.getCode() : "");
         String numberOfSimultaneousUser = String.valueOf(holdingsRecord.getNumberSimultaneousUsers());
         String proxiedResource = holdingsRecord.getProxiedResource();
-        getOleDsHelperUtil().appendData(sb, accessPassword);
-        getOleDsHelperUtil().appendData(sb, accessUsername);
-        getOleDsHelperUtil().appendData(sb, authenticationType);
-        getOleDsHelperUtil().appendData(sb, numberOfSimultaneousUser);
-        getOleDsHelperUtil().appendData(sb, proxiedResource);
+        appendData(sb, accessPassword);
+        appendData(sb, accessUsername);
+        appendData(sb, authenticationType);
+        appendData(sb, numberOfSimultaneousUser);
+        appendData(sb, proxiedResource);
 
         List<HoldingsUriRecord> holdingsUriRecords = holdingsRecord.getHoldingsUriRecords();
         if (CollectionUtils.isNotEmpty(holdingsUriRecords)) {
@@ -483,8 +485,8 @@ public class HoldingIndexer extends OleDsNgIndexer {
                 if (null != holdingsUriRecord) {
                     String text = holdingsUriRecord.getText();
                     String url = holdingsUriRecord.getUri();
-                    getOleDsHelperUtil().appendData(sb, text);
-                    getOleDsHelperUtil().appendData(sb, url);
+                    appendData(sb, text);
+                    appendData(sb, url);
                 }
             }
         }
@@ -496,8 +498,8 @@ public class HoldingIndexer extends OleDsNgIndexer {
                 if (null != holdingsNoteRecord) {
                     String noteValue = holdingsNoteRecord.getNote();
                     String noteType = holdingsNoteRecord.getType();
-                    getOleDsHelperUtil().appendData(sb, noteValue);
-                    getOleDsHelperUtil().appendData(sb, noteType);
+                    appendData(sb, noteValue);
+                    appendData(sb, noteType);
                 }
             }
         }
@@ -506,19 +508,19 @@ public class HoldingIndexer extends OleDsNgIndexer {
         String adminUrl = holdingsRecord.getAdminUrl();
         String adminUserName = holdingsRecord.getAdminUserName();
         String platformName = holdingsRecord.getPlatform();
-        getOleDsHelperUtil().appendData(sb, adminPassword);
-        getOleDsHelperUtil().appendData(sb, adminUrl);
-        getOleDsHelperUtil().appendData(sb, adminUserName);
-        getOleDsHelperUtil().appendData(sb, platformName);
+        appendData(sb, adminPassword);
+        appendData(sb, adminUrl);
+        appendData(sb, adminUserName);
+        appendData(sb, platformName);
 
         List<HoldingsStatisticalSearchRecord> oleDsHoldingsStatSearchTs = holdingsRecord.getHoldingsStatisticalSearchRecords();
 
         if (CollectionUtils.isNotEmpty(oleDsHoldingsStatSearchTs) && null != oleDsHoldingsStatSearchTs.get(0).getStatisticalSearchRecord()) {
             String codeValue = oleDsHoldingsStatSearchTs.get(0).getStatisticalSearchRecord().getCode();
-            getOleDsHelperUtil().appendData(sb, codeValue);
+            appendData(sb, codeValue);
         }
-        getOleDsHelperUtil().appendData(sb, holdingsRecord.getLocation());
-        getOleDsHelperUtil().appendData(sb, holdingsRecord.getLocationLevel());
+        appendData(sb, holdingsRecord.getLocation());
+        appendData(sb, holdingsRecord.getLocationLevel());
         return sb.toString();
     }
 

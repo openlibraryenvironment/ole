@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by pvsubrah on 12/23/15.
  */
-public class UpdateBibHandler extends Handler {
+public class UpdateBibHandler extends BibHandler {
     @Override
     public Boolean isInterested(String operation) {
         List<String> operationsList = getOperationsList(operation);

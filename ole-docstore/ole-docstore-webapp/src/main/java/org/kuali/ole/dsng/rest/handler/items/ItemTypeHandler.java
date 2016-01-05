@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.util.ItemUtil;
 
 /**
  * Created by SheikS on 12/20/2015.
@@ -32,7 +33,7 @@ public class ItemTypeHandler extends ItemHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String itemTypeName = getStringValueFromJsonObject(requestJsonObject, TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        ItemTypeRecord itemTypeRecord = fetchItemTypeByName(itemTypeName);
+        ItemTypeRecord itemTypeRecord = new ItemUtil().fetchItemTypeByName(itemTypeName);
         if(null != itemTypeRecord) {
             itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
             itemRecord.setItemTypeRecord(itemTypeRecord);

@@ -105,6 +105,7 @@ public class CreateItemHandler extends Handler {
             itemMetaDataHandlers.add(new DonorNoteHandler());
             itemMetaDataHandlers.add(new DonorPublicDisplayHandler());
             itemMetaDataHandlers.add(new EnumerationHandler());
+            itemMetaDataHandlers.add(new ItemHoldingLocationHandler());
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());

@@ -3,13 +3,14 @@ package org.kuali.ole.dsng.indexer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocCategory;
+import org.kuali.ole.dsng.util.CallNumberUtil;
+import org.kuali.ole.dsng.util.EnumerationUtil;
+import org.kuali.ole.dsng.util.LocationUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,7 +185,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
                         //Build sortable key for a valid call number
                         if (itemRecord.getCallNumberTypeRecord() != null) {
                             if(org.apache.commons.lang3.StringUtils.isNotEmpty(itemCallNumber) && itemCallNumber.trim().length() > 0) {
-                                shelvingOrder = getOleDsHelperUtil().buildSortableCallNumber(itemCallNumber, itemRecord.getShelvingOrder());
+                                shelvingOrder = new CallNumberUtil().buildSortableCallNumber(itemCallNumber, itemRecord.getShelvingOrder());
                             }
                         }
                     } catch (Exception e) {
@@ -204,14 +205,14 @@ public class ItemIndexer extends OleDsNgIndexer  {
                     solrInputDocument.setField(CALLNUMBER_SORT, itemRecord.getCallNumber());
                 }
                 if (itemRecord.getEnumeration() != null) {
-                    String enumerationSort = getOleDsHelperUtil().getNormalizedEnumeration(itemRecord.getEnumeration());
+                    String enumerationSort = new EnumerationUtil().getNormalizedEnumeration(itemRecord.getEnumeration());
                     solrInputDocument.addField(ENUMERATION_SORT, enumerationSort);
                 }
                 if (itemRecord.getChronology() != null) {
                     solrInputDocument.addField(CHRONOLOGY_SORT, itemRecord.getChronology());
                 }
                 if (itemRecord.getCopyNumber() != null) {
-                    String copyNumberSort = getOleDsHelperUtil().getNormalizedEnumeration(itemRecord.getCopyNumber());
+                    String copyNumberSort = new EnumerationUtil().getNormalizedEnumeration(itemRecord.getCopyNumber());
                     solrInputDocument.addField(COPYNUMBER_SORT, copyNumberSort);
                 }
                 if (null != itemRecord.getBarCode()) {
@@ -238,7 +239,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 while(locationLevelTokenizer.hasMoreTokens()){
                     String locationLevel = locationLevelTokenizer.nextToken();
                     String location = locationTokenizer.nextToken();
-                    getOleDsHelperUtil().buildLocationLevels(location,locationLevel,solrInputDocument,loactionLevelStr);
+                    addLocationLevelsToSolrInputodument(location,locationLevel,solrInputDocument,loactionLevelStr);
                 }
             }
 
@@ -393,30 +394,30 @@ public class ItemIndexer extends OleDsNgIndexer  {
         String vendorLineItemIdentifier = itemRecord.getVendorLineItemId();
         // String volumeNumber = itemRecord.getVolumeNumber();  // TODO : Need to check
 
-        getOleDsHelperUtil().appendData(sb, itemIdentifier);
-        getOleDsHelperUtil().appendData(sb, copyNumber);
-        getOleDsHelperUtil().appendData(sb, enumeration);
-        //getOleDsHelperUtil().appendData(sb, analytic);
-        getOleDsHelperUtil().appendData(sb, chronology);
-        getOleDsHelperUtil().appendData(sb, barcodeARSL);
-        getOleDsHelperUtil().appendData(sb, checkinNote);
-        getOleDsHelperUtil().appendData(sb, claimsReturnedFlagCreateDate);
-        getOleDsHelperUtil().appendData(sb, claimsReturnedNote);
-        //getOleDsHelperUtil().appendData(sb, copyNumberLabel);
-        getOleDsHelperUtil().appendData(sb, currentBorrower);
-        getOleDsHelperUtil().appendData(sb, damagedItemNote);
-        getOleDsHelperUtil().appendData(sb, dueDateTime);
-        getOleDsHelperUtil().appendData(sb, fund);
-        getOleDsHelperUtil().appendData(sb, itemStatusEffectiveDate);
-        getOleDsHelperUtil().appendData(sb, missingPieceEffectiveDate);
-        getOleDsHelperUtil().appendData(sb, missingPieceFlagNote);
-        getOleDsHelperUtil().appendData(sb, missingPiecesCount);
-        getOleDsHelperUtil().appendData(sb, numberOfPieces);
-        getOleDsHelperUtil().appendData(sb, price);
-        getOleDsHelperUtil().appendData(sb, proxyBorrower);
-        getOleDsHelperUtil().appendData(sb, purchaseOrderLineItemIdentifier);
-        getOleDsHelperUtil().appendData(sb, vendorLineItemIdentifier);
-        //getOleDsHelperUtil().appendData(sb, volumeNumber);
+        appendData(sb, itemIdentifier);
+        appendData(sb, copyNumber);
+        appendData(sb, enumeration);
+        //appendData(sb, analytic);
+        appendData(sb, chronology);
+        appendData(sb, barcodeARSL);
+        appendData(sb, checkinNote);
+        appendData(sb, claimsReturnedFlagCreateDate);
+        appendData(sb, claimsReturnedNote);
+        //appendData(sb, copyNumberLabel);
+        appendData(sb, currentBorrower);
+        appendData(sb, damagedItemNote);
+        appendData(sb, dueDateTime);
+        appendData(sb, fund);
+        appendData(sb, itemStatusEffectiveDate);
+        appendData(sb, missingPieceEffectiveDate);
+        appendData(sb, missingPieceFlagNote);
+        appendData(sb, missingPiecesCount);
+        appendData(sb, numberOfPieces);
+        appendData(sb, price);
+        appendData(sb, proxyBorrower);
+        appendData(sb, purchaseOrderLineItemIdentifier);
+        appendData(sb, vendorLineItemIdentifier);
+        //appendData(sb, volumeNumber);
 
         // TODO :  Need to write boolean converter for JPA and need to change the variable type to boolean
        /* boolean staffOnlyFlag = itemRecord.isStaffOnlyFlag();
@@ -425,14 +426,14 @@ public class ItemIndexer extends OleDsNgIndexer  {
         boolean itemDamagedStatus = itemRecord.isItemDamagedStatus();
         boolean missingPieceFlag = itemRecord.isMissingPieceFlag();
 
-        getOleDsHelperUtil().appendData(sb, String.valueOf(staffOnlyFlag));
-        getOleDsHelperUtil().appendData(sb, String.valueOf(claimsReturnedFlag));
-        getOleDsHelperUtil().appendData(sb, String.valueOf(fastAddFlag));
-        getOleDsHelperUtil().appendData(sb, String.valueOf(itemDamagedStatus));
-        getOleDsHelperUtil().appendData(sb, String.valueOf(missingPieceFlag));*/
+        appendData(sb, String.valueOf(staffOnlyFlag));
+        appendData(sb, String.valueOf(claimsReturnedFlag));
+        appendData(sb, String.valueOf(fastAddFlag));
+        appendData(sb, String.valueOf(itemDamagedStatus));
+        appendData(sb, String.valueOf(missingPieceFlag));*/
 
-        getOleDsHelperUtil().appendData(sb, itemRecord.getBarCode());
-        getOleDsHelperUtil().appendData(sb, itemRecord.getUri());
+        appendData(sb, itemRecord.getBarCode());
+        appendData(sb, itemRecord.getUri());
 
         if (StringUtils.isNotEmpty(itemRecord.getCallNumber())) {
             String number = itemRecord.getCallNumber();
@@ -441,18 +442,18 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 String shelvingSchemeCodeValue = itemRecord.getCallNumberTypeRecord().getCode();
                 String shelvingSchemeFullValue = itemRecord.getCallNumberTypeRecord().getName();
 
-                getOleDsHelperUtil().appendData(sb, shelvingSchemeCodeValue);
-                getOleDsHelperUtil().appendData(sb, shelvingSchemeFullValue);
+                appendData(sb, shelvingSchemeCodeValue);
+                appendData(sb, shelvingSchemeFullValue);
             }
             if (itemRecord.getShelvingOrder() != null) {
                 String shelvingOrderCodeValue = itemRecord.getShelvingOrder();
                 String shelvingOrderFullValue = itemRecord.getShelvingOrder();
-                getOleDsHelperUtil().appendData(sb, shelvingOrderCodeValue);
-                getOleDsHelperUtil().appendData(sb, shelvingOrderFullValue);
+                appendData(sb, shelvingOrderCodeValue);
+                appendData(sb, shelvingOrderFullValue);
             }
 
-            getOleDsHelperUtil().appendData(sb, number);
-            getOleDsHelperUtil().appendData(sb, prefix);
+            appendData(sb, number);
+            appendData(sb, prefix);
         }
 
 
@@ -464,9 +465,9 @@ public class ItemIndexer extends OleDsNgIndexer  {
                     String donorCode = oleItemDonorRecord.getDonorCode();
                     String donorNote = oleItemDonorRecord.getDonorNote();
                     String donorPublicDisplay = oleItemDonorRecord.getDonorPublicDisplay();
-                    getOleDsHelperUtil().appendData(sb, donorCode);
-                    getOleDsHelperUtil().appendData(sb, donorNote);
-                    getOleDsHelperUtil().appendData(sb, donorPublicDisplay);
+                    appendData(sb, donorCode);
+                    appendData(sb, donorNote);
+                    appendData(sb, donorPublicDisplay);
                 }
             }
         }
@@ -479,8 +480,8 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 if(null != formerIdentifierRecord) {
                     String identifierType = formerIdentifierRecord.getType();
                     String identifierValue = formerIdentifierRecord.getValue();
-                    getOleDsHelperUtil().appendData(sb, identifierType);
-                    getOleDsHelperUtil().appendData(sb, identifierValue);
+                    appendData(sb, identifierType);
+                    appendData(sb, identifierValue);
                 }
             }
         }
@@ -491,26 +492,26 @@ public class ItemIndexer extends OleDsNgIndexer  {
             String row = highDensityStorageRecord.getRow();
             String shelf = highDensityStorageRecord.getShelf();
             String tray = highDensityStorageRecord.getTray();
-            getOleDsHelperUtil().appendData(sb, module);
-            getOleDsHelperUtil().appendData(sb, row);
-            getOleDsHelperUtil().appendData(sb, shelf);
-            getOleDsHelperUtil().appendData(sb, tray);
+            appendData(sb, module);
+            appendData(sb, row);
+            appendData(sb, shelf);
+            appendData(sb, tray);
         }
 
         ItemStatusRecord itemStatusRecord = itemRecord.getItemStatusRecord();
         if(itemStatusRecord != null) {
             String itemStatusCodeValue = itemStatusRecord.getCode();
             String itemStatusFullValue = itemStatusRecord.getName();
-            getOleDsHelperUtil().appendData(sb, itemStatusCodeValue);
-            getOleDsHelperUtil().appendData(sb, itemStatusFullValue);
+            appendData(sb, itemStatusCodeValue);
+            appendData(sb, itemStatusFullValue);
         }
 
         ItemTypeRecord itemTypeRecord = itemRecord.getItemTypeRecord();
         if(itemTypeRecord != null) {
             String itemTypeCodeValue = itemTypeRecord.getCode();
             String itemTypeFullValue = itemTypeRecord.getName();
-            getOleDsHelperUtil().appendData(sb, itemTypeCodeValue);
-            getOleDsHelperUtil().appendData(sb, itemTypeFullValue);
+            appendData(sb, itemTypeCodeValue);
+            appendData(sb, itemTypeFullValue);
         }
 
         List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
@@ -519,8 +520,8 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 ItemNoteRecord itemNoteRecord = iterator.next();
                 String itemNoteValue = itemNoteRecord.getNote();
                 String itemNoteType = itemNoteRecord.getType();
-                getOleDsHelperUtil().appendData(sb, itemNoteValue);
-                getOleDsHelperUtil().appendData(sb, itemNoteType);
+                appendData(sb, itemNoteValue);
+                appendData(sb, itemNoteType);
             }
         }
 
@@ -530,11 +531,11 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 LocationsCheckinCountRecord locationsCheckinCountRecord = iterator.next();
                 if (null != locationsCheckinCountRecord) {
                     String checkInLocationCount = locationsCheckinCountRecord.getLocationCount().toString();
-                    getOleDsHelperUtil().appendData(sb, checkInLocationCount);
+                    appendData(sb, checkInLocationCount);
                     String checkInLocationInHouseCount = locationsCheckinCountRecord.getLocationInhouseCount().toString();
-                    getOleDsHelperUtil().appendData(sb, checkInLocationInHouseCount);
+                    appendData(sb, checkInLocationInHouseCount);
                     String checkInLocationName = locationsCheckinCountRecord.getLocationName();
-                    getOleDsHelperUtil().appendData(sb, checkInLocationName);
+                    appendData(sb, checkInLocationName);
                 }
             }
         }
@@ -545,9 +546,9 @@ public class ItemIndexer extends OleDsNgIndexer  {
                 ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
                 if(null != itemStatisticalSearchRecord && null != itemStatisticalSearchRecord.getStatisticalSearchRecord()) {
                     String codeValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode();
-                    getOleDsHelperUtil().appendData(sb, codeValue);
+                    appendData(sb, codeValue);
                     String fullValue = itemStatisticalSearchRecord.getStatisticalSearchRecord().getName();
-                    getOleDsHelperUtil().appendData(sb, fullValue);
+                    appendData(sb, fullValue);
                 }
             }
         }
@@ -556,11 +557,11 @@ public class ItemIndexer extends OleDsNgIndexer  {
         if (itemTempTypeRecord != null) {
             String temporaryItemTypeCodeValue = itemTempTypeRecord.getCode();
             String temporaryItemTypeFullValue = itemTempTypeRecord.getName();
-            getOleDsHelperUtil().appendData(sb, temporaryItemTypeCodeValue);
-            getOleDsHelperUtil().appendData(sb, temporaryItemTypeFullValue);
+            appendData(sb, temporaryItemTypeCodeValue);
+            appendData(sb, temporaryItemTypeFullValue);
         }
-        getOleDsHelperUtil().appendData(sb,itemRecord.getLocation());
-        getOleDsHelperUtil().appendData(sb,itemRecord.getLocationLevel());
+        appendData(sb,itemRecord.getLocation());
+        appendData(sb,itemRecord.getLocationLevel());
         return sb.toString();
 
     }
