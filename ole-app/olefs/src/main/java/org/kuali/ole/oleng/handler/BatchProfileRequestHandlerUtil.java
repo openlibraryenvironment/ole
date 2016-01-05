@@ -48,8 +48,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleShelvingScheme> iterator = allCallNumberTypes.iterator(); iterator.hasNext(); ) {
                     OleShelvingScheme oleShelvingScheme = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("callNumberTypeId",oleShelvingScheme.getShelvingSchemeId());
-                    jsonObject.put("callNumberTypeCode",oleShelvingScheme.getShelvingSchemeName());
+                    jsonObject.put("id",oleShelvingScheme.getShelvingSchemeId());
+                    jsonObject.put("value",oleShelvingScheme.getShelvingSchemeName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -68,8 +68,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     OleLocation oleLocation = iterator.next();
                     if (null != locaionLevelId && locaionLevelId.equalsIgnoreCase(oleLocation.getLevelId())) {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("locationId",oleLocation.getLocationId());
-                        jsonObject.put("locationCode",oleLocation.getLocationCode());
+                        jsonObject.put("id",oleLocation.getLocationId());
+                        jsonObject.put("value",oleLocation.getLocationCode());
                         jsonArray.put(jsonObject);
                     }
                 }
@@ -88,8 +88,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleBibliographicRecordStatus> iterator = bibStatusList.iterator(); iterator.hasNext(); ) {
                     OleBibliographicRecordStatus bibliographicRecordStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("bibStatusId",bibliographicRecordStatus.getBibliographicRecordStatusId());
-                    jsonObject.put("bibStatusName",bibliographicRecordStatus.getBibliographicRecordStatusName());
+                    jsonObject.put("id",bibliographicRecordStatus.getBibliographicRecordStatusId());
+                    jsonObject.put("value",bibliographicRecordStatus.getBibliographicRecordStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -107,8 +107,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleInstanceItemType> iterator = itemTypes.iterator(); iterator.hasNext(); ) {
                     OleInstanceItemType itemType = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("itemTypeId",itemType.getInstanceItemTypeId());
-                    jsonObject.put("itemTypeName",itemType.getInstanceItemTypeName());
+                    jsonObject.put("id",itemType.getInstanceItemTypeId());
+                    jsonObject.put("value",itemType.getInstanceItemTypeName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -126,8 +126,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OLEDonor> iterator = oleDonors.iterator(); iterator.hasNext(); ) {
                     OLEDonor oleDonor = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("donorId",oleDonor.getDonorId());
-                    jsonObject.put("donorCode",oleDonor.getDonorCode());
+                    jsonObject.put("id",oleDonor.getDonorId());
+                    jsonObject.put("value",oleDonor.getDonorCode());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -145,8 +145,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleItemAvailableStatus> iterator = itemStatusList.iterator(); iterator.hasNext(); ) {
                     OleItemAvailableStatus availableStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("itemStatusId",availableStatus.getItemAvailableStatusId());
-                    jsonObject.put("itemStatusName",availableStatus.getItemAvailableStatusName());
+                    jsonObject.put("id",availableStatus.getItemAvailableStatusId());
+                    jsonObject.put("value",availableStatus.getItemAvailableStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -164,8 +164,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchProcessProfile> iterator = allProfiles.iterator(); iterator.hasNext(); ) {
                     BatchProcessProfile batchProcessProfile = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
-                    jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                    jsonObject.put("id",batchProcessProfile.getBatchProcessProfileId());
+                    jsonObject.put("value",batchProcessProfile.getBatchProcessProfileName());
                     jsonArray.put(jsonObject);
                 }
             }

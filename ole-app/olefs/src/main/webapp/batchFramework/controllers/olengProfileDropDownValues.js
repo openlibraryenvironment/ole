@@ -15,6 +15,11 @@ var documentTypes = [
     {id: 'eHoldings', name: 'EHoldings'}
 ];
 
+var dataMappingProcessTypes = [
+    {id: 'bibMarc', name: 'Bib Marc'},
+    {id: 'constant', name: 'Constant'}
+];
+
 var transformationDocumentTypes = [
     {id: 'bibMarc', name: 'Bib Marc'}
 ];
@@ -24,6 +29,175 @@ var destinationDocumentTypes = [
     {id: 'item', name: 'Item'},
     {id: 'eHoldings', name: 'EHoldings'}
 ];
+
+var dataMappingObject = {
+    destinationForBibMarc : [
+        {id: 'holdings', name: 'Holdings'},
+        {id: 'item', name: 'Item'},
+        {id: 'eHoldings', name: 'EHoldings'}
+    ],
+    destinationForConstant : [
+        {id: 'bibliographic', name: 'Bibliographic'},
+        {id: 'holdings', name: 'Holdings'},
+        {id: 'item', name: 'Item'},
+        {id: 'eHoldings', name: 'EHoldings'}
+    ],
+    destinationFieldsForBibMarcHoldings : [
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'callNumberPrefix', name: 'Call Number Prefix'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'copyNumber', name: 'Copy Number'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'}
+    ],
+    destinationFieldsForBibMarcItems : [
+        {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
+        {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
+        {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
+        {id: 'holdingsLocationLevel4', name: 'Holdings Location Level4'},
+        {id: 'holdingsLocationLevel5', name: 'Holdings Location Level5'},
+        {id: 'holdingsCallNumber', name: 'Holdings Call Number'},
+        {id: 'holdingsCallNumberPrefix', name: 'Holdings Call Number Prefix'},
+        {id: 'holdingsCallNumberType', name: 'Holdings Call Number Type'},
+        {id: 'holdingsCopyNumber', name: 'Holdings Copy Number'},
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'callNumberPrefix', name: 'Call Number Prefix'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'copyNumber', name: 'Copy Number'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'},
+        {id: 'barcode', name: 'Item Barcode'},
+        {id: 'type', name: 'Item Type'},
+        {id: 'status', name: 'Item Status'},
+        {id: 'donorCode', name: 'Donor Code'},
+        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
+        {id: 'donorNote', name: 'Donor Note'},
+        {id: 'enumeration', name: 'Enumeration'},
+        {id: 'chronology', name: 'Chronology'},
+        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
+    ],
+    destinationFieldsForHibMarcEHoldings :  [
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'accessStatus', name: 'Access Status'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'},
+        {id: 'url', name: 'URL'},
+        {id: 'persistentLink', name: 'Persistent Link'},
+        {id: 'linkText', name: 'Link Text'},
+        {id: 'donorCode', name: 'Donor Code'},
+        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
+        {id: 'donorNote', name: 'Donor Note'},
+        {id: 'statisticalCode', name: 'Statistical Code'},
+        {id: 'platform', name: 'Platform'},
+        {id: 'publisher', name: 'Publisher'},
+        {id: 'coverageStartDate', name: 'Coverage Start Date'},
+        {id: 'coverageStartIssue', name: 'Coverage Start Issue'},
+        {id: 'coverageStartVolume', name: 'Coverage Start Volume'},
+        {id: 'coverageEndDate', name: 'Coverage End Date'},
+        {id: 'coverageEndIssue', name: 'Coverage End Issue'},
+        {id: 'coverageEndVolume', name: 'Coverage End Volume'},
+        {id: 'eResourceName', name: 'EResource Name'},
+        {id: 'eResourceId', name: 'EResource Id'}
+    ],
+    destinationFieldsForConstantsBib : [
+        {id: 'bibStatus', name: 'Bib Status'},
+        {id: 'staffOnly', name: 'Staff Only'}
+    ],
+    destinationFieldsForConstantsHoldings : [
+        {id: 'receiptStatus', name: 'Receipt Status'},
+        {id: 'subscriptionStatus', name: 'Subscription Status'},
+        {id: 'accessStatus', name: 'Access Status'},
+        {id: 'staffOnly', name: 'Staff Only'}
+    ],
+    destinationFieldsForConstantsItems :  [
+        {id: 'itemType', name: 'Item Type'},
+        {id: 'itemStatus', name: 'Item Status'}
+    ],
+    destinationFieldsForConstantsEHoldings : [
+        {id: 'accessStatus', name: 'Access Status'},
+        {id: 'staffOnly', name: 'Staff Only'}
+    ],
+}
+
+var matchPointObject = {
+    matchPointTypeForHoldings : [
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'callNumberPrefix', name: 'Call Number Prefix'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'copyNumber', name: 'Copy Number'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'}
+    ],
+    matchPointTypeForItem : [
+        {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
+        {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
+        {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
+        {id: 'holdingsLocationLevel4', name: 'Holdings Location Level4'},
+        {id: 'holdingsLocationLevel5', name: 'Holdings Location Level5'},
+        {id: 'holdingsCallNumber', name: 'Holdings Call Number'},
+        {id: 'holdingsCallNumberPrefix', name: 'Holdings Call Number Prefix'},
+        {id: 'holdingsCallNumberType', name: 'Holdings Call Number Type'},
+        {id: 'holdingsCopyNumber', name: 'Holdings Copy Number'},
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'callNumberPrefix', name: 'Call Number Prefix'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'copyNumber', name: 'Copy Number'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'},
+        {id: 'barcode', name: 'Item Barcode'},
+        {id: 'type', name: 'Item Type'},
+        {id: 'status', name: 'Item Status'},
+        {id: 'donorCode', name: 'Donor Code'},
+        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
+        {id: 'donorNote', name: 'Donor Note'},
+        {id: 'enumeration', name: 'Enumeration'},
+        {id: 'chronology', name: 'Chronology'},
+        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
+    ],
+    matchPointTypeForEHoldings : [
+        {id: 'callNumber', name: 'Call Number'},
+        {id: 'accessStatus', name: 'Access Status'},
+        {id: 'callNumberType', name: 'Call Number Type'},
+        {id: 'locationLevel1', name: 'Location Level1'},
+        {id: 'locationLevel2', name: 'Location Level2'},
+        {id: 'locationLevel3', name: 'Location Level3'},
+        {id: 'locationLevel4', name: 'Location Level4'},
+        {id: 'locationLevel5', name: 'Location Level5'},
+        {id: 'url', name: 'URL'},
+        {id: 'persistentLink', name: 'Persistent Link'},
+        {id: 'linkText', name: 'Link Text'},
+        {id: 'donorCode', name: 'Donor Code'},
+        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
+        {id: 'donorNote', name: 'Donor Note'},
+        {id: 'statisticalCode', name: 'Statistical Code'},
+        {id: 'platform', name: 'Platform'},
+        {id: 'publisher', name: 'Publisher'},
+        {id: 'coverageStartDate', name: 'Coverage Start Date'},
+        {id: 'coverageStartIssue', name: 'Coverage Start Issue'},
+        {id: 'coverageStartVolume', name: 'Coverage Start Volume'},
+        {id: 'coverageEndDate', name: 'Coverage End Date'},
+        {id: 'coverageEndIssue', name: 'Coverage End Issue'},
+        {id: 'coverageEndVolume', name: 'Coverage End Volume'},
+        {id: 'eResourceName', name: 'EResource Name'},
+        {id: 'eResourceId', name: 'EResource Id'}
+    ]
+}
 
 var addOrOverlayDocumentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
@@ -101,7 +275,6 @@ var eHoldingsMatchPoints = [
     {id: 'eResourceName', name: 'EResource Name'},
     {id: 'eResourceId', name: 'EResource Id'}
 ];
-
 
 
 var eHoldingsDataMappings = [
@@ -212,10 +385,6 @@ var actionTypes = [
     {id: 'overlay', name: 'Overlay'}
 ];
 
-var bibFields = [
-    {id: 'bibStatus', name: 'Bib Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
-];
 
 var booleanOptions = [
     {id: 'true', value: 'True'},
@@ -225,23 +394,6 @@ var booleanOptions = [
 var transferOptions = [
     {id: 'preTransfer', name: 'Pre Transfer'},
     {id: 'postTransfer', name: 'Post Transfer'}
-];
-
-var holdingsFields = [
-    {id: 'receiptStatus', name: 'Receipt Status'},
-    {id: 'subscriptionStatus', name: 'Subscription Status'},
-    {id: 'accessStatus', name: 'Access Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
-];
-
-var itemFields = [
-    {id: 'itemType', name: 'Item Type'},
-    {id: 'itemStatus', name: 'Item Status'}
-];
-
-var eHoldingsFields = [
-    {id: 'accessStatus', name: 'Access Status'},
-    {id: 'staffOnly', name: 'Staff Only'}
 ];
 
 var transformationOperations = [
@@ -395,7 +547,7 @@ var addOrOverlay = {
 
 var dataMapping = {
     title: 'Data Mappings',
-    dataMappingDocTypes: transformationDocumentTypes,
+    dataMappingDocTypes: dataMappingProcessTypes,
     dataMappingDocType: 'Bib Marc',
     destinations: destinationDocumentTypes,
     holdingsFields: holdingsMatchPoints,
