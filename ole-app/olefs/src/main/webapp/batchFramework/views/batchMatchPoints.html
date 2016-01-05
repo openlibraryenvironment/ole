@@ -33,7 +33,7 @@
                         <td>
                             <select class="form-control" id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
                                     ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
-                                    ng-change="setDefaultsMatchPoint(matchPoint)">
+                                    ng-change="populateMatchPointTypes(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
                                         ng-repeat="option in matchPoint.matchPointDocTypes" value="{{option.name}}">
                                     {{option.name}}
@@ -42,107 +42,25 @@
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointDocType"></span>
                         </td>
                         <td>
-                            <select class="form-control" id="matchPointHoldings_{{$index}}" name="matchPointHoldings_{{$index}}"
+                            <select class="form-control" id="matchPointType_{{$index}}" name="matchPointType_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'Holdings' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine"
+                                    ng-change="populateDestinationFieldValues(matchPoint, matchPoint.matchPointType)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
-                                        ng-repeat="option in matchPoint.holdingsMatchPoints  | orderBy:'name'" value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointItem_{{$index}}" name="matchPointItem_{{$index}}"
-                                    ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'Item' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
-                                <option ng-selected="{{option.name == matchPoint.matchPointType}}"
-                                        ng-repeat="option in matchPoint.itemMatchPoints  | orderBy:'name'" value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointEholdings_{{$index}}" name="matchPointEholdings_{{$index}}"
-                                    ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType == 'EHoldings' && !matchPoint.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(matchPoint, matchPoint.matchPointType)">
-                                <option ng-selected="{{option.name == matchPoint.matchPointType}}"
-                                        ng-repeat="option in matchPoint.eHoldingsMatchPoints  | orderBy:'name'" value="{{option.name}}">
+                                        ng-repeat="option in matchPoint.matchPointTypes  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointType"></span>
                         </td>
                         <td>
-                            <select class="form-control" id="matchPointCallNumberType_{{$index}}" name="matchPointCallNumberType_{{$index}}"
+                            <select class="form-control" id="matchPointValues_{{$index}}" name="matchPointValues_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Call Number Type' || matchPoint.matchPointType == 'Holdings Call Number Type') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.callNumberTypeCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in callNumberTypeValues | orderBy:'callNumberTypeCode'"
-                                        value="{{option.callNumberTypeCode}}">
-                                    {{option.callNumberTypeCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointItemType_{{$index}}" name="matchPointItemType_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Item Type' && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.itemTypeName == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in itemTypeValues | orderBy:'itemTypeName'" value="{{option.itemTypeName}}">
-                                    {{option.itemTypeName}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointItemStatus_{{$index}}" name="matchPointItemStatus_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Item Status' && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.itemStatusName == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in itemStatusValues | orderBy:'itemStatusName'" value="{{option.itemStatusName}}">
-                                    {{option.itemStatusName}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointDonorCode_{{$index}}" name="matchPointDonorCode_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointType == 'Donor Code' && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.donorCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in donorCodes | orderBy:'donorCode'" value="{{option.donorCode}}">
-                                    {{option.donorCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointLocationLevel1_{{$index}}" name="matchPointLocationLevel1_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Location Level1' || matchPoint.matchPointType == 'Holdings Location Level1') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in locationLevel1Values | orderBy:'locationCode'" value="{{option.locationCode}}">
-                                    {{option.locationCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointLocationLevel2_{{$index}}" name="matchPointLocationLevel2_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Location Level2' || matchPoint.matchPointType == 'Holdings Location Level2') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in locationLevel2Values | orderBy:'locationCode'" value="{{option.locationCode}}">
-                                    {{option.locationCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointLocationLevel3_{{$index}}" name="matchPointLocationLevel3_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Location Level3' || matchPoint.matchPointType == 'Holdings Location Level3') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in locationLevel3Values | orderBy:'locationCode'" value="{{option.locationCode}}">
-                                    {{option.locationCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointLocationLevel4_{{$index}}" name="matchPointLocationLevel4_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Location Level4' || matchPoint.matchPointType == 'Holdings Location Level4') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in locationLevel4Values | orderBy:'locationCode'" value="{{option.locationCode}}">
-                                    {{option.locationCode}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="matchPointLocationLevel5_{{$index}}" name="matchPointLocationLevel5_{{$index}}"
-                                    ng-model="matchPoint.matchPointValue"
-                                    ng-show="(matchPoint.matchPointType == 'Location Level5' || matchPoint.matchPointType == 'Holdings Location Level5') && !matchPoint.isAddLine">
-                                <option ng-selected="{{option.locationCode == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in locationLevel5Values | orderBy:'locationCode'" value="{{option.locationCode}}">
-                                    {{option.locationCode}}
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine">
+                                <option ng-selected="{{option.value == matchPoint.matchPointValue}}"
+                                        ng-repeat="option in constantValues | orderBy:'value'"
+                                        value="{{option.value}}">
+                                    {{option.value}}
                                 </option>
                             </select>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointValue"></span>

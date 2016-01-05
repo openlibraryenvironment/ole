@@ -1,6 +1,8 @@
 package org.kuali.ole.oleng.service.impl;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.oleng.DropDownValueProvidersForBatchProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.SelectDAO;
@@ -68,6 +70,14 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     @Override
     public Map<String, String> fetchOrderImportFieldValues(String fieldName) {
         return selectDAO.fetchOrderImportFieldValues(fieldName);
+    }
+
+    @Override
+    public JSONArray fetchValues(String type) {
+        DropDownValueProvidersForBatchProfile dropDownValueProvidersForBatchProfile = new DropDownValueProvidersForBatchProfile();
+        dropDownValueProvidersForBatchProfile.setDescribeDAO(describeDAO);
+        dropDownValueProvidersForBatchProfile.setSelectDAO(selectDAO);
+        return dropDownValueProvidersForBatchProfile.populateDropDownValues(type);
     }
 
     @Override

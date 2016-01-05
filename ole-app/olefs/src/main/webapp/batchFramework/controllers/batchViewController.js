@@ -477,7 +477,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.constantsAndDefaultsPanel.splice(index, 1);
     };
 
-    $scope.setDefaultsMatchPoint = function (matchPoint) {
+    $scope.populateMatchPointTypes = function (matchPoint) {
         matchPoint.matchPointType = null;
         matchPoint.dataField = null;
         matchPoint.ind1 = null;
@@ -485,6 +485,15 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         matchPoint.subField = null;
         matchPoint.matchPointValue = null;
         matchPoint.destination = null;
+
+        if(matchPoint.matchPointDocType == 'Holdings') {
+            matchPoint.matchPointTypes = matchPointObject.matchPointTypeForHoldings;
+        } else if(matchPoint.matchPointDocType == 'Item') {
+            matchPoint.matchPointTypes = matchPointObject.matchPointTypeForItem;
+        }else if(matchPoint.matchPointDocType == 'EHoldings') {
+            matchPoint.matchPointTypes =  matchPointObject.matchPointTypeForEHoldings;
+        }
+
     };
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
@@ -505,8 +514,57 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationDestinationField = null;
     };
 
-    $scope.setDefaultsDestination = function (dataMapping) {
+    $scope.populateDestinationFields = function (dataMapping) {
+        if(dataMapping.dataMappingDocType == 'Bib Marc') {
+            if(dataMapping.destination == 'Holdings') {
+                dataMapping.destinationFields = dataMappingObject.destinationFieldsForBibMarcHoldings;
+            } else if(dataMapping.destination == 'Item') {
+                dataMapping.destinationFields = dataMappingObject.destinationFieldsForBibMarcItems;
+            }else if(dataMapping.destination == 'EHoldings') {
+                dataMapping.destinationFields =  dataMappingObject.destinationFieldsForHibMarcEHoldings
+            }
+        } else if(dataMapping.dataMappingDocType == 'Constant') {
+            if(dataMapping.destination == 'Bibliographic') {
+                dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsBib;
+            }else if(dataMapping.destination == 'Holdings') {
+                dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsHoldings;
+            } /*else if(dataMapping.destination == 'Item') {
+                dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsItems;
+            }*/else if(dataMapping.destination == 'EHoldings') {
+                dataMapping.destinationFields =  dataMappingObject.destinationFieldsForConstantsEHoldings;
+            }
+        }
+
+    };
+
+    $scope.populateDestinationFieldValues = function (dataObject, fieldType) {
+        $scope.constantValues = [];
+        if (dataObject.title == 'Constants And Defaults') {
+            dataObject.fieldValue = null;
+            dataObject.constantsAndDefault = 'Constant';
+            $scope.constantAndDefaultFieldValues = null;
+        } else if (dataObject.title == 'Data Mappings') {
+            $scope.dataMappingFieldValues = null;
+        }
+        if(fieldType === 'Staff Only') {
+            $scope.constantValues = booleanOptionsYorN;
+        }
+        getMaintenanceDataForFieldTypeForDropDown(dataObject.title, fieldType, $scope, $http);
+    };
+
+    $scope.populationDestinations = function (dataMapping) {
+        dataMapping.dataField = null;
+        dataMapping.ind1 = null;
+        dataMapping.ind2 = null;
+        dataMapping.subField = null;
+        dataMapping.destination = null;
         dataMapping.field = null;
+        dataMapping.constant = null;
+        if(dataMapping.dataMappingDocType == 'Bib Marc') {
+            dataMapping.destinations = dataMappingObject.destinationForBibMarc;
+        }else if(dataMapping.dataMappingDocType == 'Constant') {
+            dataMapping.destinations = dataMappingObject.destinationForConstant;
+        }
     };
 
     $scope.getMaintenanceValuesForFieldType = function (dataObject, fieldType) {

@@ -69,4 +69,10 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getOrderImportFieldValues(@RequestParam("fieldName") String fieldName) {
         return batchProfileRequestHandler.prepareOrderImportFieldValues(fieldName);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getValuesForDropDown", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getValuesForDropDown(@RequestParam("dropDownType") String dropDownType) {
+        return batchProfileRequestHandler.prepareValuesForDowndown(dropDownType);
+    }
 }
