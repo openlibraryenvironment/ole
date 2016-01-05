@@ -17,6 +17,9 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 /**
@@ -67,18 +70,21 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
     }
 
     private void deleteBatch(List<String> docBibIdList) throws Exception {
+        List<Future> futures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         List<String> tempBibIdList = new ArrayList<>();
         if(docBibIdList.size() > 300){
-            tempBibIdList.addAll(docBibIdList.subList(0,300));
-            getDocstoreClientLocator().getDocstoreClient().deleteBibs(tempBibIdList);
+            tempBibIdList.addAll(docBibIdList.subList(0, 300));
+            futures.add(executorService.submit(new BatchprocessDelete(tempBibIdList, getDocstoreClientLocator().getDocstoreClient())));
           }else{
-            getDocstoreClientLocator().getDocstoreClient().deleteBibs(docBibIdList);
+            futures.add(executorService.submit(new BatchprocessDelete(tempBibIdList, getDocstoreClientLocator().getDocstoreClient())));
             docBibIdList.clear();
         }
         docBibIdList.removeAll(tempBibIdList);
         if(docBibIdList.size() > 0){
             deleteBatch(docBibIdList);
         }
+        executorService.shutdown();
     }
 
     /**
