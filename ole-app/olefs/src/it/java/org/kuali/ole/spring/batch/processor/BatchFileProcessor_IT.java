@@ -187,7 +187,7 @@ public class BatchFileProcessor_IT {
         batchProfileDataTransformers.add(batchProfileDataTransformer1);
 
         BatchProfileDataTransformer batchProfileDataTransformer2 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer2.setOperation("prepend with prefix");
+        batchProfileDataTransformer2.setOperation("Prepend with Prefix");
         batchProfileDataTransformer2.setDestinationField("001");
         batchProfileDataTransformer2.setSourceField("003");
         batchProfileDataTransformer2.setStep(2);
