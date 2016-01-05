@@ -529,9 +529,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsBib;
             }else if(dataMapping.destination == 'Holdings') {
                 dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsHoldings;
-            } else if(dataMapping.destination == 'Item') {
+            } /*else if(dataMapping.destination == 'Item') {
                 dataMapping.destinationFields = dataMappingObject.destinationFieldsForConstantsItems;
-            }else if(dataMapping.destination == 'EHoldings') {
+            }*/else if(dataMapping.destination == 'EHoldings') {
                 dataMapping.destinationFields =  dataMappingObject.destinationFieldsForConstantsEHoldings;
             }
         }
@@ -546,6 +546,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.constantAndDefaultFieldValues = null;
         } else if (dataObject.title == 'Data Mappings') {
             $scope.dataMappingFieldValues = null;
+        }
+        if(fieldType === 'Staff Only') {
+            $scope.constantValues = booleanOptionsYorN;
         }
         getMaintenanceDataForFieldTypeForDropDown(dataObject.title, fieldType, $scope, $http);
     };

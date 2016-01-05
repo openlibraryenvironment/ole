@@ -39,7 +39,7 @@ var dataMappingObject = {
     destinationForConstant : [
         {id: 'bibliographic', name: 'Bibliographic'},
         {id: 'holdings', name: 'Holdings'},
-        {id: 'item', name: 'Item'},
+        //{id: 'item', name: 'Item'},
         {id: 'eHoldings', name: 'EHoldings'}
     ],
     destinationFieldsForBibMarcHoldings : [
@@ -420,6 +420,11 @@ var actionTypes = [
 var booleanOptions = [
     {id: 'true', value: 'True'},
     {id: 'false', value: 'False'}
+];
+
+var booleanOptionsYorN = [
+    {id: 'y', value: 'Y'},
+    {id: 'n', value: 'N'}
 ];
 
 var transferOptions = [
