@@ -6,8 +6,10 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleBibliographicRecordStatus;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.SelectDAO;
 
@@ -114,6 +116,44 @@ public class DropDownValueProvidersForBatchProfile {
         return jsonArray;
     }
 
+    public JSONArray prepareAccessLocation(){
+        List<AccessLocation> accessLocations = getDescribeDAO().fetchAccessLocations();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(accessLocations)) {
+                for (Iterator<AccessLocation> iterator = accessLocations.iterator(); iterator.hasNext(); ) {
+                    AccessLocation accessLocation = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id",accessLocation.getCode());
+                    jsonObject.put("value",accessLocation.getValue());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public JSONArray prepareStatisticalSearchCode(){
+        List<StatisticalSearchRecord> statisticalSearchRecords = getDescribeDAO().fetchStatisticalSearchCodes();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(statisticalSearchRecords)) {
+                for (Iterator<StatisticalSearchRecord> iterator = statisticalSearchRecords.iterator(); iterator.hasNext(); ) {
+                    StatisticalSearchRecord statisticalSearchRecord = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id",statisticalSearchRecord.getCode());
+                    jsonObject.put("value",statisticalSearchRecord.getName());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
     public Map<String, Method> getMethodMap() {
         if(null == methodMap) {
             try {
@@ -121,6 +161,8 @@ public class DropDownValueProvidersForBatchProfile {
                 methodMap.put("Authentication Type", this.getClass().getMethod("prepareAuthenticationType"));
                 methodMap.put("Bib Status", this.getClass().getMethod("prepareBibStatus"));
                 methodMap.put("Receipt Status", this.getClass().getMethod("prepareReceiptStatus"));
+                methodMap.put("Access Location", this.getClass().getMethod("prepareAccessLocation"));
+                methodMap.put("Statistical Code", this.getClass().getMethod("prepareStatisticalSearchCode"));
             } catch (SecurityException e) {
                 e.printStackTrace();
             } catch (NoSuchMethodException e) {

@@ -1,8 +1,10 @@
 package org.kuali.ole.oleng.dao;
 
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
@@ -25,6 +27,8 @@ public interface DescribeDAO {
     public List<OleGloballyProtectedField> fetchAllGloballyProtectedFields();
     public List<AuthenticationTypeRecord> fetchAuthenticationTypeRecords();
     public List<ReceiptStatusRecord> fetchReceiptStatusRecords();
+    public List<AccessLocation> fetchAccessLocations();
+    public List<StatisticalSearchRecord> fetchStatisticalSearchCodes();
     public void deleteProfileById(Long profileId);
     public <T extends PersistableBusinessObject> T save(T bo);
 

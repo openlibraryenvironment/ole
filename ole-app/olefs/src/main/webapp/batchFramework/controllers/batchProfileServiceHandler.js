@@ -127,11 +127,19 @@ getMaintenanceDataForFieldTypeForDropDown = function (title, fieldType, $scope, 
         $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
             $scope.constantValues = data;
         });
-    }else if (fieldType == 'Receipt Status') {
+    } else if (fieldType == 'Receipt Status') {
         $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
             $scope.constantValues = data;
         });
-    }else if (fieldType == 'Chart Code'
+    } else if (fieldType == 'Access Location') {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
+            $scope.constantValues = data;
+        });
+    } else if (fieldType == 'Statistical Code') {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {params: {"dropDownType": fieldType}}).success(function (data) {
+            $scope.constantValues = data;
+        });
+     }else if (fieldType == 'Chart Code'
         || fieldType == 'Org Code'
         || fieldType == 'Item Chart Code'
         || fieldType == 'Contract Manager'

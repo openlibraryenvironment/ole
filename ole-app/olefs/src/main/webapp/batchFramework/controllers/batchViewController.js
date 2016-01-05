@@ -515,7 +515,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.populateDestinationFields = function (dataMapping) {
-        dataMapping.field = null;
         if(dataMapping.dataMappingDocType == 'Bib Marc') {
             if(dataMapping.destination == 'Holdings') {
                 dataMapping.destinationFields = dataMappingObject.destinationFieldsForBibMarcHoldings;
@@ -554,7 +553,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.populationDestinations = function (dataMapping) {
+        dataMapping.dataField = null;
+        dataMapping.ind1 = null;
+        dataMapping.ind2 = null;
+        dataMapping.subField = null;
+        dataMapping.destination = null;
         dataMapping.field = null;
+        dataMapping.constant = null;
         if(dataMapping.dataMappingDocType == 'Bib Marc') {
             dataMapping.destinations = dataMappingObject.destinationForBibMarc;
         }else if(dataMapping.dataMappingDocType == 'Constant') {
