@@ -110,12 +110,21 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             };
             $scope.matchPointsPanel[index].isEdit = true;
             $scope.matchPointsPanel[index].matchPointDocTypes = documentTypes;
-            $scope.matchPointsPanel[index].holdingsMatchPoints = holdingsMatchPoints;
-            $scope.matchPointsPanel[index].itemMatchPoints = itemMatchPoints;
-            $scope.matchPointsPanel[index].eHoldingsMatchPoints = eHoldingsMatchPoints;
+            $scope.matchPointsPanel[index].matchPointTypes = getMatchPointType($scope.matchPointsPanel[index].matchPointDocType);
             $scope.matchPointsPanel[index].matchPointValue = null;
             $scope.matchPointsPanel[index].isAddLine = false;
         }
+    }
+
+    function getMatchPointType(type) {
+        if(type == 'Holdings') {
+            return matchPointObject.matchPointTypeForHoldings;
+        } else if(type == 'Item') {
+            return matchPointObject.matchPointTypeForItem;
+        }else if(type == 'EHoldings') {
+            return matchPointObject.matchPointTypeForEHoldings;
+        }
+        return "[]";
     }
 
     $scope.matchPointUpdateRow = function(index) {
@@ -316,7 +325,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             }
             $scope.dataMappingsPanel[index].isEdit = true;
             $scope.dataMappingsPanel[index].dataMappingDocTypes = transformationDocumentTypes;
-            $scope.dataMappingsPanel[index].destinations = destinationDocumentTypes;
+            $scope.dataMappingsPanel[index].destinations = populateDestinationForDataMappingToEdit($scope.dataMappingsPanel[index].dataMappingDocType);
             $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
             $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
             $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsDataMappings;
@@ -566,6 +575,15 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             dataMapping.destinations = dataMappingObject.destinationForConstant;
         }
     };
+
+    function populateDestinationForDataMappingToEdit(type) {
+        if(type == 'Bib Marc') {
+            return dataMappingObject.destinationForBibMarc;
+        }else if(type == 'Constant') {
+            return dataMappingObject.destinationForConstant;
+        }
+        return [];
+    }
 
     $scope.getMaintenanceValuesForFieldType = function (dataObject, fieldType) {
         if (dataObject.title == 'Constants And Defaults') {
