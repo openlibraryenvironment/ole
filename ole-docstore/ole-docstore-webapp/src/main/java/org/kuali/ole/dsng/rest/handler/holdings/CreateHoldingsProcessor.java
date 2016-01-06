@@ -40,21 +40,21 @@ public class CreateHoldingsProcessor {
 
     public void processHoldings(JSONObject requestJsonObject, Exchange exchange) {
         try {
-            String overlayOps = requestJsonObject.getString("overlayOps");
+            String ops = requestJsonObject.getString("ops");
             HoldingsRecord holdingsRecord = new HoldingsRecord();
             exchange.add("holdingsRecord", holdingsRecord);
 
-            createHoldingsOrEHoldigs(requestJsonObject,exchange, overlayOps);
+            createHoldingsOrEHoldigs(requestJsonObject,exchange, ops);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void createHoldingsOrEHoldigs(JSONObject requestJsonObject, Exchange exchange, String overlayOps) {
+    private void createHoldingsOrEHoldigs(JSONObject requestJsonObject, Exchange exchange, String ops) {
         for (Iterator<Handler> iterator = getHandlers().iterator(); iterator.hasNext(); ) {
             Handler handler = iterator.next();
-            if(handler.isInterested(overlayOps)) {
+            if(handler.isInterested(ops)) {
                 handler.setHoldingDAO(getHoldingDAO());
                 handler.setItemDAO(getItemDAO());
                 handler.setBusinessObjectService(getBusinessObjectService());

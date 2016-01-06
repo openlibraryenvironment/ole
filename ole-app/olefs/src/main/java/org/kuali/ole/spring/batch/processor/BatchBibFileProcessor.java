@@ -14,6 +14,7 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put("updatedBy", updatedUserName);
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
-        bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
+        bibData.put("ops", getOps(batchProcessProfile));
+        bibData.put("opsFilter", getOpsFilter(batchProcessProfile));
 
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
         prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
@@ -116,7 +118,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return bibData;
     }
 
-    public List getOverlayOps(BatchProcessProfile batchProcessProfile) {
+    public List getOps(BatchProcessProfile batchProcessProfile) {
         List addOverlayOps = new ArrayList();
 
         List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -132,6 +134,45 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             addOverlayOps.add(matchOptionInd + dataTypeInd + operationInd);
         }
         return addOverlayOps;
+    }
+
+
+    public JSONArray getOpsFilter(BatchProcessProfile batchProcessProfile) {
+        JSONArray jsonArray = new JSONArray();
+
+
+        Map<String, List<Map<String, String>>> map = new HashedMap();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+
+            String addOrOverlayField = batchProfileAddOrOverlay.getAddOrOverlayField();
+            String addOrOverlayFieldOperation = batchProfileAddOrOverlay.getAddOrOverlayFieldOperation();
+            String addOrOverlayFieldValue = batchProfileAddOrOverlay.getAddOrOverlayFieldValue();
+
+            if (StringUtils.isNotBlank(addOrOverlayField) && StringUtils.isNotBlank(addOrOverlayFieldOperation) && StringUtils.isNotBlank(addOrOverlayFieldValue)) {
+                String dataType = batchProfileAddOrOverlay.getDataType();
+                if(!map.containsKey(dataType)){
+                    map.put(dataType, new ArrayList());
+                }
+
+                List<Map<String, String>> filterMap = map.get(dataType);
+                HashMap opsFilterField = new HashMap();
+                opsFilterField.put("opsFilterField", addOrOverlayField);
+                filterMap.add(opsFilterField);
+                HashMap opsFilterFieldOperation = new HashMap();
+                opsFilterFieldOperation.put("opsFilterFieldOperation", addOrOverlayFieldOperation);
+                filterMap.add(opsFilterFieldOperation);
+                HashMap opsFilterFieldValue = new HashMap();
+                opsFilterFieldValue.put("opsFilterFieldValue", addOrOverlayFieldValue);
+                filterMap.add(opsFilterFieldValue);
+            }
+
+        }
+        jsonArray.put(map);
+
+        return jsonArray;
     }
 
     private JSONObject prepareMatchPointsForItem(BatchProcessProfile batchProcessProfile) throws JSONException {
@@ -297,4 +338,5 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
         this.matchPointProcessor = matchPointProcessor;
     }
+
 }
