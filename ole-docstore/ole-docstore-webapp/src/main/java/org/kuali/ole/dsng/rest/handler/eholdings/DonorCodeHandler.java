@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
@@ -42,8 +41,14 @@ public class DonorCodeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : need to get the information about the process.
-
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String donorCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
+        if(CollectionUtils.isNotEmpty(donorList)) {
+            for (Iterator<OLEHoldingsDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
+                OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
+                oleHoldingsDonorRecord.setDonorCode(donorCode);
+            }
+        }
     }
 }

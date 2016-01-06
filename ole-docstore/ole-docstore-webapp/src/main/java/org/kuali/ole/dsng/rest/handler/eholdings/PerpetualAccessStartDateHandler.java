@@ -3,12 +3,12 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,8 +41,22 @@ public class PerpetualAccessStartDateHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : Need to get the information about the process.
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String perpetualAccessStartDate = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        if(StringUtils.isNotBlank(perpetualAccessStartDate)) {
+            try {
+                Date parsedDate = DOCSTORE_DATE_FORMAT.parse(perpetualAccessStartDate);
+                List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+                if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                    for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                        EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
+                        eInstancePerpetualAccessRecord.setPerpetualAccessStartDate(perpetualAccessStartDate);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }

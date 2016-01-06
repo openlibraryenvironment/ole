@@ -40,8 +40,15 @@ public class CoverageEndVolumeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : Need to get the information about the process.
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String coverageEndVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
+        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+            for (Iterator<EInstanceCoverageRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
+                eInstanceCoverageRecord.setCoverageEndVolume(coverageEndVolume);
+            }
+        }
 
     }
 }

@@ -100,6 +100,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
         bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
+        prepareDataMappings(marcRecord, batchProcessProfile, bibData, "bibliographic");
 
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
         prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");

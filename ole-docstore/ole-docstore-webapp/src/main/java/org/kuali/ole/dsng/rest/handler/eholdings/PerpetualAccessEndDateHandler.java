@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,8 +41,21 @@ public class PerpetualAccessEndDateHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : Need to get the information about the process.
-
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String perpetualAccessEndDate = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        if(StringUtils.isNotBlank(perpetualAccessEndDate)) {
+            try {
+                Date parseedDate = DOCSTORE_DATE_FORMAT.parse(perpetualAccessEndDate);
+                List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+                if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                    for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                        EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
+                        eInstancePerpetualAccessRecord.setPerpetualAccessEndDate(perpetualAccessEndDate);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.util.StatisticalSearchCodeUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +25,8 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
         List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
         if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
             for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
@@ -38,8 +41,20 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
+        String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
 
-        //Todo : Need to get the information about the process.
+        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByName(statisticalSearchCode);
+        if (null != statisticalSearchRecord) {
+            List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
+            if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
+                for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
+                    ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
+                    itemStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                }
+            }
+        }
+        exchange.add("itemRecord", itemRecord);
 
     }
 }
