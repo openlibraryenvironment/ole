@@ -54,7 +54,8 @@
                             <select class="form-control" name="addOrOverlayField_{{$index}}"
                                     id="addOrOverlayField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOrOverlayField"
-                                    ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                    ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine"
+                                    ng-change="getMaintenanceValuesForFieldType(addOrOverlay, addOrOverlay.addOrOverlayField)">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayField}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayFields" value="{{option.name}}">
                                     {{option.name}}
@@ -90,9 +91,9 @@
                                     id="addOrOverlayFieldValueBibStatus_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOrOverlayFieldValue"
                                     ng-show="addOrOverlay.addOrOverlayField == 'Bib Status' && !addOrOverlay.isAddLine">
-                                <option ng-selected="{{option.name == addOrOverlay.addOrOverlayFieldValue}}"
-                                        ng-repeat="option in addOrOverlay.addOrOverlayFieldBibStatus" value="{{option.name}}">
-                                    {{option.name}}
+                                <option ng-selected="{{option.value == addOrOverlay.addOrOverlayFieldValue}}"
+                                        ng-repeat="option in bibStatuses" value="{{option.value}}">
+                                    {{option.value}}
                                 </option>
                             </select>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.addOrOverlayFieldValue"></span>

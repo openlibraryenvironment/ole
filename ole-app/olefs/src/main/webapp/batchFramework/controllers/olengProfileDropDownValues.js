@@ -478,13 +478,6 @@ var addOrOverlayFieldOperations = [
     {id: 'notEqualsTo', name: 'Not Equals To'}
 ];
 
-var addOrOverlayFieldBibStatus = [
-    {id: 'none', name: 'None'},
-    {id: 'cataloguing', name: 'Cataloguing'},
-    {id: 'catalogued', name: 'Catalogued'}
-];
-
-
 var bibDoNotMatchOperations = [
     {id: 'add', name: 'Add'},
     {id: 'discard', name: 'Discard'}
@@ -681,7 +674,6 @@ var addOrOverlay = {
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
     booleanOptions: booleanOptions,
-    addOrOverlayFieldBibStatus: addOrOverlayFieldBibStatus,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
