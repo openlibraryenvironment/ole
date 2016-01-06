@@ -128,32 +128,8 @@ public class RequisitionCreateDocumentServiceImpl implements RequisitionCreateDo
 
     public OleRequisitionDocument updateParamaterValue(OleRequisitionDocument requisitionDocument,List<PurchaseOrderType> purchaseOrderTypeDocumentList,OLEEResourceOrderRecord oleEResourceOrderRecord) {
 
-        if (purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equals(OLEConstants.ORD_TYPE_FIRM_FIX)) {
-            for (OleRequisitionItem oleRequisitionItem : (List<OleRequisitionItem>) requisitionDocument.getItems()) {
-                if (oleRequisitionItem.getItemTypeCode().equals(OLEConstants.ITEM)) {
-                    oleRequisitionItem.setItemLocation(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_FIRM_FIXD));
-                    oleRequisitionItem.setSingleCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
-                    oleRequisitionItem.setItemStatus(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_FIRM_FIXD));
-                }
-            }
-
-        } else if (purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equals(OLEConstants.APPROVAL)) {
-            for (OleRequisitionItem oleRequisitionItem : (List<OleRequisitionItem>) requisitionDocument.getItems()) {
-                if (oleRequisitionItem.getItemTypeCode().equals(OLEConstants.ITEM)) {
-                    oleRequisitionItem.setItemLocation(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_LOCATION_APPROVAL));
-                    oleRequisitionItem.setSingleCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
-                    oleRequisitionItem.setItemStatus(getOleRequisitionDocumentService().getParameter(OLEConstants.ITEM_STATUS_APPROVAL));
-                }
-            }
-        } else {
+        if(!purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equals(OLEConstants.APPROVAL) && !purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equals(OLEConstants.ORD_TYPE_FIRM_FIX)) {
             try {
-                for (OleRequisitionItem oleRequisitionItem : (List<OleRequisitionItem>) requisitionDocument.getItems()) {
-                    if (oleRequisitionItem.getItemTypeCode().equals(OLEConstants.ITEM)) {
-                        oleRequisitionItem.setSingleCopyNumber(getOleRequisitionDocumentService().getParameter(OLEConstants.COPY_NUMBER));
-                        oleRequisitionItem.setItemLocation(oleEResourceOrderRecord.getOleEResourceTxnRecord().getDefaultLocation());
-                        oleRequisitionItem.setItemStatus("");
-                    }
-                }
                 requisitionDocument.setRecurringPaymentTypeCode(getOleRequisitionDocumentService().getParameter(OLEConstants.RECURRING_PAY_TYP));
                 SimpleDateFormat format = new SimpleDateFormat(OLEConstants.DATE_FORM_PO_BEGN_DT);
                 java.util.Date utilDate = (java.util.Date) format.parse(OLEConstants.DATE_FORM_PO_END_DT);
@@ -162,9 +138,8 @@ public class RequisitionCreateDocumentServiceImpl implements RequisitionCreateDo
                 Date poCreateDate = new Date(date.getTime());
                 requisitionDocument.setPurchaseOrderBeginDate(poCreateDate);
                 requisitionDocument.setPurchaseOrderEndDate(poEndDate);
-
             } catch (Exception e) {
-                    LOG.error("Error Occured hwile setting the system parameter value to requisition document :"+e.getMessage());
+                LOG.error("Error Occured hwile setting the system parameter value to requisition document :" + e.getMessage());
             }
         }
         return requisitionDocument;
