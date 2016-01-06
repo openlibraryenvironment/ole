@@ -544,6 +544,12 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataTransformation.dataTransformationDestinationField = null;
     };
 
+    $scope.setDefaultsAddOrOverlay = function (addOrOverlay) {
+        addOrOverlay.addOrOverlayField = null;
+        addOrOverlay.addOrOverlayFieldOperation = null;
+        addOrOverlay.addOrOverlayFieldValue = null;
+    };
+
     $scope.populateDestinationFields = function (dataMapping) {
         if(dataMapping.dataMappingDocType == 'Bib Marc') {
             if(dataMapping.destination == 'Holdings') {
@@ -605,6 +611,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
         return [];
     }
+
+    $scope.populateAddOrOverlayValues = function (addOrOverlay) {
+        if (addOrOverlay.addOrOverlayField == 'Staff Only') {
+            $scope.constantValues = booleanOptions;
+        }
+        getMaintenanceDataForFieldTypeForDropDown(addOrOverlay.title, addOrOverlay.addOrOverlayField, $scope, $http);
+    };
 
     $scope.getMaintenanceValuesForFieldType = function (dataObject, fieldType) {
         if (dataObject.title == 'Constants And Defaults') {

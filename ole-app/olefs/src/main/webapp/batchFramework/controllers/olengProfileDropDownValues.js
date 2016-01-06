@@ -673,7 +673,6 @@ var addOrOverlay = {
     operations: operations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
-    booleanOptions: booleanOptions,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
