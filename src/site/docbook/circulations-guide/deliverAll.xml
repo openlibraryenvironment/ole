@@ -2406,7 +2406,9 @@
                                 <para> Request Level </para>
                                 <note>
                                     <para>Title Level requests are still in development for a future
-                                        release.</para>
+                                        release.  See <link
+                                            xlink:href="https://jira.kuali.org/browse/OLE-7804"
+                                            >OLE-7804</link>.</para>
                                 </note>
                             </listitem>
                             <listitem>
@@ -2417,7 +2419,9 @@
                                     if item is available on-shelf) </para>
                                 <note>
                                     <para>“Copy” and “Page” functionality is still in development
-                                        for a future release.</para>
+                                        for a future release.  See <link
+                                            xlink:href="https://jira.kuali.org/browse/OLE-7458"
+                                            >OLE-7458</link>.</para>
                                 </note>
                             </listitem>
                             <listitem>
@@ -4183,7 +4187,7 @@
                             country code is "US" and for the UK, it is "GB", and so on.</para>
                         <note>
                             <para>For a full list of country codes, see the Appendix of the <link
-                                    xlink:href="https://jira.kuali.org/secure/attachment/89291/Implementation%20Guide%20for%20Internationalization%20of%20OLE%20V%20%20%201.0.pdf"
+                                xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
                                     >Implementation Guide</link>.</para>
                         </note>
                     </listitem>
