@@ -354,10 +354,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].isEdit = true;
             $scope.dataMappingsPanel[index].dataMappingDocTypes = transformationDocumentTypes;
             $scope.dataMappingsPanel[index].destinations = populateDestinationForDataMappingToEdit($scope.dataMappingsPanel[index].dataMappingDocType);
-            $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
-            $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
-            $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsDataMappings;
-            $scope.dataMappingsPanel[index].dataMappingFields = dataMappingFields;
             $scope.dataMappingsPanel[index].discountTypes = discountTypes;
             $scope.dataMappingsPanel[index].transferOptions = transferOptions;
             $scope.dataMappingsPanel[index].isAddLine = false;

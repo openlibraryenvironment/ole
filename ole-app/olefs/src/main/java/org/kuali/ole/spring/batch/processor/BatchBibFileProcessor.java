@@ -91,30 +91,51 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
         }
 
-        //Transformations pertaining to Bib record (001,003,035$a etc..)
-        handleBatchProfileTransformations(marcRecord, batchProcessProfile);
-        String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
-        bibData.put("modifiedContent", modifiedRecord);
-
         bibData.put("updatedBy", updatedUserName);
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
         bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
-        prepareDataMappings(marcRecord, batchProcessProfile, bibData, "bibliographic");
+        JSONObject bibDataMapping = new JSONObject();
+        JSONObject holdingsDataMapping = new JSONObject();
+        JSONObject eholdingsDatamapping = new JSONObject();
+        JSONObject itemDatamapping = new JSONObject();
+
+        // Prepare data mapping before MARC Transformation
+        prepareDataMapping(marcRecord, batchProcessProfile, bibDataMapping, holdingsDataMapping, eholdingsDatamapping, itemDatamapping, "Pre Marc Transformation");
+
+        //Transformations pertaining to MARC record (001,003,035$a etc..)
+        handleBatchProfileTransformations(marcRecord, batchProcessProfile);
+        String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
+        bibData.put("modifiedContent", modifiedRecord);
+
+        // Prepare data mapping after MARC Transformation
+        prepareDataMapping(marcRecord, batchProcessProfile, bibDataMapping, holdingsDataMapping, eholdingsDatamapping, itemDatamapping, "Post Marc Transformation");
+
+
+        bibData.put("dataMapping", bibDataMapping);
 
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
-        prepareDataMappings(marcRecord, batchProcessProfile, holdingsData, "holdings");
+        holdingsData.put("dataMapping", holdingsDataMapping);
         bibData.put("holdings", holdingsData);
 
         JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
-        prepareDataMappings(marcRecord, batchProcessProfile, eholdingsData, "eholdings");
+        eholdingsData.put("dataMapping", eholdingsDatamapping);
         bibData.put("eholdings", eholdingsData);
 
         JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
-        prepareDataMappings(marcRecord, batchProcessProfile, itemData, "item");
+        itemData.put("dataMapping", itemDatamapping);
         bibData.put("items", itemData);
 
         return bibData;
+    }
+
+    private void prepareDataMapping(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject bibDataMapping,
+                                    JSONObject holdingsDataMapping, JSONObject eholdingsDatamapping,
+                                    JSONObject itemDatamapping, String transformationOption) throws JSONException {
+        prepareDataMappings(marcRecord, batchProcessProfile, bibDataMapping, "bibliographic", transformationOption);
+        prepareDataMappings(marcRecord, batchProcessProfile, holdingsDataMapping, "holdings", transformationOption);
+        prepareDataMappings(marcRecord, batchProcessProfile, eholdingsDatamapping, "eholdings", transformationOption);
+        prepareDataMappings(marcRecord, batchProcessProfile, itemDatamapping, "item", transformationOption);
     }
 
     public List getOverlayOps(BatchProcessProfile batchProcessProfile) {
@@ -164,15 +185,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return holdingsData;
     }
 
-    private void prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject jsonObject, String docType) throws JSONException {
-
-        JSONObject dataMappings = new JSONObject();
+    private void prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject dataMappings, String docType, String transformationOption) throws JSONException {
 
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
         for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
             BatchProfileDataMapping batchProfileDataMapping = iterator.next();
             String destination = batchProfileDataMapping.getDestination();
-            if(destination.equalsIgnoreCase(docType)){
+            String option = batchProfileDataMapping.getTransferOption();
+            if(destination.equalsIgnoreCase(docType) && option.equalsIgnoreCase(transformationOption)){
                 String newValue;
                 String destinationField = batchProfileDataMapping.getField();
                 String value = getDestFieldValue(marcRecord, batchProfileDataMapping);
@@ -185,8 +205,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 dataMappings.put(destinationField, newValue);
             }
         }
-
-        jsonObject.put("dataMapping", dataMappings);
     }
 
     private String getDestFieldValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
