@@ -105,7 +105,7 @@ function clear(){
     return false;
 }
 
-function openSelectAll(doctype) {
+function openSelectAllCallNumberBrowse(doctype) {
     var checkedcount = 0;
     if (doctype == 'holdings') {
         var length = jq("#CallNumber-BrowseResults-Holdings table tbody tr").length;
