@@ -84,7 +84,7 @@
                                     ng-model="addOrOverlay.addOrOverlayFieldValue"
                                     ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.value == addOrOverlay.addOrOverlayFieldValue}}"
-                                        ng-repeat="option in constantValues" value="{{option.value}}">
+                                        ng-repeat="option in constantValues | orderBy:'value'" value="{{option.value}}">
                                     {{option.value}}
                                 </option>
                             </select>
