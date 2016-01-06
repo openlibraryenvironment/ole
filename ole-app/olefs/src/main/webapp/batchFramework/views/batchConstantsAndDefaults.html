@@ -25,11 +25,11 @@
                     <tbody>
                     <tr ng-repeat="constantsAndDefault in constantsAndDefaultsPanel">
                         <td>
-                            <select class="form-control" name="constantsAndDefaultField_{{$index}}" id="constantsAndDefaultField_{{$index}}"
+                            <select class="form-control" name="constantsAndDefaultOrderFields_{{$index}}" id="constantsAndDefaultOrderFields_{{$index}}" style="height: 30px; width: 400px;"
                                     ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(constantsAndDefault, constantsAndDefault.fieldName)">
+                                    ng-change="populateDestinationFieldValues(constantsAndDefault, constantsAndDefault.fieldName)">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
-                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsOrderFields  | orderBy:'name'"
+                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
                                 </option>
                             </select>
@@ -59,9 +59,9 @@
                                     id="constantsAndDefaultItemStatus_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
-                                <option ng-selected="{{option.itemStatusName == constantsAndDefault.fieldValue}}"
-                                        ng-repeat="option in itemStatusValues | orderBy:'itemStatusName'"
-                                        value="{{option.itemStatusName}}">{{option.itemStatusName}}
+                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in constantValues | orderBy:'value'"
+                                        value="{{option.value}}">{{option.value}}
                                 </option>
                             </select>
                             <select class="form-control" name="constantsAndDefaultFieldValues_{{$index}}"
@@ -89,7 +89,8 @@
                                             || constantsAndDefault.fieldName == 'Assign To User'
                                             || constantsAndDefault.fieldName == 'Method Of PO Transmission'
                                             || constantsAndDefault.fieldName == 'Recurring Payment Type'
-                                            || constantsAndDefault.fieldName == 'Fund Code') && !constantsAndDefault.isAddLine">
+                                            || constantsAndDefault.fieldName == 'Fund Code'
+                                            || constantsAndDefault.fieldName == 'Currency Type') && !constantsAndDefault.isAddLine">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
                                         ng-repeat="option in constantAndDefaultFieldValues  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
@@ -127,7 +128,8 @@
                                             || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req'
                                             || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator'
                                             || constantsAndDefault.fieldName == 'Route To Requestor'
-                                            || constantsAndDefault.fieldName == 'Fund Code' || constantsAndDefault.isAddLine"/>
+                                            || constantsAndDefault.fieldName == 'Fund Code'
+                                            || constantsAndDefault.fieldName == 'Currency Type' || constantsAndDefault.isAddLine"/>
                             <span ng-show="constantsAndDefault.isAddLine"
                                   ng-bind="constantsAndDefault.fieldValue"></span>
                         </td>

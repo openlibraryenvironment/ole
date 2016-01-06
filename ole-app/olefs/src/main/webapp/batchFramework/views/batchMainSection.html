@@ -38,22 +38,22 @@
                                     ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
                                     style="width: 170px">
                                 <option ng-selected="{{option.name == mainSectionPanel.batchProcessType}}"
-                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues"
+                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
                         </td>
-                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
                             <span class="col-sm-4">Bib Import Profile:</span>
                             <select class="form-control" id="bibImportProfile" name="bibImportProfile"
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
                                     style="width: 170px">
-                                <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
-                                        ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"
-                                        value="{{option.profileName}}">
-                                    {{option.profileName}}
+                                <option ng-selected="{{option.value == mainSectionPanel.bibImportProfileForOrderImport}}"
+                                        ng-repeat="option in bibImportProfileNames  | orderBy:'value'"
+                                        value="{{option.value}}">
+                                    {{option.value}}
                                 </option>
                             </select>
                         </td>

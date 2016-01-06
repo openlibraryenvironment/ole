@@ -40,5 +40,6 @@ public interface SelectDAO {
     public List<PurchaseOrderTransmissionMethod> fetchAllPurchaseOrderTransmissionMethod();
     public List<RecurringPaymentType> fetchAllRecurringPaymentType();
     public List<OleFundCode> fetchAllFundCode();
+    public List<OleCurrencyType> fetchAllCurrencyType();
 
 }

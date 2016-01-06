@@ -16,6 +16,12 @@ public class BatchProfileAddOrOverlay {
     private String operation;
     private String bibStatus;
     private String addOperation;
+    @JsonProperty("addOrOverlayField")
+    private String field;
+    @JsonProperty("addOrOverlayFieldOperation")
+    private String fieldOperation;
+    @JsonProperty("addOrOverlayFieldValue")
+    private String fieldValue;
     private boolean addItems;
 
     public String getMatchOption() {
@@ -56,6 +62,30 @@ public class BatchProfileAddOrOverlay {
 
     public void setAddOperation(String addOperation) {
         this.addOperation = addOperation;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getFieldOperation() {
+        return fieldOperation;
+    }
+
+    public void setFieldOperation(String fieldOperation) {
+        this.fieldOperation = fieldOperation;
+    }
+
+    public String getFieldValue() {
+        return fieldValue;
+    }
+
+    public void setFieldValue(String fieldValue) {
+        this.fieldValue = fieldValue;
     }
 
     public boolean isAddItems() {

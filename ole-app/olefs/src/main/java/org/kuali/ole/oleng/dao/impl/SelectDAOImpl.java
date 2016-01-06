@@ -149,6 +149,11 @@ public class SelectDAOImpl implements SelectDAO {
         return (List<OleFundCode>) getBusinessObjectService().findAll(OleFundCode.class);
     }
 
+    @Override
+    public List<OleCurrencyType> fetchAllCurrencyType() {
+        return (List<OleCurrencyType>) KRADServiceLocator.getBusinessObjectService().findAll(OleCurrencyType.class);
+    }
+
     public BusinessObjectService getBusinessObjectService() {
         if(null == businessObjectService){
             businessObjectService = KRADServiceLocator.getBusinessObjectService();

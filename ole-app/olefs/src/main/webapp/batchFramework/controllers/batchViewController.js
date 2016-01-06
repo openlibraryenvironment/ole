@@ -42,33 +42,43 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[0].priority = 1;
             $scope.constantsAndDefaultsPanel = [];
         } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
-            $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
-            if ($scope.bibImportProfileNames == undefined) {
-                $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
-                    $scope.bibImportProfileNames = data;
-                });
-            }
+            clearValues();
+            $scope.constantsAndDefaultsPanel[0].constantsAndDefaultsFields = constantsAndDefaultsOrderFields;
+            $scope.dataMappingsPanel[0].dataMappingFields = dataMappingOrderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
-            $scope.constantsAndDefaultsPanel = [constantAndDefault];
-            $scope.dataMappingsPanel = [dataMapping];
-            $scope.matchPointsPanel = [];
-            $scope.addOrOverlayPanel = [];
-            $scope.fieldOperationsPanel = [];
-            $scope.dataTransformationsPanel = [];
-            $scope.constantsAndDefaultsActivePanel = [];
-            $scope.dataMappingsActivePanel = [];
-            $scope.constantsAndDefaultsPanel[0].fieldName = null;
-            $scope.constantsAndDefaultsPanel[0].fieldValue = null;
-            $scope.dataMappingsPanel[0].dataMappingDocType = null;
-            $scope.dataMappingsPanel[0].dataField = null;
-            $scope.dataMappingsPanel[0].ind1 = null;
-            $scope.dataMappingsPanel[0].ind2 = null;
-            $scope.dataMappingsPanel[0].subField = null;
-            $scope.dataMappingsPanel[0].constant = null;
-            $scope.dataMappingsPanel[0].destination = null;
-            $scope.dataMappingsPanel[0].field = null;
-            $scope.dataMappingsPanel[0].priority = 1;
+        } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
+            clearValues();
+            $scope.constantsAndDefaultsPanel[0].constantsAndDefaultsFields = invoiceFields;
+            $scope.dataMappingsPanel[0].dataMappingFields = invoiceFields;
         }
+    };
+
+    clearValues = function() {
+        $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
+        if ($scope.bibImportProfileNames == undefined) {
+            $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
+                $scope.bibImportProfileNames = data;
+            });
+        }
+        $scope.constantsAndDefaultsPanel = [constantAndDefault];
+        $scope.dataMappingsPanel = [dataMapping];
+        $scope.matchPointsPanel = [];
+        $scope.addOrOverlayPanel = [];
+        $scope.fieldOperationsPanel = [];
+        $scope.dataTransformationsPanel = [];
+        $scope.constantsAndDefaultsActivePanel = [];
+        $scope.dataMappingsActivePanel = [];
+        $scope.constantsAndDefaultsPanel[0].fieldName = null;
+        $scope.constantsAndDefaultsPanel[0].fieldValue = null;
+        $scope.dataMappingsPanel[0].dataMappingDocType = null;
+        $scope.dataMappingsPanel[0].dataField = null;
+        $scope.dataMappingsPanel[0].ind1 = null;
+        $scope.dataMappingsPanel[0].ind2 = null;
+        $scope.dataMappingsPanel[0].subField = null;
+        $scope.dataMappingsPanel[0].constant = null;
+        $scope.dataMappingsPanel[0].destination = null;
+        $scope.dataMappingsPanel[0].field = null;
+        $scope.dataMappingsPanel[0].priority = 1;
     };
 
     $scope.matchPointAdd = function () {
@@ -347,7 +357,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].holdingsFields = holdingsMatchPoints;
             $scope.dataMappingsPanel[index].itemFields = itemMatchPoints;
             $scope.dataMappingsPanel[index].eHoldingsFields = eHoldingsDataMappings;
-            $scope.dataMappingsPanel[index].dataMappingOrderFields = dataMappingOrderFields;
+            $scope.dataMappingsPanel[index].dataMappingFields = dataMappingFields;
             $scope.dataMappingsPanel[index].discountTypes = discountTypes;
             $scope.dataMappingsPanel[index].transferOptions = transferOptions;
             $scope.dataMappingsPanel[index].isAddLine = false;
@@ -472,7 +482,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 isAddLine: true
             };
             $scope.constantsAndDefaultsPanel[index].isEdit = true;
-            $scope.constantsAndDefaultsPanel[index].constantsAndDefaultsOrderFields = constantsAndDefaultsOrderFields;
+            $scope.constantsAndDefaultsPanel[index].constantsAndDefaultsFields = constantsAndDefaultsFields;
             $scope.constantsAndDefaultsPanel[index].constantOrDefaultTypes = constantOrDefaultTypes;
             $scope.constantsAndDefaultsPanel[index].booleanOptions = booleanOptions;
             $scope.constantsAndDefaultsPanel[index].discountTypes = discountTypes;
@@ -557,7 +567,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             } else if(dataMapping.destination == 'Item') {
                 dataMapping.destinationFields = dataMappingObject.destinationFieldsForBibMarcItems;
             }else if(dataMapping.destination == 'EHoldings') {
-                dataMapping.destinationFields =  dataMappingObject.destinationFieldsForHibMarcEHoldings
+                dataMapping.destinationFields =  dataMappingObject.destinationFieldsForBibMarcEHoldings
             }
         } else if(dataMapping.dataMappingDocType == 'Constant') {
             if(dataMapping.destination == 'Bibliographic') {
@@ -614,7 +624,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.populateAddOrOverlayValues = function (addOrOverlay) {
         if (addOrOverlay.addOrOverlayField == 'Staff Only') {
-            $scope.constantValues = booleanOptions;
+            $scope.constantValues = booleanOptionsYorN;
         }
         getMaintenanceDataForFieldTypeForDropDown(addOrOverlay.title, addOrOverlay.addOrOverlayField, $scope, $http);
     };
@@ -685,7 +695,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
                     addEmptyValueToAddNew(data.batchProcessType);
 
-                    if (data.batchProcessType == 'Order Record Import' && $scope.bibImportProfileNames == undefined) {
+                    if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import') && $scope.bibImportProfileNames == undefined) {
                         $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
                             $scope.bibImportProfileNames = data;
                         });
@@ -704,7 +714,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel.splice(0, 1);
         $scope.dataMappingsPanel.splice(0, 1);
         $scope.dataTransformationsPanel.splice(0, 1);
-        if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+        if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import' || $scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.constantsAndDefaultsPanel.splice(0, 1);
         }
     };
@@ -713,10 +723,15 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.matchPointsPanel.unshift(matchPoint);
         $scope.addOrOverlayPanel.unshift(addOrOverlay);
         $scope.fieldOperationsPanel.unshift(fieldOperation);
-        $scope.dataMappingsPanel.unshift(dataMapping);
         $scope.dataTransformationsPanel.unshift(dataTransformation);
-        if (batchProcessType == 'Order Record Import') {
-            $scope.constantsAndDefaultsPanel.unshift(constantAndDefault);
+        if (batchProcessType == 'Bib Import') {
+            $scope.dataMappingsPanel.unshift(dataMapping);
+        } else if (batchProcessType == 'Order Record Import') {
+            $scope.constantsAndDefaultsPanel.unshift(constantAndDefaultOrder);
+            $scope.dataMappingsPanel.unshift(dataMappingOrder);
+        } else if (batchProcessType == 'Invoice Import') {
+            $scope.constantsAndDefaultsPanel.unshift(constantAndDefaultInvoice);
+            $scope.dataMappingsPanel.unshift(dataMappingInvoice);
         }
     };
 
