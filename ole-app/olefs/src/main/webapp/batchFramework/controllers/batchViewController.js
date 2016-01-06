@@ -183,6 +183,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
         $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'Bibliographic';
         $scope.addOrOverlayPanel[0].operation = 'Add';
+        $scope.addOrOverlayPanel[0].addOrOverlayField = null;
+        $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation = null;
+        $scope.addOrOverlayPanel[0].addOrOverlayFieldValue = null;
 
     };
     $scope.addOrOverlayEditRow = function(index) {
