@@ -637,6 +637,7 @@ var dataMappingOrderFields = [
     {id: 'RecurringPaymentBeginDate', name: 'Recurring Payment Begin Date'},
     {id: 'RecurringPaymentEndDate', name: 'Recurring Payment End Date'},
     {id: 'RecurringPaymentType', name: 'Recurring Payment Type'},
+    {id: 'requestSourceType', name: 'Request Source'},
     {id: 'requestorName', name: 'Requestor Name'},
     {id: 'Requestor Note', name: 'Requestor Note'},
     {id: 'routeToRequestor', name: 'Route To Requestor'},

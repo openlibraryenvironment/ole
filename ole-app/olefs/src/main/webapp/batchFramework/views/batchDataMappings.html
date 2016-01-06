@@ -15,7 +15,7 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Source</th>
+                        <th>Source</th>
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
-                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                        <td>
                             <select class="form-control" name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
                                     ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine"
                                     ng-change="populationDestinations(dataMapping)">
@@ -89,7 +89,7 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 400px;"
+                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 350px;"
                                     name="dataMappingOrderField_{{$index}}"
                                     ng-model="dataMapping.field"
                                     ng-show="(mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import') && !dataMapping.isAddLine"
