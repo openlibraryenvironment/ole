@@ -54,8 +54,8 @@ public class BatchProfileUtilController extends OleNgControllerBase {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getProfileNames", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
-    public String getProfileNames() {
-        return batchProfileRequestHandler.prepareProfileNames();
+    public String getProfileNames(@RequestParam("batchType") String batchType) {
+        return batchProfileRequestHandler.prepareProfileNames(batchType);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getGloballyProtectedFields", produces = {MediaType.APPLICATION_JSON})

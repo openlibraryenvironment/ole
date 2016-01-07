@@ -123,6 +123,9 @@ public class OleTxRecord {
 
     private String defaultLocation;
 
+    private String itemPriceSource;
+    private String singleCopyNumber;
+
     private List<String> oleDonors;
     private String requestorName;
     private String itemStatus;
@@ -1063,5 +1066,21 @@ public class OleTxRecord {
 
     public void setVendorAliasName(String vendorAliasName) {
         this.vendorAliasName = vendorAliasName;
+    }
+
+    public String getItemPriceSource() {
+        return itemPriceSource;
+    }
+
+    public void setItemPriceSource(String itemPriceSource) {
+        this.itemPriceSource = itemPriceSource;
+    }
+
+    public String getSingleCopyNumber() {
+        return singleCopyNumber;
+    }
+
+    public void setSingleCopyNumber(String singleCopyNumber) {
+        this.singleCopyNumber = singleCopyNumber;
     }
 }

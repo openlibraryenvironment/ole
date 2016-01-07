@@ -28,7 +28,7 @@
 
     <br/>
     <strong>OLE NG Batch</strong><br/><br/>
-    <portal:portalLink displayTitle="true" title="Batch Process" url="${ConfigProperties.application.url}/upload.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process" url="${ConfigProperties.application.url}/batchProcess.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile" url="${ConfigProperties.application.url}/batchProcessProfile.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile Search" url="${ConfigProperties.application.url}/oleng/view/batchProfileSearch.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile Import" url="${ConfigProperties.application.url}/oleng/view/batchProfileImport.html"/><br/>

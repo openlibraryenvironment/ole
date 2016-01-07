@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.handler;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.*;
@@ -156,17 +157,19 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return jsonArray.toString();
     }
 
-    public String prepareProfileNames(){
+    public String prepareProfileNames(String batchType){
         List<BatchProcessProfile> allProfiles = batchProfileService.getAllProfiles();
         JSONArray jsonArray = new JSONArray();
         try {
             if(CollectionUtils.isNotEmpty(allProfiles)) {
                 for (Iterator<BatchProcessProfile> iterator = allProfiles.iterator(); iterator.hasNext(); ) {
                     BatchProcessProfile batchProcessProfile = iterator.next();
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
-                    jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
-                    jsonArray.put(jsonObject);
+                    if(StringUtils.equals(batchProcessProfile.getBatchProcessType(), batchType)){
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
+                        jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                        jsonArray.put(jsonObject);
+                    }
                 }
             }
         } catch (Exception e) {

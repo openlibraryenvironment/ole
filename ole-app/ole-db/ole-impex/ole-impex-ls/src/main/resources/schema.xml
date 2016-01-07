@@ -3499,6 +3499,7 @@
     <table name="OLE_NG_BAT_PRF_T">
         <column name="PRF_ID" primaryKey="true" size="10" type="INTEGER"/>
         <column name="PRF_NM" size="40" type="VARCHAR"/>
+        <column name="PRF_TYP" size="40" type="VARCHAR"/>
         <column name="CONTENT" type="BLOB"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>

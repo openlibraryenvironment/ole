@@ -33,7 +33,8 @@ public class OleNGOrderController extends OleNgControllerBase {
     @RequestMapping(method = RequestMethod.POST, value = "/order/createOrder", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createOrder(@RequestBody String requestBody) throws Exception {
-        return orderRequestHandler.processOrder(requestBody);
+        OleOrderRecord oleOrderRecord = getObjectMapper().readValue(requestBody, OleOrderRecord.class);
+        return orderRequestHandler.processOrder(oleOrderRecord);
     }
 
 }

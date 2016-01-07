@@ -20,11 +20,8 @@ public class OrderRequestHandler extends OleNgUtil{
     @Autowired
     private RequisitionService requisitionService;
 
-    public String processOrder(String requestBody) throws Exception {
-
+    public String processOrder(OleOrderRecord oleOrderRecord) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-
-        OleOrderRecord oleOrderRecord = getObjectMapper().readValue(requestBody, OleOrderRecord.class);
         OleRequisitionDocument requisitionDocument = requisitionService.createPurchaseOrderDocument(oleOrderRecord);
         JSONObject jsonObject = new JSONObject();
         if(null != requisitionDocument.getPurapDocumentIdentifier()) {

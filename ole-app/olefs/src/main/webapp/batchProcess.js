@@ -17,10 +17,11 @@ batchProcessAPP.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 batchProcessAPP.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function($scope,file, profileName,uploadUrl){
+    this.uploadFileToUrl = function($scope,file, profileName,batchType, uploadUrl){
         var fd = new FormData();
         fd.append('file', file);
         fd.append('profileName', profileName);
+        fd.append('batchType', batchType);
         $scope.batchProcessStatus = "Batch process job initiated....";
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
@@ -43,20 +44,28 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
 
 batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$http', function($scope, fileUpload,$http){
 
+    $scope.batchProcessTypes = [
+        {id: 'orderRecordImport', value: 'Order Record Import'},
+        {id: 'invoiceImport', value: 'Invoice Import'},
+        {id: 'bibImport', value: 'Bib Import'}
+    ];
+
     $scope.profileNames = [];
     var url = "ole-kr-krad/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
         var profileName = $scope.profileName;
+        var batchType = $scope.batchType;
         console.log('file is ' );
         console.log('Profile Name is '  + profileName);
         console.dir(file);
-        fileUpload.uploadFileToUrl($scope,file,profileName, url);
+        fileUpload.uploadFileToUrl($scope,file,profileName,batchType, url);
     };
-    $scope.init = function () {
-        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function(data) {
+
+    $scope.populationProfileNames = function() {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchType}}).success(function(data) {
             $scope.profileNames = data;
         });
-    };
+    }
 
 }]);
