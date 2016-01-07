@@ -897,7 +897,11 @@ public class OLESearchController extends UifControllerBase {
       if( oleSearchForm.getSearchResponse() !=null){
           this.totalRecCount = oleSearchForm.getSearchResponse().getTotalRecordCount();
           this.start = oleSearchForm.getSearchResponse().getStartIndex();
+      }else{
+          this.totalRecCount = 0;
+          this.start = 0;
       }
+
         this.pageSize = oleSearchForm.getPageSize();
         oleSearchForm.setPreviousFlag(getPreviousFlag());
         oleSearchForm.setNextFlag(getNextFlag());
