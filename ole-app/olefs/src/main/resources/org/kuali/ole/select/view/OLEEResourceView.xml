@@ -55,6 +55,7 @@
         <list>
            <!-- <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPopUp"/>-->
             <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp"/>
+           <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
             <!--<ref bean="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp"/>-->
             <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis"/>
             <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>

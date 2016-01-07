@@ -351,6 +351,15 @@ function closeFancyBox(){
     parent.jq.fancybox.close();
 }
 
+
+
+    function copyToClipBoard(element) {
+        jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").select();
+        document.execCommand("copy");
+        jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").append("<span> message copied</span>");
+    }
+
+
 function showTippPopup(packageName,packageId){
     jq("#OLEEResourceRecordView-PackageId_control").val(packageId);
     jq("#OLEEResourceRecordView-Package_control").val(packageName);
@@ -574,4 +583,25 @@ function setRecipientSelectorValue() {
         jq("#renewal_recipientGroupId_control").val("");
         jq("#renewal_recipientGroupName").hide();
     }
+}
+
+
+function populateEmailText(){
+   var emailText =  jq("#mailText_control").val();
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").val(emailText);
+}
+
+
+function clearPriceIncreaseAnalysisTab(){
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-FiscalYearCost_control").val("");
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-YearPriceQuote_control").val("");
+}
+function clearPriceIncreaseAnalysisInfoTab(){
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-CostIncrease_control").val("");
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-percentageIncrease_control").val("");
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").val("");
+}
+
+function closePriceIncreaseWidget(){
+    jq('.fancybox-close').click();
 }
