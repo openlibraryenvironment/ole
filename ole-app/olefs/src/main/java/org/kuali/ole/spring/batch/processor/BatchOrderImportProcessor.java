@@ -12,6 +12,7 @@ import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,5 +90,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
     public void setOleOrderImportService(OrderImportService oleOrderImportService) {
         this.oleOrderImportService = oleOrderImportService;
+    }
+
+    @Override
+    public String getReportingFilePath() {
+        return ConfigContext.getCurrentContextConfig().getProperty("batch.orderRecord.directory");
     }
 }

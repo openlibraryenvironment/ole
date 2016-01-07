@@ -107,6 +107,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
                 solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
 
+                JSONObject report = prepareReport(exchange);
+
+                responseJsonArray.put(report);
+
                 exchange.remove("holdingRecordsToCreate");
                 exchange.remove("holdingRecordsToUpdate");
                 exchange.remove("itemRecordsToCreate");
@@ -196,5 +200,77 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    private JSONObject prepareReport(Exchange exchange) {
+        JSONObject jsonObject = new JSONObject();
+        StringBuilder createdBib = new StringBuilder();
+        StringBuilder updatedBib = new StringBuilder();
+        StringBuilder createdHoldings = new StringBuilder();
+        StringBuilder updatedHoldings = new StringBuilder();
+        StringBuilder createdItem = new StringBuilder();
+        StringBuilder updatedItem = new StringBuilder();
+        try {
+            List bibCrated = (List) exchange.get("bibCrated");
+            if(CollectionUtils.isNotEmpty(bibCrated)) {
+                for (Iterator iterator = bibCrated.iterator(); iterator.hasNext(); ) {
+                    BibRecord bibRecord = (BibRecord) iterator.next();
+                    appendToStringBuilder(createdBib,bibRecord.getBibId());
+                }
+            }
+            List bibUpdated = (List) exchange.get("bibUpdated");
+            if(CollectionUtils.isNotEmpty(bibUpdated)) {
+                for (Iterator iterator = bibUpdated.iterator(); iterator.hasNext(); ) {
+                    BibRecord bibRecord = (BibRecord) iterator.next();
+                    appendToStringBuilder(updatedBib,bibRecord.getBibId());
+                }
+            }
+            List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
+            if(CollectionUtils.isNotEmpty(holdingRecordsToCreate)) {
+                for (Iterator iterator = holdingRecordsToCreate.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
+                    appendToStringBuilder(createdHoldings,holdingsRecord.getHoldingsId());
+                }
+            }
+            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
+            if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)) {
+                for (Iterator iterator = holdingRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
+                    appendToStringBuilder(updatedHoldings,holdingsRecord.getHoldingsId());
+                }
+            }
+            List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
+            if(CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
+                for (Iterator iterator = itemRecordsToCreate.iterator(); iterator.hasNext(); ) {
+                    ItemRecord itemRecord = (ItemRecord) iterator.next();
+                    appendToStringBuilder(createdItem,itemRecord.getItemId());
+                }
+            }
+            List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
+            if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
+                for (Iterator iterator = itemRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                    ItemRecord itemRecord = (ItemRecord) iterator.next();
+                    appendToStringBuilder(updatedItem,itemRecord.getItemId());
+                }
+            }
+            jsonObject.put("bibCreated",createdBib.toString());
+            jsonObject.put("bibUpdated",updatedBib.toString());
+            jsonObject.put("holdingsCreated",createdHoldings.toString());
+            jsonObject.put("holdingsUpdated",updatedHoldings.toString());
+            jsonObject.put("itemCreated",createdItem.toString());
+            jsonObject.put("itemUpdated",updatedItem.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
+    }
+
+    private void appendToStringBuilder(StringBuilder stringBuilder, String value) {
+        if (stringBuilder.length() > 0) {
+            stringBuilder.append(",").append(value);
+        } else {
+            stringBuilder.append(value);
+        }
     }
 }
