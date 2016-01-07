@@ -168,7 +168,7 @@
                             </inlinemediaobject></para>
                         <para role="Normal">OLE will refresh the screen and redisplay the record. <note>
                                 <para>Upon Submit, you will receive the message "Failed to save
-                                    record". This is a bug in OLE 1.6. If you search for the record
+                                    record". This is a bug in OLE 2.0. If you search for the record
                                     from the search workbench, you will see that the record has been
                                     created. This bug is scheduled to be fixed. See <link
                                         xlink:href="https://jira.kuali.org/browse/OLE-6325"
@@ -498,7 +498,7 @@
                                         </itemizedlist>
                                     </listitem>
                                     <listitem>
-                                        <para>For version 1.6, there is no validation for the
+                                        <para>For version 2.0, there is no validation for the
                                             Control Fields. If data in the text string includes
                                             coding that is not found in the drop down menus, the
                                             record can still be saved and will not reject invalid
@@ -1277,8 +1277,8 @@
                         <para>In whatever order the Extent of Ownership statements are added is the
                             order in which they will be displayed later on.</para>
                         <note>
-                            <para>In OLE 1.6, the order cannot be modified once entered. A fix is
-                                expected for 2.0. See <link
+                            <para>In OLE 2.0, the order cannot be modified once entered. A fix is
+                                expected, see <link
                                     xlink:href="https://jira.kuali.org/browse/OLE-6294"
                                     >OLE-6294</link>.</para>
                         </note>
@@ -1755,15 +1755,6 @@
                                                 to permit retrieval when the barcode is scanned or
                                                 typed in as a search term. Used for identification
                                                 of physical item and for circulation purposes. </para>
-                                            <note>
-                                                <para>If you have an automated storage retrieval
-                                                  system that interacts with OLE, you should not use
-                                                  barcodes containing uppercase letters. These
-                                                  characters may cause some of the API calls to
-                                                  fail. See <link
-                                                  xlink:href="https://jira.kuali.org/browse/OLE-7112"
-                                                  >OLE-7112</link>.</para>
-                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -2970,9 +2961,7 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells"> The name of the electronic
-                                                title’s platform. For example "JSTOR." In a future
-                                                release, this will link to an existing Platform
-                                                record in OLE. </para>
+                                                title’s platform. For example "JSTOR."</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -4704,10 +4693,24 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-239.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
-            <para>The MARC Editor Workform is available for non-catalogers who need to create brief
-                records.</para>
+            <para>The Marc Editor workform is a brief screen of essential prompts for monographic
+                bibliographic data. It is intended for use by staff who are not catalogers but may
+                have to create brief records as placeholders for later overlay or enhancement to
+                full cataloging records.</para>
+            <para>You can use the tab key to move from field to field and key the bibliographic
+                data. </para>
+            <note>
+                <para>At present, the tab does not always move the cursor to the correct location
+                    (for example, after |a) in all cases and it may be necessary to use the mouse to
+                    set the cursor in the correct subfield. </para>
+                <para>You may begin keying before the |a but will need to remove the |a at the end
+                    of the field in order to avoid an error message. </para>
+            </note>
             <section>
                 <title>Process Overview</title>
+                <para>Enter bibliographic data into the workform.  Note that the 245 field is the
+                    only required field; if absent, the system will display an error message and the
+                    record will not be saved. </para>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
@@ -4807,6 +4810,23 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para>Once all the desired data has been keyed, submit the record.  The system
+                    assigns a local identifier. </para>
+                <para>In order to modify or add data after the record is submitted, click on the bib
+                    local identifier displayed at the top of the page.  Alternatively, you may use
+                    the Search workbench to search for the bibliographic record, which will display
+                    the record in the regular Marc editor to edit the bibliographic fields or to add
+                    holdings/item records.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>MARC Editor Workform submitted</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-250.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
             </section>
         </section>
     </section>

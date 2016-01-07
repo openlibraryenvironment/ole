@@ -29,13 +29,12 @@
                     >Describe</emphasis> tab displays e-docs and interfaces for cataloging
                 processes.  The<emphasis role="bold">Select/Acquire</emphasis> tab displays the list
                 of transactions and functions that are associated with the financial processes and
-                purchases as well as the E-Resources and Licensing, the beginning feature of
-                electronic resource management (more development is scheduled for 2.0). The
-                    <emphasis role="bold">Maintenance</emphasis> tab includes the related
-                maintenance documents for the four other tabs.  The <emphasis role="bold"
-                    >Administration</emphasis> menu tab displays the list of functions that only
-                technical staff or super users in the functional area are likely to use. It also
-                contains batch processing e-docs and interfaces.</para>
+                purchases as well as Electronic Resources and Licensing. The <emphasis role="bold">Maintenance</emphasis> tab includes the related maintenance documents for the
+                four other tabs.  The <emphasis role="bold"
+                    >Administration</emphasis> menu tab
+                displays the list of functions that only technical staff or super users in the
+                functional area are likely to use. It also contains batch processing e-docs and
+                interfaces.</para>
             <tip>
                 <para> Bookmark any page within OLE.  This will allow you to easily navigate back to
                     an interface or e-doc in one click, just log in. </para>
@@ -897,7 +896,7 @@
             <para> The ability in this demo environment to simulate being logged in as various users
                 gives you the permissions required to try out each stage of specific workflows where
                 approvals or actions are required by multiple user types. (Since this functionality
-                is only meant for testing purposes, it will not be included in later releases.) </para>
+                is only meant for testing purposes, it will not be included in local installations.) </para>
             <tip>
                 <para> When logged in as ole-quickstart and impersonating another user, you may
                     switch the user you are impersonating by again entering the user id into the
@@ -4517,17 +4516,6 @@
                                             </screenshot>
                                         </para>
                                         <para/>
-                                        <note>
-                                            <para>OLE 1.6 supports a limited version of
-                                                cross-document-type searching. If you select the
-                                                Document Type: Item, then the following
-                                                Bibliographic fields will be available for search in
-                                                addition to the item fields: Author, Date of
-                                                Publication, Format, ISBN, ISSN, Lanuage, Publisher,
-                                                Title. More extensive Cross-Document search
-                                                capabilities are scheduled for release in the 2.0
-                                                version.</para>
-                                        </note>
                                     </listitem>
                                 </orderedlist>
                             </listitem>
@@ -8882,8 +8870,9 @@
                         >deliver.xml</link> (Not imported via Batch Process but XML Import) </para>
                 <note>
                     <para>Beginning in 1.6.2, OLE will begin using Drools for circulation policies.
-                        While this policy will work, changes will be available in the next few
-                        releases.</para>
+                        While this policy will still work, changes will be available in the next few
+                        releases.  See <link xlink:href="https://jira.kuali.org/browse/OLE-7475"
+                            >OLE-7475</link>.</para>
                 </note>
             </section>
             <section>

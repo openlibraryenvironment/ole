@@ -64,20 +64,18 @@ public class FineDateTimeUtil {
 
                 if (fineMode.equalsIgnoreCase("h")) {
                     if (isIncludeNonWorkingHoursForFineCalc()) {
-                        long diffInHours = TimeUnit.MILLISECONDS.toHours(difference);
-                        fineAmt = diffInHours * fineRate;
+                        long numberOfHours = calculateTotalHours(difference);
+                        fineAmt = numberOfHours * fineRate;
                     } else {
-                        HashMap map = calculateWorkingHoursAndDays(deskId, dueDate, checkInDate);
-                        int numberOfWorkingHours = (int) map.get(OLEConstants.NUMBER_OF_WORKING_HOURS);
+                        long numberOfWorkingHours = calculateWorkingHours(deskId, dueDate, checkInDate);
                         fineAmt = numberOfWorkingHours * fineRate;
                     }
                 } else if (fineMode.equalsIgnoreCase("d")) {
                     if (isIncludeNonWorkingHoursForFineCalc()) {
-                        long diffInDays = calculateTotalDays(difference);
-                        fineAmt = diffInDays * fineRate;
+                        long numberOfDays = calculateTotalDays(dueDate, checkInDate);
+                        fineAmt = numberOfDays * fineRate;
                     } else {
-                        HashMap map = calculateWorkingHoursAndDays(deskId, dueDate, checkInDate);
-                        int numberOfWorkingDays = (int) map.get(OLEConstants.NUMBER_OF_WORKING_DAYS);
+                        long numberOfWorkingDays = calculateWorkingDays(deskId, dueDate, checkInDate);
                         fineAmt = numberOfWorkingDays * fineRate;
                     }
                 }
@@ -88,19 +86,52 @@ public class FineDateTimeUtil {
         return fineAmt;
     }
 
-    private long calculateTotalDays(Long difference) {
-        long diffInDays = TimeUnit.MILLISECONDS.toDays(difference);
-        long diffInHours = TimeUnit.MILLISECONDS.toHours(difference);
-        if ((diffInHours / 24.0 - diffInDays) != 0) {
-            diffInDays++;
+    private long calculateTotalHours(Long difference) {
+        long numberOfWorkingHrs = TimeUnit.MILLISECONDS.toHours(difference);
+        long numberOfWorkingMin = TimeUnit.MILLISECONDS.toMinutes(difference);
+        if ((numberOfWorkingMin / 60.0 - numberOfWorkingHrs) != 0) {
+            numberOfWorkingHrs++;
         }
-        return diffInDays;
+        return numberOfWorkingHrs;
     }
 
-    private HashMap calculateWorkingHoursAndDays(String deskId, Date dueDate, Date checkInDate) {
-        HashMap map = new HashMap();
-        int numberOfWorkingHours = 0;
-        int numberOfWorkingDays = 0;
+    private long calculateTotalDays(Date dueDate, Date checkInDate) {
+        long numberOfDays = 0;
+        while (checkInDate.getTime() > dueDate.getTime()) {
+            if (DateUtils.isSameDay(dueDate, checkInDate)) {
+                break;
+            } else {
+                numberOfDays++;
+                dueDate = DateUtils.addDays(dueDate, 1);
+            }
+        }
+        return numberOfDays;
+    }
+
+    private long calculateWorkingDays(String deskId, Date dueDate, Date checkInDate) {
+        long numberOfWorkingDays = 0;
+        List<OleCalendar> oleCalendarList = getOleCalendars(deskId);
+        if (CollectionUtils.isNotEmpty(oleCalendarList)) {
+            while (checkInDate.getTime() > dueDate.getTime()) {
+                if (DateUtils.isSameDay(dueDate, checkInDate)) {
+                    break;
+                } else {
+                    OleCalendar activeCalendar = getActiveCalendar(oleCalendarList, dueDate);
+                    if (activeCalendar != null) {
+                        HashMap timeMap = getOpenAndCloseTime(activeCalendar, dueDate);
+                        if (timeMap != null && timeMap.size() == 2) {
+                            numberOfWorkingDays++;
+                        }
+                    }
+                    dueDate = DateUtils.addDays(dueDate, 1);
+                }
+            }
+        }
+        return numberOfWorkingDays;
+    }
+
+    private long calculateWorkingHours(String deskId, Date dueDate, Date checkInDate) {
+        long numberOfWorkingMin = 0;
         Date dueDateTime = dueDate;
         List<OleCalendar> oleCalendarList = getOleCalendars(deskId);
         if (CollectionUtils.isNotEmpty(oleCalendarList)) {
@@ -114,57 +145,53 @@ public class FineDateTimeUtil {
                         String closeTime = (String) timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME);
 
                         String[] openTimes = openTime.split(":");
-                        int openTimeHrs = Integer.parseInt(openTimes[0]);
+                        int openTimeInMin = Integer.parseInt(openTimes[0]) * 60 + Integer.parseInt(openTimes[1]);
 
                         String[] closeTimes = closeTime.split(":");
-                        int closeTimeHrs = Integer.parseInt(closeTimes[0]);
+                        int closeTimeInMin = Integer.parseInt(closeTimes[0]) * 60 + Integer.parseInt(closeTimes[1]);
 
-                        int checkInDateHrs = checkInDate.getHours();
-                        int dueDateHrs = dueDateTime.getHours();
+                        int checkInDateInMin = checkInDate.getHours() * 60 + checkInDate.getMinutes();
+                        int dueDateInMin = dueDateTime.getHours() * 60 + dueDateTime.getMinutes();
 
                         if (DateUtils.isSameDay(dueDateTime, checkInDate)) {
                             if (DateUtils.isSameDay(dueDate, checkInDate)) {
-                                if (checkInDateHrs < closeTimeHrs) {
-                                    closeTimeHrs = checkInDateHrs;
+                                if (checkInDateInMin < closeTimeInMin) {
+                                    closeTimeInMin = checkInDateInMin;
                                 }
-                                if (dueDateHrs > openTimeHrs) {
-                                    openTimeHrs = dueDateHrs;
+                                if (dueDateInMin > openTimeInMin) {
+                                    openTimeInMin = dueDateInMin;
                                 }
-                                if (closeTimeHrs > openTimeHrs) {
-                                    numberOfWorkingHours = numberOfWorkingHours + (closeTimeHrs - openTimeHrs);
-                                    numberOfWorkingDays++;
+                                if (closeTimeInMin > openTimeInMin) {
+                                    numberOfWorkingMin = numberOfWorkingMin + (closeTimeInMin - openTimeInMin);
                                 }
                             } else {
-                                if (checkInDateHrs > openTimeHrs && checkInDateHrs < closeTimeHrs) {
-                                    numberOfWorkingHours = numberOfWorkingHours + (checkInDateHrs - openTimeHrs);
-                                    numberOfWorkingDays++;
-                                } else if (checkInDateHrs >= closeTimeHrs) {
-                                    numberOfWorkingHours = numberOfWorkingHours + (closeTimeHrs - openTimeHrs);
-                                    numberOfWorkingDays++;
+                                if (checkInDateInMin > openTimeInMin && checkInDateInMin < closeTimeInMin) {
+                                    numberOfWorkingMin = numberOfWorkingMin + (checkInDateInMin - openTimeInMin);
+                                } else if (checkInDateInMin >= closeTimeInMin) {
+                                    numberOfWorkingMin = numberOfWorkingMin + (closeTimeInMin - openTimeInMin);
                                 }
                             }
                         } else {
                             if (DateUtils.isSameDay(dueDate, dueDateTime)) {
-                                if (dueDateHrs > openTimeHrs && dueDateHrs < closeTimeHrs) {
-                                    numberOfWorkingHours = numberOfWorkingHours + (closeTimeHrs - dueDateHrs);
-                                    numberOfWorkingDays++;
-                                } else if (dueDateHrs <= openTimeHrs) {
-                                    numberOfWorkingHours = numberOfWorkingHours + (closeTimeHrs - openTimeHrs);
-                                    numberOfWorkingDays++;
+                                if (dueDateInMin > openTimeInMin && dueDateInMin < closeTimeInMin) {
+                                    numberOfWorkingMin = numberOfWorkingMin + (closeTimeInMin - dueDateInMin);
+                                } else if (dueDateInMin <= openTimeInMin) {
+                                    numberOfWorkingMin = numberOfWorkingMin + (closeTimeInMin - openTimeInMin);
                                 }
                             } else {
-                                numberOfWorkingHours = numberOfWorkingHours + (closeTimeHrs - openTimeHrs);
-                                numberOfWorkingDays++;
+                                numberOfWorkingMin = numberOfWorkingMin + (closeTimeInMin - openTimeInMin);
                             }
                         }
                     }
-                    dueDateTime = DateUtils.addDays(dueDateTime, 1);
                 }
+                dueDateTime = DateUtils.addDays(dueDateTime, 1);
             }
         }
-        map.put(OLEConstants.NUMBER_OF_WORKING_DAYS, numberOfWorkingDays);
-        map.put(OLEConstants.NUMBER_OF_WORKING_HOURS, numberOfWorkingHours);
-        return map;
+        long numberOfWorkingHrs = TimeUnit.MINUTES.toHours(numberOfWorkingMin);
+        if ((numberOfWorkingMin / 60.0 - numberOfWorkingHrs) != 0) {
+            numberOfWorkingHrs++;
+        }
+        return numberOfWorkingHrs;
     }
 
     private OleCalendar getActiveCalendar(List<OleCalendar> oleCalendarList, Date date) {
