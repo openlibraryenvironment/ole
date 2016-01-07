@@ -9080,16 +9080,6 @@
                                             manually, but it must not be a past date. If the date is
                                             more than 60 days from the current date, the system
                                             displays a warning message.</para>
-                                        <note>
-                                            <para>There are several issues noted for the pay date,
-                                                see <link
-                                                  xlink:href="https://jira.kuali.org/browse/OLE-5522"
-                                                  >OLE-5522</link>. </para>
-                                            <para>There is also an enhancement noted to allow future
-                                                pay dates, see <link
-                                                  xlink:href="https://jira.kuali.org/browse/OLE-6216"
-                                                  >OLE-6216</link>.</para>
-                                        </note>
                                     </entry>
                                 </row>
                                 <row>
@@ -14467,32 +14457,6 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Received Total
-                                                Quantity</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells">The quantity of this item
-                                                received in this shipment.</para>
-                                            <note>
-                                                <para role="Table Cells"> If you receive additional
-                                                  copies of an item, you will need to fill in the
-                                                  <emphasis role="bold">Copies</emphasis>
-                                                  section.</para>
-                                            </note>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Received Total
-                                                Parts</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells">The parts of this item received
-                                                in this shipment.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Item Returned Total
                                                 Quantity</para>
                                         </entry>
@@ -14559,8 +14523,14 @@
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                             <para role="Table Cells">To modify the bibliographic
                                                 record, click <emphasis role="bold">edit</emphasis>.
-                                                Click <emphasis role="bold">receive</emphasis> to
-                                                receive the item.</para>
+                                                Click <inlinemediaobject>
+                                                  <alt>Receive</alt>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-123.png"
+                                                  />
+                                                  </imageobject>
+                                                </inlinemediaobject> to receive the item.</para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -14630,7 +14600,7 @@
                                             Titles Tab</alt>
                                         <imageobject>
                                             <imagedata
-                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-121.png"
+                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-72.png"
                                                 width="100%"/>
                                         </imageobject>
                                     </mediaobject>
@@ -15911,7 +15881,7 @@
                         from its linked Bibliographic, Holdings, and Purchase Order Records as well
                         as data entered by the operator when creating the record. </para>
                     <note>
-                        <para> OLE 1.6 assumes the use of MARC bibliographic records for describing
+                        <para> OLE 2.0 assumes the use of MARC bibliographic records for describing
                             serial or continuing resource titles. OLE can store records in other
                             formats but serials receiving features cannot be applied to records in
                             other formats in this release. </para>
@@ -16052,7 +16022,7 @@
                                                 the subject of <link
                                                   xlink:href="https://jira.kuali.org/browse/OLE-5288"
                                                   >OLE-5288</link> which will not be addressed until
-                                                OLE 2.0. </para>
+                                                OLE 3.0. </para>
                                         </note>
                                     </entry>
                                 </row>
@@ -16074,7 +16044,9 @@
                                             appear on the claim alert report.</para>
                                         <note>
                                             <para>Claim alert reports are planned for a future
-                                                release.</para>
+                                                release.  See <link
+                                                  xlink:href="https://jira.kuali.org/browse/OLE-2712"
+                                                  >OLE-2712</link>.</para>
                                         </note>
                                     </entry>
                                 </row>
@@ -18186,8 +18158,12 @@
                 </listitem>
                 <listitem>
                     <para role="List Paragraph">Coding machine-readable interpretation of license
-                        terms in OLE via a license editor (will be stored as ONIX-PL in the Doctor).
-                        Note that this final step is planned for a future release.</para>
+                        terms in OLE via a license editor (will be stored as ONIX-PL in the Doctor). </para>
+                    <note>
+                        <para role="List Paragraph">This final step is planned for a future release.
+                            See <link xlink:href="https://jira.kuali.org/browse/OLE-5666"
+                                >OLE-5666</link>.</para>
+                    </note>
                 </listitem>
             </itemizedlist>
             <para role="Body Text">The documents and workflows in the Licensing sub-module will
@@ -18233,8 +18209,14 @@
                         <para role="List Paragraph">ONIX-PL <link linkend="_Agreement"
                                 >Agreement</link> is used to record the interpreted terms of the
                             license in a machine-readable format. Note that the Agreement is not
-                            available in the interface in 1.6, but the underlying infrastructure to
+                            available in the interface in 2.0, but the underlying infrastructure to
                             import and store these documents has been created.</para>
+                        <note>
+                            <para>For additional information about Agreement development, see <link
+                                    xlink:href="https://jira.kuali.org/browse/OLE-5666"
+                                    >OLE-5666</link>.  Coding will coincide with the License
+                                Editor.</para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Maintenance Documents &amp; Code Lists</para>
@@ -18242,9 +18224,9 @@
                 </itemizedlist>
                 <para role="Normal">A License Request might be initiated for acquisitions of new
                     titles, renewals of existing titles, or making changes to previous Agreements
-                    (amendments). OLE 1.6 provides for a License Request generated from an
-                    E-Resource Record as part of the acquisitions process. Future releases may
-                    address licensing for Addendums, Renewals, and Trials in more detail.</para>
+                    (amendments). A License Request is generated from an E-Resource Record as part
+                    of the acquisitions process. Future releases may address licensing for
+                    Addendums, Renewals, and Trials in more detail.</para>
             </section>
         </section>
         <section>
@@ -18622,10 +18604,13 @@
                             xml:id="_Agreement_Documents_Tab_1"/>Agreement Documents Tab</title>
                     <para role="Normal">Throughout negotiations and investigations, various
                         Licensing staff may need to upload or download miscellaneous documents.
-                        These are not restricted, and could be any documents that licensing staff
-                        wish to archive or share within the licensing process, such as Title Lists,
-                        Emails, Analytics or Statistics, sample agreements, signed and unsigned
-                        vendor agreements.</para>
+                        There is no restriction on the type of file that can be uploaded, they could
+                        be any documents that licensing staff wish to archive or share within the
+                        licensing process, such as Title Lists, Emails, Analytics or Statistics,
+                        sample agreements, signed and unsigned vendor agreements.</para>
+                    <note>
+                        <para>File size of any single upload may not exceed 5MB.</para>
+                    </note>
                     <para role="Normal"/>
                     <para role="Normal">Agreement Documents should also be used to store updated
                         Checklists used in the licensing process. Staff may download blank
@@ -18815,7 +18800,7 @@
                         representation of the actual terms of the license itself. </para>
                     <para role="Normal"/>
                     <note>
-                        <para role="Normal"> Although Agreements are not available as part of 1.6,
+                        <para role="Normal"> Although Agreements are not available as part of 2.0,
                             future releases should allow staff to either upload an ONIX-PL document
                             directly or use a license editor GUI to record license terms as an
                             Agreement.</para>
@@ -18840,7 +18825,7 @@
                                 </imageobject>
                             </inlinemediaobject> to search existing Agreements, and link to an
                             existing Agreement for reference or future renewal or amendment. It is
-                            not possible to upload an Agreement in 1.6, so there are no Agreements
+                            not possible to upload an Agreement in 2.0, so there are no Agreements
                             to link to License Requests in this release. Users will also be able to
                             create a new Agreement from this screen for this License Request in
                             future releases.</para>
@@ -19648,7 +19633,7 @@
                 requirements, and can be downloaded for use with individual License Requests. The
                 basic checklists will contain action lists, compliancy checks, or internal policies
                 for different types or Agreements. Users may attach locally-downloaded and filled-in
-                copies to specific License Requests in 1.6.</para>
+                copies to specific License Requests in 2.0.</para>
             <para>The document can be initiated and edited only by members of the OLE-LIC
                 OLE_LicenseConfiguration role.</para>
             <note>
@@ -22357,13 +22342,12 @@
                 print materials that includes placing orders, receiving orders, claiming orders, and
                 paying for orders, acquiring electronic materials and tracking their life cycle has
                 required additional interfaces and electronic documents.</para>
-            <para>In 1.0, initial development included the E-Resource Record and its associated
-                maintenance documents. The E-Resource Record provides a place to store and view
-                information about an electronic resource acquisition, including the title(s)
-                involved and the content provider. Within the OLE user interface, the E-Resource
-                Record presents a single, unified view of all information related to acquisition of
-                an individual electronic resource or group of electronic resources, including
-                titles, payment, licensing, administrative, and contact information. </para>
+            <para>The E-Resource Record provides a place to store and view information about an
+                electronic resource acquisition, including the title(s) involved and the content
+                provider. Within the OLE user interface, the E-Resource Record presents a single,
+                unified view of all information related to acquisition of an individual electronic
+                resource or group of electronic resources, including titles, payment, licensing,
+                administrative, and contact information. </para>
             <para> E-resource acquisition requires the collection and storage of life cycle
                 management data that is not part of the requisition or purchase order and lacks a
                 home in most current systems. Long-term management of e-resources also requires the
@@ -22382,15 +22366,9 @@
                     search, and maintain E-Resource records.</para>
                 <para> An E-Resource Record is a tool for collecting and storing life cycle
                     management data for electronic resources , including the title(s) involved,
-                    acquisitions and licensing information, and workflow status . In the 1.6
-                    release, the E-Resource Record is the starting point for OLE's licensing
-                    workflow. In later releases, users will also be able to kick off trial workflows
-                    from this document. </para>
-                <note>
-                    <para> The E-Resource Record will continue to be developed and modified in
-                        future releases, a large development effort is scheduled for the 2.0
-                        release.</para>
-                </note>
+                    acquisitions and licensing information, and workflow status. The E-Resource
+                    Record is the starting point for OLE's licensing workflow. In later releases,
+                    users will also be able to kick off trial workflows from this document. </para>
             </section>
             <section>
                 <title><anchor xml:id="_EResourceDocLayout"/>Document Layout</title>
@@ -22434,8 +22412,7 @@
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells"> Users can manage the relationship
                                         between the E-Resource Record and OLE Holdings and/or OLE
-                                        E-E-Holdings. In future releases, users will be able to
-                                        import and manage data from GOKb</para>
+                                        E-Holdings.</para>
                                 </entry>
                             </row>
                             <row>
@@ -22445,10 +22422,9 @@
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells"> Displays and links to any purchase
                                         orders associated with an E-Holdings / Holdings related to
-                                        this E-Resource in 1.6. Also included at the top of the
-                                        purchase order list is the sum of all payments for all
-                                        purchase order line items linked to that E-Resource per
-                                        fiscal year.</para>
+                                        this E-Resource. Also included at the top of the purchase
+                                        order list is the sum of all payments for all purchase order
+                                        line items linked to that E-Resource per fiscal year.</para>
                                 </entry>
                             </row>
                             <row>
@@ -22669,10 +22645,9 @@
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top"
                                             >GOKb Identifier</entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display only. In a future
-                                                release, for E-Resources imported from GOKb, this
-                                                field will display the link to the GOKb interface.
-                                            </para>
+                                            <para role="Table Cells">Display only. For E-Resources
+                                                imported from GOKb, this field will display the link
+                                                to the GOKb interface. </para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -22682,10 +22657,10 @@
                     </section>
                     <section>
                         <title>Initiate Workflow / Workflow Status Tab</title>
-                        <para>The <emphasis role="bold">Workflow Status</emphasis> tab is used in
-                            the 1.6 release to display the status of a License Request created from
-                            the E-Resource, In future releases, it will also display the status of a
-                            linked trial, purchase, or access/activation.</para>
+                        <para>The <emphasis role="bold">Workflow Status</emphasis> tab is used to
+                            display the status of a License Request created from the E-Resource, In
+                            future releases, it will also display the status of a linked trial,
+                            purchase, or access/activation.</para>
                         <para> The checkbox in the Needed? column is used to indicate whether  a
                             trial or license negotiation will be needed to acquire this electronic
                             resource. It is for informational purposes only. </para>
@@ -22695,7 +22670,7 @@
                                 <mediaobject>
                                     <alt>E-Resource Workflow Status tab</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/eresource-38.png"/>
+                                        <imagedata fileref="../images/eresource-38.png" width="100%"/>
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -22710,7 +22685,7 @@
                                 <mediaobject>
                                     <alt>E-Resource Variant Title tab</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/eresource-76.png"/>
+                                        <imagedata fileref="../images/eresource-76.png" width="100%"/>
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -22850,9 +22825,9 @@
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                             <para role="Table Cells">Indicates the type of order,
-                                                for example subscription or standing. In a future
-                                                release, this will be used to populate Purchase
-                                                Orders created for this E-Resource.</para>
+                                                for example subscription or standing. This will be
+                                                used to populate any Purchase Orders created for
+                                                this E-Resource.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22861,8 +22836,8 @@
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                             <para role="Table Cells">Scope of the E-Resource. For
-                                                example, front file or back file. In a future
-                                                release, this will be imported from GOKb.</para>
+                                                example, front file or back file. If applicable,
+                                                this will be imported from GOKb.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22888,17 +22863,12 @@
                                             <para role="Table Cells">Fund</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells">This field is meant to display
-                                                the accounting information from Purchase Orders and
-                                                Invoices. However in 1.6, the lookup will display
-                                                the Vendor Reference Number.</para>
-                                            <note>
-                                                <para>The bug has been documented and further coding
-                                                  is planned for 2.0. For more information, see
-                                                  <link
-                                                  xlink:href="https://jira.kuali.org/browse/OLE-4682"
-                                                  >OLE-4682</link></para>
-                                            </note>
+                                            <para role="Table Cells">This field displays the
+                                                accounting information from Purchase Orders.
+                                                Alternatively, you may enter fund information that
+                                                will be passed on to a future Purchase Order when it
+                                                is created from the <emphasis role="bold">Purchase
+                                                  Order</emphasis> tab.</para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -23369,9 +23339,7 @@
                 <section>
                     <title>E-Holdings Menu</title>
                     <para> From the <emphasis role="bold">E-Holdings</emphasis> menu staff can view
-                        and update the OLE E-Holdings linked to the E-Resource. In a later release,
-                        staff will also be able to manage the relationship between the E-Resource
-                        Record and data imported from GOKb. </para>
+                        and update the OLE E-Holdings linked to the E-Resource.</para>
                     <para/>
                     <para>
                         <screenshot>
@@ -23607,9 +23575,9 @@
                         </orderedlist>
                         <para/>
                         <tip>
-                            <para> Important : As of 1.6, you MUST click “save” on the E-Holdings
-                                menu of the E-Resource before the link to an Holdings or E-Holdings
-                                is actually saved. </para>
+                            <para> Important : You MUST click “save” on the E-Holdings menu of the
+                                E-Resource before the link to an Holdings or E-Holdings is actually
+                                saved. </para>
                         </tip>
                         <para/>
                         <para>The E-Holdings Details tab shows a table listed of all Holdings (print
@@ -23678,8 +23646,8 @@
                     <title>Purchase Orders Menu</title>
                     <para> From the <emphasis role="bold">Purchase Orders</emphasis> menu, staff are
                         able to view and access any Purchase Orders for any Holdings or E-Holdings
-                        that are linked to the E-Resource. In future releases, users will also be
-                        able to see any Purchase Orders created for the E-Resource itself. </para>
+                        that are linked to the E-Resource. Users may also see any Purchase Orders
+                        created for the E-Resource itself. </para>
                     <para/>
                     <para>
                         <screenshot>
@@ -23796,11 +23764,10 @@
                     <section>
                         <title>Licenses Tab</title>
                         <para>Once a License Request has been started, its summary information will
-                            appear in this tab. As of 1.6, this includes Status of the License
-                            Request, Last Modified Date, License Request Title, and information
-                            about any Attachments. Click on the <emphasis role="bold">License
-                                Title</emphasis> to open and view or edit the License
-                            Request.</para>
+                            appear in this tab. This includes Status of the License Request, Last
+                            Modified Date, License Request Title, and information about any
+                            Attachments. Click on the <emphasis role="bold">License Title</emphasis>
+                            to open and view or edit the License Request.</para>
                         <para/>
                         <para><inlinemediaobject>
                                 <alt>E-Resource Licenses Tab</alt>
@@ -23818,10 +23785,6 @@
                                     <imagedata fileref="../images/eresource-63.png"/>
                                 </imageobject>
                             </inlinemediaobject></para>
-                        <note>
-                            <para>This is a bug. In future releases, the status will display the
-                                most recently created open License Request.</para>
-                        </note>
                     </section>
                 </section>
                 <section>
@@ -23995,8 +23958,8 @@
                                     </note>
                                 </listitem>
                                 <listitem>
-                                    <para>Purchasing through a Requisition and Purchase Order (in a
-                                        future release)</para>
+                                    <para>Purchasing through a Requisition and Purchase Order, see
+                                            <link linkend="_Requisition">Requisition</link></para>
                                 </listitem>
                                 <listitem>
                                     <para>Activating patron access (in a future release) </para>
@@ -24133,11 +24096,11 @@
                         Criteria</emphasis> button can be used if you need to use more than 3 search
                     criteria. </para>
                 <note>
-                    <para> As of 1.6, the search is performing a begins with search. You may use the
-                        ‘*’ character as a wildcard before and / or after any search term(s) you
-                        enter. See <link linkend="_usingSpecialCharactersInSearch">Using Special
-                            Characters in search</link> under <emphasis role="italic">OLE Basic
-                            Functionality</emphasis>.</para>
+                    <para>In this release, the search is performing a "begins with" search. You may
+                        use the ‘*’ character as a wildcard before and / or after any search term(s)
+                        you enter.  See <link linkend="_usingSpecialCharactersInSearch">Using
+                            Special Characters in search</link> under <emphasis role="italic">OLE
+                            Basic Functionality</emphasis>.</para>
                 </note>
                 <para/>
                 <para role="Body Text">
@@ -26963,13 +26926,13 @@
                 </screenshot>
             </para>
             <para/>
-            <para>This example shows that between 1/1/14 and 6/30/14, the two listed titles were
-                ordered using the donor code BRNO. Since the “status” field was left blank, all
-                titles ordered in that time period are shown. The result set could be limited,
-                though, by choosing a specific status (received, paid, both received and
-                paid).</para>
-            <para>In future releases, this report will be enhanced with additional bibliographic
-                data, and with hyperlinks from the results to the relevant records.</para>
+            <para>This example shows that between 9/1/15 and 9/17/15, the listed title was ordered
+                using the donor code BRNO. Since the “status” field was left blank, all titles
+                ordered in that time period are shown. The result set could be limited, though, by
+                choosing a specific status (received, paid, both received and paid).</para>
+            <para>Click the title to open the Bib record.</para>
+            <para>Click the location to open the item or e-holdings record, where you are able to
+                update the location.</para>
         </section>
         <section>
             <title><anchor xml:id="_DonorEncumberedReport"/>Donor Encumbered Report</title>
@@ -27042,8 +27005,11 @@
                 In May 2014, books totaling $56.75 were ordered on PO line items with the BRNO donor
                 code. However, no invoices were paid in May using line items with this donor
                 code.</para>
-            <para>In future releases, this report will be enhanced with additional bibliographic
-                data, and with hyperlinks from the results to the relevant records.</para>
+            <para>In future releases, this report will be enhanced with additional data (remaining
+                and available amounts), and with hyperlinks from the results to the relevant
+                records.  See <link xlink:href="https://jira.kuali.org/browse/OLE-6197"
+                    >OLE-6197</link> and <link xlink:href="https://jira.kuali.org/browse/OLE-5831"
+                    >OLE-5831</link>.</para>
         </section>
         <section>
             <title><anchor xml:id="GeneralLedgerIntro"/>General Ledger Introduction</title>
