@@ -7887,6 +7887,7 @@
         <column name="RCVNG_LN_ITM_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OLE_NTE" required="true" size="2000" type="VARCHAR"/>
         <column name="OLE_NTE_TYP_ID" size="10" type="DECIMAL"/>
+        <column name="OLE_NTE_ACK" size="1" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="PUR_RCVNG_LN_ITM_T" name="OLE_PUR_RCVNG_LN_ITM_NTE_TR1">
