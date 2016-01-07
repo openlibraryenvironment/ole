@@ -1,9 +1,11 @@
 package org.kuali.ole.deliver.util;
 
+import java.io.Serializable;
+
 /**
  * Created by pvsubrah on 7/21/15.
  */
-public class ItemFineRate {
+public class ItemFineRate implements Serializable{
     private Double fineRate;
     private Double maxFine;
     private String interval;

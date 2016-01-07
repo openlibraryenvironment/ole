@@ -7,6 +7,7 @@ import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -23,6 +24,8 @@ import java.util.concurrent.Callable;
 public class RenewItemExecutor implements Callable {
 
     private static final Logger LOG = Logger.getLogger(RenewItemExecutor.class);
+
+    private ParameterValueResolver parameterValueResolver;
 
     private final String itemBarcode;
     private final OlePatronDocument olePatronDocument;
@@ -65,6 +68,13 @@ public class RenewItemExecutor implements Callable {
 
                 finalDroolResponse = fireRules(olePatronDocument, oleLoanDocument, oleItemRecordForCirc, noticeInfo);
 
+                Boolean fineCalcWhileRenew = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                        .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_CALC_WHILE_RENEW);
+                if (fineCalcWhileRenew) {
+                    ItemFineRate itemFineRate = getCircUtilController().fireFineRules(oleLoanDocument, oleItemRecordForCirc, olePatronDocument);
+                    oleLoanDocument.setItemFineRate(itemFineRate);
+                }
+
                 if (finalDroolResponse.isRuleMatched()) {
                     if (StringUtils.isBlank(finalDroolResponse.retrieveErrorMessage())) {
                         boolean pastAndRenewDueDateSame = false;
@@ -79,6 +89,9 @@ public class RenewItemExecutor implements Callable {
                                 if (null != oleLoanDocument.getLoanId()) {
                                     finalDroolResponse.setSucessMessage("Successfully Renewed");
                                     finalDroolResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+
+                                    getCircUtilController().generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+
                                 }
                             } else {
                                 oleLoanDocument.setLoanDueDate(loanDueDate);
@@ -202,5 +215,16 @@ public class RenewItemExecutor implements Callable {
 
     public void setOleItemRecordForCirc(OleItemRecordForCirc oleItemRecordForCirc) {
         this.oleItemRecordForCirc = oleItemRecordForCirc;
+    }
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if (parameterValueResolver == null) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
     }
 }
