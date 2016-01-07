@@ -1,9 +1,7 @@
-# Kuali Open Library Environment (OLE)
+# Contributing to OLE
 
-This is the main repository for Kuali OLE from version 2.0 forward.  
+This project is new to GitHub and our process for pull requests is under development. Please watch this space for updates.  In the meantime, if you are interested in collaborating with the OLE project, please contact Heather Beery, the project manager, at `hbeery AT iu dot edu`
 
-For instructions on compiling and installing, see the [OLE Developer Installation Guide](https://wiki.kuali.org/display/OLE/Developer+Installation+Guide) on the Kuali wiki.
+Kuali OLE is distributed under the [Educational Community License, version 2.0](http://opensource.org/licenses/ECL-2.0) (ECL 2.0), and all contributions must be distributable under that license. In order to do this, we require that contributors sign a [Contributor License Agreement](https://docs.google.com/document/d/1I0dYhf-npV3ceM7H940ilxeqlgX5qOwg8UcaZYrRt-w/edit) (CLA), which will need to be submitted to the Kuali Foundation.  In addition, the Kuali Foundation requires each institution that employs contributors to sign a [Corporate Contributor License Agreement](https://docs.google.com/document/d/1P8KlcXmIXDp99OayO2ZKwv0motEaTukBK-fiRJh2J6I/edit) (CCLA).  For details, see the [License Agreement Process](https://docs.google.com/document/d/18a-lxxhsP07Kutm8jSBmG2c7V-wuWjjfiML710OaQGM/edit#).
 
-The source code for previous versions is currently available via Subversion from `https://svn.kuali.org/repos/ole/tags/ole-[version number]`
-
-For an overview of how to contribute to the project, please see CONTRIBUTING.md in this directory.
+Thank you for your interest!
