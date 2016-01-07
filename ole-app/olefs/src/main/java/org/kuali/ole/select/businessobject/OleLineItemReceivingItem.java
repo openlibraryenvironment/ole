@@ -315,6 +315,9 @@ public class OleLineItemReceivingItem extends LineItemReceivingItem implements O
                 OleLineItemReceivingReceiptNotes receiptNote = new OleLineItemReceivingReceiptNotes(poNote);
                 receiptNote.setReceivingLineItem(this);
                 receiptNote.setNoteType(poNote.getNoteType());
+                if(olePoi.getOleReceiptStatus() != null) {
+                  receiptNote.setNotesAck(olePoi.getOleReceiptStatus().getReceiptStatus().equalsIgnoreCase(OLEConstants.OleLineItemReceiving.NOT_RECEIVED_STATUS) ? false : true);
+                }
                 String note = receiptNote.getNoteType().getNoteType();
                 if (note.equalsIgnoreCase(OLEConstants.SPECIAL_PROCESSING_INSTRUCTION_NOTE)) {
                     specialHandlingNoteList.add(receiptNote);
