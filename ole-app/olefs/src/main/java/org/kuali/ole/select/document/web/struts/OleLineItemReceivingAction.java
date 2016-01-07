@@ -211,6 +211,7 @@ public class OleLineItemReceivingAction extends LineItemReceivingAction {
         receiptNotes.setNotes(selectedItem.getReceiptNotes());
         receiptNotes.setReceivingLineItemIdentifier(selectedItem.getReceivingItemIdentifier());
         receiptNotes.setNoteType(oleNoteType);
+        receiptNotes.setNotesAck(selectedItem.isNotesAck());
         selectedItem.addReceiptNote(receiptNotes);
         selectedItem.addNote(receiptNotes);
         ((OleLineItemReceivingItem) receiveDocument.getItem(this.getSelectedLine(request))).setNoteTypeId(null);
