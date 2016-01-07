@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # AP_AUTO_APRV_EXCL_T
 # -----------------------------------------------------------------------
@@ -11568,6 +11569,7 @@ CREATE TABLE OLE_PUR_RCVNG_LN_ITM_NTE_T
         , RCVNG_LN_ITM_ID DECIMAL(10)
         , OLE_NTE VARCHAR(2000) NOT NULL
         , OLE_NTE_TYP_ID DECIMAL(10)
+        , OLE_NTE_ACK VARCHAR(1)
         , VER_NBR DECIMAL(8) NOT NULL
         , OBJ_ID VARCHAR(36) NOT NULL
     
