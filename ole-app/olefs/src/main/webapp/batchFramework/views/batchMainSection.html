@@ -51,9 +51,9 @@
                                     ng-disabled="submitted"
                                     style="width: 170px">
                                 <option ng-selected="{{option.value == mainSectionPanel.bibImportProfileForOrderImport}}"
-                                        ng-repeat="option in bibImportProfileNames  | orderBy:'value'"
-                                        value="{{option.value}}">
-                                    {{option.value}}
+                                        ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"
+                                        value="{{option.profileName}}">
+                                    {{option.profileName}}
                                 </option>
                             </select>
                         </td>
