@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -2806,27 +2807,27 @@ CREATE TABLE OLE_E_RES_REC_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK6 (PCKG_SCP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK7 (REQ_PRTY_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK8 (PCKG_TYP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK9 (STAT_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK10 (PYMT_TYP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_E_RES_REC_FK11 (STAT_SRCH_CD_ID )
 
@@ -6516,6 +6517,31 @@ CREATE TABLE HOLDINGS_AUDIT_T
 
 
 # -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_T
+(
+      PRF_ID INTEGER(10)
+        , PRF_NM VARCHAR(40)
+        , CONTENT LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRF_TP1 PRIMARY KEY(PRF_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -9295,4 +9321,18 @@ CREATE TABLE HOLDINGS_AUDIT_S
 ) ENGINE MyISAM
 /
 ALTER TABLE HOLDINGS_AUDIT_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRF_S auto_increment = 1
 /
