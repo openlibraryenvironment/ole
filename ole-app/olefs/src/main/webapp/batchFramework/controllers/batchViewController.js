@@ -56,7 +56,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     clearValues = function() {
         $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
         if ($scope.bibImportProfileNames == undefined) {
-            $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES).success(function (data) {
+            $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": "Bib Import"}}).success(function (data) {
                 $scope.bibImportProfileNames = data;
             });
         }

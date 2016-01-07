@@ -35,6 +35,7 @@ public class BatchProfileRestController extends BatchProfileUtilController{
             } else {
                 matching.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
                 matching.setDescription(batchProcessProfile.getDescription());
+                matching.setBatchProcessType(batchProcessProfile.getBatchProcessType());
                 matching.setContent(requestBody.getBytes());
                 getBusinessObjectService().save(matching);
             }
