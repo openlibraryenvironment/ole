@@ -1,3 +1,8 @@
+.messageClass{
+    color: red;
+    font-size: 13px;
+}
+
 .dataTables_filter {
     display: none;
 }

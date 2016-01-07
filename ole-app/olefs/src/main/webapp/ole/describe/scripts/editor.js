@@ -169,6 +169,266 @@ jq(document).ready(function () {
     keyboardShortcuts();
 });
 
+function globalEditExpandAll(){
+    if (jq("#OleLocationInformationSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleCallNumberInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleExtentOfOwnershipSection_toggle").focus().click();
+    }
+    if (jq("#OleExtendedInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleHoldingNotes_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleHoldingNotes_toggle").focus().click();
+    }
+}
+
+function globalEditCollapseAll(){
+    if (jq("#OleLocationInformationSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleCallNumberInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleExtentOfOwnershipSection_toggle").focus().click();
+    }
+    if (jq("#OleExtendedInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleHoldingNotes_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleHoldingNotes_toggle").focus().click();
+    }
+}
+
+function expandAll() {
+
+    if (jq("#LeaderStructureFields_disclosureContent").attr('data-open') == 'false') {
+        jq("#LeaderStructureFields_toggle").focus().click();
+    }
+    if (jq("#Control_Field_disclosureContent").attr('data-open') == 'false') {
+        jq("#WorkBibDataFieldDisclosureSection_toggle").focus().click();
+    }
+    if (jq("#WorkBibDataFieldDisclosureSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#WorkBibDataFieldDisclosureSection_toggle").focus().click();
+    }
+}
+
+function collapseAll() {
+    if (jq("#LeaderStructureFields_disclosureContent").attr('data-open') == 'true') {
+        jq("#LeaderStructureFields_toggle").focus().click();
+    }
+    if (jq("#Control_Field_disclosureContent").attr('data-open') == 'true') {
+        jq("#Control_Field_toggle").focus().click();
+    }
+    if (jq("#WorkBibDataFieldDisclosureSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#WorkBibDataFieldDisclosureSection_toggle").focus().click();
+    }
+}
+
+function expandAllEHoldings(){
+    if (jq("#OleEHoldingsOverviewSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEHoldingsOverviewSection_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsAccessInfoSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEHoldingsAccessInfoSection_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceLocationInformationSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEInstanceLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceCallNumberInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEInstanceCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipDetails_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleExtentOfOwnershipDetails_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsRelatedERS_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEHoldingsRelatedERS_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsAcquisitionSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEHoldingsAcquisitionSection_toggle").focus().click();
+    }
+    if (jq("#OLEEHoldings-Subscription_disclosureContent").attr('data-open') == 'false') {
+        jq("#OLEEHoldings-Subscription_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceDonorInformation-ListOfDonors_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEInstanceDonorInformation-ListOfDonors_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsLicenseSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEHoldingsLicenseSection_toggle").focus().click();
+    }
+    if (jq("#OLEEResourceLicenses-E-Instance_disclosureContent").attr('data-open') == 'false') {
+        jq("#OLEEResourceLicenses-E-Instance_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceHoldingNotes_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleEInstanceHoldingNotes_toggle").focus().click();
+    }
+
+}
+
+function collapseAllEHoldings(){
+    if (jq("#OleEHoldingsOverviewSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEHoldingsOverviewSection_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsAccessInfoSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEHoldingsAccessInfoSection_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceLocationInformationSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEInstanceLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceCallNumberInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEInstanceCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipDetails_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleExtentOfOwnershipDetails_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsRelatedERS_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEHoldingsRelatedERS_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsAcquisitionSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEHoldingsAcquisitionSection_toggle").focus().click();
+    }
+    if (jq("#OLEEHoldings-Subscription_disclosureContent").attr('data-open') == 'true') {
+        jq("#OLEEHoldings-Subscription_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceDonorInformation-ListOfDonors_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEInstanceDonorInformation-ListOfDonors_toggle").focus().click();
+    }
+    if (jq("#OleEHoldingsLicenseSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEHoldingsLicenseSection_toggle").focus().click();
+    }
+    if (jq("#OLEEResourceLicenses-E-Instance_disclosureContent").attr('data-open') == 'true') {
+        jq("#OLEEResourceLicenses-E-Instance_toggle").focus().click();
+    }
+    if (jq("#OleEInstanceHoldingNotes_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleEInstanceHoldingNotes_toggle").focus().click();
+    }
+}
+
+
+function expandAllHoldings(){
+    if (jq("#OleLocationInformationSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleCallNumberInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipSection_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleExtentOfOwnershipSection_toggle").focus().click();
+    }
+    if (jq("#OleExtendedInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleHoldingNotes_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleHoldingNotes_toggle").focus().click();
+    }
+
+}
+
+function collapseAllHoldings(){
+    if (jq("#OleLocationInformationSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleLocationInformationSection_toggle").focus().click();
+    }
+    if (jq("#OleCallNumberInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleExtentOfOwnershipSection_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleExtentOfOwnershipSection_toggle").focus().click();
+    }
+    if (jq("#OleExtendedInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleHoldingNotes_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleHoldingNotes_toggle").focus().click();
+    }
+}
+
+
+
+function expandAllItem(){
+
+    if (jq("#OleHoldingsLocationAndCallNumberInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleHoldingsLocationAndCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleItemsLocationAndCallNumberInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleItemsLocationAndCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleItemInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleItemInformation_toggle").focus().click();
+    }
+    if (jq("#OleAcquisitionInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleAcquisitionInformation_toggle").focus().click();
+    }
+    if (jq("#OleDonorInformation-ListOfDonors_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleDonorInformation-ListOfDonors_toggle").focus().click();
+    }
+    if (jq("#OleItemExtendedInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleItemExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleCirculationInformation_disclosureContent").attr('data-open') == 'false') {
+        jq("#OleCirculationInformation_toggle").focus().click();
+    }
+    if (jq("#itemClaimsReturnedRecords_disclosureContent").attr('data-open') == 'false') {
+        jq("#itemClaimsReturnedRecords_toggle").focus().click();
+    }
+    if (jq("#itemDamagedRecords_disclosureContent").attr('data-open') == 'false') {
+        jq("#itemDamagedRecords_toggle").focus().click();
+    }
+    if (jq("#MissingPieceItemHistory_disclosureContent").attr('data-open') == 'false') {
+        jq("#MissingPieceItemHistory_toggle").focus().click();
+    }
+    if (jq("#OLEReturnHistoryRecords_disclosureContent").attr('data-open') == 'false') {
+        jq("#OLEReturnHistoryRecords_toggle").focus().click();
+    }
+    if (jq("#OLEPatronFlaggedItemHistoryView-PatronRecords_disclosureContent").attr('data-open') == 'false') {
+        jq("#OLEPatronFlaggedItemHistoryView-PatronRecords_toggle").focus().click();
+    }
+}
+
+function collapseAllItem(){
+
+    if (jq("#OleHoldingsLocationAndCallNumberInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleHoldingsLocationAndCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleItemsLocationAndCallNumberInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleItemsLocationAndCallNumberInformation_toggle").focus().click();
+    }
+    if (jq("#OleItemInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleItemInformation_toggle").focus().click();
+    }
+    if (jq("#OleAcquisitionInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleAcquisitionInformation_toggle").focus().click();
+    }
+    if (jq("#OleDonorInformation-ListOfDonors_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleDonorInformation-ListOfDonors_toggle").focus().click();
+    }
+    if (jq("#OleItemExtendedInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleItemExtendedInformation_toggle").focus().click();
+    }
+    if (jq("#OleCirculationInformation_disclosureContent").attr('data-open') == 'true') {
+        jq("#OleCirculationInformation_toggle").focus().click();
+    }
+    if (jq("#itemClaimsReturnedRecords_disclosureContent").attr('data-open') == 'true') {
+        jq("#itemClaimsReturnedRecords_toggle").focus().click();
+    }
+    if (jq("#itemDamagedRecords_disclosureContent").attr('data-open') == 'true') {
+        jq("#itemDamagedRecords_toggle").focus().click();
+    }
+    if (jq("#MissingPieceItemHistory_disclosureContent").attr('data-open') == 'true') {
+        jq("#MissingPieceItemHistory_toggle").focus().click();
+    }
+    if (jq("#OLEReturnHistoryRecords_disclosureContent").attr('data-open') == 'true') {
+        jq("#OLEReturnHistoryRecords_toggle").focus().click();
+    }
+    if (jq("#OLEPatronFlaggedItemHistoryView-PatronRecords_disclosureContent").attr('data-open') == 'true') {
+        jq("#OLEPatronFlaggedItemHistoryView-PatronRecords_toggle").focus().click();
+    }
+}
+
 function wrapEnterText(){
     if ("bibliographic" == (jq("#hdnDocType_control").val())) {
         jq(".uif-textAreaControl").attr("style","width: 650px;font-size: 13px;height: 18px;");
@@ -549,6 +809,12 @@ jq(document).ready(function () {
     }
 
 });
+
+function Test(){
+    jq('#canDelete_control').val(true);
+    alert(jq('#EditorView h1 span').text()!=null?jq('#EditorView h1 span').text().toUpperCase():null);
+    jq(document).ready();
+}
 
 
 function browse(docType) {

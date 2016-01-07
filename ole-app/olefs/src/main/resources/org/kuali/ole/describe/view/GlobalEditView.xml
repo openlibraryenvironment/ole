@@ -8,6 +8,15 @@
     <bean id="GlobalEditView" parent="GlobalEditView-parentBean"/>
     <bean id="GlobalEditView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="Global Changes of Holdings Or Items"/>
+    <property name="header.rightGroup">
+        <bean parent="Uif-VerticalBoxGroup" >
+            <property name="items">
+                <list>
+
+                </list>
+            </property>
+        </bean>
+    </property>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -21,6 +30,7 @@
                     <property name="items">
                         <list>
                             <ref bean="GlobaEdit_DocumentAndSearchSelectionType"/>
+                            <ref bean="GlobalEditView-Edit-Button-Section"/>
                             <bean id="Global_SearchAndSearchResultsView_search" parent="SearchAndSearchResultsView"
                                   p:render="@{!viewGlobalEditFlag and searchType eq 'search'}"/>
                             <ref bean="GlobalEditView-Import-Section"/>
@@ -53,44 +63,80 @@
           p:hidden="true"/>
 
 
-    <bean id="GlobalEditView-Edit-Button-Section" parent="Uif-HorizontalBoxSection" p:render="@{viewGlobalEditFlag}">
+    <bean id="GlobalEditView-Edit-Button-Section" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 45%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:render="@{viewGlobalEditFlag}">
         <property name="items">
             <list>
                 <bean id="GlobalEditView-Edit-Button" parent="Uif-SecondaryActionButton"
                       p:style="float:left;margin-left:20em" p:methodToCall="globalEdit"
                       p:ajaxSubmit="true" p:successCallback="viewGlobalEdit('@{docType}');" p:actionLabel="Edit"
                       p:render="@{viewGlobalEditFlag}"/>
-                <bean id="GlobalEditView-Clear-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
-                      p:methodToCall="globalClear" p:actionLabel="Clear" p:render="@{viewGlobalEditFlag}"/>
                 <bean id="GlobalEditView-Remove-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
                       p:methodToCall="removeFromList" p:actionLabel="Remove From List" p:render="@{viewGlobalEditFlag}"/>
-                <bean id="GlobalEditView-Close-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
-                      p:methodToCall="close" p:actionLabel="Close" p:render="@{viewGlobalEditFlag}"/>
+                <bean id="GlobalEditView-Clear-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="globalClear" p:actionLabel="Clear Values" p:successCallback="submitForm('returnToPrevious', null, null, null, null)" p:render="@{viewGlobalEditFlag}"/>
+
+              <!--  <bean id="GlobalEditView-Close-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="close" p:actionLabel="Close" p:render="@{viewGlobalEditFlag}"/>-->
             </list>
         </property>
     </bean>
     <bean id="GlobalEditView-ListButton-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="GlobalEditView-defaultMessage"/>
+                <ref bean="GlobalEditView-SelectAndExport"/>
+                <ref bean="GlobalEditView-Export"/>
                 <ref bean="GlobalEditView-Button-Section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="GlobalEditView-defaultMessage" parent="Uif-DataField" p:propertyName="globalEditDefaultMessage"
-          p:render="@{!viewGlobalEditFlag}"
-          p:defaultValue="Note:Global edit list will be changed,when the DocType or SearchRecordBy field is changed."/>
+    <bean id="GlobalEditView-SelectAndExport" parent="Uif-HorizontalBoxSection" p:render="@{!viewGlobalEditFlag}">
+        <property name="items">
+            <list>
+                <bean id="SelectedAll_SelectAndExportbutton" parent="Uif-SecondaryActionButton"
+                      p:actionScript="selectAll('@{docType}');" p:actionLabel="Select All Records"
+                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
+                <bean id="OpenSelectedRecord_SelectAndExportbutton" parent="Uif-SecondaryActionButton"
+                      p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records"
+                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
+                <bean id="exportToXml_SelectAndExport" parent="Uif-SecondaryActionButton" p:actionLabel="Export to Doc XML" p:methodToCall="exportToXml"
+                      p:render="@{(searchResultDisplayRowList ne null) and (searchType eq 'search' or searchType eq 'browse')}" p:successCallback="searching()"/>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="GlobalEditView-Button-Section" parent="Uif-HorizontalBoxSection" p:render="@{!viewGlobalEditFlag}"
+   <!-- <bean id="GlobalEditView-Export" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <ref bean="ExportToRequestXMLPanel"/>
+            </list>
+        </property>
+    </bean>-->
+
+    <bean id="GlobalEditView-Export"  parent="Uif-HorizontalBoxSection" p:render="@{!viewGlobalEditFlag}">
+        <property name="items">
+            <list>
+                <bean id="export_button_GlobalEditView" parent="Uif-SecondaryActionButton-Small" p:render="@{requestXMLTextArea ne null and requestXMLTextArea ne ''}" p:methodToCall="export"  p:actionLabel="Export to Request XML" p:successCallback="searching()"/>
+                <bean id="requestXML_textArea_GlobalEditView" parent="Uif-InputField" p:propertyName="requestXMLTextArea"
+                      p:label=""
+                      p:required="false" p:render="@{requestXMLTextArea ne null and requestXMLTextArea ne ''}" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cols="75" p:rows="15"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Button-Section" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:render="@{!viewGlobalEditFlag}"
           p:componentSecurity.viewAuthz="true">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="selectAll" p:defaultValue="false" p:style="float:left;margin-left:20em">
+               <!-- <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="selectAll" p:defaultValue="false" p:style="float:left;margin-left:20em">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Select all search results"/>
                     </property>
-                </bean>
+                </bean>-->
                 <bean id="GlobalEditView-Add-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
                       p:methodToCall="addGlobalEditRecords" p:actionLabel="Add To Global Edit List"/>
                 <bean id="GlobalEditView-View-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
@@ -270,7 +316,7 @@
     </bean>
 
 
-    <bean id="GlobaEdit_DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection">
+    <bean id="GlobaEdit_DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection" p:render="@{!viewGlobalEditFlag}">
         <property name="items">
             <list>
                 <bean id="global_docType" parent="Base-Uif-InputField-LabelTop"

@@ -24,6 +24,19 @@
     <bean id="EditorView" parent="EditorView-parentBean" />
     <bean id="EditorView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="@{headerText}"/>
+        <property name="header.rightGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean="expandCollapse_EditorBtn"/>
+                        <ref bean="expandCollapse_HoldingBtn"/>
+                        <ref bean="expandCollapse_ItemBtn"/>
+                        <ref bean="expandCollapse_eHoldingBtn"/>
+                        <ref bean="editorItem_Mandatory"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -168,7 +181,7 @@
         <property name="headerText" value=""/>
         <property name="propertyName" value="leftTree"/>
     </bean>
-    <bean id="bibLevelActionSection" parent="Uif-HorizontalBoxSection">
+    <bean id="bibLevelActionSection" parent="Uif-HorizontalBoxSection" p:style="margin-left:21px">
         <property name="items">
             <list>
                 <!--<bean parent="Uif-ActionImage"  p:actionScript="addInstance()" p:actionEvent="addInstance" p:componentSecurity.performActionAuthz="true">
@@ -230,11 +243,11 @@
 
     <!-- Left pane Navigation ::: END-->
 
-    <bean id="Editor_Footer" parent="Uif-HorizontalBoxSection" p:render="@{editable eq 'true' and hideFooter eq true}">
+    <bean id="Editor_Footer" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:render="@{editable eq 'true' and hideFooter eq true}">
         <property name="items">
             <list>
                 <bean id="submitEditor" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:actionScript="validateAndSave()"
-                      p:actionLabel="Submit" p:style="float:left;margin-left:21em;margin-top:0.8em;" p:performClientSideValidation="true"
+                      p:actionLabel="Save" p:style="float:left;margin-left:21em;margin-top:0.8em;" p:performClientSideValidation="true"
                       p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{showEditorFooter eq true and globalEditFlag eq 'false'}"/>
 
                 <ref bean="Editor_Common_Buttons"/>
@@ -242,11 +255,67 @@
         </property>
     </bean>
 
-    <bean id="Editor_Header_Buttons" parent="Uif-HorizontalBoxSection" p:render="@{editable eq 'true' and hideFooter eq true}">
+    <bean id="expandCollapse_ItemBtn" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'Item'}" p:style="float:right;margin-top:0%;margin-right:1%">
         <property name="items">
             <list>
+                <bean id="editorItem_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAllItem();"/>
+                <bean id="editorItem_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAllItem();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="editorItem_Mandatory" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'Item' OR headerText eq 'E-Holdings'}" p:style="float:right;margin-top:-13%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="editorItem_Required" parent="Uif-Message" p:messageText="* indicates required field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="expandCollapse_HoldingBtn" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'Holdings'}" p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="editorHoldings_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAllHoldings();"/>
+                <bean id="editorHoldings_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAllHoldings();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="expandCollapse_eHoldingBtn" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'E-Holdings'}" p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="editorEHoldings_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAllEHoldings();"/>
+                <bean id="editorEHoldings_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAllEHoldings();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="expandCollapse_GlobalEditBtn" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'Global Holdings Editor  - OLEML Format'}" p:style="float:right;margin-top:-3%;margin-right:12%;width:100%">
+        <property name="items">
+            <list>
+                <bean id="globalEdit_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="globalEditExpandAll();"/>
+                <bean id="globalEdit_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="globalEditCollapseAll();"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="expandCollapse_EditorBtn" parent="Uif-HorizontalBoxSection" p:render="@{headerText eq 'Bib'}" p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="editor_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="editor_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Editor_Header_Buttons" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:render="@{editable eq 'true' and hideFooter eq true}">
+        <property name="items">
+            <list>
+                <ref bean="expandCollapse_GlobalEditBtn"/>
                 <bean id="submitEditor_Header" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:actionScript="validateAndSave()"
-                      p:actionLabel="Submit" p:style="float:left;margin-left:0em;margin-top:0.8em" p:performClientSideValidation="true"
+                      p:actionLabel="Save" p:style="float:left;margin-left:0em;margin-top:0.8em" p:performClientSideValidation="true"
                       p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{showEditorFooter eq true and globalEditFlag eq 'false'}"/>
 
                 <ref bean="Editor_Common_Buttons"/>
@@ -257,38 +326,60 @@
     <bean id="Editor_Common_Buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="closeEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId eq null and (docId ne null or copyFlag eq true) and showEditorFooter eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
-
-                <bean id="closeEditorFromReq" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId ne null and showClose eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
-
-                <bean id="cancelEditor" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
-                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq false and showEditorFooter eq true and globalEditFlag eq 'false'}"/>
-
-                <bean id="closeDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
-
-                <bean id="cancelDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="methodToCall('load')"
-                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and (docId ne null or copyFlag eq true) and globalEditFlag eq 'false'}"/>
-
                 <bean id="Editor_Copy_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Copy" p:actionScript="copyBib('copy')"
                       p:style="float:left;margin-left:0.2em" p:render="@{newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
-
-                <bean id="Item_Print_Slip_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print Call Slip" p:style="float:left;margin-left:0.2em"
-                      p:actionScript="printSlip()" p:render="@{item eq true and showEditorFooter eq true and globalEditFlag eq 'false'}" />
 
                 <bean id="Bib_Print_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:actionScript="printBib()"
                       p:style="float:left;margin-left:0.2em" p:render="@{bibliographic eq true and showEditorFooter eq true and showPrint eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
 
-                <bean id="returnToSearch_button" parent="Uif-SecondaryActionButton" p:actionLabel="Return to Search" p:actionScript="closeEditorWindow();"
-                      p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
+                <bean id="Item_Print_Slip_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print Call Slip" p:style="float:left;margin-left:0.2em"
+                      p:actionScript="printSlip()" p:render="@{item eq true and showEditorFooter eq true and globalEditFlag eq 'false'}" />
 
+
+                <bean id="deleteHoldings_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Delete" p:actionScript ="
+               jq('#hdnDocCat_control').val('work');
+               jq('#hdnDocType_control').val('holdings');
+               jq('#hdnDocFormat_control').val('oleml');
+                submitForm('deleteVerify', null, null, true, function () {
+                jq('#Editor_Footer').hide();
+                });"
+                      p:style="float:left;margin-left:0.2em" p:render="@{headerText eq 'Holdings' and docId ne null and newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
+
+
+                <bean id="deleteItem_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Delete" p:actionScript ="
+                jq('#hdnDocCat_control').val('work');
+                jq('#hdnDocType_control').val('item');
+                jq('#hdnDocFormat_control').val('oleml');
+                submitForm('deleteVerify', null, null, true, function () {
+                jq('#Editor_Footer').hide();
+                });"
+                      p:style="float:left;margin-left:0.2em" p:render="@{headerText eq 'Item' and docId ne null and newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
+
+                <!--<bean id="closeEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId eq null and (docId ne null or copyFlag eq true) and showEditorFooter eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
+-->
+                <bean id="closeEditorFromReq" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId ne null and showClose eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
+
+                <bean id="cancelEditor" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:successCallback="closeEditorWindow()" p:render="@{fromSearch eq false and showEditorFooter eq true and globalEditFlag eq 'false'}"/>
+
+                <!--<bean id="closeDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>-->
+
+                <bean id="cancelDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="submitForm('returnToPrevious', null, null, null, null)"
+                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and (docId ne null or copyFlag eq true) and globalEditFlag eq 'false'}"/>
+
+
+
+               <!-- <bean id="returnToSearch_button" parent="Uif-SecondaryActionButton" p:actionLabel="Return to Search" p:actionScript="closeEditorWindow();"
+                      p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
+-->
                 <bean id="globalEditUpdate_button" parent="Uif-SecondaryActionButton" p:actionLabel="Update"  p:methodToCall="globalEditSave"
-                      p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
+                      p:style="position: relative;float:left;top:1%;margin-right: -50%;transform: translate(-420%, 0%);justify-content: center;align-items: center;" p:render="@{globalEditFlag eq 'true'}"/>
 
                 <bean id="globalEditClose_button" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
+                      p:actionLabel="Cancel" p:style="position: relative;float:left;top:1%;margin-right: -50%;transform: translate(-300%, 0%);justify-content: center;align-items: center;" p:render="@{globalEditFlag eq 'true'}"/>
             </list>
         </property>
     </bean>

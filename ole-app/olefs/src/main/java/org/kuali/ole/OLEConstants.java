@@ -2925,6 +2925,7 @@ public class OLEConstants {
 
 
     public static final String GLOBAL_EDIT_ADD_RECORDS_MESSAGE = "info.globalEdit.edit.selected.records";
+    public static final String GLOBAL_EDIT_SELECTED_RECORDS_ADD_MESSAGE = "info.globalEdit.edit.selected.message";
     public static final String GLOBAL_EDIT_VIEW_RECORDS_MESSAGE = "info.globalEdit.view.selected.records";
     public static final String GLOBAL_EDIT_HOLDINGS_HEADER_MESSAGE = "Global Holdings Editor  - OLEML Format";
     public static final String GLOBAL_EDIT_ITEM_HEADER_MESSAGE = "Global Item Editor - OLEML Format";

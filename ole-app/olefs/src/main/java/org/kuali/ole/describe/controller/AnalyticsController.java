@@ -12,6 +12,7 @@ import org.kuali.ole.describe.rule.OLEAnalyticsRule;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -110,11 +111,14 @@ public class AnalyticsController extends BoundwithController {
             Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuidList, DocType.BIB.getDescription(), true);
             analyticsForm.getBoundwithTree().setRootElement(rootNode);
             GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.INFO_ANALYTICS_CREATE_SUCCESS);
+            analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INFO_ANALYTICS_CREATE_SUCCESS));
             analyticsForm.setBoundwithTreeLabelText("select");
         } catch (DocstoreException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, e.getErrorCode());
+            analyticsForm.setMessage(e.getErrorCode());
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_ANALYTICS_CREATE_FAILED, e.getMessage());
+            analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_ANALYTICS_CREATE_FAILED)+e.getMessage());
         }
         analyticsForm.setSelectedHoldings(null);
     }

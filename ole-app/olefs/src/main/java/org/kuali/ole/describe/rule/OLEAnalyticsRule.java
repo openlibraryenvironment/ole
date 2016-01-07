@@ -2,6 +2,7 @@ package org.kuali.ole.describe.rule;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.LoanUtil;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.describe.bo.DocumentSelectionTree;
 import org.kuali.ole.describe.bo.DocumentTreeNode;
@@ -9,6 +10,7 @@ import org.kuali.ole.describe.form.AnalyticsForm;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -220,19 +222,25 @@ public class OLEAnalyticsRule {
 
         if (leftTreeRootElement == null && rightTreeRootElement == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_SERIES_AND_ANALYTICS);
+            analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_SERIES_AND_ANALYTICS));
         } else if (leftTreeRootElement != null && rightTreeRootElement == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ANALYTICS);
+            analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ANALYTICS));
         } else if (leftTreeRootElement == null && rightTreeRootElement != null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_SERIES);
+            analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_SERIES));
         } else if (leftTreeRootElement != null && rightTreeRootElement != null) {
             List<Node<DocumentTreeNode, String>> leftList = leftTree.getRootElement().getChildren();
             List<Node<DocumentTreeNode, String>> rightList = rightTree.getRootElement().getChildren();
             if (CollectionUtils.isEmpty(leftList) && CollectionUtils.isEmpty(rightList)) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_SERIES_AND_ANALYTICS);
+                analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_SERIES_AND_ANALYTICS));
             } else if (!CollectionUtils.isEmpty(leftList) && CollectionUtils.isEmpty(rightList)) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ANALYTICS);
+                analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ANALYTICS));
             } else if (CollectionUtils.isEmpty(leftList) && !CollectionUtils.isEmpty(rightList)) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_SERIES);
+                analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_SERIES));
             } else if (!CollectionUtils.isEmpty(leftList) && !CollectionUtils.isEmpty(rightList)) {
                 if (createOrBreak.equalsIgnoreCase(OLEConstants.CREATE_ANALYTICS)) {
                     for (Node<DocumentTreeNode, String> bibNode : leftList) {
@@ -260,8 +268,10 @@ public class OLEAnalyticsRule {
                     }
                     if (isSeriesBibSelected || isSeriesItemSelected) {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONLY_HOLDINGS);
+                        analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ONLY_HOLDINGS));
                     } else if (!isSeriesHoldingsSelected) {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONE_HOLDINGS);
+                        analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ONE_HOLDINGS));
                     }
                 }
 
@@ -313,13 +323,17 @@ public class OLEAnalyticsRule {
                 }
                 if (isAnalyticBibSelected || isAnalyticHoldingsSelected) {
                     GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONLY_ITEMS);
+                    analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ONLY_ITEMS));
                 } else if (!isAnalyticItemSelected) {
                     GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONE_ITEM);
+                    analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ONE_ITEM));
                 } else if (StringUtils.isNotBlank(itemLabelsBuffer.toString()) && !isAnalyticBibSelected && !isAnalyticHoldingsSelected) {
                     if (createOrBreak.equalsIgnoreCase(OLEConstants.BREAK_ANALYTICS)) {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ITEM_NOT_ANALYTIC);
+                        analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ITEM_NOT_ANALYTIC));
                     } else {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ITEM_IN_ANALYTIC_RELATION);
+                        analyticsForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ERROR_SELECT_ITEM_IN_ANALYTIC_RELATION));
                     }
                 }
             }

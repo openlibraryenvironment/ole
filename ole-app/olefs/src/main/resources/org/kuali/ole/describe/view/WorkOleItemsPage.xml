@@ -197,12 +197,9 @@
                 </bean>
                 <bean id="staffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
                       p:label="Staff Only"
-                      p:required="false"  p:render="@{globalEditFlag eq 'true'}">
+                      p:required="false" p:render="@{globalEditFlag eq 'true'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.describe.keyvalue.OLEStaffFieldKeyValueFinder"/>
+                        <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
                 <bean id="LocalItem" parent="Uif-InputField" p:propertyName="itemLocalIdentifier"
