@@ -5,6 +5,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
+import org.kuali.ole.deliver.util.ItemFineRate;
 import org.kuali.ole.deliver.util.LoanDateTimeUtil;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
@@ -190,6 +191,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
     private String sentNoticesUrl;
+    private ItemFineRate itemFineRate = new ItemFineRate();
+
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
     }
@@ -2201,5 +2204,13 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setSentNoticesUrl(String sentNoticesUrl) {
         this.sentNoticesUrl = sentNoticesUrl;
+    }
+
+    public ItemFineRate getItemFineRate() {
+        return itemFineRate;
+    }
+
+    public void setItemFineRate(ItemFineRate itemFineRate) {
+        this.itemFineRate = itemFineRate;
     }
 }

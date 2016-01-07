@@ -5,14 +5,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
-import org.kuali.ole.deliver.bo.OLEDeliverNotice;
-import org.kuali.ole.deliver.bo.OleItemSearch;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
-import org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration;
+import org.kuali.ole.deliver.PatronBillGenerator;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.util.FineDateTimeUtil;
+import org.kuali.ole.deliver.util.ItemFineRate;
 import org.kuali.ole.deliver.util.NoticeInfo;
+import org.kuali.ole.deliver.util.OleItemRecordForCirc;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.ItemOleml;
@@ -27,6 +28,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -506,4 +508,59 @@ public class CircUtilController extends RuleExecutor {
         noticeProcessors.add(new RecallCourtseyNoticeDueDateProcessor());
         return noticeProcessors;
     }
+
+    public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate){
+        String billPayment = null;
+        ItemFineRate itemFineRate = loanDocument.getItemFineRate();
+        if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
+            LOG.error("No fine rule found");
+        } else {
+            if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
+                billPayment = generateReplacementBill(loanDocument, dueDate);
+            } else {
+                Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, dueDate, customDueDateMap, itemFineRate);
+                overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
+                if (null != overdueFine && overdueFine > 0) {
+                    billPayment = generateOverdueBill(loanDocument, overdueFine, dueDate);
+                }
+            }
+        }
+        return billPayment;
+    }
+
+    private String generateOverdueBill(OleLoanDocument loanDocument, Double overdueFine, Timestamp dueDate) {
+        String billPayment = null;
+        try {
+            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.OVERDUE_FINE, overdueFine, dueDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return billPayment;
+    }
+
+    private String generateReplacementBill(OleLoanDocument loanDocument, Timestamp dueDate) {
+        String billPayment = null;
+        try {
+            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.REPLACEMENT_FEE, loanDocument.getReplacementBill().doubleValue(), dueDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return billPayment;
+    }
+
+    private PatronBillGenerator getPatronBillGenerator() {
+        return new PatronBillGenerator();
+    }
+
+    public ItemFineRate fireFineRules(OleLoanDocument loanDocument, OleItemRecordForCirc oleItemRecordForCirc, OlePatronDocument olePatronDocument) {
+        ItemFineRate itemFineRate = new ItemFineRate();
+        List<Object> facts = new ArrayList<>();
+        facts.add(oleItemRecordForCirc);
+        facts.add(itemFineRate);
+        facts.add(olePatronDocument);
+        facts.add(loanDocument);
+        fireRules(facts, null, "fine validation");
+        return itemFineRate;
+    }
+
 }

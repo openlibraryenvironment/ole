@@ -3,11 +3,13 @@ package org.kuali.ole.deliver.controller.renew;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.form.CircForm;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -15,10 +17,7 @@ import org.kuali.ole.ncip.service.impl.NonSip2RenewItemService;
 import org.kuali.ole.ncip.service.impl.RenewItemsService;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sheiksalahudeenm on 8/13/15.
@@ -28,6 +27,7 @@ public class RenewController extends CircUtilController {
     private static final Logger LOG = Logger.getLogger(RenewController.class);
     private RenewItemControllerUtil renewItemControllerUtil;
     private RenewItemsService renewItemsService;
+    private ParameterValueResolver parameterValueResolver;
 
     public DroolsResponse renewItems(List<OleLoanDocument> selectedLoanDocumentList, OlePatronDocument olePatronDocument) {
         List<Item> itemList = new ArrayList<>();
@@ -54,6 +54,13 @@ public class RenewController extends CircUtilController {
                 facts.add(noticeInfo);
                 fireRules(facts, null, "renewal validation");
 
+                Boolean fineCalcWhileRenew = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                        .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_CALC_WHILE_RENEW);
+                if (fineCalcWhileRenew){
+                    ItemFineRate itemFineRate = fireFineRules(oleLoanDocument, oleItemRecordForCirc, olePatronDocument);
+                    oleLoanDocument.setItemFineRate(itemFineRate);
+                }
+
                 if (droolsResponse.isRuleMatched()) {
                     if (StringUtils.isBlank(droolsResponse.retrieveErrorMessage())) {
                         boolean pastAndRenewDueDateSame = false;
@@ -67,10 +74,12 @@ public class RenewController extends CircUtilController {
                                 if (null != oleLoanDocument.getLoanId()) {
                                     Item itemForUpdate = getItemForUpdate(oleLoanDocument);
                                     if (null != itemForUpdate) {
-                                        itemList.add(itemForUpdate);
+                                        itemList.add(itemForUpdate);                                        
                                         droolsResponse.setSucessMessage("Successfully Renewed");
                                         droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
                                         finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
+
+                                        generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
                                     }
                                 }
                             } else {
@@ -240,6 +249,8 @@ public class RenewController extends CircUtilController {
                     OleLoanDocument oleLoanDocument = (OleLoanDocument) individualDroolResponse.getDroolsExchange().getContext().get(key);
                     String content = "Successfully renewed for item (" + oleLoanDocument.getItemId() + ")";
                     appendContentToStrinBuilder(stringBuilder, content);
+
+                    generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
                 } else {
                     OleLoanDocument oleLoanDocument = (OleLoanDocument) individualDroolResponse.getDroolsExchange().getContext().get(key);
                     String content = "Renewed failed for item (" + oleLoanDocument.getItemId() + ")";
@@ -270,5 +281,15 @@ public class RenewController extends CircUtilController {
 
     public void setRenewItemsService(RenewItemsService renewItemsService) {
         this.renewItemsService = renewItemsService;
+    }
+    public ParameterValueResolver getParameterValueResolver() {
+        if (parameterValueResolver == null) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
     }
 }
