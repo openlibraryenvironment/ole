@@ -6,3 +6,4 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-DLVR","Deliver","RECEIPT_PRINTER_FONT_SIZE","OLE7049","1","CONFG","13","This parameter value is used for configuring the font size for receipt printer.","A","OLE"
 "OLE-DLVR","Deliver","REGULAR_PRINTER_PAGE_SIZE","OLE7050","1","CONFG","A4","This parameter value is used for configuring the page size for regular printer.","A","OLE"
 "OLE-DLVR","Deliver","REGULAR_PRINTER_FONT_SIZE","OLE7051","1","CONFG","10","This parameter value is used for configuring the font size for regular printer.","A","OLE"
+"OLE-DLVR","Deliver","FINE_CALC_WHILE_RENEW","OLE7052","1","CONFG","false","This parameter value is used for configuring the system to calculate overdue fines while renew an item.","A","OLE"
