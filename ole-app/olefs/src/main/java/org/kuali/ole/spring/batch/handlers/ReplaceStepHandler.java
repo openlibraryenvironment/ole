@@ -21,13 +21,14 @@ public class ReplaceStepHandler extends StepHandler {
         String sourceField = sourceFieldStringArray[0];
 
         String constantField = getBatchProfileDataTransformer().getConstant();
-        if (StringUtils.isNotBlank(constantField)) {
-            if (getMarcRecordUtil().isControlField(sourceField)) {
-                getMarcRecordUtil().updateControlFieldValue(marcRecord, sourceField, constantField);
-            } else {
-                String sourceSubField = (sourceFieldStringArray.length > 1 ? sourceFieldStringArray[1] : "");
-                getMarcRecordUtil().updateDataFieldValue(marcRecord, sourceField, sourceSubField, constantField);
-            }
+        if (StringUtils.isBlank(constantField)) {
+            constantField = "";
+        }
+        if (getMarcRecordUtil().isControlField(sourceField)) {
+            getMarcRecordUtil().updateControlFieldValue(marcRecord, sourceField, constantField);
+        } else {
+            String sourceSubField = (sourceFieldStringArray.length > 1 ? sourceFieldStringArray[1] : "");
+            getMarcRecordUtil().updateDataFieldValue(marcRecord, sourceField, sourceSubField, constantField);
         }
     }
 
