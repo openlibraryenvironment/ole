@@ -54,17 +54,6 @@ public class BatchFileProcessor_IT {
     }
 
     @Test
-    public void testProcessBatchForHoldings() throws Exception {
-        OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
-        BatchFileProcessor batchFileProcessor = new MockBatchHoldingFileProcessor();
-        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
-        File file = new File(resource.toURI());
-        batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        String rawMarc = FileUtils.readFileToString(file);
-        batchFileProcessor.processBatch(rawMarc,"BibForInvoiceCasalini");
-    }
-
-    @Test
     public void testOleDsNgRestClient() throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
         JSONObject jsonObject = new JSONObject();
@@ -291,13 +280,6 @@ public class BatchFileProcessor_IT {
         @Override
         public MatchPointProcessor getMatchPointProcessor() {
             return new MatchPointProcessor();
-        }
-    }
-
-    class MockBatchHoldingFileProcessor extends BatchHoldingFileProcessor {
-        @Override
-        public String getUpdatedUserName() {
-            return "dev2";
         }
     }
 

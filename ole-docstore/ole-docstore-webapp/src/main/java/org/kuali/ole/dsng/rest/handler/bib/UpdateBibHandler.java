@@ -8,6 +8,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsProcessor;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,6 +51,15 @@ public class UpdateBibHandler extends BibHandler {
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
                 exchange.add("bib", updatedBibRecord);
+
+                List bibUpdated = (List) exchange.get("bibUpdated");
+                if(null == bibUpdated) {
+                    bibUpdated = new ArrayList();
+                }
+                bibUpdated.add(bibRecord);
+
+                exchange.add("bibUpdated",bibUpdated);
+
                 processHoldings(requestJsonObject,exchange);
             }
 

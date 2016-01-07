@@ -8,6 +8,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,6 +55,14 @@ public class CreateBibHandler extends BibHandler {
                 updatedBibRecord = getBibDAO().save(bibRecord);
 
                 exchange.add("bib", updatedBibRecord);
+
+                List bibCrated = (List) exchange.get("bibCrated");
+                if(null == bibCrated) {
+                    bibCrated = new ArrayList();
+                }
+                bibCrated.add(bibRecord);
+
+                exchange.add("bibCrated",bibCrated);
 
                 createHoldings(requestJsonObject, exchange);
 

@@ -2,6 +2,7 @@ package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
@@ -15,10 +16,14 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -36,7 +41,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
-
         JSONArray jsonArray = new JSONArray();
         Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
@@ -58,11 +62,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         }
 
-
         if (jsonArray.length() > 0) {
             return getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
         }
-        return null;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Status", "Failure");
+        return jsonObject.toString();
     }
 
     private String getOperationInd(String operation) {
@@ -315,5 +320,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
         this.matchPointProcessor = matchPointProcessor;
+    }
+
+    @Override
+    public String getReportingFilePath() {
+        return ConfigContext.getCurrentContextConfig().getProperty("batch.bibImport.directory");
     }
 }

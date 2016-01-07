@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -35,15 +36,16 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
     private MarcXMLConverter marcXMLConverter;
     private SolrRequestReponseHandler solrRequestReponseHandler;
+    protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
     public void processBatch(String  rawMarc, String profileId) {
         try {
             BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileId);
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
             String responseData = processRecords(records, batchProcessProfile);
-            Config currentContextConfig = ConfigContext.getCurrentContextConfig();
-            String batchFileLocationPath = currentContextConfig.getProperty("batch.bibImport.directory");
-            String fileName = batchFileLocationPath+File.separator+profileId+"_"+new Date()+".txt";
+            String date = simpleDateFormat.format(new Date());
+            String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
+            String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
             FileUtils.write(new File(fileName), responseData);
             LOG.info("Response Data : " + responseData);
         } catch (JSONException e) {
@@ -72,6 +74,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
     }
 
     public abstract String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException;
+    public abstract String getReportingFilePath();
 
     public String getUpdatedUserName() {
         UserSession userSession = GlobalVariables.getUserSession();
