@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 /**
  * Created by pvsubrah on 12/21/15.
  */
-public class RemoveHandler extends StepHandler {
+public class ReplaceHandler extends StepHandler {
 
     /*Eg of source field -  001 or 050 $a$b$c or any thing.
      Eg of constant value - ocm or ocm,onc or anything.
@@ -48,6 +48,6 @@ public class RemoveHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-       return operation.equalsIgnoreCase("delete");
+       return operation.equalsIgnoreCase("replace");
     }
 }

@@ -54,9 +54,11 @@ public class StepsProcessor {
     public List<StepHandler> getStepHandlerList() {
         if (null == stepHandlerList) {
             stepHandlerList = new ArrayList<>();
-            stepHandlerList.add(new AddOperationStepHandler());
+            stepHandlerList.add(new NewStepHandler());
             stepHandlerList.add(new PrependHandler());
-            stepHandlerList.add(new RemoveHandler());
+            stepHandlerList.add(new DeleteStepHandler());
+            stepHandlerList.add(new MoveStepHandler());
+            stepHandlerList.add(new ReplaceHandler());
         }
         return stepHandlerList;
     }

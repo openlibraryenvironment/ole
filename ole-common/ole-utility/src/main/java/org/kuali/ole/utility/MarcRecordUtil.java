@@ -34,6 +34,40 @@ public class MarcRecordUtil {
         }
     }
 
+    /*This method will get the field, subFields and value.  It will add variable field to record
+    * Eg:
+    *   field : 050
+    *   subFields  : $a$b*/
+    public void addDataField(Record marcRecord, String field, String subFields, String value) {
+        MarcFactory factory = MarcFactory.newInstance();
+        DataField dataField = factory.newDataField();
+        dataField.setTag(field);
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        StringTokenizer stringTokenizer = new StringTokenizer(subFields,"$");
+        while(stringTokenizer.hasMoreTokens()) {
+            String subField = stringTokenizer.nextToken();
+            Subfield subfield = factory.newSubfield();
+            subfield.setCode(subField.charAt(0));
+            subfield.setData(value);
+            dataField.addSubfield(subfield);
+        }
+        addVariableFieldToRecord(marcRecord, dataField);
+    }
+
+    /*This method will get the field, subFields and value.  It will add variable field to record
+    * Eg:
+    *   field : 050
+    *   subFields  : $a$b*/
+    public void addControlField(Record marcRecord, String field, String value) {
+        MarcFactory factory = MarcFactory.newInstance();
+        ControlField controlField = factory.newControlField();
+        controlField.setTag(field);
+        controlField.setData(value);
+        addVariableFieldToRecord(marcRecord, controlField);
+    }
+
     /*This method will get the field and tags and will return return the concadinated value
     * Eg:
     *   field : 050
@@ -90,7 +124,7 @@ public class MarcRecordUtil {
         marcRecord.addVariableField(variableField);
     }
 
-    public void deleteFieldInRecord(Record marcRecord, String field) {
+    public void removeFieldFromRecord(Record marcRecord, String field) {
         List<VariableField> variableFields = marcRecord.getVariableFields(field);
         if (CollectionUtils.isNotEmpty(variableFields)) {
             for (Iterator<VariableField> iterator = variableFields.iterator(); iterator.hasNext(); ) {
