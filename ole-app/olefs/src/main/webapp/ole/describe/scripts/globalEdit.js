@@ -1,7 +1,7 @@
 
 
 function viewGlobalEdit(docType){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=start&docType="+docType+"&editable=true&globalEditFlag=true&docCategory=work&docFormat=oleml");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=EditorView&methodToCall=start&docType="+docType+"&editable=true&globalEditFlag=true&docCategory=work&docFormat=oleml");
     return false;
 }
 
@@ -21,6 +21,20 @@ jq(window).load(function () {
 
 
 });
+
+
+function getApplicationPath() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    return loc1.substring(0, loc1.lastIndexOf('/') + 1);
+}
+
+function getApplicationBanner() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    loc1 =loc1.replace("/ole-kr-krad","");
+    return loc1.substring(0, loc1.lastIndexOf('/')+1);
+}
 
 function editImport(){
     jq("#GlobalEdit-SearchPanel-docType-Section_control_0").attr ('checked',true);

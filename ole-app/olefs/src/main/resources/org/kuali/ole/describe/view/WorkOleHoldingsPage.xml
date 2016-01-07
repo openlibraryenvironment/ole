@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="WorkOleHoldingsDetails" parent="Uif-VerticalBoxGroup" p:layoutManager.style="border:1px solid;"
+    <bean id="WorkOleHoldingsDetails" parent="Uif-VerticalBoxGroup" p:style="width:48%" p:layoutManager.style="border:1px solid;"
           p:readOnly="@{editable eq 'false'}">
         <property name="headerText" value="OLE Holdings"/>
         <property name="items">
@@ -122,12 +122,9 @@
                 </bean>
                 <bean id="oleItemStaffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
                       p:label="Staff Only"
-                      p:required="false"  p:render="@{globalEditFlag eq 'true'}">
+                      p:required="false" p:render="@{globalEditFlag eq 'true'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.describe.keyvalue.OLEStaffFieldKeyValueFinder"/>
+                        <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
                 <bean id="LocalIdHolding" parent="Uif-InputField" p:propertyName="holdingLocalIdentifier"

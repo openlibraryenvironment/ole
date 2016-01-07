@@ -542,7 +542,7 @@
         to ${(manager.pager.currentPage - 1) * manager.pageSize + manager.displayedLines}
         of ${manager.totalLines} entries
     </div>
-    <div style="float : right">
+    <div style="float : right;height:44px;margin-top: -18px">
         <@krad.template component=manager.pager parent=container />
     </div>
     </#if>
@@ -550,7 +550,7 @@
 
 <#macro search_pager_top manager container>
     <#if manager.pager?? && manager.pager.currentPage gt 0>
-    <div style="float : right">
+    <div style="float : right;height:50px">
         <@krad.template component=manager.pager parent=container />
     </div>
     </#if>
