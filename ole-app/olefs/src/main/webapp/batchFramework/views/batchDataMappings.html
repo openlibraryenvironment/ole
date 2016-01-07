@@ -83,7 +83,7 @@
                                     ng-model="dataMapping.field"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && !dataMapping.isAddLine"
                                     ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
-                                <option ng-selected="{{option.name == dataMapping.destination}}"
+                                <option ng-selected="{{option.name == dataMapping.field}}"
                                         ng-repeat="option in dataMapping.destinationFields  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
@@ -94,7 +94,7 @@
                                     ng-model="dataMapping.field"
                                     ng-show="(mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import') && !dataMapping.isAddLine"
                                     ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
-                                <option ng-selected="{{option.name == dataMapping.destination}}"
+                                <option ng-selected="{{option.name == dataMapping.field}}"
                                         ng-repeat="option in dataMapping.dataMappingFields"
                                         value="{{option.name}}">
                                     {{option.name}}
