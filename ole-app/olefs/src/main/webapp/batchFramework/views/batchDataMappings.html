@@ -15,12 +15,12 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Source</th>
+                        <th>Source</th>
                         <th>Data Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Subfield</th>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">Destination</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Destination</th>
                         <th>Field</th>
                         <th>Value</th>
                         <th>Pre/Post Transformation</th>
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
-                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td>
                             <select class="form-control" name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
                                     ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine"
                                     ng-change="populationDestinations(dataMapping)">
@@ -66,7 +66,7 @@
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.subField"></span>
                         </td>
-                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
                             <select class="form-control" name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
                                     ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine"
                                     ng-change="populateDestinationFields(dataMapping)">
@@ -89,13 +89,13 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 350px;"
                                     name="dataMappingOrderField_{{$index}}"
                                     ng-model="dataMapping.field"
-                                    ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && !dataMapping.isAddLine"
-                                    ng-change="getMaintenanceValuesForFieldType(dataMapping, dataMapping.field)">
+                                    ng-show="(mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import') && !dataMapping.isAddLine"
+                                    ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
-                                        ng-repeat="option in dataMapping.dataMappingOrderFields"
+                                        ng-repeat="option in dataMapping.dataMappingFields"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -126,36 +126,7 @@
                                             || dataMapping.field == 'Authentication Type'
                                             || dataMapping.field == 'Staff Only'
                                             || dataMapping.field == 'Access Location'
-                                            || dataMapping.field == 'Statistical Code'
-                                            || dataMapping.field == 'Chart Code'
-                                            || dataMapping.field == 'Org Code'
-                                            || dataMapping.field == 'Item Chart Code'
-                                            || dataMapping.field == 'Contract Manager'
-                                            || dataMapping.field == 'Order Type'
-                                            || dataMapping.field == 'Funding Source'
-                                            || dataMapping.field == 'Delivery Campus Code'
-                                            || dataMapping.field == 'Building Code'
-                                            || dataMapping.field == 'Building Room Number'
-                                            || dataMapping.field == 'Vendor Choice'
-                                            || dataMapping.field == 'Cost Source'
-                                            || dataMapping.field == 'Default Location'
-                                            || dataMapping.field == 'Vendor Number'
-                                            || dataMapping.field == 'Vendor Alias Name'
-                                            || dataMapping.field == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
-                                            || dataMapping.field == 'Requestor Name'
-                                            || dataMapping.field == 'Discount Type'
-                                            || dataMapping.field == 'Account Number'
-                                            || dataMapping.field == 'Object Code'
-                                            || dataMapping.field == 'Request Source'
-                                            || dataMapping.field == 'Assign To User'
-                                            || dataMapping.field == 'Method Of PO Transmission'
-                                            || dataMapping.field == 'Recurring Payment Type'
-                                            || dataMapping.field == 'Receiving Required'
-                                            || dataMapping.field == 'Use Tax Indicator'
-                                            || dataMapping.field == 'Pay Req Positive Approval Req'
-                                            || dataMapping.field == 'Purchase Order Confirmation Indicator'
-                                            || dataMapping.field == 'Route To Requestor'
-                                            || dataMapping.field == 'Fund Code') &&  !dataMapping.isAddLine">
+                                            || dataMapping.field == 'Statistical Code') &&  !dataMapping.isAddLine">
                                 <option ng-selected="{{option.value == dataMapping.constant}}"
                                         ng-repeat="option in constantValues | orderBy:'value'"
                                         value="{{option.value}}">
@@ -205,7 +176,8 @@
                                             || dataMapping.field == 'Assign To User'
                                             || dataMapping.field == 'Method Of PO Transmission'
                                             || dataMapping.field == 'Recurring Payment Type'
-                                            || dataMapping.field == 'Fund Code') && !constantsAndDefault.isAddLine">
+                                            || dataMapping.field == 'Fund Code'
+                                            || dataMapping.field == 'Currency Type') && !dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.constant}}"
                                         ng-repeat="option in dataMappingFieldValues  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}
@@ -262,6 +234,7 @@
                                             || dataMapping.field == 'Purchase Order Confirmation Indicator'
                                             || dataMapping.field == 'Route To Requestor'
                                             || dataMapping.field == 'Fund Code'
+                                            || dataMapping.field == 'Currency Type'
                                             || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>

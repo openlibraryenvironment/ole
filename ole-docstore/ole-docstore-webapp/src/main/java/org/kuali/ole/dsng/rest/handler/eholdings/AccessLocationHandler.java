@@ -3,11 +3,12 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsAccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
+import org.kuali.ole.dsng.util.AccessLocationUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -42,8 +43,18 @@ public class AccessLocationHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : need to get the information about the process.
-
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String accessLocationCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
+        if(null !=  accessLocation) {
+            List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
+            if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
+                for (Iterator<HoldingsAccessLocation> iterator = holdingsAccessLocations.iterator(); iterator.hasNext(); ) {
+                    HoldingsAccessLocation holdingsAccessLocation = iterator.next();
+                    holdingsAccessLocation.setAccessLocation(accessLocation);
+                }
+            }
+        }
+        exchange.add("holdingsRecord", holdingRecord);
     }
 }

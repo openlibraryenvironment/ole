@@ -41,38 +41,61 @@ public class MatchPointProcessor extends BatchUtil {
     private String formSolrQueryMapForMatchPoint(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
         String dataField = batchProfileMatchPoint.getDataField();
         if (null != batchProfileMatchPoint.getDataField() && getMarcRecordUtil().isControlField(dataField)) {
-            return processForControlField(marcRecord);
+            return processForControlField(marcRecord,batchProfileMatchPoint);
         } else {
             return processForDataField(marcRecord, batchProfileMatchPoint);
         }
 
     }
 
-    private String processForControlField(Record marcRecord) {
-        String valueOf001 = getMarcRecordUtil().getControlFieldValue(marcRecord, "001");
-        if(StringUtils.isNotBlank(valueOf001)){
-            return "controlfield_001:" + "\"" + valueOf001 + "\"";
+    private String processForControlField(Record marcRecord,BatchProfileMatchPoint  batchProfileMatchPoint) {
+        String dataField = batchProfileMatchPoint.getDataField();
+        String destDataField = batchProfileMatchPoint.getDestDataField();
+        String matchPointValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
+        String query = null;
+        if(StringUtils.isNotBlank(destDataField)) {
+            if(getMarcRecordUtil().isControlField(destDataField)) {
+                query =  "controlfield_" + destDataField + ":\"" + matchPointValue + "\"";
+            } else {
+                String destSubField = batchProfileMatchPoint.getDestSubField();
+                query =  "mdf_" + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
+            }
+        } else {
+            query = "controlfield_" + dataField + ":\"" + matchPointValue + "\"";
         }
-        return null;
+        return query;
     }
 
     private String processForDataField(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
         String field = batchProfileMatchPoint.getDataField();
+        String subField = batchProfileMatchPoint.getSubField();
+        String destDataField = batchProfileMatchPoint.getDestDataField();
+        String destSubField = batchProfileMatchPoint.getDestSubField();
+
+        String query = null;
+
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            String subField = batchProfileMatchPoint.getSubField();
             List<Subfield> subFields = dataField.getSubfields(subField);
             for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                 Subfield subfield = subfieldIterator.next();
                 String matchPointValue = subfield.getData();
                 if (StringUtils.isNotBlank(matchPointValue)) {
                     //Todo : Need to add ind1 and ind2 to the query.
-                    return "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
+                    if(StringUtils.isBlank(destDataField)) {
+                        query = "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
+                    } else {
+                        if(getMarcRecordUtil().isControlField(destDataField)){
+                            query =  "controlfield_" + destDataField + ":\"" + matchPointValue + "\"";
+                        } else {
+                            query = "mdf_" + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
+                        }
+                    }
                 }
             }
         }
-        return null;
+        return query;
     }
 
     private String prepareSolrQueryFromQueryList(List<String> queryList) {

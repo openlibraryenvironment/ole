@@ -1,6 +1,7 @@
 var batchProcessTypeValues = [
     {id: 'bibImport', name: 'Bib Import'},
-    {id: 'orderRecordImport', name: 'Order Record Import'}
+    {id: 'orderRecordImport', name: 'Order Record Import'},
+    {id: 'invoiceImport', name: 'Invoice Import'}
 ];
 
 var requisitionForTitlesValues = [
@@ -82,7 +83,7 @@ var dataMappingObject = {
         {id: 'chronology', name: 'Chronology'},
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
     ],
-    destinationFieldsForHibMarcEHoldings :  [
+    destinationFieldsForBibMarcEHoldings :  [
         {id: 'callNumber', name: 'Call Number'},
         {id: 'accessStatus', name: 'Access Status'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -118,7 +119,6 @@ var dataMappingObject = {
         {id: 'accessPassword', name: 'Access Password'},
         {id: 'authenticationType', name: 'Authentication Type'},
         {id: 'proxied', name: 'Proxied'},
-        {id: 'callNumberType', name: 'Call Number Type'},
         {id: 'prefix', name: 'Prefix'},
         {id: 'coverageStartDateRelativeFormat', name: 'Coverage Start Date Relative Format'},
         {id: 'coverageEndDateRelativeFormat', name: 'Coverage End Date Relative Format'},
@@ -138,7 +138,7 @@ var dataMappingObject = {
         {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
         {id: 'cancellationReason', name: 'Cancellation Reason'},
         {id: 'publicNote', name: 'Public Note'},
-        {id: 'non-publicNote', name: 'Non-public Note'},
+        {id: 'non-publicNote', name: 'Non-public Note'}
     ],
     destinationFieldsForConstantsBib : [
         {id: 'bibStatus', name: 'Bib Status'},
@@ -433,7 +433,6 @@ var eHoldingsDataMappings = [
     {id: 'accessPassword', name: 'Access Password'},
     {id: 'authenticationType', name: 'Authentication Type'},
     {id: 'proxied', name: 'Proxied'},
-    {id: 'callNumberType', name: 'Call Number Type'},
     {id: 'prefix', name: 'Prefix'},
     {id: 'coverageStartDateRelativeFormat', name: 'Coverage Start Date Relative Format'},
     {id: 'coverageEndDateRelativeFormat', name: 'Coverage End Date Relative Format'},
@@ -453,7 +452,7 @@ var eHoldingsDataMappings = [
     {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
     {id: 'cancellationReason', name: 'Cancellation Reason'},
     {id: 'publicNote', name: 'Public Note'},
-    {id: 'non-publicNote', name: 'Non-public Note'},
+    {id: 'non-publicNote', name: 'Non-public Note'}
 ];
 
 
@@ -583,6 +582,25 @@ var constantsAndDefaultsOrderFields = [
     {id: 'volumeNumber', name: 'Volume Number'}
 ];
 
+var invoiceFields = [
+    {id: 'accountNumber', name: 'Account Number'},
+    {id: 'bookPlate', name: 'Book Plate'},
+    {id: 'currencyType', name: 'Currency Type'},
+    {id: 'ebook', name: 'E-Book'},
+    {id: 'exchangeRate', name: 'Exchange Rate'},
+    {id: 'fundCode', name: 'Fund Code'},
+    {id: 'invoiceDate', name: 'Invoice Date'},
+    {id: 'invoiceNumber', name: 'Invoice Number'},
+    {id: 'foreignListPrice', name: 'Invoiced Foreign Price'},
+    {id: 'listPrice', name: 'Invoiced Price'},
+    {id: 'itemDescription', name: 'Item Description'},
+    {id: 'financialObjectCode', name: 'Object Code'},
+    {id: 'quantity', name: 'Quantity'},
+    {id: 'requestor', name: 'Requestor'},
+    {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
+    {id: 'vendorNumber', name: 'Vendor Number'}
+];
+
 var dataMappingOrderFields = [
     {id: 'accountNumber', name: 'Account Number'},
     {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
@@ -619,6 +637,7 @@ var dataMappingOrderFields = [
     {id: 'RecurringPaymentBeginDate', name: 'Recurring Payment Begin Date'},
     {id: 'RecurringPaymentEndDate', name: 'Recurring Payment End Date'},
     {id: 'RecurringPaymentType', name: 'Recurring Payment Type'},
+    {id: 'requestSourceType', name: 'Request Source'},
     {id: 'requestorName', name: 'Requestor Name'},
     {id: 'Requestor Note', name: 'Requestor Note'},
     {id: 'routeToRequestor', name: 'Route To Requestor'},
@@ -673,7 +692,6 @@ var addOrOverlay = {
     operations: operations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
-    booleanOptions: booleanOptions,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
@@ -691,10 +709,43 @@ var dataMapping = {
     holdingsFields: holdingsMatchPoints,
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsDataMappings,
-    dataMappingOrderFields: dataMappingOrderFields,
     discountTypes: discountTypes,
     transferOptions: transferOptions,
     transferOption: 'Pre Marc Transformation',
+    priority: 1,
+    isAddLine: false,
+    collapsed: true
+};
+
+var dataMappingOrder = {
+    title: 'Data Mappings',
+    dataMappingDocTypes: dataMappingProcessTypes,
+    dataMappingDocType: 'Bib Marc',
+    destinations: destinationDocumentTypes,
+    holdingsFields: holdingsMatchPoints,
+    itemFields: itemMatchPoints,
+    eHoldingsFields: eHoldingsDataMappings,
+    dataMappingFields: dataMappingOrderFields,
+    discountTypes: discountTypes,
+    transferOptions: transferOptions,
+    transferOption: 'Pre Transfer',
+    priority: 1,
+    isAddLine: false,
+    collapsed: true
+};
+
+var dataMappingInvoice = {
+    title: 'Data Mappings',
+    dataMappingDocTypes: dataMappingProcessTypes,
+    dataMappingDocType: 'Bib Marc',
+    destinations: destinationDocumentTypes,
+    holdingsFields: holdingsMatchPoints,
+    itemFields: itemMatchPoints,
+    eHoldingsFields: eHoldingsDataMappings,
+    dataMappingFields: invoiceFields,
+    discountTypes: discountTypes,
+    transferOptions: transferOptions,
+    transferOption: 'Pre Transfer',
     priority: 1,
     isAddLine: false,
     collapsed: true
@@ -714,8 +765,29 @@ var dataTransformation = {
 
 var constantAndDefault = {
     title: 'Constants And Defaults',
-    constantsAndDefaultsOrderFields: constantsAndDefaultsOrderFields,
     constantOrDefaultTypes: constantOrDefaultTypes,
+    booleanOptions: booleanOptions,
+    discountTypes: discountTypes,
+    constantOrDefault: 'Constant',
+    isAddLine: false,
+    collapsed: true
+};
+
+var constantAndDefaultOrder = {
+    title: 'Constants And Defaults',
+    constantOrDefaultTypes: constantOrDefaultTypes,
+    constantsAndDefaultsFields: constantsAndDefaultsOrderFields,
+    booleanOptions: booleanOptions,
+    discountTypes: discountTypes,
+    constantOrDefault: 'Constant',
+    isAddLine: false,
+    collapsed: true
+};
+
+var constantAndDefaultInvoice = {
+    title: 'Constants And Defaults',
+    constantOrDefaultTypes: constantOrDefaultTypes,
+    constantsAndDefaultsFields: invoiceFields,
     booleanOptions: booleanOptions,
     discountTypes: discountTypes,
     constantOrDefault: 'Constant',

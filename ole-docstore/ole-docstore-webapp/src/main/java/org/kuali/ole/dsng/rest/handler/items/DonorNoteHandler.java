@@ -1,4 +1,3 @@
-
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -40,8 +39,16 @@ public class DonorNoteHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : need to get the information about the process.
+        String donorNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+        if(CollectionUtils.isNotEmpty(donorList)) {
+            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
+                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
+                oleItemDonorRecord.setDonorNote(donorNote);
+            }
+        }
+        exchange.add("itemRecord", itemRecord);
 
     }
 }

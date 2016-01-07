@@ -216,6 +216,13 @@ public class OrderImportFieldValuesUtil {
                     fieldValues.put(fundCode.getFundCode(), fundCode.getFundCode());
                 }
             }
+        } else if (fieldName.equalsIgnoreCase("Currency Type")) {
+            List<OleCurrencyType> currencyTypeList = selectDAO.fetchAllCurrencyType();
+            if (CollectionUtils.isNotEmpty(currencyTypeList)) {
+                for (OleCurrencyType currencyType : currencyTypeList) {
+                    fieldValues.put(currencyType.getCurrencyType(), currencyType.getCurrencyType());
+                }
+            }
         }
         return fieldValues;
     }

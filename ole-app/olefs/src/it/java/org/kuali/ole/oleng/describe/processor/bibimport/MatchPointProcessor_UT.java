@@ -44,9 +44,38 @@ public class MatchPointProcessor_UT {
         batchProfileMatchPoint3.setDataType("bibliographic");
         batchProfileMatchPoint3.setDataField("001");
 
+
+        BatchProfileMatchPoint batchProfileMatchPoint4 = new BatchProfileMatchPoint();
+        batchProfileMatchPoint4.setDataType("bibliographic");
+        batchProfileMatchPoint4.setDataField("980");
+        batchProfileMatchPoint4.setSubField("a");
+        batchProfileMatchPoint4.setDestDataField("050");
+        batchProfileMatchPoint4.setDestSubField("c");
+
+        BatchProfileMatchPoint batchProfileMatchPoint5 = new BatchProfileMatchPoint();
+        batchProfileMatchPoint5.setDataType("bibliographic");
+        batchProfileMatchPoint5.setDataField("035");
+        batchProfileMatchPoint5.setSubField("a");
+        batchProfileMatchPoint5.setDestDataField("003");
+
+        BatchProfileMatchPoint batchProfileMatchPoint6 = new BatchProfileMatchPoint();
+        batchProfileMatchPoint6.setDataType("bibliographic");
+        batchProfileMatchPoint6.setDataField("001");
+        batchProfileMatchPoint6.setDestDataField("045");
+        batchProfileMatchPoint6.setDestSubField("d");
+
+        BatchProfileMatchPoint batchProfileMatchPoint7 = new BatchProfileMatchPoint();
+        batchProfileMatchPoint7.setDataType("bibliographic");
+        batchProfileMatchPoint7.setDataField("001");
+        batchProfileMatchPoint7.setDestDataField("005");
+
         batchProfileMatchPoints.add(batchProfileMatchPoint1);
         batchProfileMatchPoints.add(batchProfileMatchPoint2);
         batchProfileMatchPoints.add(batchProfileMatchPoint3);
+        batchProfileMatchPoints.add(batchProfileMatchPoint4);
+        batchProfileMatchPoints.add(batchProfileMatchPoint5);
+        batchProfileMatchPoints.add(batchProfileMatchPoint6);
+        batchProfileMatchPoints.add(batchProfileMatchPoint7);
 
         List<String> queryList = new ArrayList<>();
 
@@ -55,6 +84,7 @@ public class MatchPointProcessor_UT {
             String query = matchPointProcessor.prepareSolrQueryMapForMatchPoint(record, batchProfileMatchPoints);
             queryList.add(query);
             System.out.println(query);
+            System.out.println("************************");
         }
         assertTrue(queryList.size() == 2);
     }

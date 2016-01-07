@@ -41,8 +41,15 @@ public class DonorPublicDisplayHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : need to get the information about the process.
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
+        if(CollectionUtils.isNotEmpty(donorList)) {
+            for (Iterator<OLEHoldingsDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
+                OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
+                oleHoldingsDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
+            }
+        }
 
     }
 }

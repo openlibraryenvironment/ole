@@ -5,7 +5,6 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
@@ -16,6 +15,7 @@ import java.util.List;
  * Created by pvsubrah on 12/23/15.
  */
 public class CreateBibHandler extends BibHandler {
+
     @Override
     public Boolean isInterested(String operation) {
         List<String> operationsList = getOperationsList(operation);
@@ -48,6 +48,8 @@ public class CreateBibHandler extends BibHandler {
 
                 String modifiedcontent = process001And003(newBibContent, updatedBibRecord.getBibId());
                 bibRecord.setContent(modifiedcontent);
+
+                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
 
                 updatedBibRecord = getBibDAO().save(bibRecord);
 

@@ -40,8 +40,14 @@ public class PerpetualAccessEndIssueHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-
-        //Todo : Need to get the information about the process.
-
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        String perpetualAccessEndIssue = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
+                eInstancePerpetualAccessRecord.setPerpetualAccessEndIssue(perpetualAccessEndIssue);
+            }
+        }
     }
 }

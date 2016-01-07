@@ -5,7 +5,6 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsProcessor;
 
 import java.sql.Timestamp;
@@ -47,10 +46,10 @@ public class UpdateBibHandler extends BibHandler {
 
                 String newContent = process001And003(newBibContent, bibId);
                 bibRecord.setContent(newContent);
-
+                exchange.add("bib", bibRecord);
+                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
                 exchange.add("bib", updatedBibRecord);
-
                 processHoldings(requestJsonObject,exchange);
             }
 
