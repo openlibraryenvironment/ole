@@ -305,13 +305,13 @@ public class StepsProcessorTest {
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Delete Tag");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Delete Tag");
         Mockito.when(mockBatchProfileDataTransformer4.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("035 $a$b");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(1);
@@ -325,6 +325,130 @@ public class StepsProcessorTest {
 
         String valueOf003= getMarcRecordUtil().getDataFieldValue(record, "003");
         assertTrue(StringUtils.isBlank(valueOf003));
+    }
+    /*This test case of prepend test.*/
+    @Test
+    public void deleteValueTest() throws Exception, IOException {
+        StepsProcessor stepsProcessor = new StepsProcessor();
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        ControlField controlField = marcFactory.newControlField();
+        controlField.setTag("003");
+        controlField.setData("(OCLOC)003 Value");
+
+        record.addVariableField(controlField);
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 035 a");
+        dataField.addSubfield(subfield);
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('b');
+        subfield2.setData("Value for 035 b");
+        dataField.addSubfield(subfield2);
+
+        record.addVariableField(dataField);
+
+        ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Delete Value");
+        Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("(OCLOC)");
+        Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
+
+
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Delete Value");
+        Mockito.when(mockBatchProfileDataTransformer4.getConstant()).thenReturn("Value for ");
+        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("035 $a$b");
+        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(2);
+
+        Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
+
+        stepsProcessor.processSteps(record,mockBatchProcessProfile);
+
+        String valueOf003= getMarcRecordUtil().getControlFieldValue(record, "003");
+        assertTrue(StringUtils.equals(valueOf003, "003 Value"));
+
+        String valueOf035$a= getMarcRecordUtil().getDataFieldValue(record, "035 $a");
+        assertTrue(StringUtils.equals(valueOf035$a,"035 a"));
+        System.out.println("035 $a : " + valueOf035$a);
+
+        String valueOf035$b= getMarcRecordUtil().getDataFieldValue(record, "035 $b");
+        assertTrue(StringUtils.equals(valueOf035$b,"035 b"));
+        System.out.println("035 $b : " + valueOf035$b);
+    }
+
+    /*This test case of prepend test.*/
+    @Test
+    public void replaceTest() throws Exception, IOException {
+        StepsProcessor stepsProcessor = new StepsProcessor();
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        ControlField controlField = marcFactory.newControlField();
+        controlField.setTag("003");
+        controlField.setData("(OCLOC)123456");
+
+        record.addVariableField(controlField);
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 035 a");
+        dataField.addSubfield(subfield);
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('b');
+        subfield2.setData("Value for 035 b");
+        dataField.addSubfield(subfield2);
+
+        record.addVariableField(dataField);
+
+        ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("replace");
+        Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("OLE");
+        Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("replace");
+        Mockito.when(mockBatchProfileDataTransformer4.getConstant()).thenReturn("987654");
+        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("035 $a$b");
+        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(1);
+
+        Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
+
+        stepsProcessor.processSteps(record,mockBatchProcessProfile);
+
+        String valueOf003= getMarcRecordUtil().getControlFieldValue(record, "003");
+        assertTrue(StringUtils.equals(valueOf003, "OLE"));
+        System.out.println("033 : " + valueOf003);
+
+        String valueOf035$a= getMarcRecordUtil().getDataFieldValue(record, "035 $a");
+        assertTrue(StringUtils.equals(valueOf035$a,"987654"));
+        System.out.println("035 $a : " + valueOf035$a);
+
+        String valueOf035$b= getMarcRecordUtil().getDataFieldValue(record, "035 $b");
+        assertTrue(StringUtils.equals(valueOf035$b,"987654"));
+        System.out.println("035 $b : " + valueOf035$b);
 
     }
 

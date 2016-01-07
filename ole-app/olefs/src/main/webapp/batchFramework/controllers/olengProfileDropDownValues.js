@@ -532,7 +532,8 @@ var transferOptions = [
 
 var transformationOperations = [
     {id: 'new', name: 'New'},
-    {id: 'delete', name: 'Delete'},
+    {id: 'deleteTag', name: 'Delete Tag'},
+    {id: 'deleteValue', name: 'Delete Value'},
     {id: 'replace', name: 'Replace'},
     {id: 'move', name: 'Move'},
     {id: 'prepend', name: 'Prepend with Prefix'}

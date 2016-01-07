@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 /**
  * Created by SheikS on 1/6/2016.
  */
-public class DeleteStepHandler extends StepHandler {
+public class DeleteTagStepHandler extends StepHandler {
 
     /*Eg of source field -  001 or 050 or any thing.*/
     @Override
@@ -22,6 +22,6 @@ public class DeleteStepHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("delete");
+        return operation.equalsIgnoreCase("Delete Tag");
     }
 }
