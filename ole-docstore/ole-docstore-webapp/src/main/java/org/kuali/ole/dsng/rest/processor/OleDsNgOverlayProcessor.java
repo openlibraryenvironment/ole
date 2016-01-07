@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.processor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.solr.common.SolrInputDocument;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -22,8 +23,10 @@ import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
 import org.kuali.ole.dsng.rest.handler.items.UpdateItemHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.kuali.ole.response.OleNGBibImportResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -85,11 +88,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         this.itemHandlers = itemHandlers;
     }
 
-    public String processBibAndHoldingsAndItems(String jsonBody) { JSONArray responseJsonArray = null;
+    public String processBibAndHoldingsAndItems(String jsonBody) {
+        String response = "{}";
+        OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         Map<String, SolrInputDocument> solrInputDocumentMap = new HashedMap();
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
-            responseJsonArray = new JSONArray();
             Exchange exchange = new Exchange();
             for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
@@ -107,10 +111,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
                 solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
 
-                JSONObject report = prepareReport(exchange);
+                prepareReport(exchange,oleNGBibImportResponse);
 
-                responseJsonArray.put(report);
-
+                exchange.remove("bibCrated");
+                exchange.remove("bibUpdated");
                 exchange.remove("holdingRecordsToCreate");
                 exchange.remove("holdingRecordsToUpdate");
                 exchange.remove("itemRecordsToCreate");
@@ -124,7 +128,12 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return responseJsonArray.toString();
+        try {
+            response = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGBibImportResponse);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     private Map<String, SolrInputDocument> prepareHoldingsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
@@ -202,75 +211,30 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return returnValue;
     }
 
-    private JSONObject prepareReport(Exchange exchange) {
-        JSONObject jsonObject = new JSONObject();
-        StringBuilder createdBib = new StringBuilder();
-        StringBuilder updatedBib = new StringBuilder();
-        StringBuilder createdHoldings = new StringBuilder();
-        StringBuilder updatedHoldings = new StringBuilder();
-        StringBuilder createdItem = new StringBuilder();
-        StringBuilder updatedItem = new StringBuilder();
-        try {
-            List bibCrated = (List) exchange.get("bibCrated");
-            if(CollectionUtils.isNotEmpty(bibCrated)) {
-                for (Iterator iterator = bibCrated.iterator(); iterator.hasNext(); ) {
-                    BibRecord bibRecord = (BibRecord) iterator.next();
-                    appendToStringBuilder(createdBib,bibRecord.getBibId());
-                }
-            }
-            List bibUpdated = (List) exchange.get("bibUpdated");
-            if(CollectionUtils.isNotEmpty(bibUpdated)) {
-                for (Iterator iterator = bibUpdated.iterator(); iterator.hasNext(); ) {
-                    BibRecord bibRecord = (BibRecord) iterator.next();
-                    appendToStringBuilder(updatedBib,bibRecord.getBibId());
-                }
-            }
-            List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
-            if(CollectionUtils.isNotEmpty(holdingRecordsToCreate)) {
-                for (Iterator iterator = holdingRecordsToCreate.iterator(); iterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
-                    appendToStringBuilder(createdHoldings,holdingsRecord.getHoldingsId());
-                }
-            }
-            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
-            if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)) {
-                for (Iterator iterator = holdingRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
-                    appendToStringBuilder(updatedHoldings,holdingsRecord.getHoldingsId());
-                }
-            }
-            List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
-            if(CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
-                for (Iterator iterator = itemRecordsToCreate.iterator(); iterator.hasNext(); ) {
-                    ItemRecord itemRecord = (ItemRecord) iterator.next();
-                    appendToStringBuilder(createdItem,itemRecord.getItemId());
-                }
-            }
-            List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
-            if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
-                for (Iterator iterator = itemRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                    ItemRecord itemRecord = (ItemRecord) iterator.next();
-                    appendToStringBuilder(updatedItem,itemRecord.getItemId());
-                }
-            }
-            jsonObject.put("bibCreated",createdBib.toString());
-            jsonObject.put("bibUpdated",updatedBib.toString());
-            jsonObject.put("holdingsCreated",createdHoldings.toString());
-            jsonObject.put("holdingsUpdated",updatedHoldings.toString());
-            jsonObject.put("itemCreated",createdItem.toString());
-            jsonObject.put("itemUpdated",updatedItem.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void prepareReport(Exchange exchange, OleNGBibImportResponse oleNGBibImportResponse) {
+        List bibCrated = (List) exchange.get("bibCrated");
+        if(CollectionUtils.isNotEmpty(bibCrated)) {
+            oleNGBibImportResponse.setNoOfBibsCreated(oleNGBibImportResponse.getNoOfBibsCreated()+bibCrated.size());
         }
-
-        return jsonObject;
-    }
-
-    private void appendToStringBuilder(StringBuilder stringBuilder, String value) {
-        if (stringBuilder.length() > 0) {
-            stringBuilder.append(",").append(value);
-        } else {
-            stringBuilder.append(value);
+        List bibUpdated = (List) exchange.get("bibUpdated");
+        if(CollectionUtils.isNotEmpty(bibUpdated)) {
+            oleNGBibImportResponse.setNoOfBibsUpdated(oleNGBibImportResponse.getNoOfBibsUpdated()+bibUpdated.size());
+        }
+        List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
+        if(CollectionUtils.isNotEmpty(holdingRecordsToCreate)) {
+            oleNGBibImportResponse.setNoOfHoldingsCreated(oleNGBibImportResponse.getNoOfHoldingsCreated()+holdingRecordsToCreate.size());
+        }
+        List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
+        if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)) {
+            oleNGBibImportResponse.setNoOfHoldingsUpdated(oleNGBibImportResponse.getNoOfHoldingsUpdated()+holdingRecordsToUpdate.size());
+        }
+        List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
+        if(CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
+            oleNGBibImportResponse.setNoOfItemsCreated(oleNGBibImportResponse.getNoOfItemsCreated()+itemRecordsToCreate.size());
+        }
+        List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
+        if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
+            oleNGBibImportResponse.setNoOfItemsUpdated(oleNGBibImportResponse.getNoOfItemsUpdated()+itemRecordsToUpdate.size());
         }
     }
 }
