@@ -115,7 +115,7 @@
                 </bean>
                 <bean id="browseField" parent="Base-Uif-InputField"
                       p:propertyName="browseField" p:label="Browse by"
-                      p:onChangeScript="submitForm('start', null, null, null);" p:render="@{browseField ne 'callNumber'}">
+                      p:onChangeScript="submitForm('start', null, null, null);" p:style="margin-top:-10px;" p:render="@{browseField ne 'callNumber'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">
                             <property name="options">
@@ -141,35 +141,38 @@
     <bean id="TitleSection" parent="Uif-HorizontalBoxSection" p:render="@{browseField eq 'title'}" >
         <property name="items">
             <list>
+                <ref bean="TitleSection-TitleId"/>
                 <ref bean ="nextFlag"/>
                 <ref bean ="previousFlag"/>
                 <ref bean ="pageSize"/>
                 <ref bean ="pageShowEntries"/>
                 <ref bean ="docType"/>
-                <ref bean="TitleSection-TitleId"/>
+
             </list>
         </property>
     </bean>
 
-    <bean id="TitleSection-TitleId" parent="Uif-VerticalBoxSection">
+    <bean id="TitleSection-TitleId" parent="Uif-VerticalBoxSection" p:style="width:67%">
         <property name="items">
             <list>
-                <bean id="TitleSection-BrowseText" parent="Base-Uif-InputField" p:propertyName="browseText" p:label="Title starting with"/>
+                <bean id="TitleSection-BrowseText" parent="Base-Uif-InputField" p:style="border-block-end-style: inset;border-block-start-style: outset;border-block-start-width: thick;border-block-end-width: thick;"
+                      p:propertyName="browseText" p:label="Title starting with"/>
                 <ref bean="OLESearchView-BrowseButton-Section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="OLESearchView-BrowseButton-Section" parent="Uif-HorizontalBoxSection">
+    <bean id="OLESearchView-BrowseButton-Section" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
                 <bean id="BrowseButtonBr" parent="Uif-SecondaryActionButton" p:methodToCall="browse" p:actionLabel="Browse" p:ajaxSubmit="true"  p:successCallback="browse()"/>
-                <bean id="BrowseButtonClear" parent="Uif-SecondaryActionButton" p:methodToCall="workBenchBrowseClear" p:actionLabel="Clear" p:successCallback="browse()"/>
+                <bean id="BrowseButtonClear" parent="Uif-SecondaryActionButton" p:methodToCall="workBenchBrowseClear" p:actionLabel="Clear Values" p:successCallback="browse()"/>
+                <bean id="BrowseButtonCancel" parent="Uif-SecondaryActionButton" p:actionScript="submitForm('returnToPrevious', null, null, null, null)" p:actionLabel="Cancel" p:successCallback="browse()"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Title-Browse-BibSearchResults-section" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{browseField eq 'title'}">
+    <bean id="Title-Browse-BibSearchResults-section" parent="Uif-Disclosure-VerticalBoxSection" p:style="width:100%" p:render="@{browseField eq 'title'}">
         <property name="headerText" value="Browse Results:"/>
         <property name="items">
             <list>
@@ -180,7 +183,7 @@
     </bean>
 
 
-    <bean id="Title-Browse-BibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4" p:render="@{browseField eq 'title'}">
+    <bean id="Title-Browse-BibSearchResults" parent="Uif-TableCollectionSection" p:style="width:100%" p:layoutManager.numberOfColumns="4" p:render="@{browseField eq 'title'}">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
         <property name="propertyName" value="searchResultDisplayRowList" />
@@ -246,9 +249,9 @@
     <bean id="SearchFooterSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="SearchButton" parent="Uif-PrimaryActionButton" p:actionScript="search()"  p:style="float:left;margin-left:30em" p:actionLabel="Search" p:successCallback="searching()"/>
-                <bean id="ClearButton" parent="Uif-PrimaryActionButton" p:methodToCall="clear" p:style="float:left;margin-left:0.2em" p:actionLabel="Clear"/>
-                <bean id="StartSearchButton" parent="Uif-PrimaryActionButton" p:methodToCall="start" p:style="float:left;margin-left:0.2em" p:actionLabel="New Search"/>
+                <bean id="SearchButton" parent="Uif-SecondaryActionButton" p:actionScript="search()"  p:style="float:left;margin-left:30em" p:actionLabel="Search" p:successCallback="searching()"/>
+                <bean id="ClearButton" parent="Uif-SecondaryActionButton" p:methodToCall="clear" p:style="float:left;margin-left:0.2em" p:actionLabel="Clear Values"/>
+                <bean id="StartSearchButton" parent="Uif-SecondaryActionButton" p:actionScript="submitForm('returnToPrevious', null, null, null, null)" p:style="float:left;margin-left:0.2em" p:actionLabel="Cancel"/>
             </list>
         </property>
     </bean>
@@ -266,7 +269,7 @@
                     </property>
                 </bean>
                 <bean id="DocumentAndSearchSelectionType_SearchType" parent="Base-Uif-InputField"
-                      p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:39.3em" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchTypeField eq 'OLESearch'}">
+                      p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:54.3em;position:absolute" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchTypeField eq 'OLESearch'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">
                             <property name="options">

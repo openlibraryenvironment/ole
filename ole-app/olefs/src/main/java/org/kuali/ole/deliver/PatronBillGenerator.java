@@ -21,7 +21,7 @@ import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -34,7 +34,7 @@ public class PatronBillGenerator {
     private OlePatronHelperServiceImpl olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
 
-    public String generatePatronBillPayment(OleLoanDocument oleLoanDocument, String feeTypeName, Double fineAmount) throws  Exception {
+    public String generatePatronBillPayment(OleLoanDocument oleLoanDocument, String feeTypeName, Double fineAmount, Timestamp dueDate) throws  Exception {
         long begin = System.currentTimeMillis();
         StringBuffer contentForSendMail = new StringBuffer();
 
@@ -55,7 +55,7 @@ public class PatronBillGenerator {
         feeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
-        feeType.setDueDate(oleLoanDocument.getLoanDueDate());
+        feeType.setDueDate(dueDate);
         feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
         feeType.setCheckOutDate(oleLoanDocument.getCreateDate());
         List<FeeType> feeTypes = new ArrayList<FeeType>();

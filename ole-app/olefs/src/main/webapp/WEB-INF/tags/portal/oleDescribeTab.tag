@@ -19,12 +19,10 @@
 <td class="content" valign="top">
     <oleDescribeChannel:oleEditor/>
     <oleDescribeChannel:oleLink/>
-    <oleDescribeChannel:oleSingleRecord/>
-    <oleDescribeChannel:oleReports/>
 </td>
 <%--<td class="content" valign="top">
     <oleDescribeChannel:oleManage />
 </td>--%>
 <td class="content" valign="top">
-    <oleDescribeChannel:oleLegend />
+    <oleDescribeChannel:oleSingleRecord/>
 </td>

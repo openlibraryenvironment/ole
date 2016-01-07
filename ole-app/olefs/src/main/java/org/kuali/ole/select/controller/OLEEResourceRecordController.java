@@ -1680,7 +1680,8 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleeResourceRecordDocument.setCostIncrease(Math.round(cost));
         double percentage = (cost / oleeResourceRecordDocument.getFiscalYearCost()) * 100;
         oleeResourceRecordDocument.setPercentageIncrease(Math.round(percentage));
-        return super.navigate(form, result, request, response);
+        oleeResourceRecordDocument.setShowEmailAnalysis(false);
+        return getUIFModelAndView(form);
     }
 
 
@@ -1688,7 +1689,13 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView closeDialog(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
+        oleeResourceRecordDocument.setPercentageIncrease(0);
+        oleeResourceRecordDocument.setCostIncrease(0);
         form.setEmailFlag(false);
+        oleeResourceRecordDocument.setEmailText("");
+        oleeResourceRecordDocument.setYearPriceQuote(0);
+        oleeResourceRecordDocument.setFiscalYearCost(0);
         return getUIFModelAndView(form);
     }
 

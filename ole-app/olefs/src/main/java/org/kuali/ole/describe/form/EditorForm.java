@@ -90,7 +90,7 @@ public class EditorForm extends UifFormBase {
     private boolean holdingFlag = false;
     private boolean eHoldingsFlag = false;
     private boolean itemFlag = false;
-    private String staffOnlyFlagInGlobalEdit;
+    private boolean staffOnlyFlagInGlobalEdit;
 
     // Document record pojos
     private WorkBibMarcForm workBibMarcForm;
@@ -1124,11 +1124,11 @@ public class EditorForm extends UifFormBase {
         this.serialReceivingDocId = serialReceivingDocId;
     }
 
-    public String getStaffOnlyFlagInGlobalEdit() {
+    public boolean isStaffOnlyFlagInGlobalEdit() {
         return staffOnlyFlagInGlobalEdit;
     }
 
-    public void setStaffOnlyFlagInGlobalEdit(String staffOnlyFlagInGlobalEdit) {
+    public void setStaffOnlyFlagInGlobalEdit(boolean staffOnlyFlagInGlobalEdit) {
         this.staffOnlyFlagInGlobalEdit = staffOnlyFlagInGlobalEdit;
     }
 

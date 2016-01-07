@@ -39,67 +39,50 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis" parent="Uif-VerticalBoxSection"
+    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis" parent="Uif-HorizontalBoxSection"
           p:style="width:500px;height:80px;">
         <property name="headerText" value="Price increase analysis"/>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="fiscalYearCost" p:label="Previous fiscal year cost"
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-FiscalYearCost" parent="Uif-InputField" p:propertyName="fiscalYearCost" p:label="Previous fiscal year cost"
                       p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-InputField" p:propertyName="yearPriceQuote" p:label="Current year price quote"
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-YearPriceQuote" parent="Uif-InputField" p:propertyName="yearPriceQuote" p:label="Current year price quote"
                       p:style="float:center;margin-left:5em"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="calculateIncrease"
-                      p:actionLabel="Calculate" p:style="float:center;margin-left:5em"
-                      p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-Increase"/>
-                <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-Increase"/>
-                <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
-                <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-Button"/>
+                      p:actionLabel="Calculate" p:style="float:center;margin-left:25em" p:successCallback="showLightboxComponent('OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo');clearPriceIncreaseAnalysisTab()" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
             </list>
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo" parent="Uif-HorizontalBoxSection">
+    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo" parent="Uif-HorizontalBoxSection" p:hidden="@{document.showEmailAnalysis}">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="generateEmailText"
-                      p:actionLabel="Generate Approval Email Text"
-                      p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-CostIncrease" parent="Uif-DataField" p:propertyName="costIncrease" p:label="Cost increase"
                       p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Copy to Clipboard"
-                      p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"
-                      p:render="@{emailFlag}"/>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-percentageIncrease" parent="Uif-DataField" p:propertyName="percentageIncrease" p:label="Percent increase"
+                      p:style="float:center;margin-left:5em"/>
                 <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText" parent="Uif-InputField"
                       p:propertyName="emailText" p:label="Current year price quote"
-                      p:style="float:center;margin-left:5em" p:render="@{emailFlag}">
+                      p:style="float:center;margin-left:5em" >
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
                     </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-Increase" parent="Uif-HorizontalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-DataField" p:propertyName="costIncrease" p:label="Cost increase"
-                      p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-DataField" p:propertyName="percentageIncrease" p:label="Percent increase"
-                      p:style="float:center;margin-left:5em"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-Button" parent="Uif-HorizontalBoxSection">
-        <property name="items">
-            <list>
+                <!--<ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-Info"/>-->
+                <bean parent="Uif-SecondaryActionButton-Small"
+                      p:actionLabel="Generate Approval Email Text" p:methodToCall="generateEmailText"
+                      p:style="float:center;margin-left:5em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Copy to Clipboard"
+                      p:actionScript="copyToClipBoard()" p:style="float:center;margin-left:5em"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Save Results to Event Log"
                       p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Download csv" p:methodToCall="downloadCsv"
-                      p:disableBlocking="true" p:ajaxSubmit="false" p:style="float:center;margin-left:5em"/>
-                <bean id="closeLightbox" parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
-                      p:actionLabel="Close" p:successCallback="close()" p:style="float:left;margin-left:5em"/>
+                      p:disableBlocking="true" p:ajaxSubmit="false" p:style="float:center;margin-left:7em"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
+                      p:actionLabel="Close" p:successCallback="clearPriceIncreaseAnalysisInfoTab();closePriceIncreaseWidget();" p:style="float:left;margin-left:20em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
+                      p:actionLabel="Close" p:successCallback="clearPriceIncreaseAnalysisInfoTab();closePriceIncreaseWidget();" p:style="float:left;margin-left:30em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo" p:hidden="true"/>
             </list>
         </property>
     </bean>

@@ -252,6 +252,9 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private boolean saveValidationFlag;
     private boolean accountingLineDisclosureFlag = false;
 
+    private String mailText;
+    private boolean showEmailAnalysis = true;
+
     public String getWorkflowStatus() {
         return workflowStatus;
     }
@@ -2139,5 +2142,21 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setRecipientSelector(String recipientSelector) {
         this.recipientSelector = recipientSelector;
+    }
+
+    public String getMailText() {
+        return mailText;
+    }
+
+    public void setMailText(String mailText) {
+        this.mailText = mailText;
+    }
+
+    public boolean isShowEmailAnalysis() {
+        return showEmailAnalysis;
+    }
+
+    public void setShowEmailAnalysis(boolean showEmailAnalysis) {
+        this.showEmailAnalysis = showEmailAnalysis;
     }
 }

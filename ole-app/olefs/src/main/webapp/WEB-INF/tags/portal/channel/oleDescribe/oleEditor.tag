@@ -27,6 +27,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=dublinunq&editable=true"/> <br/>
     <portal:portalLink displayTitle="true" title="Marc Editor"
                        url="${ConfigProperties.application.url}/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true"/> <br/>
+    <portal:portalLink displayTitle="true" title="Marc Editor Workform"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/editorcontroller?viewId=EditorWorkformView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true"/> <br/>
     <portal:portalLink displayTitle="true" title="Global Edit of Holdings/Items/EHoldings"
                        url="${ConfigProperties.application.url}/ole-kr-krad/globaleditController?viewId=GlobalEditView&methodToCall=start"/> <br/>
 
