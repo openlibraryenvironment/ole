@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
-import org.kuali.ole.deliver.PatronBillGenerator;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.calendar.bo.*;
-import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
+import org.kuali.ole.deliver.calendar.bo.OleCalendar;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.drools.DroolsConstants;
@@ -29,7 +30,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.util.RiceConstants;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -232,13 +232,8 @@ public abstract class CheckinBaseController extends CircUtilController {
 
             facts.clear();
 
-            facts.add(oleItemRecordForCirc);
-            ItemFineRate itemFineRate = new ItemFineRate();
-            facts.add(itemFineRate);
-            facts.add(olePatronDocument);
-            facts.add(loanDocument);
-
-            fireRules(facts, null, "fine validation");
+            ItemFineRate itemFineRate = fireFineRules(loanDocument, oleItemRecordForCirc, olePatronDocument);
+            loanDocument.setItemFineRate(itemFineRate);
 
             try {
                 updateLoanDocument(loanDocument, oleItemSearch, itemRecord);
@@ -248,7 +243,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 oleItemRecordForCirc.setItemRecord((ItemRecord)getDroolsExchange(oleForm).getContext().get("itemRecord"));
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), itemFineRate);
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), loanDocument.getLoanDueDate());
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -298,7 +293,6 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         return droolsResponse;
     }
-
 
     private DroolsResponse processIfCheckinRequestExist(ItemRecord itemRecord, OLEForm oleForm) {
         OleDeliverRequestBo prioritizedRequest = ItemInfoUtil.getInstance().getPrioritizedRequest(itemRecord.getBarCode());
@@ -677,28 +671,6 @@ public abstract class CheckinBaseController extends CircUtilController {
             }
         }
         return null;
-    }
-
-    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, ItemFineRate itemFineRate) throws Exception {
-        String billPayment = null;
-        if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
-            LOG.error("No fine rule found");
-        } else {
-            Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), customDueDateMap, itemFineRate);
-            overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
-
-            if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
-                billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.REPLACEMENT_FEE, loanDocument.getReplacementBill().doubleValue());
-            } else if (null != overdueFine && overdueFine > 0) {
-                billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.OVERDUE_FINE, overdueFine);
-            }
-        }
-
-        return billPayment;
-    }
-
-    private PatronBillGenerator getPatronBillGenerator() {
-        return new PatronBillGenerator();
     }
 
     private void updateLoanDocument(OleLoanDocument loanDocument, OleItemSearch oleItemSearch, ItemRecord itemRecord) throws Exception {

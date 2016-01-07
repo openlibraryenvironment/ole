@@ -987,12 +987,12 @@ public class WorkEInstanceOlemlEditor
             eHoldingsDoc.setType(DocType.EHOLDINGS.getCode());
             eHoldingsDoc.setFormat(DocFormat.OLEML.getCode());
             String canUpdateStaffOnlyFlag = "false";
-            if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("Y")) {
+            if (editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForHoldings(true);
                 eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
-            else if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("N")) {
+            else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForHoldings(false);
                 eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());

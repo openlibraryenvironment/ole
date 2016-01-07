@@ -499,12 +499,12 @@
             </bean>
         </property>
     </bean>
-    <bean id="BoundwithSearchResultsSelectPanel"  parent="Uif-HorizontalBoxSection">
+    <bean id="BoundwithSearchResultsSelectPanel"  parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 40%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
-                <bean id="search_button1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
-                <bean id="search_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
-                <bean id="search_button3" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="BibSearchResults" p:successCallback="searching()"/>
+                <bean id="search_button1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em;width:105px" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em;width:105px" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button3" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em;width:105px" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="BibSearchResults" p:successCallback="searching()"/>
             </list>
         </property>
     </bean>

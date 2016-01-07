@@ -17,8 +17,6 @@ limitations under the License.
 
 <channel:portalChannelTop channelTitle="Single Record Export/Import"/>
 <div class="body">
-    <portal:olePortalLink yellow="true" displayTitle="false" title="Single Record export"
-                          url="" hiddenTitle="true"/> <br/>
     <portal:portalLink displayTitle="true" title="Single Record Import"
                        url="${ConfigProperties.application.url}/ole-kr-krad/importBibController?viewId=ImportBibView&methodToCall=start"/> <br/>
 

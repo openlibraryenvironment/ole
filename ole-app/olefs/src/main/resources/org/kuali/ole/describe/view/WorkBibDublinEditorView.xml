@@ -47,16 +47,13 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{editable eq 'false'}"/>
+                            <ref bean="Editor_Header_Buttons"/>
+                            <ref bean="StaffOnly"/>
                             <ref bean="MessageSection1"/>
-                            <bean parent="Uif-Message" p:messageText="&lt;br&gt;&lt;br&gt;"/>
-                            <ref bean="DublinStatusFieldSeciton"/>
-                            <ref bean="DublinStatusUpdatedFieldSection"/>
-                            <ref bean="DublinCreatedFieldSection"/>
-                            <ref bean="DublinUpdatedFieldSection"/>
-                            <bean parent="Uif-Message" p:messageText="&lt;br&gt;&lt;br&gt;"/>
+                            <!--<bean parent="Uif-Message" p:messageText="&lt;br&gt;&lt;br&gt;"/>-->
+                            <ref bean="DublinStatusSection"/>
+                            <!--<bean parent="Uif-Message" p:messageText="&lt;br&gt;&lt;br&gt;"/>-->
                             <ref bean="DublinElementSection"/>
-
-
                             <!--<ref bean="DublinBorderSection"/>-->
                             <!--<ref bean="DublinExistingElementSection"/>-->
                         </list>
@@ -69,6 +66,17 @@
 
     <bean id="MessageSection1" parent="Uif-Message" p:messageText="@{message}" p:cssClasses="messageClass">
 
+    </bean>
+
+    <bean id="DublinStatusSection" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="DublinStatusFieldSeciton"/>
+                <ref bean="DublinStatusUpdatedFieldSection"/>
+                <ref bean="DublinCreatedFieldSection"/>
+                <ref bean="DublinUpdatedFieldSection"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="editDublinSection" parent="Uif-HorizontalBoxSection">

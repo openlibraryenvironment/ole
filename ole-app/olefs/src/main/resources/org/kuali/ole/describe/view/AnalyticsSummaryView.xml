@@ -31,6 +31,7 @@
                     <property name="items">
                         <list>
                             <!--<ref bean="TreeActionLinksSection"/>-->
+                            <ref bean="AnalyticSummaryButtonSection"/>
                             <ref bean="AnalyticSummaryTreeSection"/>
                             <ref bean="AnalyticSummaryButtonSection"/>
                         </list>
@@ -106,13 +107,13 @@
         <property name="headerText" value="Series"/>
         <property name="items">
             <list>
-                <ref bean="SeriesTreeActionLinksSection"/>
+                <!--<ref bean="SeriesTreeActionLinksSection"/>-->
                 <ref bean="SeriesTree"/>
             </list>
         </property>
     </bean>
 
-    <bean id="SeriesTreeActionLinksSection" parent="Uif-HorizontalBoxSection">
+    <!--<bean id="SeriesTreeActionLinksSection" parent="Uif-HorizontalBoxSection">
         <property name="headerText" value=""/>
         <property name="items">
             <list>
@@ -132,9 +133,9 @@
 
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="AnalyticTreeActionLinksSection" parent="Uif-HorizontalBoxSection">
+    <!--<bean id="AnalyticTreeActionLinksSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean id="AnalyticTree_expandAll" parent="Uif-ActionLink" p:actionScript="jq('#AnalyticTree_tree').jstree('open_all');"
@@ -152,7 +153,7 @@
 
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="SeriesTree" parent="Uif-TreeSection" p:instructionalText="" p:render="@{showSeriesTree eq true}">
         <property name="headerText" value=""/>
@@ -201,7 +202,7 @@
         <property name="headerText" value="Analytics"/>
         <property name="items">
             <list>
-                <ref bean="AnalyticTreeActionLinksSection"/>
+                <!--<ref bean="AnalyticTreeActionLinksSection"/>-->
                 <ref bean="AnalyticTree"/>
             </list>
         </property>
@@ -241,13 +242,15 @@
         </property>
     </bean>
 
-    <bean id="AnalyticSummaryButtonSection" parent="Uif-HorizontalBoxSection">
+    <bean id="AnalyticSummaryButtonSection" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
                 <bean id="breakAnalyticsButton" parent="Uif-SecondaryActionButton"
                       p:style="float:left;margin-left:40em"
                       p:actionLabel="Break Analytics Relation" p:methodToCall="breakAnalyticsRelation" p:successCallback="analyticsSummaryTree()"/> <!--p:actionScript="showTabs('performBoundwith');"-->
                 <bean id="refreshTrees_button" parent="Uif-SecondaryActionButton" p:actionLabel="Refresh Trees" p:methodToCall="refreshTrees" p:refreshId="AnalyticSummaryTreeSection" p:successCallback="analyticsSummaryTree()"/>
+                <bean id="globalEditClose_AnalyticsBtn" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:successCallback="closeEditorWindow()"
+                      p:actionLabel="Cancel"  />
             </list>
         </property>
     </bean>

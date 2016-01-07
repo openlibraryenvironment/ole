@@ -43,7 +43,7 @@
                             <!--<ref bean="SearchPanel"/>
                             <ref bean="SearchResultsPanel"/>-->
                             <ref bean="AnalyticsSelectToTreeButtons"/>
-                            <ref bean="AnalyticsMessageSection"/>
+                            <!--<ref bean="AnalyticsMessageSection"/>-->
                             <ref bean="AnalyticsSelectionSection"/>
                             <!--<ref bean="AnalyticsMessageSection"/>-->
                             <ref bean="Analytics-CreateLink-Buttons"/>
@@ -81,10 +81,19 @@
         <property name="formClass" value="org.kuali.ole.describe.form.AnalyticsForm"/>
     </bean>
 
-    <bean id="AnalyticsMessageSection" parent="Uif-VerticalBoxSection">
+    <!--<bean id="AnalyticsMessageSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="analyticsMessage" parent="Uif-Message" p:messageText="@{message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>-->
+
+    <bean id="seriesMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="@{message}"
                       p:cssClasses="messageClass"/>
             </list>
         </property>
@@ -144,7 +153,8 @@
                 <!--<ref bean="showLeftTreeErrors"/>
                 <ref bean="Analytics-buildDeleteVerifyLeftTree"/>
                 <ref bean="Analytics-deleteConfirmationButtonsLeftTree"/>-->
-                <ref bean="SeriesTreeActionLinksSection_View"/>
+               <!-- <ref bean="SeriesTreeActionLinksSection_View"/>-->
+                <ref bean="seriesMessageSection"/>
                 <ref bean="AnalyticsLeftTree"/>
                 <ref bean="AnalyticsLeftTree-footer"/>
             </list>
@@ -158,14 +168,14 @@
                 <!--<ref bean="showRightTreeErrors"/>
                 <ref bean="Analytics-buildDeleteVerifyRightTree"/>
                 <ref bean="Analytics-deleteConfirmationButtonsRightTree"/>-->
-                <ref bean="AnalyticTreeActionLinksSection_View"/>
+               <!-- <ref bean="AnalyticTreeActionLinksSection_View"/>-->
                 <ref bean="AnalyticsRightTree"/>
                 <ref bean="AnalyticsRightTree-footer"/>
             </list>
         </property>
     </bean>
 
-    <bean id="SeriesTreeActionLinksSection_View" parent="Uif-HorizontalBoxSection">
+   <!-- <bean id="SeriesTreeActionLinksSection_View" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean id="SeriesTreeView_expandAll" parent="Uif-ActionLink" p:actionScript="jq('#AnalyticsLeftTree_tree').jstree('open_all');"
@@ -184,8 +194,8 @@
 
             </list>
         </property>
-    </bean>
-    <bean id="AnalyticTreeActionLinksSection_View" parent="Uif-HorizontalBoxSection">
+    </bean>-->
+   <!-- <bean id="AnalyticTreeActionLinksSection_View" parent="Uif-HorizontalBoxSection">
         <property name="headerText" value=""/>
         <property name="items">
             <list>
@@ -204,7 +214,7 @@
 
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 
     <bean id="AnalyticsLeftTree-footer" parent="Uif-HorizontalFieldGroup">
@@ -321,12 +331,12 @@
         </property>
     </bean>
 
-    <bean id="AnalyticsSelectToTreeButtons"  parent="Uif-HorizontalBoxSection">
+    <bean id="AnalyticsSelectToTreeButtons"  parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 40%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
                 <bean id="selectAsSeriesButton" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Select as Series" p:actionParameters="treeId:leftTree" p:refreshId="AnalyticsSelectionSection" p:successCallback="searching(), analyticsTree()"/>
-                <bean id="selectAsAnalyticButton" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Select as Analytics" p:actionParameters="treeId:rightTree" p:refreshId="AnalyticsSelectionSection" p:successCallback="searching(), analyticsTree()"/>
-                <ref bean="search_button3"/>
+                <bean id="selectAsAnalyticButton" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em;" p:methodToCall="copyToTree" p:actionLabel="Select as Analytics" p:actionParameters="treeId:rightTree" p:refreshId="AnalyticsSelectionSection" p:successCallback="searching(), analyticsTree()"/>
+                <bean id="search_buttonAnalytic" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em;width:125px" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="Boundwith-BibSearchResults" p:successCallback="searching()"/>
             </list>
         </property>
     </bean>

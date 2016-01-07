@@ -31,7 +31,9 @@
                 <bean id="ShowBibViewPage" parent="Uif-Page">
                     <property name="items">
                         <list>
+                            <ref bean="boundWithSummary_CancelBtn"/>
                             <ref bean="Show-Bibs"/>
+                            <ref bean="boundWithSummary_CancelBtn"/>
                         </list>
                     </property>
                 </bean>
@@ -47,6 +49,9 @@
         </property>
         <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
     </bean>
+
+    <bean id="boundWithSummary_CancelBtn" parent="Uif-SecondaryActionButton" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:methodToCall="cancel" p:successCallback="closeEditorWindow()"
+          p:actionLabel="Cancel"  />
 
     <bean id="Show-Bibs" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
           p:render="@{bibList ne null}" p:style="border:1px solid;">

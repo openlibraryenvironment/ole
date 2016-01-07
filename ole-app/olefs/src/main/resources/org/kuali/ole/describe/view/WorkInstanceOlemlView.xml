@@ -31,7 +31,7 @@
                     <property name="items">
                         <list>
                             <ref bean="WorkInstanceMessageSection"/>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                            <bean parent="Uif-SecondaryActionButton" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
                             <ref bean="Editor_Header_Buttons"/>
                             <ref bean="WorkHoldingsView"/>
                             <ref bean="WorkButtonSection"/>
@@ -45,7 +45,7 @@
                             <bean id="ItemUpperButtons" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
                                         <ref bean="Editor_Header_Buttons"/>
                                     </list>
                                 </property>

@@ -2923,6 +2923,7 @@ public class OLEConstants {
 
 
     public static final String GLOBAL_EDIT_ADD_RECORDS_MESSAGE = "info.globalEdit.edit.selected.records";
+    public static final String GLOBAL_EDIT_SELECTED_RECORDS_ADD_MESSAGE = "info.globalEdit.edit.selected.message";
     public static final String GLOBAL_EDIT_VIEW_RECORDS_MESSAGE = "info.globalEdit.view.selected.records";
     public static final String GLOBAL_EDIT_HOLDINGS_HEADER_MESSAGE = "Global Holdings Editor  - OLEML Format";
     public static final String GLOBAL_EDIT_ITEM_HEADER_MESSAGE = "Global Item Editor - OLEML Format";
@@ -3744,6 +3745,7 @@ public class OLEConstants {
     public static final String LOAN_DOCUMENTS = "loanDocuments";
     public static final String DELIVER_NOTICES = "deliverNotices";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
+    public static final String FINE_CALC_WHILE_RENEW = "FINE_CALC_WHILE_RENEW";
 
     public static final String BLANKET_APPROVE = "BLANKET_APPROVAL";
     public static final String NOTIFICATION_TYP_CD = "K";

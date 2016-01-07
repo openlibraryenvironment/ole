@@ -245,6 +245,13 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
 
     @Override
     public void validate(Object object) {
+        Bib bib = (Bib) object;
+        if(StringUtils.isNotEmpty(bib.getId())){
+            int bibId = Integer.parseInt(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+            bib.setId(String.valueOf(bibId));
+        }
+
+
     }
 
     protected boolean getBibIdFromBibXMLContent(BibRecord bibRecord) {

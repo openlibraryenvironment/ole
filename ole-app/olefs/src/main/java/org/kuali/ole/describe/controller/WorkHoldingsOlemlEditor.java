@@ -924,12 +924,12 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             }
             holdings.setId(docId);
             String canUpdateStaffOnlyFlag = "false";
-            if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("Y")) {
+            if (editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForHoldings(true);
                 holdings.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
-            else if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("N")) {
+            else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForHoldings(false);
                 holdings.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
