@@ -14,7 +14,6 @@ public class BatchProfileAddOrOverlay {
     @JsonProperty("addOrOverlayDocType")
     private String dataType;
     private String operation;
-    private String bibStatus;
     private String addOperation;
     @JsonProperty("addOrOverlayField")
     private String field;
@@ -23,6 +22,34 @@ public class BatchProfileAddOrOverlay {
     @JsonProperty("addOrOverlayFieldValue")
     private String fieldValue;
     private boolean addItems;
+
+    private String addOrOverlayField;
+    private String addOrOverlayFieldOperation;
+    private String addOrOverlayFieldValue;
+
+    public String getAddOrOverlayField() {
+        return addOrOverlayField;
+    }
+
+    public void setAddOrOverlayField(String addOrOverlayField) {
+        this.addOrOverlayField = addOrOverlayField;
+    }
+
+    public String getAddOrOverlayFieldOperation() {
+        return addOrOverlayFieldOperation;
+    }
+
+    public void setAddOrOverlayFieldOperation(String addOrOverlayFieldOperation) {
+        this.addOrOverlayFieldOperation = addOrOverlayFieldOperation;
+    }
+
+    public String getAddOrOverlayFieldValue() {
+        return addOrOverlayFieldValue;
+    }
+
+    public void setAddOrOverlayFieldValue(String addOrOverlayFieldValue) {
+        this.addOrOverlayFieldValue = addOrOverlayFieldValue;
+    }
 
     public String getMatchOption() {
         return matchOption;
@@ -46,14 +73,6 @@ public class BatchProfileAddOrOverlay {
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public String getBibStatus() {
-        return bibStatus;
-    }
-
-    public void setBibStatus(String bibStatus) {
-        this.bibStatus = bibStatus;
     }
 
     public String getAddOperation() {

@@ -40,7 +40,7 @@ public class UpdateItemHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
         try {
-            String overlayOps = requestJsonObject.getString("overlayOps");
+            String ops = requestJsonObject.getString("ops");
             String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
             String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
@@ -93,7 +93,7 @@ public class UpdateItemHandler extends Handler {
                         exchange.add("itemRecordsToUpdate",itemsToUpdate);
                     }
                     if(!isItemMatched) {
-                        createItem(requestJsonObject, exchange, overlayOps, holdingsRecord);
+                        createItem(requestJsonObject, exchange, ops, holdingsRecord);
                     }
                 }
             }
@@ -109,9 +109,9 @@ public class UpdateItemHandler extends Handler {
         }
     }
 
-    private void createItem(JSONObject requestJsonObject, Exchange exchange, String overlayOps, HoldingsRecord holdingsRecord) {
+    private void createItem(JSONObject requestJsonObject, Exchange exchange, String ops, HoldingsRecord holdingsRecord) {
         CreateItemHandler createItemHandler = new CreateItemHandler();
-        if(createItemHandler.isInterested(overlayOps)) {
+        if(createItemHandler.isInterested(ops)) {
             exchange.add("holdings",holdingsRecord);
             createItemHandler.setItemDAO(getItemDAO());
             createItemHandler.setBusinessObjectService(getBusinessObjectService());

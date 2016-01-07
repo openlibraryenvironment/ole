@@ -94,7 +94,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put("updatedBy", updatedUserName);
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
-        bibData.put("overlayOps",getOverlayOps(batchProcessProfile));
+        bibData.put("ops",getOverlayOps(batchProcessProfile));
         JSONObject bibDataMapping = new JSONObject();
         JSONObject holdingsDataMapping = new JSONObject();
         JSONObject eholdingsDatamapping = new JSONObject();

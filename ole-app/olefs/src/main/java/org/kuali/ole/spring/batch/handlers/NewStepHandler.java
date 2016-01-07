@@ -47,6 +47,24 @@ public class NewStepHandler extends StepHandler {
         }
     }
 
+    private void addField(Record marcRecord, String destinationField, String destinationSubField, String value) {
+        MarcFactory factory = MarcFactory.newInstance();
+        DataField dataField = factory.newDataField();
+        dataField.setTag(destinationField);
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        StringTokenizer stringTokenizer = new StringTokenizer(destinationSubField,"$");
+        while(stringTokenizer.hasMoreTokens()) {
+            String subField = stringTokenizer.nextToken();
+            Subfield subfield = factory.newSubfield();
+            subfield.setCode(subField.charAt(0));
+            subfield.setData(value);
+            dataField.addSubfield(subfield);
+        }
+        getMarcRecordUtil().addVariableFieldToRecord(marcRecord, dataField);
+    }
+
     @Override
     public Boolean isInterested(String operation) {
         return operation.equalsIgnoreCase("New");

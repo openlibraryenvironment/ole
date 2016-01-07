@@ -12,6 +12,8 @@ import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.spring.batch.BatchUtil;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.marc4j.MarcWriter;
@@ -22,10 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 12/7/15.
@@ -42,8 +41,14 @@ public abstract class BatchFileProcessor extends BatchUtil {
             BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileId);
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
             String responseData = processRecords(records, batchProcessProfile);
+            Config currentContextConfig = ConfigContext.getCurrentContextConfig();
+            String batchFileLocationPath = currentContextConfig.getProperty("batch.bibImport.directory");
+            String fileName = batchFileLocationPath+File.separator+profileId+"_"+new Date()+".txt";
+            FileUtils.write(new File(fileName), responseData);
             LOG.info("Response Data : " + responseData);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

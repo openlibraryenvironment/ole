@@ -183,7 +183,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             matchOption: $scope.addOrOverlayPanel[0].matchOption,
             addOrOverlayDocType: $scope.addOrOverlayPanel[0].addOrOverlayDocType,
             operation: $scope.addOrOverlayPanel[0].operation,
-            bibStatus: $scope.addOrOverlayPanel[0].bibStatus,
             addOperation: $scope.addOrOverlayPanel[0].addOperation,
             addOrOverlayField: $scope.addOrOverlayPanel[0].addOrOverlayField,
             addOrOverlayFieldOperation: $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation,
@@ -205,7 +204,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 matchOption: $scope.addOrOverlayPanel[index].matchOption,
                 addOrOverlayDocType: $scope.addOrOverlayPanel[index].addOrOverlayDocType,
                 operation: $scope.addOrOverlayPanel[index].operation,
-                bibStatus: $scope.addOrOverlayPanel[index].bibStatus,
                 addOperation: $scope.addOrOverlayPanel[index].addOperation,
                 addItems: $scope.addOrOverlayPanel[index].addItems,
                 isAddLine: true
@@ -226,7 +224,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             matchOption: $scope.addOrOverlayPanel[index].matchOption,
             addOrOverlayDocType: $scope.addOrOverlayPanel[index].addOrOverlayDocType,
             operation: $scope.addOrOverlayPanel[index].operation,
-            bibStatus: $scope.addOrOverlayPanel[index].bibStatus,
             addOperation: $scope.addOrOverlayPanel[index].addOperation,
             addItems: $scope.addOrOverlayPanel[index].addItems,
             isAddLine: true
