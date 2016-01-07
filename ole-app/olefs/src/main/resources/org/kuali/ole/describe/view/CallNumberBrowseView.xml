@@ -332,6 +332,6 @@
         </property>
     </bean>
 
-    <bean id="OpenSelected_button" parent="Uif-SecondaryActionButton" p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records" p:render="@{holdingsList ne null || itemList ne null}"/>
+    <bean id="OpenSelected_button" parent="Uif-SecondaryActionButton" p:actionScript="openSelectAllCallNumberBrowse('@{docType}');" p:actionLabel="Open Selected Records" p:render="@{holdingsList ne null || itemList ne null}"/>
 
 </beans>
