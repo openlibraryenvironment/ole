@@ -44,7 +44,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 OleOrderRecord oleOrderRecord = new OleOrderRecord();
                 oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-                oleTxRecord.setOrgCode("LIB");
                 oleOrderRecord.setOleTxRecord(oleTxRecord);
 
                 Bib bib = new Bib();

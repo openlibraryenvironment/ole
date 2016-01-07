@@ -43,12 +43,10 @@ public class MoveStepHandler extends StepHandler {
                 String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
 
                 if (!getMarcRecordUtil().isControlField(destinationField)) {
-                    getMarcRecordUtil().addDataField(marcRecord,destinationField,destinationSubField,value);
+                    getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,destinationSubField,value);
                 } else {
-                    getMarcRecordUtil().addControlField(marcRecord,destinationField,value);
+                    getMarcRecordUtil().updateControlFieldValue(marcRecord,destinationField,value);
                 }
-                getMarcRecordUtil().removeFieldFromRecord(marcRecord,sourceField);
-
             }
         }
     }

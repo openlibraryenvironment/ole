@@ -50,14 +50,14 @@ public class OrderImportFieldValuesUtil {
 
     public Map<String, String> getMaintenanceDataByField(String fieldName) {
         Map<String, String> fieldValues = new HashMap<>();
-        if (fieldName.equalsIgnoreCase("Chart Code") || fieldName.equalsIgnoreCase("Org Code")) {
+        if (fieldName.equalsIgnoreCase("Org Code")) {
             List<Organization> chartCodeList = selectDAO.fetchAllOrganization();
             if (CollectionUtils.isNotEmpty(chartCodeList)) {
                 for (Organization chartCode : chartCodeList) {
-                    fieldValues.put(chartCode.getChartOfAccountsCode(), chartCode.getChartOfAccountsCode());
+                    fieldValues.put(chartCode.getOrganizationCode(), chartCode.getOrganizationCode());
                 }
             }
-        } else if (fieldName.equalsIgnoreCase("Item Chart Code")) {
+        } else if (fieldName.equalsIgnoreCase("Chart Code") || fieldName.equalsIgnoreCase("Item Chart Code")) {
             List<Chart> itemChartCodeList = selectDAO.fetchAllItemChartCode();
             if (CollectionUtils.isNotEmpty(itemChartCodeList)) {
                 for (Chart itemChartCode : itemChartCodeList) {

@@ -496,12 +496,12 @@ public class StepsProcessorTest {
 
         Subfield subfield3 = marcFactory.newSubfield();
         subfield3.setCode('a');
-        subfield3.setData("Value for 95 a");
+        subfield3.setData("95a");
         dataField1.addSubfield(subfield3);
 
         Subfield subfield4 = marcFactory.newSubfield();
         subfield4.setCode('b');
-        subfield4.setData("Value for 95 b");
+        subfield4.setData("95b");
         dataField1.addSubfield(subfield4);
 
         record.addVariableField(dataField1);
@@ -512,61 +512,38 @@ public class StepsProcessorTest {
         Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("move");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("003");
-        Mockito.when(mockBatchProfileDataTransformer3.getDestinationField()).thenReturn("050 $a$b$c");
+        Mockito.when(mockBatchProfileDataTransformer3.getDestinationField()).thenReturn("004");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
-
-        batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("move");
-        Mockito.when(mockBatchProfileDataTransformer4.getConstant()).thenReturn("");
-        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("004");
-        Mockito.when(mockBatchProfileDataTransformer4.getDestinationField()).thenReturn("001");
-        Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(2);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
         Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("move");
         Mockito.when(mockBatchProfileDataTransformer5.getConstant()).thenReturn("");
-        Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("035 $a$b");
-        Mockito.when(mockBatchProfileDataTransformer5.getDestinationField()).thenReturn("008");
-        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(3);
+        Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer5.getDestinationField()).thenReturn("035 $a$b");
+        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(2);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer1);
         Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("move");
         Mockito.when(mockBatchProfileDataTransformer1.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("095 $a$b");
-        Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("100 $a$b");
-        Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(4);
+        Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
 
         stepsProcessor.processSteps(record,mockBatchProcessProfile);
 
-        String valueOf050$a$b$c= getMarcRecordUtil().getDataFieldValue(record, "050 $a$b$c");
-        assertTrue(StringUtils.equals(valueOf050$a$b$c,"OCLOC OCLOC OCLOC"));
-        System.out.println("050 $a$b$c : " + valueOf050$a$b$c);
+        String valueOf35$a$b= getMarcRecordUtil().getDataFieldValue(record, "035 $a$b");
+        assertTrue(StringUtils.equals(valueOf35$a$b,"OCLOC OCLOC"));
+        System.out.println("035 $a$b : " + valueOf35$a$b);
 
-        String valueOf100$a$b$c= getMarcRecordUtil().getDataFieldValue(record, "100 $a$b");
-        assertTrue(StringUtils.equals(valueOf100$a$b$c,"Value for 95 a Value for 95 b Value for 95 a Value for 95 b"));
-        System.out.println("100 $a$b : " + valueOf100$a$b$c);
-
-        String valueOf001= getMarcRecordUtil().getControlFieldValue(record, "001");
-        assertTrue(StringUtils.equals(valueOf001,"123456878"));
-        System.out.println("001 : " + valueOf001);
-
-        String valueOf008= getMarcRecordUtil().getControlFieldValue(record, "008");
-        assertTrue(StringUtils.equals(valueOf008,"Value for 035 a Value for 035 b"));
-        System.out.println("008 : " + valueOf100$a$b$c);
+        String valueOf004= getMarcRecordUtil().getControlFieldValue(record, "004");
+        assertTrue(StringUtils.equals(valueOf004,"OCLOC"));
+        System.out.println("OCLOC : " + valueOf004);
 
         String valueOf003= getMarcRecordUtil().getControlFieldValue(record, "003");
-        assertTrue(StringUtils.isBlank(valueOf003));
-
-        String valueOf004= getMarcRecordUtil().getDataFieldValue(record, "004");
-        assertTrue(StringUtils.isBlank(valueOf004));
-
-        String valueOf35$a$b= getMarcRecordUtil().getControlFieldValue(record, "095 $a$b");
-        assertTrue(StringUtils.isBlank(valueOf35$a$b));
-
-        String valueOf65$a$b= getMarcRecordUtil().getDataFieldValue(record, "004");
-        assertTrue(StringUtils.isBlank(valueOf65$a$b));
+        assertTrue(StringUtils.equals(valueOf003,"95a 95b"));
+        System.out.println("003 : " + valueOf35$a$b);
 
     }
 
