@@ -50,7 +50,7 @@
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
                                     style="width: 170px">
-                                <option ng-selected="{{option.value == mainSectionPanel.bibImportProfileForOrderImport}}"
+                                <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
                                         ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"
                                         value="{{option.profileName}}">
                                     {{option.profileName}}
