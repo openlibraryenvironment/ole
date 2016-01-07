@@ -20,10 +20,10 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Subfield</th>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Destination</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Destination</th>
                         <th>Field</th>
                         <th>Value</th>
-                        <th>Pre/Post Transformation</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Pre/Post Transformation</th>
                         <th>Priority</th>
                         <th></th>
                     </tr>
@@ -238,7 +238,7 @@
                                             || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>
-                        <td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <select class="form-control" name="dataMappingTransferOption__{{$index}}" id="dataMappingTransferOption__{{$index}}"
                                     ng-model="dataMapping.transferOption" ng-hide="dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.transferOption}}"
