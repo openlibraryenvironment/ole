@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,6 +49,14 @@ public class CoverageEndIssueHandler extends HoldingsHandler {
                 EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
                 eInstanceCoverageRecord.setCoverageEndIssue(coverageEndIssue);
             }
+        } else {
+            eInstanceCoverageRecords = new ArrayList<EInstanceCoverageRecord>();
+            EInstanceCoverageRecord eInstanceCoverageRecord = new EInstanceCoverageRecord();
+            eInstanceCoverageRecord.setCoverageEndIssue(coverageEndIssue);
+            eInstanceCoverageRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+            eInstanceCoverageRecord.setHoldingsRecord(holdingsRecord);
+            eInstanceCoverageRecords.add(eInstanceCoverageRecord);
+            holdingsRecord.seteInstanceCoverageRecordList(eInstanceCoverageRecords);
         }
     }
 }

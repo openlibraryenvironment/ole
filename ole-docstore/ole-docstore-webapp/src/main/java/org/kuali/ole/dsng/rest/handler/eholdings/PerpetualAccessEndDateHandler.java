@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -46,12 +47,19 @@ public class PerpetualAccessEndDateHandler extends HoldingsHandler {
         if(StringUtils.isNotBlank(perpetualAccessEndDate)) {
             try {
                 Date parseedDate = DOCSTORE_DATE_FORMAT.parse(perpetualAccessEndDate);
-                List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-                if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-                    for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+                if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
+                    for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstancePerpetualAccessRecords.iterator(); iterator.hasNext(); ) {
                         EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
                         eInstancePerpetualAccessRecord.setPerpetualAccessEndDate(perpetualAccessEndDate);
                     }
+                } else {
+                    eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
+                    EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = new EInstancePerpetualAccessRecord();
+                    eInstancePerpetualAccessRecord.setPerpetualAccessEndDate(perpetualAccessEndDate);
+                    eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                    eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
+                    eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

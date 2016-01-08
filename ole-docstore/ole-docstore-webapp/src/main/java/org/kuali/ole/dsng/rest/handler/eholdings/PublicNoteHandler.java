@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,14 +44,25 @@ public class PublicNoteHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        boolean isNoteFound = false;
         List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
         if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
             for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsNoteRecord holdingsNoteRecord = iterator.next();
                 if(StringUtils.equals(holdingsNoteRecord.getType(),"public")){
                     holdingsNoteRecord.setNote(publicNote);
+                    isNoteFound = true;
                 }
             }
+        }
+        if(CollectionUtils.isEmpty(holdingsNoteRecords) || !isNoteFound) {
+            holdingsNoteRecords = new ArrayList<HoldingsNoteRecord>();
+            HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
+            holdingsNoteRecord.setNote(publicNote);
+            holdingsNoteRecord.setType("public");
+            holdingsNoteRecords.add(holdingsNoteRecord);
+            holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
         }
         exchange.add("holdingsRecord", holdingRecord);
     }

@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonor
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class DonorNoteHandler extends HoldingsHandler {
                 OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
                 oleHoldingsDonorRecord.setDonorNote(donorNote);
             }
+        } else {
+            donorList = new ArrayList<OLEHoldingsDonorRecord>();
+            OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
+            oleHoldingsDonorRecord.setDonorNote(donorNote);
+            oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+            holdingRecord.setDonorList(donorList);
         }
     }
 }

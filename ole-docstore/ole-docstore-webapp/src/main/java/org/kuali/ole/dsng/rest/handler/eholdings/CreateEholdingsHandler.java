@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
@@ -89,6 +90,7 @@ public class CreateEholdingsHandler extends CreateHoldingsHandler {
 
     @Override
     public void setHoldingType(HoldingsRecord holdingsRecord) {
+        holdingsRecord.setHoldingsType(EHoldings.ELECTRONIC);
     }
 
     @Override

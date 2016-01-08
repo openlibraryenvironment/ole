@@ -10,6 +10,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.AccessLocationUtil;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,6 +54,14 @@ public class AccessLocationHandler extends HoldingsHandler {
                     HoldingsAccessLocation holdingsAccessLocation = iterator.next();
                     holdingsAccessLocation.setAccessLocation(accessLocation);
                 }
+            } else {
+                holdingsAccessLocations = new ArrayList<HoldingsAccessLocation>();
+                HoldingsAccessLocation holdingsAccessLocation = new HoldingsAccessLocation();
+                holdingsAccessLocation.setAccessLocation(accessLocation);
+                holdingsAccessLocation.setHoldingsId(holdingRecord.getHoldingsId());
+                holdingsAccessLocation.setHoldingsRecord(holdingRecord);
+                holdingsAccessLocations.add(holdingsAccessLocation);
+                holdingRecord.setHoldingsAccessLocations(holdingsAccessLocations);
             }
         }
         exchange.add("holdingsRecord", holdingRecord);

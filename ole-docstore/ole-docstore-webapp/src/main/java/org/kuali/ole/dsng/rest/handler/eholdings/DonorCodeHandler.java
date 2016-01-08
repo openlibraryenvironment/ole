@@ -3,11 +3,13 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,6 +51,13 @@ public class DonorCodeHandler extends HoldingsHandler {
                 OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
                 oleHoldingsDonorRecord.setDonorCode(donorCode);
             }
+        } else {
+            donorList = new ArrayList<OLEHoldingsDonorRecord>();
+            OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
+            oleHoldingsDonorRecord.setDonorCode(donorCode);
+            oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+            holdingRecord.setDonorList(donorList);
         }
     }
 }

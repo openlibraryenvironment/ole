@@ -7,6 +7,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,6 +48,12 @@ public class DonorNoteHandler extends ItemHandler {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 oleItemDonorRecord.setDonorNote(donorNote);
             }
+        } else {
+            donorList = new ArrayList<OLEItemDonorRecord>();
+            OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
+            oleItemDonorRecord.setDonorNote(donorNote);
+            oleItemDonorRecord.setItemId(itemRecord.getItemId());
+            itemRecord.setDonorList(donorList);
         }
         exchange.add("itemRecord", itemRecord);
 
