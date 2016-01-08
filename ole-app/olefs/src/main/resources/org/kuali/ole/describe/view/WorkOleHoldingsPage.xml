@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="WorkOleHoldingsDetails" parent="Uif-VerticalBoxGroup" p:style="width:48%" p:layoutManager.style="border:1px solid;"
+    <bean id="WorkOleHoldingsDetails" parent="Uif-VerticalBoxGroup" p:style="width:60%" p:layoutManager.style="border:1px solid;"
           p:readOnly="@{editable eq 'false'}">
         <property name="headerText" value="OLE Holdings"/>
         <property name="items">

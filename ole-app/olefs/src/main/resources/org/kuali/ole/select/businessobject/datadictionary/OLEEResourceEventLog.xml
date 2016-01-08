@@ -163,11 +163,8 @@
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="30"/>
-        </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="30"/>
+            <bean parent="Uif-TextControl" p:size="30" p:textExpand="true"/>
         </property>
         <property name="name" value="eventNote"/>
         <property name="label" value="Event Note"/>

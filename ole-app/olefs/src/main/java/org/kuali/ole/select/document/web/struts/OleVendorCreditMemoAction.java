@@ -466,10 +466,8 @@ public class OleVendorCreditMemoAction extends VendorCreditMemoAction {
                 if (CollectionUtils.isNotEmpty(distributedAccounts)) {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
-                if(creditMemoDocument.isNoProrate() && item.getItemType().isAdditionalChargeIndicator()){
-                    item.setSourceAccountingLines(new ArrayList<PurApAccountingLine>());
-                }
-                else if (creditMemoDocument.isProrateDollar() || creditMemoDocument.isProrateQty()) {
+
+                if (creditMemoDocument.isProrateDollar() || creditMemoDocument.isProrateQty() || creditMemoDocument.isNoProrate()) {
                     calculate(mapping, vendorCreditMemoForm, request, response);
                 }
             }

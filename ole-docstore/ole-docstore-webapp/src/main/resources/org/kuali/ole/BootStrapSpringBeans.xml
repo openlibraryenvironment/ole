@@ -126,7 +126,7 @@
 
     <bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
 
-    <bean id="callNumberMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.docstore.common.dao.CallNumberMigrationDao"/>
+    <bean id="callNumberMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.docstore.engine.service.storage.rdbms.dao.CallNumberMigrationDao"/>
 
     <!-- beans below here are extended by KFS beans, and so the "parent" relationship does not work and they must be redefined -->
 
