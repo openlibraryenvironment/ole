@@ -660,8 +660,8 @@ var constantOrDefaultTypes = [
 ];
 
 var discountTypes = [
-    {id: '%', name: '%'},
-    {id: '#', name: '#'}
+    {id: '%', value: '%'},
+    {id: '#', value: '#'}
 ];
 
 var mainSection = {

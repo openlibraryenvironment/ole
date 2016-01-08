@@ -67,7 +67,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.fieldOperationsPanel = [];
         $scope.dataTransformationsPanel = [];
         $scope.constantsAndDefaultsActivePanel = [];
-        $scope.dataMappingsActivePanel = [];
+        $scope.dataMappingsActivePanel = [0];
         $scope.constantsAndDefaultsPanel[0].fieldName = null;
         $scope.constantsAndDefaultsPanel[0].fieldValue = null;
         $scope.dataMappingsPanel[0].dataMappingDocType = null;
@@ -79,6 +79,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].priority = 1;
+        $scope.dataMappingsPanel.collapsed = true;
     };
 
     $scope.matchPointAdd = function () {
@@ -353,8 +354,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[index].destinations = populateDestinationForDataMappingToEdit($scope.dataMappingsPanel[index].dataMappingDocType);
             $scope.dataMappingsPanel[index].discountTypes = discountTypes;
             $scope.dataMappingsPanel[index].transferOptions = transferOptions;
-            $scope.dataMappingsPanel[index].dataMappingFields = dataMappingOrderFields;
+            if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+                $scope.dataMappingsPanel[index].dataMappingFields = dataMappingOrderFields;
+            } else if ($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
+                $scope.dataMappingsPanel[index].dataMappingFields = invoiceFields;
+            }
             $scope.dataMappingsPanel[index].isAddLine = false;
+            $scope.populateDestinationFieldValues(null, $scope.dataMappingsPanel[index].field);
         }
     };
 
@@ -426,7 +432,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataTransformationsPanel[index].dataTransformationOperations = transformationOperations;
             $scope.dataTransformationsPanel[index].isAddLine = false;
         }
-    }
+    };
 
     $scope.dataTransformationUpdateRow = function(index) {
         var updatedRow = {
@@ -579,17 +585,14 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     $scope.populateDestinationFieldValues = function (dataObject, fieldType) {
         $scope.constantValues = [];
-        if (dataObject.title == 'Constants And Defaults') {
-            dataObject.fieldValue = null;
-            dataObject.constantsAndDefault = 'Constant';
-            $scope.constantAndDefaultFieldValues = null;
-        } else if (dataObject.title == 'Data Mappings') {
-            $scope.dataMappingFieldValues = null;
-        }
-        if(fieldType === 'Staff Only') {
+        if (fieldType === 'Staff Only') {
+            $scope.constantValues = booleanOptionsYorN;
+        } else if (fieldType === 'Discount Type') {
+            $scope.constantValues = discountTypes;
+        } else if (fieldType === 'Receiving Required' || fieldType === 'Use Tax Indicator' || fieldType === 'Pay Req Positive Approval Req' || fieldType === 'Purchase Order Confirmation Indicator' || fieldType === 'Route To Requestor') {
             $scope.constantValues = booleanOptionsYorN;
         }
-        getMaintenanceDataForFieldTypeForDropDown(dataObject.title, fieldType, $scope, $http);
+        getMaintenanceDataForFieldTypeForDropDown(fieldType, $scope, $http);
     };
 
     $scope.populationDestinations = function (dataMapping) {
@@ -689,10 +692,14 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
                     addEmptyValueToAddNew(data.batchProcessType);
 
-                    if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import') && $scope.bibImportProfileNames == undefined) {
-                        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": "Bib Import"}}).success(function (data) {
-                            $scope.bibImportProfileNames = data;
-                        });
+                    if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import')) {
+                        $scope.dataMappingsActivePanel = [0];
+                        $scope.dataMappingsPanel.collapsed = true;
+                        if ($scope.bibImportProfileNames == undefined) {
+                            $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": "Bib Import"}}).success(function (data) {
+                                $scope.bibImportProfileNames = data;
+                            });
+                        }
                     }
                 });
         }
