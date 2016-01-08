@@ -1,18 +1,10 @@
 package org.kuali.ole.deliver.util;
 
-import oracle.sql.CLOB;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.sql.*;
-import java.util.Arrays;
 
 /**
  * Created by maheswarang on 12/29/15.
@@ -36,7 +28,7 @@ public class OleOjbClobConversionUtil implements FieldConversion {
                     return bytes;
                 } else if(source instanceof String){
                      String content = (String)source;
-                    if(!content.contains("HTML") || !content.contains("HTML")){
+                    if(!content.contains("HTML") || !content.contains("html")){
                     bytes = Hex.decodeHex(((String) source).toCharArray());
                     return bytes;
                     }else{
