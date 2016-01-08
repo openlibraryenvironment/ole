@@ -211,7 +211,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     Map.Entry<String, String> fieldValue = (Map.Entry<String, String>) iterator.next();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", fieldValue.getKey());
-                    jsonObject.put("name", fieldValue.getValue());
+                    jsonObject.put("value", fieldValue.getValue());
                     jsonArray.put(jsonObject);
                 }
             }
