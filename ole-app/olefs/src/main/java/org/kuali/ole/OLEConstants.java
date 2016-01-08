@@ -3758,4 +3758,5 @@ public class OLEConstants {
     public static final String NUMBER_OF_WORKING_DAYS = "numberOfWorkingDays";
     public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
     public static final String MAIN_REC_REC_TYP = "Main";
+    public static final String MESSAGE_UNSAVED_CHANGES = "message.unsaved.changes";
 }

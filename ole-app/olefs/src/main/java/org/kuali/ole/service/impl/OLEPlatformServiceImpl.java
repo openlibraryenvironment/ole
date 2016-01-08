@@ -210,11 +210,14 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
         for (OLEPlatformEventLog olePlatformEventLog : olePlatformEventLogs) {
             if (olePlatformEventLog.isSaveFlag()) {
                 olePlatformEventLogList.add(olePlatformEventLog);
-            } else if (StringUtils.isNotBlank(olePlatformEventLog.getPlatformEventLogId()) && tempDocument != null) {
-                for (OLEPlatformEventLog platformEventLog : tempDocument.getEventLogs()) {
-                    if (StringUtils.isNotBlank(platformEventLog.getPlatformEventLogId()) && platformEventLog.getPlatformEventLogId().equals(olePlatformEventLog.getPlatformEventLogId())) {
-                        olePlatformEventLogList.add(platformEventLog);
-                        break;
+            } else {
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, OLEConstants.MESSAGE_UNSAVED_CHANGES);
+                if (StringUtils.isNotBlank(olePlatformEventLog.getPlatformEventLogId()) && tempDocument != null) {
+                    for (OLEPlatformEventLog platformEventLog : tempDocument.getEventLogs()) {
+                        if (StringUtils.isNotBlank(platformEventLog.getPlatformEventLogId()) && platformEventLog.getPlatformEventLogId().equals(olePlatformEventLog.getPlatformEventLogId())) {
+                            olePlatformEventLogList.add(platformEventLog);
+                            break;
+                        }
                     }
                 }
             }
