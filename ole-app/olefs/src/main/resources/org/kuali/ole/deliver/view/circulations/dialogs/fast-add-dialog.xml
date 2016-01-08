@@ -49,7 +49,7 @@
             </list>
         </property>
     </bean>
-    <bean id="headerButtonAndInstructionalTextMessage" p:style="width:95%;position:relative;float:right" parent="Uif-HeaderRightGroup">
+    <bean id="headerButtonAndInstructionalTextMessage" p:style="width:95%;position:relative;float:right;top:-20px" parent="Uif-HeaderRightGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderThree"  p:headerText="Fast-Add item"/>
