@@ -159,7 +159,7 @@
                         <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Problem'}"/>
                     </property>
                 </bean>
@@ -169,19 +169,22 @@
                         <bean class="org.kuali.ole.select.keyvalue.OLEProblemTypeKeyValues"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Event'}"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="eventNote"
                       p:label="Note" p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:textExpand="true"/>
+                    </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="eventUserId" p:label="User"/>
                 <bean parent="Uif-DataField" p:propertyName="eventReportedDate" p:label="Date"/>
                 <bean parent="Uif-InputField" p:propertyName="eventStatus"
                       p:label="Status" p:readOnly="@{#line.saveFlag}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Event'}">
                             <property name="options">
                                 <list>
@@ -202,7 +205,7 @@
                 <bean parent="Uif-InputField" p:propertyName="eventResolution"
                       p:label="Resolution" p:readOnly="@{#line.saveFlag}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                        <bean parent="Uif-TextControl" p:size="10" p:disabled="@{#line.logTypeName eq 'Event'}"/>
                     </property>
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Attach File">
@@ -346,7 +349,7 @@
                         <bean class="org.kuali.ole.select.keyvalue.OLEEResPltfrmEventTypeKeyValues"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Problem'}"/>
                     </property>
                 </bean>
@@ -356,19 +359,22 @@
                         <bean class="org.kuali.ole.select.keyvalue.OLEProblemTypeKeyValues"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Event'}"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="eventNote"
                       p:label="Note" p:readOnly="@{#line.saveFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:textExpand="true"/>
+                    </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="eventUserId" p:label="User"/>
                 <bean parent="Uif-DataField" p:propertyName="eventReportedDate" p:label="Date"/>
                 <bean parent="Uif-InputField" p:propertyName="eventStatus"
                       p:label="Status" p:readOnly="@{#line.saveFlag}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
+                        <bean parent="Uif-DropdownControl" p:style="width:auto"
                               p:disabled="@{#line.logTypeName eq 'Event'}">
                             <property name="options">
                                 <list>
@@ -389,7 +395,7 @@
                 <bean parent="Uif-InputField" p:propertyName="eventResolution"
                       p:label="Resolution" p:readOnly="@{#line.saveFlag}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                        <bean parent="Uif-TextControl" p:size="10" p:disabled="@{#line.logTypeName eq 'Event'}"/>
                     </property>
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Attach File">
