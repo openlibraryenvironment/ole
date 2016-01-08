@@ -58,7 +58,7 @@ public class UpdateEholdingsHandler extends UpdateHoldingsHandler {
             holdingMetaDataHandlers.add(new DonorNoteHandler());
             holdingMetaDataHandlers.add(new DonorPublicDisplayHandler());
             holdingMetaDataHandlers.add(new EResourceIdHandler());
-            holdingMetaDataHandlers.add(new ImprintHandler());
+            holdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
             holdingMetaDataHandlers.add(new InitialSubscriptionEndDateHandler());
             holdingMetaDataHandlers.add(new PerpetualAccessStartDateHandler());
             holdingMetaDataHandlers.add(new PerpetualAccessStartIssueHandler());
@@ -73,6 +73,10 @@ public class UpdateEholdingsHandler extends UpdateHoldingsHandler {
             holdingMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             holdingMetaDataHandlers.add(new SubscriptionStatusHandler());
             holdingMetaDataHandlers.add(new UrlHandler());
+            holdingMetaDataHandlers.add(new ImprintHandler());
+            holdingMetaDataHandlers.add(new NonPublicNoteHandler());
+            holdingMetaDataHandlers.add(new PublicNoteHandler());
+            holdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
         }
         return holdingMetaDataHandlers;
 

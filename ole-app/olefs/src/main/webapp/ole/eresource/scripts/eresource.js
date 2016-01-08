@@ -61,6 +61,14 @@ function removeInstance() {
 
 jq(document).ready(function () {
 
+    jq("#OLEEResourceRecordView-Menu a").click(function(){
+        if(this.id=='E-Resource-Instance-Navigation'){
+            window.setTimeout(function () {
+                jq("#instanceDetails").tableExport();
+            }, 800)
+        }
+    });
+
     jq("#publisherSuggest_control").blur(function(){
         jq("#refreshPublisher").focus().click();
     })
@@ -604,4 +612,18 @@ jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").val("");
 
 function closePriceIncreaseWidget(){
     jq('.fancybox-close').click();
+}
+
+function openInstancePOSectionSection() {
+    var index = jq('#hiddenIndex_control').val();
+    index = parseInt(index)+1;
+    var detailLinkId = '#InstancePOSection_detLink_line'+index;
+    jq(detailLinkId).focus().click();
+}
+
+function openEresourcePODetailSection() {
+    var index = jq('#hiddenIndex_control').val();
+    index = parseInt(index)+1;
+    var detailLinkId = '#EResourcePOSection_detLink_line'+index;
+    jq(detailLinkId).focus().click();
 }

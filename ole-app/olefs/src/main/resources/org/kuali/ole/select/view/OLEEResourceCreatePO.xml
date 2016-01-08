@@ -102,7 +102,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="title"/>
-                            <bean parent="Uif-LinkField" p:linkText="Create New" p:render="@{#line.poId ne null}"
+                            <bean parent="Uif-LinkField" p:linkText="Create New"
                                   p:onClickScript="e.preventDefault();showLightBox('@{#index}' , 'eResource');"/>
                         </list>
                     </property>
@@ -176,7 +176,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="title"/>
-                            <bean parent="Uif-LinkField" p:linkText="Create New" p:render="@{#line.poId ne null}"
+                            <bean parent="Uif-LinkField" p:linkText="Create New"
                                   p:onClickScript="e.preventDefault();showLightBox('@{#index}', 'instance');"/>
                         </list>
                     </property>
@@ -238,7 +238,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="createAnotherPOForInstance" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForInstance" p:actionLabel="Yes" p:successCallback="closeLightbox();" p:style="float:left;margin-left:7em"/>
+                            <bean id="createAnotherPOForInstance" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForInstance" p:actionLabel="Yes" p:successCallback="closeLightbox();openInstancePOSectionSection()" p:style="float:left;margin-left:7em"/>
                             <ref bean="createPONoButton"/>
                         </list>
                     </property>
@@ -255,7 +255,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="createAnotherPOEResource" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForEResource" p:actionLabel="Yes" p:successCallback="closeLightbox();" p:style="float:left;margin-left:7em"/>
+                            <bean id="createAnotherPOEResource" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForEResource" p:actionLabel="Yes" p:successCallback="closeLightbox();openEresourcePODetailSection()" p:style="float:left;margin-left:7em"/>
                             <ref bean="createPONoButton"/>
                         </list>
                     </property>

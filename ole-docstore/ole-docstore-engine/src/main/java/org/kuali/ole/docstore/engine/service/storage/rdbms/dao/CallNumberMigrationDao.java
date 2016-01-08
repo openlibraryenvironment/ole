@@ -1,4 +1,4 @@
-package org.kuali.ole.docstore.common.dao;
+package org.kuali.ole.docstore.engine.service.storage.rdbms.dao;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
@@ -23,8 +23,8 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
     private static Map<String, String> callNumberType = new HashMap<>();
 
 
-    private String holdingsCallNumberQuery = "SELECT HOLDINGS_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_HOLDINGS_T Where CALL_NUMBER  !='null' ORDER BY HOLDINGS_ID";
-    private String itemCallNumberQuery = "SELECT ITEM_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_ITEM_T Where CALL_NUMBER  !='null' ORDER BY ITEM_ID";
+    private String holdingsCallNumberQuery = "SELECT HOLDINGS_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_HOLDINGS_T Where CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY HOLDINGS_ID";
+    private String itemCallNumberQuery = "SELECT ITEM_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_ITEM_T Where CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY ITEM_ID";
 
     public void init() throws Exception {
         fetchCallNumberType();
@@ -61,13 +61,13 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
 
         while (holdingsCallNumberResultSet.next()) {
             count++;
-            Map<String,String> holdingsDetails = new HashMap<>();
-            holdingsDetails.put("callNumberTypeId",holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
+            Map<String, String> holdingsDetails = new HashMap<>();
+            holdingsDetails.put("callNumberTypeId", holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
             holdingsDetails.put("callNumber", holdingsCallNumberResultSet.getString("CALL_NUMBER"));
             holdingsDetails.put("holdingsId", String.valueOf(holdingsCallNumberResultSet.getInt("HOLDINGS_ID")));
             futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsDetails, callNumberType)));
-         }
-        List<String> batchSqls= new ArrayList<>();
+        }
+        List<String> batchSqls = new ArrayList<>();
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
@@ -79,7 +79,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
                 LOG.info(e.getMessage());
             }
 
-            if(batchSqls.size() == 10){
+            if (batchSqls.size() == 1000) {
                 String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
                 getJdbcTemplate().batchUpdate(arraysqls);
                 batchSqls.clear();
@@ -87,7 +87,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         }
         executorService.shutdown();
 
-        if(batchSqls.size() > 0){
+        if (batchSqls.size() > 0) {
             String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
             getJdbcTemplate().batchUpdate(arraysqls);
         }
@@ -103,13 +103,13 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int count = 0;
         while (itemCallNumberResultSet.next()) {
             count++;
-            Map<String,String> ItemDetails = new HashMap<>();
-            ItemDetails.put("callNumberTypeId",itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
+            Map<String, String> ItemDetails = new HashMap<>();
+            ItemDetails.put("callNumberTypeId", itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
             ItemDetails.put("callNumber", itemCallNumberResultSet.getString("CALL_NUMBER"));
             ItemDetails.put("itemId", String.valueOf(itemCallNumberResultSet.getInt("ITEM_ID")));
             futures.add(executorService.submit(new ItemCallNumberProcessor(ItemDetails, callNumberType)));
         }
-        List<String> batchSqls= new ArrayList<>();
+        List<String> batchSqls = new ArrayList<>();
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
@@ -120,16 +120,17 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
             } catch (ExecutionException e) {
                 LOG.info(e.getMessage());
             }
-
-            if(batchSqls.size() == 10){
+            if (batchSqls.size() == 1000) {
                 String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
                 getJdbcTemplate().batchUpdate(arraysqls);
                 batchSqls.clear();
             }
         }
+
+
         executorService.shutdown();
 
-        if(batchSqls.size() > 0){
+        if (batchSqls.size() > 0) {
             String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
             getJdbcTemplate().batchUpdate(arraysqls);
         }

@@ -3146,6 +3146,7 @@
         <field-descriptor name="receivingLineItemIdentifier" column="RCVNG_LN_ITM_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="noteTypeId" column="OLE_NTE_TYP_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="notes" column="OLE_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="notesAck" column="OLE_NTE_ACK" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <reference-descriptor name="receivingLineItem" class-ref="org.kuali.ole.select.businessobject.OleLineItemReceivingItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

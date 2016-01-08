@@ -201,6 +201,13 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_PUR_RCVNG_LN_ITM_NTE_T">
+        <addColumn
+                tableName="OLE_PUR_RCVNG_LN_ITM_NTE_T">
+            <column name="OLE_NTE_ACK"   type="VARCHAR(1)"/>
+        </addColumn>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_T">
         <createTable tableName="OLE_NG_BAT_PRF_T">
             <column name="PRF_ID"   type="INTEGER(10)">
