@@ -91,6 +91,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+
+        if(null == results || results.size() > 1) {
+            System.out.println("**** More than one record found for query : " + query);
+            return null;
+        }
         if (null != results && results.size() == 1) {
             SolrDocument solrDocument = (SolrDocument) results.get(0);
             bibData.put("id", solrDocument.getFieldValue("LocalId_display"));

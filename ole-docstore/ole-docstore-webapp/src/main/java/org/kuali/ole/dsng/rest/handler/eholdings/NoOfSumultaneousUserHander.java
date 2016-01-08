@@ -7,11 +7,11 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
 /**
- * Created by SheikS on 1/7/2016.
+ * Created by SheikS on 12/31/2015.
  */
-public class ImprintHandler extends HoldingsHandler {
+public class NoOfSumultaneousUserHander extends HoldingsHandler {
 
-    private final String TYPE = "Imprint";
+    private final String TYPE = "No. of Simultaneous User";
 
     @Override
     public Boolean isInterested(String operation) {
@@ -21,17 +21,17 @@ public class ImprintHandler extends HoldingsHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
-        String imprint = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(holdingRecord.getImprint(), imprint)) {
+        String noOfSimultaneousUser = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        if (StringUtils.equals(holdingRecord.getNumberSimultaneousUsers(), noOfSimultaneousUser)) {
             exchange.add("matchedHoldings", holdingRecord);
         }
     }
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String imprint = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String noOfSimultaneousUser = getStringValueFromJsonObject(requestJsonObject, TYPE);
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
-        holdingRecord.setImprint(imprint);
+        holdingRecord.setNumberSimultaneousUsers(noOfSimultaneousUser);
         exchange.add("holdingsRecord", holdingRecord);
     }
 }

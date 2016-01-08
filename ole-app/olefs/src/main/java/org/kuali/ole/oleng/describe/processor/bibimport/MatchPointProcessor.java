@@ -104,7 +104,8 @@ public class MatchPointProcessor extends BatchUtil {
             String query = iterator.next();
             appendQuery(queryBuilder,query);
         }
-        return queryBuilder.toString();
+        String query = "((DocType:bibliographic) AND (" + queryBuilder.toString() + "))";
+        return query;
     }
 
     private void appendQuery(StringBuilder queryBuilder, String query) {
