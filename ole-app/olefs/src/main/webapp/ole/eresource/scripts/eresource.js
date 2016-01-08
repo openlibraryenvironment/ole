@@ -61,6 +61,14 @@ function removeInstance() {
 
 jq(document).ready(function () {
 
+    jq("#OLEEResourceRecordView-Menu a").click(function(){
+        if(this.id=='E-Resource-Instance-Navigation'){
+            window.setTimeout(function () {
+                jq("#instanceDetails").tableExport();
+            }, 800)
+        }
+    });
+
     jq("#publisherSuggest_control").blur(function(){
         jq("#refreshPublisher").focus().click();
     })

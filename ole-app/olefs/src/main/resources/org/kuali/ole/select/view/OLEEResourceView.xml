@@ -48,6 +48,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/eresource/scripts/eresource.js</value>
+                <value>ole/eresource/scripts/tableExport.js</value>
                 <value>ole/alert/scripts/alert.js</value>
             </list>
         </property>
