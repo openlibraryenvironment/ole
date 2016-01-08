@@ -1,10 +1,10 @@
 package org.kuali.ole.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.dao.CallNumberMigrationDao;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.dao.CallNumberMigrationDao;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.process.RebuildIndexesHandler;
 import org.kuali.ole.logger.DocStoreLogger;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 /**
  * Created by IntelliJ IDEA.
