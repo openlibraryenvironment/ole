@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +53,14 @@ public class CoverageEndDateHandler extends HoldingsHandler {
                         EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
                         eInstanceCoverageRecord.setCoverageEndDate(coverageEndDate);
                     }
+                } else {
+                    eInstanceCoverageRecords = new ArrayList<EInstanceCoverageRecord>();
+                    EInstanceCoverageRecord eInstanceCoverageRecord = new EInstanceCoverageRecord();
+                    eInstanceCoverageRecord.setCoverageEndDate(coverageEndDate);
+                    eInstanceCoverageRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                    eInstanceCoverageRecord.setHoldingsRecord(holdingsRecord);
+                    eInstanceCoverageRecords.add(eInstanceCoverageRecord);
+                    holdingsRecord.seteInstanceCoverageRecordList(eInstanceCoverageRecords);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearc
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.StatisticalSearchCodeUtil;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,6 +53,14 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
                     ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
                     itemStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
                 }
+            } else {
+                itemStatisticalSearchRecords = new ArrayList<ItemStatisticalSearchRecord>();
+                ItemStatisticalSearchRecord holdingsStatisticalSearchRecord = new ItemStatisticalSearchRecord();
+                holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                holdingsStatisticalSearchRecord.setItemId(itemRecord.getItemId());
+                holdingsStatisticalSearchRecord.setItemRecord(itemRecord);
+                itemStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
             }
         }
         exchange.add("itemRecord", itemRecord);

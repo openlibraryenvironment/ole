@@ -36,6 +36,11 @@ public abstract class Handler extends OleDsHelperUtil {
     public final static String HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
     public final static String HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
 
+    public final static String CREATE = "Create";
+    public final static String UPDATE = "Update";
+    public final static String HOLDINGS_PROCESS_TYPE = "holdingsProcessType";
+    public final static String ITEM_PROCESS_TYPE = "itemProcessType";
+
     BibDAO bibDAO;
 
     HoldingDAO holdingDAO;

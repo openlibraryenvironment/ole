@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
+import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.LocationUtil;
@@ -73,11 +74,23 @@ public class HoldingsLocationHandler extends HoldingsHandler {
                 String key = (String) iterator.next();
                 if(key.contains("Location Level")) {
                     String value = getStringValueFromJsonObject(requestJsonObject, key);
-                    holdingsLocation = getLocationUtil().updateLocation(holdingsLocation, value);
+                    holdingsLocation = getLocationUtil().buildLocationName(holdingsLocation, value);
                 }
             }
 
             holdingsRecord.setLocation(holdingsLocation);
+        } else {
+            StringBuilder locationName = new StringBuilder();
+            StringBuilder locationLevelName = new StringBuilder();
+            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject);
+            for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
+                String key = iterator.next();
+                String locationCode = locationMap.get(key);
+                getLocationUtil().appendLocationToStringBuilder(locationLevelName,key);
+                getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
+            }
+            holdingsRecord.setLocation(locationName.toString());
+            holdingsRecord.setLocationLevel(locationLevelName.toString());
         }
         exchange.add("holdingsRecord", holdingsRecord);
     }

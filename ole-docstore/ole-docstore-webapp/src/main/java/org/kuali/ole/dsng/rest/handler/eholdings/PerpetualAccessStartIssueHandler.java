@@ -8,6 +8,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,12 +43,19 @@ public class PerpetualAccessStartIssueHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String perpetualAccessStartIssue = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+        List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+        if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
+            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstancePerpetualAccessRecords.iterator(); iterator.hasNext(); ) {
                 EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
                 eInstancePerpetualAccessRecord.setPerpetualAccessStartIssue(perpetualAccessStartIssue);
             }
+        } else {
+            eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
+            EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = new EInstancePerpetualAccessRecord();
+            eInstancePerpetualAccessRecord.setPerpetualAccessStartIssue(perpetualAccessStartIssue);
+            eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+            eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
+            eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
         }
 
     }

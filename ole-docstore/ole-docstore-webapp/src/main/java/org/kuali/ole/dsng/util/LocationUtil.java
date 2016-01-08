@@ -1,6 +1,9 @@
 package org.kuali.ole.dsng.util;
 
+import org.apache.commons.collections.map.HashedMap;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleLocation;
+import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.util.*;
 
@@ -27,7 +30,7 @@ public class LocationUtil extends OleDsHelperUtil {
         return null;
     }
 
-    public String updateLocation(String oldLocationName, String locationCode) {
+    public String buildLocationName(String oldLocationName, String locationCode) {
         Map levelMap = new TreeMap();
         StringTokenizer stringTokenizer = new StringTokenizer(oldLocationName, "/");
         while (stringTokenizer.hasMoreTokens()) {
@@ -38,7 +41,32 @@ public class LocationUtil extends OleDsHelperUtil {
         levelMap.put(getLevelIdByLocationCode(locationCode), locationCode);
 
         return buildLocationName(levelMap);
+    }
 
+    public Map<String,String> buildLocationMap(JSONObject requestJsonObject) {
+        Map<String,String> locationMap = new TreeMap<String, String>();
+        OleLocation oleLocation = null;
+        if(requestJsonObject.has(Handler.LOCATION_LEVEL_1)) {
+            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_1));
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        }
+        if(requestJsonObject.has(Handler.LOCATION_LEVEL_2)) {
+            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_2));
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        }
+        if(requestJsonObject.has(Handler.LOCATION_LEVEL_3)) {
+            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_3));
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        }
+        if(requestJsonObject.has(Handler.LOCATION_LEVEL_4)) {
+            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_4));
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        }
+        if(requestJsonObject.has(Handler.LOCATION_LEVEL_5)) {
+            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_5));
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        }
+        return locationMap;
     }
 
     private String buildLocationName(Map map) {
@@ -51,5 +79,13 @@ public class LocationUtil extends OleDsHelperUtil {
             }
         }
         return strBuffer.toString();
+    }
+
+    public void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {
+        if (stringBuilder.length() > 0) {
+            stringBuilder.append(FORWARD_SLASH).append(location);
+        } else {
+            stringBuilder.append(location);
+        }
     }
 }

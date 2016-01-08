@@ -75,11 +75,23 @@ public class ItemLocationHandler extends ItemHandler {
                 String key = (String) iterator.next();
                 if(key.contains("Location Level")) {
                     String value = getStringValueFromJsonObject(requestJsonObject, key);
-                    itemLocation = getLocationUtil().updateLocation(itemLocation, value);
+                    itemLocation = getLocationUtil().buildLocationName(itemLocation, value);
                 }
             }
 
             itemRecord.setLocation(itemLocation);
+        } else {
+            StringBuilder locationName = new StringBuilder();
+            StringBuilder locationLevelName = new StringBuilder();
+            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject);
+            for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
+                String key = iterator.next();
+                String locationCode = locationMap.get(key);
+                getLocationUtil().appendLocationToStringBuilder(locationLevelName,key);
+                getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
+            }
+            itemRecord.setLocation(locationName.toString());
+            itemRecord.setLocationLevel(locationLevelName.toString());
         }
         exchange.add("itemRecord", itemRecord);
     }

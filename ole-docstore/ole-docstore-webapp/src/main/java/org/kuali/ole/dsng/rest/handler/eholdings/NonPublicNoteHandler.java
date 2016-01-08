@@ -5,9 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsNoteRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,14 +45,26 @@ public class NonPublicNoteHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        boolean isNoteFound = false;
         List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
         if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
             for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsNoteRecord holdingsNoteRecord = iterator.next();
                 if(StringUtils.equals(holdingsNoteRecord.getType(),"nonPublic")){
                     holdingsNoteRecord.setNote(publicNote);
+                    isNoteFound = true;
                 }
             }
+        }
+        if(CollectionUtils.isEmpty(holdingsNoteRecords) || !isNoteFound) {
+            holdingsNoteRecords = new ArrayList<HoldingsNoteRecord>();
+            HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
+            holdingsNoteRecord.setNote(publicNote);
+            holdingsNoteRecord.setType("nonPublic");
+            holdingsNoteRecords.add(holdingsNoteRecord);
+            holdingsNoteRecords.add(holdingsNoteRecord);
+            holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
         }
         exchange.add("holdingsRecord", holdingRecord);
     }

@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
@@ -10,6 +11,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.StatisticalSearchCodeUtil;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,6 +56,14 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                     HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = iterator.next();
                     holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
                 }
+            } else {
+                holdingsStatisticalSearchRecords = new ArrayList<HoldingsStatisticalSearchRecord>();
+                HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
+                holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
+                holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
             }
         }
         exchange.add("holdingsRecord", holdingsRecord);
