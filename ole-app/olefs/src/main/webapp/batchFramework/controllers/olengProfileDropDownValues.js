@@ -615,6 +615,17 @@ var discountTypes = [
     {id: '#', value: '#'}
 ];
 
+var matchedOrderOperations = [
+    {id: 'createReqAndPo', name: 'Create Requisition and PO'},
+    {id: 'createReqOnly', name: 'Create Requisition Only'},
+    {id: 'createReqOrPo', name: 'Create neither a Requisition nor a PO'}
+];
+
+var unmatchedOrderOperations = [
+    {id: 'createReqAndPo', name: 'Create Requisition and PO'},
+    {id: 'createReqOnly', name: 'Create Requisition Only'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: batchProcessTypeValues,
@@ -627,6 +638,7 @@ var mainSection = {
 var matchPoint = {
     title: 'Match Points',
     matchPointDocTypes: documentTypes,
+    matchPointOrderDocTypes: dataMappingProcessTypes,
     matchPointDocType: 'Bibliographic',
     holdingsMatchPoints: holdingsMatchPoints,
     itemMatchPoints: itemMatchPoints,
@@ -648,6 +660,8 @@ var addOrOverlay = {
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
     addOperations: addOperations,
+    matchedOrderOperations: matchedOrderOperations,
+    unmatchedOrderOperations: unmatchedOrderOperations,
     addItems: false,
     isAddLine: false,
     collapsed: true
