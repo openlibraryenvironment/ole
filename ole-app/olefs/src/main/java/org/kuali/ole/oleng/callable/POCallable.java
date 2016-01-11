@@ -7,6 +7,7 @@ import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.OrderRequestHandler;
 import org.kuali.ole.oleng.service.OrderImportService;
+import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
@@ -25,10 +26,9 @@ public class POCallable implements Callable {
     private OrderImportService oleOrderImportService;
     private OrderRequestHandler orderRequestHandler;
 
-    public POCallable(BatchProcessProfile batchProcessProfile,OrderRequestHandler orderRequestHandler, OrderImportService oleOrderImportService) {
+    public POCallable(BatchProcessProfile batchProcessProfile,OrderRequestHandler orderRequestHandler) {
         this.batchProcessProfile = batchProcessProfile;
         this.orderRequestHandler = orderRequestHandler;
-        this.oleOrderImportService = oleOrderImportService;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class POCallable implements Callable {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleTxRecord oleTxRecord = new OleTxRecord();
-        oleTxRecord = oleOrderImportService.processDataMapping(oleTxRecord, batchProcessProfile);
+        oleTxRecord = getOleOrderImportService().processDataMapping(oleTxRecord, batchProcessProfile);
 
         OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
@@ -65,5 +65,12 @@ public class POCallable implements Callable {
         System.out.println("Response : \n" + response);
 
         return response;
+    }
+
+    public OrderImportService getOleOrderImportService() {
+        if(null == oleOrderImportService) {
+            oleOrderImportService = new OrderImportServiceImpl();
+        }
+        return oleOrderImportService;
     }
 }
