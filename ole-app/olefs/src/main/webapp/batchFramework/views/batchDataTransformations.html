@@ -24,7 +24,7 @@
                         <th>Destination</th>
                         <th>Value <a href="#" data-toggle="tooltip" style="align-content: left" uib-tooltip="Add or remove specific values; Example: Remove ocm,ocn from 001 tag."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                         <th>Step <a href="#" data-toggle="tooltip" uib-tooltip="Steps define the order in which the transormations are executed."><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                        <th></th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,7 +106,7 @@
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationStep"></span>
                         </td>
-                        <td>
+                        <td ng-hide="submitted">
                             <button id="dataTransformationAddButton_{{$index}}"
                                     name="dataTransformationAddButton_{{$index}}"
                                     ng-click="dataTransformationAdd(dataTransformation)"

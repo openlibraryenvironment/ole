@@ -22,7 +22,7 @@
                         <th>Ind2</th>
                         <th>Subfield</th>
                         <th>Ignore GPF</th>
-                        <th></th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,7 +69,7 @@
                                    ng-show="fieldOperation.fieldOperationType == 'Globally Protected Field'"
                                    ng-disabled="submitted">
                         </td>
-                        <td class="col-sm-1">
+                        <td class="col-sm-1" ng-hide="submitted">
                             <button id="fieldOperationAddButton_{{$index}}"
                                     name="fieldOperationAddButton_{{$index}}"
                                     ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine || fieldOperation.isEdit"

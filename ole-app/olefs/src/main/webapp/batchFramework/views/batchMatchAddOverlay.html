@@ -22,7 +22,7 @@
                         <th>Value</th>
                         <th>Field Operation</th>
                         <th></th>
-                        <th></th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -56,7 +56,7 @@
                                     id="addOrOverlayField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOrOverlayField"
                                     ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine"
-                                    ng-change="populateAddOrOverlayValues(addOrOverlay)">
+                                    ng-change="populateDestinationFieldValues(addOrOverlay, addOrOverlay.addOrOverlayField)">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayField}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayFields" value="{{option.name}}">
                                     {{option.name}}
@@ -138,7 +138,7 @@
                             </label>
                             <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay')">Add Items {{addOrOverlay.addItems}}</span>
                         </td>
-                        <td>
+                        <td ng-hide="submitted">
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
                                     ng-click="addOrOverlayAdd(addOrOverlay)"
                                     ng-hide="addOrOverlay.isAddLine || addOrOverlay.isEdit"

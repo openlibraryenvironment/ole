@@ -129,8 +129,8 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.matchPointsPanel[index].isEdit = true;
             $scope.matchPointsPanel[index].matchPointDocTypes = documentTypes;
             $scope.matchPointsPanel[index].matchPointTypes = getMatchPointType($scope.matchPointsPanel[index].matchPointDocType);
-            $scope.matchPointsPanel[index].matchPointValue = null;
             $scope.matchPointsPanel[index].isAddLine = false;
+            $scope.populateDestinationFieldValues(null, $scope.matchPointsPanel[index].matchPointType);
         }
     };
 
@@ -682,13 +682,6 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         }
         return [];
     }
-
-    $scope.populateAddOrOverlayValues = function (addOrOverlay) {
-        if (addOrOverlay.addOrOverlayField == 'Staff Only') {
-            $scope.constantValues = booleanOptionsYorN;
-        }
-        getMaintenanceDataForFieldTypeForDropDown(addOrOverlay.title, addOrOverlay.addOrOverlayField, $scope, $http);
-    };
 
     $scope.submit = function () {
         $scope.submitted = true;
