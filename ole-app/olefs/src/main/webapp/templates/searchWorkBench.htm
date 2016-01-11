@@ -15,10 +15,17 @@
                 </select>
             </div>
             <div ng-include="'templates/searchConditions.htm'"></div>
-            <div align="center">
+            <!--<div align="center">
                 <button class="btn btn-primary btn-sm" ng-click="search()" style="margin-top: 20px;">Search</button>
+            </div>-->
+            <div align="center">
+                <button type="button" class="btn btn-info" ng-click="search()" style="margin-top: 20px;">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
             </div>
+            <br/>
             <div ng-include="'templates/searhResult.htm'"></div>
+            <br/>
         </form>
     </div>
 </div>

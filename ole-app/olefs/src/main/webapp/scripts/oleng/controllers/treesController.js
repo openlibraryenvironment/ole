@@ -4,9 +4,9 @@
 (function () {
     'use strict';
 
-    app.controller('treesController', ['$scope', '$http' , '$rootScope', function ($scope, $http, $rootScope) {
+    app.controller('treesController', ['$scope', '$http' , '$rootScope', '$document', function ($scope, $http, $rootScope, $document) {
 
-        $scope.itemPageSize = 5;
+        $scope.itemPageSize = 10;
         $scope.itemStart = 0;
         $scope.toggle = function (scope) {
             scope.collapsed = !scope.collapsed;
@@ -16,11 +16,22 @@
             buildBibData(bibTree, $http, $scope);
             $scope.tree1 = bibTree;
         };
+
         $scope.copyToTree2 = function () {
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
             $scope.tree2 = bibTree;
         };
+
+        $rootScope.updateMessage = function () {
+            console.log("updateMessage");
+            console.log($rootScope.message);
+            $scope.message = $rootScope.message;
+        };
+
+        $scope.cancel = function () {
+
+        }
 
         $scope.previous = function (holdingsIdentifier) {
             //Item tree searchResult previous
@@ -182,6 +193,8 @@ function buildBibData(bibTree, $http, $scope) {
         }
     }, "");
 }
+
+
 
 
 

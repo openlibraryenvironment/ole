@@ -27,7 +27,7 @@
 
   angular.module('ui.tree')
 
-    .controller('TreeHandleController', ['$scope', '$element',
+    .controller('TreeHandleController', ['$scope', '$element','$http',
       function ($scope, $element) {
         this.scope = $scope;
 
@@ -188,10 +188,10 @@
 
   angular.module('ui.tree')
 
-    .controller('TreeNodesController', ['$scope', '$element',
-      function ($scope, $element) {
+    .controller('TreeNodesController', ['$scope', '$rootScope', '$element', '$http',
+      function ($scope, $rootScope, $element, $http) {
         this.scope = $scope;
-
+        this.rootScope =$rootScope;
         $scope.$element = $element;
         $scope.$modelValue = null;
         $scope.$nodeScope = null; // the scope of node which the nodes belongs to
@@ -218,16 +218,12 @@
         };
 
         $scope.accept = function (sourceNode, destIndex) {
-          var docType=sessionStorage.getItem("doctype");
           var response =  sourceNode.$modelValue;
-          console.log(response.docType);
-          return $scope.$treeScope.$callbacks.accept(sourceNode, $scope, destIndex);
+          return $scope.$treeScope.$callbacks.accept(sourceNode, $scope, $rootScope, destIndex, $http);
         };
-
         $scope.beforeDrag = function (sourceNode) {
           var response =  sourceNode.$modelValue;
-          console.log(response.docType);
-          sessionStorage.setItem("doctype", response.docType);
+          //console.log(response);
           return $scope.$treeScope.$callbacks.beforeDrag(sourceNode);
         };
 
@@ -270,10 +266,12 @@
         $scope.childNodes = function () {
           var i, nodes = [];
           if ($scope.$modelValue) {
+              //console.log($scope.$nodesMap)
             for (i = 0; i < $scope.$modelValue.length; i++) {
               nodes.push($scope.$nodesMap[$scope.$modelValue[i].$$hashKey]);
             }
           }
+
           return nodes;
         };
 
@@ -303,8 +301,9 @@
   angular.module('ui.tree')
 
     .controller('TreeController', ['$scope', '$element',
-      function ($scope, $element) {
+      function ($scope, $rootScope, $element) {
         this.scope = $scope;
+        this.rootScope = $rootScope;
 
         $scope.$element = $element;
         $scope.$nodesScope = null; // root nodes
@@ -442,8 +441,49 @@
             // by default, we check the 'data-nodrop-enabled' attribute in `ui-tree-nodes`
             // and the 'max-depth' attribute in `ui-tree` or `ui-tree-nodes`.
             // the method can be overrided
-            callbacks.accept = function (sourceNodeScope, destNodesScope, destIndex) {
-              return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
+            callbacks.accept = function (sourceNodeScope, destNodesScope, rootScope, destIndex, $http) {
+                console.log(destNodesScope.$nodeScope.$modelValue.docType);
+                var transfer = {
+                    "sourceDocType": sourceNodeScope.$modelValue.docType,
+                    "destinationDocType": destNodesScope.$nodeScope.$modelValue.docType,
+                    "sourceId": sourceNodeScope.$modelValue.id,
+                    "destinationId": destNodesScope.$nodeScope.$modelValue.id,
+                    "message": ""
+                };
+                if(sourceNodeScope.$modelValue.docType == 'holdings' && destNodesScope.$nodeScope.$modelValue.docType == 'bibliographic'){
+                    //console.log(sourceNodeScope.$nodeScope.$modelValue.id);
+                    /*$http.get("/oledocstore/bib/select?q=(DocType:bibliographic AND bibIdentifier:" + sourceNodeScope.$nodeScope.$modelValue.id + ")&wt=json&fl=holdingsIdentifier")
+                        .success(function (data) {
+                            console.log(data.response.docs[0].holdingsIdentifier.length);
+                            if(data.response.docs[0].holdingsIdentifier.length == 1){
+
+                            }
+                        });*/
+                    $http.post("/olefs/rest/ngTransferController/transfer", transfer)
+                        .success(function (data) {
+                            rootScope.message = data.message;
+                            rootScope.updateMessage();
+                            return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
+                        });
+                    //rootScope.toggleTreeTab();
+                    return false;
+                }else if(sourceNodeScope.$modelValue.docType == 'item' && destNodesScope.$nodeScope.$modelValue.docType == 'holdings'){
+                    $http.post("/olefs/rest/ngTransferController/transfer", transfer)
+                        .success(function (data) {
+                            rootScope.message = data.message;
+                            rootScope.updateMessage();
+                        })
+                        .error(function(data){
+                            console.log("error");
+                        });
+                    return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
+                }else{
+                    //if(sourceNodeScope.$modelValue.docType == 'bibliographic'){
+                        return false;
+                    //}
+                }
+
+              //return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
             };
 
             callbacks.beforeDrag = function (sourceNodeScope) {
