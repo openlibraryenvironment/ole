@@ -16,12 +16,17 @@ import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,11 +45,12 @@ public class RequisitionServiceImpl implements RequisitionService {
     private OlePurapService olePurapService;
     private OleReqPOCreateDocumentServiceImpl oleReqPOCreateDocumentService;
     protected RequisitionCreateDocumentService requisitionCreateDocumentService;
+    private PlatformTransactionManager transactionManager;
     
     @Override
-    public OleRequisitionDocument createPurchaseOrderDocument(OleOrderRecord oleOrderRecord) throws Exception {
+    public OleRequisitionDocument createPurchaseOrderDocument(final OleOrderRecord oleOrderRecord) throws Exception {
 
-        OleRequisitionDocument requisitionDocument = getOleReqPOCreateDocumentService().createRequisitionDocument();
+        final OleRequisitionDocument requisitionDocument = getOleReqPOCreateDocumentService().createRequisitionDocument();
 
         setDocumentValues(requisitionDocument, oleOrderRecord);
 
@@ -54,8 +60,36 @@ public class RequisitionServiceImpl implements RequisitionService {
         requisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
 
         requisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
-        getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);
+
+        final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
+
+        try {
+            template.execute(new TransactionCallback<Object>() {
+
+                @Override
+                public Object doInTransaction(TransactionStatus status) {
+                    try {
+                        getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            });
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            this.transactionManager = null;
+        }
+
         return requisitionDocument;
+    }
+
+    public PlatformTransactionManager getTransactionManager() {
+        if (transactionManager == null) {
+            transactionManager = GlobalResourceLoader.getService("transactionManager");
+        }
+        return this.transactionManager;
     }
 
     private List<RequisitionItem> generateItemList(OleOrderRecord oleOrderRecord, OleRequisitionDocument requisitionDocument) throws Exception {

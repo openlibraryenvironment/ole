@@ -39,24 +39,34 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
-        Map<Record, String> queryMap = new HashedMap();
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-            Record marcRecord = iterator.next();
-            String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
-            if (StringUtils.isNotBlank(query)) {
-                queryMap.put(marcRecord, query);
-            }
-        }
+            JSONObject jsonObject = null;
 
-        if (queryMap.size() > 0) {
-            for (Iterator<Record> iterator = queryMap.keySet().iterator(); iterator.hasNext(); ) {
-                Record key = iterator.next();
-                String query = queryMap.get(key);
-                JSONObject jsonObject = prepareRequest(key, batchProcessProfile, query);
-                if (null != jsonObject) {
-                    jsonArray.put(jsonObject);
+            Record marcRecord = iterator.next();
+            if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
+                String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+
+                if (StringUtils.isNotBlank(query)) {
+                    List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+                    if (null == results || results.size() > 1) {
+                        System.out.println("**** More than one record found for query : " + query);
+                        return null;
+                    }
+
+                    if (null != results && results.size() == 1) {
+                        SolrDocument solrDocument = (SolrDocument) results.get(0);
+                        String bibId = (String) solrDocument.getFieldValue("LocalId_display");
+                        jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
+                    }
+
+                    if (null != jsonObject) {
+                        jsonArray.put(jsonObject);
+                    }
                 }
+            } else {
+                jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
             }
+            jsonArray.put(jsonObject);
         }
 
         if (jsonArray.length() > 0) {
@@ -66,18 +76,18 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private String getOperationInd(String operation) {
-         return getOperationIndMap().get(operation);
+        return getOperationIndMap().get(operation);
     }
 
     private String getMatchOptionInd(String matchOption) {
-       return getMatchOptionIndMap().get(matchOption);
+        return getMatchOptionIndMap().get(matchOption);
     }
 
     private String getDataTypeInd(String dataType) {
         return getDataTypeIndMap().get(dataType);
     }
 
-    private JSONObject prepareRequest(Record marcRecord, BatchProcessProfile batchProcessProfile, String query) throws JSONException {
+    private JSONObject prepareRequest(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
 
         JSONObject bibData = new JSONObject();
@@ -85,21 +95,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         String updatedUserName = getUpdatedUserName();
         String updatedDate = DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date());
 
-        List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
-
-        if(null == results || results.size() > 1) {
-            System.out.println("**** More than one record found for query : " + query);
-            return null;
-        }
-        if (null != results && results.size() == 1) {
-            SolrDocument solrDocument = (SolrDocument) results.get(0);
-            bibData.put("id", solrDocument.getFieldValue("LocalId_display"));
+        if (null != bibId) {
+            bibData.put("id", bibId);
         }
 
         bibData.put("updatedBy", updatedUserName);
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
-        bibData.put("ops",getOverlayOps(batchProcessProfile));
+        bibData.put("ops", getOverlayOps(batchProcessProfile));
         JSONObject bibDataMapping = new JSONObject();
         JSONObject holdingsDataMapping = new JSONObject();
         JSONObject eholdingsDatamapping = new JSONObject();
@@ -197,11 +200,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             BatchProfileDataMapping batchProfileDataMapping = iterator.next();
             String destination = batchProfileDataMapping.getDestination();
             String option = batchProfileDataMapping.getTransferOption();
-            if(destination.equalsIgnoreCase(docType) && option.equalsIgnoreCase(transformationOption)){
+            if (destination.equalsIgnoreCase(docType) && option.equalsIgnoreCase(transformationOption)) {
                 String newValue;
                 String destinationField = batchProfileDataMapping.getField();
                 String value = getDestFieldValue(marcRecord, batchProfileDataMapping);
-                if(dataMappings.has(destinationField)){
+                if (dataMappings.has(destinationField)) {
                     newValue = dataMappings.get(destinationField) + " " + value;
                 } else {
                     newValue = value;
