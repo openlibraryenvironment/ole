@@ -27,7 +27,7 @@
                         <th>Value</th>
                         <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Pre/Post Transformation</th>
                         <th>Priority</th>
-                        <th></th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -238,7 +238,7 @@
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.priority"></span>
                         </td>
-                        <td>
+                        <td ng-hide="submitted">
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
                                     ng-click="dataMappingAdd(dataMapping)"
                                     ng-hide="dataMapping.isAddLine || dataMapping.isEdit"
