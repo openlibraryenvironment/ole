@@ -535,7 +535,7 @@
                             </bean>
                             <bean id="oleEIstanceStaffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
                                   p:label="Staff Only"
-                                  p:required="false" p:render="@{globalEditFlag eq 'true'}">
+                                  p:required="false" p:render="@{globalEditFlag eq 'true'}" p:colSpan="3">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
@@ -821,14 +821,13 @@
                             <bean id="OleEinstance_localPersistentLink" parent="Uif-HorizontalFieldGroup" p:label="Persistent Link">
                                 <property name="items">
                                     <list>
-                                        <bean id="OleEinstance_localPersistentLink_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
+                                        <bean id="OleEinstance-localPersistentLink" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
                                               p:render="@{editable eq 'true'}">
                                             <property name="control">
-                                                <bean id="oleEinstance_localPersistentLink_len_id" parent="Uif-TextAreaControl"
-                                                      p:maxLength="400" p:rows="1" p:cols="20"/>
+                                                <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
                                             </property>
                                         </bean>
-                                        <bean id="localPersistentClickableLink" parent="Uif-ActionLink" p:actionScript="eInstancelocalPersistentClickableLink();" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>
+
                                         <bean id="localPersistentClickableLink_readOnly" parent="Uif-LinkField" p:width="10%" p:href="@{documentForm.selectedEHoldings.localPersistentLink}" p:linkText="@{documentForm.selectedEHoldings.localPersistentLink}" p:target="_blank" p:render="@{editable eq 'false' and documentForm.selectedEHoldings ne null and documentForm.selectedEHoldings.localPersistentLink ne null}"/>
                                     </list>
                                 </property>
@@ -930,7 +929,28 @@
         </property>
         <property name="items">
             <list>
-                <bean id="OleEinstance-linkURL-Group" parent="Uif-HorizontalFieldGroup" p:style="width:70%" p:render="@{editable eq 'true'}">
+                <bean id="OleEinstance-linkURL" parent="Uif-InputField" p:propertyName="url"
+                      p:label="URL" p:render="@{editable eq 'true'}">
+                    <property name="validCharactersConstraint">
+                        <bean parent="UrlPatternConstraint" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                    </property>
+                </bean>
+                <!--<bean id="eInstanceClickableLink" parent="Uif-ActionLink" p:actionScript="eInstanceClickableLink('@{#index}');" p:actionLabel="Test Link"/>-->
+                <bean id="OleEinstance-linkText" parent="Uif-InputField" p:propertyName="text"
+                      p:label="Link Text" p:render="@{editable eq 'true'}">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                    </property>
+                </bean>
+
+                <bean id="eInstanceClickableLink-readOnly" p:render="@{editable eq 'false'}" parent="Uif-LinkField"  p:label="Url" p:href="@{#line.url}" p:linkText="@{#line.url}" p:target="_blank"/>
+                <bean id="OleEinstance-linkText-readOnly" p:render="@{editable eq 'false'}" parent="Uif-DataField" p:propertyName="text"
+                      p:label="Link Text"/>
+
+                <!--<bean id="OleEinstance-linkURL-Group" parent="Uif-HorizontalFieldGroup" p:style="width:70%" p:render="@{editable eq 'true'}">
                     <property name="items">
                         <list>
                             <bean id="OleEinstance-linkURL-editable" parent="Uif-InputField" p:propertyName="url"
@@ -952,8 +972,8 @@
 
                         </list>
                     </property>
-                </bean>
-                <bean id="OleAccessInformationGroup_EInstance_readOnly" parent="Uif-HorizontalFieldGroup" p:style="width:70%"  p:label="Access Information" p:render="@{editable eq 'false'}">
+                </bean>-->
+               <!-- <bean id="OleAccessInformationGroup_EInstance_readOnly" parent="Uif-HorizontalFieldGroup" p:style="width:70%"  p:label="Access Information" p:render="@{editable eq 'false'}">
                     <property name="items">
                         <list>
                             <bean id="eInstanceClickableLink-readOnly" parent="Uif-LinkField"  p:label="Url" p:href="@{#line.url}" p:linkText="@{#line.url}" p:target="_blank"/>
@@ -961,7 +981,7 @@
                                   p:label="Link Text"/>
                         </list>
                     </property>
-                </bean>
+                </bean>-->
             </list>
         </property>
         <property name="lineActions">
@@ -1102,8 +1122,8 @@
                               p:maxLength="400" p:rows="1" p:cols="20"/>
                     </property>
                 </bean>
-                <bean id="adminClickableLink" parent="Uif-ActionLink" p:actionScript="eInstanceAdminClickableLink();" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>
-                <bean id="adminClickableLink_readOnly" parent="Uif-LinkField" p:label="Admin URL" p:width="10%" p:href="@{documentForm.selectedEHoldings.platform.adminUrl}" p:linkText="@{documentForm.selectedEHoldings.platform.adminUrl}" p:target="_blank" p:render="@{editable eq 'false' and documentForm.selectedEHoldings ne null and documentForm.selectedEHoldings.platform ne null and documentForm.selectedEHoldings.platform.adminUrl ne null}"/>
+                <!--<bean id="adminClickableLink" parent="Uif-ActionLink" p:actionScript="eInstanceAdminClickableLink();" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>-->
+                <bean id="adminClickableLink_readOnly" parent="Uif-LinkField" p:width="10%" p:href="@{documentForm.selectedEHoldings.platform.adminUrl}" p:linkText="@{documentForm.selectedEHoldings.platform.adminUrl}" p:target="_blank" p:render="@{editable eq 'false' and documentForm.selectedEHoldings ne null and documentForm.selectedEHoldings.platform ne null and documentForm.selectedEHoldings.platform.adminUrl ne null}"/>
             </list>
         </property>
     </bean>

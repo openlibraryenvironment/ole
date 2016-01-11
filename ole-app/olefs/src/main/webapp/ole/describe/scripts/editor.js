@@ -1722,7 +1722,13 @@ function wrapEnterTextForEInstanceLink() {
                         jq(this).height((parseInt(urlNumRows)) * 18);
                     }
                 }
-                if (id.includes("OleEinstance-localPersistent")) {
+                if (id.includes("OleEinstance-localPersistentLink")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.includes("OleEinstance-adminUrl")) {
                     var height = (parseInt(urlNumRows)) * 18;
                     if (height > 18) {
                         jq(this).height((parseInt(urlNumRows)) * 18);
@@ -1741,7 +1747,13 @@ function wrapEnterTextForEInstanceLink() {
                         jq(this).height((parseInt(urlNumRows)) * 18);
                     }
                 }
-                if (id.contains("OleEinstance-localPersistent")) {
+                if (id.contains("OleEinstance-localPersistentLink")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.includes("OleEinstance-adminUrl")) {
                     var height = (parseInt(urlNumRows)) * 18;
                     if (height > 18) {
                         jq(this).height((parseInt(urlNumRows)) * 18);
