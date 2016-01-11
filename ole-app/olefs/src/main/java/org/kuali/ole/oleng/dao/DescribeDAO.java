@@ -30,6 +30,7 @@ public interface DescribeDAO {
     public List<AccessLocation> fetchAccessLocations();
     public List<StatisticalSearchRecord> fetchStatisticalSearchCodes();
     public void deleteProfileById(Long profileId);
+    public List<BatchProcessProfile> fetchProfileByNameAndType(String profileName, String type);
     public <T extends PersistableBusinessObject> T save(T bo);
 
 }
