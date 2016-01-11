@@ -42,19 +42,34 @@ public class BatchRestController {
     @ResponseBody
     public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,
                              @RequestParam("batchType") String batchType, HttpServletRequest request) throws IOException, JSONException {
-        JSONObject jsonObject = new JSONObject();
         if (null != file && StringUtils.isNotBlank(profileName) && StringUtils.isNotBlank(batchType)) {
             String rawContent = IOUtils.toString(file.getBytes());
-            OleStopWatch oleStopWatch = new OleStopWatch();
-            oleStopWatch.start();
-            BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
-            batchProcessor.processBatch(rawContent, profileName);
-            oleStopWatch.end();
-            long totalTime = oleStopWatch.getTotalTime();
-            jsonObject.put("processTime",totalTime + "ms");
-            return jsonObject.toString();
+            return processBatch(profileName, batchType, rawContent);
         }
         return null;
+    }
+
+    private String processBatch(String profileName, String batchType, String rawContent) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
+        BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
+        batchProcessor.processBatch(rawContent, profileName);
+        oleStopWatch.end();
+        long totalTime = oleStopWatch.getTotalTime();
+        jsonObject.put("processTime",totalTime + "ms");
+        return jsonObject.toString();
+    }
+
+    @RequestMapping(value = "/submit/api", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String submitApi(@RequestBody String requestBody) throws IOException, JSONException {
+        JSONObject requestJson = new JSONObject(requestBody);
+        String rawContent = requestJson.getString("marcContent");
+        String batchType = requestJson.getString("batchType");
+        String profileName = requestJson.getString("profileName");
+        String batchResponse = processBatch(profileName, batchType, rawContent);
+        return batchResponse;
     }
 
     public BatchFileProcessor getBatchProcessor(String batchType) {

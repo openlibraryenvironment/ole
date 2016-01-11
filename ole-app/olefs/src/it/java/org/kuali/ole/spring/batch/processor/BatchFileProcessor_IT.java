@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.OLERestBaseTestCase;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
@@ -31,7 +32,7 @@ import static org.junit.Assert.*;
 /**
  * Created by pvsubrah on 12/7/15.
  */
-public class BatchFileProcessor_IT {
+public class BatchFileProcessor_IT extends OLERestBaseTestCase{
 
     @Test
     public void testProcessBatchForBib() throws Exception {
@@ -288,6 +289,26 @@ public class BatchFileProcessor_IT {
         public String getSolrUrl() {
             return "http://localhost:8080/oledocstore/bib";
         }
+    }
+
+    @Test
+    public void testProcessRecord() throws JSONException, URISyntaxException, IOException {
+         JSONObject jsonObject = new JSONObject();
+        MockBatchBibFileProcessor mockBatchBibFileProcessor = new MockBatchBibFileProcessor();
+        OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
+        jsonObject.put("profileName","Test Bib Import");
+        jsonObject.put("batchType","Bib Import");
+        URL resource = getClass().getResource("InvYBP_Test_1207_2rec.mrc");
+        File file = new File(resource.toURI());
+        mockBatchBibFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
+        String rawMarc = FileUtils.readFileToString(file);
+        jsonObject.put("marcContent",rawMarc);
+        System.out.println(jsonObject.toString());
+        String URL = "http://localhost:8080/olefs/ole-kr-krad/batch/submit/api";
+        String jsonString = jsonObject.toString();
+        String responseContent = sendPostRequest(URL, jsonString,"json");
+        assertTrue(StringUtils.isNotBlank(responseContent));
+        System.out.println(responseContent);
     }
 
 }
