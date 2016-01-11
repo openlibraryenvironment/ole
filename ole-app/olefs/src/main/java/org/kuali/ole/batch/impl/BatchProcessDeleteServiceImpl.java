@@ -1,5 +1,6 @@
 package org.kuali.ole.batch.impl;
 
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.service.BatchProcessDeleteService;
@@ -70,19 +71,11 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
     }
 
     private void deleteBatch(List<String> docBibIdList) throws Exception {
+        List<List<String>> tempBibIdLists = Lists.partition(docBibIdList, 300);
         List<Future> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        List<String> tempBibIdList = new ArrayList<>();
-        if(docBibIdList.size() > 300){
-            tempBibIdList.addAll(docBibIdList.subList(0, 300));
+        for (List<String> tempBibIdList : tempBibIdLists) {
             futures.add(executorService.submit(new BatchprocessDelete(tempBibIdList, getDocstoreClientLocator().getDocstoreClient())));
-          }else{
-            futures.add(executorService.submit(new BatchprocessDelete(tempBibIdList, getDocstoreClientLocator().getDocstoreClient())));
-            docBibIdList.clear();
-        }
-        docBibIdList.removeAll(tempBibIdList);
-        if(docBibIdList.size() > 0){
-            deleteBatch(docBibIdList);
         }
         executorService.shutdown();
     }
