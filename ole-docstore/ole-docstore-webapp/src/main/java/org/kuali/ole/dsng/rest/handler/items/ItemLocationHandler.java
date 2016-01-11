@@ -48,7 +48,8 @@ public class ItemLocationHandler extends ItemHandler {
                     String token = stringTokenizer.nextToken();
                     map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
-                if (map.get(matchPointLevelId).equals(value)) {
+                String levelId = (String) map.get(matchPointLevelId);
+                if (StringUtils.isNotBlank(levelId) && levelId.equals(value)) {
                     exchange.add("matchedItem", itemRecord);
                     break;
                 }

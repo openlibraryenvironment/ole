@@ -214,27 +214,45 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private void prepareReport(Exchange exchange, OleNGBibImportResponse oleNGBibImportResponse) {
         List bibCrated = (List) exchange.get("bibCrated");
         if(CollectionUtils.isNotEmpty(bibCrated)) {
-            oleNGBibImportResponse.setNoOfBibsCreated(oleNGBibImportResponse.getNoOfBibsCreated()+bibCrated.size());
+            for (Iterator iterator = bibCrated.iterator(); iterator.hasNext(); ) {
+                BibRecord bibRecord = (BibRecord) iterator.next();
+                oleNGBibImportResponse.getCreatedBibIds().add(bibRecord.getBibId());
+            }
         }
         List bibUpdated = (List) exchange.get("bibUpdated");
         if(CollectionUtils.isNotEmpty(bibUpdated)) {
-            oleNGBibImportResponse.setNoOfBibsUpdated(oleNGBibImportResponse.getNoOfBibsUpdated()+bibUpdated.size());
+            for (Iterator iterator = bibUpdated.iterator(); iterator.hasNext(); ) {
+                BibRecord bibRecord = (BibRecord) iterator.next();
+                oleNGBibImportResponse.getUpdatedBibIds().add(bibRecord.getBibId());
+            }
         }
         List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
         if(CollectionUtils.isNotEmpty(holdingRecordsToCreate)) {
-            oleNGBibImportResponse.setNoOfHoldingsCreated(oleNGBibImportResponse.getNoOfHoldingsCreated()+holdingRecordsToCreate.size());
+            for (Iterator iterator = holdingRecordsToCreate.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
+                oleNGBibImportResponse.getCreatedHoldingIds().add(holdingsRecord.getHoldingsId());
+            }
         }
         List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
         if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)) {
-            oleNGBibImportResponse.setNoOfHoldingsUpdated(oleNGBibImportResponse.getNoOfHoldingsUpdated()+holdingRecordsToUpdate.size());
+            for (Iterator iterator = holdingRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
+                oleNGBibImportResponse.getUpdatedHoldingIds().add(holdingsRecord.getHoldingsId());
+            }
         }
         List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
         if(CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
-            oleNGBibImportResponse.setNoOfItemsCreated(oleNGBibImportResponse.getNoOfItemsCreated()+itemRecordsToCreate.size());
+            for (Iterator iterator = itemRecordsToCreate.iterator(); iterator.hasNext(); ) {
+                ItemRecord itemRecord = (ItemRecord) iterator.next();
+                oleNGBibImportResponse.getCreatedItemIds().add(itemRecord.getItemId());
+            }
         }
         List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
         if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
-            oleNGBibImportResponse.setNoOfItemsUpdated(oleNGBibImportResponse.getNoOfItemsUpdated()+itemRecordsToUpdate.size());
+            for (Iterator iterator = itemRecordsToUpdate.iterator(); iterator.hasNext(); ) {
+                ItemRecord itemRecord = (ItemRecord) iterator.next();
+                oleNGBibImportResponse.getUpdatedItemIds().add(itemRecord.getItemId());
+            }
         }
     }
 }
