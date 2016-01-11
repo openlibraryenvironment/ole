@@ -1,11 +1,16 @@
 package org.kuali.ole.spring.batch.processor;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -31,7 +36,8 @@ import java.util.concurrent.*;
 @Service("batchOrderImportProcessor")
 public class BatchOrderImportProcessor extends BatchFileProcessor {
 
-    private OrderImportService oleOrderImportService;
+    private static final Logger LOG = Logger.getLogger(BatchOrderImportProcessor.class);
+
 
     @Autowired
     private OrderRequestHandler orderRequestHandler;
@@ -56,14 +62,21 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 List<String> bibIds = getBibIds(oleNGBibImportResponse);
 
+                int chunkSize = getNumberOfChunkSizeForOrderImport();
+                List<List<String>> bibIdsSubLists = Lists.partition(bibIds, chunkSize);
+                for (Iterator<List<String>> iterator = bibIdsSubLists.iterator(); iterator.hasNext(); ) {
+                    List<String> bibIdSubList = iterator.next();
+
+                }
+
                 ExecutorService orderImportExecutorService;
                 ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("create-order-thread-%d").build();
-                int numberOfThreadForOrder = 10;
+                int numberOfThreadForOrder = getNumberOfThreadForOrderImport();
                 orderImportExecutorService = Executors.newFixedThreadPool(numberOfThreadForOrder, threadFactory);
                 List<Future> futures = new ArrayList<>();
 
                 for(int index = 0; index < 2; index++){
-                    Future future = orderImportExecutorService.submit(new POCallable(batchProcessProfile,orderRequestHandler,getOleOrderImportService()));
+                    Future future = orderImportExecutorService.submit(new POCallable(batchProcessProfile,orderRequestHandler));
                     futures.add(future);
                 }
                 for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
@@ -126,17 +139,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return bibIds;
     }
 
-    public OrderImportService getOleOrderImportService() {
-        if(null == oleOrderImportService) {
-            oleOrderImportService = new OrderImportServiceImpl();
-        }
-        return oleOrderImportService;
-    }
-
-    public void setOleOrderImportService(OrderImportService oleOrderImportService) {
-        this.oleOrderImportService = oleOrderImportService;
-    }
-
     @Override
     public String getReportingFilePath() {
         return ConfigContext.getCurrentContextConfig().getProperty("batch.orderRecord.directory");
@@ -149,4 +151,29 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             stringBuilder.append(content);
         }
     }
+
+    public int getNumberOfThreadForOrderImport() {
+        String maxNumberOfThreadFromParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.SELECT_NMSPC, OLEConstants.SELECT_CMPNT, OLEConstants.MAX_NO_OF_THREAD_FOR_ORDER_IMPORT);
+        int maxNumberOfThread = 0;
+        try{
+            maxNumberOfThread = Integer.parseInt(maxNumberOfThreadFromParameter);
+        }catch(Exception exception){
+            LOG.error("Invalid max number of thread for order import service from system parameter.");
+        }
+        return maxNumberOfThread > 0 ? maxNumberOfThread : 10;
+    }
+
+    public int getNumberOfChunkSizeForOrderImport() {
+        String chunkSizeFromParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.SELECT_NMSPC, OLEConstants.SELECT_CMPNT, OLEConstants.CHUNK_SIZE_FOR_ORDER_IMPORT);
+        int chunkSize = 0;
+        try{
+            chunkSize = Integer.parseInt(chunkSizeFromParameter);
+        }catch(Exception exception){
+            LOG.error("Invalid chunk size for order import service from system parameter.");
+        }
+        return chunkSize > 0 ? chunkSize : 10;
+    }
+
 }

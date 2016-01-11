@@ -875,7 +875,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
 
-        String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle()+ "," : "";
+        /*String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle()+ "," : "";
         String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor()+ "," : "";
         String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher()+ "," : "";
         String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + ",": "";
@@ -883,7 +883,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                 + publisher + isbn;
         item.setItemDescription(description.substring(0, (description.lastIndexOf(","))));
         item.setItemTitle(oleOrderRecord.getOleBibRecord().getBib().getTitle());
-        item.setItemAuthor(oleOrderRecord.getOleBibRecord().getBib().getAuthor());
+        item.setItemAuthor(oleOrderRecord.getOleBibRecord().getBib().getAuthor());*/
         item.setBibUUID(oleOrderRecord.getOleBibRecord().getBibUUID());
 
     }
