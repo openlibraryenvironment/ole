@@ -24,6 +24,7 @@ public class OrderImportServiceImpl implements OrderImportService {
         if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
             for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
                 BatchProfileDataMapping batchProfileDataMapping = iterator.next();
+
                 String destinationField = batchProfileDataMapping.getField();
                 String destinationValue = batchProfileDataMapping.getConstant();
                 for (Iterator<TxValueResolver> valueResolverIterator = getValueResolvers().iterator(); valueResolverIterator.hasNext(); ) {

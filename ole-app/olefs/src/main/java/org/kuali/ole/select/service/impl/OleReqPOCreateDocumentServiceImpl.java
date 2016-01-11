@@ -816,8 +816,6 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
 
     private void populateValuesFromProfileAttributesAndDataMapping(OleRequisitionItem singleItem, OLEBatchProcessJobDetailsBo job,OleRequisitionDocument requisitionDocument){
         OrderImportHelperBo orderImportHelperBo = job.getOrderImportHelperBo();
-        //DataCarrierService dataCarrierService = GlobalResourceLoader.getService(org.kuali.ole.OLEConstants.DATA_CARRIER_SERVICE);
-        //OleTxRecord oleTxRecord = (OleTxRecord)dataCarrierService.getData(org.kuali.ole.OLEConstants.OLE_TX_RECORD);
         OleTxRecord oleTxRecord = orderImportHelperBo.getOleTxRecord();
         if(oleTxRecord != null){
             if(oleTxRecord.getRequestorName() != null){
@@ -852,40 +850,13 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                 singleItem.setItemDiscountType(OLEConstants.PERCENTAGE);
             }
             singleItem.setItemUnitPrice(getOlePurapService().calculateDiscount(singleItem).setScale(2, BigDecimal.ROUND_HALF_UP));
-            /*if(requisitionDocument.getVendorDetail().getVendorHeader().getVendorForeignIndicator()) {
-                singleItem.setItemForeignDiscountType("#");
-                if(!singleItem.getItemListPrice().equals(new KualiDecimal(0.0))){
-                    singleItem.setItemForeignListPrice(singleItem.getItemListPrice());
-                }
-                if(!singleItem.getItemDiscount().equals(new KualiDecimal(0.0))){
-                    singleItem.setItemForeignDiscount(singleItem.getItemDiscount());
-                }
-                getOlePurapService().calculateForeignCurrency(singleItem);
-                KualiDecimal itemTotalPrice = singleItem.getItemForeignUnitCost();
-                requisitionDocument.setTotalDollarAmount(requisitionDocument.getTotalDollarAmount().add(itemTotalPrice));
-                singleItem.setItemListPrice(new KualiDecimal(0.0));
-                singleItem.setItemUnitPrice(new BigDecimal(0.0));
-                singleItem.setItemDiscount(new KualiDecimal(0.0));
-                singleItem.setItemDiscountType(null);
-            }*/
             singleItem.setItemStatus(oleTxRecord.getItemStatus());
 
         }
     }
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
-
-        /*String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle()+ "," : "";
-        String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor()+ "," : "";
-        String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher()+ "," : "";
-        String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + ",": "";
-        String description = title + author
-                + publisher + isbn;
-        item.setItemDescription(description.substring(0, (description.lastIndexOf(","))));
-        item.setItemTitle(oleOrderRecord.getOleBibRecord().getBib().getTitle());
-        item.setItemAuthor(oleOrderRecord.getOleBibRecord().getBib().getAuthor());*/
         item.setBibUUID(oleOrderRecord.getOleBibRecord().getBibUUID());
-
     }
 
     public int getRequestorTypeId(String requestorType) {

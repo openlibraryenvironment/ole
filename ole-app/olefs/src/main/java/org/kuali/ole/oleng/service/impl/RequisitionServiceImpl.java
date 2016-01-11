@@ -16,12 +16,17 @@ import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,23 +45,26 @@ public class RequisitionServiceImpl implements RequisitionService {
     private OlePurapService olePurapService;
     private OleReqPOCreateDocumentServiceImpl oleReqPOCreateDocumentService;
     protected RequisitionCreateDocumentService requisitionCreateDocumentService;
-    
-    @Override
-    public OleRequisitionDocument createPurchaseOrderDocument(OleOrderRecord oleOrderRecord) throws Exception {
 
-        OleRequisitionDocument requisitionDocument = getOleReqPOCreateDocumentService().createRequisitionDocument();
+    @Override
+    public OleRequisitionDocument createPurchaseOrderDocument(final OleOrderRecord oleOrderRecord) throws Exception {
+
+        final OleRequisitionDocument requisitionDocument = getOleReqPOCreateDocumentService().createRequisitionDocument();
 
         setDocumentValues(requisitionDocument, oleOrderRecord);
 
-        requisitionDocument.setItems(generateItemList(oleOrderRecord,requisitionDocument));
+        requisitionDocument.setItems(generateItemList(oleOrderRecord, requisitionDocument));
 
 
         requisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
 
         requisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+
         getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);
+
         return requisitionDocument;
     }
+
 
     private List<RequisitionItem> generateItemList(OleOrderRecord oleOrderRecord, OleRequisitionDocument requisitionDocument) throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
@@ -71,10 +79,10 @@ public class RequisitionServiceImpl implements RequisitionService {
         item.setItemLineNumber(itemLineNumber);
         item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
         item.setItemQuantity(new KualiDecimal(oleOrderRecord.getOleTxRecord().getQuantity()));
-        if(oleOrderRecord.getOleTxRecord().getItemNoOfParts()!= null){
+        if (oleOrderRecord.getOleTxRecord().getItemNoOfParts() != null) {
             item.setItemNoOfParts(new KualiInteger(oleOrderRecord.getOleTxRecord().getItemNoOfParts()));
         }
-        setItemDescription(oleOrderRecord,item);
+        setItemDescription(oleOrderRecord, item);
         item.setItemUnitPrice(new BigDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
         item.setItemTypeCode(oleOrderRecord.getOleTxRecord().getItemType());
         item.setItemListPrice(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
@@ -92,10 +100,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
 
-        String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle()+ "," : "";
-        String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor()+ "," : "";
-        String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher()+ "," : "";
-        String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + ",": "";
+        String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle() + "," : "";
+        String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor() + "," : "";
+        String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher() + "," : "";
+        String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + "," : "";
         String description = title + author
                 + publisher + isbn;
         item.setItemDescription(description.substring(0, (description.lastIndexOf(","))));
@@ -104,7 +112,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         item.setBibUUID(oleOrderRecord.getOleBibRecord().getBibUUID());
 
     }
-    
+
     private void setSourceAccountingLinesToReqItem(OleOrderRecord oleOrderRecord, OleRequisitionItem item) {
         RequisitionAccount requisitionAccount = new RequisitionAccount();
         requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getItemChartCode());
@@ -151,32 +159,31 @@ public class RequisitionServiceImpl implements RequisitionService {
         return requisitionDocument;
 
     }
-    
+
     public String getDocumentDescription(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
-        String description =  getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ORDER_IMPORT_REQ_DESC);
-        Map<String,String> descMap = new HashMap<>();
-        if(requisitionDocument.getVendorDetail().getVendorAliases() != null && requisitionDocument.getVendorDetail().getVendorAliases().size() > 0 && requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName() != null){
-            descMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_NAME,requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName());
+        String description = getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ORDER_IMPORT_REQ_DESC);
+        Map<String, String> descMap = new HashMap<>();
+        if (requisitionDocument.getVendorDetail().getVendorAliases() != null && requisitionDocument.getVendorDetail().getVendorAliases().size() > 0 && requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName() != null) {
+            descMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_NAME, requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName());
         }
-        descMap.put(org.kuali.ole.sys.OLEConstants.ORDER_TYP,oleOrderRecord.getOleTxRecord().getOrderType());
-        descMap.put(org.kuali.ole.sys.OLEConstants.VND_ITM_ID,oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() != null && !oleOrderRecord.getOleTxRecord().getVendorItemIdentifier().isEmpty() ? oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() + "_" : "");
-        description = getOlePurapService().setDocumentDescription(description,descMap);
+        descMap.put(org.kuali.ole.sys.OLEConstants.ORDER_TYP, oleOrderRecord.getOleTxRecord().getOrderType());
+        descMap.put(org.kuali.ole.sys.OLEConstants.VND_ITM_ID, oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() != null && !oleOrderRecord.getOleTxRecord().getVendorItemIdentifier().isEmpty() ? oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() + "_" : "");
+        description = getOlePurapService().setDocumentDescription(description, descMap);
         if (!description.equals("") && description != null) {
             description = description.substring(0, description.lastIndexOf("_"));
         }
-        if(description.startsWith("_")){
+        if (description.startsWith("_")) {
             description = description.substring(1);
         }
-        if(description.length() > 255) {
+        if (description.length() > 255) {
             //TODO : failure Report
         }
         return description;
     }
 
 
-
     public OleReqPOCreateDocumentServiceImpl getOleReqPOCreateDocumentService() {
-        if(null == oleReqPOCreateDocumentService) {
+        if (null == oleReqPOCreateDocumentService) {
             oleReqPOCreateDocumentService = (OleReqPOCreateDocumentServiceImpl) SpringContext.getService("oleReqPOCreateDocumentService");
         }
         return oleReqPOCreateDocumentService;
@@ -204,7 +211,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
     public void setRequisitionCreateDocumentService(RequisitionCreateDocumentService requisitionCreateDocumentService) {
-        if(null == requisitionCreateDocumentService) {
+        if (null == requisitionCreateDocumentService) {
             requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
         }
         this.requisitionCreateDocumentService = requisitionCreateDocumentService;

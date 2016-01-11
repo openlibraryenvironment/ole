@@ -62,23 +62,18 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 List<String> bibIds = getBibIds(oleNGBibImportResponse);
 
-                int chunkSize = getNumberOfChunkSizeForOrderImport();
-                List<List<String>> bibIdsSubLists = Lists.partition(bibIds, chunkSize);
-                for (Iterator<List<String>> iterator = bibIdsSubLists.iterator(); iterator.hasNext(); ) {
-                    List<String> bibIdSubList = iterator.next();
-
-                }
-
                 ExecutorService orderImportExecutorService;
                 ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("create-order-thread-%d").build();
                 int numberOfThreadForOrder = getNumberOfThreadForOrderImport();
                 orderImportExecutorService = Executors.newFixedThreadPool(numberOfThreadForOrder, threadFactory);
                 List<Future> futures = new ArrayList<>();
 
-                for(int index = 0; index < 2; index++){
-                    Future future = orderImportExecutorService.submit(new POCallable(batchProcessProfile,orderRequestHandler));
+                for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
+                    String bibId = iterator.next();
+                    Future future = orderImportExecutorService.submit(new POCallable(bibId,batchProcessProfile,orderRequestHandler));
                     futures.add(future);
                 }
+
                 for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
                     Future future = iterator.next();
                     try {
