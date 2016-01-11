@@ -20,7 +20,9 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Subfield</th>
-                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Destination</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                            Destination
+                        </th>
                         <th>Field</th>
                         <th>Value</th>
                         <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Pre/Post Transformation</th>
@@ -31,7 +33,8 @@
                     <tbody>
                     <tr ng-repeat="dataMapping in dataMappingsPanel">
                         <td>
-                            <select class="form-control" name="dataMappingDocumentType_{{$index}}" id="dataMappingDocumentType_{{$index}}"
+                            <select class="form-control" name="dataMappingDocumentType_{{$index}}"
+                                    id="dataMappingDocumentType_{{$index}}"
                                     ng-model="dataMapping.dataMappingDocType" ng-hide="dataMapping.isAddLine"
                                     ng-change="populationDestinations(dataMapping)">
                                 <option ng-selected="{{option.name == dataMapping.dataMappingDocType}}"
@@ -42,32 +45,40 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataMappingDocType"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="dataMappingDataField_{{$index}}" name="dataMappingDataField_{{$index}}"
+                            <input class="form-control" id="dataMappingDataField_{{$index}}"
+                                   name="dataMappingDataField_{{$index}}"
                                    type="text"
                                    ng-model="dataMapping.dataField" style="height: 30px; width: 100px;"
                                    ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.dataField"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="dataMappingInd1_{{$index}}" name="dataMappingInd1_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingInd1_{{$index}}"
+                                   name="dataMappingInd1_{{$index}}" type="text"
                                    ng-model="dataMapping.ind1"
-                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
+                                   style="height: 30px; width: 50px;"
+                                   ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind1"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="dataMappingInd2_{{$index}}" name="dataMappingInd2_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingInd2_{{$index}}"
+                                   name="dataMappingInd2_{{$index}}" type="text"
                                    ng-model="dataMapping.ind2"
-                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
+                                   style="height: 30px; width: 50px;"
+                                   ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.ind2"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="dataMappingSubField_{{$index}}" name="dataMappingSubField_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingSubField_{{$index}}"
+                                   name="dataMappingSubField_{{$index}}" type="text"
                                    ng-model="dataMapping.subField"
-                                   style="height: 30px; width: 50px;" ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
+                                   style="height: 30px; width: 50px;"
+                                   ng-hide="dataMapping.dataMappingDocType == 'Constant' || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.subField"></span>
                         </td>
                         <td ng-hide="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
-                            <select class="form-control" name="dataMappingDestination_{{$index}}" id="dataMappingDestination_{{$index}}"
+                            <select class="form-control" name="dataMappingDestination_{{$index}}"
+                                    id="dataMappingDestination_{{$index}}"
                                     ng-model="dataMapping.destination" ng-hide="dataMapping.isAddLine"
                                     ng-change="populateDestinationFields(dataMapping)">
                                 <option ng-selected="{{option.name == dataMapping.destination}}"
@@ -79,23 +90,13 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.destination"></span>
                         </td>
                         <td>
-                            <select class="form-control" id="dataMappingdestinationField_{{$index}}" name="dataMappingdestinationField_{{$index}}" style="height: 30px; width: 200px;"
+                            <select class="form-control" id="dataMappingField_{{$index}}"
+                                    name="dataMappingField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
-                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && !dataMapping.isAddLine"
+                                    ng-hide="dataMapping.isAddLine"
                                     ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.field}}"
-                                        ng-repeat="option in dataMapping.destinationFields  | orderBy:'name'"
-                                        value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select class="form-control" id="dataMappingOrderField_{{$index}}" style="height: 30px; width: 350px;"
-                                    name="dataMappingOrderField_{{$index}}"
-                                    ng-model="dataMapping.field"
-                                    ng-show="(mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import') && !dataMapping.isAddLine"
-                                    ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
-                                <option ng-selected="{{option.name == dataMapping.field}}"
-                                        ng-repeat="option in dataMapping.dataMappingFields"
+                                        ng-repeat="option in dataMapping.dataMappingFields  | orderBy:'name'"
                                         value="{{option.name}}">
                                     {{option.name}}
                                 </option>
@@ -163,7 +164,8 @@
                                     {{option.value}}
                                 </option>
                             </select>
-                            <input class="form-control" id="dataMappingConstant_{{$index}}" name="dataMappingConstant_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingConstant_{{$index}}"
+                                   name="dataMappingConstant_{{$index}}" type="text"
                                    ng-model="dataMapping.constant" ng-hide="dataMapping.field == 'Call Number Type'
                                             || dataMapping.field == 'Holdings Call Number Type'
                                             || dataMapping.field == 'Item Type'
@@ -219,7 +221,8 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
-                            <select class="form-control" name="dataMappingTransferOption__{{$index}}" id="dataMappingTransferOption__{{$index}}"
+                            <select class="form-control" name="dataMappingTransferOption__{{$index}}"
+                                    id="dataMappingTransferOption__{{$index}}"
                                     ng-model="dataMapping.transferOption" ng-hide="dataMapping.isAddLine">
                                 <option ng-selected="{{option.name == dataMapping.transferOption}}"
                                         ng-repeat="option in dataMapping.transferOptions" value="{{option.name}}">
@@ -229,7 +232,8 @@
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.transferOption"></span>
                         </td>
                         <td>
-                            <input class="form-control" id="dataMappingPriority_{{$index}}" name="dataMappingPriority_{{$index}}" type="text"
+                            <input class="form-control" id="dataMappingPriority_{{$index}}"
+                                   name="dataMappingPriority_{{$index}}" type="text"
                                    ng-model="dataMapping.priority"
                                    style="height: 30px; width: 50px;" ng-hide="dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.priority"></span>
@@ -238,25 +242,48 @@
                             <button id="dataMappingAddButton_{{$index}}" name="dataMappingAddButton_{{$index}}"
                                     ng-click="dataMappingAdd(dataMapping)"
                                     ng-hide="dataMapping.isAddLine || dataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="dataMappingCopyButton_{{$index}}" name="dataMappingCopyButton_{{$index}}"
+                                    ng-click="dataMappingCopyRow($index)"
+                                    ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
                             </button>
                             <button id="dataMappingEditButton_{{$index}}" name="dataMappingEditButton_{{$index}}"
                                     ng-click="dataMappingEditRow($index)"
                                     ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="dataMappingUpdateButton_{{$index}}" name="dataMappingUpdateButton_{{$index}}"
                                     ng-click="dataMappingUpdateRow($index)" ng-show="dataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
                             <button id="dataMappingUpdateCancelButton_{{$index}}"
                                     name="dataMappingUpdateCancelButton_{{$index}}"
                                     ng-click="dataMappingCancelUpdate($index)" ng-show="dataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="dataMappingRemoveButton_{{$index}}" name="dataMappingRemoveButton_{{$index}}"
                                     ng-click="dataMappingRemove(dataMapping)"
                                     ng-show="dataMapping.isAddLine && !dataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>

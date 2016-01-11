@@ -136,24 +136,48 @@
                             <button type="button" id="matchPointAddButton_{{$indshowRemoveex}}"
                                     name="matchPointAddButton_{{$index}}"
                                     ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine || matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="matchPointCopyButton_{{$index}}" name="matchPointCopyButton_{{$index}}"
+                                    ng-click="matchPointCopyRow($index)"
+                                    ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
                             </button>
                             <button id="matchPointEditButton_{{$index}}" name="matchPointEditButton_{{$index}}"
                                     ng-click="matchPointEditRow($index)" ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="matchPointUpdateButton_{{$index}}" name="matchPointUpdateButton_{{$index}}"
                                     ng-click="matchPointUpdateRow($index)" ng-show="matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
                             <button id="matchPointUpdateCancelButton_{{$index}}" name="matchPointUpdateCancelButton_{{$index}}"
                                     ng-click="matchPointCancelUpdate($index)" ng-show="matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button type="button" id="matchPointRemoveButton_{{$index}}"
                                     name="matchPointRemoveButton_{{$index}}"
                                     ng-click="matchPointRemove(matchPoint)"
-                                    ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                    ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>
