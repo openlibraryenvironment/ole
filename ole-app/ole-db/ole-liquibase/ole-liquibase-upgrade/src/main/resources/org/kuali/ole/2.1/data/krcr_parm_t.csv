@@ -8,4 +8,3 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-DLVR","Deliver","REGULAR_PRINTER_FONT_SIZE","OLE7051","1","CONFG","10","This parameter value is used for configuring the font size for regular printer.","A","OLE"
 "OLE-DLVR","Deliver","FINE_CALC_WHILE_RENEW","OLE7052","1","CONFG","false","This parameter value is used for configuring the system to calculate overdue fines while renew an item.","A","OLE"
 "OLE-SELECT","Select","MAX_NO_OF_THREAD_FOR_ORDER_IMPORT","OLE7053","1","CONFG","10","This parameter is having option to set default number of thread for order import.","A","OLE"
-"OLE-SELECT","Select","CHUNK_SIZE_FOR_ORDER_IMPORT","OLE7054","1","CONFG","10","This parameter is having option to set default chunk size for order import.","A","OLE"
