@@ -52,13 +52,7 @@ public class UpdateBibHandler extends BibHandler {
                 BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
                 exchange.add("bib", updatedBibRecord);
 
-                List bibUpdated = (List) exchange.get("bibUpdated");
-                if(null == bibUpdated) {
-                    bibUpdated = new ArrayList();
-                }
-                bibUpdated.add(bibRecord);
-
-                exchange.add("bibUpdated",bibUpdated);
+                exchange.add("bibUpdated",updatedBibRecord);
 
                 processHoldings(requestJsonObject,exchange);
             }
