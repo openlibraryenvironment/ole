@@ -3,7 +3,7 @@ var app = angular.module("transferApp", ['ui.tree']);
 
 app.controller('searchController', ['$scope', '$http', '$rootScope', searchConditions]);
 function searchConditions($scope, $http, $rootScope) {
-    $rootScope.baseUri = 'http://192.168.55.69:9090/oledocstore/bib/select?q='
+    $rootScope.baseUri = '/oledocstore/bib/select?q='
     $rootScope.searched = true;
     $scope.rows = 10;
     $scope.start = 0;
@@ -59,8 +59,32 @@ function searchConditions($scope, $http, $rootScope) {
     $scope.search = function () {
         angular.forEach($scope.conditions, function (condition) {
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10').
-                success(function (data) {
+            /*$.ajax({
+                //url: "http://162.243.230.176:8080/easydoc/persons/person/",
+                url: $rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10',
+                type: "POST",
+                crossDomain: true,
+                contentType: "application/json"
+            }).done(function(data) {
+                console.log(data.response.docs);
+                $rootScope.searchResults = data.response.docs;
+            });*/
+
+
+            /*$http({
+                url: $rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10',
+                method: "GET",
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).success(function (data, status, headers, config) {
+                  alert("test")
+                });*/
+
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10')
+                .success(function (data) {
                     console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;
                     $rootScope.searched = false;
