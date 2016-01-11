@@ -93,6 +93,14 @@ public class DescribeDAOImpl implements DescribeDAO {
     }
 
     @Override
+    public List<BatchProcessProfile> fetchProfileByNameAndType(String profileName, String type) {
+        Map parameterMap = new HashedMap();
+        parameterMap.put("batchProcessProfileName",profileName);
+        parameterMap.put("batchProcessType",type);
+        return (List<BatchProcessProfile>)getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
+    }
+
+    @Override
     public <T extends PersistableBusinessObject> T save(T bo) {
         return getBusinessObjectService().save(bo);
     }
