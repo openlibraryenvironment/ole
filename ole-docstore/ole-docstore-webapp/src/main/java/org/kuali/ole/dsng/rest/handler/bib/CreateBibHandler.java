@@ -45,24 +45,18 @@ public class CreateBibHandler extends BibHandler {
                 Timestamp createdDate = getDateTimeStamp(createdDateString);
 
                 bibRecord.setDateCreated(createdDate);
-                BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
+                BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
-                String modifiedcontent = process001And003(newBibContent, updatedBibRecord.getBibId());
+                String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
                 bibRecord.setContent(modifiedcontent);
+
+                exchange.add("bib", bibRecord);
 
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
 
-                updatedBibRecord = getBibDAO().save(bibRecord);
+                createdBibRecord = getBibDAO().save(bibRecord);
 
-                exchange.add("bib", updatedBibRecord);
-
-                List bibCrated = (List) exchange.get("bibCrated");
-                if(null == bibCrated) {
-                    bibCrated = new ArrayList();
-                }
-                bibCrated.add(bibRecord);
-
-                exchange.add("bibCrated",bibCrated);
+                exchange.add("bib", createdBibRecord);
 
                 createHoldings(requestJsonObject, exchange);
 

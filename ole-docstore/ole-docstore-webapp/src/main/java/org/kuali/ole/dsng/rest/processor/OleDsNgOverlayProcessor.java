@@ -3,11 +3,14 @@ package org.kuali.ole.dsng.rest.processor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.response.BibResponse;
+import org.kuali.ole.docstore.common.response.HoldingsResponse;
+import org.kuali.ole.docstore.common.response.ItemResponse;
+import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -23,7 +26,6 @@ import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
 import org.kuali.ole.dsng.rest.handler.items.UpdateItemHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
-import org.kuali.ole.response.OleNGBibImportResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -91,12 +93,16 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     public String processBibAndHoldingsAndItems(String jsonBody) {
         String response = "{}";
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
+        List<BibResponse> bibResponses = new ArrayList<BibResponse>();
         Map<String, SolrInputDocument> solrInputDocumentMap = new HashedMap();
         try {
             JSONArray requestJsonArray = new JSONArray(jsonBody);
             Exchange exchange = new Exchange();
             for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
+
+                BibResponse bibResponse = new BibResponse();
+
 
                 String ops = requestJsonObject.getString("ops");
 
@@ -106,21 +112,27 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+                    if(requestJsonObject.has("id")){
+                        bibResponse.setOperation("updated");
+                    } else {
+                        bibResponse.setOperation("created");
+                    }
+                    bibResponse.setBibId(bibRecord.getUniqueIdPrefix() + "-" + bibRecord.getBibId());
+
+                    solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
+                    solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
+
+                    bibResponse.setHoldingsResponses(prepareHoldingsResponse(exchange));
+
+                    exchange.remove("bibCrated");
+                    exchange.remove("bibUpdated");
+                    exchange.remove("holdingRecordsToCreate");
+                    exchange.remove("holdingRecordsToUpdate");
+                    exchange.remove("itemRecordsToCreate");
+                    exchange.remove("itemRecordsToUpdate");
                 }
-
-                solrInputDocumentMap = prepareHoldingsForSolr(solrInputDocumentMap, exchange);
-                solrInputDocumentMap = prepareItemsForSolr(solrInputDocumentMap, exchange);
-
-                prepareReport(exchange,oleNGBibImportResponse);
-
-                exchange.remove("bibCrated");
-                exchange.remove("bibUpdated");
-                exchange.remove("holdingRecordsToCreate");
-                exchange.remove("holdingRecordsToUpdate");
-                exchange.remove("itemRecordsToCreate");
-                exchange.remove("itemRecordsToUpdate");
+                bibResponses.add(bibResponse);
             }
-
 
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
             getBibIndexer().commitDocumentToSolr(solrInputDocuments);
@@ -128,12 +140,69 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        oleNGBibImportResponse.setBibResponses(bibResponses);
+
         try {
             response = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGBibImportResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return response;
+    }
+
+    private List<HoldingsResponse> prepareHoldingsResponse(Exchange exchange) {
+        List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
+        List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
+        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToCreate, "created"));
+
+        List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
+        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToUpdate, "updated"));
+
+        return holdingsResponses;
+    }
+
+    private List<HoldingsResponse> holdingsResponse(Exchange exchange, List holdingRecords, String operation) {
+        List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
+        if(CollectionUtils.isNotEmpty(holdingRecords)) {
+            for (Iterator iterator = holdingRecords.iterator(); iterator.hasNext(); ) {
+                HoldingsResponse holdingsResponse = new HoldingsResponse();
+                HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
+                holdingsResponse.setOperation(operation);
+                holdingsResponse.setHoldingsId(holdingsRecord.getUniqueIdPrefix() + "-" + holdingsRecord.getHoldingsId());
+                holdingsResponse.setItemResponses(prepareItemsResponse(holdingsRecord,exchange));
+                holdingsResponses.add(holdingsResponse);
+            }
+        }
+        return holdingsResponses;
+    }
+
+    private List<ItemResponse> prepareItemsResponse(HoldingsRecord holdingsRecord, Exchange exchange) {
+        List<ItemResponse> itemResponses = new ArrayList<ItemResponse>();
+
+        List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
+        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToCreate, "created"));
+
+        List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
+        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToUpdate, "updated"));
+
+        return itemResponses;
+    }
+
+    private List<ItemResponse> itemResponse(HoldingsRecord holdingsRecord, List itemRecords, String operation) {
+        List<ItemResponse> itemResponses = new ArrayList<ItemResponse>();
+        if (CollectionUtils.isNotEmpty(itemRecords)) {
+            for (Iterator iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                ItemRecord itemRecord = (ItemRecord) iterator.next();
+                if (itemRecord.getHoldingsId().equalsIgnoreCase(holdingsRecord.getHoldingsId())) {
+                    ItemResponse itemResponse = new ItemResponse();
+                    itemResponse.setOperation(operation);
+                    itemResponse.setItemId(itemRecord.getUniqueIdPrefix() + "-" + itemRecord.getItemId());
+                    itemResponses.add(itemResponse);
+                }
+            }
+        }
+        return itemResponses;
     }
 
     private Map<String, SolrInputDocument> prepareHoldingsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
@@ -209,50 +278,5 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
-    }
-
-    private void prepareReport(Exchange exchange, OleNGBibImportResponse oleNGBibImportResponse) {
-        List bibCrated = (List) exchange.get("bibCrated");
-        if(CollectionUtils.isNotEmpty(bibCrated)) {
-            for (Iterator iterator = bibCrated.iterator(); iterator.hasNext(); ) {
-                BibRecord bibRecord = (BibRecord) iterator.next();
-                oleNGBibImportResponse.getCreatedBibIds().add(bibRecord.getBibId());
-            }
-        }
-        List bibUpdated = (List) exchange.get("bibUpdated");
-        if(CollectionUtils.isNotEmpty(bibUpdated)) {
-            for (Iterator iterator = bibUpdated.iterator(); iterator.hasNext(); ) {
-                BibRecord bibRecord = (BibRecord) iterator.next();
-                oleNGBibImportResponse.getUpdatedBibIds().add(bibRecord.getBibId());
-            }
-        }
-        List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
-        if(CollectionUtils.isNotEmpty(holdingRecordsToCreate)) {
-            for (Iterator iterator = holdingRecordsToCreate.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
-                oleNGBibImportResponse.getCreatedHoldingIds().add(holdingsRecord.getHoldingsId());
-            }
-        }
-        List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
-        if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)) {
-            for (Iterator iterator = holdingRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = (HoldingsRecord) iterator.next();
-                oleNGBibImportResponse.getUpdatedHoldingIds().add(holdingsRecord.getHoldingsId());
-            }
-        }
-        List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
-        if(CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
-            for (Iterator iterator = itemRecordsToCreate.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = (ItemRecord) iterator.next();
-                oleNGBibImportResponse.getCreatedItemIds().add(itemRecord.getItemId());
-            }
-        }
-        List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
-        if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
-            for (Iterator iterator = itemRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = (ItemRecord) iterator.next();
-                oleNGBibImportResponse.getUpdatedItemIds().add(itemRecord.getItemId());
-            }
-        }
     }
 }

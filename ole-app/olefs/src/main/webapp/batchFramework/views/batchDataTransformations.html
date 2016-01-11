@@ -111,24 +111,48 @@
                                     name="dataTransformationAddButton_{{$index}}"
                                     ng-click="dataTransformationAdd(dataTransformation)"
                                     ng-hide="dataTransformation.isAddLine || dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="dataTransformationCopyButton_{{$index}}" name="dataTransformationCopyButton_{{$index}}"
+                                    ng-click="dataTransformationCopyRow($index)"
+                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
                             </button>
                             <button id="dataTransformationEditButton_{{$index}}" name="dataTransformationEditButton_{{$index}}"
                                     ng-click="dataTransformationEditRow($index)" ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="dataTransformationUpdateButton_{{$index}}" name="dataTransformationUpdateButton_{{$index}}"
                                     ng-click="dataTransformationUpdateRow($index)" ng-show="dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
                             <button id="dataTransformationUpdateCancelButton_{{$index}}" name="dataTransformationUpdateCancelButton_{{$index}}"
                                     ng-click="dataTransformationCancelUpdate($index)" ng-show="dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="dataTransformationRemoveButton_{{$index}}"
                                     name="dataTransformationRemoveButton_{{$index}}"
                                     ng-click="dataTransformationRemove(dataTransformation)"
-                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>
                     </tr>

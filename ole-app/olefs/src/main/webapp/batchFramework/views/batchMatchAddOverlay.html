@@ -142,25 +142,48 @@
                             <button id="addOrOverlayAddButton_{{$index}}" name="addOrOverlayAddButton_{{$index}}"
                                     ng-click="addOrOverlayAdd(addOrOverlay)"
                                     ng-hide="addOrOverlay.isAddLine || addOrOverlay.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="addOrOverlayCopyButton_{{$index}}" name="addOrOverlayCopyButton_{{$index}}"
+                                    ng-click="addOrOverlayCopyRow($index)"
+                                    ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
                             </button>
                             <button id="addOrOverlayEditButton_{{$index}}" name="addOrOverlayEditButton_{{$index}}"
                                     ng-click="addOrOverlayEditRow($index)"
                                     ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
                                     class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                             </button>
                             <button id="addOrOverlayUpdateButton_{{$index}}" name="addOrOverlayUpdateButton_{{$index}}"
                                     ng-click="addOrOverlayUpdateRow($index)" ng-show="addOrOverlay.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
                                     class="btn btn-success btn-xs"><i class="fa fa-check"></i>
                             </button>
                             <button id="addOrOverlayUpdateCancelButton_{{$index}}"
                                     name="addOrOverlayUpdateCancelButton_{{$index}}"
                                     ng-click="addOrOverlayCancelUpdate($index)" ng-show="addOrOverlay.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
                             </button>
                             <button id="addOrOverlayRemoveButton_{{$index}}" name="addOrOverlayRemoveButton_{{$index}}"
                                     ng-click="addOrOverlayRemove(addOrOverlay)"
                                     ng-show="addOrOverlay.isAddLine && !addOrOverlay.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
                                     class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
                             </button>
                         </td>

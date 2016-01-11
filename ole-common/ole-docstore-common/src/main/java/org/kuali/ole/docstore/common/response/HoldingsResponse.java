@@ -1,0 +1,36 @@
+package org.kuali.ole.docstore.common.response;
+
+import java.util.List;
+
+/**
+ * Created by SheikS on 1/11/2016.
+ */
+public class HoldingsResponse {
+    private String holdingsId;
+    private String operation;
+    private List<ItemResponse> itemResponses;
+
+    public String getHoldingsId() {
+        return holdingsId;
+    }
+
+    public void setHoldingsId(String holdingsId) {
+        this.holdingsId = holdingsId;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public List<ItemResponse> getItemResponses() {
+        return itemResponses;
+    }
+
+    public void setItemResponses(List<ItemResponse> itemResponses) {
+        this.itemResponses = itemResponses;
+    }
+}
