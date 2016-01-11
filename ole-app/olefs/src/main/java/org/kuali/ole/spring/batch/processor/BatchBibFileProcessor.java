@@ -353,12 +353,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private void prepareReport(OleNGBibImportResponse oleNGBibImportResponse, OleNGBibImportResponse bibImportResponse) {
         oleNGBibImportResponse.setStatus("Success");
         oleNGBibImportResponse.setStatus("Bib Import finished successfully!.");
-        oleNGBibImportResponse.setNoOfBibsCreated(bibImportResponse.getNoOfBibsCreated());
-        oleNGBibImportResponse.setNoOfBibsUpdated(bibImportResponse.getNoOfBibsUpdated());
-        oleNGBibImportResponse.setNoOfHoldingsCreated(bibImportResponse.getNoOfHoldingsCreated());
-        oleNGBibImportResponse.setNoOfHoldingsUpdated(bibImportResponse.getNoOfHoldingsUpdated());
-        oleNGBibImportResponse.setNoOfItemsCreated(bibImportResponse.getNoOfItemsCreated());
-        oleNGBibImportResponse.setNoOfItemsUpdated(bibImportResponse.getNoOfItemsUpdated());
+        oleNGBibImportResponse.setCreatedHoldingIds(bibImportResponse.getCreatedBibIds());
+        oleNGBibImportResponse.setUpdatedBibIds(bibImportResponse.getUpdatedBibIds());
+        oleNGBibImportResponse.setCreatedHoldingIds(bibImportResponse.getCreatedHoldingIds());
+        oleNGBibImportResponse.setUpdatedHoldingIds(bibImportResponse.getUpdatedHoldingIds());
+        oleNGBibImportResponse.setCreatedItemIds(bibImportResponse.getCreatedItemIds());
+        oleNGBibImportResponse.setUpdatedItemIds(bibImportResponse.getUpdatedItemIds());
     }
 
 }

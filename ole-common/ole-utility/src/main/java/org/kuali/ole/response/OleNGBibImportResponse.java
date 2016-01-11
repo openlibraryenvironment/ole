@@ -9,12 +9,12 @@ import java.util.List;
 public class OleNGBibImportResponse {
     private String status;
     private String message;
-    private int noOfBibsCreated;
-    private int noOfBibsUpdated;
-    private int noOfHoldingsCreated;
-    private int noOfHoldingsUpdated;
-    private int noOfItemsCreated;
-    private int noOfItemsUpdated;
+    private List<String> createdBibIds;
+    private List<String> updatedBibIds;
+    private List<String> createdHoldingIds;
+    private List<String> updatedHoldingIds;
+    private List<String> createdItemIds;
+    private List<String> updatedItemIds;
     private List<String> failureRecordQueries;
 
     public String getStatus() {
@@ -33,52 +33,70 @@ public class OleNGBibImportResponse {
         this.message = message;
     }
 
-    public int getNoOfBibsCreated() {
-        return noOfBibsCreated;
+    public List<String> getCreatedBibIds() {
+        if(null == createdBibIds) {
+            createdBibIds = new ArrayList<>();
+        }
+        return createdBibIds;
     }
 
-    public void setNoOfBibsCreated(int noOfBibsCreated) {
-        this.noOfBibsCreated = noOfBibsCreated;
+    public void setCreatedBibIds(List<String> createdBibIds) {
+        this.createdBibIds = createdBibIds;
     }
 
-    public int getNoOfBibsUpdated() {
-        return noOfBibsUpdated;
+    public List<String> getUpdatedBibIds() {
+        if(null == updatedBibIds) {
+            updatedBibIds = new ArrayList<>();
+        }
+        return updatedBibIds;
     }
 
-    public void setNoOfBibsUpdated(int noOfBibsUpdated) {
-        this.noOfBibsUpdated = noOfBibsUpdated;
+    public void setUpdatedBibIds(List<String> updatedBibIds) {
+        this.updatedBibIds = updatedBibIds;
     }
 
-    public int getNoOfHoldingsCreated() {
-        return noOfHoldingsCreated;
+    public List<String> getCreatedHoldingIds() {
+        if(null == createdHoldingIds) {
+            createdHoldingIds = new ArrayList<>();
+        }
+        return createdHoldingIds;
     }
 
-    public void setNoOfHoldingsCreated(int noOfHoldingsCreated) {
-        this.noOfHoldingsCreated = noOfHoldingsCreated;
+    public void setCreatedHoldingIds(List<String> createdHoldingIds) {
+        this.createdHoldingIds = createdHoldingIds;
     }
 
-    public int getNoOfHoldingsUpdated() {
-        return noOfHoldingsUpdated;
+    public List<String> getUpdatedHoldingIds() {
+        if(null == updatedHoldingIds) {
+            updatedHoldingIds = new ArrayList<>();
+        }
+        return updatedHoldingIds;
     }
 
-    public void setNoOfHoldingsUpdated(int noOfHoldingsUpdated) {
-        this.noOfHoldingsUpdated = noOfHoldingsUpdated;
+    public void setUpdatedHoldingIds(List<String> updatedHoldingIds) {
+        this.updatedHoldingIds = updatedHoldingIds;
     }
 
-    public int getNoOfItemsCreated() {
-        return noOfItemsCreated;
+    public List<String> getCreatedItemIds() {
+        if(null == createdItemIds) {
+            createdItemIds = new ArrayList<>();
+        }
+        return createdItemIds;
     }
 
-    public void setNoOfItemsCreated(int noOfItemsCreated) {
-        this.noOfItemsCreated = noOfItemsCreated;
+    public void setCreatedItemIds(List<String> createdItemIds) {
+        this.createdItemIds = createdItemIds;
     }
 
-    public int getNoOfItemsUpdated() {
-        return noOfItemsUpdated;
+    public List<String> getUpdatedItemIds() {
+        if(null == updatedItemIds) {
+            updatedItemIds = new ArrayList<>();
+        }
+        return updatedItemIds;
     }
 
-    public void setNoOfItemsUpdated(int noOfItemsUpdated) {
-        this.noOfItemsUpdated = noOfItemsUpdated;
+    public void setUpdatedItemIds(List<String> updatedItemIds) {
+        this.updatedItemIds = updatedItemIds;
     }
 
     public List<String> getFailureRecordQueries() {
