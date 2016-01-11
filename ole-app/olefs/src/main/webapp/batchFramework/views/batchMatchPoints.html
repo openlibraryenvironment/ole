@@ -16,7 +16,8 @@
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
-                        <th>Doc Type</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">Source</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Doc Type</th>
                         <th>Match Type</th>
                         <th>Match Type Value</th>
                         <th>Data/Control Field</th>
@@ -33,7 +34,18 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="matchPoint in matchPointsPanel">
-                        <td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                            <select class="form-control" id="matchPointOrderDocumentType_{{$index}}" name="matchPointOrderDocumentType_{{$index}}"
+                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
+                                    ng-change="populateMatchPointTypes(matchPoint)">
+                                <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
+                                        ng-repeat="option in matchPoint.matchPointOrderDocTypes" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointDocType"></span>
+                        </td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <select class="form-control" id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
                                     ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
                                     ng-change="populateMatchPointTypes(matchPoint)">
