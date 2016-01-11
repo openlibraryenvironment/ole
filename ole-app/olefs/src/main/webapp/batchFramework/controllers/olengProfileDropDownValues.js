@@ -245,9 +245,9 @@ var dataMappingObject = {
         {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
         {id: 'cancellationReason', name: 'Cancellation Reason'},
         {id: 'publicNote', name: 'Public Note'},
-        {id: 'non-publicNote', name: 'Non-public Note'},
-    ],
-}
+        {id: 'non-publicNote', name: 'Non-public Note'}
+    ]
+};
 
 var matchPointObject = {
     matchPointTypeForHoldings : [
@@ -317,7 +317,7 @@ var matchPointObject = {
         {id: 'eResourceName', name: 'EResource Name'},
         {id: 'eResourceId', name: 'EResource Id'}
     ]
-}
+};
 
 var addOrOverlayDocumentTypes = [
     {id: 'bibliographic', name: 'Bibliographic'},
@@ -539,50 +539,6 @@ var transformationOperations = [
     {id: 'prepend', name: 'Prepend with Prefix'}
 ];
 
-var constantsAndDefaultsOrderFields = [
-    {id: 'accountNumber', name: 'Account Number'},
-    {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
-    {id: 'assignToUser', name: 'Assign To User'},
-    {id: 'buildingCode', name: 'Building Code'},
-    {id: 'deliveryBuildingRoomNumber', name: 'Building Room Number'},
-    {id: 'caption', name: 'Caption'},
-    {id: 'chartCode', name: 'Chart Code'},
-    {id: 'contractManager', name: 'Contract Manager'},
-    {id: 'costSource', name: 'Cost Source'},
-    {id: 'defaultLocation', name: 'Default Location'},
-    {id: 'deliveryCampusCode', name: 'Delivery Campus Code'},
-    {id: 'discount', name: 'Discount'},
-    {id: 'discountType', name: 'Discount Type'},
-    {id: 'fundCode', name: 'Fund Code'},
-    {id: 'fundingSource', name: 'Funding Source'},
-    {id: 'itemChartCode', name: 'Item Chart Code'},
-    {id: 'itemStatus', name: 'Item Status'},
-    {id: 'listPrice', name: 'List Price'},
-    {id: 'methodOfPOTransmission', name: 'Method Of PO Transmission'},
-    {id: 'itemNoOfParts', name: 'No Of Parts'},
-    {id: 'financialObjectCode', name: 'Object Code'},
-    {id: 'orderType', name: 'Order Type'},
-    {id: 'orgCode', name: 'Org Code'},
-    {id: 'payReqPositiveApprovalReq', name: 'Pay Req Positive Approval Req'},
-    {id: 'percent', name: 'Percent'},
-    {id: 'purchaseOrderConfirmationIndicator', name: 'Purchase Order Confirmation Indicator'},
-    {id: 'quantity', name: 'Quantity'},
-    {id: 'receivingRequired', name: 'Receiving Required'},
-    {id: 'RecurringPaymentBeginDate', name: 'Recurring Payment Begin Date'},
-    {id: 'RecurringPaymentEndDate', name: 'Recurring Payment End Date'},
-    {id: 'RecurringPaymentType', name: 'Recurring Payment Type'},
-    {id: 'requestSourceType', name: 'Request Source'},
-    {id: 'requestorName', name: 'Requestor Name'},
-    {id: 'routeToRequestor', name: 'Route To Requestor'},
-    {id: 'useTaxIndicator', name: 'Use Tax Indicator'},
-    {id: 'vendorAliasName', name: 'Vendor Alias Name'},
-    {id: 'vendorChoice', name: 'Vendor Choice'},
-    {id: 'vendorNumber', name: 'Vendor Number'},
-    {id: 'vendorProfileCode', name: 'Vendor Profile Code'},
-    {id: 'vendorReferenceNumber', name: 'Vendor Reference Number'},
-    {id: 'volumeNumber', name: 'Volume Number'}
-];
-
 var invoiceFields = [
     {id: 'accountNumber', name: 'Account Number'},
     {id: 'bookPlate', name: 'Book Plate'},
@@ -652,11 +608,6 @@ var dataMappingOrderFields = [
     {id: 'vendorProfileCode', name: 'Vendor Profile Code'},
     {id: 'vendorReferenceNumber', name: 'Vendor Reference Number'},
     {id: 'volumeNumber', name: 'Volume Number'}
-];
-
-var constantOrDefaultTypes = [
-    {id: 'constant', name: 'Constant'},
-    {id: 'default', name: 'Default'}
 ];
 
 var discountTypes = [
@@ -760,38 +711,6 @@ var dataTransformation = {
     dataTransformationActionType: 'All',
     dataTransformationOperations: transformationOperations,
     dataTransformationStep: 1,
-    isAddLine: false,
-    collapsed: true
-};
-
-var constantAndDefault = {
-    title: 'Constants And Defaults',
-    constantOrDefaultTypes: constantOrDefaultTypes,
-    booleanOptions: booleanOptions,
-    discountTypes: discountTypes,
-    constantOrDefault: 'Constant',
-    isAddLine: false,
-    collapsed: true
-};
-
-var constantAndDefaultOrder = {
-    title: 'Constants And Defaults',
-    constantOrDefaultTypes: constantOrDefaultTypes,
-    constantsAndDefaultsFields: constantsAndDefaultsOrderFields,
-    booleanOptions: booleanOptions,
-    discountTypes: discountTypes,
-    constantOrDefault: 'Constant',
-    isAddLine: false,
-    collapsed: true
-};
-
-var constantAndDefaultInvoice = {
-    title: 'Constants And Defaults',
-    constantOrDefaultTypes: constantOrDefaultTypes,
-    constantsAndDefaultsFields: invoiceFields,
-    booleanOptions: booleanOptions,
-    discountTypes: discountTypes,
-    constantOrDefault: 'Constant',
     isAddLine: false,
     collapsed: true
 };
