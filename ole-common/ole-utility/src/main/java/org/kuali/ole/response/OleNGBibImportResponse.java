@@ -1,15 +1,37 @@
 package org.kuali.ole.response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by SheikS on 1/7/2016.
  */
 public class OleNGBibImportResponse {
+    private String status;
+    private String message;
     private int noOfBibsCreated;
     private int noOfBibsUpdated;
     private int noOfHoldingsCreated;
     private int noOfHoldingsUpdated;
     private int noOfItemsCreated;
     private int noOfItemsUpdated;
+    private List<String> failureRecordQueries;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public int getNoOfBibsCreated() {
         return noOfBibsCreated;
@@ -57,5 +79,16 @@ public class OleNGBibImportResponse {
 
     public void setNoOfItemsUpdated(int noOfItemsUpdated) {
         this.noOfItemsUpdated = noOfItemsUpdated;
+    }
+
+    public List<String> getFailureRecordQueries() {
+        if(null == failureRecordQueries) {
+            failureRecordQueries = new ArrayList<>();
+        }
+        return failureRecordQueries;
+    }
+
+    public void setFailureRecordQueries(List<String> failureRecordQueries) {
+        this.failureRecordQueries = failureRecordQueries;
     }
 }
