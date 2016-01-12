@@ -68,5 +68,7 @@ public class OleNGConstants {
         public static final String SPL_PROCESS_NOTE = "Special Processing Instruction Note";
         public static final String VNDR_INSTR_NOTE = "Vendor Instructions Note";
         public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
+        public static final String VENDOR_REFERENCE_NUMBER = "Vendor Reference Number";
+
     }
 }

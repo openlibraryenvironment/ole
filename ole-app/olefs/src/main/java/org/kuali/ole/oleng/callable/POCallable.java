@@ -46,7 +46,7 @@ public class POCallable implements Callable {
         String finalResponse = "";
         final JSONObject jsonObject = new JSONObject();
         OleTxRecord oleTxRecord = new OleTxRecord();
-        oleTxRecord = getOleOrderImportService().processDataMapping(oleTxRecord, batchProcessProfile);
+        oleTxRecord = getOleOrderImportService().processDataMapping(bibId,oleTxRecord, batchProcessProfile);
 
         final OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
