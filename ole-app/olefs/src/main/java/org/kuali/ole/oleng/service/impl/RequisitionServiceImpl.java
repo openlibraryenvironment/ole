@@ -96,14 +96,11 @@ public class RequisitionServiceImpl implements RequisitionService {
         if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
             item.setItemTitleId(oleBibRecord.getBibUUID());
         }
-        item.setBibTree(oleOrderRecord.getBibTree());
         item.setLinkToOrderOption(oleOrderRecord.getLinkToOrderOption());
 
-        org.kuali.ole.module.purap.businessobject.ItemType itemType = getBusinessObjectService().findBySinglePrimaryKey(org.kuali.ole.module.purap.businessobject.ItemType.class, "ITEM");
-        item.setItemType(itemType);
+        setItemType(item);
 
         setSourceAccountingLinesToReqItem(oleOrderRecord, item);
-        setItemDescription(oleOrderRecord, item);
         item.setItemLocation(oleTxRecord.getDefaultLocation());
 
         if(!StringUtils.isBlank(oleTxRecord.getFormatTypeId())){
@@ -112,95 +109,12 @@ public class RequisitionServiceImpl implements RequisitionService {
         if(oleTxRecord.getRequestSourceType() != null){
             item.setRequestSourceTypeId(getRequestSourceTypeId(oleTxRecord.getRequestSourceType()));
         }
-        List<String> oleDonors = oleTxRecord.getOleDonors();
-        if (CollectionUtils.isNotEmpty(oleDonors)) {
-            List<OLELinkPurapDonor> oleLinkPurapDonorList = new ArrayList<>();
-            for (String donor : oleDonors) {
-                Map map = new HashMap();
-                map.put(OLEConstants.DONOR_CODE, donor);
-                OLEDonor oleDonor = getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-                OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
-                oleLinkPurapDonor.setDonorCode(donor);
-                if (oleDonor != null) {
-                    oleLinkPurapDonor.setDonorId(oleDonor.getDonorId());
-                }
-                oleLinkPurapDonorList.add(oleLinkPurapDonor);
-            }
-            item.setOleDonors(oleLinkPurapDonorList);
-        }
+
+        setDonors(item, oleTxRecord);
+
         if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
             item.setItemTitleId(oleBibRecord.getBibUUID());
         }
-        item.setBibTree(oleOrderRecord.getBibTree());
-        item.setLinkToOrderOption(oleOrderRecord.getLinkToOrderOption());
-        if (item.getLinkToOrderOption() != null) {
-            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)) {
-                if (oleOrderRecord.getBibTree() != null) {
-                    boolean printHolding = false;
-                    boolean electronicHolding = false;
-                    List<HoldingsId> electronicHoldingsIdList = new ArrayList<>();
-                    List<HoldingsId> holdingsIds = oleOrderRecord.getBibTree().getHoldingsIds();
-                    if (holdingsIds != null && holdingsIds.size() > 0) {
-                        for (HoldingsId holdingsId : holdingsIds) {
-                            if (holdingsId != null) {
-                                Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsId.getId());
-                                if (holdings != null && holdings.getHoldingsType() != null && holdings.getHoldingsType().equals(OLEConstants.OleHoldings.ELECTRONIC)) {
-                                    electronicHolding = true;
-                                    electronicHoldingsIdList.add(holdingsId);
-                                } else if (holdings != null && holdings.getHoldingsType() != null && holdings.getHoldingsType().equals(OLEConstants.PRINT)) {
-                                    printHolding = true;
-                                }
-                            }
-                        }
-                    }
-                    if (!printHolding && electronicHolding) {
-                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
-                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC);
-                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
-                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC);
-                        }
-                    } else {
-                        if (electronicHoldingsIdList.size()>0 && oleOrderRecord.getBibTree().getHoldingsIds()!=null){
-                            oleOrderRecord.getBibTree().getHoldingsIds().removeAll(electronicHoldingsIdList);
-                        }
-                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
-                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
-                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
-                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI);
-                        }
-                    }
-                }
-            }
-            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI)) {
-                if (oleOrderRecord.getBibTree() != null) {
-                    List<HoldingsId> holdingsIds = oleOrderRecord.getBibTree().getHoldingsIds();
-                    if (holdingsIds != null && holdingsIds.size() > 0) {
-                        int itemCount = 0;
-                        for (HoldingsId holdingsId : holdingsIds) {
-                            if (holdingsId != null) {
-                                if (holdingsId.getItems() != null && holdingsId.getItems().size() == 0) {
-                                    KualiInteger noOfItems = KualiInteger.ZERO;
-                                    KualiInteger noOfCopies = new KualiInteger(item.getItemQuantity().intValue());
-                                    noOfItems = item.getItemNoOfParts().multiply(noOfCopies);
-                                    for (int count = 0; count < noOfItems.intValue(); count++) {
-                                        holdingsId.getItems().add(null);
-                                    }
-                                }
-                            }
-                            if (holdingsId.getItems() != null && holdingsId.getItems().size() > 0) {
-                                itemCount += holdingsId.getItems().size();
-                            }
-                        }
-                        item.setItemQuantity(new KualiDecimal(itemCount));
-                        item.setItemNoOfParts(new KualiInteger(1));
-                    }
-                }
-            } else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC)) {
-                item.setItemQuantity(new KualiDecimal(1));
-                item.setItemNoOfParts(new KualiInteger(1));
-            }
-        }
-        setItemDescription(oleOrderRecord, item);
         item.setVendorItemPoNumber(oleTxRecord.getVendorItemIdentifier());
         return item;
     }
@@ -297,6 +211,30 @@ public class RequisitionServiceImpl implements RequisitionService {
             return requestSourceList.get(0).getRequestSourceTypeId();
         }
         return null;
+    }
+
+    private void setItemType(OleRequisitionItem item) {
+        org.kuali.ole.module.purap.businessobject.ItemType itemType = getBusinessObjectService().findBySinglePrimaryKey(org.kuali.ole.module.purap.businessobject.ItemType.class, "ITEM");
+        item.setItemType(itemType);
+    }
+
+    private void setDonors(OleRequisitionItem item, OleTxRecord oleTxRecord) {
+        List<String> oleDonors = oleTxRecord.getOleDonors();
+        if (CollectionUtils.isNotEmpty(oleDonors)) {
+            List<OLELinkPurapDonor> oleLinkPurapDonorList = new ArrayList<>();
+            for (String donor : oleDonors) {
+                Map map = new HashMap();
+                map.put(OLEConstants.DONOR_CODE, donor);
+                OLEDonor oleDonor = getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
+                OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
+                oleLinkPurapDonor.setDonorCode(donor);
+                if (oleDonor != null) {
+                    oleLinkPurapDonor.setDonorId(oleDonor.getDonorId());
+                }
+                oleLinkPurapDonorList.add(oleLinkPurapDonor);
+            }
+            item.setOleDonors(oleLinkPurapDonorList);
+        }
     }
 
 
