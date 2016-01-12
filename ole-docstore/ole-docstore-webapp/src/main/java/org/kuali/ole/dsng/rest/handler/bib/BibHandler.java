@@ -38,14 +38,24 @@ public abstract class BibHandler extends Handler {
     }
 
     public void replaceBibIdTo001Tag(Record record,String bibId) {
-        getMarcRecordUtil().updateControlFieldValue(record,"001",bibId);
+        if(getMarcRecordUtil().hasField(record,"001")) {
+            getMarcRecordUtil().updateControlFieldValue(record,"001",bibId);
+        } else {
+            // If 001 tag is not available creating tag
+            getMarcRecordUtil().addControlField(record,"001",bibId);
+        }
     }
 
     public void replaceOrganizationCodeTo003Tag(Record record) {
-        String controlField003Value = getMarcRecordUtil().getControlFieldValue(record, "003");
         String organizationCode = ConfigContext.getCurrentContextConfig().getProperty("organization.marc.code");
-        if(StringUtils.isBlank(controlField003Value)) {
-            getMarcRecordUtil().updateControlFieldValue(record,"003",organizationCode);
+        if(getMarcRecordUtil().hasField(record,"003")) {
+            String controlField003Value = getMarcRecordUtil().getControlFieldValue(record, "003");
+            if(StringUtils.isBlank(controlField003Value)) {
+                getMarcRecordUtil().updateControlFieldValue(record,"003",organizationCode);
+            }
+        } else {
+            // If 003 tag is not available creating tag
+            getMarcRecordUtil().addControlField(record,"003",organizationCode);
         }
     }
 

@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.callable;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -11,6 +12,7 @@ import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -48,6 +50,7 @@ public class POCallable implements Callable {
 
         final OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+        oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
         oleOrderRecord.setOleTxRecord(oleTxRecord);
 
         Bib bib = new Bib();
@@ -59,6 +62,8 @@ public class POCallable implements Callable {
         oleBibRecord.setBibUUID(bibId);
         oleBibRecord.setBib(bib);
         oleOrderRecord.setOleBibRecord(oleBibRecord);
+
+        oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
 
         final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
 

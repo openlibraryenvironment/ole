@@ -1,32 +1,35 @@
 package org.kuali.ole.oleng.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.ids.HoldingsId;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.RequisitionAccount;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
-import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.oleng.service.RequisitionService;
+import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
+import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.batch.service.RequisitionCreateDocumentService;
+import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.select.bo.OLELinkPurapDonor;
+import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.vnd.document.service.VendorService;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private OlePurapService olePurapService;
     private OleReqPOCreateDocumentServiceImpl oleReqPOCreateDocumentService;
     protected RequisitionCreateDocumentService requisitionCreateDocumentService;
+    private DocstoreClientLocator docstoreClientLocator;
 
     @Override
     public OleRequisitionDocument createPurchaseOrderDocument(final OleOrderRecord oleOrderRecord) throws Exception {
@@ -75,26 +79,129 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     protected RequisitionItem createRequisitionItem(OleOrderRecord oleOrderRecord, int itemLineNumber) throws Exception {
         OleRequisitionItem item = new OleRequisitionItem();
+        OleBibRecord oleBibRecord = oleOrderRecord.getOleBibRecord();
+        OleTxRecord oleTxRecord = oleOrderRecord.getOleTxRecord();
+
         item.setOleOrderRecord(oleOrderRecord);
         item.setItemLineNumber(itemLineNumber);
         item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
-        item.setItemQuantity(new KualiDecimal(oleOrderRecord.getOleTxRecord().getQuantity()));
-        if (oleOrderRecord.getOleTxRecord().getItemNoOfParts() != null) {
-            item.setItemNoOfParts(new KualiInteger(oleOrderRecord.getOleTxRecord().getItemNoOfParts()));
+        item.setItemQuantity(new KualiDecimal(oleTxRecord.getQuantity()));
+        if (oleTxRecord.getItemNoOfParts() != null) {
+            item.setItemNoOfParts(new KualiInteger(oleTxRecord.getItemNoOfParts()));
         }
         setItemDescription(oleOrderRecord, item);
-        item.setItemUnitPrice(new BigDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
-        item.setItemTypeCode(oleOrderRecord.getOleTxRecord().getItemType());
-        item.setItemListPrice(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
-        if (ObjectUtils.isNotNull(oleOrderRecord.getOleBibRecord().getBibUUID())) {
-            item.setItemTitleId(oleOrderRecord.getOleBibRecord().getBibUUID());
+        item.setItemUnitPrice(new BigDecimal(oleTxRecord.getListPrice()));
+        item.setItemTypeCode(oleTxRecord.getItemType());
+        item.setItemListPrice(new KualiDecimal(oleTxRecord.getListPrice()));
+        if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
+            item.setItemTitleId(oleBibRecord.getBibUUID());
         }
         item.setBibTree(oleOrderRecord.getBibTree());
         item.setLinkToOrderOption(oleOrderRecord.getLinkToOrderOption());
+
         org.kuali.ole.module.purap.businessobject.ItemType itemType = getBusinessObjectService().findBySinglePrimaryKey(org.kuali.ole.module.purap.businessobject.ItemType.class, "ITEM");
         item.setItemType(itemType);
+
         setSourceAccountingLinesToReqItem(oleOrderRecord, item);
         setItemDescription(oleOrderRecord, item);
+        item.setItemLocation(oleTxRecord.getDefaultLocation());
+
+        if(!StringUtils.isBlank(oleTxRecord.getFormatTypeId())){
+            item.setFormatTypeId(Integer.parseInt(oleTxRecord.getFormatTypeId()));
+        }
+        if(oleTxRecord.getRequestSourceType() != null){
+            item.setRequestSourceTypeId(getRequestSourceTypeId(oleTxRecord.getRequestSourceType()));
+        }
+        List<String> oleDonors = oleTxRecord.getOleDonors();
+        if (CollectionUtils.isNotEmpty(oleDonors)) {
+            List<OLELinkPurapDonor> oleLinkPurapDonorList = new ArrayList<>();
+            for (String donor : oleDonors) {
+                Map map = new HashMap();
+                map.put(OLEConstants.DONOR_CODE, donor);
+                OLEDonor oleDonor = getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
+                OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
+                oleLinkPurapDonor.setDonorCode(donor);
+                if (oleDonor != null) {
+                    oleLinkPurapDonor.setDonorId(oleDonor.getDonorId());
+                }
+                oleLinkPurapDonorList.add(oleLinkPurapDonor);
+            }
+            item.setOleDonors(oleLinkPurapDonorList);
+        }
+        if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
+            item.setItemTitleId(oleBibRecord.getBibUUID());
+        }
+        item.setBibTree(oleOrderRecord.getBibTree());
+        item.setLinkToOrderOption(oleOrderRecord.getLinkToOrderOption());
+        if (item.getLinkToOrderOption() != null) {
+            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)) {
+                if (oleOrderRecord.getBibTree() != null) {
+                    boolean printHolding = false;
+                    boolean electronicHolding = false;
+                    List<HoldingsId> electronicHoldingsIdList = new ArrayList<>();
+                    List<HoldingsId> holdingsIds = oleOrderRecord.getBibTree().getHoldingsIds();
+                    if (holdingsIds != null && holdingsIds.size() > 0) {
+                        for (HoldingsId holdingsId : holdingsIds) {
+                            if (holdingsId != null) {
+                                Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsId.getId());
+                                if (holdings != null && holdings.getHoldingsType() != null && holdings.getHoldingsType().equals(OLEConstants.OleHoldings.ELECTRONIC)) {
+                                    electronicHolding = true;
+                                    electronicHoldingsIdList.add(holdingsId);
+                                } else if (holdings != null && holdings.getHoldingsType() != null && holdings.getHoldingsType().equals(OLEConstants.PRINT)) {
+                                    printHolding = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!printHolding && electronicHolding) {
+                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC);
+                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC);
+                        }
+                    } else {
+                        if (electronicHoldingsIdList.size()>0 && oleOrderRecord.getBibTree().getHoldingsIds()!=null){
+                            oleOrderRecord.getBibTree().getHoldingsIds().removeAll(electronicHoldingsIdList);
+                        }
+                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI);
+                        }
+                    }
+                }
+            }
+            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI)) {
+                if (oleOrderRecord.getBibTree() != null) {
+                    List<HoldingsId> holdingsIds = oleOrderRecord.getBibTree().getHoldingsIds();
+                    if (holdingsIds != null && holdingsIds.size() > 0) {
+                        int itemCount = 0;
+                        for (HoldingsId holdingsId : holdingsIds) {
+                            if (holdingsId != null) {
+                                if (holdingsId.getItems() != null && holdingsId.getItems().size() == 0) {
+                                    KualiInteger noOfItems = KualiInteger.ZERO;
+                                    KualiInteger noOfCopies = new KualiInteger(item.getItemQuantity().intValue());
+                                    noOfItems = item.getItemNoOfParts().multiply(noOfCopies);
+                                    for (int count = 0; count < noOfItems.intValue(); count++) {
+                                        holdingsId.getItems().add(null);
+                                    }
+                                }
+                            }
+                            if (holdingsId.getItems() != null && holdingsId.getItems().size() > 0) {
+                                itemCount += holdingsId.getItems().size();
+                            }
+                        }
+                        item.setItemQuantity(new KualiDecimal(itemCount));
+                        item.setItemNoOfParts(new KualiInteger(1));
+                    }
+                }
+            } else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC)) {
+                item.setItemQuantity(new KualiDecimal(1));
+                item.setItemNoOfParts(new KualiInteger(1));
+            }
+        }
+        setItemDescription(oleOrderRecord, item);
+        item.setVendorItemPoNumber(oleTxRecord.getVendorItemIdentifier());
         return item;
     }
 
@@ -182,6 +289,17 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
 
+    private Integer getRequestSourceTypeId(String requestSourceType){
+        Map<String,String> requestSourceMap = new HashMap<>();
+        requestSourceMap.put(OLEConstants.OLEBatchProcess.REQUEST_SRC,requestSourceType);
+        List<OleRequestSourceType> requestSourceList = (List) getBusinessObjectService().findMatching(OleRequestSourceType.class, requestSourceMap);
+        if(requestSourceList != null && requestSourceList.size() > 0){
+            return requestSourceList.get(0).getRequestSourceTypeId();
+        }
+        return null;
+    }
+
+
     public OleReqPOCreateDocumentServiceImpl getOleReqPOCreateDocumentService() {
         if (null == oleReqPOCreateDocumentService) {
             oleReqPOCreateDocumentService = (OleReqPOCreateDocumentServiceImpl) SpringContext.getService("oleReqPOCreateDocumentService");
@@ -215,5 +333,15 @@ public class RequisitionServiceImpl implements RequisitionService {
             requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
         }
         this.requisitionCreateDocumentService = requisitionCreateDocumentService;
+    }
+
+
+    public DocstoreClientLocator getDocstoreClientLocator() {
+
+        if (docstoreClientLocator == null) {
+            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+
+        }
+        return docstoreClientLocator;
     }
 }

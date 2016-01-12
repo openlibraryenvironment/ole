@@ -175,6 +175,11 @@ public class MarcRecordUtil {
         return Verifier.isControlField(field);
     }
 
+    public boolean hasField(Record marcRecord, String field) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(field);
+        return (CollectionUtils.isNotEmpty(variableFields) ? true: false);
+    }
+
     public List<Record> convertMarcXmlContentToMarcRecord(String marcRecord) {
         return getMarcXMLConverter().convertMarcXmlToRecord(marcRecord);
     }
