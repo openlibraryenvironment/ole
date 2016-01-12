@@ -79,6 +79,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         OleBibRecord oleBibRecord = oleOrderRecord.getOleBibRecord();
         OleTxRecord oleTxRecord = oleOrderRecord.getOleTxRecord();
 
+        item.setItemStatus(oleTxRecord.getItemStatus());
         item.setOleOrderRecord(oleOrderRecord);
         item.setItemLineNumber(itemLineNumber);
         item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));

@@ -108,6 +108,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new ItemNumPartsValueResolver());
             valueResolvers.add(new ItemPriceSourceValueResolver());
             valueResolvers.add(new ItemListPriceValueResolver());
+            valueResolvers.add(new ItemStatusValueResolver());
             valueResolvers.add(new MethodOfPOTransmissionValueResolver());
             valueResolvers.add(new ObjectCodeValueResolver());
             valueResolvers.add(new OrderTypeValueResolver());
@@ -133,6 +134,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new VendorCustomerNumberValueResolver());
             valueResolvers.add(new VendorInstructionsNoteValueResolver());
             valueResolvers.add(new DeliveryBuildingRoomNumberValueResolver());
+            valueResolvers.add(new SpecialProcessingInstructionNoteValueResolver());
         }
         return valueResolvers;
     }
