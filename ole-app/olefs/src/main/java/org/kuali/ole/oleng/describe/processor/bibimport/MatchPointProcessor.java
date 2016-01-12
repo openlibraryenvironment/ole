@@ -45,7 +45,6 @@ public class MatchPointProcessor extends BatchUtil {
         } else {
             return processForDataField(marcRecord, batchProfileMatchPoint);
         }
-
     }
 
     private String processForControlField(Record marcRecord,BatchProfileMatchPoint  batchProfileMatchPoint) {
