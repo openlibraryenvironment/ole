@@ -67,8 +67,11 @@ public class UpdateHoldingsProcessor {
             }
 
             List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
-            if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate)){
+            if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate) && holdingRecordsToUpdate.size() == 1){
                 getHoldingDAO().saveAll(holdingRecordsToUpdate);
+            } else {
+                exchange.remove("holdingRecordsToUpdate");
+                exchange.remove("holdingsMatchFound");
             }
             Boolean isHoldingsMatched = (Boolean) exchange.get("holdingsMatchFound");
             Boolean isEHoldingsMatchFound = (Boolean) exchange.get("eholdingsMatchFound");

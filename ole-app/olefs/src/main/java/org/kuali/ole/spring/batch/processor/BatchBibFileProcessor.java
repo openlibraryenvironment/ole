@@ -195,32 +195,67 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private void prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject dataMappings, String docType, String transformationOption) throws JSONException {
 
-        List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
-        for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
+        List<BatchProfileDataMapping> filteredDataMappings = filterDataMappingsByTransformationOption(batchProcessProfile.getBatchProfileDataMappingList(), transformationOption);
+
+        sortDataMappings(filteredDataMappings);
+
+        for (Iterator<BatchProfileDataMapping> iterator = filteredDataMappings.iterator(); iterator.hasNext(); ) {
             BatchProfileDataMapping batchProfileDataMapping = iterator.next();
             String destination = batchProfileDataMapping.getDestination();
-            String option = batchProfileDataMapping.getTransferOption();
-            if (destination.equalsIgnoreCase(docType) && option.equalsIgnoreCase(transformationOption)) {
+            if (destination.equalsIgnoreCase(docType)) {
                 String newValue;
                 String destinationField = batchProfileDataMapping.getField();
-                String value = getDestFieldValue(marcRecord, batchProfileDataMapping);
-                if (dataMappings.has(destinationField)) {
+                String value = getDestFieldValue(marcRecord, batchProfileDataMapping.getField(), filteredDataMappings);
+                /*if (dataMappings.has(destinationField)) {
                     newValue = dataMappings.get(destinationField) + " " + value;
                 } else {
                     newValue = value;
-                }
+                }*/
+                newValue = value;
 
                 dataMappings.put(destinationField, newValue);
             }
         }
     }
 
-    private String getDestFieldValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
-        if (StringUtils.isBlank(batchProfileDataMapping.getConstant())) {
-            return getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+    private List<BatchProfileDataMapping> filterDataMappingsByTransformationOption(List<BatchProfileDataMapping> batchProfileDataMappingList, String transformationOption) {
+        List<BatchProfileDataMapping> batchProfileDataMappings = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+            for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
+                BatchProfileDataMapping batchProfileDataMapping = iterator.next();
+                if(batchProfileDataMapping.getTransferOption().equalsIgnoreCase(transformationOption)) {
+                    batchProfileDataMappings.add(batchProfileDataMapping);
+                }
+            }
         }
+        return batchProfileDataMappings;
+    }
 
-        return batchProfileDataMapping.getConstant();
+    private String getDestFieldValue(Record marcRecord, String fieldNameToMatch, List<BatchProfileDataMapping> filteredDataMappings) {
+        String value = "";
+        for (Iterator<BatchProfileDataMapping> iterator = filteredDataMappings.iterator(); iterator.hasNext(); ) {
+            BatchProfileDataMapping profileDataMapping = iterator.next();
+            if(StringUtils.isBlank(value)) {
+                if(profileDataMapping.getField().equalsIgnoreCase(fieldNameToMatch)) {
+                    if (profileDataMapping.getDataType().equals("Bib Marc")) {
+                        value = getMarcRecordUtil().getDataFieldValue(marcRecord, profileDataMapping.getDataField(), profileDataMapping.getSubField());
+                    } else {
+                        value = profileDataMapping.getConstant();
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+        return value;
+    }
+
+    private void sortDataMappings(List<BatchProfileDataMapping> filteredDataMappings) {
+        Collections.sort(filteredDataMappings, new Comparator<BatchProfileDataMapping>() {
+            public int compare(BatchProfileDataMapping dataMapping1, BatchProfileDataMapping dataMapping2) {
+                return dataMapping1.getPriority() - (dataMapping2.getPriority());
+            }
+        });
     }
 
     private JSONObject prepareMatchPointsForDocType(List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {
