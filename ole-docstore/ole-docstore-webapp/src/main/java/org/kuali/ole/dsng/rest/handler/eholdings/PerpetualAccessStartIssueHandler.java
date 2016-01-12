@@ -56,6 +56,7 @@ public class PerpetualAccessStartIssueHandler extends HoldingsHandler {
             eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
             eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
             eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
+            holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
         }
 
     }

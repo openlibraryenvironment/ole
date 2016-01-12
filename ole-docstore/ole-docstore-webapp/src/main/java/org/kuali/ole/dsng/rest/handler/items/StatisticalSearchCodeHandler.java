@@ -45,7 +45,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
 
-        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByName(statisticalSearchCode);
+        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
         if (null != statisticalSearchRecord) {
             List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
             if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
