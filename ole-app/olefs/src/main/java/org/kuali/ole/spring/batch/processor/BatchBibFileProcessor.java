@@ -103,13 +103,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
         bibData.put("ops", getOverlayOps(batchProcessProfile));
-        JSONObject bibDataMapping = new JSONObject();
-        JSONObject holdingsDataMapping = new JSONObject();
-        JSONObject eholdingsDatamapping = new JSONObject();
-        JSONObject itemDatamapping = new JSONObject();
 
         // Prepare data mapping before MARC Transformation
-        prepareDataMapping(marcRecord, batchProcessProfile, bibDataMapping, holdingsDataMapping, eholdingsDatamapping, itemDatamapping, "Pre Marc Transformation");
+        Map<String, JSONObject> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, "Pre Marc Transformation");
+
 
         //Transformations pertaining to MARC record (001,003,035$a etc..)
         handleBatchProfileTransformations(marcRecord, batchProcessProfile);
@@ -117,33 +114,66 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put("modifiedContent", modifiedRecord);
 
         // Prepare data mapping after MARC Transformation
-        prepareDataMapping(marcRecord, batchProcessProfile, bibDataMapping, holdingsDataMapping, eholdingsDatamapping, itemDatamapping, "Post Marc Transformation");
+        Map<String, JSONObject> dataMappingsMapPostTransformations = prepareDataMapping(marcRecord, batchProcessProfile, "Post Marc Transformation");
 
 
-        bibData.put("dataMapping", bibDataMapping);
+        JSONObject bibDataMappingsPreTrans = dataMappingsMapPreTransformation.get("bibDataMappings");
+        JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get("bibDataMappings");
+        bibData.put("dataMapping", buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
 
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
-        holdingsData.put("dataMapping", holdingsDataMapping);
+        JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("holdingsDataMappings");
+        JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("holdingsDataMappings");
+        bibData.put("dataMapping", buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
         bibData.put("holdings", holdingsData);
 
         JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
-        eholdingsData.put("dataMapping", eholdingsDatamapping);
+        JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("eHoldingsDataMappings");
+        JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("eHoldingsDataMappings");
+        bibData.put("dataMapping", buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
         bibData.put("eholdings", eholdingsData);
 
         JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
-        itemData.put("dataMapping", itemDatamapping);
+        JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("itemDataMappings");
+        JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("itemDataMappings");
+        bibData.put("dataMapping", buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
         bibData.put("items", itemData);
 
         return bibData;
     }
 
-    private void prepareDataMapping(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject bibDataMapping,
-                                    JSONObject holdingsDataMapping, JSONObject eholdingsDatamapping,
-                                    JSONObject itemDatamapping, String transformationOption) throws JSONException {
-        prepareDataMappings(marcRecord, batchProcessProfile, bibDataMapping, "bibliographic", transformationOption);
-        prepareDataMappings(marcRecord, batchProcessProfile, holdingsDataMapping, "holdings", transformationOption);
-        prepareDataMappings(marcRecord, batchProcessProfile, eholdingsDatamapping, "eholdings", transformationOption);
-        prepareDataMappings(marcRecord, batchProcessProfile, itemDatamapping, "item", transformationOption);
+    private JSONObject buildOneObject(JSONObject bibDataMappingsPreTrans, JSONObject bibDataMappingsPostTrans) {
+        JSONObject finalObject = new JSONObject();
+
+        for (Iterator iterator = bibDataMappingsPreTrans.keys(); iterator.hasNext(); ) {
+            String key = (String) iterator.next();
+            try {
+                finalObject.put(key, bibDataMappingsPreTrans.get(key));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Iterator iterator = bibDataMappingsPostTrans.keys(); iterator.hasNext(); ) {
+            String key = (String) iterator.next();
+            try {
+                finalObject.put(key, bibDataMappingsPostTrans.get(key));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return finalObject;
+    }
+
+    private Map<String, JSONObject> prepareDataMapping(Record marcRecord, BatchProcessProfile batchProcessProfile, String transformationOption) throws JSONException {
+        Map<String, JSONObject> dataMappings = new HashMap<>();
+        dataMappings.put("bibDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "bibliographic", transformationOption));
+        dataMappings.put("holdingsDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "holdings", transformationOption));
+        dataMappings.put("itemDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "item", transformationOption));
+        dataMappings.put("eHoldingsDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "eholdings", transformationOption));
+
+        return dataMappings;
     }
 
     public List getOverlayOps(BatchProcessProfile batchProcessProfile) {
@@ -193,8 +223,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return holdingsData;
     }
 
-    private void prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, JSONObject dataMappings, String docType, String transformationOption) throws JSONException {
-
+    public JSONObject prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType, String transformationOption) throws JSONException {
+        JSONObject bibDataMappings = new JSONObject();
+        Map<String, List<ValueByPriority>> valueByPriorityMap = new HashedMap();
         List<BatchProfileDataMapping> filteredDataMappings = filterDataMappingsByTransformationOption(batchProcessProfile.getBatchProfileDataMappingList(), transformationOption);
 
         sortDataMappings(filteredDataMappings);
@@ -203,27 +234,77 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             BatchProfileDataMapping batchProfileDataMapping = iterator.next();
             String destination = batchProfileDataMapping.getDestination();
             if (destination.equalsIgnoreCase(docType)) {
-                String newValue;
                 String destinationField = batchProfileDataMapping.getField();
-                String value = getDestFieldValue(marcRecord, batchProfileDataMapping.getField(), filteredDataMappings);
-                /*if (dataMappings.has(destinationField)) {
-                    newValue = dataMappings.get(destinationField) + " " + value;
-                } else {
-                    newValue = value;
-                }*/
-                newValue = value;
+                String constantValue;
+                String marcValue;
 
-                dataMappings.put(destinationField, newValue);
+                constantValue = batchProfileDataMapping.getConstant();
+
+                if (getMarcRecordUtil().isControlField(batchProfileDataMapping.getDataField())) {
+                    marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, batchProfileDataMapping.getDataField());
+                } else {
+                    marcValue = getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+                }
+
+                int priority = batchProfileDataMapping.getPriority();
+
+                List<ValueByPriority> valueByPriorities;
+
+                ValueByPriority valueByPriority = new ValueByPriority();
+                valueByPriority.setField(destinationField);
+                valueByPriority.setPriority(priority);
+                String value = marcValue == null ? constantValue : marcValue;
+                valueByPriority.addValues(value);
+
+                if (valueByPriorityMap.containsKey(destinationField)) {
+                    valueByPriorities = valueByPriorityMap.get(destinationField);
+
+                    if(valueByPriorities.contains(valueByPriority)){
+                        ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
+                        existingValuePriority.addValues(value);
+                    } else {
+                        valueByPriorities.add(valueByPriority);
+                    }
+                } else {
+                    valueByPriorities = new ArrayList<>();
+                    valueByPriorities.add(valueByPriority);
+                }
+                valueByPriorityMap.put(destinationField, valueByPriorities);
             }
         }
+
+        for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
+            String destField =  iterator.next();
+            StringBuilder finalValue = new StringBuilder();
+            List<ValueByPriority> vals = valueByPriorityMap.get(destField);
+            for (Iterator<ValueByPriority> iterator1 = vals.iterator(); iterator1.hasNext(); ) {
+                ValueByPriority valueByPriority = iterator1.next();
+                List<String> values = valueByPriority.getValues();
+                if(CollectionUtils.isNotEmpty(values)){
+                    for (Iterator<String> stringIterator = values.iterator(); stringIterator.hasNext(); ) {
+                        String value = stringIterator.next();
+                        finalValue.append(value);
+                        if(stringIterator.hasNext()){
+                            finalValue.append(" ");
+                        }
+                    }
+                    break;
+                }
+            }
+            bibDataMappings.put(destField, finalValue.toString());
+
+        }
+
+        return bibDataMappings;
     }
+
 
     private List<BatchProfileDataMapping> filterDataMappingsByTransformationOption(List<BatchProfileDataMapping> batchProfileDataMappingList, String transformationOption) {
         List<BatchProfileDataMapping> batchProfileDataMappings = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
             for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
                 BatchProfileDataMapping batchProfileDataMapping = iterator.next();
-                if(batchProfileDataMapping.getTransferOption().equalsIgnoreCase(transformationOption)) {
+                if (batchProfileDataMapping.getTransferOption().equalsIgnoreCase(transformationOption)) {
                     batchProfileDataMappings.add(batchProfileDataMapping);
                 }
             }
@@ -231,29 +312,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return batchProfileDataMappings;
     }
 
-    private String getDestFieldValue(Record marcRecord, String fieldNameToMatch, List<BatchProfileDataMapping> filteredDataMappings) {
-        String value = "";
-        for (Iterator<BatchProfileDataMapping> iterator = filteredDataMappings.iterator(); iterator.hasNext(); ) {
-            BatchProfileDataMapping profileDataMapping = iterator.next();
-            if(StringUtils.isBlank(value)) {
-                if(profileDataMapping.getField().equalsIgnoreCase(fieldNameToMatch)) {
-                    if (profileDataMapping.getDataType().equals("Bib Marc")) {
-                        value = getMarcRecordUtil().getDataFieldValue(marcRecord, profileDataMapping.getDataField(), profileDataMapping.getSubField());
-                    } else {
-                        value = profileDataMapping.getConstant();
-                    }
-                }
-            } else {
-                break;
-            }
-        }
-        return value;
-    }
-
     private void sortDataMappings(List<BatchProfileDataMapping> filteredDataMappings) {
         Collections.sort(filteredDataMappings, new Comparator<BatchProfileDataMapping>() {
             public int compare(BatchProfileDataMapping dataMapping1, BatchProfileDataMapping dataMapping2) {
-                return dataMapping1.getPriority() - (dataMapping2.getPriority());
+                int priorityForDataMapping1 = dataMapping1.getPriority();
+                int priorityForDataMapping2 = dataMapping2.getPriority();
+                return new Integer(priorityForDataMapping1).compareTo(new Integer(priorityForDataMapping2));
             }
         });
     }
@@ -363,6 +427,65 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     @Override
     public String getReportingFilePath() {
         return ConfigContext.getCurrentContextConfig().getProperty("batch.bibImport.directory");
+    }
+
+
+    private class ValueByPriority {
+        private int priority;
+        private String field;
+        private List<String> values;
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public void setPriority(int priority) {
+            this.priority = priority;
+        }
+
+        public String getField() {
+            return field;
+        }
+
+        public void setField(String field) {
+            this.field = field;
+        }
+
+        public List<String> getValues() {
+            if (null == values) {
+                values = new ArrayList<>();
+            }
+            return values;
+        }
+
+        public void setValues(List<String> values) {
+            this.values = values;
+        }
+
+        public void addValues(String value) {
+            if (null != value) {
+                getValues().add(value);
+            }
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            ValueByPriority that = (ValueByPriority) o;
+
+            if (priority != that.priority) return false;
+            return field != null ? field.equals(that.field) : that.field == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = priority;
+            result = 31 * result + (field != null ? field.hashCode() : 0);
+            return result;
+        }
     }
 
 }
