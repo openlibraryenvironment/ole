@@ -48,7 +48,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
 
-        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByName(statisticalSearchCode);
+        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
         if (null != statisticalSearchRecord) {
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
             if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
@@ -64,6 +64,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                 holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
                 holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
             }
         }
         exchange.add("holdingsRecord", holdingsRecord);

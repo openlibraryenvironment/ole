@@ -60,6 +60,7 @@ public class PerpetualAccessStartDateHandler extends HoldingsHandler {
                     eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                     eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
                     eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
+                    holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
