@@ -94,7 +94,7 @@
                                     name="dataMappingField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
                                     ng-hide="dataMapping.isAddLine"
-                                    ng-change="populateDestinationFieldValues(dataMapping, dataMapping.field)">
+                                    ng-change="populateDestinationFieldValues(dataMapping, dataMapping.dataMappingDocType, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.field}}"
                                         ng-repeat="option in dataMapping.dataMappingFields  | orderBy:'name'"
                                         value="{{option.name}}">
@@ -107,7 +107,7 @@
                             <select class="form-control" id="dataMappingDestinationValue_{{$index}}"
                                     name="dataMappingDestinationValue_{{$index}}"
                                     ng-model="dataMapping.constant"
-                                    ng-show="(dataMapping.field != null && dataMapping.field != undefined) && (dataMapping.field == 'Call Number Type'
+                                    ng-show="(dataMapping.field != null && dataMapping.field != undefined) && dataMapping.dataMappingDocType == 'Constant' && (dataMapping.field == 'Call Number Type'
                                             || dataMapping.field == 'Holdings Call Number Type'
                                             || dataMapping.field == 'Item Type'
                                             || dataMapping.field == 'Item Status'
@@ -166,7 +166,7 @@
                             </select>
                             <input class="form-control" id="dataMappingConstant_{{$index}}"
                                    name="dataMappingConstant_{{$index}}" type="text"
-                                   ng-model="dataMapping.constant" ng-hide="dataMapping.field == 'Call Number Type'
+                                   ng-model="dataMapping.constant" ng-hide="dataMapping.dataMappingDocType == 'Bib Marc' || dataMapping.field == 'Call Number Type'
                                             || dataMapping.field == 'Holdings Call Number Type'
                                             || dataMapping.field == 'Item Type'
                                             || dataMapping.field == 'Item Status'

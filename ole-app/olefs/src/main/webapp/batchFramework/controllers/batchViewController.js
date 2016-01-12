@@ -133,7 +133,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.matchPointsPanel[index].matchPointOrderDocTypes = dataMappingProcessTypes;
             $scope.matchPointsPanel[index].matchPointTypes = getMatchPointType($scope.matchPointsPanel[index].matchPointDocType);
             $scope.matchPointsPanel[index].isAddLine = false;
-            $scope.populateDestinationFieldValues(null, $scope.matchPointsPanel[index].matchPointType);
+            $scope.populateDestinationFieldValues(null, $scope.matchPointsPanel[index].matchPointDocType,$scope.matchPointsPanel[index].matchPointType);
         }
     };
 
@@ -381,7 +381,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
                 $scope.populateDestinationFields($scope.dataMappingsPanel[index]);
             }
-            $scope.populateDestinationFieldValues(null, $scope.dataMappingsPanel[index].field);
+            $scope.populateDestinationFieldValues(null, $scope.dataMappingsPanel[index].dataMappingDocType, $scope.dataMappingsPanel[index].field);
             $scope.dataMappingsPanel[index].isAddLine = false;
         }
     };
@@ -604,7 +604,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
             $scope.populateDestinationFields(dataMapping);
         }
-        $scope.populateDestinationFieldValues(null, dataMapping.field);
+        $scope.populateDestinationFieldValues(null, dataMapping.dataMappingDocType, dataMapping.field);
     }
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
@@ -654,16 +654,18 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
 
     };
 
-    $scope.populateDestinationFieldValues = function (dataObject, fieldType) {
-        $scope.constantValues = [];
-        if (fieldType === 'Staff Only') {
-            $scope.constantValues = booleanOptionsYorN;
-        } else if (fieldType === 'Discount Type') {
-            $scope.constantValues = discountTypes;
-        } else if (fieldType === 'Receiving Required' || fieldType === 'Use Tax Indicator' || fieldType === 'Pay Req Positive Approval Req' || fieldType === 'Purchase Order Confirmation Indicator' || fieldType === 'Route To Requestor') {
-            $scope.constantValues = booleanOptionsYorN;
+    $scope.populateDestinationFieldValues = function (dataObject, dataType, fieldType) {
+        if (dataType !== 'Bib Marc') {
+            $scope.constantValues = [];
+            if (fieldType === 'Staff Only') {
+                $scope.constantValues = booleanOptionsYorN;
+            } else if (fieldType === 'Discount Type') {
+                $scope.constantValues = discountTypes;
+            } else if (fieldType === 'Receiving Required' || fieldType === 'Use Tax Indicator' || fieldType === 'Pay Req Positive Approval Req' || fieldType === 'Purchase Order Confirmation Indicator' || fieldType === 'Route To Requestor') {
+                $scope.constantValues = booleanOptionsYorN;
+            }
+            getMaintenanceDataForFieldTypeForDropDown(fieldType, $scope, $http);
         }
-        getMaintenanceDataForFieldTypeForDropDown(fieldType, $scope, $http);
     };
 
     $scope.populationDestinations = function (dataMapping) {
