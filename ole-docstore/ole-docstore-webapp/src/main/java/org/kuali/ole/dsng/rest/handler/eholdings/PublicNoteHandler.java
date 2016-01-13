@@ -60,8 +60,8 @@ public class PublicNoteHandler extends HoldingsHandler {
             HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
             holdingsNoteRecord.setNote(publicNote);
             holdingsNoteRecord.setType("public");
-            holdingsNoteRecords.add(holdingsNoteRecord);
             holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            holdingsNoteRecords.add(holdingsNoteRecord);
             holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
         }
         exchange.add("holdingsRecord", holdingRecord);

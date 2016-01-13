@@ -75,6 +75,7 @@ public class CreateEholdingsHandler extends CreateHoldingsHandler {
             holdingMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             holdingMetaDataHandlers.add(new SubscriptionStatusHandler());
             holdingMetaDataHandlers.add(new UrlHandler());
+            holdingMetaDataHandlers.add(new LinkTextHandler());
             holdingMetaDataHandlers.add(new ImprintHandler());
             holdingMetaDataHandlers.add(new NonPublicNoteHandler());
             holdingMetaDataHandlers.add(new PublicNoteHandler());
