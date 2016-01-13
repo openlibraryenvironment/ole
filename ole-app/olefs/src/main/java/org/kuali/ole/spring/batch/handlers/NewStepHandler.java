@@ -17,24 +17,7 @@ public class NewStepHandler extends StepHandler {
        */
     @Override
     public void processSteps(Record marcRecord) {
-
-        String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
-
-        String sourceFieldStringArray[] = sourceFieldString.split("[' ']");
-
-        String sourceField = sourceFieldStringArray[0];
-
-        String value = null;
-        if(getMarcRecordUtil().isControlField(sourceField)) {
-            value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
-        } else {
-            String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
-            value = getMarcRecordUtil().getDataFieldValue(marcRecord,sourceField,sourceSubField);
-        }
-        if(StringUtils.isBlank(value)) {
-            value = getBatchProfileDataTransformer().getConstant();
-        }
-
+        String value = getBatchProfileDataTransformer().getConstant();
         String destinationFieldString = getBatchProfileDataTransformer().getDestinationField();
         StringTokenizer destinationFieldTokenizer = new StringTokenizer(destinationFieldString,",");
 
@@ -43,7 +26,13 @@ public class NewStepHandler extends StepHandler {
             String destinationArray[] = destination.split("[' ']");
             String destinationField = destinationArray[0];
             String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
-            getMarcRecordUtil().addDataField(marcRecord, destinationField, destinationSubField, value);
+            if (StringUtils.isNotBlank(destinationField)) {
+                if (!getMarcRecordUtil().isControlField(destinationField)) {
+                    getMarcRecordUtil().addDataField(marcRecord, destinationField, destinationSubField, value);
+                } else {
+                    getMarcRecordUtil().addControlField(marcRecord, destinationField,  value);
+                }
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
@@ -134,11 +135,13 @@ public class MarcRecordUtil {
         }
     }
 
-    private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
-        if(stringBuilder.length() > 0 ) {
-            stringBuilder.append(" ");
+    private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            if(stringBuilder.length() > 0 ) {
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append(value);
         }
-        stringBuilder.append(location);
     }
 
 

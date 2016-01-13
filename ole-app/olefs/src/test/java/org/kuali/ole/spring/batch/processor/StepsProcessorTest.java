@@ -65,14 +65,14 @@ public class StepsProcessorTest {
 
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer1);
-        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("add");
+        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("Move");
         Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("035 $a");
         Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer2);
-        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("prepend");
+        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("Prepend with Prefix");
         Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer2.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(2);
@@ -80,19 +80,19 @@ public class StepsProcessorTest {
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Delete Value");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Replace");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
-        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Replace");
         Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
@@ -126,14 +126,14 @@ public class StepsProcessorTest {
 
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer1);
-        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("add");
+        Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("Move");
         Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("060 $a");
         Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer2);
-        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("Prepend");
+        Mockito.when(mockBatchProfileDataTransformer2.getOperation()).thenReturn("Prepend with Prefix");
         Mockito.when(mockBatchProfileDataTransformer2.getDestinationField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer2.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer2.getStep()).thenReturn(2);
@@ -141,18 +141,18 @@ public class StepsProcessorTest {
 
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Delete Value");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
-        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Replace");
         Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("001");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(4);
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
-        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Replace");
         Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(5);
 
@@ -199,7 +199,7 @@ public class StepsProcessorTest {
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("delete");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Delete Value");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("ocm,ocn");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("035 $a$b");
         Mockito.when(mockBatchProfileDataTransformer3.getStep()).thenReturn(1);
@@ -251,7 +251,7 @@ public class StepsProcessorTest {
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer3);
-        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Prepend");
+        Mockito.when(mockBatchProfileDataTransformer3.getOperation()).thenReturn("Prepend with Prefix");
         Mockito.when(mockBatchProfileDataTransformer3.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer3.getSourceField()).thenReturn("003");
         Mockito.when(mockBatchProfileDataTransformer3.getDestinationField()).thenReturn("035 $a$b$c$d");
@@ -466,29 +466,6 @@ public class StepsProcessorTest {
 
         record.addVariableField(controlField);
 
-        ControlField controlField1 = marcFactory.newControlField();
-        controlField1.setTag("004");
-        controlField1.setData("123456878");
-
-        record.addVariableField(controlField1);
-
-        DataField dataField = marcFactory.newDataField();
-        dataField.setTag("035");
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
-
-        Subfield subfield = marcFactory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData("Value for 035 a");
-        dataField.addSubfield(subfield);
-
-        Subfield subfield2 = marcFactory.newSubfield();
-        subfield2.setCode('b');
-        subfield2.setData("Value for 035 b");
-        dataField.addSubfield(subfield2);
-
-        record.addVariableField(dataField);
-
         DataField dataField1 = marcFactory.newDataField();
         dataField1.setTag("095");
         dataField1.setIndicator1(' ');
@@ -526,7 +503,7 @@ public class StepsProcessorTest {
         Mockito.when(mockBatchProfileDataTransformer1.getOperation()).thenReturn("move");
         Mockito.when(mockBatchProfileDataTransformer1.getConstant()).thenReturn("");
         Mockito.when(mockBatchProfileDataTransformer1.getSourceField()).thenReturn("095 $a$b");
-        Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("003");
+        Mockito.when(mockBatchProfileDataTransformer1.getDestinationField()).thenReturn("005");
         Mockito.when(mockBatchProfileDataTransformer1.getStep()).thenReturn(3);
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
@@ -541,9 +518,9 @@ public class StepsProcessorTest {
         assertTrue(StringUtils.equals(valueOf004,"OCLOC"));
         System.out.println("OCLOC : " + valueOf004);
 
-        String valueOf003= getMarcRecordUtil().getControlFieldValue(record, "003");
-        assertTrue(StringUtils.equals(valueOf003,"95a 95b"));
-        System.out.println("003 : " + valueOf35$a$b);
+        String valueOf005= getMarcRecordUtil().getControlFieldValue(record, "005");
+        assertTrue(StringUtils.equals(valueOf005,"95a 95b"));
+        System.out.println("005 : " + valueOf005);
 
     }
 
