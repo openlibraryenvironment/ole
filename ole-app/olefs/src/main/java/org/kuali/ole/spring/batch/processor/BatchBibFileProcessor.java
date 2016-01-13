@@ -57,10 +57,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue("LocalId_display");
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
-                    }
-
-                    if (null != jsonObject) {
-                        jsonArray.put(jsonObject);
+                    } else {
+                        jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
                     }
                 }
             } else {
