@@ -28,9 +28,6 @@ public class MoveStepHandler extends StepHandler {
             String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
             value = getMarcRecordUtil().getDataFieldValue(marcRecord,sourceField,sourceSubField);
         }
-        if(StringUtils.isBlank(value)) {
-            value = getBatchProfileDataTransformer().getConstant();
-        }
 
         String destinationFieldString = getBatchProfileDataTransformer().getDestinationField();
         StringTokenizer destinationFieldTokenizer = new StringTokenizer(destinationFieldString,",");
@@ -43,9 +40,9 @@ public class MoveStepHandler extends StepHandler {
                 String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
 
                 if (!getMarcRecordUtil().isControlField(destinationField)) {
-                    getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,destinationSubField,value);
+                    getMarcRecordUtil().addDataField(marcRecord, destinationField, destinationSubField, value);
                 } else {
-                    getMarcRecordUtil().updateControlFieldValue(marcRecord,destinationField,value);
+                    getMarcRecordUtil().addControlField(marcRecord, destinationField,  value);
                 }
             }
         }
