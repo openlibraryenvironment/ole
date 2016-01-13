@@ -225,7 +225,6 @@ var dataMappingObject = {
         {id: 'accessPassword', name: 'Access Password'},
         {id: 'authenticationType', name: 'Authentication Type'},
         {id: 'proxied', name: 'Proxied'},
-        {id: 'callNumberType', name: 'Call Number Type'},
         {id: 'prefix', name: 'Prefix'},
         {id: 'coverageStartDateRelativeFormat', name: 'Coverage Start Date Relative Format'},
         {id: 'coverageEndDateRelativeFormat', name: 'Coverage End Date Relative Format'},
