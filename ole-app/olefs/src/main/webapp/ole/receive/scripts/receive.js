@@ -1,4 +1,9 @@
 jq(document).ready(function(){
+
+    jq("#return_button").live("click",function() {
+        unsaved = false;
+    });
+
     var unsaved = false;
     if(jq("#serialHiddenFields_h4").val()!=jq("#instanceIdField_control").val()){
         unsaved = true;

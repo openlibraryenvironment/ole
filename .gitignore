@@ -8,3 +8,8 @@
 *target
 *overlays
 
+#Eclipse
+.project
+.metadata
+.classpath
+.settings/
