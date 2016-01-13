@@ -124,19 +124,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
         JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("holdingsDataMappings");
         JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("holdingsDataMappings");
-        bibData.put("dataMapping", buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
+        holdingsData.put("dataMapping", buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
         bibData.put("holdings", holdingsData);
 
         JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
         JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("eHoldingsDataMappings");
         JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("eHoldingsDataMappings");
-        bibData.put("dataMapping", buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
+        eholdingsData.put("dataMapping", buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
         bibData.put("eholdings", eholdingsData);
 
         JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
         JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("itemDataMappings");
         JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("itemDataMappings");
-        bibData.put("dataMapping", buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
+        itemData.put("dataMapping", buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
         bibData.put("items", itemData);
 
         return bibData;
@@ -235,15 +235,20 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             String destination = batchProfileDataMapping.getDestination();
             if (destination.equalsIgnoreCase(docType)) {
                 String destinationField = batchProfileDataMapping.getField();
-                String constantValue;
-                String marcValue;
+                String constantValue = "";
+                String marcValue = "";
 
                 constantValue = batchProfileDataMapping.getConstant();
 
-                if (getMarcRecordUtil().isControlField(batchProfileDataMapping.getDataField())) {
-                    marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, batchProfileDataMapping.getDataField());
-                } else {
-                    marcValue = getMarcRecordUtil().getDataFieldValue(marcRecord, batchProfileDataMapping.getDataField(), batchProfileDataMapping.getSubField());
+                if (batchProfileDataMapping.getDataType().equalsIgnoreCase("Bib Marc")) {
+                    String dataField = batchProfileDataMapping.getDataField();
+                    if (StringUtils.isNotBlank(dataField)) {
+                        if (getMarcRecordUtil().isControlField(dataField)) {
+                            marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
+                        } else {
+                            marcValue = getMarcRecordUtil().getDataFieldValue(marcRecord, dataField, batchProfileDataMapping.getSubField());
+                        }
+                    }
                 }
 
                 int priority = batchProfileDataMapping.getPriority();
@@ -253,7 +258,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 ValueByPriority valueByPriority = new ValueByPriority();
                 valueByPriority.setField(destinationField);
                 valueByPriority.setPriority(priority);
-                String value = marcValue == null ? constantValue : marcValue;
+                String value = StringUtils.isBlank(marcValue) ? constantValue : marcValue;
                 valueByPriority.addValues(value);
 
                 if (valueByPriorityMap.containsKey(destinationField)) {
