@@ -823,7 +823,7 @@
                 <bean id="returnedItemStatus" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedItemStatus" p:label="Item Status"/>
                 <bean id="homeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="homeCirculationDesk" p:label="Routed From"/>
                 <bean id="routeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="routeCirculationDesk" p:label="Routed To"/>
-                <bean id="returnedDateTime" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedDateTime" p:label="Transit Date"/>
+                <bean id="returnedDateTime" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedDateTime" p:label="Return Date"/>
             </list>
         </property>
     </bean>

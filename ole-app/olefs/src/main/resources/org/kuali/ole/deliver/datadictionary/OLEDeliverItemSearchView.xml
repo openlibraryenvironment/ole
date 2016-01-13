@@ -679,7 +679,7 @@
                 <bean id="oleDeliverItemSearchResult_routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
                       p:label="Routed To"/>
                 <bean id="oleDeliverItemSearchResult_returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
-                      p:label="Transit Date"/>
+                      p:label="Return Date"/>
             </list>
         </property>
     </bean>
