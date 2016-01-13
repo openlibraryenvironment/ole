@@ -16,6 +16,7 @@ public class OleOjbClobConversionUtil implements FieldConversion {
         }
 
         @Override
+
         public Object sqlToJava(Object source) throws ConversionException {
             byte[] bytes = null;
             if (source == null) {
