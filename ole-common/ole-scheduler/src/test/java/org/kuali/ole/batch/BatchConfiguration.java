@@ -14,16 +14,21 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.batch.item.support.ListItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableBatchProcessing
+@EnableScheduling
 public class BatchConfiguration {
 
-    @Resource
+    @Resource    
     private List<Dummy> dummyList;
 
     @Bean
@@ -34,10 +39,24 @@ public class BatchConfiguration {
         dummyList.add(new Dummy(8));
         return dummyList;
     }
+    
+    @Bean
+    public DummyScheduler scheduler() {
+        return new DummyScheduler();
+    }
 
     @Bean
     public ItemReader<Dummy> reader() {
-        ListItemReader<Dummy> reader = new ListItemReader<Dummy>(dummyList);
+        FlatFileItemReader<Dummy> reader = new FlatFileItemReader<Dummy>();
+        reader.setResource(new ClassPathResource("dummies.csv"));
+        reader.setLineMapper(new DefaultLineMapper<Dummy>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames(new String[] {"property"});
+            }});
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<Dummy>() {{
+                setTargetType(Dummy.class);
+            }});
+        }});        
         return reader;
     }
 
@@ -48,7 +67,7 @@ public class BatchConfiguration {
 
     @Bean
     public ItemWriter<Dummy> writer() {
-        ListItemWriter<Dummy> writer = new ListItemWriter<Dummy>();
+        DummyWriter writer = new DummyWriter();
         return writer;
     }
 
@@ -64,7 +83,8 @@ public class BatchConfiguration {
     @Bean
     public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<Dummy> reader, ItemWriter<Dummy> writer,
             ItemProcessor<Dummy, Dummy> processor) {
-        return stepBuilderFactory.get("step1")
+        return stepBuilderFactory.get("step1")                
+                .allowStartIfComplete(true)
                 .<Dummy, Dummy> chunk(10)
                 .reader(reader)
                 .processor(processor)
