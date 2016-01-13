@@ -894,8 +894,14 @@ public class OLESearchController extends UifControllerBase {
     }
 
     public void setPageNextPreviousAndEntriesInfo(OLESearchForm oleSearchForm) {
-        this.totalRecCount = oleSearchForm.getSearchResponse().getTotalRecordCount();
-        this.start = oleSearchForm.getSearchResponse().getStartIndex();
+      if( oleSearchForm.getSearchResponse() !=null){
+          this.totalRecCount = oleSearchForm.getSearchResponse().getTotalRecordCount();
+          this.start = oleSearchForm.getSearchResponse().getStartIndex();
+      }else{
+          this.totalRecCount = 0;
+          this.start = 0;
+      }
+
         this.pageSize = oleSearchForm.getPageSize();
         oleSearchForm.setPreviousFlag(getPreviousFlag());
         oleSearchForm.setNextFlag(getNextFlag());
@@ -1059,6 +1065,9 @@ public class OLESearchController extends UifControllerBase {
             }
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_SEARCH_MESSAGE);
+            List<Integer> pageSizes = documentSearchConfig.getPageSizes();
+            clearForm(oleSearchForm, pageSizes);
+
             return;
         }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
@@ -1069,6 +1078,8 @@ public class OLESearchController extends UifControllerBase {
         }
         if (searchResultDisplayRows.size() == 0) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_SEARCH_MESSAGE);
+            List<Integer> pageSizes = documentSearchConfig.getPageSizes();
+            clearForm(oleSearchForm, pageSizes);
         }
         request.getSession().setAttribute("searchResultDisplayRowList", searchResultDisplayRows);
         setPageNextPreviousAndEntriesInfo(oleSearchForm);
@@ -1089,6 +1100,20 @@ public class OLESearchController extends UifControllerBase {
                     searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.getDocumentId(searchCondition.getSearchField().getFieldValue()));
                 }
             }
+        }
+    }
+
+    private void clearForm(OLESearchForm oleSearchForm, List<Integer> pageSizes) {
+        if(!pageSizes.isEmpty() || pageSizes.size() > 0) {
+            oleSearchForm.setFacetLimit(0);
+            oleSearchForm.setTotalRecordCount(0);
+            oleSearchForm.setPageShowEntries(null);
+            oleSearchForm.setShowPageSize(null);
+            oleSearchForm.setShowFieldSort(null);
+            oleSearchForm.setBibSearchResultDisplayRowList(null);
+            oleSearchForm.setHoldingSearchResultDisplayRowList(null);
+            oleSearchForm.setSearchResponse(null);
+            oleSearchForm.setFacetResultFields(null);
         }
     }
 

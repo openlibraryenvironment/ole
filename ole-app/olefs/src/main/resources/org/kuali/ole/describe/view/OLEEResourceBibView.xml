@@ -47,7 +47,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/describe/scripts/workbench.js</value>
-
+                <value>ole/describe/scripts/eresourcebib.js</value>
             </list>
         </property>
         <property name="footer">
@@ -88,76 +88,12 @@
             </list>
         </property>
     </bean>
-    <bean id="OLEERSSearchPanel-searchParams-Section" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="1" p:style="width:900px">
-        <property name="headerText" value=""/>
-        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.SearchCondition"/>
-        <property name="propertyName" value="searchParams.searchConditions"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="items">
-            <list>
-                <bean id="items" parent="Uif-HorizontalFieldGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="oleSearchValueId" parent="Uif-InputField" p:label="Search For"
-                                  p:propertyName="searchField.fieldValue" p:required="false">
-                            </bean>
-                            <bean id="oleOperatorValueId" parent="Uif-InputField" p:propertyName="searchScope"
-                                  p:label="">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="All of these"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="Any of these"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="phrase" p:value="As a phrase"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean id="oleDocFieldValueId" parent="Uif-InputField" p:propertyName="searchField.fieldName"
-                                  p:label="In Search Field"
-                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocFieldKeyValueFinder"
-                                  p:defaultValue="all">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
-                                </property>
-                            </bean>
-                            <bean id="oleSearchScopeValueId" parent="Uif-InputField" p:propertyName="operator"
-                                  p:label="">
-                                <property name="control">
-                                    <bean parent="Uif-HorizontalRadioControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="AND"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="OR"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="NOT" p:value="NOT"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
-        </property>
-        <property name="layoutManager.actionFieldPrototype.label" value=""/>
-    </bean>
-
-    <bean id="OLEERSSearchResultsPanel" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
+       <bean id="OLEERSSearchResultsPanel" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
         <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLEERSSearchResultsSection"/>
-                <ref bean="OLEERSFacetFieldResultSection"/>
+                <ref bean="FacetFieldResultSection"/>
             </list>
         </property>
     </bean>
@@ -172,181 +108,53 @@
         </property>
     </bean>
 
-    <bean id="OLEERSBibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
+
+
+    <bean id="OLEERSBibSearchResults" parent="Uif-CollectionGroupBase"
           p:render="@{bibSearchResultDisplayRowList ne null and linkExistingInstance eq null}">
-        <property name="collectionObjectClass"
-                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow"/>
-        <property name="propertyName" value="searchResultDisplayRowList"/>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="aaSorting" value="[[0,'asc']]"/>
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-            </map>
+        <property name="renderLineActions" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-eresource-search-result.ftl" p:templateName="ole_bib_eresource_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'OLEERSSearchResultsSection')" />
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
-                <bean parent="Uif-DataField" p:label="Isbn" p:propertyName="isbn" p:render="@{searchResultDisplayFields.isbn}"/>
-                <bean parent="Uif-DataField" p:label="Issn" p:propertyName="issn" p:render="@{searchResultDisplayFields.issn}"/>
-                <bean parent="Uif-DataField" p:label="Subject" p:propertyName="subject" p:render="@{searchResultDisplayFields.subject}"/>
-                <bean parent="Uif-DataField" p:label="Publication Place" p:propertyName="publicationPlace" p:render="@{searchResultDisplayFields.publicationPlace}"/>
-                <bean parent="Uif-DataField" p:label="Edition" p:propertyName="edition" p:render="@{searchResultDisplayFields.edition}"/>
-                <bean parent="Uif-DataField" p:label="Format" p:propertyName="format" p:render="@{searchResultDisplayFields.format}"/>
-                <bean parent="Uif-DataField" p:label="FormGenre" p:propertyName="formGenre" p:render="@{searchResultDisplayFields.formGenre}"/>
-                <bean parent="Uif-DataField" p:label="Language" p:propertyName="language" p:render="@{searchResultDisplayFields.language}"/>
-                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:render="@{searchResultDisplayFields.description}"/>
-                <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate" p:render="@{searchResultDisplayFields.publicationDate}"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
-                <bean id="FastAddItemViewBib" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.docFormat}&amp;docId=@{#line.localId}&amp;editable=false"
-                      p:linkText="View Bib" p:target="_blank"/>
-                <bean id="FastAddItemEditBib" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;bibId=@{#line.localId}&amp;editable=true&amp;fromSearch=true&amp;tokenId=@{#line.tokenId}&amp;eResourceId=@{#line.oleERSIdentifier}"
-                      p:linkText="Create New EInstance"/>
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
-        <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="ERS-BibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
+
+    <bean id="ERS-BibSearchResults" parent="Uif-CollectionGroupBase"
           p:render="@{bibSearchResultDisplayRowList ne null and linkExistingInstance ne null}">
-        <property name="collectionObjectClass"
-                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow"/>
-        <property name="propertyName" value="searchResultDisplayRowList"/>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="aaSorting" value="[[1,'asc']]"/>
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-            </map>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="holdingsOReholdings();"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
-                <bean parent="Uif-DataField" p:label="Isbn" p:propertyName="isbn" p:render="@{searchResultDisplayFields.isbn}"/>
-                <bean parent="Uif-DataField" p:label="Issn" p:propertyName="issn" p:render="@{searchResultDisplayFields.issn}"/>
-                <bean parent="Uif-DataField" p:label="Subject" p:propertyName="subject" p:render="@{searchResultDisplayFields.subject}"/>
-                <bean parent="Uif-DataField" p:label="Publication Place" p:propertyName="publicationPlace" p:render="@{searchResultDisplayFields.publicationPlace}"/>
-                <bean parent="Uif-DataField" p:label="Edition" p:propertyName="edition" p:render="@{searchResultDisplayFields.edition}"/>
-                <bean parent="Uif-DataField" p:label="Format" p:propertyName="format" p:render="@{searchResultDisplayFields.format}"/>
-                <bean parent="Uif-DataField" p:label="FormGenre" p:propertyName="formGenre" p:render="@{searchResultDisplayFields.formGenre}"/>
-                <bean parent="Uif-DataField" p:label="Language" p:propertyName="language" p:render="@{searchResultDisplayFields.language}"/>
-                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:render="@{searchResultDisplayFields.description}"/>
-                <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate" p:render="@{searchResultDisplayFields.publicationDate}"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.docFormat}&amp;docId=@{#line.localId}&amp;editable=false"
-                      p:linkText="View Bib" p:target="_blank"/>
-            </list>
-        </property>
         <property name="renderLineActions" value="false"/>
-    </bean>
-    <bean id="OLEERSFacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
-        <property name="headerText" value="Narrow Search"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-eresource-search-result.ftl" p:templateName="ole_bib_ers_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'OLEERSSearchResultsSection')" />
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
-                <ref bean="OLEERSFacetFieldSelectedSection"/>
-                <ref bean="OLEERSFacetFieldResultTableSection"/>
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
 
-    <bean id="OLEERSFacetFieldSelectedSection" parent="Uif-TableCollectionSection">
-        <property name="collectionObjectClass"
-                  value="org.kuali.ole.docstore.common.search.FacetCondition"/>
-        <property name="propertyName" value="searchParams.facetConditions"/>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="items">
-            <list>
-                <bean id="facetField1" parent="Uif-DataField" p:propertyName="shortValue" p:label="Remove filter"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean id="deleteFacetConditions" parent="Uif-SecondaryActionButton-Small"
-                      p:methodToCall="removeFacet" p:actionLabel="Remove" p:ajaxSubmit="false"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OLEERSFacetFieldResultTableSection" parent="Uif-TableCollectionSection" p:colSpan="1">
-        <property name="collectionObjectClass"
-                  value="org.kuali.ole.docstore.common.search.FacetResultField" />
-        <property name="propertyName" value="facetResultFields" />
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="items">
-            <list>
-                <bean id="oleERSFacetFieldResult-FacetField" parent="Uif-DataField" p:propertyName="fieldLabel"/>
-                <bean  id="oleERSFacetFieldResult-MoreFacet" parent="Uif-LinkField" p:href="ole-kr-krad/olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;facetPrefix=ALL&amp;facetField=@{#line.fieldName}&amp;docType=@{docType}" p:linkText="more" p:render="@{#line.valueCounts.size() gt facetLimit}">
-                    <property name="lightBox">
-                        <bean parent="Uif-LightBox"/>
-                    </property>
-                </bean>
-                <bean  id="oleERSFacetFieldResult-MoreFacet1" parent="Uif-LinkField" p:href="ole-kr-krad/olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;facetPrefix=ALL&amp;facetField=@{#line.fieldName}&amp;docType=@{docType}" p:linkText="more" p:hidden="true" p:render="@{#line.valueCounts.size() le facetLimit}">
-                    <property name="lightBox">
-                        <bean parent="Uif-LightBox"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="subCollections">
-            <list>
-                <ref bean="OLEERSFacetFieldSections"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="OLEERSFacetFieldSections" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="1" p:layoutManager.style="border:1px solid;">
-        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.ValueCount"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="propertyName" value="valueCounts"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:label="@{#parentLine.fieldName}" p:href="olesearchcontroller?viewId=OLEEResourceBibView&amp;methodToCall=facetSearch&amp;selectedFacet=@{#line.fullValue}&amp;docType=@{docType}&amp;selectedFacetName=@{#parentLine.fieldName}&amp;eInstance=linkExistingInstance&amp;tokenId=@{tokenId}"
-                      p:linkText="@{#line.facetLabel}" p:render="@{linkExistingInstance ne null}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:label="@{#parentLine.fieldName}" p:href="olesearchcontroller?viewId=OLEEResourceBibView&amp;methodToCall=facetSearch&amp;selectedFacet=@{#line.fullValue}&amp;docType=@{docType}&amp;selectedFacetName=@{#parentLine.fieldName}&amp;tokenId=@{tokenId}"
-                      p:linkText="@{#line.facetLabel}" p:render="@{linkExistingInstance eq null}"/>
-            </list>
-        </property>
-    </bean>
 
     <bean id="OLEERS-HoldingsSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="8"
           p:render="@{holdingSearchResultDisplayRowList ne null and holdingsFlag eq 'true'}">

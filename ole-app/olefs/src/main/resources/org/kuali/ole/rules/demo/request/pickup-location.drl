@@ -1,0 +1,20 @@
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.form.OLEPlaceRequestForm;
+
+rule "pickup-location-based-on-patron-type"
+agenda-group "pickup-location"
+activation-group "pickup-location"
+
+when
+
+ $p : OlePatronDocument(getBorrowerTypeCode() in ("UGRAD"))
+ $pr : OLEPlaceRequestForm(getItemType() in ("BOOK") , getItemLocation() in ("B-EDUC/BED-STACKS","B-EDUC/BED-TEACHMAT"))
+
+then
+ $pr.setPickUpLocation("BL_EDUC,BL_HPER");
+
+
+ end
+

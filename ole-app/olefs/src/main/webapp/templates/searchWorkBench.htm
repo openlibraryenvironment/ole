@@ -1,0 +1,25 @@
+<div>
+    <div ng-controller="searchController">
+        <form name="searchForm">
+            <div align="left">
+                <label for="DocumentType"> Document Type: </label>
+                <select name="DocumentType" id="DocumentType" ng-model="documentType">
+                    <option ng-repeat="option in documentTypes track by option.id" value="{{option.id}}"
+                            ng-selected="$first">{{option.name}}
+                    </option>
+                </select>
+                <label for="searchType">Select Records By: </label>
+                <select name="searchType" id="searchType" ng-model="documentTypes.searchType">
+                    <option ng-repeat="option in searchTypes" value="{{option.id}}" ng-selected="$first">{{option.name}}
+                    </option>
+                </select>
+            </div>
+            <div ng-include="'templates/searchConditions.htm'"></div>
+            <div align="center">
+                <button class="btn btn-primary btn-sm" ng-click="search()" style="margin-top: 20px;">Search</button>
+            </div>
+            <div ng-include="'templates/searhResult.htm'"></div>
+        </form>
+    </div>
+</div>
+

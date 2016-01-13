@@ -26,7 +26,7 @@
                 <ref bean="itemDamagedRecords"/>
                 <ref bean="OleMissingItem-Section"/>
                 <ref bean="MissingPieceItemHistory"/>
-                <ref bean="OLEIntransitLoanRecords"/>
+                <ref bean="OLEReturnHistoryRecords"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="hiddenItemLocationEditFlag"/>
                 <ref bean="hiddenItemCallNumberPrefixEditFlag"/>
@@ -197,12 +197,9 @@
                 </bean>
                 <bean id="staffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
                       p:label="Staff Only"
-                      p:required="false"  p:render="@{globalEditFlag eq 'true'}">
+                      p:required="false" p:render="@{globalEditFlag eq 'true'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.describe.keyvalue.OLEStaffFieldKeyValueFinder"/>
+                        <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
                 <bean id="LocalItem" parent="Uif-InputField" p:propertyName="itemLocalIdentifier"
@@ -807,11 +804,11 @@
 
 
 
-    <bean  id="OLEIntransitLoanRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
+    <bean  id="OLEReturnHistoryRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
            p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Intransit loan history" />
-        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory" />
-        <property name="propertyName" value="oleLoanIntransitRecordHistories" />
+        <property name="headerText" value="Return history" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEReturnHistoryRecord" />
+        <property name="propertyName" value="oleReturnHistoryRecords" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.templateOptions" value="true"/>
         <property name="layoutManager.richTable.render" value="true"/>
@@ -823,9 +820,10 @@
                 <bean id="itemBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="itemBarcode" p:label="Item Barcode"/>
                 <!--<bean id="itemUUID" parent="Uif-DataField" p:readOnly="true" p:propertyName="itemUUID" p:label="id"/>-->
                 <bean id="operator" parent="Uif-DataField" p:readOnly="true" p:propertyName="operator" p:label="Operator"/>
+                <bean id="returnedItemStatus" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedItemStatus" p:label="Item Status"/>
                 <bean id="homeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="homeCirculationDesk" p:label="Routed From"/>
                 <bean id="routeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="routeCirculationDesk" p:label="Routed To"/>
-                <bean id="returnedDateTime" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedDateTime" p:label="Transit Date"/>
+                <bean id="returnedDateTime" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedDateTime" p:label="Return Date"/>
             </list>
         </property>
     </bean>

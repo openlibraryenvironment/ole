@@ -42,16 +42,16 @@ function viewWorkbenchHoldingsEdit(docId,bibId,instanceId){
 }
 
 function viewWorkbenchHoldingsShowBib(docId, instanceId) {
-    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&docId=" + docId + "&instanceId=" + instanceId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=ShowBibView&methodToCall=showBibs&docId=" + docId + "&instanceId=" + instanceId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
 
 function viewBoundWithRelation(holdingsId) {
-    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId="+holdingsId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId="+holdingsId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
 function viewSeriesHoldingRelation(holdingsId){
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId="+holdingsId+"&docType=holdings&");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId="+holdingsId+"&docType=holdings&");
 
     return false;
 }
@@ -70,12 +70,12 @@ function viewWorkbenchItemEdit(docId,bibId,instanceId){
 }
 
 function viewWorkbenchItemShowBib(instanceId){
-    window.open("ole-kr-krad/editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId="+instanceId+"&docCategory=work&docType=item&docFormat=oleml&editable=true");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId="+instanceId+"&docCategory=work&docType=item&docFormat=oleml&editable=true");
     return false;
 }
 
 function viewAnalyticItemRelation(itemIdentifier){
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId="+itemIdentifier+"&docType=item&");
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId="+itemIdentifier+"&docType=item&");
 }
 
 //for EHoldings
@@ -201,8 +201,14 @@ function submitSearching() {
 
 function getUrl(line) {
     var url = jq("#BibSearchResults tbody tr:eq(" + line + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage";
-    if (jq("#DocumentAndSearchSelectionType_SearchType_control").val() == "search") {
+    if (jq("#DocumentAndSearchSelectionType_SearchType_control").val()  == "search" ||  jq("#global_searchType_control").val() == "search" || jq("#AnalyticsDocumentAndSearchSelectionType_DocType_control").val()!=null) {
         var doctype = jq("#DocumentAndSearchSelectionType_DocType_control").val();
+        if(doctype==undefined){
+            doctype = jq("#global_docType_control").val();
+        }
+        if(doctype==undefined){
+            doctype = jq("#AnalyticsDocumentAndSearchSelectionType_DocType_control").val();
+        }
         if (doctype == 'holdings') {
             url = href = jq("#HoldingsSearchResults tbody tr:eq(" + line + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage";
         }
@@ -249,7 +255,7 @@ function getPageId() {
 }
 
 function selectOrUnselectLink(id, url) {
-    var length = links.length + 1;
+     var length = links.length + 1;
     if (jq("#" + id).is(':checked')) {
         if (length > 0) {
             var isAvailable = false;
@@ -443,11 +449,11 @@ function openSelectAll(doctype) {
             }
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i].split("#");
-                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true" + pageId;
+                var link = href = getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true" + pageId;
                 if (doctype == "bibliographic") {
-                    link = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=&editable=true" + pageId;
+                    link = getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=&editable=true" + pageId;
                 } else if (doctype == "item") {
-                    link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&instanceId=" + id[2] + "&editable=true" + pageId;
+                    link = href = getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+"editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&instanceId=" + id[2] + "&editable=true" + pageId;
                 }
                 if (deLinks.length > 0) {
                     var isAvailable = true;
@@ -467,11 +473,26 @@ function openSelectAll(doctype) {
             }
         });
     } else {
+
         for (i = 0; i < links.length; i++)
             if (links[i] != null) {
-                window.open(links[i]);
+                var url = getApplicationBanner()+"portal.do?channelTitle=Marc Editor&channelUrl="+getApplicationPath()+links[i];
+                window.open(url);
             }
     }
+}
+
+function getApplicationPath() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    return loc1.substring(0, loc1.lastIndexOf('/') + 1);
+}
+
+function getApplicationBanner() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    loc1 =loc1.replace("/ole-kr-krad","");
+    return loc1.substring(0, loc1.lastIndexOf('/')+1);
 }
 
 //hiddenSearchFields_h9 is mapped to selectAllRecords
@@ -716,4 +737,8 @@ function changeDocType(index){
     jq('#searchIndex_control').val(index);
     submitForm('changeDocType', null, null, null);
 }
+
+
+
+
 

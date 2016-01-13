@@ -271,7 +271,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             item.setNote(notes);
         }
         List<DonorInfo> donorInfoList = new ArrayList<DonorInfo>();
-        if (itemRecord.getDonorList() != null) {
+        if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
             for (OLEItemDonorRecord oleItemDonorRecord : itemRecord.getDonorList()) {
                 DonorInfo donorInfo = new DonorInfo();
                 donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
@@ -279,8 +279,10 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 donorInfo.setDonorNote(oleItemDonorRecord.getDonorNote());
                 donorInfoList.add(donorInfo);
             }
-            item.setDonorInfo(donorInfoList);
+        }else {
+            donorInfoList.add(new DonorInfo());
         }
+        item.setDonorInfo(donorInfoList);
 
         List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
 
@@ -776,6 +778,15 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             ItemTypeRecord itemTypeRecord = saveItemTypeRecord(item.getItemType());
             itemRecord.setItemTypeId(itemTypeRecord == null ? null : itemTypeRecord.getItemTypeId());
             itemRecord.setItemTypeRecord(itemTypeRecord);
+        }else{
+            String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
+            if (StringUtils.isNotBlank(itemTypeCode)) {
+                ItemType itemType = new ItemType();
+                itemType.setCodeValue(itemTypeCode.toUpperCase());
+                ItemTypeRecord itemTypeRecord = saveItemTypeRecord(itemType);
+                itemRecord.setItemTypeId(itemTypeRecord == null ? null : itemTypeRecord.getItemTypeId());
+                itemRecord.setItemTypeRecord(itemTypeRecord);
+            }
         }
         if (item.getTemporaryItemType() != null) {
             ItemTypeRecord tempItemTypeRecord = saveItemTypeRecord(item.getTemporaryItemType());
@@ -956,7 +967,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             saveCheckInLocationRecord(item.getNumberOfCirculations().getCheckInLocation(), itemRecord.getItemId());
         }
         if (item.getDonorInfo() != null && item.getDonorInfo().size() >= 0) {
-            saveDonorList(item.getDonorInfo(), itemRecord.getItemId());
+            itemRecord.setDonorList(saveItemDonorList(item.getDonorInfo(), itemRecord.getItemId()));
         }
         itemRecord.setNumberOfRenew(item.getNumberOfRenew());
         getBusinessObjectService().save(itemRecord);
@@ -1376,15 +1387,15 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
 
     }
 
-    protected void saveDonorList(List<DonorInfo> donorslist, String itemId) {
+    private List<OLEItemDonorRecord> saveItemDonorList(List<DonorInfo> donorslist, String itemId) {
         Map map = new HashMap();
         map.put("itemId", itemId);
         List<OLEItemDonorRecord> itemDonorRecordList = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
         if(itemDonorRecordList!=null && itemDonorRecordList.size() >= 0) {
             getBusinessObjectService().delete(itemDonorRecordList);
+            itemDonorRecordList.clear();
         }
         if (donorslist.size() > 0) {
-            List<OLEItemDonorRecord> oleItemDonorRecords = new ArrayList<OLEItemDonorRecord>();
             for (int i = 0; i < donorslist.size(); i++) {
                 DonorInfo donorinfo = donorslist.get(i);
                 if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
@@ -1393,18 +1404,24 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
                     oleItemDonorRecord.setDonorNote(donorinfo.getDonorNote());
                     oleItemDonorRecord.setItemId(itemId);
-                    oleItemDonorRecords.add(oleItemDonorRecord);
+                    itemDonorRecordList.add(oleItemDonorRecord);
                 }
             }
-            if (oleItemDonorRecords.size() > 0) {
-                getBusinessObjectService().save(oleItemDonorRecords);
+            if (itemDonorRecordList.size() > 0) {
+                getBusinessObjectService().save(itemDonorRecordList);
             }
         }
+        return itemDonorRecordList;
     }
 
     protected ItemTypeRecord saveItemTypeRecord(ItemType itemType) {
         Map map = new HashMap();
-        map.put("code", itemType.getCodeValue());
+        if(StringUtils.isNotBlank(itemType.getCodeValue())){
+            map.put("code", itemType.getCodeValue());
+        }else{
+            String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
+            map.put("code", itemTypeCode);
+        }
         List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
         if (itemTypeRecords.size() == 0) {
             if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {

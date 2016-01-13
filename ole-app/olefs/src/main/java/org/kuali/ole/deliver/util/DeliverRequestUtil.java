@@ -32,7 +32,7 @@ public class DeliverRequestUtil extends OLEUtil {
 
     public boolean cancelDocument(String itemBarcode, OlePatronDocument patronDocument, OleLoanDocument oleLoanDocument, String operatorId) {
         boolean cancelResult = true;
-        OleDeliverRequestBo oleDeliverRequestBo = ItemInfoUtil.getInstance().getRequestByPatronBarcode(patronDocument.getBarcode(), itemBarcode);
+        OleDeliverRequestBo oleDeliverRequestBo = ItemInfoUtil.getInstance().getRequestByPatronId(patronDocument.getOlePatronId(), itemBarcode);
         if (null != oleDeliverRequestBo) {
             //1. Create Temp history record and delete
             String itemId = oleDeliverRequestBo.getItemId();

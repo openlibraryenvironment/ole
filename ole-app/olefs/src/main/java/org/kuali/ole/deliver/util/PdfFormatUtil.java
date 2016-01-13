@@ -5,6 +5,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -130,5 +132,11 @@ public abstract class PdfFormatUtil {
         pdfPCell.setBorder(pdfPCell.NO_BORDER);
         pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
         return pdfPCell;
+    }
+
+    public String getParameter(String parameterName) {
+        String parameter = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants
+                .DLVR_CMPNT, parameterName);
+        return parameter;
     }
 }

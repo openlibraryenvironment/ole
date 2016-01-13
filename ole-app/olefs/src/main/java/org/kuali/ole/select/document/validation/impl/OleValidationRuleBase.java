@@ -804,6 +804,24 @@ public class OleValidationRuleBase extends AccountingRuleEngineRuleBase implemen
                     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,
                             OLEConstants.ITEM_COPIESANDPARTS_SHOULDNOT_BE_GREATERTHAN_ONE_EINSTANCE, new String[]{});
                 }
+                else {
+                    OleCopyHelperService oleCopyHelperService = SpringContext.getBean(OleCopyHelperService.class);
+                    isValid = oleCopyHelperService.checkForTotalCopiesGreaterThanQuantityAtSubmit(purItem.getCopies(), purItem.getItemQuantity());
+                    for (OleCopies copies : purItem.getCopies()) {
+                        List<String> volChar = new ArrayList<>();
+                        String[] volNumbers = copies.getVolumeNumber() != null ? copies.getVolumeNumber().split(",") : new String[0];
+                        for (String volStr : volNumbers) {
+                            volChar.add(volStr);
+                        }
+                        Integer itemCount = volChar.size();
+                        isValid &= oleCopyHelperService.checkCopyEntry(
+                                copies.getItemCopies(), copies.getLocationCopies(), itemCount, purItem.getItemQuantity(),
+                                purItem.getItemNoOfParts(), purItem.getCopies(), purItem.getVolumeNumber(), true);
+                        if (isValid)
+                            purItem.setItemLocation(OLEConstants.MULTIPLE_ITEM_LOC);
+                    }
+                }
+
             } else {
                 if (purItem.getItemLocation() == null || purItem.getItemLocation().isEmpty()) {
                     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,

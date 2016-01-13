@@ -2,7 +2,6 @@ package org.kuali.ole.deliver.bo;
 
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
-import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class OLESingleItemResultDisplayRow {
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
     private List<OLEItemNoteResultDisplayRow> oleItemNoteResultDisplayRowList = new ArrayList<>();
     private List<OLEHoldingsSearchResultDisplayRow> oleHoldingsSearchResultDisplayRowList = new ArrayList<>();
-    private List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories = new ArrayList<>();
+    private List<OLEReturnHistoryRecord> oleReturnHistoryRecords = new ArrayList<>();
     private List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = new ArrayList<>();
     private List<ItemDamagedRecord> itemDamagedRecords = new ArrayList<>();
     private List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
@@ -528,12 +527,12 @@ public class OLESingleItemResultDisplayRow {
         this.oleHoldingsSearchResultDisplayRowList = oleHoldingsSearchResultDisplayRowList;
     }
 
-    public List<OLELoanIntransitRecordHistory> getOleIntransitRecordHistories() {
-        return oleIntransitRecordHistories;
+    public List<OLEReturnHistoryRecord> getOleReturnHistoryRecords() {
+        return oleReturnHistoryRecords;
     }
 
-    public void setOleIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories) {
-        this.oleIntransitRecordHistories = oleIntransitRecordHistories;
+    public void setOleReturnHistoryRecords(List<OLEReturnHistoryRecord> oleReturnHistoryRecords) {
+        this.oleReturnHistoryRecords = oleReturnHistoryRecords;
     }
 
     public List<ItemClaimsReturnedRecord> getItemClaimsReturnedRecords() {

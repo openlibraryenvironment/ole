@@ -1,5 +1,6 @@
 package org.kuali.ole.batch.impl;
 
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.service.BatchProcessDeleteService;
@@ -17,6 +18,9 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 /**
@@ -49,12 +53,6 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
     public int performBatchDelete(List docBibIds, String profileField) throws Exception {
         int count = docBibIds.size();
         List<Response> responseList = null;
-        /*if (docBibIds != null && docBibIds.size() > 0) {
-            responseList = getDocstoreHelperService().batchDeleteRecords(docBibIds);
-        }
-        if (responseList != null && responseList.size() > 0) {
-            count = responseList.get(0).getDocuments().size();
-        }*/
         try {
             // Remove duplicates from docBibIds
             List<String> docBibIdList = new ArrayList<>();
@@ -65,11 +63,21 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
                         docBibIdList.add(bibIdDelete);
                     }
                 }
-            getDocstoreClientLocator().getDocstoreClient().deleteBibs(docBibIdList);
+            deleteBatch(docBibIdList);
         } catch (Exception e) {
             count = 0;
         }
         return count;
+    }
+
+    private void deleteBatch(List<String> docBibIdList) throws Exception {
+        List<List<String>> tempBibIdLists = Lists.partition(docBibIdList, 300);
+        List<Future> futures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (List<String> tempBibIdList : tempBibIdLists) {
+            futures.add(executorService.submit(new BatchprocessDelete(tempBibIdList, getDocstoreClientLocator().getDocstoreClient())));
+        }
+        executorService.shutdown();
     }
 
     /**

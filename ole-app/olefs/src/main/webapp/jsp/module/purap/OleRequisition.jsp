@@ -119,15 +119,19 @@
         if (inputOrderype == "Firm, Fixed") {
             document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForFixed}";
             document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForFixed}";
-            document.getElementById('document.recurringPaymentTypeCode').value = '';
-            document.getElementById('document.purchaseOrderBeginDate').value = '';
-            document.getElementById('document.purchaseOrderEndDate').value = '';
+            if(document.getElementById('document.recurringPaymentTypeCode').value == null) {
+                document.getElementById('document.recurringPaymentTypeCode').value = '';
+                document.getElementById('document.purchaseOrderBeginDate').value = '';
+                document.getElementById('document.purchaseOrderEndDate').value = '';
+            }
         } else if (inputOrderype == "Approval") {
             document.getElementById("newPurchasingItemLine.itemLocation").value = "${KualiForm.document.itemLocationForApproval}";
             document.getElementById("newPurchasingItemLine.itemStatus").value = "${KualiForm.document.itemStatusForApproval}";
-            document.getElementById('document.recurringPaymentTypeCode').value = '';
-            document.getElementById('document.purchaseOrderBeginDate').value = '';
-            document.getElementById('document.purchaseOrderEndDate').value = '';
+            if(document.getElementById('document.recurringPaymentTypeCode').value == null) {
+                document.getElementById('document.recurringPaymentTypeCode').value = '';
+                document.getElementById('document.purchaseOrderBeginDate').value = '';
+                document.getElementById('document.purchaseOrderEndDate').value = '';
+            }
         } else if (inputOrderype != "") {
             var poCreateDate = new Date();
             var dd = poCreateDate.getDate();

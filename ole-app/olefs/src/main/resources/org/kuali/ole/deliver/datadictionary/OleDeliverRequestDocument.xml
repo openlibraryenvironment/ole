@@ -650,10 +650,36 @@
                 </property>
             </bean>
         </property>-->
+        <property name="page">
+            <bean parent="uif-Ole-LookupPage"/>
+        </property>
         <property name="criteriaGroup">
             <bean parent="OLE_DeliverRequest_Uif_LookupCriteriaGroup"/>
         </property>
     </bean>
+
+  <!--  <bean id="OLE_DeliverRequest_Uif-LookupPage-parentBean" abstract="true" parent="Uif-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupPage</value>
+            </list>
+        </property>
+        <property name="renderFooter" value="false"/>
+    </bean>
+
+
+
+
+    <bean id="OLE_DeliverRequest_Uif-CreateNewLink" parent="Uif-SecondaryActionButton" p:actionLabel="Create New"
+          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>-->
+
 
     <bean id="OLE_DeliverRequest_Uif_LookupCriteriaGroup" parent="Uif-GridGroup">
         <property name="headerText" value="Lookup Criteria"/>
@@ -667,15 +693,16 @@
     <bean id="OLE_DeliverRequest_Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean id="searchReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean id="clearReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
-                <bean id="cancelReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean id="searchReqBtn" parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="clearReqBtn" parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <ref bean="uif-Ole-CreateNewLink"/>
+                <bean id="cancelReqBtn" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{!#form.renderedInLightBox}"/>
-                <bean id="cancelHisReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
+                <bean id="cancelHisReqBtn" parent="Uif-SecondaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
                       p:render="@{#form.renderedInLightBox}"/>
-                <bean id="homeReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
+                <bean id="homeReqBtn" parent="Uif-SecondaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
                       p:render="@{#form.renderedInLightBox}"/>
-                <bean id="closeReqBtn" parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                <bean id="closeReqBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
                       p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
             </list>
         </property>
@@ -745,6 +772,9 @@
                     <property name="headerText" value="Request Attributes"/>
                 </bean>
             </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-Ole-InquiryFooter"/>
         </property>
         <property name="additionalCssFiles">
             <list>

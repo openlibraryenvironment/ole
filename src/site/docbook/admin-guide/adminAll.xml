@@ -280,7 +280,11 @@
                                     available for most importing record types. Select <emphasis
                                         role="bold">Browse...</emphasis> (or <emphasis role="bold"
                                         >Choose File</emphasis> depending on your browser) to search
-                                    for the file from your local machine.</para>
+                                    for the file from your local machine.<tip>
+                                        <para>All EDI Invoice loads require the file extension to be
+                                            .edi.  If it is not, the workaround is to rename the
+                                            file.</para>
+                                    </tip></para>
                                 <para>
                                     <screenshot>
                                         <mediaobject>
@@ -1237,8 +1241,6 @@
                             <para>OLE cannot run an Order Import batch process with hundreds of
                                 items. Additionally, the more items links to each order, the more
                                 time the system will take to import the order.</para>
-                            <para>In OLE 1.6, you will not be able to import multiple orders with
-                                multiple copies and locations. </para>
                         </note>
                     </section>
                     <section>
@@ -6044,9 +6046,9 @@
                     <para role="Normal"/>
                     <para role="Normal">Five search lines are provided in the Document Store
                         Discovery Layer.  Standard Boolean operators (AND, OR, NOT) can be chosen to
-                        combine the search terms.  Truncation is not automatic in OLE 1.6; the
-                        truncation symbol is an asterisk.  An asterisk can also be used as a
-                        wildcard character within a word. </para>
+                        combine the search terms.  Truncation is not automatic; the truncation
+                        symbol is an asterisk.  An asterisk can also be used as a wildcard character
+                        within a word. </para>
                     <note>
                         <para role="Normal"><emphasis> Known bug:</emphasis> Special characters such
                             as ‘&amp;’ and ‘:’ are not recognized when searching.</para>
@@ -6191,10 +6193,6 @@
                             see the <link linkend="_Editor">OLE MARC Editor</link> section under the
                                 <emphasis>Describe and Manage Module</emphasis>.</para>
                     </note>
-                    <note>
-                        <para role="Normal"> Note: The View and Edit buttons will most likely change
-                            in future releases.</para>
-                    </note>
                     <para role="Normal"/>
                     <para role="Normal">At any time, you may choose to revise your search or start a
                         new search. These options are located at the top left side of the results
@@ -6283,18 +6281,9 @@
                         </screenshot>
                     </para>
                     <para role="Normal"/>
-                    <para role="Normal">Facets for Holdings and Item data (such as location, call
-                        number sorting, etc.) will be designed and released in the future.</para>
-                    <para role="Normal"/>
                     <para role="Normal"><emphasis role="bold">Notes and Tips on Bib, Instance and
                             Item searching</emphasis></para>
                     <itemizedlist mark="disc" spacing="normal">
-                        <listitem>
-                            <para role="List Paragraph">Breadcrumbs are planned for a later release,
-                                for now you can navigate through the DocStore but will want to make
-                                note of where you have been if you want to return to the same
-                                record.</para>
-                        </listitem>
                         <listitem>
                             <para role="List Paragraph">If you use multiple words in your search,
                                 only one gets highlighted in the search results, and it’s the first
@@ -8811,7 +8800,7 @@
             <para role="Body Text">Only members of the KR-SYS Technical Administrator or OLE-SYS
                 Manager role can create or edit Parameter documents.</para>
             <note>
-                <para>In 1.6, OLE's project team continues to working on reviewing and documenting
+                <para>In 2.0, OLE's project team continues to working on reviewing and documenting
                     parameters. For this work in progress see the <link
                         xlink:href="https://docs.google.com/spreadsheets/d/1mzL1BvtpG9_CtA_sT6R1TiVszmLvaawuk3zg9Uvl4NU/edit#gid=67356612"
                         >parameters Google Document</link>.</para>
@@ -12357,7 +12346,7 @@
                                 permissions from more restrictive roles.</para>
                             <note>
                                 <para>Currently, OLE follows option 1, although cleanup of roles and
-                                    permissions is scheduled for 2.0 (see <link
+                                    permissions is scheduled for a future release (see <link
                                         xlink:href="https://jira.kuali.org/browse/OLE-7246"
                                         >OLE-7246</link>). </para>
                             </note>
@@ -15490,7 +15479,7 @@
                                     </imageobject>
                                 </inlinemediaobject>.  This document does not route.</para>
                             <note>
-                                <para>In OLE 1.6 after clicking <emphasis role="bold"
+                                <para>In OLE 2.0 after clicking <emphasis role="bold"
                                         >Submit</emphasis> and receiving the system response
                                     "Document was successfully submitted", if you click <emphasis
                                         role="bold">Close</emphasis> OLE will ask "Would you like to

@@ -136,7 +136,7 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="billNumber" p:label="Bill No"/>
+                <bean parent="Uif-DataField" p:propertyName="viewBillNumber" p:label="Bill No"/>
                 <bean parent="Uif-DataField" p:propertyName="billDate" p:label="Bill date"/>
                 <bean parent="Uif-DataField" p:propertyName="patronId" p:label="Patron ID"/>
                 <bean parent="Uif-DataField" p:propertyName="firstName" p:label="First Name"/>
@@ -149,6 +149,9 @@
         <property name="resultsGroup">
             <bean parent="PatronBill-LookupView-ResultActions"/>
         </property>
+        <property name="criteriaGroup">
+            <bean parent="PatronBill-Uif-LookupCriteriaGroup"/>
+        </property>
         <!--<property name="resultsActionsFieldGroup">
             <bean parent="Uif-FieldGroupBase">
                 <property name="label" value="Actions"/>
@@ -159,6 +162,42 @@
         </property>-->
         <property name="page">
             <bean parent="Ole-Uif-LookupPage"/>
+        </property>
+    </bean>
+
+
+    <bean id="PatronBill-Uif-LookupCriteriaGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Lookup Criteria"/>
+        <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="footer">
+            <bean parent="PatronBill-Uif-LookupCriteriaFooter"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-Uif-LookupCriteriaHeader" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
         </property>
     </bean>
 
@@ -176,13 +215,14 @@
     </bean>
 
     <bean id="Ole-Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
-        <property name="cssClasses">
+        <!--<property name="cssClasses">
             <list merge="true">
                 <value>uif-rightAligned-headerFieldGroup</value>
             </list>
-        </property>
+        </property>-->
         <property name="items">
             <list>
+                <ref bean="PatronBill-Uif-LookupCriteriaHeader"/>
             </list>
         </property>
     </bean>

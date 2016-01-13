@@ -98,7 +98,6 @@
             <label>Access Activation Configuration</label>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
-            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
             <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
             <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
             <active>true</active>

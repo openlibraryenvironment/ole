@@ -61,6 +61,14 @@ function removeInstance() {
 
 jq(document).ready(function () {
 
+    jq("#OLEEResourceRecordView-Menu a").click(function(){
+        if(this.id=='E-Resource-Instance-Navigation'){
+            window.setTimeout(function () {
+                jq("#instanceDetails").tableExport();
+            }, 800)
+        }
+    });
+
     jq("#publisherSuggest_control").blur(function(){
         jq("#refreshPublisher").focus().click();
     })
@@ -166,6 +174,7 @@ jq(document).ready(function () {
 
     })
     window.onbeforeunload = unloadPage;
+    setRecipientSelectorValue();
 });
 
 function defaultCoverage() {
@@ -322,20 +331,9 @@ function deleteRelatedInstances(){
     showLightboxComponent("OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp");
 }
 
-function deleteInstance() {
-    jq(".fancybox-close").click();
-    displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp')
-    /*if(jq("#OLEEResourceRecordView-Instance_control").val() > 0 ){
-        showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesPopUp');
-    }else{*/
-        //showLightboxComponent('OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp');
-    //}
-}
-
 function closeDeleteInstance(){
     jq("div#OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp").fadeOut(300);
     jq('#mask').fadeOut(300);
-    location.reload();
 }
 
 function eResourceSearch(){
@@ -360,6 +358,15 @@ function closeMessagePopupSectionForLinkToERes() {
 function closeFancyBox(){
     parent.jq.fancybox.close();
 }
+
+
+
+    function copyToClipBoard(element) {
+        jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").select();
+        document.execCommand("copy");
+        jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").append("<span> message copied</span>");
+    }
+
 
 function showTippPopup(packageName,packageId){
     jq("#OLEEResourceRecordView-PackageId_control").val(packageId);
@@ -558,3 +565,65 @@ function oleHoldingsPager(linkElement, collectionId) {
     }, true);
 }
 
+function setRecipientSelectorValue() {
+    if(jq("#renewal_recipientSelector_control").val() == 'Role') {
+        jq("#renewal_recipientRoleName").show();
+        jq("#renewal_recipientGroupName_control").val("");
+        jq("#renewal_recipientGroupId_control").val("");
+        jq("#renewal_recipientGroupName").hide();
+        jq("#renewal_recipientUserName_control").val("");
+        jq("#renewal_recipientUserId_control").val("");
+        jq("#renewal_recipientUserName").hide();
+    } else if(jq("#renewal_recipientSelector_control").val() == 'Group') {
+        jq("#renewal_recipientGroupName").show();
+        jq("#renewal_recipientRoleName_control").val("");
+        jq("#renewal_recipientRoleId_control").val("");
+        jq("#renewal_recipientRoleName").hide();
+        jq("#renewal_recipientUserName_control").val("");
+        jq("#renewal_recipientUserId_control").val("");
+        jq("#renewal_recipientUserName").hide();
+    } else if(jq("#renewal_recipientSelector_control").val() == 'Person') {
+        jq("#renewal_recipientUserName").show();
+        jq("#renewal_recipientRoleName_control").val("");
+        jq("#renewal_recipientRoleId_control").val("");
+        jq("#renewal_recipientRoleName").hide();
+        jq("#renewal_recipientGroupName_control").val("");
+        jq("#renewal_recipientGroupId_control").val("");
+        jq("#renewal_recipientGroupName").hide();
+    }
+}
+
+
+function populateEmailText(){
+   var emailText =  jq("#mailText_control").val();
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").val(emailText);
+}
+
+
+function clearPriceIncreaseAnalysisTab(){
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-FiscalYearCost_control").val("");
+    jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-YearPriceQuote_control").val("");
+}
+function clearPriceIncreaseAnalysisInfoTab(){
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-CostIncrease_control").val("");
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-percentageIncrease_control").val("");
+jq("#OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText_control").val("");
+}
+
+function closePriceIncreaseWidget(){
+    jq('.fancybox-close').click();
+}
+
+function openInstancePOSectionSection() {
+    var index = jq('#hiddenIndex_control').val();
+    index = parseInt(index)+1;
+    var detailLinkId = '#InstancePOSection_detLink_line'+index;
+    jq(detailLinkId).focus().click();
+}
+
+function openEresourcePODetailSection() {
+    var index = jq('#hiddenIndex_control').val();
+    index = parseInt(index)+1;
+    var detailLinkId = '#EResourcePOSection_detLink_line'+index;
+    jq(detailLinkId).focus().click();
+}

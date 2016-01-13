@@ -292,6 +292,12 @@
         <property name="resultsGroup">
             <bean parent="OlePatronDocument-LookupView-ResultActions"/>
         </property>
+        <property name="criteriaGroup">
+            <bean parent="OlePatronDocument-LookupView-LookupCriteriaGroup"/>
+        </property>
+        <property name="page">
+            <bean parent="olePatron-Uif-LookupPage"/>
+        </property>
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/patron/script/olePatron.js</value>
@@ -306,6 +312,30 @@
             </bean>
         </property>-->
     </bean>
+
+    <bean id="OlePatronDocument-LookupView-LookupCriteriaGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Lookup Criteria"/>
+        <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="footer">
+            <bean parent="OlePatronDocument-Uif-LookupCriteriaFooter"/>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <ref bean="uif-Ole-CreateNewLink"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OlePatronDocument-LookupView-ResultActions" parent="Uif-LookupResultsCollectionSection">
         <property name="cssClasses">
             <list merge="true">
@@ -372,20 +402,66 @@
         </property>
     </bean>
 
-    <bean id="Ole-Uif-InquiryView" abstract="true" parent="Ole-Uif-InquiryView-parentBean"/>
-    <bean id="Ole-Uif-InquiryView-parentBean" parent="Uif-OLEInquiryView">
-        <property name="footer">
-            <bean parent="Ole-Uif-InquiryFooter"/>
+    <bean id="olePatron-Uif-LookupPage" parent="olePatron-Uif-LookupPage-parentBean"/>
+    <bean id="olePatron-Uif-LookupPage-parentBean" abstract="true" parent="Uif-LookupPage">
+        <property name="header">
+            <ref bean="olePatron-Uif-LookupPageHeader"/>
         </property>
     </bean>
 
-    <bean id="Ole-Uif-InquiryFooter" parent="Uif-InquiryFooter">
+    <bean id="olePatron-Uif-LookupPageHeader" parent="Uif-LookupPageHeader">
+        <property name="lowerGroup">
+            <bean parent="olePatron-Uif-LookupPageHeaderGroup"/>
+        </property>
+    </bean>
+
+    <bean id="olePatron-Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
+        <property name="items">
+            <list>
+                <ref bean="olePatron-Uif-LookupPageCriteriaHeader"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="olePatron-Uif-LookupPageCriteriaHeader" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <ref bean="OLE_OlePatron_Uif-CreateNewLink"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLE_OlePatron_Uif-CreateNewLink" parent="Uif-SecondaryActionButton" p:actionLabel="Create New"
+          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Ole-Uif-InquiryView" abstract="true" parent="Ole-Uif-InquiryView-parentBean"/>
+    <bean id="Ole-Uif-InquiryView-parentBean" parent="Uif-OLEInquiryView">
+        <property name="footer">
+            <bean parent="Uif-Ole-InquiryFooter"/>
+        </property>
+    </bean>
+
+    <!--<bean id="Ole-Uif-InquiryFooter" parent="Uif-InquiryFooter">
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Back" p:render="@{dataObject.patronHomePage}" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OlePatronDocument-InquiryView" parent="Ole-Uif-InquiryView">
         <property name="headerText" value="Patron"/>
@@ -773,6 +849,9 @@
                 <bean id="patronLoanInquiry_itemDamagedStatus" parent="Uif-DataField" p:label="Item Damaged Flag" p:propertyName="itemDamagedStatus"/>
                 <bean id="patronLoanInquiry_itemDamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:propertyName="itemDamagedNote"/>
                 <bean id="patronLoanInquiry_pendingRequestLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:linkText="@{#ViewHelper.getCountOfPendingRequests(#line.itemId)}"  p:target="_blank"  p:label="Pending Requests" >
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+                <bean id="patronLoanInquiry_viewSendNotices" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#line.sentNoticesUrl}"  p:linkText="View Sent Notices in a New Window"  p:target="_blank" p:label="Send Notices">
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>

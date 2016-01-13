@@ -135,7 +135,15 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private boolean cancellationCandidate;
     private boolean renewalAlertEnabled;
     private String renewalNoticePeriod;
+
     private String recipientId;
+    private String recipientName;
+    private String recipientRoleId;
+    private String recipientRoleName;
+    private String recipientGroupId;
+    private String recipientGroupName;
+    private String recipientSelector;
+
     private String eresourceWorkflowIndication;
     private String relationshipType;
     private int activeTitlesCount;
@@ -243,6 +251,9 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     private boolean saveValidationFlag;
     private boolean accountingLineDisclosureFlag = false;
+
+    private String mailText;
+    private boolean showEmailAnalysis = true;
 
     public String getWorkflowStatus() {
         return workflowStatus;
@@ -2083,5 +2094,69 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setAccountingLineDisclosureFlag(boolean accountingLineDisclosureFlag) {
         this.accountingLineDisclosureFlag = accountingLineDisclosureFlag;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getRecipientRoleId() {
+        return recipientRoleId;
+    }
+
+    public void setRecipientRoleId(String recipientRoleId) {
+        this.recipientRoleId = recipientRoleId;
+    }
+
+    public String getRecipientRoleName() {
+        return recipientRoleName;
+    }
+
+    public void setRecipientRoleName(String recipientRoleName) {
+        this.recipientRoleName = recipientRoleName;
+    }
+
+    public String getRecipientGroupId() {
+        return recipientGroupId;
+    }
+
+    public void setRecipientGroupId(String recipientGroupId) {
+        this.recipientGroupId = recipientGroupId;
+    }
+
+    public String getRecipientGroupName() {
+        return recipientGroupName;
+    }
+
+    public void setRecipientGroupName(String recipientGroupName) {
+        this.recipientGroupName = recipientGroupName;
+    }
+
+    public String getRecipientSelector() {
+        return recipientSelector;
+    }
+
+    public void setRecipientSelector(String recipientSelector) {
+        this.recipientSelector = recipientSelector;
+    }
+
+    public String getMailText() {
+        return mailText;
+    }
+
+    public void setMailText(String mailText) {
+        this.mailText = mailText;
+    }
+
+    public boolean isShowEmailAnalysis() {
+        return showEmailAnalysis;
+    }
+
+    public void setShowEmailAnalysis(boolean showEmailAnalysis) {
+        this.showEmailAnalysis = showEmailAnalysis;
     }
 }

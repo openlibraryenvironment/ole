@@ -1,7 +1,7 @@
 package org.kuali.ole.describe.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory;
+import org.kuali.ole.deliver.bo.OLEReturnHistoryRecord;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.BibTree;
@@ -90,7 +90,7 @@ public class EditorForm extends UifFormBase {
     private boolean holdingFlag = false;
     private boolean eHoldingsFlag = false;
     private boolean itemFlag = false;
-    private String staffOnlyFlagInGlobalEdit;
+    private boolean staffOnlyFlagInGlobalEdit;
 
     // Document record pojos
     private WorkBibMarcForm workBibMarcForm;
@@ -145,7 +145,7 @@ public class EditorForm extends UifFormBase {
     private List<OLESerialReceivingHistory> mainSerialReceivingHistoryList;
     private List<OLESerialReceivingHistory> supplementSerialReceivingHistoryList;
     private List<OLESerialReceivingHistory> indexSerialReceivingHistoryList;
-    private List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories;
+    private List<OLEReturnHistoryRecord> oleReturnHistoryRecords;
     private String globalEditFlag = "false";
 
     private GlobalEditHoldingsFieldsFlagBO globalEditHoldingsFieldsFlagBO;
@@ -1124,11 +1124,11 @@ public class EditorForm extends UifFormBase {
         this.serialReceivingDocId = serialReceivingDocId;
     }
 
-    public String getStaffOnlyFlagInGlobalEdit() {
+    public boolean isStaffOnlyFlagInGlobalEdit() {
         return staffOnlyFlagInGlobalEdit;
     }
 
-    public void setStaffOnlyFlagInGlobalEdit(String staffOnlyFlagInGlobalEdit) {
+    public void setStaffOnlyFlagInGlobalEdit(boolean staffOnlyFlagInGlobalEdit) {
         this.staffOnlyFlagInGlobalEdit = staffOnlyFlagInGlobalEdit;
     }
 
@@ -1179,12 +1179,12 @@ public class EditorForm extends UifFormBase {
         this.canDeleteEHoldings = canDeleteEHoldings;
     }
 
-    public List<OLELoanIntransitRecordHistory> getOleLoanIntransitRecordHistories() {
-        return oleLoanIntransitRecordHistories;
+    public List<OLEReturnHistoryRecord> getOleReturnHistoryRecords() {
+        return oleReturnHistoryRecords;
     }
 
-    public void setOleLoanIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories) {
-        this.oleLoanIntransitRecordHistories = oleLoanIntransitRecordHistories;
+    public void setOleReturnHistoryRecords(List<OLEReturnHistoryRecord> oleReturnHistoryRecords) {
+        this.oleReturnHistoryRecords = oleReturnHistoryRecords;
     }
 
     public boolean isBibliographic() {

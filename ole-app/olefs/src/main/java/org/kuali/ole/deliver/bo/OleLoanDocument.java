@@ -2,14 +2,17 @@ package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
+import org.kuali.ole.deliver.util.ItemFineRate;
 import org.kuali.ole.deliver.util.LoanDateTimeUtil;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -24,7 +27,7 @@ import java.util.*;
  * is used for interacting the loan data with the persistence layer in OLE.
  */
 public class OleLoanDocument extends PersistableBusinessObjectBase implements Comparable<OleLoanDocument> {
-
+    private String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
     private String loanId;
     private String loanStatusId;
     private String patronBarcode;
@@ -187,6 +190,9 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private List<FeeType> feeType;
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
+    private String sentNoticesUrl;
+    private ItemFineRate itemFineRate = new ItemFineRate();
+
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
     }
@@ -2190,4 +2196,21 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         return itemId != null ? itemId.hashCode() : 0;
     }
 
+
+
+    public String getSentNoticesUrl() {
+        return baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/loanSentNotices?viewId=OleLoanNoticesSentView&amp;methodToCall=viewLoanSentNotices&amp;loanId=" + loanId;
+    }
+
+    public void setSentNoticesUrl(String sentNoticesUrl) {
+        this.sentNoticesUrl = sentNoticesUrl;
+    }
+
+    public ItemFineRate getItemFineRate() {
+        return itemFineRate;
+    }
+
+    public void setItemFineRate(ItemFineRate itemFineRate) {
+        this.itemFineRate = itemFineRate;
+    }
 }

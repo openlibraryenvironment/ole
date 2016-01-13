@@ -9,17 +9,13 @@ import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.ASRItem;
-import org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory;
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
-import org.kuali.ole.deliver.calendar.service.DateUtil;
+import org.kuali.ole.deliver.bo.OLEReturnHistoryRecord;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.DocumentSelectionTree;
 import org.kuali.ole.describe.bo.DocumentTreeNode;
 import org.kuali.ole.describe.bo.InstanceEditorFormDataHandler;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.form.EditorForm;
-import org.kuali.ole.describe.form.WorkBibMarcForm;
 import org.kuali.ole.describe.form.WorkInstanceOlemlForm;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClient;
@@ -34,8 +30,6 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOl
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
-import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
-import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.OleCopy;
@@ -221,9 +215,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 if (item.getAccessInformation()!=null && StringUtils.isNotEmpty(item.getAccessInformation().getBarcode())) {
                     Map map = new HashMap();
                     map.put("itemBarcode", item.getAccessInformation().getBarcode());
-                    List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories = (List<OLELoanIntransitRecordHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELoanIntransitRecordHistory.class, map);
-                    if (CollectionUtils.isNotEmpty(oleLoanIntransitRecordHistories)) {
-                        editorForm.setOleLoanIntransitRecordHistories(oleLoanIntransitRecordHistories);
+                    List<OLEReturnHistoryRecord> oleReturnHistoryRecords = (List<OLEReturnHistoryRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEReturnHistoryRecord.class, map);
+                    if (CollectionUtils.isNotEmpty(oleReturnHistoryRecords)) {
+                        editorForm.setOleReturnHistoryRecords(oleReturnHistoryRecords);
                     }
                 }
                 if (editorForm.getEditable().equalsIgnoreCase("false")) {
@@ -1190,19 +1184,6 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         if (donorInfos.size() == 0) {
             DonorInfo donorInfo = new DonorInfo();
             donorInfos.add(donorInfo);
-        }else{
-            for(DonorInfo donorInfo : donorInfos){
-                if (donorInfo != null && StringUtils.isNotEmpty(donorInfo.getDonorCode())) {
-                    Map map = new HashMap();
-                    map.put("donorCode", donorInfo.getDonorCode());
-                    OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-                    if (oleDonor != null) {
-                        donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
-                        donorInfo.setDonorNote(oleDonor.getDonorNote());
-                    }
-                }
-                //donorInfo.
-            }
         }
         return donorInfos;
     }
@@ -1495,12 +1476,12 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             itemDoc.setCreatedOn(dateStr);
             itemDoc.setCreatedBy(user);
             String canUpdateStaffOnlyFlag = "false";
-            if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("Y")) {
+            if (editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForItem(true);
                 itemDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
-            else if (editorForm.getStaffOnlyFlagInGlobalEdit() != null && editorForm.getStaffOnlyFlagInGlobalEdit().equalsIgnoreCase("N")) {
+            else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";
                 editorForm.setStaffOnlyFlagForItem(false);
                 itemDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
@@ -1551,7 +1532,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     @Override
     public EditorForm copy(EditorForm editorForm) {
         editorForm.setDocId(null);
-        editorForm.setOleLoanIntransitRecordHistories(Collections.EMPTY_LIST);
+        editorForm.setOleReturnHistoryRecords(Collections.EMPTY_LIST);
 
         WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
         Item selectedItem = workInstanceOlemlForm.getSelectedItem();

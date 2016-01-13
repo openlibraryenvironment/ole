@@ -418,12 +418,12 @@
         </property>
     </bean>
 
-    <bean id="TransferCopyToTree"  parent="Uif-HorizontalBoxSection">
+    <bean id="TransferCopyToTree"  parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 40%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
-                <bean id="copyToTree1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
-                <bean id="copyToTree2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
-                <ref bean="search_button3"/>
+                <bean id="copyToTree1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em;width:105px" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <bean id="copyToTree2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em;width:105px" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <bean id="search_buttonTransfer" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em;width:105px" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="Boundwith-BibSearchResults" p:successCallback="searching()"/>
             </list>
         </property>
     </bean>

@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
@@ -710,7 +711,7 @@ public class OleDeliverBatchServiceImpl {
         contentForSendMail.append("<TR><TD>Volume/Issue/Copy # </TD><TD>:</TD><TD>" + (oleLoanDocument.getItemVolumeNumber()!=null? oleLoanDocument.getItemVolumeNumber():"") + "/" + issue + "/" +  (oleLoanDocument.getItemCopyNumber()!=null? oleLoanDocument.getItemCopyNumber():"")+ "</TD></TR>");
         contentForSendMail.append("<TR><TD>Library Shelving Location</TD><TD>:</TD><TD>" + oleLoanDocument.getLocation() + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Call Number</TD><TD>:</TD><TD>" + (oleLoanDocument.getItemCallNumber()!=null? oleLoanDocument.getItemCallNumber():"") + "</TD></TR>");
-        contentForSendMail.append("<TR><TD>Item was Due</TD><TD>:</TD><TD>" + (oleLoanDocument.getLoanDueDate()!=null ? sdf.format(oleLoanDocument.getLoanDueDate()) : "") + "</TD></TR>");
+        contentForSendMail.append("<TR><TD>Item was Due</TD><TD>:</TD><TD>" + ((CollectionUtils.isNotEmpty(patronBillPayment.getFeeType()) && patronBillPayment.getFeeType().get(0).getDueDate()!=null) ? sdf.format(patronBillPayment.getFeeType().get(0).getDueDate()) : "") + "</TD></TR>");
         contentForSendMail.append("</TABLE>");
         contentForSendMail.append("</BODY>");
         contentForSendMail.append("</HTML>");

@@ -336,7 +336,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     }
 
     public String getDefaultRequestTypeCode() {
-        if(defaultRequestType!=null && defaultRequestType.getRequestTypeCode()!=null){
+        if(defaultRequestTypeCode==null && defaultRequestType!=null && defaultRequestType.getRequestTypeCode()!=null){
             defaultRequestTypeCode = defaultRequestType.getRequestTypeCode();
         }
         return defaultRequestTypeCode;

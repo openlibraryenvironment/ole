@@ -280,6 +280,11 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
         return url;
     }
 
+    public String getSetNotices(String loanId) {
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/loanSentNotices?viewId=OleLoanSentNoticesRecordView&amp;methodToCall=viewLoanSentNotices&amp;loanId=" + loanId;
+        return url;
+    }
+
     public String getCountOfPendingRequests(String itemId) {
         Map itemMap = new HashMap();
         itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, itemId);

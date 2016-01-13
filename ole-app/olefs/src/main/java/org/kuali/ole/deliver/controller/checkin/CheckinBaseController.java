@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
-import org.kuali.ole.deliver.PatronBillGenerator;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.calendar.bo.*;
-import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
+import org.kuali.ole.deliver.calendar.bo.OleCalendar;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.drools.DroolsConstants;
@@ -29,7 +30,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.util.RiceConstants;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -232,13 +232,8 @@ public abstract class CheckinBaseController extends CircUtilController {
 
             facts.clear();
 
-            facts.add(oleItemRecordForCirc);
-            ItemFineRate itemFineRate = new ItemFineRate();
-            facts.add(itemFineRate);
-            facts.add(olePatronDocument);
-            facts.add(loanDocument);
-
-            fireRules(facts, null, "fine validation");
+            ItemFineRate itemFineRate = fireFineRules(loanDocument, oleItemRecordForCirc, olePatronDocument);
+            loanDocument.setItemFineRate(itemFineRate);
 
             try {
                 updateLoanDocument(loanDocument, oleItemSearch, itemRecord);
@@ -248,7 +243,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 oleItemRecordForCirc.setItemRecord((ItemRecord)getDroolsExchange(oleForm).getContext().get("itemRecord"));
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, getCustomDueDateMap(oleForm), itemFineRate);
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), loanDocument.getLoanDueDate());
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -290,7 +285,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         handleMissingPieceIfExists(oleForm, loanDocument, oleItemSearch);
 
-        handleIntransitStatus(oleItemRecordForCirc, oleForm);
+        updateReturnHistory(oleItemRecordForCirc, oleForm);
 
         handleCheckinNote(oleForm, oleItemRecordForCirc);
 
@@ -298,7 +293,6 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         return droolsResponse;
     }
-
 
     private DroolsResponse processIfCheckinRequestExist(ItemRecord itemRecord, OLEForm oleForm) {
         OleDeliverRequestBo prioritizedRequest = ItemInfoUtil.getInstance().getPrioritizedRequest(itemRecord.getBarCode());
@@ -402,32 +396,36 @@ public abstract class CheckinBaseController extends CircUtilController {
         return null;
     }
 
-    private void handleIntransitStatus(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
-        getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
-        if(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD)) {
-            updateLoanInTransitRecordHistory(oleForm);
+    public void updateReturnHistory(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
+        if(oleItemRecordForCirc != null) {
+            getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
+            if((oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))
+                    && StringUtils.isNotBlank(oleItemRecordForCirc.getRouteToLocation())) {
+                saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
+            } else if(!(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )) && !(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
+                oleItemRecordForCirc.setRouteToLocation("N/A");
+                saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
+            }
         }
     }
 
-    public void updateLoanInTransitRecordHistory(OLEForm oleForm) {
-        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc)getDroolsExchange(oleForm).getContext().get("oleItemRecordForCirc");
-        if (StringUtils.isNotBlank(oleItemRecordForCirc.getRouteToLocation())) {
-            ItemRecord itemRecord = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemRecord() : null;
-            OLELoanIntransitRecordHistory oleLoanIntransitRecordHistory = new OLELoanIntransitRecordHistory();
-            if(null != itemRecord) {
-                oleLoanIntransitRecordHistory.setItemBarcode(itemRecord.getBarCode());
-                oleLoanIntransitRecordHistory.setItemUUID(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(),itemRecord.getItemId()));
-            }
-            oleLoanIntransitRecordHistory.setHomeCirculationDesk(null != oleItemRecordForCirc.getCheckinLocation() ? oleItemRecordForCirc.getCheckinLocation().getCirculationDeskCode() : getSelectedCirculationDesk(oleForm));
-            oleLoanIntransitRecordHistory.setRouteCirculationDesk(oleItemRecordForCirc.getRouteToLocation());
-            oleLoanIntransitRecordHistory.setOperator(getOperatorId(oleForm));
-            try {
-                oleLoanIntransitRecordHistory.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            getBusinessObjectService().save(oleLoanIntransitRecordHistory);
+    private void saveReturnHistoryRecord(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
+        ItemRecord itemRecord = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemRecord() : null;
+        OLEReturnHistoryRecord oleReturnHistoryRecord = new OLEReturnHistoryRecord();
+        if(null != itemRecord) {
+            oleReturnHistoryRecord.setItemBarcode(itemRecord.getBarCode());
+            oleReturnHistoryRecord.setItemUUID(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), itemRecord.getItemId()));
         }
+        oleReturnHistoryRecord.setHomeCirculationDesk(null != oleItemRecordForCirc.getCheckinLocation() ? oleItemRecordForCirc.getCheckinLocation().getCirculationDeskCode() : getSelectedCirculationDesk(oleForm));
+        oleReturnHistoryRecord.setRouteCirculationDesk(oleItemRecordForCirc.getRouteToLocation());
+        oleReturnHistoryRecord.setOperator(getOperatorId(oleForm));
+        oleReturnHistoryRecord.setReturnedItemStatus(oleItemRecordForCirc.getItemStatusToBeUpdatedTo());
+        try {
+            oleReturnHistoryRecord.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getBusinessObjectService().save(oleReturnHistoryRecord);
     }
 
     private void handleAutoCheckout(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
@@ -448,14 +446,18 @@ public abstract class CheckinBaseController extends CircUtilController {
     private void handleOnHoldRequestIfExists(OleItemRecordForCirc oleItemRecordForCirc) {
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
         List<String> requestTypes = getRequestTypes();
+       boolean expirationDateToBeModified = false;
         if (null != oleItemRecordForCirc.getItemStatusToBeUpdatedTo() && oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) &&
                 null != oleDeliverRequestBo && requestTypes.contains(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode())) {
             if(null == oleDeliverRequestBo.getHoldExpirationDate()) {
                 Date holdExpiryDate = generateHoldExpirationDate(oleDeliverRequestBo);
                 oleDeliverRequestBo.setHoldExpirationDate(new java.sql.Date(holdExpiryDate.getTime()));
+                if(oleDeliverRequestBo.getRequestExpiryDate().compareTo(oleDeliverRequestBo.getHoldExpirationDate())<0){
+                    expirationDateToBeModified = true;
+                }
                 List<OLEDeliverNotice> oleDeliverNotices = oleDeliverRequestBo.getDeliverNotices();
                 for(OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
-                    if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)) {
+                    if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE) || (expirationDateToBeModified && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.REQUEST_EXPIRATION_NOTICE))) {
                         oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(holdExpiryDate.getTime()));
                     }
                 }
@@ -669,28 +671,6 @@ public abstract class CheckinBaseController extends CircUtilController {
             }
         }
         return null;
-    }
-
-    private String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Date customDueDateMap, ItemFineRate itemFineRate) throws Exception {
-        String billPayment = null;
-        if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
-            LOG.error("No fine rule found");
-        } else {
-            Double overdueFine = new OleCalendarServiceImpl().calculateOverdueFine(selectedCirculationDesk, loanDocument.getLoanDueDate(), new Timestamp(customDueDateMap.getTime()), itemFineRate);
-            overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
-
-            if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
-                billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.REPLACEMENT_FEE, loanDocument.getReplacementBill().doubleValue());
-            } else if (null != overdueFine && overdueFine > 0) {
-                billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.OVERDUE_FINE, overdueFine);
-            }
-        }
-
-        return billPayment;
-    }
-
-    private PatronBillGenerator getPatronBillGenerator() {
-        return new PatronBillGenerator();
     }
 
     private void updateLoanDocument(OleLoanDocument loanDocument, OleItemSearch oleItemSearch, ItemRecord itemRecord) throws Exception {

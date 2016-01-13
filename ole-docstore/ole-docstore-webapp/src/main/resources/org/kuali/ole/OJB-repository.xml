@@ -591,4 +591,37 @@
         <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.ole.audit.ItemAudit" table="ITEM_AUDIT_T">
+        <field-descriptor name="auditId" column="AUDIT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="ITEM_AUDIT_S"/>
+        <field-descriptor name="foreignKeyRef" column="FOREIGN_KEY_REF" jdbc-type="INTEGER"/>
+        <field-descriptor name="actor" column="ACTOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateDate" column="UPDATE_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="columnUpdated" column="COLUMN_UPDATED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="columnValue" column="COLUMN_VALUE" jdbc-type="BLOB"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.audit.BibAudit" table="BIB_AUDIT_T">
+        <field-descriptor name="auditId" column="AUDIT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="BIB_AUDIT_S"/>
+        <field-descriptor name="foreignKeyRef" column="FOREIGN_KEY_REF" jdbc-type="INTEGER"/>
+        <field-descriptor name="actor" column="ACTOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateDate" column="UPDATE_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="columnUpdated" column="COLUMN_UPDATED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="columnValue" column="COLUMN_VALUE" jdbc-type="BLOB"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.audit.HoldingsAudit" table="HOLDINGS_AUDIT_T">
+        <field-descriptor name="auditId" column="AUDIT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="HOLDINGS_AUDIT_S"/>
+        <field-descriptor name="foreignKeyRef" column="FOREIGN_KEY_REF" jdbc-type="INTEGER"/>
+        <field-descriptor name="actor" column="ACTOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateDate" column="UPDATE_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="columnUpdated" column="COLUMN_UPDATED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="columnValue" column="COLUMN_VALUE" jdbc-type="BLOB"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
 </descriptor-repository>

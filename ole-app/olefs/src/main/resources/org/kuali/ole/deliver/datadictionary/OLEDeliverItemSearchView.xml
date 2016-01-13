@@ -18,7 +18,7 @@
                 <bean id="OLEDeliverItemSearchPage" parent="Uif-Page">
                     <property name="items">
                         <list>
-                            <ref bean="ExpandCollapse_buttons"/>
+                            <ref bean="OLEDeliverItemHeaderButton"/>
                             <ref bean="OLEDeliverItemSearchPanel"/>
                             <ref bean="OLEDeliverItemSearchButtons"/>
                             <ref bean="OLEDeliverBibSearchResults"/>
@@ -42,11 +42,20 @@
         </property>
     </bean>
 
+    <bean id="OLEDeliverItemHeaderButton" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="OLEDeliverItemSearchButtons"/>
+                <ref bean="ExpandCollapse_buttons"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="ExpandCollapse_buttons" parent="Uif-HorizontalBoxSection" p:render="@{singleItemFlag}" p:style="float:right;margin-top:0%;margin-right:13%">
         <property name="items">
             <list>
-                <bean id="Expand_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
-                <bean id="Collapse_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+                <bean id="Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
             </list>
         </property>
     </bean>
@@ -112,14 +121,15 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="text-align:center;" >
+    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="position:relative;top:54%;left: 37%;justify-content: center;align-items: center;margin-right:45%" >
         <property name="items">
             <list>
                 <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton"
-                      p:style="margin-left:50%;"
                       p:methodToCall="search" p:actionLabel="Search" p:successCallback="disableLink()"/>
                 <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton"
-                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                      p:methodToCall="clearSearch" p:actionLabel="Clear Values"/>
+                <bean id="itemSearch_cancel_button" parent="Uif-SecondaryActionButton"
+                      p:actionLabel="Cancel" p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);"/>
             </list>
         </property>
     </bean>
@@ -614,9 +624,9 @@
         <property name="headerText" value="Item History"/>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="In Transit History"
-                      p:render="@{oleSingleItemResultDisplayRow.oleIntransitRecordHistories.size() > 0}"/>
-                <ref bean="OLEDeliverItemSearchResult-IntransitLoanRecords"/>
+                <bean parent="Uif-MessageField" p:messageText="Return History"
+                      p:render="@{oleSingleItemResultDisplayRow.oleReturnHistoryRecords.size() > 0}"/>
+                <ref bean="OLEDeliverItemSearchResult-ReturnHistoryRecords"/>
                 <bean parent="Uif-MessageField" p:messageText="Item Record History"/>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
@@ -651,10 +661,10 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchResult-IntransitLoanRecords" parent="Uif-TableCollectionSection"
+    <bean id="OLEDeliverItemSearchResult-ReturnHistoryRecords" parent="Uif-TableCollectionSection"
           p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false" p:style="width:auto">
-        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory"/>
-        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleIntransitRecordHistories"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEReturnHistoryRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleReturnHistoryRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="renderAddLine" value="false"/>
@@ -662,13 +672,14 @@
         <property name="renderLineActions" value="false"/>
         <property name="items">
             <list>
-                <bean id="operator" parent="Uif-DataField" p:propertyName="operator" p:label="Operator"/>
-                <bean id="homeCirculationDesk" parent="Uif-DataField" p:propertyName="homeCirculationDesk"
+                <bean id="oleDeliverItemSearchResult_operator" parent="Uif-DataField" p:propertyName="operator" p:label="Operator"/>
+                <bean id="oleDeliverItemSearchResult_returnedItemStatus" parent="Uif-DataField" p:propertyName="returnedItemStatus" p:label="Item Status"/>
+                <bean id="oleDeliverItemSearchResult_homeCirculationDesk" parent="Uif-DataField" p:propertyName="homeCirculationDesk"
                       p:label="Routed From"/>
-                <bean id="routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
+                <bean id="oleDeliverItemSearchResult_routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
                       p:label="Routed To"/>
-                <bean id="returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
-                      p:label="Transit Date"/>
+                <bean id="oleDeliverItemSearchResult_returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
+                      p:label="Return Date"/>
             </list>
         </property>
     </bean>

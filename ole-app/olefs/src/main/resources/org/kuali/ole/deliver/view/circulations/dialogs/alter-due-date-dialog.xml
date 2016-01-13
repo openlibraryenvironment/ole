@@ -92,21 +92,21 @@
     </bean>
 
 
-    <bean id="alterDueDate-buttons" parent="alterDueDate-buttons-HorizontalBoxSection-parentBean" />
+    <bean id="alterDueDate-buttons" p:style="float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="alterDueDate-buttons-HorizontalBoxSection-parentBean" />
     <bean id="alterDueDate-buttons-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
         <property name="items">
             <list>
 
-                <bean id="alterDueDate-updateButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Update" p:actionScript="
+                <bean id="alterDueDate-updateButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit" p:actionScript="
                 if(jq('#kualiLightboxForm').valid()){
                     alterDueDate();
                 }"/>
 
-                <bean id="alterDueDate-closeButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="alterDueDate-closeButton" parent="Uif-SecondaryActionButton" p:actionScript="
                 jq.fancybox.close();
                 jq('#checkoutItem_control').focus();
                 jq('.loanedItemCBClass').removeAttr('checked');
-                jq('.loaningItemCBClass').removeAttr('checked');" p:style="float:left;margin-left:2em" p:actionLabel="Close"  />
+                jq('.loaningItemCBClass').removeAttr('checked');" p:actionLabel="Cancel"  />
 
             </list>
         </property>

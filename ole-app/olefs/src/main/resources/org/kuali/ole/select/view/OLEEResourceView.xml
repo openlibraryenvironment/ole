@@ -48,6 +48,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/eresource/scripts/eresource.js</value>
+                <value>ole/eresource/scripts/tableExport.js</value>
                 <value>ole/alert/scripts/alert.js</value>
             </list>
         </property>
@@ -55,6 +56,7 @@
         <list>
            <!-- <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPopUp"/>-->
             <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp"/>
+           <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
             <!--<ref bean="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp"/>-->
             <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis"/>
             <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>

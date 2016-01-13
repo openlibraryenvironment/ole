@@ -79,6 +79,8 @@
             <bean parent="Uif-DocumentPageFooter">
                 <property name="items">
                     <list>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] or #actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
    <!--                     <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport"
                               p:actionLabel="route report"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>

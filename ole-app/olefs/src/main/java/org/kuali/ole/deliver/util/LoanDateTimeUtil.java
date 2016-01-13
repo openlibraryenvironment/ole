@@ -42,6 +42,17 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         return loanDueDate;
     }
 
+    private Date getFollowingDay(Date loanDueDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(loanDueDate);
+        calendar.add(Calendar.DATE,1);
+        calendar.set(Calendar.HOUR_OF_DAY,00);
+        calendar.set(Calendar.MINUTE,00);
+        calendar.set(Calendar.SECOND,00);
+        calendar.set(Calendar.MILLISECOND,01);
+        return calendar.getTime();
+    }
+
     private Date calculateDueDate(Date loanDueDate) {
         OleCalendarExceptionPeriod oleCalendarExceptionPeriod = doesDateFallInExceptionPeriod(getActiveCalendar(), loanDueDate);
 
@@ -52,7 +63,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
             } else {
                 if (StringUtils.isEmpty(exceptionDate.getOpenTime()) && StringUtils.isEmpty(exceptionDate.getCloseTime())) {
                     //Holiday workflow;
-                    Date followingDay = DateUtils.addDays(loanDueDate, 1);
+                    Date followingDay = getFollowingDay(loanDueDate);
                     loanDueDate = calculateDueDate(followingDay);
                 } else {
                     // Partial hours workflow
@@ -64,7 +75,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
             //If the week list is empty i.e its a holiday period;
             if (CollectionUtils.isEmpty(oleCalendarExceptionPeriodWeekList)) {
                 Timestamp endDate = oleCalendarExceptionPeriod.getEndDate();
-                Date followingDay = DateUtils.addDays(endDate, 1);
+                Date followingDay = getFollowingDay(endDate);
                 loanDueDate = calculateDueDate(followingDay);
             } else {
                 loanDueDate = handleNonWorkingHoursWorkflow(loanDueDate, oleCalendarExceptionPeriodWeekList);
@@ -89,16 +100,12 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private Date handleNonWorkingHoursWorkflow(Date loanDueDate, List<? extends OleBaseCalendarWeek> oleBaseCalendarWeekList) {
         Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList = getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDate, oleBaseCalendarWeekList);
         if (nonWorkingHoursCheck) {
-            Map<String, String> openTime = openAndClosingTimeForTheGivenDayFromWeekList.get("openTime");
-            Calendar calendar = resolveDateTime(openTime, loanDueDate);
-            loanDueDate = calendar.getTime();
-            loanDueDate = handleGracePeriod(loanDueDate);
+            loanDueDate = processDueDateAndGracePeriod(loanDueDate, openAndClosingTimeForTheGivenDayFromWeekList);
         } else {
             boolean loanDueTimeWithinWorkingHours = isLoanDueTimeWithinWorkingHours(loanDueDate, oleBaseCalendarWeekList);
-
             if (!loanDueTimeWithinWorkingHours) {
                 if (includeNonWorkingHours()) {
-                    Date followingDay = DateUtils.addDays(loanDueDate, 1);
+                    Date followingDay =getFollowingDay(loanDueDate);
                     nonWorkingHoursCheck = true;
                     loanDueDate = calculateDueDate(followingDay);
                 } else {
@@ -106,11 +113,28 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
                     Calendar calendar = resolveDateTime(closeTime, loanDueDate);
                     loanDueDate = calendar.getTime();
                 }
+            } else if(inDueDateFallsBeforeOpeningTimeOfLibrary(openAndClosingTimeForTheGivenDayFromWeekList.get("openTime"), loanDueDate)) {
+                loanDueDate = processDueDateAndGracePeriod(loanDueDate,openAndClosingTimeForTheGivenDayFromWeekList);
             }
         }
         return loanDueDate;
     }
 
+    private Date processDueDateAndGracePeriod(Date loanDueDate, Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList) {
+        Map<String, String> openTime = openAndClosingTimeForTheGivenDayFromWeekList.get("openTime");
+        Calendar calendar = resolveDateTime(openTime, loanDueDate);
+        loanDueDate = calendar.getTime();
+        loanDueDate = handleGracePeriod(loanDueDate);
+        return loanDueDate;
+    }
+
+
+    private boolean inDueDateFallsBeforeOpeningTimeOfLibrary(Map<String, String> openTime, Date loanDueDate) {
+        Calendar calendar = resolveDateTime(openTime, loanDueDate);
+        Calendar loanDueDateCalendar = Calendar.getInstance();
+        loanDueDateCalendar.setTime(loanDueDate);
+        return calendar.after(loanDueDateCalendar);
+    }
 
     private Date getLoanDueDate(String loanPeriod) {
         Date loanDueDate = null;
@@ -163,7 +187,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         Calendar closeTimeCalendar = resolveDateTime(closingTimeForTheGivenDay, loanDueDate);
         Calendar openTimeCalendar = resolveDateTime(openTimeForTheGivenDay, loanDueDate);
         //Compares for the givne day if the loan due time falls within the closing time
-        return (openTimeCalendar.getTime().compareTo(loanDueDate) <= 0 && closeTimeCalendar.getTime().compareTo(loanDueDate) >= 0);
+        return (openTimeCalendar.getTime().after(loanDueDate) || openTimeCalendar.getTime().compareTo(loanDueDate) <= 0 && closeTimeCalendar.getTime().compareTo(loanDueDate) >= 0);
     }
 
     private Calendar resolveDateTime(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
@@ -238,7 +262,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     public String getGracePeriodForIncludingNonWorkingHours() {
         return ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.GRACE_PERIOD_FOR_NON_WORKING_HOURS);
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.GRACE_PERIOD_FOR_NON_WORKING_HOURS);
     }
 
 

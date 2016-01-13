@@ -45,12 +45,12 @@
                       p:onClickScript="jq.fancybox.close();"
                       p:successCallback="jq('#checkoutItem_control').focus();"/>
                 <bean id="donNotLoanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Loan"
-                      p:style="width:100px"
+                      p:style="width:94px"
                       p:methodToCall="clearUI" p:ajaxSubmit="true" p:onClickScript="jq.fancybox.close();"/>
                 <bean id="patronRecordLink" parent="Uif-LinkField" p:target="_blank"
-                      p:render = "@{!patronDocument.addressVerified or patronDocument.generalBlock}" p:style="height:25px;font-size:10px"
+                      p:render = "@{!patronDocument.addressVerified or patronDocument.generalBlock}" p:style="height:25px;font-size:12px;line-height:2em;"
                       p:href="patronMaintenance?olePatronId=@{patronDocument.olePatronId}&amp;methodToCall=maintenanceEdit&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;viewTypeName=MAINTENANCE&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false"
-                      p:linkText="Edit Patron" >
+                      p:linkText="&lt;font color='#000000'/&gt;Edit Patron&lt;/font&gt;" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>uif-smallActionButton</value>
