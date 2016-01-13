@@ -12,7 +12,7 @@ import java.sql.*;
 public class OleOjbClobConversionUtil implements FieldConversion {
         @Override
         public Object javaToSql(Object source) throws ConversionException {
-            return source;
+            return new String((byte[])source);
         }
 
         @Override
