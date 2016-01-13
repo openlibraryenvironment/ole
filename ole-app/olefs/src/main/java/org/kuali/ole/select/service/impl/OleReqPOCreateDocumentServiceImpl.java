@@ -409,7 +409,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      * @param oleOrderRecord      OleOrderRecord
      * @return requisitionDocument OleRequisitionDocument
      */
-    public void setDeliveryDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+    private void setDeliveryDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
         if (LOG.isDebugEnabled())
             LOG.debug("bibInfoBean.getDeliveryBuildingCode----------->" + oleOrderRecord.getOleTxRecord().getBuildingCode());
 
@@ -463,7 +463,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      * @param requisitionDocument OleRequisitionDocument
      * @return requisitionDocument OleRequisitionDocument
      */
-    public void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+    private void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
         VendorDetail vendorDetail = null;
         if (oleOrderRecord.getOleTxRecord().getVendorNumber() != null) {
              vendorDetail = getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());
@@ -856,6 +856,16 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
     }
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
+
+        String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle()+ "," : "";
+        String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor()+ "," : "";
+        String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher()+ "," : "";
+        String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + ",": "";
+        String description = title + author
+                + publisher + isbn;
+        item.setItemDescription(description.substring(0, (description.lastIndexOf(","))));
+        item.setItemTitle(oleOrderRecord.getOleBibRecord().getBib().getTitle());
+        item.setItemAuthor(oleOrderRecord.getOleBibRecord().getBib().getAuthor());
         item.setBibUUID(oleOrderRecord.getOleBibRecord().getBibUUID());
     }
 
