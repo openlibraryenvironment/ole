@@ -61,9 +61,8 @@ public class NonPublicNoteHandler extends HoldingsHandler {
             HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
             holdingsNoteRecord.setNote(publicNote);
             holdingsNoteRecord.setType("nonPublic");
-            holdingsNoteRecords.add(holdingsNoteRecord);
-            holdingsNoteRecords.add(holdingsNoteRecord);
             holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
+            holdingsNoteRecords.add(holdingsNoteRecord);
             holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
         }
         exchange.add("holdingsRecord", holdingRecord);
