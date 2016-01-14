@@ -22,11 +22,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
 public class BatchConfiguration {
+    
+    @Bean
+    public SchedulerFactoryBean quartzScheduler() {
+        return new SchedulerFactoryBean();
+    }
 
     @Resource    
     private List<Dummy> dummyList;

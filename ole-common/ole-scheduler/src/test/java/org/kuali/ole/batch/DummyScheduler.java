@@ -18,7 +18,7 @@ public class DummyScheduler {
     @Autowired
     private Job job;
   
-    @Scheduled(cron="*/5 * * * * *")
+    //@Scheduled(cron="*/5 * * * * *")
     // Every day at 6 o'clock: @Scheduled(cron="0 0 6 * * *")
     public void run() {
         try {
