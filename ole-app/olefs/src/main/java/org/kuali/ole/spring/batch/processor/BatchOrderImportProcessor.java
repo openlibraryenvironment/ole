@@ -97,11 +97,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         List<Record> values = new ArrayList<>();
                         if(!matchedRecords.isEmpty()){
                             values.addAll(matchedRecords.values());
+                        } else if(!unMatchedRecords.isEmpty()){
+                            values.addAll(unMatchedRecords);
                         }
-                        unMatchedRecords.addAll(values);
 
-
-                        Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, unMatchedRecords);
+                        Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, values);
                         matchedRecords.putAll(buildUnMatchedRecordsWithBibId);
                         try {
                             orderProcessHandler.processOrder(matchedRecords, batchProcessProfile, orderRequestHandler);
