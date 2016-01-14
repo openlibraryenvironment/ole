@@ -96,7 +96,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     }
 
     @Override
-    public OleRequisitionDocument setValueToRequisitionDocuemnt(OleRequisitionDocument oleRequisitionDocument, OleOrderRecord oleOrderRecord) throws Exception {
+    public OleRequisitionDocument populateReqDocWithOrderInformation(OleRequisitionDocument oleRequisitionDocument, OleOrderRecord oleOrderRecord) throws Exception {
         setDocumentValues(oleRequisitionDocument, oleOrderRecord);
 
         oleRequisitionDocument.setItems(generateItemList(oleOrderRecord, oleRequisitionDocument));

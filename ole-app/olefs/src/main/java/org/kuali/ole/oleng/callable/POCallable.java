@@ -11,7 +11,8 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.handler.OrderRequestHandler;
+import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
+import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.oleng.service.OrderImportService;
 import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
@@ -37,21 +38,21 @@ public class POCallable implements Callable {
 
     private BatchProcessProfile batchProcessProfile;
     private OrderImportService oleOrderImportService;
-    private OrderRequestHandler orderRequestHandler;
+    private CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler;
     private PlatformTransactionManager transactionManager;
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
-    public POCallable(String bibId, BatchProcessProfile batchProcessProfile, OrderRequestHandler orderRequestHandler) {
+    public POCallable(String bibId, BatchProcessProfile batchProcessProfile, CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler) {
         this.bibId = bibId;
         this.batchProcessProfile = batchProcessProfile;
-        this.orderRequestHandler = orderRequestHandler;
+        this.createReqAndPOServiceHandler = createReqAndPOServiceHandler;
     }
 
     @Override
     public Object call() throws Exception {
         String finalResponse = "";
         final JSONObject jsonObject = new JSONObject();
-        OleTxRecord oleTxRecord= getOleOrderImportService().processDataMapping(bibId,batchProcessProfile);
+        OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(bibId, batchProcessProfile);
 
         final OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
@@ -76,7 +77,7 @@ public class POCallable implements Callable {
                     @Override
                     public Object doInTransaction(TransactionStatus status) {
                         try {
-                            response = orderRequestHandler.processOrder(oleOrderRecord);
+                            response = createReqAndPOServiceHandler.processOrder(oleOrderRecord);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -105,7 +106,7 @@ public class POCallable implements Callable {
         Bib bib = new Bib();
         String query = "id:" + bibId;
         SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
-        if(solrDocumentList.size() > 0) {
+        if (solrDocumentList.size() > 0) {
             SolrDocument solrDocument = solrDocumentList.get(0);
 
             List<String> authors = (List<String>) solrDocument.getFieldValue(DocstoreConstants.TITLE_DISPLAY);
@@ -143,7 +144,7 @@ public class POCallable implements Callable {
     }
 
     public SolrRequestReponseHandler getSolrRequestReponseHandler() {
-        if(null == solrRequestReponseHandler) {
+        if (null == solrRequestReponseHandler) {
             solrRequestReponseHandler = new SolrRequestReponseHandler();
         }
         return solrRequestReponseHandler;

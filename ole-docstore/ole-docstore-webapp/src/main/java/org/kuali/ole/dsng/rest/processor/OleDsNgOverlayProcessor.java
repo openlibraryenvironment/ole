@@ -26,6 +26,7 @@ import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
 import org.kuali.ole.dsng.rest.handler.items.UpdateItemHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -102,6 +103,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
+                String valueOf001 = requestJsonObject.getString("001");
+                bibResponse.setValueOf001(valueOf001);
 
 
                 String ops = requestJsonObject.getString("ops");

@@ -10,8 +10,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
  */
 public interface OleNGRequisitionService {
     public OleRequisitionDocument createNewRequisitionDocument() throws Exception;
-    public OleRequisitionDocument setValueToRequisitionDocuemnt(OleRequisitionDocument oleRequisitionDocument,
-                                                                OleOrderRecord oleOrderRecord) throws Exception ;
+    public OleRequisitionDocument populateReqDocWithOrderInformation(OleRequisitionDocument oleRequisitionDocument,
+                                                                     OleOrderRecord oleOrderRecord) throws Exception ;
     public OleRequisitionDocument saveRequsitionDocument(OleRequisitionDocument oleRequisitionDocument);
     public OleRequisitionDocument routeRequisitionDocument(OleRequisitionDocument oleRequisitionDocument) throws Exception;
     public OleRequisitionDocument createPurchaseOrderDocument(OleOrderRecord oleOrderRecord) throws Exception;

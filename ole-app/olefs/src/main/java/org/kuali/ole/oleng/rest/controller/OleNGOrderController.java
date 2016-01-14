@@ -1,6 +1,6 @@
 package org.kuali.ole.oleng.rest.controller;
 
-import org.kuali.ole.oleng.handler.OrderRequestHandler;
+import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 public class OleNGOrderController extends OleNgControllerBase {
 
     @Autowired
-    private OrderRequestHandler orderRequestHandler;
+    private CreateReqAndPOServiceHandler orderRequestHandler;
 
     @RequestMapping(method = RequestMethod.POST, value = "/order/createOrder", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody

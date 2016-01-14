@@ -11,6 +11,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -21,6 +22,7 @@ import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,8 @@ import java.util.*;
  */
 public abstract class BatchFileProcessor extends BatchUtil {
 
+    @Autowired
+    private MatchPointProcessor matchPointProcessor;
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
     private MarcXMLConverter marcXMLConverter;
@@ -106,5 +110,14 @@ public abstract class BatchFileProcessor extends BatchUtil {
     @Override
     public void setSolrRequestReponseHandler(SolrRequestReponseHandler solrRequestReponseHandler) {
         this.solrRequestReponseHandler = solrRequestReponseHandler;
+    }
+
+
+    public MatchPointProcessor getMatchPointProcessor() {
+        return matchPointProcessor;
+    }
+
+    public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
+        this.matchPointProcessor = matchPointProcessor;
     }
 }
