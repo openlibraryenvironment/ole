@@ -1,20 +1,8 @@
 package org.kuali.ole.oleng.rest.controller;
 
-import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.docstore.common.document.Bib;
-import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.handler.OrderRequestHandler;
-import org.kuali.ole.oleng.service.impl.RequisitionServiceImpl;
-import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
-import org.kuali.ole.pojo.OleTxRecord;
-import org.kuali.ole.select.document.OleRequisitionDocument;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

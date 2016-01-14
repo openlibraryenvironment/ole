@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.util;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 
 import java.util.HashMap;
