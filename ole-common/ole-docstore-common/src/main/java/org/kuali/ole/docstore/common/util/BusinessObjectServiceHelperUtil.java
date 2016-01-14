@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.util;
+package org.kuali.ole.docstore.common.util;
 
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;

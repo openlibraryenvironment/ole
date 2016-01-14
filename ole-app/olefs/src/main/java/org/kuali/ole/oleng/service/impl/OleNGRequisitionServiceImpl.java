@@ -3,17 +3,21 @@ package org.kuali.ole.oleng.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.businessobject.RequisitionAccount;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
-import org.kuali.ole.oleng.service.RequisitionService;
+import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.select.OleSelectNotificationConstant;
 import org.kuali.ole.select.batch.service.RequisitionCreateDocumentService;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
@@ -22,9 +26,17 @@ import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +49,18 @@ import java.util.Map;
 /**
  * Created by SheikS on 12/17/2015.
  */
-@Service("requisitionService")
-public class RequisitionServiceImpl implements RequisitionService {
+@Service("oleNGRequisitionService")
+public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil implements OleNGRequisitionService {
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleNGRequisitionServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
     private OlePurapService olePurapService;
     private OleReqPOCreateDocumentServiceImpl oleReqPOCreateDocumentService;
     protected RequisitionCreateDocumentService requisitionCreateDocumentService;
     private DocstoreClientLocator docstoreClientLocator;
+    private ConfigurationService kualiConfigurationService;
+
+    protected DocumentService documentService;
 
     @Override
     public OleRequisitionDocument createPurchaseOrderDocument(final OleOrderRecord oleOrderRecord) throws Exception {
@@ -66,6 +81,75 @@ public class RequisitionServiceImpl implements RequisitionService {
         return requisitionDocument;
     }
 
+    @Override
+    public OleRequisitionDocument createNewRequisitionDocument() throws Exception {
+        String user;
+        if (GlobalVariables.getUserSession() == null) {
+            user = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID, OLEConstants.SELECT_NMSPC,
+                    OLEConstants.SELECT_CMPNT,OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+            if(LOG.isDebugEnabled()){
+                LOG.debug("createNewRequisitionDocument - user from session"+user);
+            }
+            GlobalVariables.setUserSession(new UserSession(user));
+        }
+        return (OleRequisitionDocument) SpringContext.getBean(DocumentService.class).getNewDocument(org.kuali.ole.sys.OLEConstants.FinancialDocumentTypeCodes.REQUISITION);
+    }
+
+    @Override
+    public OleRequisitionDocument setValueToRequisitionDocuemnt(OleRequisitionDocument oleRequisitionDocument, OleOrderRecord oleOrderRecord) throws Exception {
+        setDocumentValues(oleRequisitionDocument, oleOrderRecord);
+
+        oleRequisitionDocument.setItems(generateItemList(oleOrderRecord, oleRequisitionDocument));
+
+        oleRequisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+
+        oleRequisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+
+        return oleRequisitionDocument;
+    }
+
+    @Override
+    public OleRequisitionDocument saveRequsitionDocument(OleRequisitionDocument oleRequisitionDocument) {
+        try {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Calling saveRequisitionDocuments in OleNGRequisitionServiceImpl >>>>" + oleRequisitionDocument.getDocumentNumber());
+            }
+            try {
+                getDocumentService().saveDocument(oleRequisitionDocument, DocumentSystemSaveEvent.class);
+            } catch (Exception e) {
+                LOG.error("Exection while saving requisition document" + e);
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            LOG.error("Error persisting document # " + oleRequisitionDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
+            throw new RuntimeException("Error persisting document # " + oleRequisitionDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
+        }
+        return oleRequisitionDocument;
+    }
+
+    @Override
+    public OleRequisitionDocument routeRequisitionDocument(OleRequisitionDocument oleRequisitionDocument) throws Exception {
+        oleRequisitionDocument.populateDocumentForRouting();
+        String purchaseOrderType = "";
+        if (oleRequisitionDocument.getPurchaseOrderTypeId() != null) {
+            Map purchaseOrderTypeIdMap = new HashMap();
+            purchaseOrderTypeIdMap.put("purchaseOrderTypeId", oleRequisitionDocument.getPurchaseOrderTypeId());
+            List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
+            if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
+                PurchaseOrderType purchaseOrderTypeDoc = (PurchaseOrderType) purchaseOrderTypeDocumentList.get(0);
+                purchaseOrderType = purchaseOrderTypeDoc.getPurchaseOrderType();
+            }
+            if (LOG.isDebugEnabled())
+                LOG.debug("purchaseOrderType >>>>>>>>>>>" + purchaseOrderType);
+            getDocumentService().routeDocument(oleRequisitionDocument, null, null);
+            LOG.debug("After Calling routeDocument >>>>>>>>>>>");
+        }
+        LOG.debug(IDocumentEvent.BEFORE_PROCESS);
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Routing is done for Requisition document. Document Number: " + oleRequisitionDocument.getDocumentNumber());
+        }
+        return  oleRequisitionDocument;
+    }
 
     private List<RequisitionItem> generateItemList(OleOrderRecord oleOrderRecord, OleRequisitionDocument requisitionDocument) throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
@@ -250,13 +334,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         return olePurapService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-
     public RequisitionCreateDocumentService getRequisitionCreateDocumentService() {
         if (requisitionCreateDocumentService == null) {
             requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
@@ -279,5 +356,19 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         }
         return docstoreClientLocator;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        if (kualiConfigurationService == null) {
+            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+        }
+        return kualiConfigurationService;
+    }
+
+    public DocumentService getDocumentService() {
+        if(null == documentService) {
+            documentService = (DocumentService) SpringContext.getService("documentService");
+        }
+        return documentService;
     }
 }

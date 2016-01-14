@@ -30,7 +30,8 @@ public class OrderImportServiceImpl implements OrderImportService {
     private BusinessObjectService businessObjectService;
 
     @Override
-    public OleTxRecord processDataMapping(String bibId, OleTxRecord oleTxRecord, BatchProcessProfile batchProcessProfile) {
+    public OleTxRecord processDataMapping(String bibId, BatchProcessProfile batchProcessProfile) {
+        OleTxRecord oleTxRecord = new OleTxRecord();
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
 
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
