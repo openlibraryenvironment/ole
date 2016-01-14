@@ -74,6 +74,7 @@ public abstract class NoticeMailContentFormatter {
                 oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
                 oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
                 oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
+                oleNoticeBo.setNoticeType(oleNoticeContentConfigurationBo.getNoticeType());
                 setPatronInfo(olePatron, oleNoticeBo);
                 setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(), oleNoticeContentConfigurationBo.getNoticeBody(), oleNoticeContentConfigurationBo.getNoticeFooterBody());
                 setItemInfo(oleNoticeBo, oleLoanDocument);
