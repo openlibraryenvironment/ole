@@ -32,9 +32,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private Map<String, String> dataTypeIndMap;
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
-    @Autowired
-    private MatchPointProcessor matchPointProcessor;
-
     @Override
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
@@ -57,10 +54,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue("LocalId_display");
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
-                    }
-
-                    if (null != jsonObject) {
-                        jsonArray.put(jsonObject);
+                    } else {
+                        jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
                     }
                 }
             } else {
@@ -99,6 +94,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
+        bibData.put("001", getMarcRecordUtil().getControlFieldValue(marcRecord, "001"));
         bibData.put("updatedBy", updatedUserName);
         bibData.put("updatedDate", updatedDate);
         bibData.put("unmodifiedContent", unmodifiedRecord);
@@ -419,14 +415,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public void setDataTypeIndMap(Map<String, String> dataTypeIndMap) {
         this.dataTypeIndMap = dataTypeIndMap;
-    }
-
-    public MatchPointProcessor getMatchPointProcessor() {
-        return matchPointProcessor;
-    }
-
-    public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
-        this.matchPointProcessor = matchPointProcessor;
     }
 
     @Override

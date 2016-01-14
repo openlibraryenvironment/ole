@@ -1,9 +1,14 @@
 package org.kuali.ole.oleng.resolvers;
 
-import org.kuali.ole.pojo.OleOrderRecord;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
+import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
+import org.kuali.ole.oleng.handler.CreateReqOnlyServiceHandler;
 import org.kuali.ole.select.document.OleRequisitionDocument;
+import org.marc4j.marc.Record;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 1/13/2016.
@@ -11,14 +16,16 @@ import java.util.List;
 public class CreateRequisitionOnlyHander extends OrderProcessHandler{
 
     @Override
-    public boolean isInterested(List<String> options) {
-        return options.contains("11") || options.contains("21");
+    public boolean isInterested(List<String> options, Boolean matchedRecords, Boolean unMatchedRecords) {
+        return (options.contains("11") && matchedRecords) || (options.contains("21") && unMatchedRecords);
     }
 
     @Override
-    public Integer processOrder(OleOrderRecord oleOrderRecord) throws Exception {
-        OleRequisitionDocument savedRequisitionDocument = createAndSaveRequisitionDocument(oleOrderRecord);
-        return savedRequisitionDocument.getPurapDocumentIdentifier();
+    public CreateReqAndPOBaseServiceHandler getCreateReqOrPOServiceHandler() {
+        CreateReqOnlyServiceHandler createReqOnlyServiceHandler = new CreateReqOnlyServiceHandler();
+        createReqOnlyServiceHandler.setOleNGRequisitionService(getOleNGRequisitionService());
+        return createReqOnlyServiceHandler;
     }
+
 
 }
