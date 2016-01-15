@@ -421,7 +421,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 }
                 PurchaseOrderService purchaseOrderService = (PurchaseOrderService) SpringContext.getBean("purchaseOrderService");
                 purchaseOrderDocument = purchaseOrderService.getPurchaseOrderByDocumentNumber(poItem.getDocumentNumber());
-                if (itemMap.containsKey("noOfItems") && itemMap.get("noOfItems")==1) {
+                if (itemMap.containsKey("noOfItems") && (Integer)(itemMap.get("noOfItems"))==1) {
                     oleInvoiceItem.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
                 }
                 oleInvoiceItem.setItemLineNumber(poItem.getItemLineNumber());
@@ -450,7 +450,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     accountingLine.add(invoiceAccount);
 
                 } else {
-                    if (itemMap.containsKey("noOfItems") && itemMap.get("noOfItems")==1) {
+                    if (itemMap.containsKey("noOfItems") && (Integer)(itemMap.get("noOfItems"))==1) {
                         if (invoiceRecord.getFundCode() != null) {
                             accountingLine = getAccountingLinesFromFundCode(invoiceRecord, oleInvoiceItem);
                         } else {
