@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.controller;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.util.OleDsNGSearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OleDsNGRestSearchController extends OleDsNGRestAPIController {
     @Autowired
     private OleDsNGSearchUtil oleDsNGSearchUtil;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/retrieveBibById", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.RETRIEVE_BIB_BY_ID, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String retrieveBibById(@RequestBody String body) throws Exception {
         JSONObject jsonObject = new JSONObject(body);

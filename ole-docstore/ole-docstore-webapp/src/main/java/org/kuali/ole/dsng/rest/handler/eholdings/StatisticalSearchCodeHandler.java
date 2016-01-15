@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord;
@@ -29,7 +30,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
         List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
         if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
@@ -37,7 +38,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = iterator.next();
                 if(null != holdingsStatisticalSearchRecord.getStatisticalSearchRecord() &&
                         StringUtils.equals(holdingsStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
-                    exchange.add("matchedItem", holdingsRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
                 }
             }
         }
@@ -46,7 +47,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
 
         StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
         if (null != statisticalSearchRecord) {
@@ -67,7 +68,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
             }
         }
-        exchange.add("holdingsRecord", holdingsRecord);
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
 
     }
 }

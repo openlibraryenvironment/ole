@@ -1,10 +1,8 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.MarcFactory;
+import org.kuali.ole.constants.OleNGConstants;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
 
 import java.util.StringTokenizer;
 
@@ -23,7 +21,7 @@ public class NewStepHandler extends StepHandler {
 
         while(destinationFieldTokenizer.hasMoreTokens()){
             String destination = destinationFieldTokenizer.nextToken();
-            String destinationArray[] = destination.split("[' ']");
+            String destinationArray[] = destination.split(OleNGConstants.SPACE_SPLIT);
             String destinationField = destinationArray[0];
             String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
             if (StringUtils.isNotBlank(destinationField)) {
@@ -38,7 +36,7 @@ public class NewStepHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("New");
+        return operation.equalsIgnoreCase(OleNGConstants.NEW);
 
     }
 }

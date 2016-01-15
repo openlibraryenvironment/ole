@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 
@@ -85,12 +86,12 @@ public class UpdateEholdingsHandler extends UpdateHoldingsHandler {
 
     @Override
     public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
-        return requestJsonObject.getJSONObject("eholdings");
+        return requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
     }
 
     @Override
     public void setMatchFound(Exchange exchange) {
-        exchange.add("eholdingsMatchFound", true);
+        exchange.add(OleNGConstants.EHOLDINGS_MATCH_FOUND, true);
     }
 
 

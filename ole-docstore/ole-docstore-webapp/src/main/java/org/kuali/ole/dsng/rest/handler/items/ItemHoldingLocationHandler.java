@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -30,7 +31,7 @@ public class ItemHoldingLocationHandler extends ItemHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
 
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
 
         for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
@@ -55,7 +56,7 @@ public class ItemHoldingLocationHandler extends ItemHandler {
                     map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
                 if (map.get(matchPointLevelId).equals(value)) {
-                    exchange.add("matchedItem", itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
                     break;
                 }
             }
@@ -73,8 +74,8 @@ public class ItemHoldingLocationHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         // No need to any process.
-        exchange.add("itemRecord", itemRecord);
+        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
     }
 }

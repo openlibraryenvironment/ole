@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.bib;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
@@ -31,11 +32,11 @@ public class CreateBibHandler extends BibHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        if (!requestJsonObject.has("id")) {
+        if (!requestJsonObject.has(OleNGConstants.ID)) {
             try {
-                String newBibContent = requestJsonObject.getString("modifiedContent");
-                String createdBy = requestJsonObject.getString("updatedBy");
-                String createdDateString = (String) requestJsonObject.get("updatedDate");
+                String newBibContent = requestJsonObject.getString(OleNGConstants.UNMODIFIED_CONTENT);
+                String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+                String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
                 BibRecord bibRecord = new BibRecord();
                 bibRecord.setContent(newBibContent);
@@ -50,13 +51,13 @@ public class CreateBibHandler extends BibHandler {
                 String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
                 bibRecord.setContent(modifiedcontent);
 
-                exchange.add("bib", bibRecord);
+                exchange.add(OleNGConstants.BIB, bibRecord);
 
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
 
                 createdBibRecord = getBibDAO().save(bibRecord);
 
-                exchange.add("bib", createdBibRecord);
+                exchange.add(OleNGConstants.BIB, createdBibRecord);
 
                 createHoldings(requestJsonObject, exchange);
 

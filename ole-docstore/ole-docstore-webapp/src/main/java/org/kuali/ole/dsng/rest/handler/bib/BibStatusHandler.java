@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
@@ -25,8 +26,8 @@ public class BibStatusHandler extends BibHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String bibStatus = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        BibRecord bibRecord = (BibRecord) exchange.get("bib");
+        BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
         bibRecord.setStatus(bibStatus);
-        exchange.add("bibRecord", bibRecord);
+        exchange.add(OleNGConstants.BIB_RECORD, bibRecord);
     }
 }

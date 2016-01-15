@@ -6,6 +6,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
@@ -103,22 +104,22 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 JSONObject requestJsonObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
-                String valueOf001 = requestJsonObject.getString("001");
+                String valueOf001 = requestJsonObject.getString(OleNGConstants.TAG_001);
                 bibResponse.setValueOf001(valueOf001);
 
 
-                String ops = requestJsonObject.getString("ops");
+                String ops = requestJsonObject.getString(OleNGConstants.OPS);
 
                 processBib(requestJsonObject, exchange, ops);
 
-                BibRecord bibRecord = (BibRecord) exchange.get("bib");
+                BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
 
                 if (null != bibRecord) {
                     solrInputDocumentMap = getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
-                    if(requestJsonObject.has("id")){
-                        bibResponse.setOperation("updated");
+                    if(requestJsonObject.has(OleNGConstants.ID)){
+                        bibResponse.setOperation(OleNGConstants.UPDATED);
                     } else {
-                        bibResponse.setOperation("created");
+                        bibResponse.setOperation(OleNGConstants.CREATED);
                     }
                     bibResponse.setBibId(bibRecord.getUniqueIdPrefix() + "-" + bibRecord.getBibId());
 
@@ -127,12 +128,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                     bibResponse.setHoldingsResponses(prepareHoldingsResponse(exchange));
 
-                    exchange.remove("bibCrated");
-                    exchange.remove("bibUpdated");
-                    exchange.remove("holdingRecordsToCreate");
-                    exchange.remove("holdingRecordsToUpdate");
-                    exchange.remove("itemRecordsToCreate");
-                    exchange.remove("itemRecordsToUpdate");
+                    exchange.remove(OleNGConstants.BIB_UPDATED);
+                    exchange.remove(OleNGConstants.HOLDINGS_CREATED);
+                    exchange.remove(OleNGConstants.HOLDINGS_UPDATED);
+                    exchange.remove(OleNGConstants.ITEMS_CREATED);
+                    exchange.remove(OleNGConstants.ITEMS_UPDATED);
                 }
                 bibResponses.add(bibResponse);
             }
@@ -156,11 +156,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     private List<HoldingsResponse> prepareHoldingsResponse(Exchange exchange) {
         List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
-        List holdingRecordsToCreate = (List) exchange.get("holdingRecordsToCreate");
-        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToCreate, "created"));
+        List holdingRecordsToCreate = (List) exchange.get(OleNGConstants.HOLDINGS_CREATED);
+        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToCreate, OleNGConstants.CREATED));
 
-        List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
-        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToUpdate, "updated"));
+        List holdingRecordsToUpdate = (List) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
+        holdingsResponses.addAll(holdingsResponse(exchange, holdingRecordsToUpdate, OleNGConstants.UPDATED));
 
         return holdingsResponses;
     }
@@ -183,11 +183,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private List<ItemResponse> prepareItemsResponse(HoldingsRecord holdingsRecord, Exchange exchange) {
         List<ItemResponse> itemResponses = new ArrayList<ItemResponse>();
 
-        List itemRecordsToCreate = (List) exchange.get("itemRecordsToCreate");
-        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToCreate, "created"));
+        List itemRecordsToCreate = (List) exchange.get(OleNGConstants.ITEMS_CREATED);
+        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToCreate, OleNGConstants.CREATED));
 
-        List itemRecordsToUpdate = (List) exchange.get("itemRecordsToUpdate");
-        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToUpdate, "updated"));
+        List itemRecordsToUpdate = (List) exchange.get(OleNGConstants.ITEMS_UPDATED);
+        itemResponses.addAll(itemResponse(holdingsRecord, itemRecordsToUpdate, OleNGConstants.UPDATED));
 
         return itemResponses;
     }
@@ -209,8 +209,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
     private Map<String, SolrInputDocument> prepareHoldingsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
-        List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
-        List<HoldingsRecord> holdingsRecordsToCreate = (List<HoldingsRecord>) exchange.get("holdingRecordsToCreate");
+        List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
+        List<HoldingsRecord> holdingsRecordsToCreate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_CREATED);
 
         List<HoldingsRecord> finalHoldingsForSolr = new ArrayList<HoldingsRecord>();
         if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)){
@@ -225,8 +225,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
     private Map<String, SolrInputDocument> prepareItemsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
-        List<ItemRecord> itemRecordsToUpdate = (List<ItemRecord>) exchange.get("itemRecordsToUpdate");
-        List<ItemRecord> itemRecordsToCreate = (List<ItemRecord>) exchange.get("itemRecordsToCreate");
+        List<ItemRecord> itemRecordsToUpdate = (List<ItemRecord>) exchange.get(OleNGConstants.ITEMS_UPDATED);
+        List<ItemRecord> itemRecordsToCreate = (List<ItemRecord>) exchange.get(OleNGConstants.ITEMS_CREATED);
 
         List<ItemRecord> finalItemsForSolr = new ArrayList<ItemRecord>();
         if(CollectionUtils.isNotEmpty(itemRecordsToUpdate)){

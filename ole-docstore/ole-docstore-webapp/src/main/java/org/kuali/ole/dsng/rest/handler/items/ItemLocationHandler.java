@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -26,7 +27,7 @@ public class ItemLocationHandler extends ItemHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
 
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
 
         for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
@@ -50,7 +51,7 @@ public class ItemLocationHandler extends ItemHandler {
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(value)) {
-                    exchange.add("matchedItem", itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
                     break;
                 }
             }
@@ -68,7 +69,7 @@ public class ItemLocationHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         // Todo : Set Location.
         String itemLocation = itemRecord.getLocation();
         if (StringUtils.isNotBlank(itemLocation)) {
@@ -94,6 +95,6 @@ public class ItemLocationHandler extends ItemHandler {
             itemRecord.setLocation(locationName.toString());
             itemRecord.setLocationLevel(locationLevelName.toString());
         }
-        exchange.add("itemRecord", itemRecord);
+        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
     }
 }

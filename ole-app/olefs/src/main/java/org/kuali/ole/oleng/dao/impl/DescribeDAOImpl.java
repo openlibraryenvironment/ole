@@ -2,16 +2,17 @@ package org.kuali.ole.oleng.dao.impl;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -24,9 +25,7 @@ import java.util.Map;
  */
 @Repository("DescribeDAO")
 @Scope("prototype")
-public class DescribeDAOImpl implements DescribeDAO {
-
-    private BusinessObjectService businessObjectService;
+public class DescribeDAOImpl extends BusinessObjectServiceHelperUtil implements DescribeDAO {
 
     public List<OleShelvingScheme> fetchAllCallNumerTypes(){
         return (List<OleShelvingScheme>) KRADServiceLocator.getBusinessObjectService().findAll(OleShelvingScheme.class);
@@ -88,14 +87,14 @@ public class DescribeDAOImpl implements DescribeDAO {
     @Override
     public void deleteProfileById(Long profileId) {
         Map parameterMap = new HashedMap();
-        parameterMap.put("batchProcessProfileId",profileId);
+        parameterMap.put(OleNGConstants.BATCH_PROCESS_PROFILE_ID,profileId);
         getBusinessObjectService().deleteMatching(BatchProcessProfile.class, parameterMap);
     }
 
     @Override
     public List<BatchProcessProfile> fetchProfileByNameAndType(String profileName, String type) {
         Map parameterMap = new HashedMap();
-        parameterMap.put("batchProcessProfileName",profileName);
+        parameterMap.put(OleNGConstants.BATCH_PROCESS_PROFILE_NAME,profileName);
         parameterMap.put("batchProcessType",type);
         return (List<BatchProcessProfile>)getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
     }
@@ -105,10 +104,4 @@ public class DescribeDAOImpl implements DescribeDAO {
         return getBusinessObjectService().save(bo);
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        if(null == businessObjectService){
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
-        }
-        return businessObjectService;
-    }
 }

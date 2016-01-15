@@ -1,14 +1,13 @@
 package org.kuali.ole.oleng.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.resolvers.*;
 import org.kuali.ole.oleng.service.OrderImportService;
-import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -16,7 +15,6 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.marc4j.marc.Record;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -58,7 +56,7 @@ public class OrderImportServiceImpl implements OrderImportService {
 
     private String getDestinationValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
         String destValue = null;
-        if (batchProfileDataMapping.getDataType().equalsIgnoreCase("bib marc")) {
+        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
             String dataField = batchProfileDataMapping.getDataField();
             String subField = batchProfileDataMapping.getSubField();
 
@@ -68,7 +66,7 @@ public class OrderImportServiceImpl implements OrderImportService {
                 destValue = getMarcRecordUtil().getDataFieldValue(marcRecord, dataField, subField);
             }
 
-        } else if (batchProfileDataMapping.getDataType().equalsIgnoreCase("constant")) {
+        } else if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.CONSTANT)) {
             destValue = batchProfileDataMapping.getConstant();
         }
 

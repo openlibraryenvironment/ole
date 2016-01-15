@@ -7,6 +7,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
@@ -54,19 +55,19 @@ public class UpdateHoldingsHandler extends Handler {
         List<HoldingsRecord> holdingsRecordsToUpdate = new ArrayList<HoldingsRecord>();
 
         try {
-            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
-            String updatedBy = requestJsonObject.getString("updatedBy");
-            String updatedDateString = (String) requestJsonObject.get("updatedDate");
+            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS);
+            String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+            String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
 
-            if (holdingJsonObject.has("matchPoints")) {
-                JSONObject matchPoints = holdingJsonObject.getJSONObject("matchPoints");
+            if (holdingJsonObject.has(OleNGConstants.MATCH_POINT)) {
+                JSONObject matchPoints = holdingJsonObject.getJSONObject(OleNGConstants.MATCH_POINT);
                 HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
                 });
 
-                exchange.add("holdingsRecord", holdingsRecord);
+                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                 matchPointsLoop:
                 for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
                     String key = (String) iterator1.next();
@@ -74,7 +75,7 @@ public class UpdateHoldingsHandler extends Handler {
                         Handler holdingsMetaDataHandlelr = iterator2.next();
                         if (holdingsMetaDataHandlelr.isInterested(key)) {
                             holdingsMetaDataHandlelr.process(matchPoints, exchange);
-                            if (null != exchange.get("matchedHoldings")) {
+                            if (null != exchange.get(OleNGConstants.MATCHED_HOLDINGS)) {
                                 holdingsRecord.setUpdatedDate(updatedDate);
                                 holdingsRecord.setUpdatedBy(updatedBy);
                                 setMatchFound(exchange);
@@ -88,13 +89,13 @@ public class UpdateHoldingsHandler extends Handler {
                 }
             }
 
-            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
+            List holdingRecordsToUpdate = (List) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
             if(null == holdingRecordsToUpdate) {
                 holdingRecordsToUpdate = new ArrayList();
             }
             holdingRecordsToUpdate.addAll(holdingsRecordsToUpdate);
 
-            exchange.add("holdingRecordsToUpdate",holdingRecordsToUpdate);
+            exchange.add(OleNGConstants.HOLDINGS_UPDATED,holdingRecordsToUpdate);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -108,11 +109,11 @@ public class UpdateHoldingsHandler extends Handler {
     }
 
     public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
-        return requestJsonObject.getJSONObject("holdings");
+        return requestJsonObject.getJSONObject(OleNGConstants.HOLDINGS);
     }
 
     private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject holdingJsonObject) throws JSONException, IOException {
-        JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+        JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
 
         HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
         });
@@ -128,11 +129,11 @@ public class UpdateHoldingsHandler extends Handler {
         }
 
         holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
-        exchange.remove("matchedHoldings");
+        exchange.remove(OleNGConstants.MATCHED_HOLDINGS);
         return  holdingsRecord;
     }
 
     public void setMatchFound(Exchange exchange) {
-        exchange.add("holdingsMatchFound", true);
+        exchange.add(OleNGConstants.HOLDINGS_MATCH_FOUND, true);
     }
 }

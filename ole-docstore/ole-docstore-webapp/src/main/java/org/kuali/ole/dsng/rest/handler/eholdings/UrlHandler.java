@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord;
@@ -27,14 +28,14 @@ public class UrlHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String url = getStringValueFromJsonObject(requestJsonObject, TYPE);
         List<HoldingsUriRecord> holdingsUriRecords = holdingRecord.getHoldingsUriRecords();
         if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
             for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsUriRecord holdingsUriRecord = iterator.next();
                 if(StringUtils.equals(holdingsUriRecord.getUri(),url)) {
-                    exchange.add("matchedHoldings", holdingRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
                 }
             }
         }
@@ -43,7 +44,7 @@ public class UrlHandler extends HoldingsHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String url = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         List<HoldingsUriRecord> holdingsUriRecords = holdingRecord.getHoldingsUriRecords();
         if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
             for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
@@ -58,6 +59,6 @@ public class UrlHandler extends HoldingsHandler {
             holdingsUriRecords.add(holdingsUriRecord);
             holdingRecord.setHoldingsUriRecords(holdingsUriRecords);
         }
-        exchange.add("holdingsRecord", holdingRecord);
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
     }
 }

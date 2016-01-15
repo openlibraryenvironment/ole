@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.dsng.rest.processor.OleDsNgRestAPIProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,49 +23,49 @@ public class OleDsNGRestAPIController {
     @Autowired
     private OleDsNgRestAPIProcessor oleDsNgRestAPIProcessor;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createBib", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.CREATE_BIB, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createBib(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().createBib(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/updateBib", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.UPDATE_BIB, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String updateBib(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateBib(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createHolding", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.CREATE_HOLDINGS, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createHolding(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().createHolding(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/updateHolding", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.UPDATE_HOLDINGS, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String updateHolding(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateHolding(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createItem", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.CREATE_ITEM, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createItem(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().createItem(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/updateItem", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.UPDATE_ITEM, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String updateItem(@RequestBody String body) throws Exception {
         String savedBibJsonObject = getOleDsNgRestAPIProcessor().updateItem(body);
         return savedBibJsonObject;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/processBibHoldingsItems", produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.PROCESS_BIB_HOLDINGS_ITEMS, produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     @ResponseBody
     public ResponseEntity processBibHoldingsItems(@RequestBody String body) throws Exception {
         String overlayResponseObject = getOleDsNgRestAPIProcessor().processBibAndHoldingsAndItems(body);

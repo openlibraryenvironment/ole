@@ -9,15 +9,14 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
-import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -52,7 +51,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
                     if (null != results && results.size() == 1) {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
-                        String bibId = (String) solrDocument.getFieldValue("LocalId_display");
+                        String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
                     } else {
                         jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
@@ -94,46 +93,46 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
-        bibData.put("001", getMarcRecordUtil().getControlFieldValue(marcRecord, "001"));
-        bibData.put("updatedBy", updatedUserName);
-        bibData.put("updatedDate", updatedDate);
-        bibData.put("unmodifiedContent", unmodifiedRecord);
-        bibData.put("ops", getOverlayOps(batchProcessProfile));
+        bibData.put(OleNGConstants.TAG_001, getMarcRecordUtil().getControlFieldValue(marcRecord, OleNGConstants.TAG_001));
+        bibData.put(OleNGConstants.UPDATED_BY, updatedUserName);
+        bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
+        bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
+        bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
 
         // Prepare data mapping before MARC Transformation
-        Map<String, JSONObject> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, "Pre Marc Transformation");
+        Map<String, JSONObject> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, OleNGConstants.PRE_MARC_TRANSFORMATION);
 
 
         //Transformations pertaining to MARC record (001,003,035$a etc..)
         handleBatchProfileTransformations(marcRecord, batchProcessProfile);
         String modifiedRecord = getMarcXMLConverter().generateMARCXMLContent(marcRecord);
-        bibData.put("modifiedContent", modifiedRecord);
+        bibData.put(OleNGConstants.MODIFIED_CONTENT, modifiedRecord);
 
         // Prepare data mapping after MARC Transformation
-        Map<String, JSONObject> dataMappingsMapPostTransformations = prepareDataMapping(marcRecord, batchProcessProfile, "Post Marc Transformation");
+        Map<String, JSONObject> dataMappingsMapPostTransformations = prepareDataMapping(marcRecord, batchProcessProfile, OleNGConstants.POST_MARC_TRANSFORMATION);
 
 
-        JSONObject bibDataMappingsPreTrans = dataMappingsMapPreTransformation.get("bibDataMappings");
-        JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get("bibDataMappings");
-        bibData.put("dataMapping", buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
+        JSONObject bibDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.BIB_DATAMAPPINGS);
+        JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.BIB_DATAMAPPINGS);
+        bibData.put(OleNGConstants.DATAMAPPING, buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
 
         JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
-        JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("holdingsDataMappings");
-        JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("holdingsDataMappings");
-        holdingsData.put("dataMapping", buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
-        bibData.put("holdings", holdingsData);
+        JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
+        JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
+        holdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
+        bibData.put(OleNGConstants.HOLDINGS, holdingsData);
 
         JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
-        JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("eHoldingsDataMappings");
-        JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("eHoldingsDataMappings");
-        eholdingsData.put("dataMapping", buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
-        bibData.put("eholdings", eholdingsData);
+        JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
+        JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
+        eholdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
+        bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
 
         JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
-        JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get("itemDataMappings");
-        JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get("itemDataMappings");
-        itemData.put("dataMapping", buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
-        bibData.put("items", itemData);
+        JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.ITEM_DATAMAPPINGS);
+        JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.ITEM_DATAMAPPINGS);
+        itemData.put(OleNGConstants.DATAMAPPING, buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
+        bibData.put(OleNGConstants.ITEM, itemData);
 
         return bibData;
     }
@@ -164,10 +163,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private Map<String, JSONObject> prepareDataMapping(Record marcRecord, BatchProcessProfile batchProcessProfile, String transformationOption) throws JSONException {
         Map<String, JSONObject> dataMappings = new HashMap<>();
-        dataMappings.put("bibDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "bibliographic", transformationOption));
-        dataMappings.put("holdingsDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "holdings", transformationOption));
-        dataMappings.put("itemDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "item", transformationOption));
-        dataMappings.put("eHoldingsDataMappings", prepareDataMappings(marcRecord, batchProcessProfile, "eholdings", transformationOption));
+        dataMappings.put(OleNGConstants.BIB_DATAMAPPINGS, prepareDataMappings(marcRecord, batchProcessProfile, OleNGConstants.BIBLIOGRAPHIC, transformationOption));
+        dataMappings.put(OleNGConstants.HOLDINGS_DATAMAPPINGS, prepareDataMappings(marcRecord, batchProcessProfile, OleNGConstants.HOLDINGS, transformationOption));
+        dataMappings.put(OleNGConstants.ITEM_DATAMAPPINGS, prepareDataMappings(marcRecord, batchProcessProfile, OleNGConstants.ITEM, transformationOption));
+        dataMappings.put(OleNGConstants.EHOLDINGS_DATAMAPPINGS, prepareDataMappings(marcRecord, batchProcessProfile, OleNGConstants.EHOLDINGS, transformationOption));
 
         return dataMappings;
     }
@@ -192,9 +191,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private JSONObject prepareMatchPointsForItem(BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject itemData = new JSONObject();
-        JSONObject itemMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "item");
+        JSONObject itemMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.ITEM);
         if (itemMatchPoints.length() > 0) {
-            itemData.put("matchPoints", itemMatchPoints);
+            itemData.put(OleNGConstants.MATCH_POINT, itemMatchPoints);
         }
 
         return itemData;
@@ -203,18 +202,18 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private JSONObject prepareMatchPointsForHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject holdingsData = new JSONObject();
-        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "holdings");
+        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.HOLDINGS);
         if (holdingsMatchPoints.length() > 0) {
-            holdingsData.put("matchPoints", holdingsMatchPoints);
+            holdingsData.put(OleNGConstants.MATCH_POINT, holdingsMatchPoints);
         }
         return holdingsData;
     }
 
     private JSONObject prepareMatchPointsForEHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject holdingsData = new JSONObject();
-        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), "eholdings");
+        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.EHOLDINGS);
         if (holdingsMatchPoints.length() > 0) {
-            holdingsData.put("matchPoints", holdingsMatchPoints);
+            holdingsData.put(OleNGConstants.MATCH_POINT, holdingsMatchPoints);
         }
         return holdingsData;
     }
@@ -236,7 +235,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
                 constantValue = batchProfileDataMapping.getConstant();
 
-                if (batchProfileDataMapping.getDataType().equalsIgnoreCase("Bib Marc")) {
+                if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
                     String dataField = batchProfileDataMapping.getDataField();
                     if (StringUtils.isNotBlank(dataField)) {
                         if (getMarcRecordUtil().isControlField(dataField)) {
@@ -378,9 +377,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getOperationIndMap() {
         if (null == operationIndMap) {
             operationIndMap = new HashedMap();
-            operationIndMap.put("Add", "1");
-            operationIndMap.put("Overlay", "2");
-            operationIndMap.put("Discard", "3");
+            operationIndMap.put(OleNGConstants.ADD, OleNGConstants.ONE);
+            operationIndMap.put(OleNGConstants.OVERLAY, OleNGConstants.TWO);
+            operationIndMap.put(OleNGConstants.DISCARD, OleNGConstants.THREE);
         }
         return operationIndMap;
     }
@@ -392,8 +391,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getMatchOptionIndMap() {
         if (null == matchOptionIndMap) {
             matchOptionIndMap = new HashedMap();
-            matchOptionIndMap.put("If Match Found", "1");
-            matchOptionIndMap.put("If Match Not Found", "2");
+            matchOptionIndMap.put(OleNGConstants.IF_MATCH_FOUND, OleNGConstants.ONE);
+            matchOptionIndMap.put(OleNGConstants.IF_NOT_MATCH_FOUND, OleNGConstants.TWO);
         }
         return matchOptionIndMap;
     }
@@ -405,10 +404,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public Map<String, String> getDataTypeIndMap() {
         if (null == dataTypeIndMap) {
             dataTypeIndMap = new HashedMap();
-            dataTypeIndMap.put("Bibliographic", "1");
-            dataTypeIndMap.put("Holdings", "2");
-            dataTypeIndMap.put("Item", "3");
-            dataTypeIndMap.put("EHoldings", "4");
+            dataTypeIndMap.put(OleNGConstants.BIBLIOGRAPHIC, OleNGConstants.ONE);
+            dataTypeIndMap.put(OleNGConstants.HOLDINGS, OleNGConstants.TWO);
+            dataTypeIndMap.put(OleNGConstants.ITEM, OleNGConstants.THREE);
+            dataTypeIndMap.put(OleNGConstants.EHOLDINGS, OleNGConstants.FOUR);
         }
         return dataTypeIndMap;
     }

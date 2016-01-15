@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -26,14 +27,14 @@ public class CoverageEndVolumeHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String coverageEndVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
         List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
         if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
             for (Iterator<EInstanceCoverageRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
                 EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
                 if(StringUtils.equals(eInstanceCoverageRecord.getCoverageEndVolume(),coverageEndVolume)) {
-                    exchange.add("matchedItem", holdingsRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
                 }
             }
         }
@@ -41,7 +42,7 @@ public class CoverageEndVolumeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String coverageEndVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
         List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
         if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {

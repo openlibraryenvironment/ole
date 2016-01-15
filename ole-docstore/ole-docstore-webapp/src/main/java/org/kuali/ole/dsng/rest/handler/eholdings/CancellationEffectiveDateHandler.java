@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
@@ -22,12 +23,12 @@ public class CancellationEffectiveDateHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String cancellationEffectiveDate = getStringValueFromJsonObject(requestJsonObject, TYPE);
         try{
             Date parsedDate = DOCSTORE_DATE_FORMAT.parse(cancellationEffectiveDate);
             if (holdingRecord.getCancellationEffectiveDate().compareTo(new Timestamp(parsedDate.getTime())) == 0) {
-                exchange.add("matchedHoldings", holdingRecord);
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -37,13 +38,13 @@ public class CancellationEffectiveDateHandler extends HoldingsHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String cancellationEffectiveDate = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         try{
             Date parsedDate = DOCSTORE_DATE_FORMAT.parse(cancellationEffectiveDate);
             holdingRecord.setCancellationEffectiveDate(new Timestamp(parsedDate.getTime()));
         } catch(Exception e) {
             e.printStackTrace();
         }
-        exchange.add("holdingsRecord", holdingRecord);
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
     }
 }

@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.items;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
@@ -27,14 +28,14 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
         if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
             for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
                 ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
                 if(null != itemStatisticalSearchRecord.getStatisticalSearchRecord() &&
                         StringUtils.equals(itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
-                    exchange.add("matchedItem", itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
                 }
             }
         }
@@ -43,7 +44,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
 
         StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
         if (null != statisticalSearchRecord) {
@@ -63,7 +64,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
                 itemStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
             }
         }
-        exchange.add("itemRecord", itemRecord);
+        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
 
     }
 }
