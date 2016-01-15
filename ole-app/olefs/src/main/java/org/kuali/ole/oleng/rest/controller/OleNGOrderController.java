@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.core.MediaType;
+import java.util.Collections;
 
 /**
  * Created by SheikS on 12/18/2015.
@@ -23,7 +24,7 @@ public class OleNGOrderController extends OleNgControllerBase {
     @ResponseBody
     public String createOrder(@RequestBody String requestBody) throws Exception {
         OleOrderRecord oleOrderRecord = getObjectMapper().readValue(requestBody, OleOrderRecord.class);
-        Integer purapIdentifier = orderRequestHandler.processOrder(oleOrderRecord);
+        Integer purapIdentifier = orderRequestHandler.processOrder(Collections.singletonList(oleOrderRecord));
         JSONObject jsonObject = new JSONObject();
         if (null != purapIdentifier) {
             jsonObject.put("status", "Success");

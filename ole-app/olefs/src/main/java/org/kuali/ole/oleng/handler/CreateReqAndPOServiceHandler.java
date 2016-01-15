@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by SheikS on 12/18/2015.
@@ -20,9 +21,9 @@ import java.util.Collections;
 public class CreateReqAndPOServiceHandler extends OleNgUtil implements CreateReqAndPOBaseServiceHandler {
     private OleNGRequisitionService oleNGRequisitionService;
 
-    public Integer processOrder(OleOrderRecord oleOrderRecord) throws Exception {
+    public Integer processOrder(List<OleOrderRecord> oleOrderRecords) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(Collections.singletonList(oleOrderRecord));
+        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(oleOrderRecords);
         return requisitionDocument.getPurapDocumentIdentifier();
     }
 

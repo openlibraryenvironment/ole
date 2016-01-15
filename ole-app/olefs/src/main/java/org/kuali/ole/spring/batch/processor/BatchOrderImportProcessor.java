@@ -104,7 +104,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, values);
                         matchedRecords.putAll(buildUnMatchedRecordsWithBibId);
                         try {
-                            orderProcessHandler.processOrder(matchedRecords, batchProcessProfile, orderRequestHandler);
+                            List<Integer> purapIds = orderProcessHandler.processOrder(matchedRecords, batchProcessProfile, orderRequestHandler);
+                            jsonObject.put("status", "Success");
+                            jsonObject.put("requisitionIds", purapIds);
+                            System.out.println("Order Import Response : " + jsonObject.toString());
+                            return jsonObject.toString();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

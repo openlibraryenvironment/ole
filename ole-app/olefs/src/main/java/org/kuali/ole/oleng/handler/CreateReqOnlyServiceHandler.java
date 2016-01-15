@@ -10,6 +10,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by SheikS on 12/18/2015.
@@ -19,10 +20,10 @@ public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqA
 
     private OleNGRequisitionService oleNGRequisitionService;
 
-    public Integer processOrder(OleOrderRecord oleOrderRecord) throws Exception {
+    public Integer processOrder(List<OleOrderRecord> oleOrderRecords) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createNewRequisitionDocument();
-        oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, Collections.singletonList(oleOrderRecord));
+        oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, oleOrderRecords);
         oleNGRequisitionService.saveRequsitionDocument(requisitionDocument);
         return requisitionDocument.getPurapDocumentIdentifier();
     }

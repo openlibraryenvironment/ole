@@ -25,7 +25,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 /**
@@ -34,50 +37,57 @@ import java.util.concurrent.Callable;
 public class POCallable implements Callable {
 
     private static final Logger LOG = Logger.getLogger(POCallable.class);
-    private final String bibId;
+    private final Set<String> bibIds;
 
     private BatchProcessProfile batchProcessProfile;
     private OrderImportService oleOrderImportService;
     private CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler;
     private PlatformTransactionManager transactionManager;
     private SolrRequestReponseHandler solrRequestReponseHandler;
+    private List<OleOrderRecord> oleOrderRecords;
 
-    public POCallable(String bibId, BatchProcessProfile batchProcessProfile, CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler) {
-        this.bibId = bibId;
+    public POCallable(Set<String> bibIds, BatchProcessProfile batchProcessProfile, CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler) {
+        this.bibIds = bibIds;
         this.batchProcessProfile = batchProcessProfile;
         this.createReqAndPOServiceHandler = createReqAndPOServiceHandler;
     }
 
     @Override
     public Object call() throws Exception {
-        String finalResponse = "";
-        final JSONObject jsonObject = new JSONObject();
-        OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(bibId, batchProcessProfile);
+        oleOrderRecords = new ArrayList<>();
+        Integer purapId = null;
+        for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
+            String bibId = iterator.next();
+            OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(bibId, batchProcessProfile);
 
-        final OleOrderRecord oleOrderRecord = new OleOrderRecord();
-        oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-        oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
-        oleOrderRecord.setOleTxRecord(oleTxRecord);
+            final OleOrderRecord oleOrderRecord = new OleOrderRecord();
+            oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+            oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+            oleOrderRecord.setOleTxRecord(oleTxRecord);
 
-        OleBibRecord oleBibRecord = new OleBibRecord();
-        Bib bib = getBibDetails(bibId);
-        oleBibRecord.setBibUUID(bibId);
-        oleBibRecord.setBib(bib);
-        oleOrderRecord.setOleBibRecord(oleBibRecord);
+            OleBibRecord oleBibRecord = new OleBibRecord();
+            Bib bib = getBibDetails(bibId);
+            oleBibRecord.setBibUUID(bibId);
+            oleBibRecord.setBib(bib);
+            oleOrderRecord.setOleBibRecord(oleBibRecord);
 
-        oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+            oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+
+            oleOrderRecords.add(oleOrderRecord);
+
+        }
 
         final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
 
         try {
             try {
-                finalResponse = (String) template.execute(new TransactionCallback<Object>() {
+                purapId = (Integer) template.execute(new TransactionCallback<Object>() {
                     Integer response;
 
                     @Override
                     public Object doInTransaction(TransactionStatus status) {
                         try {
-                            response = createReqAndPOServiceHandler.processOrder(oleOrderRecord);
+                            response = createReqAndPOServiceHandler.processOrder(oleOrderRecords);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -92,14 +102,9 @@ public class POCallable implements Callable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            jsonObject.put("status", "failure");
-            jsonObject.put("reason", e.getMessage());
-            finalResponse = jsonObject.toString();
-
         }
-        System.out.println("Response : \n" + finalResponse);
 
-        return finalResponse;
+        return purapId;
     }
 
     private Bib getBibDetails(String bibId) {

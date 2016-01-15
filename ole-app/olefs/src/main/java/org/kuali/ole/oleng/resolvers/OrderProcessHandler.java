@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.resolvers;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -29,17 +30,31 @@ public abstract class OrderProcessHandler {
     public List<Integer> processOrder(Map<String, Record> recordMap, BatchProcessProfile batchProcessProfile, CreateReqAndPOServiceHandler orderRequestHandler) throws Exception {
         List<Integer> poIds = new ArrayList<>();
 
+        String requisitionForTitlesOption = batchProcessProfile.getRequisitionForTitlesOption();
+
+        boolean multiTitle = false;
+        if(StringUtils.isNotBlank(requisitionForTitlesOption) &&
+                requisitionForTitlesOption.equalsIgnoreCase("One Requisition With All Titles")) {
+            multiTitle = true;
+        }
+
         ExecutorService orderImportExecutorService;
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("create-order-thread-%d").build();
         int numberOfThreadForOrder = 1;
         orderImportExecutorService = Executors.newFixedThreadPool(numberOfThreadForOrder, threadFactory);
         List<Future> futures = new ArrayList<>();
 
-        Set<String> bibIds = recordMap.keySet();
-        for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
-            String bibId = iterator.next();
-            Future future = orderImportExecutorService.submit(new POCallable(bibId, batchProcessProfile, getCreateReqOrPOServiceHandler()));
+        if(multiTitle) {
+            Set<String> bibIds = recordMap.keySet();
+            Future future = orderImportExecutorService.submit(new POCallable(bibIds, batchProcessProfile, getCreateReqOrPOServiceHandler()));
             futures.add(future);
+        } else {
+            Set<String> bibIds = recordMap.keySet();
+            for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
+                String bibId = iterator.next();
+                Future future = orderImportExecutorService.submit(new POCallable(Collections.singleton(bibId), batchProcessProfile, getCreateReqOrPOServiceHandler()));
+                futures.add(future);
+            }
         }
 
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
