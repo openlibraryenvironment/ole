@@ -3,6 +3,7 @@ package org.kuali.ole.oleng.handler;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.service.InvoiceService;
 import org.kuali.ole.oleng.service.impl.InvoiceServiceImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
@@ -36,11 +37,11 @@ public class InvoiceRequestHandler extends OleNgUtil {
 
         JSONObject jsonObject = new JSONObject();
         if(null != oleInvoiceDocument.getDocumentNumber()) {
-            jsonObject.put("status","Success");
-            jsonObject.put("documentNumber",oleInvoiceDocument.getDocumentNumber());
+            jsonObject.put(OleNGConstants.STATUS,OleNGConstants.SUCCESS);
+            jsonObject.put(OleNGConstants.DOCUMENT_NUMBER,oleInvoiceDocument.getDocumentNumber());
             return jsonObject.toString();
         }
-        jsonObject.put("status", "failure");
+        jsonObject.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
         return jsonObject.toString();
     }
 }

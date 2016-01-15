@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -28,7 +29,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
     public List<BatchProcessProfile> getBatchProcessProfiles(String profileName) {
         if(org.apache.commons.lang3.StringUtils.isNotBlank(profileName)){
             Map map = new HashedMap();
-            map.put("batchProcessProfileName",profileName);
+            map.put(OleNGConstants.BATCH_PROCESS_PROFILE_NAME,profileName);
             return (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, map);
         } else {
             return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
@@ -37,7 +38,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
 
     public BatchProcessProfile getBatchProcessProfileById(Long profileId) {
         Map map = new HashedMap();
-        map.put("batchProcessProfileId",profileId);
+        map.put(OleNGConstants.BATCH_PROCESS_PROFILE_ID,profileId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessProfile.class, map);
     }
 
@@ -49,8 +50,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleShelvingScheme> iterator = allCallNumberTypes.iterator(); iterator.hasNext(); ) {
                     OleShelvingScheme oleShelvingScheme = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",oleShelvingScheme.getShelvingSchemeId());
-                    jsonObject.put("value",oleShelvingScheme.getShelvingSchemeName());
+                    jsonObject.put(OleNGConstants.ID,oleShelvingScheme.getShelvingSchemeId());
+                    jsonObject.put(OleNGConstants.VALUE,oleShelvingScheme.getShelvingSchemeName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -69,8 +70,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     OleLocation oleLocation = iterator.next();
                     if (null != locaionLevelId && locaionLevelId.equalsIgnoreCase(oleLocation.getLevelId())) {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("id",oleLocation.getLocationId());
-                        jsonObject.put("value",oleLocation.getLocationCode());
+                        jsonObject.put(OleNGConstants.ID,oleLocation.getLocationId());
+                        jsonObject.put(OleNGConstants.VALUE,oleLocation.getLocationCode());
                         jsonArray.put(jsonObject);
                     }
                 }
@@ -89,8 +90,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleBibliographicRecordStatus> iterator = bibStatusList.iterator(); iterator.hasNext(); ) {
                     OleBibliographicRecordStatus bibliographicRecordStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",bibliographicRecordStatus.getBibliographicRecordStatusId());
-                    jsonObject.put("value",bibliographicRecordStatus.getBibliographicRecordStatusName());
+                    jsonObject.put(OleNGConstants.ID,bibliographicRecordStatus.getBibliographicRecordStatusId());
+                    jsonObject.put(OleNGConstants.VALUE,bibliographicRecordStatus.getBibliographicRecordStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -108,8 +109,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleInstanceItemType> iterator = itemTypes.iterator(); iterator.hasNext(); ) {
                     OleInstanceItemType itemType = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",itemType.getInstanceItemTypeId());
-                    jsonObject.put("value",itemType.getInstanceItemTypeName());
+                    jsonObject.put(OleNGConstants.ID,itemType.getInstanceItemTypeId());
+                    jsonObject.put(OleNGConstants.VALUE,itemType.getInstanceItemTypeName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -127,8 +128,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OLEDonor> iterator = oleDonors.iterator(); iterator.hasNext(); ) {
                     OLEDonor oleDonor = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",oleDonor.getDonorId());
-                    jsonObject.put("value",oleDonor.getDonorCode());
+                    jsonObject.put(OleNGConstants.ID,oleDonor.getDonorId());
+                    jsonObject.put(OleNGConstants.VALUE,oleDonor.getDonorCode());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -146,8 +147,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleItemAvailableStatus> iterator = itemStatusList.iterator(); iterator.hasNext(); ) {
                     OleItemAvailableStatus availableStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",availableStatus.getItemAvailableStatusId());
-                    jsonObject.put("value",availableStatus.getItemAvailableStatusName());
+                    jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
+                    jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -166,8 +167,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     BatchProcessProfile batchProcessProfile = iterator.next();
                     if(StringUtils.equals(batchProcessProfile.getBatchProcessType(), batchType)){
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("profileId",batchProcessProfile.getBatchProcessProfileId());
-                        jsonObject.put("profileName",batchProcessProfile.getBatchProcessProfileName());
+                        jsonObject.put(OleNGConstants.PROFILE_ID,batchProcessProfile.getBatchProcessProfileId());
+                        jsonObject.put(OleNGConstants.PROFILE_NAME,batchProcessProfile.getBatchProcessProfileName());
                         jsonArray.put(jsonObject);
                     }
                 }
@@ -186,13 +187,13 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<OleGloballyProtectedField> iterator = globallyProtectedFields.iterator(); iterator.hasNext(); ) {
                     OleGloballyProtectedField oleGloballyProtectedField = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("fieldOperationType","Globally Protected Field");
-                    jsonObject.put("dataField",oleGloballyProtectedField.getTag());
-                    jsonObject.put("ind1",oleGloballyProtectedField.getFirstIndicator());
-                    jsonObject.put("ind2",oleGloballyProtectedField.getSecondIndicator());
-                    jsonObject.put("subField",oleGloballyProtectedField.getSubField());
-                    jsonObject.put("ignoreGPF",false);
-                    jsonObject.put("isAddLine",Boolean.TRUE);
+                    jsonObject.put(OleNGConstants.FIELD_OPERATION_TYPE,"Globally Protected Field");
+                    jsonObject.put(OleNGConstants.DATA_FIELD,oleGloballyProtectedField.getTag());
+                    jsonObject.put(OleNGConstants.IND1,oleGloballyProtectedField.getFirstIndicator());
+                    jsonObject.put(OleNGConstants.IND2,oleGloballyProtectedField.getSecondIndicator());
+                    jsonObject.put(OleNGConstants.SUBFIELD,oleGloballyProtectedField.getSubField());
+                    jsonObject.put(OleNGConstants.IGNORE_GPF,false);
+                    jsonObject.put(OleNGConstants.IS_ADDLINE,Boolean.TRUE);
                     jsonArray.put(jsonObject);
                 }
             }
@@ -210,8 +211,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator iterator = fieldValues.entrySet().iterator(); iterator.hasNext(); ) {
                     Map.Entry<String, String> fieldValue = (Map.Entry<String, String>) iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", fieldValue.getKey());
-                    jsonObject.put("value", fieldValue.getValue());
+                    jsonObject.put(OleNGConstants.ID, fieldValue.getKey());
+                    jsonObject.put(OleNGConstants.VALUE, fieldValue.getValue());
                     jsonArray.put(jsonObject);
                 }
             }

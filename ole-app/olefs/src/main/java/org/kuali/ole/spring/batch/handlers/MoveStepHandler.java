@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.marc4j.marc.Record;
 
 import java.util.StringTokenizer;
@@ -17,7 +18,7 @@ public class MoveStepHandler extends StepHandler {
     public void processSteps(Record marcRecord) {
         String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
 
-        String sourceFieldStringArray[] = sourceFieldString.split("[' ']");
+        String sourceFieldStringArray[] = sourceFieldString.split(OleNGConstants.SPACE_SPLIT);
 
         String sourceField = sourceFieldStringArray[0];
 
@@ -35,7 +36,7 @@ public class MoveStepHandler extends StepHandler {
         if (StringUtils.isNotBlank(value)) {
             while(destinationFieldTokenizer.hasMoreTokens()){
                 String destination = destinationFieldTokenizer.nextToken();
-                String destinationArray[] = destination.split("[' ']");
+                String destinationArray[] = destination.split(OleNGConstants.SPACE_SPLIT);
                 String destinationField = destinationArray[0];
                 String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
 
@@ -50,6 +51,6 @@ public class MoveStepHandler extends StepHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("Move");
+        return operation.equalsIgnoreCase(OleNGConstants.MOVE);
     }
 }

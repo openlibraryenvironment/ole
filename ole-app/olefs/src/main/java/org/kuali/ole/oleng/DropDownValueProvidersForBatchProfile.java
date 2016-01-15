@@ -70,8 +70,8 @@ public class DropDownValueProvidersForBatchProfile {
             for (Iterator<AuthenticationTypeRecord> iterator = authenticationTypeRecords.iterator(); iterator.hasNext(); ) {
                 AuthenticationTypeRecord authenticationTypeRecord = iterator.next();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", authenticationTypeRecord.getCode());
-                jsonObject.put("value", authenticationTypeRecord.getName());
+                jsonObject.put(OleNGConstants.ID, authenticationTypeRecord.getCode());
+                jsonObject.put(OleNGConstants.VALUE, authenticationTypeRecord.getName());
                 jsonArray.put(jsonObject);
             }
         }
@@ -86,8 +86,8 @@ public class DropDownValueProvidersForBatchProfile {
                 for (Iterator<OleBibliographicRecordStatus> iterator = bibStatusList.iterator(); iterator.hasNext(); ) {
                     OleBibliographicRecordStatus bibliographicRecordStatus = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",bibliographicRecordStatus.getBibliographicRecordStatusId());
-                    jsonObject.put("value",bibliographicRecordStatus.getBibliographicRecordStatusName());
+                    jsonObject.put(OleNGConstants.ID,bibliographicRecordStatus.getBibliographicRecordStatusId());
+                    jsonObject.put(OleNGConstants.VALUE,bibliographicRecordStatus.getBibliographicRecordStatusName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -105,8 +105,8 @@ public class DropDownValueProvidersForBatchProfile {
                 for (Iterator<ReceiptStatusRecord> iterator = bibStatusList.iterator(); iterator.hasNext(); ) {
                     ReceiptStatusRecord receiptStatusRecord = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",receiptStatusRecord.getCode());
-                    jsonObject.put("value",receiptStatusRecord.getName());
+                    jsonObject.put(OleNGConstants.ID,receiptStatusRecord.getCode());
+                    jsonObject.put(OleNGConstants.VALUE,receiptStatusRecord.getName());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -124,8 +124,8 @@ public class DropDownValueProvidersForBatchProfile {
                 for (Iterator<AccessLocation> iterator = accessLocations.iterator(); iterator.hasNext(); ) {
                     AccessLocation accessLocation = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",accessLocation.getCode());
-                    jsonObject.put("value",accessLocation.getValue());
+                    jsonObject.put(OleNGConstants.ID,accessLocation.getCode());
+                    jsonObject.put(OleNGConstants.VALUE,accessLocation.getValue());
                     jsonArray.put(jsonObject);
                 }
             }
@@ -143,8 +143,8 @@ public class DropDownValueProvidersForBatchProfile {
                 for (Iterator<StatisticalSearchRecord> iterator = statisticalSearchRecords.iterator(); iterator.hasNext(); ) {
                     StatisticalSearchRecord statisticalSearchRecord = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id",statisticalSearchRecord.getCode());
-                    jsonObject.put("value",statisticalSearchRecord.getName());
+                    jsonObject.put(OleNGConstants.ID,statisticalSearchRecord.getCode());
+                    jsonObject.put(OleNGConstants.VALUE,statisticalSearchRecord.getName());
                     jsonArray.put(jsonObject);
                 }
             }

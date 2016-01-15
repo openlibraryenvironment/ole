@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.rest.controller;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,11 @@ public class OleNGOrderController extends OleNgControllerBase {
         Integer purapIdentifier = orderRequestHandler.processOrder(Collections.singletonList(oleOrderRecord));
         JSONObject jsonObject = new JSONObject();
         if (null != purapIdentifier) {
-            jsonObject.put("status", "Success");
-            jsonObject.put("requisitionId", purapIdentifier);
+            jsonObject.put(OleNGConstants.STATUS, OleNGConstants.SUCCESS);
+            jsonObject.put(OleNGConstants.REQUISITION_ID, purapIdentifier);
             return jsonObject.toString();
         }
-        jsonObject.put("status", "failure");
+        jsonObject.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
         return jsonObject.toString();
     }
 

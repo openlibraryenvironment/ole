@@ -10,6 +10,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.module.purap.PurapConstants;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
@@ -143,7 +144,7 @@ public class POCallable implements Callable {
 
     public PlatformTransactionManager getTransactionManager() {
         if (transactionManager == null) {
-            transactionManager = GlobalResourceLoader.getService("transactionManager");
+            transactionManager = GlobalResourceLoader.getService(OleNGConstants.TRANSACTION_MANAGER);
         }
         return this.transactionManager;
     }

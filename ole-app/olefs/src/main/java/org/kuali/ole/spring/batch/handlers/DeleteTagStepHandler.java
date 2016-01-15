@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.marc4j.marc.Record;
 
 import java.util.StringTokenizer;
@@ -15,13 +16,13 @@ public class DeleteTagStepHandler extends StepHandler {
     public void processSteps(Record marcRecord) {
         String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
 
-        String sourceFieldStringArray[] = sourceFieldString.split("[' ']");
+        String sourceFieldStringArray[] = sourceFieldString.split(OleNGConstants.SPACE_SPLIT);
         String sourceField = sourceFieldStringArray[0];
         getMarcRecordUtil().removeFieldFromRecord(marcRecord,sourceField);
     }
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equalsIgnoreCase("Delete Tag");
+        return operation.equalsIgnoreCase(OleNGConstants.DELETE_TAG);
     }
 }

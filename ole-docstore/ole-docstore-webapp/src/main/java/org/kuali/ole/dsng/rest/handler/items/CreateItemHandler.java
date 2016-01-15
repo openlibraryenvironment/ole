@@ -43,7 +43,7 @@ public class CreateItemHandler extends Handler {
         try {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
             if (null != holdingsRecord && StringUtils.equals(holdingsRecord.getHoldingsType(), PHoldings.PRINT)) {
-                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
+                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("item");
                 ItemRecord itemRecord = new ItemRecord();
                 exchange.add("itemRecord",itemRecord);
 

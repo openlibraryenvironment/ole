@@ -3,6 +3,7 @@ package org.kuali.ole.oleng.describe.processor.bibimport;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.marc4j.marc.DataField;
@@ -27,7 +28,7 @@ public class MatchPointProcessor extends BatchUtil {
         if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
                 BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase("bibliographic")) {
+                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIBLIOGRAPHIC)) {
                     String query = formSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPoint);
                     if(StringUtils.isNotBlank(query)){
                         queryList.add(query) ;
@@ -54,13 +55,13 @@ public class MatchPointProcessor extends BatchUtil {
         String query = null;
         if(StringUtils.isNotBlank(destDataField)) {
             if(getMarcRecordUtil().isControlField(destDataField)) {
-                query =  "controlfield_" + destDataField + ":\"" + matchPointValue + "\"";
+                query =  OleNGConstants.CONTROL_FIELD_ + destDataField + ":\"" + matchPointValue + "\"";
             } else {
                 String destSubField = batchProfileMatchPoint.getDestSubField();
-                query =  "mdf_" + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
+                query =  OleNGConstants.MDF_ + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
             }
         } else {
-            query = "controlfield_" + dataField + ":\"" + matchPointValue + "\"";
+            query = OleNGConstants.CONTROL_FIELD_ + dataField + ":\"" + matchPointValue + "\"";
         }
         return query;
     }
@@ -83,12 +84,12 @@ public class MatchPointProcessor extends BatchUtil {
                 if (StringUtils.isNotBlank(matchPointValue)) {
                     //Todo : Need to add ind1 and ind2 to the query.
                     if(StringUtils.isBlank(destDataField)) {
-                        query = "mdf_" + field + subField + ":" + "\"" + matchPointValue + "\"";
+                        query = OleNGConstants.MDF_ + field + subField + ":" + "\"" + matchPointValue + "\"";
                     } else {
                         if(getMarcRecordUtil().isControlField(destDataField)){
-                            query =  "controlfield_" + destDataField + ":\"" + matchPointValue + "\"";
+                            query =  OleNGConstants.CONTROL_FIELD_ + destDataField + ":\"" + matchPointValue + "\"";
                         } else {
-                            query = "mdf_" + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
+                            query = OleNGConstants.MDF_ + destDataField + destSubField + ":" + "\"" + matchPointValue + "\"";
                         }
                     }
                 }
@@ -103,7 +104,7 @@ public class MatchPointProcessor extends BatchUtil {
             String query = iterator.next();
             appendQuery(queryBuilder,query);
         }
-        String query = "((DocType:bibliographic) AND (" + queryBuilder.toString() + "))";
+        String query = OleNGConstants.BIB_QUERY_BEGIN + queryBuilder.toString() + "))";
         return query;
     }
 

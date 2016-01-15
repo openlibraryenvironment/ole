@@ -15,6 +15,7 @@ import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
+import org.kuali.ole.oleng.OleNGConstants;
 import org.kuali.ole.oleng.service.InvoiceService;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
@@ -107,8 +108,8 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
             else {
                 Map vendorDetailMap = new HashMap();
-                vendorDetailMap.put("vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                vendorDetailMap.put("vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                vendorDetailMap.put(OleNGConstants.VENDOR_HEADER_GENERATOR_ID, vendorIds.length > 0 ? vendorIds[0] : "");
+                vendorDetailMap.put(OleNGConstants.VENDOR_DETAIL_GENERATOR_ID, vendorIds.length > 1 ? vendorIds[1] : "");
                 VendorDetail vendorDetail = (VendorDetail) getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorDetailMap);
                 if(vendorDetail != null){
                     invoiceRecord.setCurrencyTypeId(vendorDetail.getCurrencyTypeId().toString());
@@ -131,9 +132,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                 oleInvoiceDocument.setInvoicePayDate(invoiceService.calculatePayDate(oleInvoiceDocument.getInvoiceDate(), oleInvoiceDocument.getVendorPaymentTerms()));
                 purchaseOrderItemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, oleInvoiceDocument, purchaseOrderDocument,
                         purchaseOrderItemMap,lineNumbers,fdocNumbers,unitPrize,version);
-                if (purchaseOrderItemMap != null && purchaseOrderItemMap.containsKey("invoiceDocument") && purchaseOrderItemMap.containsKey("purchaseOrderDocument")) {
-                    oleInvoiceDocument = (OleInvoiceDocument) purchaseOrderItemMap.get("invoiceDocument");
-                    purchaseOrderDocument = (PurchaseOrderDocument) purchaseOrderItemMap.get("purchaseOrderDocument");
+                if (purchaseOrderItemMap != null && purchaseOrderItemMap.containsKey(OleNGConstants.INVOICE_DOCUMENT) && purchaseOrderItemMap.containsKey(OleNGConstants.PO_DOCUMENT)) {
+                    oleInvoiceDocument = (OleInvoiceDocument) purchaseOrderItemMap.get(OleNGConstants.INVOICE_DOCUMENT);
+                    purchaseOrderDocument = (PurchaseOrderDocument) purchaseOrderItemMap.get(OleNGConstants.PO_DOCUMENT);
                 }
             } else if ((olePurchaseOrderItems == null || olePurchaseOrderItems.size() < 1) && isUnlinkPO(purchaseOrderItemMap)) {
                 //TODO : Need to write logic for this condition.
@@ -287,7 +288,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             Integer unlinkPurchaseOrderItemsCount=0;
             for(int itemCount = 0;itemCount < dummyPurchaseOrderItems.size();itemCount++){
                 Map purchaseOrderDocNumberMap = new HashMap();
-                purchaseOrderDocNumberMap.put("documentNumber", dummyPurchaseOrderItems.get(itemCount).getDocumentNumber());
+                purchaseOrderDocNumberMap.put(OleNGConstants.DOCUMENT_NUMBER, dummyPurchaseOrderItems.get(itemCount).getDocumentNumber());
                 List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = (List<OlePurchaseOrderDocument>) getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, purchaseOrderDocNumberMap);
                 String poAppDocStatus = olePurchaseOrderDocumentList.get(0).getApplicationDocumentStatus();
                 if(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(poAppDocStatus)) {
@@ -422,8 +423,8 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
 
-        itemMap.put("invoiceDocument", invoiceDocument);
-        itemMap.put("purchaseOrderDocument", purchaseOrderDocument);
+        itemMap.put(OleNGConstants.INVOICE_DOCUMENT, invoiceDocument);
+        itemMap.put(OleNGConstants.PO_DOCUMENT, purchaseOrderDocument);
         return itemMap;
     }
 

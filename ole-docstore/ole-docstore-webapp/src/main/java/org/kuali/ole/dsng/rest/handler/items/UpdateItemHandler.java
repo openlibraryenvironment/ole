@@ -53,7 +53,7 @@ public class UpdateItemHandler extends Handler {
                     boolean isItemMatched = false;
                     if (CollectionUtils.isNotEmpty(itemRecords)) {
                         for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                            JSONObject itemJsonObject = requestJsonObject.getJSONObject("items");
+                            JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
                             ItemRecord itemRecord = iterator.next();
                             if (itemJsonObject.has("matchPoints")) {
                                 JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
