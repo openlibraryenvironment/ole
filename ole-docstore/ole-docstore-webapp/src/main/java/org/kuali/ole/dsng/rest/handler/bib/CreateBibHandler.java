@@ -34,7 +34,7 @@ public class CreateBibHandler extends BibHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         if (!requestJsonObject.has(OleNGConstants.ID)) {
             try {
-                String newBibContent = requestJsonObject.getString(OleNGConstants.UNMODIFIED_CONTENT);
+                String newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
                 String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
                 String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
