@@ -8,12 +8,9 @@
         <artifactId>ole-common</artifactId>
         <version>2.1-SNAPSHOT</version>
     </parent>
-    <artifactId>ole-scheduler</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>ole-scheduler</artifactId>    
     <name>ole-scheduler</name>
-    <url>http://maven.apache.org</url>
-    <dependencies>
-    
+    <dependencies>    
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -24,15 +21,10 @@
             <artifactId>spring-batch-core</artifactId>
             <version>3.0.6.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
