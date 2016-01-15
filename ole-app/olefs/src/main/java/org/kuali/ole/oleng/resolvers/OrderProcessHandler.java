@@ -9,8 +9,6 @@ import org.kuali.ole.oleng.callable.POCallable;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
-import org.kuali.ole.pojo.OleOrderRecord;
-import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.marc4j.marc.Record;
 
 import java.util.*;
@@ -47,8 +45,8 @@ public abstract class OrderProcessHandler {
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
-                String orderImportResponse = (String) future.get();
-                poIds.add(Integer.valueOf(orderImportResponse));
+                Integer purapIdentifier = (Integer) future.get();
+                poIds.add(purapIdentifier);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

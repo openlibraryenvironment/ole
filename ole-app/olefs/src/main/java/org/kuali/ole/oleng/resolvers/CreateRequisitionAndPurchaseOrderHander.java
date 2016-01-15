@@ -1,18 +1,9 @@
 package org.kuali.ole.oleng.resolvers;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.callable.POCallable;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
-import org.marc4j.marc.Record;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
 
 /**
  * Created by SheikS on 1/13/2016.

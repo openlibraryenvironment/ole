@@ -19,19 +19,12 @@ public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqA
 
     private OleNGRequisitionService oleNGRequisitionService;
 
-    public String processOrder(OleOrderRecord oleOrderRecord) throws Exception {
+    public Integer processOrder(OleOrderRecord oleOrderRecord) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createNewRequisitionDocument();
         oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, Collections.singletonList(oleOrderRecord));
         oleNGRequisitionService.saveRequsitionDocument(requisitionDocument);
-        JSONObject jsonObject = new JSONObject();
-        if(null != requisitionDocument.getPurapDocumentIdentifier()) {
-            jsonObject.put("status","Success");
-            jsonObject.put("requisitionId",requisitionDocument.getPurapDocumentIdentifier());
-            return jsonObject.toString();
-        }
-        jsonObject.put("status", "failure");
-        return jsonObject.toString();
+        return requisitionDocument.getPurapDocumentIdentifier();
     }
 
     public OleNGRequisitionService getOleNGRequisitionService() {

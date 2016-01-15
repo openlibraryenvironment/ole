@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.rest.controller;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,15 @@ public class OleNGOrderController extends OleNgControllerBase {
     @ResponseBody
     public String createOrder(@RequestBody String requestBody) throws Exception {
         OleOrderRecord oleOrderRecord = getObjectMapper().readValue(requestBody, OleOrderRecord.class);
-        return orderRequestHandler.processOrder(oleOrderRecord);
+        Integer purapIdentifier = orderRequestHandler.processOrder(oleOrderRecord);
+        JSONObject jsonObject = new JSONObject();
+        if (null != purapIdentifier) {
+            jsonObject.put("status", "Success");
+            jsonObject.put("requisitionId", purapIdentifier);
+            return jsonObject.toString();
+        }
+        jsonObject.put("status", "failure");
+        return jsonObject.toString();
     }
 
 }

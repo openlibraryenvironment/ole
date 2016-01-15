@@ -72,7 +72,7 @@ public class POCallable implements Callable {
         try {
             try {
                 finalResponse = (String) template.execute(new TransactionCallback<Object>() {
-                    String response;
+                    Integer response;
 
                     @Override
                     public Object doInTransaction(TransactionStatus status) {
