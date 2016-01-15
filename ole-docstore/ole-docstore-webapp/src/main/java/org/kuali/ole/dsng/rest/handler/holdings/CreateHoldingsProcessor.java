@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
@@ -40,9 +41,9 @@ public class CreateHoldingsProcessor {
 
     public void processHoldings(JSONObject requestJsonObject, Exchange exchange) {
         try {
-            String ops = requestJsonObject.getString("ops");
+            String ops = requestJsonObject.getString(OleNGConstants.OPS);
             HoldingsRecord holdingsRecord = new HoldingsRecord();
-            exchange.add("holdingsRecord", holdingsRecord);
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
 
             createHoldingsOrEHoldigs(requestJsonObject,exchange, ops);
 

@@ -7,6 +7,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
@@ -29,7 +30,7 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
     public abstract SolrInputDocument buildSolrInputDocument(Object object,Map<String, SolrInputDocument> parameterMap);
 
     protected void assignUUIDs(SolrInputDocument solrInputDocument) throws Exception {
-        SolrInputField idField = solrInputDocument.getField("id");
+        SolrInputField idField = solrInputDocument.getField(OleNGConstants.ID);
         String uuid = null;
         if (null == idField) {
             if (null == uuid) {
@@ -81,7 +82,7 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
         }
         for (int i = 0; i < solrDocs.size(); i++) {
             SolrInputDocument solrInputDocument = solrDocs.get(i);
-            SolrInputField idField = solrInputDocument.getField("id");
+            SolrInputField idField = solrInputDocument.getField(OleNGConstants.ID);
             String uuid = null;
             if (null != uuids) {
                 // Get the supplied UUID.
@@ -289,7 +290,7 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
         if(null == parameterMap){
             parameterMap = new HashedMap();
         }
-        parameterMap.put(solrInputDocument.getFieldValue("id"),solrInputDocument);
+        parameterMap.put(solrInputDocument.getFieldValue(OleNGConstants.ID),solrInputDocument);
     }
 
     public SolrInputDocument getSolrInputDocumentFromMap(Map parameterMap, String uuid) {

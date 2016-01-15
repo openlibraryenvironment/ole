@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsNoteRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
@@ -27,15 +28,15 @@ public class NonPublicNoteHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
         List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
         if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
             for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsNoteRecord holdingsNoteRecord = iterator.next();
-                if(StringUtils.equals(holdingsNoteRecord.getType(),"nonPublic") &&
+                if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.NON_PUBLIC) &&
                         StringUtils.equals(holdingsNoteRecord.getNote(),publicNote)){
-                    exchange.add("matchedHoldings", holdingRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
                 }
             }
         }
@@ -43,14 +44,14 @@ public class NonPublicNoteHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
         boolean isNoteFound = false;
         List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
         if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
             for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsNoteRecord holdingsNoteRecord = iterator.next();
-                if(StringUtils.equals(holdingsNoteRecord.getType(),"nonPublic")){
+                if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.NON_PUBLIC)){
                     holdingsNoteRecord.setNote(publicNote);
                     isNoteFound = true;
                 }
@@ -60,11 +61,11 @@ public class NonPublicNoteHandler extends HoldingsHandler {
             holdingsNoteRecords = new ArrayList<HoldingsNoteRecord>();
             HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
             holdingsNoteRecord.setNote(publicNote);
-            holdingsNoteRecord.setType("nonPublic");
+            holdingsNoteRecord.setType(OleNGConstants.NON_PUBLIC);
             holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
             holdingsNoteRecords.add(holdingsNoteRecord);
             holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
         }
-        exchange.add("holdingsRecord", holdingRecord);
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
     }
 }

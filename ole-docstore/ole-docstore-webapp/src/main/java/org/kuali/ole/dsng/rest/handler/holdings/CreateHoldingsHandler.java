@@ -7,6 +7,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -57,12 +58,12 @@ public class CreateHoldingsHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         try {
-            BibRecord bibRecord = (BibRecord) exchange.get("bib");
+            BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
             HoldingsRecord holdingsRecord = new HoldingsRecord();
-            exchange.add("holdingsRecord", holdingsRecord);
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
 
-            JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+            JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
 
             HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
             });
@@ -77,9 +78,9 @@ public class CreateHoldingsHandler extends Handler {
                 }
             }
 
-            String createdDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+            String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
             Timestamp createdDate = getDateTimeStamp(createdDateString);
-            String createdBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+            String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
             holdingsRecord.setCreatedBy(createdBy);
             holdingsRecord.setCreatedDate(createdDate);
             holdingsRecord.setBibId(bibRecord.getBibId());
@@ -93,13 +94,13 @@ public class CreateHoldingsHandler extends Handler {
 
             createItem(requestJsonObject, exchange,holdingsRecord);
 
-            List createdHoldingsDocuments = (List) exchange.get("holdingRecordsToCreate");
+            List createdHoldingsDocuments = (List) exchange.get(OleNGConstants.HOLDINGS_CREATED);
             if(null == createdHoldingsDocuments) {
                 createdHoldingsDocuments = new ArrayList();
             }
             createdHoldingsDocuments.add(holdingsRecord);
 
-            exchange.add("holdingRecordsToCreate", createdHoldingsDocuments);
+            exchange.add(OleNGConstants.HOLDINGS_CREATED, createdHoldingsDocuments);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -113,16 +114,16 @@ public class CreateHoldingsHandler extends Handler {
     }
 
     public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
-        return requestJsonObject.getJSONObject("holdings");
+        return requestJsonObject.getJSONObject(OleNGConstants.HOLDINGS);
     }
 
     public void createItem(JSONObject requestJsonObject, Exchange exchange, HoldingsRecord holdingsRecord) {
-        exchange.add("holdings",holdingsRecord);
+        exchange.add(OleNGConstants.HOLDINGS,holdingsRecord);
         CreateItemHandler createItemHandler = new CreateItemHandler();
         createItemHandler.setItemDAO(getItemDAO());
         createItemHandler.setBusinessObjectService(getBusinessObjectService());
         createItemHandler.process(requestJsonObject,exchange);
-        exchange.remove("holdings");
+        exchange.remove(OleNGConstants.HOLDINGS);
     }
 
     public void setHoldingType(HoldingsRecord holdingsRecord) {

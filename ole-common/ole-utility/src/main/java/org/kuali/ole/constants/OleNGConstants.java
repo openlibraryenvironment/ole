@@ -73,6 +73,7 @@ public class OleNGConstants {
     }
 
     public static final String TAG_001 = "001";
+    public static final String TAG_003 = "003";
     public static final String UPDATED_BY = "updatedBy";
     public static final String UPDATED_DATE = "updatedDate";
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
@@ -142,6 +143,35 @@ public class OleNGConstants {
     public static final String VENDOR_DETAIL_GENERATOR_ID = "vendorDetailAssignedIdentifier";
     public static final String INVOICE_DOCUMENT = "invoiceDocument";
     public static final String PO_DOCUMENT = "purchaseOrderDocument";
+
+    public static final String OLENG = "/oledsng";
+    public static final String CREATE_BIB = "/createBib";
+    public static final String UPDATE_BIB = "/updateBib";
+    public static final String CREATE_HOLDINGS = "/createHolding";
+    public static final String UPDATE_HOLDINGS = "/updateHolding";
+    public static final String CREATE_ITEM = "/createItem";
+    public static final String UPDATE_ITEM = "/updateItem";
+    public static final String PROCESS_BIB_HOLDINGS_ITEMS = "/processBibHoldingsItems";
+    public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
+
+    public static final String BIB = "bib";
+    public static final String BIB_RECORD = "bibRecord";
+    public static final String HOLDINGS_RECORD = "holdingsRecord";
+    public static final String ITEM_RECORD = "itemRecord";
+    public static final String MATCHED_HOLDINGS = "matchedHoldings";
+    public static final String MATCHED_ITEM = "matchedItem";
+    public static final String BIB_UPDATED = "bibUpdated";
+    public static final String HOLDINGS_CREATED = "holdingRecordsToCreate";
+    public static final String HOLDINGS_UPDATED = "holdingRecordsToUpdate";
+    public static final String ITEMS_CREATED = "itemRecordsToCreate";
+    public static final String ITEMS_UPDATED = "itemRecordsToUpdate";
+    public static final String PUBLIC = "public";
+    public static final String NON_PUBLIC = "nonPublic";
+    public static final String HOLDINGS_MATCH_FOUND = "holdingsMatchFound";
+    public static final String EHOLDINGS_MATCH_FOUND = "eholdingsMatchFound";
+
+    public final static String CREATED = "Created";
+    public final static String UPDATED = "Updated";
 
 
 }

@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.common.document.Holdings;
@@ -26,7 +27,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             String value = getStringValueFromJsonObject(requestJsonObject, key);
@@ -48,7 +49,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(value)) {
-                    exchange.add("matchedHoldings", holdingRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
                     break;
                 }
             }
@@ -67,7 +68,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         // Todo : Set Location.
         String holdingsLocation = holdingsRecord.getLocation();
         if (StringUtils.isNotBlank(holdingsLocation)) {
@@ -93,6 +94,6 @@ public class HoldingsLocationHandler extends HoldingsHandler {
             holdingsRecord.setLocation(locationName.toString());
             holdingsRecord.setLocationLevel(locationLevelName.toString());
         }
-        exchange.add("holdingsRecord", holdingsRecord);
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
     }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -35,13 +36,13 @@ public class UpdateHoldingsProcessor {
         List<HoldingsRecord> holdingsRecordsToUpdate = new ArrayList<HoldingsRecord>();
 
         try {
-            String ops = requestJsonObject.getString("ops");
-            BibRecord bibRecord = (BibRecord) exchange.get("bib");
+            String ops = requestJsonObject.getString(OleNGConstants.OPS);
+            BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
             List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
 
             for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsRecord holdingsRecord = iterator.next();
-                exchange.add("holdings",holdingsRecord);
+                exchange.add(OleNGConstants.HOLDINGS,holdingsRecord);
                 if(StringUtils.equals(holdingsRecord.getHoldingsType(), PHoldings.PRINT)) {
                     UpdateHoldingsHandler updateHoldingsHandler = new UpdateHoldingsHandler();
                     if(updateHoldingsHandler.isInterested(ops)) {
@@ -63,18 +64,18 @@ public class UpdateHoldingsProcessor {
                         createEHolding(requestJsonObject,exchange,ops);
                     }
                 }
-                exchange.remove("holdings");
+                exchange.remove(OleNGConstants.HOLDINGS);
             }
 
-            List holdingRecordsToUpdate = (List) exchange.get("holdingRecordsToUpdate");
+            List holdingRecordsToUpdate = (List) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
             if(CollectionUtils.isNotEmpty(holdingRecordsToUpdate) && holdingRecordsToUpdate.size() == 1){
                 getHoldingDAO().saveAll(holdingRecordsToUpdate);
             } else {
-                exchange.remove("holdingRecordsToUpdate");
-                exchange.remove("holdingsMatchFound");
+                exchange.remove(OleNGConstants.HOLDINGS_UPDATED);
+                exchange.remove(OleNGConstants.HOLDINGS_MATCH_FOUND);
             }
-            Boolean isHoldingsMatched = (Boolean) exchange.get("holdingsMatchFound");
-            Boolean isEHoldingsMatchFound = (Boolean) exchange.get("eholdingsMatchFound");
+            Boolean isHoldingsMatched = (Boolean) exchange.get(OleNGConstants.HOLDINGS_MATCH_FOUND);
+            Boolean isEHoldingsMatchFound = (Boolean) exchange.get(OleNGConstants.EHOLDINGS_MATCH_FOUND);
             if(null != isHoldingsMatched && isHoldingsMatched.equals(Boolean.TRUE)) {
                 processItems(requestJsonObject, exchange, ops);
             } else {

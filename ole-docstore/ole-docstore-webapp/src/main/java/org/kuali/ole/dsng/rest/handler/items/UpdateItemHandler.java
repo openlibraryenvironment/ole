@@ -8,6 +8,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -40,12 +41,12 @@ public class UpdateItemHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
         try {
-            String ops = requestJsonObject.getString("ops");
-            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
+            String ops = requestJsonObject.getString(OleNGConstants.OPS);
+            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
-            String updatedBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
+            String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
 
-            List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get("holdingRecordsToUpdate");
+            List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
             if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
                 for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsRecordsToUpdate.iterator(); holdingsRecordIterator.hasNext(); ) {
                     HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
@@ -55,13 +56,13 @@ public class UpdateItemHandler extends Handler {
                         for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
                             JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
                             ItemRecord itemRecord = iterator.next();
-                            if (itemJsonObject.has("matchPoints")) {
-                                JSONObject matchPoints = itemJsonObject.getJSONObject("matchPoints");
+                            if (itemJsonObject.has(OleNGConstants.MATCH_POINT)) {
+                                JSONObject matchPoints = itemJsonObject.getJSONObject(OleNGConstants.MATCH_POINT);
                                 HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
                                 });
 
 
-                                exchange.add("itemRecord",itemRecord);
+                                exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
 
                                 matchPointsLoop:
                                 for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
@@ -70,7 +71,7 @@ public class UpdateItemHandler extends Handler {
                                         Handler itemMetaDataHandlelr = iterator2.next();
                                         if (itemMetaDataHandlelr.isInterested(key)) {
                                             itemMetaDataHandlelr.process(matchPoints, exchange);
-                                            if (null != exchange.get("matchedItem")) {
+                                            if (null != exchange.get(OleNGConstants.MATCHED_ITEM)) {
                                                 isItemMatched = true;
                                                 itemRecord.setUpdatedBy(updatedBy);
                                                 itemRecord.setUpdatedDate(updatedDate);
@@ -84,13 +85,13 @@ public class UpdateItemHandler extends Handler {
                             }
                         }
                         getItemDAO().saveAll(itemRecordsToUpdate);
-                        List itemsToUpdate = (List) exchange.get("itemRecordsToUpdate");
+                        List itemsToUpdate = (List) exchange.get(OleNGConstants.ITEMS_UPDATED);
                         if(null == itemsToUpdate) {
                             itemsToUpdate = new ArrayList();
                         }
                         itemsToUpdate.addAll(itemRecordsToUpdate);
 
-                        exchange.add("itemRecordsToUpdate",itemsToUpdate);
+                        exchange.add(OleNGConstants.ITEMS_UPDATED,itemsToUpdate);
                     }
                     if(!isItemMatched) {
                         createItem(requestJsonObject, exchange, ops, holdingsRecord);
@@ -112,16 +113,16 @@ public class UpdateItemHandler extends Handler {
     private void createItem(JSONObject requestJsonObject, Exchange exchange, String ops, HoldingsRecord holdingsRecord) {
         CreateItemHandler createItemHandler = new CreateItemHandler();
         if(createItemHandler.isInterested(ops)) {
-            exchange.add("holdings",holdingsRecord);
+            exchange.add(OleNGConstants.HOLDINGS,holdingsRecord);
             createItemHandler.setItemDAO(getItemDAO());
             createItemHandler.setBusinessObjectService(getBusinessObjectService());
             createItemHandler.process(requestJsonObject,exchange);
-            exchange.remove("holdings");
+            exchange.remove(OleNGConstants.HOLDINGS);
         }
     }
 
     private ItemRecord processOverlay(Exchange exchange,JSONObject holdingJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
-        JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
+        JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
 
         HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
         });
@@ -136,7 +137,7 @@ public class UpdateItemHandler extends Handler {
             }
         }
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-        exchange.remove("matchedItem");
+        exchange.remove(OleNGConstants.MATCHED_ITEM);
         return itemRecord;
     }
 

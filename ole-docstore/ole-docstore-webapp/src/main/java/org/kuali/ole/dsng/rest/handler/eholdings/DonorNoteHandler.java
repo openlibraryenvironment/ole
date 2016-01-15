@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -26,14 +27,14 @@ public class DonorNoteHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String donorNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
         List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
         if(CollectionUtils.isNotEmpty(donorList)) {
             for (Iterator<OLEHoldingsDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
                 OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
                 if(StringUtils.equals(oleHoldingsDonorRecord.getDonorPublicDisplay(),donorNote)) {
-                    exchange.add("matchedItem", holdingRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
                     break;
                 }
             }
@@ -42,7 +43,7 @@ public class DonorNoteHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String donorNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
         List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
         if(CollectionUtils.isNotEmpty(donorList)) {
