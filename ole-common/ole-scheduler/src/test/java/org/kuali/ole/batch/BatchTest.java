@@ -1,5 +1,7 @@
 package org.kuali.ole.batch;
 
+import java.util.concurrent.ScheduledFuture;
+
 import org.junit.Test;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Scheduler;
@@ -11,8 +13,9 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.scheduling.quartz.CronTriggerBean;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
+import org.springframework.scheduling.support.CronTrigger;
 
 public class BatchTest {
 
@@ -57,9 +60,21 @@ public class BatchTest {
         }
     }
     
-    public static void main(String[] args) {
+    //@Test
+    public void testSpringScheduler() throws InterruptedException {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(BatchConfiguration.class);
+        TaskScheduler scheduler = ctx.getBean("springScheduler", TaskScheduler.class);
+        System.out.println(scheduler.toString());
+        DummyTask task = ctx.getBean("dummyTask", DummyTask.class);
+        ScheduledFuture<?> scheduleFuture = scheduler.schedule(task, new CronTrigger("0/5 * * * * ?"));
+        Thread.sleep(20000);
+        scheduleFuture.cancel(true);
+    }
+    
+    public static void main(String[] args) throws InterruptedException {
         BatchTest bt = new BatchTest();
-        bt.testScheduler();
+        //bt.testScheduler();
+        bt.testSpringScheduler();
     }
 
 }

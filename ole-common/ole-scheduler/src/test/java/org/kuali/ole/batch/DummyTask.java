@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DummyScheduler {
+public class DummyTask implements Runnable {
 
     @Autowired
     private JobLauncher jobLauncher;
@@ -17,8 +17,6 @@ public class DummyScheduler {
     @Autowired
     private Job job;
   
-    //@Scheduled(cron="*/5 * * * * *")
-    // Every day at 6 o'clock: @Scheduled(cron="0 0 6 * * *")
     public void run() {
         try {
             JobExecution execution = jobLauncher.run(job, new JobParameters());

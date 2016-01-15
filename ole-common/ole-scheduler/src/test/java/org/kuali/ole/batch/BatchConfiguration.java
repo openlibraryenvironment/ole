@@ -22,12 +22,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
 public class BatchConfiguration {
+    
+    @Bean 
+    public DummyTask dummyTask() {
+        return new DummyTask();
+    }
+    
+    @Bean
+    public ConcurrentTaskScheduler springScheduler() {
+        return new ConcurrentTaskScheduler();        
+    }
     
     @Bean
     public SchedulerFactoryBean quartzScheduler() {
