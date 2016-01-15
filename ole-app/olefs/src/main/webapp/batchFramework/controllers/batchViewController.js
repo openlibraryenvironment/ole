@@ -77,11 +77,21 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     }
 
     $scope.matchPointAdd = function () {
-        var matchPointRow = getNewMatchPointRowByIndex(0);
-        if (validateMatchPointRow(matchPointRow, $scope)) {
-            return;
-        }
-        $scope.matchPointsPanel.push(matchPointRow);
+        $scope.matchPointsPanel.push({
+            matchPointDocType: $scope.matchPointsPanel[0].matchPointDocType,
+            matchPointType: $scope.matchPointsPanel[0].matchPointType,
+            matchPointValue: $scope.matchPointsPanel[0].matchPointValue,
+            dataField: $scope.matchPointsPanel[0].dataField,
+            ind1: $scope.matchPointsPanel[0].ind1,
+            ind2: $scope.matchPointsPanel[0].ind2,
+            subField: $scope.matchPointsPanel[0].subField,
+            destDataField: $scope.matchPointsPanel[0].destDataField,
+            destInd1: $scope.matchPointsPanel[0].destInd1,
+            destInd2: $scope.matchPointsPanel[0].destInd2,
+            destSubField: $scope.matchPointsPanel[0].destSubField,
+            constant: $scope.matchPointsPanel[0].constant,
+            isAddLine: true
+        });
         $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
