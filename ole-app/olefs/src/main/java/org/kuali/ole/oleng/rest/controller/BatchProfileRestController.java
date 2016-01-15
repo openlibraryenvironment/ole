@@ -3,7 +3,7 @@ package org.kuali.ole.oleng.rest.controller;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.BatchProfileRequestHandler;
 import org.kuali.ole.utility.OleStopWatch;

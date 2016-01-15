@@ -1,11 +1,8 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.oleng.OleNGConstants;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.MarcFactory;
+import org.kuali.ole.constants.OleNGConstants;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
 
 import java.util.StringTokenizer;
 

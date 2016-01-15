@@ -1,20 +1,14 @@
 package org.kuali.ole.oleng.handler;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.describe.bo.OleShelvingScheme;
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.*;
-import org.kuali.ole.oleng.service.BatchProfileService;
-import org.kuali.ole.spring.batch.BatchUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

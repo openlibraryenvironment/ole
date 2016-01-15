@@ -1,6 +1,6 @@
 package org.kuali.ole.oleng.resolvers;
 
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;

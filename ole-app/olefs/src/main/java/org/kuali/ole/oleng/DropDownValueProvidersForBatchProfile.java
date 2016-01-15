@@ -5,6 +5,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleBibliographicRecordStatus;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;

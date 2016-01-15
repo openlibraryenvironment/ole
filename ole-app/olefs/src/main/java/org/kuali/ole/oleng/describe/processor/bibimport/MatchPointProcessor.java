@@ -2,8 +2,7 @@ package org.kuali.ole.oleng.describe.processor.bibimport;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.marc4j.marc.DataField;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by SheikS on 12/20/2015.

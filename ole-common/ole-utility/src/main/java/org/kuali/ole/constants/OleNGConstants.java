@@ -1,4 +1,4 @@
-package org.kuali.ole.oleng;
+package org.kuali.ole.constants;
 
 /**
  * Created by SheikS on 1/6/2016.

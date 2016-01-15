@@ -3,7 +3,7 @@ package org.kuali.ole.oleng.batch.profile.model;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.util.ArrayList;

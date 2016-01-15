@@ -1,7 +1,7 @@
 package org.kuali.ole.oleng.rest.controller;
 
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.oleng.OleNGConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.springframework.beans.factory.annotation.Autowired;
