@@ -96,14 +96,7 @@
                 <ref bean="OlePatronDocument-messagePopupSection"/>
                 <!--<bean id="OlePatronDocument-AdHocRecipientsSection" parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40" p:render="@{maintenanceAction ne 'Delete'}"/>
                 <bean id="OlePatronDocument-RouteLogSection" parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50" p:render="@{maintenanceAction ne 'Delete'}"/>-->
-                <bean id="OlePatronDocument-FooterBase" parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}">
-                    <property name="items">
-                        <list>
-                            <bean id="deleteButton" parent="Uif-SecondaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete"/>
-                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
-                        </list>
-                    </property>
-                </bean>
+
                 <ref bean ="patronLoan_hdnBtn"/>
             </list>
         </property>
@@ -167,8 +160,30 @@
                 <value>ole/patron/script/olePatron.js</value>
             </list>
         </property>
+        <property name="dialogs">
+            <list>
+                <ref bean="deleteConfirmationMessage"/>
+            </list>
+        </property>
     </bean>
 
+    <bean id="deleteConfirmationMessage"  parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="confirmationMessage" parent="Uif-MessageField" p:messageText='message'/>
+                <bean id="confirmationButton" parent="Uif-HorizontalBoxSection" p:style="position: relative;top:39%;left: 50%;margin-right: 74%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
+                    <property name="items">
+                        <list>
+                            <bean id="confirmationSubmit" parent="Uif-SecondaryActionButton" p:actionScript="submitForm('deleteDocument',null,null,true,function(){
+                            });" p:actionLabel="Submit" />
+                            <bean id="confirmationCancel" parent="Uif-SecondaryActionButton"  p:methodToCall="cancel" p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!--<bean id="Uif-OlePatron-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
         <property name="rightGroup">
                 <bean parent="Uif-OlePatron-DocumentInfoGroup">
@@ -244,6 +259,14 @@
                 <bean id="notesec" parent="Uif-OleDocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
                 <bean id="adhoc" parent="Uif-OleDocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
                 <bean id="routesection" parent="Uif-OleDocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+                <bean id="OlePatronDocument-FooterBase" parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="60">
+                    <property name="items">
+                        <list>
+                            <bean id="deleteButton" parent="Uif-SecondaryActionButton" p:actionScript="unloadPage(true);" p:actionLabel="Delete"/>
+                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer">

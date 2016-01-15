@@ -25,7 +25,24 @@ jq(document).ready(function(){
     jq("#OlePatronDocument-validation-Message-Section").hide();
     jq("#OlePatronDocument-validation-Message-Section-reinstate").hide();
 
-})
+    unsaved = false;
+    jq("#deleteButton").live("click",function(){
+        unsaved = true;
+    });
+
+
+
+    window.onbeforeunload = unloadPage(unsaved);
+
+});
+
+
+function unloadPage(unsaved){
+    if(unsaved){
+        jq("#confirmationMessage").text('Patron record for '+jq("#lastName_control").val()+" "+jq("#firstName_control").val()+' is about to be permanently deleted, would you like to continue?');
+        result = showLightboxComponent("deleteConfirmationMessage");//window.prompt(message,"");
+    }
+}
 
 function expandAll(){
 

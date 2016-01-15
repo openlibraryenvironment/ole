@@ -86,6 +86,7 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            oleNoticeContentConfigurationBo.setNoticeType(OLEConstants.OVERDUE_NOTICE);
         }
     }
 
