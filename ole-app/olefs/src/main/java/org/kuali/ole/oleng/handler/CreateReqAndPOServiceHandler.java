@@ -11,6 +11,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 /**
  * Created by SheikS on 12/18/2015.
  */
@@ -20,7 +22,7 @@ public class CreateReqAndPOServiceHandler extends OleNgUtil implements CreateReq
 
     public String processOrder(OleOrderRecord oleOrderRecord) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(oleOrderRecord);
+        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(Collections.singletonList(oleOrderRecord));
         JSONObject jsonObject = new JSONObject();
         if (null != requisitionDocument.getPurapDocumentIdentifier()) {
             jsonObject.put("status", "Success");

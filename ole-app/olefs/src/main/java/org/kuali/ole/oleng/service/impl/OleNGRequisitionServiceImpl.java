@@ -41,10 +41,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -63,22 +60,17 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     protected DocumentService documentService;
 
     @Override
-    public OleRequisitionDocument createPurchaseOrderDocument(final OleOrderRecord oleOrderRecord) throws Exception {
+    public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords) throws Exception {
 
-        final OleRequisitionDocument requisitionDocument = getOleReqPOCreateDocumentService().createRequisitionDocument();
+        OleRequisitionDocument newRequisitionDocument = createNewRequisitionDocument();
 
-        setDocumentValues(requisitionDocument, oleOrderRecord);
+        populateReqDocWithOrderInformation(newRequisitionDocument,oleOrderRecords);
 
-        requisitionDocument.setItems(generateItemList(oleOrderRecord, requisitionDocument));
+        saveRequsitionDocument(newRequisitionDocument);
 
+        routeRequisitionDocument(newRequisitionDocument);
 
-        requisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
-
-        requisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
-
-        getRequisitionCreateDocumentService().saveRequisitionDocuments(requisitionDocument);
-
-        return requisitionDocument;
+        return newRequisitionDocument;
     }
 
     @Override
@@ -96,10 +88,11 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     }
 
     @Override
-    public OleRequisitionDocument populateReqDocWithOrderInformation(OleRequisitionDocument oleRequisitionDocument, OleOrderRecord oleOrderRecord) throws Exception {
-        setDocumentValues(oleRequisitionDocument, oleOrderRecord);
+    public OleRequisitionDocument populateReqDocWithOrderInformation(OleRequisitionDocument oleRequisitionDocument,
+                                                                     List<OleOrderRecord> oleOrderRecords) throws Exception {
+        setDocumentValues(oleRequisitionDocument, oleOrderRecords.get(0));
 
-        oleRequisitionDocument.setItems(generateItemList(oleOrderRecord, oleRequisitionDocument));
+        oleRequisitionDocument.setItems(generateItemList(oleOrderRecords));
 
         oleRequisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
 
@@ -151,10 +144,13 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         return  oleRequisitionDocument;
     }
 
-    private List<RequisitionItem> generateItemList(OleOrderRecord oleOrderRecord, OleRequisitionDocument requisitionDocument) throws Exception {
+    private List<RequisitionItem> generateItemList(List<OleOrderRecord> oleOrderRecords) throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
-        int itemLineNumber = 1;
-        items.add(createRequisitionItem(oleOrderRecord, itemLineNumber));
+        for(int index = 0; index < oleOrderRecords.size(); index++){
+            int itemLineNumber = index + 1;
+            OleOrderRecord oleOrderRecord = oleOrderRecords.get(index);
+            items.add(createRequisitionItem(oleOrderRecord, itemLineNumber));
+        }
         return items;
     }
 
