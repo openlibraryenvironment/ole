@@ -116,19 +116,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.BIB_DATAMAPPINGS);
         bibData.put(OleNGConstants.DATAMAPPING, buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
 
-        JSONObject holdingsData = prepareMatchPointsForHoldings(batchProcessProfile);
+        JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord,batchProcessProfile);
         JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         holdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
         bibData.put(OleNGConstants.HOLDINGS, holdingsData);
 
-        JSONObject eholdingsData = prepareMatchPointsForEHoldings(batchProcessProfile);
+        JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord,batchProcessProfile);
         JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         eholdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
         bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
 
-        JSONObject itemData = prepareMatchPointsForItem(batchProcessProfile);
+        JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord,batchProcessProfile);
         JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.ITEM_DATAMAPPINGS);
         JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.ITEM_DATAMAPPINGS);
         itemData.put(OleNGConstants.DATAMAPPING, buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
@@ -187,35 +187,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             addOverlayOps.add(matchOptionInd + dataTypeInd + operationInd);
         }
         return addOverlayOps;
-    }
-
-    private JSONObject prepareMatchPointsForItem(BatchProcessProfile batchProcessProfile) throws JSONException {
-        JSONObject itemData = new JSONObject();
-        JSONObject itemMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.ITEM);
-        if (itemMatchPoints.length() > 0) {
-            itemData.put(OleNGConstants.MATCH_POINT, itemMatchPoints);
-        }
-
-        return itemData;
-    }
-
-
-    private JSONObject prepareMatchPointsForHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
-        JSONObject holdingsData = new JSONObject();
-        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.HOLDINGS);
-        if (holdingsMatchPoints.length() > 0) {
-            holdingsData.put(OleNGConstants.MATCH_POINT, holdingsMatchPoints);
-        }
-        return holdingsData;
-    }
-
-    private JSONObject prepareMatchPointsForEHoldings(BatchProcessProfile batchProcessProfile) throws JSONException {
-        JSONObject holdingsData = new JSONObject();
-        JSONObject holdingsMatchPoints = prepareMatchPointsForDocType(batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.EHOLDINGS);
-        if (holdingsMatchPoints.length() > 0) {
-            holdingsData.put(OleNGConstants.MATCH_POINT, holdingsMatchPoints);
-        }
-        return holdingsData;
     }
 
     public JSONObject prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType, String transformationOption) throws JSONException {
@@ -320,35 +291,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 return new Integer(priorityForDataMapping1).compareTo(new Integer(priorityForDataMapping2));
             }
         });
-    }
-
-    private JSONObject prepareMatchPointsForDocType(List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {
-        JSONObject matchPoints = new JSONObject();
-        if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
-            for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
-                BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(docType)) {
-                    String matchPoint = batchProfileMatchPoint.getMatchPointType();
-                    String newValue;
-                    if (matchPoints.has(matchPoint)) {
-                        newValue = matchPoints.getString(matchPoint) + "," + getMatchPointValue(batchProfileMatchPoint);
-                    } else {
-                        newValue = getMatchPointValue(batchProfileMatchPoint);
-                    }
-                    matchPoints.put(matchPoint, newValue);
-                }
-            }
-        }
-        return matchPoints;
-    }
-
-    private String getMatchPointValue(BatchProfileMatchPoint batchProfileMatchPoint) {
-        String matchPointValue = batchProfileMatchPoint.getMatchPointValue();
-        if (StringUtils.isNotBlank(matchPointValue)) {
-            return matchPointValue;
-        }
-
-        return batchProfileMatchPoint.getConstant();
     }
 
     public Map<String, String> getDataMappingMap(List<BatchProfileDataMapping> batchProfileDataMappingList) {

@@ -1,20 +1,21 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.i18n.Exception;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
-import org.marc4j.marc.Record;
+import org.marc4j.marc.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,18 @@ public class BatchBibFileProcessorTest {
 
     @Mock
     private BatchProfileDataMapping mockDataProfileMapping3;
+
+    @Mock
+    private BatchProfileMatchPoint mockMatchProfileMatchPoint1;
+
+    @Mock
+    private BatchProfileMatchPoint mockMatchProfileMatchPoint2;
+
+    @Mock
+    private BatchProfileMatchPoint mockMatchProfileMatchPoint3;
+
+    @Mock
+    private BatchProfileMatchPoint mockMatchProfileMatchPoint4;
 
     @Mock
     private MarcRecordUtil marcRecordUtil;
@@ -315,6 +328,74 @@ public class BatchBibFileProcessorTest {
         JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
         assertNotNull(bibDataMappings);
         assertEquals(bibDataMappings.get("Call Number"), "12321");
+    }
+
+    /*This test case for prepare matchpoint.*/
+    @Test
+    public void prepareMatchPoint() throws Exception, IOException, JSONException {
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("025");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 025 a");
+        dataField.addSubfield(subfield);
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("050");
+        dataField1.setIndicator1(' ');
+        dataField1.setIndicator2(' ');
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('a');
+        subfield1.setData("Value for 050 a");
+        dataField1.addSubfield(subfield1);
+
+        record.addVariableField(dataField1);
+
+        ArrayList<BatchProfileMatchPoint> batchProfileMatchPoints = new ArrayList<>();
+
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint1);
+        Mockito.when(mockMatchProfileMatchPoint1.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint1.getMatchPointType()).thenReturn("Call Number");
+        Mockito.when(mockMatchProfileMatchPoint1.getMatchPointValue()).thenReturn("CallNumber-123456");
+        Mockito.when(mockMatchProfileMatchPoint1.getDataField()).thenReturn("025");
+        Mockito.when(mockMatchProfileMatchPoint1.getSubField()).thenReturn("a");
+        Mockito.when(mockMatchProfileMatchPoint1.getConstant()).thenReturn("Constant Value 1");
+
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint2);
+        Mockito.when(mockMatchProfileMatchPoint2.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint2.getMatchPointType()).thenReturn("Copy Number");
+        Mockito.when(mockMatchProfileMatchPoint2.getDataField()).thenReturn("050");
+        Mockito.when(mockMatchProfileMatchPoint2.getSubField()).thenReturn("a");
+        Mockito.when(mockMatchProfileMatchPoint2.getConstant()).thenReturn("Constant Value 2");
+
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint3);
+        Mockito.when(mockMatchProfileMatchPoint3.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint3.getMatchPointType()).thenReturn("Location Level 1");
+        Mockito.when(mockMatchProfileMatchPoint3.getConstant()).thenReturn("Constant Value 3");
+
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint4);
+        Mockito.when(mockMatchProfileMatchPoint4.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint4.getMatchPointType()).thenReturn("Copy Number Type");
+        Mockito.when(mockMatchProfileMatchPoint4.getDataField()).thenReturn("090");
+        Mockito.when(mockMatchProfileMatchPoint4.getSubField()).thenReturn("a");
+        Mockito.when(mockMatchProfileMatchPoint4.getConstant()).thenReturn("Constant Value 4");
+
+        Mockito.when(mockBatchProcesProfile.getBatchProfileMatchPointList()).thenReturn(batchProfileMatchPoints);
+
+        MatchPointProcessor matchPointProcessor = new MatchPointProcessor();
+        JSONObject jsonObject = matchPointProcessor.prepareMatchPointsForHoldings(record, mockBatchProcesProfile);
+        assertNotNull(jsonObject);
+        System.out.println(jsonObject.toString());
+
     }
 
 
