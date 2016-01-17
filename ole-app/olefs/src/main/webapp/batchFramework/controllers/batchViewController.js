@@ -38,6 +38,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataMappingsPanel[0].constant = null;
             $scope.dataMappingsPanel[0].destination = null;
             $scope.dataMappingsPanel[0].field = null;
+            $scope.dataMappingsPanel[0].isMultiValue = false;
             $scope.dataMappingsPanel[0].priority = 1;
         } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
             clearProfileValues();
@@ -73,6 +74,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].priority = 1;
+        $scope.dataMappingsPanel[0].isMultiValue = false;
         $scope.dataMappingsPanel.collapsed = false;
     }
 
@@ -336,6 +338,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             field: $scope.dataMappingsPanel[0].field,
             transferOption: $scope.dataMappingsPanel[0].transferOption,
             priority: $scope.dataMappingsPanel[0].priority,
+            isMultiValue: $scope.dataMappingsPanel[0].isMultiValue,
             isAddLine: true
         });
         $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
@@ -347,6 +350,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.dataMappingsPanel[0].destination = null;
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].transferOption = 'Pre Marc Transformation';
+        $scope.dataMappingsPanel[0].isMultiValue = false;
         $scope.dataMappingsPanel[0].priority = 1;
     };
 
@@ -368,6 +372,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 field: $scope.dataMappingsPanel[index].field,
                 transferOption: $scope.dataMappingsPanel[index].transferOption,
                 priority: $scope.dataMappingsPanel[index].priority,
+                isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
                 isAddLine: true
             };
             $scope.dataMappingsPanel[index].isEdit = true;
@@ -398,6 +403,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             field: $scope.dataMappingsPanel[index].field,
             transferOption: $scope.dataMappingsPanel[index].transferOption,
             priority: $scope.dataMappingsPanel[index].priority,
+            isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
             isAddLine: true
         };
         $scope.dataMappingsPanel[index] = updatedRow;
@@ -587,6 +593,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             field: $scope.dataMappingsPanel[index].field,
             transferOption: $scope.dataMappingsPanel[index].transferOption,
             priority: $scope.dataMappingsPanel[index].priority,
+            isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
             isAddLine: true,
             isEdit: false
         };

@@ -25,6 +25,7 @@
                         </th>
                         <th>Field</th>
                         <th>Value</th>
+                        <th>Multivalue</th>
                         <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Pre/Post Transformation</th>
                         <th>Priority</th>
                         <th ng-hide="submitted" style="width: 90px;"></th>
@@ -219,6 +220,11 @@
                                             || dataMapping.field == 'Currency Type'
                                             || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" type="checkbox" name="dataMappingIsMultiValue_{{$index}}"
+                                   id="dataMappingIsMultiValue_{{$index}}"
+                                   ng-model="dataMapping.isMultiValue">
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <select class="form-control" name="dataMappingTransferOption__{{$index}}"
