@@ -398,5 +398,64 @@ public class BatchBibFileProcessorTest {
 
     }
 
+    @Test
+    public void getDataFieldValueWithIndicatorTest() {
+        MarcRecordUtil marcRecordUtil = new MarcRecordUtil();
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("025");
+        dataField.setIndicator1('1');
+        dataField.setIndicator2('2');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 025 a");
+        dataField.addSubfield(subfield);
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("035");
+        dataField1.setIndicator1('1');
+        dataField1.setIndicator2('2');
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('a');
+        subfield1.setData("Value for 035 a");
+        dataField1.addSubfield(subfield1);
+
+        record.addVariableField(dataField1);
+
+        DataField dataField2 = marcFactory.newDataField();
+        dataField2.setTag("050");
+        dataField2.setIndicator1('1');
+        dataField2.setIndicator2('2');
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('a');
+        subfield2.setData("Value for 050 a");
+        dataField2.addSubfield(subfield2);
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('b');
+        subfield3.setData("Value for 050 b");
+        dataField2.addSubfield(subfield3);
+
+        record.addVariableField(dataField2);
+
+        String valueOf025$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "025", "1|2|$a");
+        assertEquals(valueOf025$a, "Value for 025 a");
+        System.out.println(valueOf025$a);
+
+        String valueOf035$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "035", " |2|$a");
+        assertTrue(StringUtils.isBlank(valueOf035$a));
+        System.out.println(valueOf035$a);
+
+        String valueOf050$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "050", "1|2|$a$b");
+        assertEquals(valueOf050$a, "Value for 050 a Value for 050 b");
+        System.out.println(valueOf050$a);
+    }
+
 
 }
