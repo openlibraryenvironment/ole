@@ -30,7 +30,7 @@ public class HoldingsCallNumberProcessor implements Callable {
     JdbcTemplate jdbcTemplate;
 
     public HoldingsCallNumberProcessor(int start, int end, Map<String, String> callNumberType, JdbcTemplate jdbcTemplate) {
-        this.holdingsCallNumberQuery = "SELECT HOLDINGS_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_HOLDINGS_T Where CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY HOLDINGS_ID  Limit " + start + "  , " + end;
+        this.holdingsCallNumberQuery = "SELECT HOLDINGS_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_HOLDINGS_T WHERE HOLDINGS_ID   BETWEEN " + start + "  AND " + end +" AND CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY HOLDINGS_ID " ;
         this.callNumberType = callNumberType;
         this.jdbcTemplate = jdbcTemplate;
     }
