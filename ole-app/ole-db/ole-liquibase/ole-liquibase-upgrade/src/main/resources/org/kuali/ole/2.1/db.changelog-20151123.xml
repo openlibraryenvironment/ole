@@ -208,5 +208,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" id="KRCR_PARM_T_UPDATE_PARAM_NAME" author="ole">
+        <update tableName="KRCR_PARM_T">
+            <column name="PARM_NM" value="EHOLDINGS_CALL_NUMBER_TYPE" />
+            <where>NMSPC_CD ='OLE-DESC' and CMPNT_CD='Describe' and PARM_NM='E-HOLDINGS_CALL_NUMBER_TYPE' and APPL_ID='KUALI'</where>
+        </update>
+    </changeSet>
 
 </databaseChangeLog>

@@ -399,10 +399,11 @@ public abstract class CheckinBaseController extends CircUtilController {
     public void updateReturnHistory(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
         if(oleItemRecordForCirc != null) {
             getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
-            if((oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))
+            String itemStatusToBeUpdatedTo = oleItemRecordForCirc.getItemStatusToBeUpdatedTo();
+            if((itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT) || itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD) || itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_LOAN))
                     && StringUtils.isNotBlank(oleItemRecordForCirc.getRouteToLocation())) {
                 saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
-            } else if(!(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )) && !(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
+            } else if(!(itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT)) && !(itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD)) && !(itemStatusToBeUpdatedTo.equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_LOAN))) {
                 oleItemRecordForCirc.setRouteToLocation("N/A");
                 saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
             }
@@ -430,11 +431,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
     private void handleAutoCheckout(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
-        if (null != oleDeliverRequestBo && (oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.HOLD_DELIVERY) ||
-                oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL_DELIVERY))) {
-            getDroolsExchange(oleForm).addToContext("autoCheckout", true);
-            getDroolsExchange(oleForm).addToContext("requestBo", oleDeliverRequestBo);
-        }
+        getDroolsExchange(oleForm).addToContext("requestBo", oleDeliverRequestBo);
     }
 
     private void handleCheckinNote(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
