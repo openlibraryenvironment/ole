@@ -33,11 +33,24 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import org.supercsv.cellprocessor.FmtDate;
+import org.supercsv.cellprocessor.ParseDouble;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -150,6 +163,48 @@ public class OLEEResourceRecordController_IT extends KFSTestCaseBase {
     }
 
     private class MockOleEResourceRecordDocumentController extends OLEEResourceRecordController {
+
+    }
+
+    @Test
+    public void testCSVFileWrite() throws Exception {
+
+        ICsvBeanWriter beanWriter = null;
+        CellProcessor[] processors = new CellProcessor[3];
+        String tempLocation = System.getProperty("java.io.tmpdir");
+
+        try {
+            OLEEResourceRecordDocument oleeResourceRecordDocument = new OLEEResourceRecordDocument();
+            oleeResourceRecordDocument.setFiscalYearCost(100.00);
+            oleeResourceRecordDocument.setYearPriceQuote(200.00);
+            oleeResourceRecordDocument.setCostIncrease(100);;
+            oleeResourceRecordDocument.setPercentageIncrease(10);
+
+            File csvFile = new File(tempLocation+"PriceIncreaseAnalysis.csv");
+            beanWriter = new CsvBeanWriter(new FileWriter(csvFile),
+                    CsvPreference.STANDARD_PREFERENCE);
+            List<OLEEResourceRecordDocument> oleeResourceRecordDocumentList = Arrays.asList(oleeResourceRecordDocument);
+            String[] header = {"Previous fiscal year cost", "Current year price quote", "Cost increase", "Percent increase"};
+            beanWriter.writeHeader(header);
+            for (OLEEResourceRecordDocument eresourceRecordDocument : oleeResourceRecordDocumentList) {
+                beanWriter.write(eresourceRecordDocument, header, processors);
+            }
+
+        } catch (IOException ex) {
+            System.err.println("Error writing the CSV file: " + ex);
+        } finally {
+            if (beanWriter != null) {
+                try {
+                    beanWriter.close();
+                    File file = new File(tempLocation+"PriceIncreaseAnalysis.csv");
+                    assertTrue(file.exists());
+                } catch (IOException ex) {
+
+                }
+            }
+        }
+
+
 
     }
 }
