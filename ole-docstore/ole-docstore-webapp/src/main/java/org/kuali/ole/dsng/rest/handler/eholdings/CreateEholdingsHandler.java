@@ -18,7 +18,7 @@ import java.util.List;
 public class CreateEholdingsHandler extends CreateHoldingsHandler {
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if (op.equals("141") || op.equals("241")) {

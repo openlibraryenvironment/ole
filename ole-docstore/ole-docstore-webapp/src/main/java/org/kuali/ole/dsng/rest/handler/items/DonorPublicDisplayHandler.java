@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -41,21 +42,31 @@ public class DonorPublicDisplayHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject, TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                oleItemDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorPublicDisplay = iterator.next();
+                    for (Iterator<OLEItemDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
+                        OLEItemDonorRecord oleItemDonorRecord = iterator1.next();
+                        oleItemDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
+                    }
+                }
+            } else {
+                donorList = new ArrayList<OLEItemDonorRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorPublicDisplay = iterator.next();
+                    OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
+                    oleItemDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
+                    oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                }
+                itemRecord.setDonorList(donorList);
             }
-        } else {
-            donorList = new ArrayList<OLEItemDonorRecord>();
-            OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
-            oleItemDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
-            oleItemDonorRecord.setItemId(itemRecord.getItemId());
-            itemRecord.setDonorList(donorList);
+
+            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
-        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
     }
 }

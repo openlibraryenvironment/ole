@@ -28,7 +28,7 @@ public class CreateItemHandler extends Handler {
 
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if (op.equals("131") || op.equals("231")) {
@@ -49,8 +49,7 @@ public class CreateItemHandler extends Handler {
                 exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
 
                 JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
-                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-                });
+                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
                 for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
                     String key1 = (String) iterator3.next();
                     for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {

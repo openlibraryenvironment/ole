@@ -1,13 +1,17 @@
 
 package org.kuali.ole.dsng.rest.handler.items;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.ItemUtil;
+
+import java.util.List;
 
 /**
  * Created by SheikS on 12/20/2015.
@@ -32,13 +36,17 @@ public class ItemTypeHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String itemTypeName = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        ItemTypeRecord itemTypeRecord = new ItemUtil().fetchItemTypeByName(itemTypeName);
-        if(null != itemTypeRecord) {
-            itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
-            itemRecord.setItemTypeRecord(itemTypeRecord);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            String itemTypeName = listFromJSONArray.get(0);
+            ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
+            ItemTypeRecord itemTypeRecord = new ItemUtil().fetchItemTypeByName(itemTypeName);
+            if(null != itemTypeRecord) {
+                itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
+                itemRecord.setItemTypeRecord(itemTypeRecord);
+            }
+            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
-        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
     }
 }

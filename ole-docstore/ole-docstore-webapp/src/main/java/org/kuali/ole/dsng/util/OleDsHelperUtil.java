@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.util;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
@@ -9,6 +11,10 @@ import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
 import org.kuali.ole.utility.MarcRecordUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SheikS on 11/30/2015.
@@ -33,6 +39,29 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
+        JSONArray returnValue = null;
+        try {
+            returnValue = jsonObject.getJSONArray(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public List<String> getListFromJSONArray(String operation){
+        List ops = new ArrayList();
+        try {
+            ops = new ObjectMapper().readValue(operation, new TypeReference<List<String>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ops;
+
     }
 
     private void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {

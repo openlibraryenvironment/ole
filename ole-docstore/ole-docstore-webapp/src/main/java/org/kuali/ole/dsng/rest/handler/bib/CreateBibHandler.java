@@ -9,7 +9,6 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class CreateBibHandler extends BibHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if(op.equals("111") || op.equals("211")){

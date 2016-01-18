@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
@@ -43,28 +44,30 @@ public class PerpetualAccessEndDateHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String perpetualAccessEndDate = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        if(StringUtils.isNotBlank(perpetualAccessEndDate)) {
-            try {
-                Date parseedDate = DOCSTORE_DATE_FORMAT.parse(perpetualAccessEndDate);
-                List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-                if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
-                    for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstancePerpetualAccessRecords.iterator(); iterator.hasNext(); ) {
-                        EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+            if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String perpetualAccessEndDate = iterator.next();
+                    for (Iterator<EInstancePerpetualAccessRecord> iterator1 = eInstancePerpetualAccessRecords.iterator(); iterator1.hasNext(); ) {
+                        EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator1.next();
                         eInstancePerpetualAccessRecord.setPerpetualAccessEndDate(perpetualAccessEndDate);
                     }
-                } else {
-                    eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
+                }
+            } else {
+                eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String perpetualAccessEndDate = iterator.next();
                     EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = new EInstancePerpetualAccessRecord();
                     eInstancePerpetualAccessRecord.setPerpetualAccessEndDate(perpetualAccessEndDate);
                     eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                     eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
                     eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
-                    holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
             }
         }
     }

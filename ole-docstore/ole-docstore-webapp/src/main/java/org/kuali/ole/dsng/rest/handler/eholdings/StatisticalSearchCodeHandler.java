@@ -2,8 +2,10 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord;
@@ -46,29 +48,38 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-
-        StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
-        if (null != statisticalSearchRecord) {
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
             if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
-                for (Iterator<HoldingsStatisticalSearchRecord> iterator = holdingsStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
-                    HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = iterator.next();
-                    holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String statisticalSearchCode = iterator.next();
+                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    for (Iterator<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordIterator = holdingsStatisticalSearchRecords.iterator(); holdingsStatisticalSearchRecordIterator.hasNext(); ) {
+                        HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecordIterator.next();
+                        holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+
+                    }
                 }
             } else {
                 holdingsStatisticalSearchRecords = new ArrayList<HoldingsStatisticalSearchRecord>();
-                HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
-                holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
-                holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
-                holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-                holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
-                holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String statisticalSearchCode = iterator.next();
+                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
+                    holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                    holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                    holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                    holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
+                    holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+
+                }
                 holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
             }
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
         }
-        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
 
     }
 }

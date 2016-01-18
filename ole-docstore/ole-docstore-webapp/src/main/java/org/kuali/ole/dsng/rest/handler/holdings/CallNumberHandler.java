@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
@@ -35,9 +37,13 @@ public class CallNumberHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String callNumberValue = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        holdingRecord.setCallNumber(callNumberValue);
-        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            String callNumberValue = listFromJSONArray.get(0);
+            HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            holdingRecord.setCallNumber(callNumberValue);
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
+        }
     }
 }

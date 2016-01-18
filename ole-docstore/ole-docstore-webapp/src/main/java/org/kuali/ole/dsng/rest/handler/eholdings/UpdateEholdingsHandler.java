@@ -17,7 +17,7 @@ public class UpdateEholdingsHandler extends UpdateHoldingsHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if (op.equals("142") || op.equals("242")) {

@@ -40,7 +40,7 @@ public class UpdateHoldingsHandler extends Handler {
 
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if (op.equals("122") || op.equals("222")) {
@@ -115,8 +115,7 @@ public class UpdateHoldingsHandler extends Handler {
     private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject holdingJsonObject) throws JSONException, IOException {
         JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
 
-        HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-        });
+        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
         for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
             String key1 = (String) iterator3.next();
             for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {

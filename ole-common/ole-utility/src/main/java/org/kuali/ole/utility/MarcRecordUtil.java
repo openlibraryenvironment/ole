@@ -7,6 +7,7 @@ import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -122,6 +123,38 @@ public class MarcRecordUtil {
         }
         return stringBuilder.toString();
     }
+
+
+    /*This method will get the field and tags and will return return the concadinated value
+    * Eg:
+    *   field : 050
+    *   tags  : ind1|ind2|$a$b*/
+    public List<String> getDataFieldValueWithIndicatorsAndMultiValue(Record marcRecord, String field, String tags) {
+        List<String> values = new ArrayList<>();
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            StringTokenizer tagsTokenize = new StringTokenizer(tags, "|");
+            char ind1 = tagsTokenize.nextToken().charAt(0);
+            char ind2 = tagsTokenize.nextToken().charAt(0);
+            String subFieldTags = tagsTokenize.nextToken();
+            if (dataField.getIndicator1() == ind1 && dataField.getIndicator2() == ind2) {
+                StringTokenizer stringTokenizer = new StringTokenizer(subFieldTags, "$");
+                while(stringTokenizer.hasMoreTokens()) {
+                    String tag = stringTokenizer.nextToken();
+                    List <Subfield> subFields = dataField.getSubfields(tag);
+                    for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                        Subfield subfield = subfieldIterator.next();
+                        String data = subfield.getData();
+                        values.add(data);
+                    }
+                }
+            }
+        }
+        return values;
+    }
+
 
     /*This method will get the field and tags and will return return the concadinated value
     * Eg:

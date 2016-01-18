@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
@@ -40,24 +41,34 @@ public class PerpetualAccessEndVolumeHandler extends HoldingsHandler {
         }
     }
 
+
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String perpetualAccessEndVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-        if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
-            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstancePerpetualAccessRecords.iterator(); iterator.hasNext(); ) {
-                EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
-                eInstancePerpetualAccessRecord.setPerpetualAccessEndVolume(perpetualAccessEndVolume);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+            if(CollectionUtils.isNotEmpty(eInstancePerpetualAccessRecords)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String perpetualAccessEndVolume = iterator.next();
+                    for (Iterator<EInstancePerpetualAccessRecord> iterator1 = eInstancePerpetualAccessRecords.iterator(); iterator1.hasNext(); ) {
+                        EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator1.next();
+                        eInstancePerpetualAccessRecord.setPerpetualAccessEndVolume(perpetualAccessEndVolume);
+                    }
+                }
+            } else {
+                eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String perpetualAccessEndVolume = iterator.next();
+                    EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = new EInstancePerpetualAccessRecord();
+                    eInstancePerpetualAccessRecord.setPerpetualAccessEndVolume(perpetualAccessEndVolume);
+                    eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                    eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
+                    eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
+                }
+                holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
             }
-        } else {
-            eInstancePerpetualAccessRecords = new ArrayList<EInstancePerpetualAccessRecord>();
-            EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = new EInstancePerpetualAccessRecord();
-            eInstancePerpetualAccessRecord.setPerpetualAccessEndVolume(perpetualAccessEndVolume);
-            eInstancePerpetualAccessRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-            eInstancePerpetualAccessRecord.setHoldingsRecord(holdingsRecord);
-            eInstancePerpetualAccessRecords.add(eInstancePerpetualAccessRecord);
-            holdingsRecord.seteInstancePerpetualAccessRecordList(eInstancePerpetualAccessRecords);
         }
 
     }

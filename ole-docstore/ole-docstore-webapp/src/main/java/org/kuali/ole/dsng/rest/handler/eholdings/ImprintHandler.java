@@ -1,11 +1,15 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
+
+import java.util.List;
 
 /**
  * Created by SheikS on 1/7/2016.
@@ -30,9 +34,13 @@ public class ImprintHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String imprint = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        holdingRecord.setImprint(imprint);
-        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            String imprint = listFromJSONArray.get(0);
+            HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            holdingRecord.setImprint(imprint);
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
+        }
     }
 }

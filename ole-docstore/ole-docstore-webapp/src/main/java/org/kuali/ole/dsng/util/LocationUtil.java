@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.dsng.rest.handler.Handler;
@@ -47,24 +49,49 @@ public class LocationUtil extends OleDsHelperUtil {
         Map<String,String> locationMap = new TreeMap<String, String>();
         OleLocation oleLocation = null;
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_1)) {
-            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_1));
-            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_1);
+            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                String value = listFromJSONArray.get(0);
+                oleLocation = getLocationByCode(value);
+                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_2)) {
-            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_2));
-            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_2);
+            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                String value = listFromJSONArray.get(0);
+                oleLocation = getLocationByCode(value);
+                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_3)) {
-            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_3));
-            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_3);
+            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                String value = listFromJSONArray.get(0);
+                oleLocation = getLocationByCode(value);
+                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_4)) {
-            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_4));
-            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_4);
+            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                String value = listFromJSONArray.get(0);
+                oleLocation = getLocationByCode(value);
+                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_5)) {
-            oleLocation = getLocationByCode(getStringValueFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_5));
-            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_5);
+            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                String value = listFromJSONArray.get(0);
+                oleLocation = getLocationByCode(value);
+                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+            }
         }
         return locationMap;
     }

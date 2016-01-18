@@ -203,6 +203,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 String destinationField = batchProfileDataMapping.getField();
                 String constantValue = "";
                 String marcValue = "";
+                List<String> marcValues = new ArrayList<>();
+                boolean multiValue = batchProfileDataMapping.isMultiValue();
 
                 constantValue = batchProfileDataMapping.getConstant();
 
@@ -216,7 +218,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                             char ind2 = (batchProfileDataMapping.getInd2() != null ? batchProfileDataMapping.getInd2().charAt(0) : ' ');
                             String subField = batchProfileDataMapping.getSubField();
                             String tags = ind1 + "|" + ind2 + "|" + subField;
-                            marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, tags);
+                            if(multiValue){
+                                marcValues = getMarcRecordUtil().getDataFieldValueWithIndicatorsAndMultiValue(marcRecord, dataField, tags);
+                            } else {
+                                marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, tags);
+                            }
                         }
                     }
                 }
@@ -228,8 +234,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 ValueByPriority valueByPriority = new ValueByPriority();
                 valueByPriority.setField(destinationField);
                 valueByPriority.setPriority(priority);
-                String value = StringUtils.isBlank(marcValue) ? constantValue : marcValue;
-                valueByPriority.addValues(value);
+                valueByPriority.setMultiValue(multiValue);
+                String value = null;
+                if (!multiValue) {
+                    value = StringUtils.isBlank(marcValue) ? constantValue : marcValue;
+                    valueByPriority.addValues(value);
+                } else {
+                    if(CollectionUtils.isNotEmpty(marcValues)){
+                        valueByPriority.setValues(marcValues);
+                    } else {
+                        valueByPriority.addValues(constantValue);
+
+                    }
+                }
 
                 if (valueByPriorityMap.containsKey(destinationField)) {
                     valueByPriorities = valueByPriorityMap.get(destinationField);
@@ -249,25 +266,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
 
         for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
-            String destField =  iterator.next();
+            String destField = iterator.next();
             StringBuilder finalValue = new StringBuilder();
             List<ValueByPriority> vals = valueByPriorityMap.get(destField);
             for (Iterator<ValueByPriority> iterator1 = vals.iterator(); iterator1.hasNext(); ) {
                 ValueByPriority valueByPriority = iterator1.next();
                 List<String> values = valueByPriority.getValues();
-                if(CollectionUtils.isNotEmpty(values)){
-                    for (Iterator<String> stringIterator = values.iterator(); stringIterator.hasNext(); ) {
-                        String value = stringIterator.next();
-                        finalValue.append(value);
-                        if(stringIterator.hasNext()){
-                            finalValue.append(" ");
-                        }
-                    }
+                if (CollectionUtils.isNotEmpty(values)) {
+                    bibDataMappings.put(destField, values);
                     break;
                 }
             }
-            bibDataMappings.put(destField, finalValue.toString());
-
         }
 
         return bibDataMappings;
@@ -322,7 +331,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public Map<String, String> getOperationIndMap() {
         if (null == operationIndMap) {
-            operationIndMap = new HashedMap();
+            operationIndMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
             operationIndMap.put(OleNGConstants.ADD, OleNGConstants.ONE);
             operationIndMap.put(OleNGConstants.OVERLAY, OleNGConstants.TWO);
             operationIndMap.put(OleNGConstants.DISCARD, OleNGConstants.THREE);
@@ -336,7 +345,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public Map<String, String> getMatchOptionIndMap() {
         if (null == matchOptionIndMap) {
-            matchOptionIndMap = new HashedMap();
+            matchOptionIndMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
             matchOptionIndMap.put(OleNGConstants.IF_MATCH_FOUND, OleNGConstants.ONE);
             matchOptionIndMap.put(OleNGConstants.IF_NOT_MATCH_FOUND, OleNGConstants.TWO);
         }
@@ -349,7 +358,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public Map<String, String> getDataTypeIndMap() {
         if (null == dataTypeIndMap) {
-            dataTypeIndMap = new HashedMap();
+            dataTypeIndMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
             dataTypeIndMap.put(OleNGConstants.BIBLIOGRAPHIC, OleNGConstants.ONE);
             dataTypeIndMap.put(OleNGConstants.HOLDINGS, OleNGConstants.TWO);
             dataTypeIndMap.put(OleNGConstants.ITEM, OleNGConstants.THREE);
@@ -371,6 +380,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private class ValueByPriority {
         private int priority;
         private String field;
+        private boolean multiValue;
         private List<String> values;
 
         public int getPriority() {
@@ -387,6 +397,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         public void setField(String field) {
             this.field = field;
+        }
+
+        public boolean isMultiValue() {
+            return multiValue;
+        }
+
+        public void setMultiValue(boolean multiValue) {
+            this.multiValue = multiValue;
         }
 
         public List<String> getValues() {

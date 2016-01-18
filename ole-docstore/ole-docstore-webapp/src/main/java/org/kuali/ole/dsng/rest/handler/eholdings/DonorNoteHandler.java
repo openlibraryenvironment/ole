@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -44,20 +45,30 @@ public class DonorNoteHandler extends HoldingsHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String donorNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEHoldingsDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
-                oleHoldingsDonorRecord.setDonorNote(donorNote);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorNote = iterator.next();
+                    for (Iterator<OLEHoldingsDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
+                        OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator1.next();
+                        oleHoldingsDonorRecord.setDonorNote(donorNote);
+                    }
+                }
+            } else {
+                donorList = new ArrayList<OLEHoldingsDonorRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorNote = iterator.next();
+                    OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
+                    oleHoldingsDonorRecord.setDonorNote(donorNote);
+                    oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
+                    oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                }
+                holdingRecord.setDonorList(donorList);
             }
-        } else {
-            donorList = new ArrayList<OLEHoldingsDonorRecord>();
-            OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
-            oleHoldingsDonorRecord.setDonorNote(donorNote);
-            oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
-            oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
-            holdingRecord.setDonorList(donorList);
+
         }
     }
 }

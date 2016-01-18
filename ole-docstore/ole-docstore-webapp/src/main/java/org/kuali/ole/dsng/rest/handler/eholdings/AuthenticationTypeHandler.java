@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
@@ -8,6 +10,8 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.AuthenticationTypeUtil;
+
+import java.util.List;
 
 /**
  * Created by SheikS on 12/31/2015.
@@ -33,13 +37,17 @@ public class AuthenticationTypeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String authentication = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        AuthenticationTypeRecord authenticationTypeRecord = new AuthenticationTypeUtil().fetchAuthenticationTypeRecordByCode(authentication);
-        if (null != authenticationTypeRecord) {
-            holdingRecord.setAuthenticationTypeId(authenticationTypeRecord.getAuthenticationTypeId());
-            holdingRecord.setAuthenticationType(authenticationTypeRecord);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            String authentication = listFromJSONArray.get(0);
+            HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            AuthenticationTypeRecord authenticationTypeRecord = new AuthenticationTypeUtil().fetchAuthenticationTypeRecordByCode(authentication);
+            if (null != authenticationTypeRecord) {
+                holdingRecord.setAuthenticationTypeId(authenticationTypeRecord.getAuthenticationTypeId());
+                holdingRecord.setAuthenticationType(authenticationTypeRecord);
+            }
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
         }
-        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
     }
 }

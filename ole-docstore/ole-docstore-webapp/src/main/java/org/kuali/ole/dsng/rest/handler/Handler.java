@@ -62,21 +62,6 @@ public abstract class Handler extends OleDsHelperUtil {
         return timeStamp;
     }
 
-
-    public List<String> getOperationsList(String operation){
-        List ops = new ArrayList();
-        try {
-            ops = new ObjectMapper().readValue(operation, new TypeReference<List<String>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return ops;
-
-    }
-
-
     public BibDAO getBibDAO() {
         return bibDAO;
     }

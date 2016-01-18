@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord;
@@ -40,24 +41,34 @@ public class CoverageStartIssueHandler extends HoldingsHandler {
         }
     }
 
+
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String coverageStartIssue = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstanceCoverageRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
-                EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
-                eInstanceCoverageRecord.setCoverageStartIssue(coverageStartIssue);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+            List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
+            if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords))  {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String coverageStartIssue = iterator.next();
+                    for (Iterator<EInstanceCoverageRecord> iterator1 = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
+                        EInstanceCoverageRecord eInstanceCoverageRecord = iterator1.next();
+                        eInstanceCoverageRecord.setCoverageStartIssue(coverageStartIssue);
+                    }
+                }
+            } else {
+                eInstanceCoverageRecords = new ArrayList<EInstanceCoverageRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String coverageStartDate = iterator.next();
+                    EInstanceCoverageRecord eInstanceCoverageRecord = new EInstanceCoverageRecord();
+                    eInstanceCoverageRecord.setCoverageStartIssue(coverageStartDate);
+                    eInstanceCoverageRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                    eInstanceCoverageRecord.setHoldingsRecord(holdingsRecord);
+                    eInstanceCoverageRecords.add(eInstanceCoverageRecord);
+                }
+                holdingsRecord.seteInstanceCoverageRecordList(eInstanceCoverageRecords);
             }
-        } else {
-            eInstanceCoverageRecords = new ArrayList<EInstanceCoverageRecord>();
-            EInstanceCoverageRecord eInstanceCoverageRecord = new EInstanceCoverageRecord();
-            eInstanceCoverageRecord.setCoverageStartIssue(coverageStartIssue);
-            eInstanceCoverageRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-            eInstanceCoverageRecord.setHoldingsRecord(holdingsRecord);
-            eInstanceCoverageRecords.add(eInstanceCoverageRecord);
-            holdingsRecord.seteInstanceCoverageRecordList(eInstanceCoverageRecords);
         }
     }
 }

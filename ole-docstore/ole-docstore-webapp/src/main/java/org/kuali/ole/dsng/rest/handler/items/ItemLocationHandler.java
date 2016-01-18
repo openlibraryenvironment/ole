@@ -1,6 +1,8 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
@@ -76,8 +78,12 @@ public class ItemLocationHandler extends ItemHandler {
             for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
                 if(key.contains("Location Level")) {
-                    String value = getStringValueFromJsonObject(requestJsonObject, key);
-                    itemLocation = getLocationUtil().buildLocationName(itemLocation, value);
+                    JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, key);
+                    List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+                    if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+                        String value = listFromJSONArray.get(0);
+                        itemLocation = getLocationUtil().buildLocationName(itemLocation, value);
+                    }
                 }
             }
 

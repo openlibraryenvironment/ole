@@ -64,7 +64,7 @@ public abstract class BibHandler extends Handler {
         try {
             if (requestJsonObject.has(OleNGConstants.DATAMAPPING)) {
                 JSONObject dataMappings = requestJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
-                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {});
+                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
                 for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
                     String key1 = (String) iterator3.next();
                     for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
