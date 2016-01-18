@@ -45,7 +45,7 @@
         </property>
     </bean>
 
-    <bean id="checkInNoteMessage" parent="Uif-MessageField"  p:messageText="@{checkedInItem.checkinNote}" />
+    <bean id="checkInNoteMessage" parent="Uif-DataField" p:propertyName="checkedInItem.checkinNote"/>
 
     <bean id="checkInNoteButton" parent="Uif-HorizontalFieldGroup" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">

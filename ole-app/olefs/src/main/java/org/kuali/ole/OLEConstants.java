@@ -3727,7 +3727,7 @@ public class OLEConstants {
 
     public static final String HOLDINGS_CALL_NUMBER_TYPE ="HOLDINGS_CALL_NUMBER_TYPE";
     public static final String ITEM_CALL_NUMBER_TYPE ="ITEM_CALL_NUMBER_TYPE";
-    public static final String E_HOLDINGS_CALL_NUMBER_TYPE ="E-HOLDINGS_CALL_NUMBER_TYPE";
+    public static final String E_HOLDINGS_CALL_NUMBER_TYPE ="EHOLDINGS_CALL_NUMBER_TYPE";
 
     public static final String DEFAULT_PAGE_SIZE_LOANED_ITEMS = "DEFAULT_PAGE_SIZE_LOANED_ITEMS";
     public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";
