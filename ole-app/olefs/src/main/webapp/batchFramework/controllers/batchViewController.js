@@ -1,6 +1,6 @@
 var app = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap','ui.bootstrap']);
 
-app.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
+app.controller('batchProfileController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
     $scope.booleanOptions = booleanOptions;
     $scope.submitted = false;
     $scope.rowToEdit = null;
@@ -30,7 +30,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.dataTransformationsActivePanel = [];
             $scope.mainSectionPanel.requisitionForTitlesOption = null;
             $scope.mainSectionPanel.marcOnly = false;
-            $scope.dataMappingsPanel[0].dataMappingDocType = 'Bibliographic';
+            $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
             $scope.dataMappingsPanel[0].dataField = null;
             $scope.dataMappingsPanel[0].ind1 = null;
             $scope.dataMappingsPanel[0].ind2 = null;
@@ -79,21 +79,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     }
 
     $scope.matchPointAdd = function () {
-        $scope.matchPointsPanel.push({
-            matchPointDocType: $scope.matchPointsPanel[0].matchPointDocType,
-            matchPointType: $scope.matchPointsPanel[0].matchPointType,
-            matchPointValue: $scope.matchPointsPanel[0].matchPointValue,
-            dataField: $scope.matchPointsPanel[0].dataField,
-            ind1: $scope.matchPointsPanel[0].ind1,
-            ind2: $scope.matchPointsPanel[0].ind2,
-            subField: $scope.matchPointsPanel[0].subField,
-            destDataField: $scope.matchPointsPanel[0].destDataField,
-            destInd1: $scope.matchPointsPanel[0].destInd1,
-            destInd2: $scope.matchPointsPanel[0].destInd2,
-            destSubField: $scope.matchPointsPanel[0].destSubField,
-            constant: $scope.matchPointsPanel[0].constant,
-            isAddLine: true
-        });
+        var matchPointRow = getNewMatchPointRowByIndex(0);
+        if (validateMatchPointRow(matchPointRow, $scope)) {
+            return;
+        }
+        $scope.matchPointsPanel.push(matchPointRow);
         $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
@@ -276,15 +266,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.fieldOperationAdd = function () {
-        $scope.fieldOperationsPanel.push({
-            fieldOperationType: $scope.fieldOperationsPanel[0].fieldOperationType,
-            dataField: $scope.fieldOperationsPanel[0].dataField,
-            ind1: $scope.fieldOperationsPanel[0].ind1,
-            ind2: $scope.fieldOperationsPanel[0].ind2,
-            subField: $scope.fieldOperationsPanel[0].subField,
-            ignoreGPF: false,
-            isAddLine: true
-        });
+        var fieldOperationRow = getNewFieldOperationRowByIndex(0);
+        if (validateFieldOperationRow(fieldOperationRow, $scope)) {
+            return;
+        }
+        $scope.fieldOperationsPanel.push(fieldOperationRow);
         $scope.fieldOperationsPanel[0].fieldOperationType = 'Profile Protected Field';
         $scope.fieldOperationsPanel[0].dataField = null;
         $scope.fieldOperationsPanel[0].ind1 = null;
@@ -344,20 +330,11 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.dataMappingAdd = function () {
-        $scope.dataMappingsPanel.push({
-            dataMappingDocType: $scope.dataMappingsPanel[0].dataMappingDocType,
-            dataField: $scope.dataMappingsPanel[0].dataField,
-            ind1: $scope.dataMappingsPanel[0].ind1,
-            ind2: $scope.dataMappingsPanel[0].ind2,
-            subField: $scope.dataMappingsPanel[0].subField,
-            constant: $scope.dataMappingsPanel[0].constant,
-            destination: $scope.dataMappingsPanel[0].destination,
-            field: $scope.dataMappingsPanel[0].field,
-            transferOption: $scope.dataMappingsPanel[0].transferOption,
-            priority: $scope.dataMappingsPanel[0].priority,
-            isMultiValue: $scope.dataMappingsPanel[0].isMultiValue,
-            isAddLine: true
-        });
+        var dataMappingRow = getNewDataMappingRowByIndex(0);
+        if (validateDataMappingRow(dataMappingRow, $scope)) {
+            return;
+        }
+        $scope.dataMappingsPanel.push(dataMappingRow);
         $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
         $scope.dataMappingsPanel[0].dataField = null;
         $scope.dataMappingsPanel[0].ind1 = null;
@@ -513,6 +490,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.populateMatchPointTypes = function (matchPoint) {
+        makeMatchPointValid($scope);
         matchPoint.matchPointType = null;
         matchPoint.dataField = null;
         matchPoint.ind1 = null;
@@ -704,6 +682,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
     };
 
     $scope.populationDestinations = function (dataMapping) {
+        makeDataMappingValid($scope);
         dataMapping.dataField = null;
         dataMapping.ind1 = null;
         dataMapping.ind2 = null;
@@ -711,9 +690,9 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         dataMapping.destination = null;
         dataMapping.field = null;
         dataMapping.constant = null;
-        if(dataMapping.dataMappingDocType == 'Bib Marc') {
+        if (dataMapping.dataMappingDocType == 'Bib Marc') {
             dataMapping.destinations = dataMappingObject.destinationForBibMarc;
-        }else if(dataMapping.dataMappingDocType == 'Constant') {
+        } else if (dataMapping.dataMappingDocType == 'Constant') {
             dataMapping.destinations = dataMappingObject.destinationForConstant;
         }
     };
@@ -761,6 +740,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             var data = {};
             data["profileId"] = profileId;
             data["action"] = action;
+            $timeout(function() {
             $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
@@ -790,6 +770,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                         }
                     }
                 });
+            }, 700, false);
         }
     };
 

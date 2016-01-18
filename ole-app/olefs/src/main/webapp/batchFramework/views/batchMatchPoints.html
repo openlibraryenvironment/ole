@@ -12,7 +12,8 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-
+                <p style="color:red" ng-show="batchProfileForm.matchPointDataField_0.$dirty && batchProfileForm.matchPointDataField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm.matchPointSubField_0.$dirty && batchProfileForm.matchPointSubField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -71,7 +72,18 @@
                         <td>
                             <select class="form-control" id="matchPointValues_{{$index}}" name="matchPointValues_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine">
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine && !(matchPoint.matchPointType == 'Call Number'
+                                    || matchPoint.matchPointType == 'Call Number Prefix'
+                                    || matchPoint.matchPointType == 'Copy Number'
+                                    || matchPoint.matchPointType == 'Holdings Call Number'
+                                    || matchPoint.matchPointType == 'Holdings Call Number Prefix'
+                                    || matchPoint.matchPointType == 'Holdings Copy Number'
+                                    || matchPoint.matchPointType == 'Enumeration'
+                                    || matchPoint.matchPointType == 'Chronology'
+                                    || matchPoint.matchPointType == 'Item Barcode'
+                                    || matchPoint.matchPointType == 'Donor Note'
+                                    || matchPoint.matchPointType == 'Donor Public Display'
+                                    || matchPoint.matchPointType == 'Vendor Line Item Identifier')">
                                 <option ng-selected="{{option.value == matchPoint.matchPointValue}}"
                                         ng-repeat="option in constantValues | orderBy:'value'"
                                         value="{{option.value}}">
