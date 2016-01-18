@@ -491,6 +491,12 @@ var addOperations = [
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
 
+var addOperationsWithMultiple = [
+    {id: 'multiple', name: 'Create multiple'},
+    {id: 'deleteAll', name: 'Delete all existing and add'},
+    {id: 'keepAll', name: 'Keep all existing and add'}
+];
+
 var fieldOperations = [
     {id: 'profile', name: 'Profile Protected Field'}
 ];
@@ -659,6 +665,7 @@ var addOrOverlay = {
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
     addOperations: addOperations,
+    addOperationsWithMultiple: addOperationsWithMultiple,
     matchedOrderOperations: matchedOrderOperations,
     unmatchedOrderOperations: unmatchedOrderOperations,
     addItems: false,

@@ -193,6 +193,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             addOrOverlayFieldOperation: $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation,
             addOrOverlayFieldValue: $scope.addOrOverlayPanel[0].addOrOverlayFieldValue,
             addItems: $scope.addOrOverlayPanel[0].addItems,
+            dataField: $scope.addOrOverlayPanel[0].dataField,
+            ind1: $scope.addOrOverlayPanel[0].ind1,
+            ind2: $scope.addOrOverlayPanel[0].ind2,
+            subField: $scope.addOrOverlayPanel[0].subField,
             isAddLine: true
         });
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
@@ -201,6 +205,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         $scope.addOrOverlayPanel[0].addOrOverlayField = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldValue = null;
+        $scope.addOrOverlayPanel[0].dataField = null;
+        $scope.addOrOverlayPanel[0].ind1 = null;
+        $scope.addOrOverlayPanel[0].ind2 = null;
+        $scope.addOrOverlayPanel[0].subField = null;
 
     };
 
@@ -217,6 +225,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
                 operation: $scope.addOrOverlayPanel[index].operation,
                 addOperation: $scope.addOrOverlayPanel[index].addOperation,
                 addItems: $scope.addOrOverlayPanel[index].addItems,
+                dataField: $scope.addOrOverlayPanel[index].dataField,
+                ind1: $scope.addOrOverlayPanel[index].ind1,
+                ind2: $scope.addOrOverlayPanel[index].ind2,
+                subField: $scope.addOrOverlayPanel[index].subField,
                 isAddLine: true
             };
             $scope.addOrOverlayPanel[index].isEdit = true;
@@ -226,6 +238,7 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             $scope.addOrOverlayPanel[index].bibDoNotMatchOperations = bibDoNotMatchOperations;
             $scope.addOrOverlayPanel[index].doNotMatchOperations = doNotMatchOperations;
             $scope.addOrOverlayPanel[index].addOperations = addOperations;
+            $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationsWithMultiple;
             $scope.addOrOverlayPanel[index].matchedOrderOperations = matchedOrderOperations;
             $scope.addOrOverlayPanel[index].unmatchedOrderOperations = unmatchedOrderOperations;
             $scope.addOrOverlayPanel[index].isAddLine = false;
@@ -239,6 +252,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             operation: $scope.addOrOverlayPanel[index].operation,
             addOperation: $scope.addOrOverlayPanel[index].addOperation,
             addItems: $scope.addOrOverlayPanel[index].addItems,
+            dataField: $scope.addOrOverlayPanel[index].dataField,
+            ind1: $scope.addOrOverlayPanel[index].ind1,
+            ind2: $scope.addOrOverlayPanel[index].ind2,
+            subField: $scope.addOrOverlayPanel[index].subField,
             isAddLine: true
         };
         $scope.addOrOverlayPanel[index] = updatedRow;
@@ -546,6 +563,10 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
             operation: $scope.addOrOverlayPanel[index].operation,
             addOperation: $scope.addOrOverlayPanel[index].addOperation,
             addItems: $scope.addOrOverlayPanel[index].addItems,
+            dataField: $scope.addOrOverlayPanel[index].dataField,
+            ind1: $scope.addOrOverlayPanel[index].ind1,
+            ind2: $scope.addOrOverlayPanel[index].ind2,
+            subField: $scope.addOrOverlayPanel[index].subField,
             isAddLine: true,
             isEdit: false
         };
@@ -636,6 +657,13 @@ app.controller('batchProfileController', ['$scope', '$http', function ($scope, $
         addOrOverlay.addOrOverlayField = null;
         addOrOverlay.addOrOverlayFieldOperation = null;
         addOrOverlay.addOrOverlayFieldValue = null;
+        addOrOverlay.operation = 'Add';
+        addOrOverlay.addOperation = 'Add';
+        addOrOverlay.addItems = false;
+        addOrOverlay.dataField = null;
+        addOrOverlay.ind1 = null;
+        addOrOverlay.ind2 = null;
+        addOrOverlay.subfield = null;
     };
 
     $scope.populateDestinationFields = function (dataMapping) {

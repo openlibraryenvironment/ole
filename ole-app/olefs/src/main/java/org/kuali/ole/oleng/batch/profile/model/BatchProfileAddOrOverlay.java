@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Created by rajeshbabuk on 12/14/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BatchProfileAddOrOverlay {
+public class BatchProfileAddOrOverlay extends MarcDataField {
 
     private String matchOption;
 
