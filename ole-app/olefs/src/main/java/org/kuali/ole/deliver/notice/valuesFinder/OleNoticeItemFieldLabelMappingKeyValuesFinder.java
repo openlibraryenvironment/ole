@@ -47,8 +47,8 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
             keyValues.add(new ConcreteKeyValue(OLEConstants.ITEM_WILL_BE_HELD_UNTIL,OLEConstants.ITEM_WILL_BE_HELD_UNTIL));
         }
 
-        if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.OVERDUE_NOTICE)){
-        keyValues.add(new ConcreteKeyValue(OLEConstants.ITEM_WAS_DUE,OLEConstants.ITEM_WAS_DUE));
+        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.OVERDUE_NOTICE) || noticeType.equals(OLEConstants.COURTESY_NOTICE))){
+        keyValues.add(new ConcreteKeyValue(OLEConstants.ITEM_DUE_DATE,OLEConstants.ITEM_DUE_DATE));
         }
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.REQUEST_EXPIRATION_NOTICE)){
         keyValues.add(new ConcreteKeyValue(OLEConstants.HOLD_EXPIRATION_DATE,OLEConstants.HOLD_EXPIRATION_DATE));
