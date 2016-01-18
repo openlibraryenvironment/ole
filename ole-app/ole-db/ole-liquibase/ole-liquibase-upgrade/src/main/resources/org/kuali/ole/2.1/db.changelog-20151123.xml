@@ -215,7 +215,7 @@
         </update>
     </changeSet>
 
-`    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_T">
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_T">
         <createTable tableName="OLE_NG_BAT_PRF_T">
             <column name="PRF_ID"   type="INTEGER(10)">
                 <constraints nullable="false" primaryKey="true" />
