@@ -1,15 +1,15 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.dao;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.util.StopWatch;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -21,15 +21,30 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
 
     private static final Logger LOG = LoggerFactory.getLogger(CallNumberMigrationDao.class);
     private static Map<String, String> callNumberType = new HashMap<>();
-
-
-    private String holdingsCallNumberQuery = "SELECT HOLDINGS_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_HOLDINGS_T Where CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY HOLDINGS_ID";
-    private String itemCallNumberQuery = "SELECT ITEM_ID,CALL_NUMBER_TYPE_ID,CALL_NUMBER  FROM OLE_DS_ITEM_T Where CALL_NUMBER  !='null' AND  CALL_NUMBER  !='' ORDER BY ITEM_ID";
+    private int holdingsTotalCount = 0;
+    private int itemTotalCount = 0;
 
     public void init() throws Exception {
         fetchCallNumberType();
+        getHoldingsTotalCount();
+        getItemTotalCount();
         retriveAndUpdateHoldingsCallNumber();
         retriveAndUpdateItemCallNumber();
+    }
+
+    private void getHoldingsTotalCount() {
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT count(HOLDINGS_ID) as total FROM OLE_DS_HOLDINGS_T");
+        while (totalCountSet.next()) {
+            holdingsTotalCount = totalCountSet.getInt("total");
+        }
+    }
+
+
+    private void getItemTotalCount() {
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT count(ITEM_ID) as total FROM OLE_DS_ITEM_T");
+        while (totalCountSet.next()) {
+            itemTotalCount = totalCountSet.getInt("total");
+        }
     }
 
 
@@ -41,115 +56,52 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
     }
 
     private void retriveAndUpdateHoldingsCallNumber() throws Exception {
-        SqlRowSet holdingsCallNumberResultSet = getJdbcTemplate().queryForRowSet(holdingsCallNumberQuery);
-        calculateAndUpdateHoldingsShelvingOrder(holdingsCallNumberResultSet);
+        int start = 0;
+        int end = 0;
+        int tempHoldingsRecord = holdingsTotalCount;
+        int chunkSize = 1000;
+        StopWatch stopWatch = new StopWatch();
+        List<Future> futures = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        stopWatch.start();
+
+        while (start < holdingsTotalCount) {
+            tempHoldingsRecord = tempHoldingsRecord - chunkSize;
+            if (tempHoldingsRecord < chunkSize) {
+                end = start + tempHoldingsRecord;
+            } else {
+                end = start + chunkSize;
+            }
+            futures.add(executorService.submit(new HoldingsCallNumberProcessor(start, end, callNumberType, getJdbcTemplate())));
+            start = end;
+        }
+        executorService.shutdown();
+        stopWatch.stop();
     }
 
 
     private void retriveAndUpdateItemCallNumber() throws Exception {
-        SqlRowSet itemCallNumberResultSet = getJdbcTemplate().queryForRowSet(itemCallNumberQuery);
-        calculateAndUpdateItemShelvingOrder(itemCallNumberResultSet);
-
-    }
-
-    private void calculateAndUpdateHoldingsShelvingOrder(SqlRowSet holdingsCallNumberResultSet) throws Exception {
+        int start = 0;
+        int end = 0;
+        int tempItemRecord = itemTotalCount;
+        int chunkSize = 1000;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         stopWatch.start();
-        int count = 0;
 
-        while (holdingsCallNumberResultSet.next()) {
-            count++;
-            Map<String, String> holdingsDetails = new HashMap<>();
-            holdingsDetails.put("callNumberTypeId", holdingsCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
-            holdingsDetails.put("callNumber", holdingsCallNumberResultSet.getString("CALL_NUMBER"));
-            holdingsDetails.put("holdingsId", String.valueOf(holdingsCallNumberResultSet.getInt("HOLDINGS_ID")));
-            futures.add(executorService.submit(new HoldingsCallNumberProcessor(holdingsDetails, callNumberType)));
-        }
-        List<String> batchSqls = new ArrayList<>();
-        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
-            Future future = iterator.next();
-            try {
-                String sql = (String) future.get();
-                batchSqls.add(sql);
-            } catch (InterruptedException e) {
-                LOG.info(e.getMessage());
-            } catch (ExecutionException e) {
-                LOG.info(e.getMessage());
+        while (start < holdingsTotalCount) {
+            tempItemRecord = tempItemRecord - chunkSize;
+            if (tempItemRecord < chunkSize) {
+                end = start + tempItemRecord;
+            } else {
+                end = start + chunkSize;
             }
-
-            if (batchSqls.size() == 1000) {
-                String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
-                getJdbcTemplate().batchUpdate(arraysqls);
-                batchSqls.clear();
-            }
+            futures.add(executorService.submit(new ItemCallNumberProcessor(start, end, callNumberType, getJdbcTemplate())));
+            start = end;
         }
         executorService.shutdown();
-
-        if (batchSqls.size() > 0) {
-            String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
-            getJdbcTemplate().batchUpdate(arraysqls);
-        }
         stopWatch.stop();
-        LOG.debug("Total Time taken " + count + " - for Holdings ::" + stopWatch.getTotalTimeMillis());
     }
-
-    private void calculateAndUpdateItemShelvingOrder(SqlRowSet itemCallNumberResultSet) throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        stopWatch.start();
-        int count = 0;
-        while (itemCallNumberResultSet.next()) {
-            count++;
-            Map<String, String> ItemDetails = new HashMap<>();
-            ItemDetails.put("callNumberTypeId", itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID"));
-            ItemDetails.put("callNumber", itemCallNumberResultSet.getString("CALL_NUMBER"));
-            ItemDetails.put("itemId", String.valueOf(itemCallNumberResultSet.getInt("ITEM_ID")));
-            futures.add(executorService.submit(new ItemCallNumberProcessor(ItemDetails, callNumberType)));
-        }
-        List<String> batchSqls = new ArrayList<>();
-        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
-            Future future = iterator.next();
-            try {
-                String sql = (String) future.get();
-                batchSqls.add(sql);
-            } catch (InterruptedException e) {
-                LOG.info(e.getMessage());
-            } catch (ExecutionException e) {
-                LOG.info(e.getMessage());
-            }
-            if (batchSqls.size() == 1000) {
-                String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
-                getJdbcTemplate().batchUpdate(arraysqls);
-                batchSqls.clear();
-            }
-        }
-
-
-        executorService.shutdown();
-
-        if (batchSqls.size() > 0) {
-            String[] arraysqls = batchSqls.toArray(new String[batchSqls.size()]);
-            getJdbcTemplate().batchUpdate(arraysqls);
-        }
-
-        stopWatch.stop();
-        LOG.debug("Total Time taken " + count + " - for Item ::" + stopWatch.getTotalTimeMillis());
-    }
-
-    public static String getShelfKey(String callNumber, String codeValue) {
-        String Shelfkey = null;
-        if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
-            if (callNumberObj != null) {
-                callNumberObj.parse(callNumber);
-                Shelfkey = callNumberObj.getShelfKey();
-            }
-        }
-        return Shelfkey;
-    }
-
 
 }
