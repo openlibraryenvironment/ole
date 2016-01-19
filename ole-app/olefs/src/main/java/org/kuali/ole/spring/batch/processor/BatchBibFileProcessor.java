@@ -13,7 +13,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
@@ -81,6 +81,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return getDataTypeIndMap().get(dataType);
     }
 
+    /**
+     * @param bibId
+     * @param marcRecord
+     * @param batchProcessProfile
+     * @return The method accepts a bibId, MarcRecord for the bib and the profile. It sets up the
+     * main bibData json object that contains the respective holdings, items json objects.
+     * @throws JSONException
+     */
     private JSONObject prepareRequest(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
 
@@ -116,19 +124,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.BIB_DATAMAPPINGS);
         bibData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans)));
 
-        JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord,batchProcessProfile);
+        JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord, batchProcessProfile);
         JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         holdingsData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans)));
         bibData.put(OleNGConstants.HOLDINGS, holdingsData);
 
-        JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord,batchProcessProfile);
+        JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord, batchProcessProfile);
         JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         eholdingsData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans)));
         bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
 
-        JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord,batchProcessProfile);
+        JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord, batchProcessProfile);
         JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.ITEM_DATAMAPPINGS);
         JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.ITEM_DATAMAPPINGS);
         itemData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans)));
@@ -189,9 +197,21 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return addOverlayOps;
     }
 
+    /**
+     * @param marcRecord
+     * @param batchProcessProfile
+     * @param docType
+     * @param transformationOption
+     * @return The method returns a list of key/value pairs where key is the destination field and value if the value determined from the profile's data maping section.
+     * It handles the following usecases:
+     * 1. Dest field mapping from multiple tags (For example: CallNumber determined from 050$b and 050$b - Here it will take the values and concatenate with a space in between)
+     * 2. Dest field mapping for multi-valued fields (For example: Public Note determined from 856$z and 856$3 - Here it will form a list of values)
+     * 3. Handling priority when determining values for the destination field.
+     * @throws JSONException
+     */
     public JSONObject prepareDataMappings(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType, String transformationOption) throws JSONException {
-        JSONObject bibDataMappings = new JSONObject();
         Map<String, List<ValueByPriority>> valueByPriorityMap = new HashedMap();
+
         List<BatchProfileDataMapping> filteredDataMappings = filterDataMappingsByTransformationOption(batchProcessProfile.getBatchProfileDataMappingList(), transformationOption);
 
         sortDataMappings(filteredDataMappings);
@@ -201,90 +221,105 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             String destination = batchProfileDataMapping.getDestination();
             if (destination.equalsIgnoreCase(docType)) {
                 String destinationField = batchProfileDataMapping.getField();
-                String constantValue = "";
-                String marcValue = "";
-                List<String> marcValues = new ArrayList<>();
+
+
                 boolean multiValue = batchProfileDataMapping.isMultiValue();
 
-                constantValue = batchProfileDataMapping.getConstant();
-
-                if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
-                    String dataField = batchProfileDataMapping.getDataField();
-                    if (StringUtils.isNotBlank(dataField)) {
-                        if (getMarcRecordUtil().isControlField(dataField)) {
-                            marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
-                        } else {
-                            char ind1 = (batchProfileDataMapping.getInd1() != null ? batchProfileDataMapping.getInd1().charAt(0) : ' ');
-                            char ind2 = (batchProfileDataMapping.getInd2() != null ? batchProfileDataMapping.getInd2().charAt(0) : ' ');
-                            String subField = batchProfileDataMapping.getSubField();
-                            String tags = ind1 + "|" + ind2 + "|" + subField;
-                            if(multiValue){
-                                marcValues = getMarcRecordUtil().getDataFieldValueWithIndicatorsAndMultiValue(marcRecord, dataField, tags);
-                            } else {
-                                marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, tags);
-                            }
-                        }
-                    }
-                }
+                List<String> fieldValues = getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
 
                 int priority = batchProfileDataMapping.getPriority();
 
-                List<ValueByPriority> valueByPriorities;
-
-                ValueByPriority valueByPriority = new ValueByPriority();
-                valueByPriority.setField(destinationField);
-                valueByPriority.setPriority(priority);
-                valueByPriority.setMultiValue(multiValue);
-                String value = null;
-                if (!multiValue) {
-                    value = StringUtils.isBlank(marcValue) ? constantValue : marcValue;
-                    valueByPriority.addValues(value);
-                } else {
-                    if(CollectionUtils.isNotEmpty(marcValues)){
-                        valueByPriority.setValues(marcValues);
-                    } else {
-                        valueByPriority.addValues(constantValue);
-
-                    }
-                }
-
-                if (valueByPriorityMap.containsKey(destinationField)) {
-                    valueByPriorities = valueByPriorityMap.get(destinationField);
-
-                    if(valueByPriorities.contains(valueByPriority)){
-                        if(multiValue) {
-                            ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
-                            existingValuePriority.getValues().addAll(marcValues);
-                        } else {
-                            ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
-                            existingValuePriority.addValues(value);
-                        }
-                    } else {
-                        valueByPriorities.add(valueByPriority);
-                    }
-                } else {
-                    valueByPriorities = new ArrayList<>();
-                    valueByPriorities.add(valueByPriority);
-                }
-                valueByPriorityMap.put(destinationField, valueByPriorities);
+                buildingValuesForDestinationBasedOnPriority(valueByPriorityMap, destinationField, multiValue, fieldValues, priority);
             }
         }
 
+        return buildDataMappingsJSONObject(valueByPriorityMap);
+    }
+
+    private JSONObject buildDataMappingsJSONObject(Map<String, List<ValueByPriority>> valueByPriorityMap) throws JSONException {
+        JSONObject dataMappings = new JSONObject();
+
         for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
             String destField = iterator.next();
-            StringBuilder finalValue = new StringBuilder();
             List<ValueByPriority> vals = valueByPriorityMap.get(destField);
             for (Iterator<ValueByPriority> iterator1 = vals.iterator(); iterator1.hasNext(); ) {
                 ValueByPriority valueByPriority = iterator1.next();
                 List<String> values = valueByPriority.getValues();
                 if (CollectionUtils.isNotEmpty(values)) {
-                    bibDataMappings.put(destField, values);
+                    dataMappings.put(destField, values);
                     break;
                 }
             }
         }
 
-        return bibDataMappings;
+        return dataMappings;
+    }
+
+    /**
+     * @param valueByPriorityMap
+     * @param destinationField
+     * @param multiValue
+     * @param fieldValues
+     * @param priority
+     * @return The valueByPriorityMap contains valueByPriority pojo for each destination field.
+     */
+    private Map<String, List<ValueByPriority>> buildingValuesForDestinationBasedOnPriority(Map<String, List<ValueByPriority>> valueByPriorityMap, String destinationField, boolean multiValue, List<String> fieldValues, int priority) {
+        List<ValueByPriority> valueByPriorities;
+
+        ValueByPriority valueByPriority = new ValueByPriority();
+        valueByPriority.setField(destinationField);
+        valueByPriority.setPriority(priority);
+        valueByPriority.setMultiValue(multiValue);
+
+        valueByPriority.setValues(fieldValues);
+
+        if (valueByPriorityMap.containsKey(destinationField)) {
+            valueByPriorities = valueByPriorityMap.get(destinationField);
+
+            if (valueByPriorities.contains(valueByPriority)) {
+                ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
+                existingValuePriority.getValues().addAll(fieldValues);
+
+            } else {
+                valueByPriorities.add(valueByPriority);
+            }
+        } else {
+            valueByPriorities = new ArrayList<>();
+            valueByPriorities.add(valueByPriority);
+        }
+        valueByPriorityMap.put(destinationField, valueByPriorities);
+
+        return valueByPriorityMap;
+    }
+
+    private List<String> getFieldValues(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping, boolean multiValue) {
+        List<String> marcValues = new ArrayList<>();
+        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
+            String marcValue;
+            String dataField = batchProfileDataMapping.getDataField();
+            if (StringUtils.isNotBlank(dataField)) {
+                if (getMarcRecordUtil().isControlField(dataField)) {
+                    marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
+                    marcValues.add(marcValue);
+                } else {
+                    String ind1 = (batchProfileDataMapping.getInd1() != null ? String.valueOf(batchProfileDataMapping.getInd1().charAt(0)) : " ");
+                    String ind2 = (batchProfileDataMapping.getInd2() != null ? String.valueOf(batchProfileDataMapping.getInd2().charAt(0)) : " ");
+                    String subField = batchProfileDataMapping.getSubField();
+                    if (multiValue) {
+                        marcValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, ind1, ind2, subField);
+                    } else {
+                        marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, ind1, ind2, subField);
+                        marcValues.add(marcValue);
+                    }
+                }
+            }
+        } else {
+            String constantValue = batchProfileDataMapping.getConstant();
+            if (StringUtils.isNotBlank(constantValue)) {
+                marcValues.add(constantValue);
+            }
+        }
+        return marcValues;
     }
 
 

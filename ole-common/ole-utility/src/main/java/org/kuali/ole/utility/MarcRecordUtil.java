@@ -99,26 +99,16 @@ public class MarcRecordUtil {
     * Eg:
     *   field : 050
     *   tags  : ind1|ind2|$a$b*/
-    public String getDataFieldValueWithIndicators(Record marcRecord, String field, String tags) {
-        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+    public String getDataFieldValueWithIndicators(Record marcRecord, String field, String ind1, String ind2, String subField) {
+
         StringBuilder stringBuilder = new StringBuilder();
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-            DataField dataField = (DataField) variableFieldIterator.next();
-            StringTokenizer tagsTokenize = new StringTokenizer(tags, "|");
-            char ind1 = tagsTokenize.nextToken().charAt(0);
-            char ind2 = tagsTokenize.nextToken().charAt(0);
-            String subFieldTags = tagsTokenize.nextToken();
-            if (dataField.getIndicator1() == ind1 && dataField.getIndicator2() == ind2) {
-                StringTokenizer stringTokenizer = new StringTokenizer(subFieldTags, "$");
-                while(stringTokenizer.hasMoreTokens()) {
-                    String tag = stringTokenizer.nextToken();
-                    List <Subfield> subFields = dataField.getSubfields(tag);
-                    for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                        Subfield subfield = subfieldIterator.next();
-                        String data = subfield.getData();
-                        appendMarcRecordValuesToStrinBuilder(stringBuilder,data);
-                    }
-                }
+
+        List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, field, ind1, ind2, subField);
+        for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
+            String fieldValue = iterator.next();
+            stringBuilder.append(fieldValue);
+            if(iterator.hasNext()){
+                stringBuilder.append(" ");
             }
         }
         return stringBuilder.toString();
@@ -129,27 +119,20 @@ public class MarcRecordUtil {
     * Eg:
     *   field : 050
     *   tags  : ind1|ind2|$a$b*/
-    public List<String> getDataFieldValueWithIndicatorsAndMultiValue(Record marcRecord, String field, String tags) {
+    public List<String> getMultiDataFieldValues(Record marcRecord, String field, String ind1, String ind2, String subField) {
         List<String> values = new ArrayList<>();
+
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        StringBuilder stringBuilder = new StringBuilder();
+
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            StringTokenizer tagsTokenize = new StringTokenizer(tags, "|");
-            char ind1 = tagsTokenize.nextToken().charAt(0);
-            char ind2 = tagsTokenize.nextToken().charAt(0);
-            String subFieldTags = tagsTokenize.nextToken();
-            if (dataField.getIndicator1() == ind1 && dataField.getIndicator2() == ind2) {
-                StringTokenizer stringTokenizer = new StringTokenizer(subFieldTags, "$");
-                while(stringTokenizer.hasMoreTokens()) {
-                    String tag = stringTokenizer.nextToken();
-                    List <Subfield> subFields = dataField.getSubfields(tag);
+            if (dataField.getIndicator1() == ind1.charAt(0) && dataField.getIndicator2() == ind2.charAt(0)) {
+                    List <Subfield> subFields = dataField.getSubfields(subField);
                     for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                         Subfield subfield = subfieldIterator.next();
                         String data = subfield.getData();
                         values.add(data);
                     }
-                }
             }
         }
         return values;

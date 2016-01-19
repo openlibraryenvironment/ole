@@ -1,13 +1,10 @@
 package org.kuali.ole.select.controller;
 
 
-import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.kuali.ole.KFSTestCaseBase;
-import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.docstore.common.client.DocstoreRestClient;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -15,7 +12,6 @@ import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.OleDocstoreResponse;
-import org.kuali.ole.select.controller.OLEEResourceRecordController;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.fixture.OLEEResourceRecordDocumentFixture;
 import org.kuali.ole.select.form.OLEEResourceRecordForm;
@@ -25,17 +21,11 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
-import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-import org.supercsv.cellprocessor.FmtDate;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
@@ -46,8 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +43,6 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.kuali.ole.fixture.UserNameFixture.khuntley;
 
 /**
  * Created with IntelliJ IDEA.

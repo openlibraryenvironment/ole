@@ -643,17 +643,17 @@ public class BatchBibFileProcessorTest {
 
         record.addVariableField(dataField2);
 
-        String valueOf025$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "025", "1|2|$a");
+        String valueOf025$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "025", "1", "2", "a");
         assertEquals(valueOf025$a, "Value for 025 a");
         System.out.println(valueOf025$a);
 
-        String valueOf035$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "035", " |2|$a");
+        String valueOf035$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "035", " ", "2", "a" );
         assertTrue(StringUtils.isBlank(valueOf035$a));
         System.out.println(valueOf035$a);
 
-        String valueOf050$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "050", "1|2|$a$b");
-        assertEquals(valueOf050$a, "Value for 050 a Value for 050 b");
-        System.out.println(valueOf050$a);
+        String valueOf050$b = marcRecordUtil.getDataFieldValueWithIndicators(record, "050", "1", "2", "b");
+        assertEquals(valueOf050$b, "Value for 050 b");
+        System.out.println(valueOf050$b);
     }
 
 
