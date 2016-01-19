@@ -5,6 +5,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.DateFormatHelper;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.lookup.DocData;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by premkb on 9/7/15.
@@ -37,9 +39,10 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,POITM.OLE_FOR_UNT_CST AS OLE_FOR_UNT_CST" +
                 ",(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
                 ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD" +
-                ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE "+
+                ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE " +
+                ",COPY.SER_RCV_ID AS RECEIVINGID, POTYP.OLE_PO_TYPE AS POTYPE "+
                 "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM" +
-                ",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID FROM OLE_COPY_T) COPY " +
+                ",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID,SER_RCV_ID FROM OLE_COPY_T) COPY " +
                 "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR AND COPY.PO_ITM_ID=POITM.PO_ITM_ID " +
                 "AND PO.FDOC_NBR NOT IN (SELECT NOTE.FDOC_NBR FROM OLE_PUR_PO_ITM_NTE_T NOTE,OLE_NTE_TYP_T NOTETYPE WHERE NOTETYPE.OLE_NTE_TYP_ID=NOTE.OLE_NTE_TYP_ID " +
                 "AND NOTETYPE.OLE_NTE_TYPE='Special Processing Instruction Note') " +
@@ -121,15 +124,16 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
 
     private List<OlePurchaseOrderDocument> buildPODocumentWithPOItem(List<Map<String, Object>> resultSets){
         List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList=new ArrayList<>();
-        //OlePurchaseOrderDocument olePurchaseOrderDocument=null;
-        StopWatch poBuildWatch = new StopWatch();
-        poBuildWatch.start();
+        boolean isContinuing=false;
         for (Map<String, Object> resultSet:resultSets) {
             OlePurchaseOrderDocument olePurchaseOrderDocument=new OlePurchaseOrderDocument();
             List<OlePurchaseOrderItem> olePurchaseOrderItemList=new ArrayList<>();
             olePurchaseOrderDocument.setDocumentNumber(resultSet.get("FDOC_NBR").toString());
             olePurchaseOrderDocument.setVendorName(resultSet.get("VNDR_NM").toString());
             olePurchaseOrderDocument.setPurapDocumentIdentifier(Integer.parseInt(resultSet.get("PO_ID").toString()));
+            if (resultSet.get("POTYPE")!=null){
+                isContinuing=resultSet.get("POTYPE").toString().equalsIgnoreCase("Continuing")?true:false;
+            }
             OlePurchaseOrderItem olePurchaseOrderItem = new OlePurchaseOrderItem();
             olePurchaseOrderItem.setItemIdentifier(Integer.parseInt(resultSet.get("PO_ITM_ID").toString()));
             if (resultSet.get("BIBID")!=null) {//For EResoruce bibid will be null
@@ -153,6 +157,9 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             if (resultSet.get("OLE_NUM_PRTS")!=null) {
                 olePurchaseOrderItem.setItemNoOfParts(new KualiInteger(new Double(resultSet.get("OLE_NUM_PRTS").toString()).intValue()));
             }
+            if (resultSet.get("OLE_CLM_DT")!=null){
+                olePurchaseOrderItem.setClaimDate(getSqlDate(resultSet.get("OLE_CLM_DT").toString()));
+            }
             if (resultSet.get("OLE_NO_COPIES_RCVD")!=null) {
                 olePurchaseOrderItem.setNoOfCopiesReceived(resultSet.get("OLE_NO_COPIES_RCVD").toString());
             }
@@ -162,8 +169,15 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             if(resultSet.get("OLE_REQ_RCPT_STATUS_ID")!=null){
                 olePurchaseOrderItem.setReceiptStatusId(Integer.parseInt(resultSet.get("OLE_REQ_RCPT_STATUS_ID").toString()));
             }
-            if(resultSet.get("OLE_FOR_UNT_CST")!=null){
+            if (resultSet.get("OLE_FOR_UNT_CST")!=null){
                 olePurchaseOrderItem.setItemForeignUnitCost(new KualiDecimal(new Double(resultSet.get("OLE_FOR_UNT_CST").toString()).intValue()));
+            }
+            if (resultSet.get("RECEIVINGID")!=null){
+                List<OleCopy> copyList=new ArrayList<>();
+                OleCopy oleCopy=new OleCopy();
+                oleCopy.setSerialReceivingIdentifier(resultSet.get("RECEIVINGID").toString());
+                copyList.add(oleCopy);
+                olePurchaseOrderItem.setCopyList(copyList);
             }
             if(resultSet.get("REPSTATCD")!=null){
                 if(resultSet.get("REPSTATCD").toString().equals(org.kuali.ole.sys.OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED)){
@@ -172,6 +186,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                             OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND_FOR_FULLY_RECEIVED);
                 }
             }
+            setClaimFilter(olePurchaseOrderItem,isContinuing);
             olePurchaseOrderItem.setItemPoQty(new KualiInteger(new Double(resultSet.get("ITM_ORD_QTY").toString()).intValue()));
             olePurchaseOrderItemList.add(olePurchaseOrderItem);
             olePurchaseOrderDocument.setOlePurchaseOrderItemList(olePurchaseOrderItemList);
@@ -180,7 +195,6 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             olePurchaseOrderItem.setOlePurchaseOrderDocument(olePurchaseOrderDocument);
             olePurchaseOrderDocumentList.add(olePurchaseOrderDocument);
         }
-        poBuildWatch.stop();
         return olePurchaseOrderDocumentList;
     }
 
@@ -192,4 +206,28 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         currentDate = simpleDateFormat.format(new Date());
         return currentDate;
     }
+
+    private java.sql.Date getSqlDate(String stringDate){
+        java.sql.Date sqlDate=null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            Date parsedDate = simpleDateFormat.parse(stringDate);
+            sqlDate = new java.sql.Date(parsedDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sqlDate;
+    }
+
+    private void setClaimFilter(OlePurchaseOrderItem olePurchaseOrderItem,boolean isContinuing){
+        boolean serialPOLink = olePurchaseOrderItem.getCopyList() != null && olePurchaseOrderItem.getCopyList().size() > 0 ? olePurchaseOrderItem.getCopyList().get(0).getSerialReceivingIdentifier() != null : false;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+        String dateString = dateFormat.format(new Date());
+        String actionDateString = olePurchaseOrderItem.getClaimDate() != null ? dateFormat.format(olePurchaseOrderItem.getClaimDate()) : "";
+        if (!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate() != null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
+                && !serialPOLink && !isContinuing) {
+            olePurchaseOrderItem.setClaimFilter(true);
+        }
+    }
 }
+
