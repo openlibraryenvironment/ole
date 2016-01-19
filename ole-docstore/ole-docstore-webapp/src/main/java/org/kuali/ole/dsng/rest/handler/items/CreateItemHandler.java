@@ -5,6 +5,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -48,15 +49,18 @@ public class CreateItemHandler extends Handler {
                 ItemRecord itemRecord = new ItemRecord();
                 exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
 
-                JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
-                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
-                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                    String key1 = (String) iterator3.next();
-                    for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                        ItemHandler itemHandler = iterator4.next();
-                        if (itemHandler.isInterested(key1)) {
-                            itemHandler.setBusinessObjectService(getBusinessObjectService());
-                            itemHandler.processDataMappings(dataMappings, exchange);
+                JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                if(dataMappings.length() > 0) {
+                    JSONObject dataMapping = (JSONObject) dataMappings.get(0);
+                    Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                        String key1 = (String) iterator3.next();
+                        for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                            ItemHandler itemHandler = iterator4.next();
+                            if (itemHandler.isInterested(key1)) {
+                                itemHandler.setBusinessObjectService(getBusinessObjectService());
+                                itemHandler.processDataMappings(dataMapping, exchange);
+                            }
                         }
                     }
                 }

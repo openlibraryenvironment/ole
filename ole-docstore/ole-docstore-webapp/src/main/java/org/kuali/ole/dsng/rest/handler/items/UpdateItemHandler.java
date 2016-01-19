@@ -5,6 +5,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -121,20 +122,24 @@ public class UpdateItemHandler extends Handler {
         }
     }
 
-    private ItemRecord processOverlay(Exchange exchange,JSONObject holdingJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
-        JSONObject dataMappings = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+    private ItemRecord processOverlay(Exchange exchange,JSONObject itemJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
 
-        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
-        for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-            String key1 = (String) iterator3.next();
-            for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                ItemHandler itemMetaDataHandlelr1 = iterator4.next();
-                if (itemMetaDataHandlelr1.isInterested(key1)) {
-                    itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                    itemMetaDataHandlelr1.processDataMappings(dataMappings, exchange);
+        JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+        if(dataMappings.length() > 0) {
+            JSONObject dataMapping = (JSONObject) dataMappings.get(0);
+            Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+            for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                String key1 = (String) iterator3.next();
+                for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                    ItemHandler itemMetaDataHandlelr1 = iterator4.next();
+                    if (itemMetaDataHandlelr1.isInterested(key1)) {
+                        itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
+                        itemMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
+                    }
                 }
             }
         }
+
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
         exchange.remove(OleNGConstants.MATCHED_ITEM);
         return itemRecord;

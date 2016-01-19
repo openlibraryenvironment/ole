@@ -114,24 +114,24 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         JSONObject bibDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.BIB_DATAMAPPINGS);
         JSONObject bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.BIB_DATAMAPPINGS);
-        bibData.put(OleNGConstants.DATAMAPPING, buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
+        bibData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(bibDataMappingsPreTrans, bibDataMappingsPostTrans)));
 
         JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord,batchProcessProfile);
         JSONObject holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         JSONObject holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
-        holdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
+        holdingsData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans)));
         bibData.put(OleNGConstants.HOLDINGS, holdingsData);
 
         JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord,batchProcessProfile);
         JSONObject eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         JSONObject eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
-        eholdingsData.put(OleNGConstants.DATAMAPPING, buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
+        eholdingsData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans)));
         bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
 
         JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord,batchProcessProfile);
         JSONObject itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.ITEM_DATAMAPPINGS);
         JSONObject itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.ITEM_DATAMAPPINGS);
-        itemData.put(OleNGConstants.DATAMAPPING, buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
+        itemData.put(OleNGConstants.DATAMAPPING, Collections.singletonList(buildOneObject(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans)));
         bibData.put(OleNGConstants.ITEM, itemData);
 
         return bibData;

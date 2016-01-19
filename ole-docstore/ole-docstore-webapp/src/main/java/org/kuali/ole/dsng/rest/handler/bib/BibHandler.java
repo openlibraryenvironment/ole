@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
@@ -63,15 +64,18 @@ public abstract class BibHandler extends Handler {
     public BibRecord setDataMappingValues(BibRecord bibRecord, JSONObject requestJsonObject, Exchange exchange) {
         try {
             if (requestJsonObject.has(OleNGConstants.DATAMAPPING)) {
-                JSONObject dataMappings = requestJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
-                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, Object>>() {});
-                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                    String key1 = (String) iterator3.next();
-                    for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
-                        BibHandler bibHandler = iterator4.next();
-                        if (bibHandler.isInterested(key1)) {
-                            bibHandler.setBusinessObjectService(getBusinessObjectService());
-                            bibHandler.processDataMappings(dataMappings, exchange);
+                JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                if(dataMappings.length() > 0) {
+                    JSONObject dataMapping = (JSONObject) dataMappings.get(0);
+                    Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                        String key1 = (String) iterator3.next();
+                        for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
+                            BibHandler bibHandler = iterator4.next();
+                            if (bibHandler.isInterested(key1)) {
+                                bibHandler.setBusinessObjectService(getBusinessObjectService());
+                                bibHandler.processDataMappings(dataMapping, exchange);
+                            }
                         }
                     }
                 }
