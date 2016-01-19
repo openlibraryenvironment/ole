@@ -3,10 +3,10 @@ package org.kuali.ole.deliver.drools.checkout;
 import org.junit.Test;
 import org.kie.api.definition.KiePackage;
 import org.kie.api.definition.rule.Rule;
-import org.kie.api.runtime.rule.AgendaGroup;
 import org.kuali.ole.deliver.drools.DroolsKieBaseTestCase;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -123,9 +123,9 @@ public class CircPolicies_IT extends DroolsKieBaseTestCase {
         Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.isAddressVerified()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.isGeneralBlock()).thenReturn(false);
-        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(250);
-        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(50);
-        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(50);
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(new BigDecimal(250));
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(new BigDecimal(50));
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(new BigDecimal(50));
 
         kieSession.insert(mockDroolsResponse);
         kieSession.insert(mockOlePatronDocument);

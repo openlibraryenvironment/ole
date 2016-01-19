@@ -1,10 +1,10 @@
 package org.kuali.ole.deliver.drools.ncip;
 
 import org.junit.Test;
-import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsKieBaseTestCase;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,9 +22,9 @@ public class LookupUser_IT extends DroolsKieBaseTestCase {
         Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
         Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
-        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(0);
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(new BigDecimal(0));
 
         kieSession.insert(mockDroolsResponse);
         kieSession.insert(mockOlePatronDocument);
@@ -44,9 +44,9 @@ public class LookupUser_IT extends DroolsKieBaseTestCase {
         Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
         Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
-        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(0);
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(new BigDecimal(0));
 
         kieSession.insert(mockDroolsResponse);
         kieSession.insert(mockOlePatronDocument);
@@ -66,9 +66,9 @@ public class LookupUser_IT extends DroolsKieBaseTestCase {
         Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
         Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
-        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(10);
-        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(0);
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(new BigDecimal(10));
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(new BigDecimal(0));
 
         kieSession.insert(mockDroolsResponse);
         kieSession.insert(mockOlePatronDocument);
