@@ -39,6 +39,7 @@
     </mvc:annotation-driven>
     <context:component-scan base-package="org.kuali.ole.deliver.rest"/>
     <context:component-scan base-package="org.kuali.ole.describe.rest"/>
+    <context:component-scan base-package="org.kuali.ole.oleng"/>
 
     <!--<import resource="classpath:META-INF/spring/oauth/oauth2-configuration.xml"/>-->
 
