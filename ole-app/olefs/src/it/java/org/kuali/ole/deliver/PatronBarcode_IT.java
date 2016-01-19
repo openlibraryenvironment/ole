@@ -45,7 +45,7 @@ public class PatronBarcode_IT extends KFSTestCaseBase {
         OlePatronDocument olePatronDocuments = KRADServiceLocator.getBusinessObjectService().save(olePatronDocument);
 
         PatronBarcodeUpdateHandler patronBarcodeUpdateHandler = new PatronBarcodeUpdateHandler();
-        patronBarcodeUpdateHandler.patronBarcodeUpdate(olePatronDocument, barcode);
+        patronBarcodeUpdateHandler.updatePatronBarcode(olePatronDocument, barcode);
 
         patronBarcodeMap.clear();
         patronBarcodeMap.put("borrowerId", olePatronDocument.getOlePatronId());

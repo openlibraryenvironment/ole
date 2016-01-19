@@ -2,7 +2,6 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.docstore.common.document.content.instance.Item;
 
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -17,8 +16,21 @@ import java.util.Map;
  */
 public class ItemBarcodeUpdateHandler {
 
-    public void itemBarcodeUpdate(ItemRecord itemRecord , String itemBarcode){
-        Map<String,String> itemBarcodeMap = new HashMap<String,String>();
+    Map<String,String> itemBarcodeMap = new HashMap<String,String>();
+
+    public void updateItemBarcode(ItemRecord itemRecord , String itemBarcode){
+        updateDeliverRequest(itemRecord);
+        updateCirculationHistory(itemRecord);
+        updateTemporaryCirculationHistory(itemRecord);
+        updateLoanDocument(itemRecord);
+        updateFeeType(itemRecord);
+        updateReturnHistoryRecord(itemRecord);
+        updateRenewalHistoryRecord(itemRecord);
+        updateDeliverRequestHistoryRecord(itemRecord,itemBarcode);
+
+    }
+
+    public void updateDeliverRequest(ItemRecord itemRecord){
         itemBarcodeMap.put("itemUuid", "wio-"+itemRecord.getItemId());
         List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<OleDeliverRequestBo>();
         List<OleDeliverRequestBo> deliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemBarcodeMap);
@@ -30,8 +42,9 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().save(oleDeliverRequestBos);
         }
+    }
 
-
+    public void updateCirculationHistory(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemUuid", "wio-"+itemRecord.getItemId());
         List<OleCirculationHistory> oleCirculationHistories = new ArrayList<OleCirculationHistory>();
@@ -43,8 +56,9 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OleCirculationHistory> circulationHistoryList = (List<OleCirculationHistory>) KRADServiceLocator.getBusinessObjectService().save(oleCirculationHistories);
         }
+    }
 
-
+    public void updateTemporaryCirculationHistory(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemUuid", "wio-"+itemRecord.getItemId());
         List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistoryList = new ArrayList<OleTemporaryCirculationHistory>();
@@ -56,8 +70,9 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OleTemporaryCirculationHistory> temporaryCirculationHistoryList = (List<OleTemporaryCirculationHistory>) KRADServiceLocator.getBusinessObjectService().save(oleTemporaryCirculationHistoryList);
         }
+    }
 
-
+    public void updateLoanDocument(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemUuid", "wio-"+itemRecord.getItemId());
         List<OleLoanDocument> oleLoanDocuments = new ArrayList<OleLoanDocument>();
@@ -69,8 +84,10 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OleLoanDocument> loanDocuments = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().save(oleLoanDocuments);
         }
+    }
 
 
+    public void updateFeeType(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemUuid","wio-"+itemRecord.getItemId());
         List<FeeType> feeTypes = new ArrayList<FeeType>();
@@ -82,7 +99,9 @@ public class ItemBarcodeUpdateHandler {
             }
             List<FeeType> feeTypes1 = (List<FeeType>) KRADServiceLocator.getBusinessObjectService().save(feeTypes);
         }
+    }
 
+    public void updateReturnHistoryRecord(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemUUID","wio-"+itemRecord.getItemId());
         List<OLEReturnHistoryRecord> oleReturnHistoryRecords = new ArrayList<OLEReturnHistoryRecord>();
@@ -94,8 +113,10 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OLEReturnHistoryRecord> returnHistoryRecords1 = (List<OLEReturnHistoryRecord>) KRADServiceLocator.getBusinessObjectService().save(oleReturnHistoryRecords);
         }
+    }
 
 
+    public void updateRenewalHistoryRecord(ItemRecord itemRecord){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemId","wio-"+itemRecord.getItemId());
         List<OleRenewalHistory> oleRenewalHistories = new ArrayList<OleRenewalHistory>();
@@ -108,6 +129,9 @@ public class ItemBarcodeUpdateHandler {
             List<OleRenewalHistory> oleRenewalHistories1 = (List<OleRenewalHistory>) KRADServiceLocator.getBusinessObjectService().save(oleRenewalHistories);
         }
 
+    }
+
+    public void updateDeliverRequestHistoryRecord(ItemRecord itemRecord,String itemBarcode){
         itemBarcodeMap.clear();
         itemBarcodeMap.put("itemId",itemBarcode);
         List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<OleDeliverRequestHistoryRecord>();
@@ -119,18 +143,8 @@ public class ItemBarcodeUpdateHandler {
             }
             List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords1 = (List<OleDeliverRequestHistoryRecord>) KRADServiceLocator.getBusinessObjectService().save(oleDeliverRequestHistoryRecords);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+
+
 }

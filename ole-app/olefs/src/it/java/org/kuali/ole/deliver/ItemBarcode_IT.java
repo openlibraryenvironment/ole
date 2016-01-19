@@ -40,7 +40,7 @@ public class ItemBarcode_IT extends KFSTestCaseBase {
 
         itemRecord.setBarCode("2000");
         ItemBarcodeUpdateHandler itemBarcodeUpdateHandler = new ItemBarcodeUpdateHandler();
-        itemBarcodeUpdateHandler.itemBarcodeUpdate(itemRecord, barcode);
+        itemBarcodeUpdateHandler.updateItemBarcode(itemRecord, barcode);
 
 
         itemBarcodeMap.clear();
