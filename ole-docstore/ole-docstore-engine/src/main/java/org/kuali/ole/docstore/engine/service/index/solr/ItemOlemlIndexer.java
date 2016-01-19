@@ -683,9 +683,19 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
             bibIds.addAll(bibIdentifierList);
             for(String bibId : bibIdentifierList){
                 SolrInputDocument destBibSolrInputDocument = new SolrInputDocument();
+                Object itemIdentifier = destinationBibSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+                List<String> existingItemIds = new ArrayList<String>();
+                if(itemIdentifier instanceof String){
+                    String id = (String) itemIdentifier;
+                    existingItemIds.add(id);
+                }else if(itemIdentifier instanceof List){
+                    List<String> existingItemIdentifierList = (List<String>) itemIdentifier;
+                    existingItemIds.addAll(existingItemIdentifierList);
+                }
+                existingItemIds.addAll(itemIds);
                 destBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
                 Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
-                itemIdMap.put(AtomicUpdateConstants.ADD, itemIds);
+                itemIdMap.put(AtomicUpdateConstants.ADD, existingItemIds);
                 destBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdMap);
                 solrInputDocumentListFinal.add(destBibSolrInputDocument);
             }
