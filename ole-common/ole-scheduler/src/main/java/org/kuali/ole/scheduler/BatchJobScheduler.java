@@ -19,8 +19,8 @@ public class BatchJobScheduler {
     }
 
     public void scheduleJob(String jobName, String triggerName, String profileName, String batchType,
-            String cronExpression) throws Exception {
-        BatchJobLauncher batchJobLauncher = new BatchJobLauncher(profileName, batchType);
+            String url, String cronExpression) throws Exception {
+        BatchJobLauncher batchJobLauncher = new BatchJobLauncher(profileName, batchType, url);
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         jobDetail.setTargetObject(batchJobLauncher);
         jobDetail.setTargetMethod("start");

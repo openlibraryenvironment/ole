@@ -8,9 +8,9 @@
         <artifactId>ole-common</artifactId>
         <version>2.1-SNAPSHOT</version>
     </parent>
-    <artifactId>ole-scheduler</artifactId>    
+    <artifactId>ole-scheduler</artifactId>
     <name>ole-scheduler</name>
-    <dependencies>    
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -29,6 +29,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5</version>
         </dependency>
     </dependencies>
 </project>
