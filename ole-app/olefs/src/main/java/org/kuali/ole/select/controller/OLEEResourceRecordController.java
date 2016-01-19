@@ -1624,21 +1624,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         response.setHeader("Pragma", "public");
         response.setContentType("text");
         StringBuffer sb = new StringBuffer();
-
-        sb.append("Previous fiscal year cost");
-        sb.append("\t");
-        sb.append("Current year price quote");
-        sb.append("\t");
-        sb.append("Cost increase");
-        sb.append("\t");
+        sb.append("Previous fiscal year cost,");
+        sb.append("Current year price quote,");
+        sb.append("Cost increase,");
         sb.append("Percent increase");
         sb.append("\n");
-        sb.append(oleeResourceRecordDocument.getFiscalYearCost());
-        sb.append("\t");
-        sb.append(oleeResourceRecordDocument.getYearPriceQuote());
-        sb.append("\t");
-        sb.append(oleeResourceRecordDocument.getCostIncrease());
-        sb.append("\t");
+        sb.append(oleeResourceRecordDocument.getFiscalYearCost()+",");
+        sb.append(oleeResourceRecordDocument.getYearPriceQuote()+",");
+        sb.append(oleeResourceRecordDocument.getCostIncrease()+",");
         sb.append(oleeResourceRecordDocument.getPercentageIncrease());
 
         byte[] txt = sb.toString().getBytes();

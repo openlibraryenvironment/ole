@@ -1,10 +1,13 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.form.OlePatronLoanNoticesSentForm;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.deliver.service.OlePatronLoanNoticeService;
+import org.kuali.ole.deliver.service.impl.OlePatronLoanNoticeServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -33,7 +36,7 @@ public class OlePatronLoanNoticesSentController extends UifControllerBase {
 
     private BusinessObjectService businessObjectService;
 
-    private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
+    private OlePatronLoanNoticeService olePatronLoanNoticeService;
 
     public BusinessObjectService getBusinessObjectService(){
         if(businessObjectService == null){
@@ -42,13 +45,13 @@ public class OlePatronLoanNoticesSentController extends UifControllerBase {
         return businessObjectService;
     }
 
-
-    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestDocumentHelperService(){
-        if(oleDeliverRequestDocumentHelperService==null){
-            oleDeliverRequestDocumentHelperService= new OleDeliverRequestDocumentHelperServiceImpl();
-        }
-        return oleDeliverRequestDocumentHelperService;
+public OlePatronLoanNoticeService getOlePatronLoanNoticeService(){
+    if(olePatronLoanNoticeService == null){
+        olePatronLoanNoticeService = new OlePatronLoanNoticeServiceImpl();
     }
+    return olePatronLoanNoticeService;
+}
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new OlePatronLoanNoticesSentForm();
@@ -86,8 +89,11 @@ public class OlePatronLoanNoticesSentController extends UifControllerBase {
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)getBusinessObjectService().findMatching(OlePatronDocument.class,patronMap);
         if(olePatronDocumentList.size()>0){
             String mailAddress = olePatronDocumentList.get(0).getOlePatronEntityViewBo().getEmailAddress();
-            getOleDeliverRequestDocumentHelperService().sendMailsToPatron(mailAddress,new String(oleDeliverNoticeHistory.getNoticeContent()),null);
+            getOlePatronLoanNoticeService().sendMail(mailAddress, new String(oleDeliverNoticeHistory.getNoticeContent()));
             oleLoanSentNoticesForm.setMessage("Mail Send Successfully for the patron  " + olePatronDocumentList.get(0).getPatronName()+" to the mail id "+mailAddress );
+            OLEDeliverNoticeHistory oleDeliverNoticeHistory1 = getOlePatronLoanNoticeService().cloneOleDeliverNoticeHistory(oleDeliverNoticeHistory);
+            getBusinessObjectService().save(oleDeliverNoticeHistory1);
+            oleLoanSentNoticesForm.getOleDeliverNoticeHistories().add(oleDeliverNoticeHistory1);
         }
         return getUIFModelAndView(oleLoanSentNoticesForm);
     }

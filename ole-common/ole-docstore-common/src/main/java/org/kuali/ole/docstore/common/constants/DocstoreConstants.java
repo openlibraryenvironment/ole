@@ -360,11 +360,11 @@ public interface DocstoreConstants {
     public static final String DESCRIBE_COMPONENT = "Describe";
     public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";
 
-
+    public static final String TRANSFER_SUCCESS_MESSAGE = "Document transferred successfully";
+    public static final String TRANSFER_BOUND_WITH_ERROR_MESSAGE = "Holdings can not be transfered. Holdings is bound-with more than one bib";
 
     public static final SimpleDateFormat DOCSTORE_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
     public static final String FORWARD_SLASH = "/";
-
 
 
 }
