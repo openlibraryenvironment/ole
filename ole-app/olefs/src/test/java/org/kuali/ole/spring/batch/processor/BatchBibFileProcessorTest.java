@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -145,10 +146,10 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "a")).thenReturn("123");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
 
-        assertEquals(bibDataMappings.get("Call Number"), "123");
+        assertEquals(bibDataMappings.get(0).get("Call Number"), "123");
 
     }
 
@@ -187,9 +188,9 @@ public class BatchBibFileProcessorTest {
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "a")).thenReturn("123");
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
-        assertEquals(bibDataMappings.get("Call Number"), "123 213");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
+        assertEquals(bibDataMappings.get(0).get("Call Number"), "123 213");
 
 
     }
@@ -225,12 +226,12 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(mockBatchProcesProfile.getBatchProfileDataMappingList()).thenReturn(profileDataMappings);
 
-        Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "a")).thenReturn("123");
-        Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
+        Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", " | |a")).thenReturn("123");
+        Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", " | |b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
-        assertEquals(bibDataMappings.get("Call Number"), "123");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
+        assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"123\"]");
     }
 
 
@@ -279,9 +280,9 @@ public class BatchBibFileProcessorTest {
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "a")).thenReturn("123");
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
-        assertEquals(bibDataMappings.get("Call Number"), "123 12321");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
+        assertEquals(bibDataMappings.get(0).get("Call Number"), "123 12321");
     }
 
     @Test
@@ -328,9 +329,9 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(mockRecord, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
-        assertEquals(bibDataMappings.get("Call Number"), "12321");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
+        assertEquals(bibDataMappings.get(0).get("Call Number"), "12321");
     }
 
     @Test
@@ -421,8 +422,8 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(record, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         System.out.println(bibDataMappings);
     }
     @Test
@@ -524,8 +525,9 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(record, mockBatchProcesProfile, "holdings", "pre marc transformation");
-        assertNotNull(bibDataMappings);
+
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         System.out.println(bibDataMappings);
     }
 
