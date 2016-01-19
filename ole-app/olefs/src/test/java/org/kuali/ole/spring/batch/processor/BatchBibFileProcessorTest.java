@@ -44,6 +44,9 @@ public class BatchBibFileProcessorTest {
     private BatchProfileDataMapping mockDataProfileMapping3;
 
     @Mock
+    private BatchProfileDataMapping mockDataProfileMapping4;
+
+    @Mock
     private BatchProfileMatchPoint mockMatchProfileMatchPoint1;
 
     @Mock
@@ -401,6 +404,109 @@ public class BatchBibFileProcessorTest {
 
 
         profileDataMappings.add(mockDataProfileMapping2);
+
+
+        Mockito.when(mockDataProfileMapping3.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping3.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping3.getField()).thenReturn("Copy Number");
+        Mockito.when(mockDataProfileMapping3.getDataType()).thenReturn("constant");
+        Mockito.when(mockDataProfileMapping3.getConstant()).thenReturn("12321");
+        Mockito.when(mockDataProfileMapping3.getPriority()).thenReturn(1);
+
+
+        profileDataMappings.add(mockDataProfileMapping3);
+
+
+        Mockito.when(mockBatchProcesProfile.getBatchProfileDataMappingList()).thenReturn(profileDataMappings);
+
+        Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
+
+        JSONObject bibDataMappings = batchFileProcessor.prepareDataMappings(record, mockBatchProcesProfile, "holdings", "pre marc transformation");
+        assertNotNull(bibDataMappings);
+        System.out.println(bibDataMappings);
+    }
+    @Test
+    public void multiValueTest2() throws Exception, JSONException {
+        BatchBibFileProcessor batchFileProcessor = new BatchBibFileProcessor();
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        ControlField controlField = marcFactory.newControlField();
+        controlField.setTag("003");
+        controlField.setData("OCLOC");
+
+        record.addVariableField(controlField);
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 035-1 a");
+        dataField.addSubfield(subfield);
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('b');
+        subfield2.setData("Value for 035-1 b");
+        dataField.addSubfield(subfield2);
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("035");
+        dataField1.setIndicator1(' ');
+        dataField1.setIndicator2(' ');
+
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('a');
+        subfield3.setData("Value for 035-1 a");
+        dataField1.addSubfield(subfield3);
+
+        Subfield subfield4 = marcFactory.newSubfield();
+        subfield4.setCode('b');
+        subfield4.setData("Value for 035-1 b");
+        dataField1.addSubfield(subfield4);
+
+        record.addVariableField(dataField1);
+
+        ArrayList<BatchProfileDataMapping> profileDataMappings = new ArrayList<>();
+
+        Mockito.when(mockDataProfileMapping1.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping1.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping1.getField()).thenReturn("Call Number Type");
+        Mockito.when(mockDataProfileMapping1.getDataField()).thenReturn("003");
+        Mockito.when(mockDataProfileMapping1.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping1.getPriority()).thenReturn(1);
+
+        profileDataMappings.add(mockDataProfileMapping1);
+
+
+        Mockito.when(mockDataProfileMapping2.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping2.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping2.getField()).thenReturn("Public Note");
+        Mockito.when(mockDataProfileMapping2.getDataField()).thenReturn("035");
+        Mockito.when(mockDataProfileMapping2.getSubField()).thenReturn("b");
+        Mockito.when(mockDataProfileMapping2.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping2.getPriority()).thenReturn(1);
+        Mockito.when(mockDataProfileMapping2.isMultiValue()).thenReturn(true);
+
+        profileDataMappings.add(mockDataProfileMapping2);
+
+        Mockito.when(mockDataProfileMapping4.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping4.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping4.getField()).thenReturn("Public Note");
+        Mockito.when(mockDataProfileMapping4.getDataField()).thenReturn("035");
+        Mockito.when(mockDataProfileMapping4.getSubField()).thenReturn("a");
+        Mockito.when(mockDataProfileMapping4.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping4.getPriority()).thenReturn(1);
+        Mockito.when(mockDataProfileMapping4.isMultiValue()).thenReturn(true);
+        profileDataMappings.add(mockDataProfileMapping4);
+
+
+
 
 
         Mockito.when(mockDataProfileMapping3.getTransferOption()).thenReturn("Pre Marc Transformation");

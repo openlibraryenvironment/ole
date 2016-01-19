@@ -252,8 +252,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     valueByPriorities = valueByPriorityMap.get(destinationField);
 
                     if(valueByPriorities.contains(valueByPriority)){
-                        ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
-                        existingValuePriority.addValues(value);
+                        if(multiValue) {
+                            ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
+                            existingValuePriority.getValues().addAll(marcValues);
+                        } else {
+                            ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
+                            existingValuePriority.addValues(value);
+                        }
                     } else {
                         valueByPriorities.add(valueByPriority);
                     }
