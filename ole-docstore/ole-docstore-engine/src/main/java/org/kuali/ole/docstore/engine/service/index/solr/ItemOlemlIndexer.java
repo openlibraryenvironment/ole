@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.OleDocStoreException;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
@@ -32,10 +33,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -635,7 +633,8 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
 
 
     protected void modifySolrDocForDestination(String holdingsId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentListFinal) {
-        SolrDocument solrDocumentForDestinationInstance = getSolrDocumentByUUID(holdingsId);
+        updateSolrDocForDestination(holdingsId, itemIds, solrInputDocumentListFinal);
+        /*SolrDocument solrDocumentForDestinationInstance = getSolrDocumentByUUID(holdingsId);
 
         for (String item : itemIds) {
             SolrDocument solrDocumentForItem = getSolrDocumentByUUID(item);
@@ -649,8 +648,82 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             buildSolrInputDocFromSolrDoc(solrDocumentForItem,solrInputDocument);
             solrInputDocumentListFinal.add(solrInputDocument);
+        }*/
+    }
+
+    protected void updateSolrDocForDestination(String holdingsId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentListFinal) {
+        SolrDocument destinationHoldingsSolrDocument = getSolrDocumentByUUID(holdingsId);
+        SolrDocument destinationBibSolrDocument = null;
+        //Get the destination bib and add the items being transfered
+        Object object = destinationHoldingsSolrDocument.getFieldValue(BIB_IDENTIFIER);
+        List<String> bibIds = new ArrayList<>();
+        if(object instanceof String){
+            String bibId = (String) object;
+            bibIds.add(bibId);
+            SolrInputDocument destBibSolrInputDocument = new SolrInputDocument();
+            destBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
+            destinationBibSolrDocument = getSolrDocumentByUUID(bibId);
+            Object itemIdentifier = destinationBibSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+            List<String> existingItemIds = new ArrayList<String>();
+            if(itemIdentifier instanceof String){
+                String id = (String) itemIdentifier;
+                existingItemIds.add(id);
+            }else if(itemIdentifier instanceof List){
+                List<String> existingItemIdentifierList = (List<String>) itemIdentifier;
+                existingItemIds.addAll(existingItemIdentifierList);
+            }
+            Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
+            existingItemIds.addAll(itemIds);
+            itemIdMap.put(AtomicUpdateConstants.SET, existingItemIds);
+            destBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdMap);
+            solrInputDocumentListFinal.add(destBibSolrInputDocument);
+        }else if(object instanceof List){
+            // if holdings is bound -with
+            List<String> bibIdentifierList = (List<String>) object;
+            bibIds.addAll(bibIdentifierList);
+            for(String bibId : bibIdentifierList){
+                SolrInputDocument destBibSolrInputDocument = new SolrInputDocument();
+                destBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
+                Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
+                itemIdMap.put(AtomicUpdateConstants.ADD, itemIds);
+                destBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdMap);
+                solrInputDocumentListFinal.add(destBibSolrInputDocument);
+            }
+        }
+
+        //Get the destination holdings and add items being transfered
+        SolrInputDocument destHoldingsSolrInputDocument = new SolrInputDocument();
+        destHoldingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
+        Object existingItems = destinationHoldingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+        List<String> existingIds = new ArrayList<>();
+        if(existingItems instanceof String){
+            String id = (String) existingItems;
+            existingIds.add(id);
+        }else if(existingItems instanceof List){
+            List<String> existingIdsList = (List<String>) existingItems;
+            existingIds.addAll(existingIdsList);
+        }
+        Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
+        existingIds.addAll(itemIds);
+        itemIdMap.put(AtomicUpdateConstants.SET, existingIds);
+        destHoldingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdMap);
+        solrInputDocumentListFinal.add(destHoldingsSolrInputDocument);
+
+        //Set the bib id and holdings id for items being transfered
+        for (String item : itemIds) {
+            SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+            itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, item);
+            Map<String, List<String>> bibIdMap = new HashMap<String, List<String>>();
+            bibIdMap.put(AtomicUpdateConstants.SET, bibIds);
+            itemSolrInputDocument.setField(BIB_IDENTIFIER, bibIdMap);
+            bibIdMap.put(AtomicUpdateConstants.SET, bibIds);
+            itemSolrInputDocument.setField(HOLDINGS_IDENTIFIER, holdingsId);
+            setBibInfoForHoldingsOrItems(itemSolrInputDocument, destinationBibSolrDocument);
+            solrInputDocumentListFinal.add(itemSolrInputDocument);
         }
     }
+
+
 
     private void removeItemsInSourceInstance(String sourceInstanceUuid, String itemId ,List<SolrInputDocument> solrInputDocumentListFinal) {
 
@@ -675,14 +748,69 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
 
     protected void modifySolrDocForSource(List<String> itemsIds, String holdingsId, List<SolrInputDocument> solrInputDocumentListFinal) {
 
-        //Get the solr Document for holdings and add new Items to solr.
+        updateSolrDocForSource(itemsIds,holdingsId,solrInputDocumentListFinal);
+        /*//Get the solr Document for holdings and add new Items to solr.
         SolrDocument solrDocumentForDestinationInstance = getSolrDocumentByUUID(holdingsId);
         solrDocumentForDestinationInstance.addField("itemIdentifier", itemsIds);
 
         SolrInputDocument destinationHoldingsDocument = new SolrInputDocument();
         buildSolrInputDocFromSolrDoc(solrDocumentForDestinationInstance, destinationHoldingsDocument);
 
-        solrInputDocumentListFinal.add(destinationHoldingsDocument);
+        solrInputDocumentListFinal.add(destinationHoldingsDocument);*/
+    }
+
+    private void updateSolrDocForSource(List<String> itemsIds, String holdingsId, List<SolrInputDocument> solrInputDocumentListFinal){
+        for(String itemId: itemsIds){
+            SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
+
+            //Get the bib id from item being transfered and remove the source bib id
+            Object bibObject = itemSolrDocument.getFieldValue(BIB_IDENTIFIER);
+            List<String> bibIds = new ArrayList<>();
+            if (bibObject instanceof String) {
+                String bibIdentifier = (String) bibObject;
+                bibIds.add(bibIdentifier);
+                SolrInputDocument sourceBibSolrInputDocument = new SolrInputDocument();
+                sourceBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibIdentifier);
+                Map<String, List<String>> itemMap= new HashMap<>();
+                itemMap.put(AtomicUpdateConstants.REMOVE, itemsIds);
+                sourceBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemMap);
+                solrInputDocumentListFinal.add(sourceBibSolrInputDocument);
+            } else if (bibObject instanceof List) {
+                List<String> bibIdentifierList = (List<String>) bibObject;
+                for(String bibIdentifier : bibIdentifierList){
+                    SolrInputDocument sourceBibSolrInputDocument = new SolrInputDocument();
+                    sourceBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibIdentifier);
+                    Map<String, List<String>> itemMap= new HashMap<>();
+                    itemMap.put(AtomicUpdateConstants.REMOVE, itemsIds);
+                    sourceBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemMap);
+                    solrInputDocumentListFinal.add(sourceBibSolrInputDocument);
+                }
+            }
+
+            //Get the holdings id from item being transfered and remove the source bib id
+            Object holdingsObject = itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
+            List<String> holdingsIds = new ArrayList<>();
+            if (holdingsObject instanceof String) {
+                String holdingsIdentifier = (String) holdingsObject;
+                holdingsIds.add(holdingsIdentifier);
+                SolrInputDocument sourceHoldingsSolrInputDocument = new SolrInputDocument();
+                sourceHoldingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsIdentifier);
+                Map<String, List<String>> itemMap= new HashMap<>();
+                itemMap.put(AtomicUpdateConstants.REMOVE, itemsIds);
+                sourceHoldingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemMap);
+                solrInputDocumentListFinal.add(sourceHoldingsSolrInputDocument);
+            } else if (holdingsObject instanceof List) {
+                List<String> bibIdentifierList = (List<String>) holdingsObject;
+                for(String bibIdentifier : bibIdentifierList){
+                    SolrInputDocument sourceBibSolrInputDocument = new SolrInputDocument();
+                    sourceBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibIdentifier);
+                    Map<String, List<String>> itemMap= new HashMap<>();
+                    itemMap.put(AtomicUpdateConstants.REMOVE, itemsIds);
+                    sourceBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemMap);
+                    solrInputDocumentListFinal.add(sourceBibSolrInputDocument);
+                }
+            }
+        }
     }
 
     protected void addBibAndHoldingsInfoToItem(SolrInputDocument solrInputDocument, SolrInputDocument holdingsSolrInputDocument) {
@@ -951,17 +1079,44 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
         if (bibs != null && bibs instanceof List) {
             for (String bibId : bibIds) {
                 SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
-                addDetails(solrInputDocument, solrBibDocument, ITEM_BARCODE_SEARCH);
-                addDetails(solrInputDocument, solrBibDocument, ITEM_IDENTIFIER);
-                solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+                SolrInputDocument existingInputDocumnet = getExistingSolrDoc(solrInputDocuments, bibId);
+                if(existingInputDocumnet != null){
+                    existingInputDocumnet.setField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
+                    existingInputDocumnet.setField(ITEM_BARCODE_SEARCH,solrInputDocument.getFieldValue(ITEM_BARCODE_SEARCH));
+                }else{
+                    addDetails(solrInputDocument, solrBibDocument, ITEM_BARCODE_SEARCH);
+                    addDetails(solrInputDocument, solrBibDocument, ITEM_IDENTIFIER);
+                    solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+                }
             }
         } else {
             String bibId = (String) bibs;
             SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
-            addDetails(solrInputDocument, solrBibDocument, ITEM_BARCODE_SEARCH);
-            addDetails(solrInputDocument, solrBibDocument, ITEM_IDENTIFIER);
-            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+            SolrInputDocument existingInputDocumnet = getExistingSolrDoc(solrInputDocuments, bibId);
+            if(existingInputDocumnet != null){
+                existingInputDocumnet.addField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
+                existingInputDocumnet.addField(ITEM_BARCODE_SEARCH,solrInputDocument.getFieldValue(ITEM_BARCODE_SEARCH));
+            }else{
+                solrBibDocument.addField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
+                solrBibDocument.addField(ITEM_BARCODE_SEARCH,solrInputDocument.getFieldValue(ITEM_BARCODE_SEARCH));
+                solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+            }
         }
+    }
+
+    private SolrInputDocument getExistingSolrDoc(List<SolrInputDocument> solrInputDocuments, String bibId) {
+        SolrInputDocument existingInputDocumnet = null;
+        for(SolrInputDocument solrInputDocument1 : solrInputDocuments){
+            String doctype = (String) solrInputDocument1.getField(DOC_TYPE).getFirstValue();
+            if( DocType.BIB.getCode().equalsIgnoreCase(doctype)){
+                String id= (String) solrInputDocument1.getField(ID).getFirstValue() ;
+                if(bibId.equalsIgnoreCase(id)){
+                    existingInputDocumnet = solrInputDocument1;
+                    break;
+                }
+            }
+        }
+        return existingInputDocumnet;
     }
 
     private void addDetails(SolrInputDocument solrInputDocument, SolrDocument solrBibDocument, String docfiled) {

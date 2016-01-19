@@ -26,6 +26,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -110,9 +111,9 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String preferredAddress;
     private String email;
     private boolean deleteImageFlag;
-    private Integer overdueFineAmt;
-    private Integer replacementFeeAmt;
-    private Integer allCharges;
+    private BigDecimal overdueFineAmt;
+    private BigDecimal replacementFeeAmt;
+    private BigDecimal allCharges;
     private List<FeeType> feeTypeList;
     public IdentityService getIdentityService() {
         if (identityService == null) {
@@ -1874,40 +1875,40 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
                 oleDeliverRequestBos.get(0) : null;
     }
 
-    public Integer getAllCharges(String... feeTypes) {
-        allCharges = 0;
+    public BigDecimal getAllCharges(String... feeTypes) {
+        allCharges = new BigDecimal(0);
         if (feeTypes.length == 0) {
-            Integer overdueFineAmount = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_OVERDUE);
-            Integer replacementFineAmount = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_REPL_FEE);
+            BigDecimal overdueFineAmount = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_OVERDUE);
+            BigDecimal replacementFineAmount = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_REPL_FEE);
             if (null != overdueFineAmount && null != replacementFineAmount) {
-                allCharges = overdueFineAmount + replacementFineAmount;
+                allCharges = overdueFineAmount.add(replacementFineAmount);
             } else {
-                allCharges =  0;
+                allCharges =  new BigDecimal(0);
             }
         } else {
             for(String individualFeeType : feeTypes){
-                Integer feeAmountBasedOnFeeType = getFeeAmountBasedOnFeeType(individualFeeType);
-                allCharges += feeAmountBasedOnFeeType;
+                BigDecimal feeAmountBasedOnFeeType = getFeeAmountBasedOnFeeType(individualFeeType);
+                allCharges = allCharges.add(feeAmountBasedOnFeeType);
             }
         }
         return allCharges;
     }
 
-    private Integer getFeeAmountBasedOnFeeType(String feeType) {
-        Integer feeAmount = 0;
+    private BigDecimal getFeeAmountBasedOnFeeType(String feeType) {
+        BigDecimal feeAmount = new BigDecimal(0);
         List<FeeType> feeTypeList = getPatronFeeTypes();
         if(CollectionUtils.isNotEmpty(feeTypeList)){
             for (Iterator<FeeType> iterator = feeTypeList.iterator(); iterator.hasNext(); ) {
                 FeeType patronFeeType =  iterator.next();
                 if(patronFeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(feeType)){
-                    feeAmount += patronFeeType.getBalFeeAmount().intValue();
+                    feeAmount = feeAmount.add(patronFeeType.getBalFeeAmount().bigDecimalValue());
                 }
             }
         }
         return feeAmount;
     }
 
-    public Integer getOverdueFineAmount() {
+    public BigDecimal getOverdueFineAmount() {
         if (null == overdueFineAmt) {
             overdueFineAmt = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_OVERDUE);
         }
@@ -1927,7 +1928,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         return feeTypeList;
     }
 
-    public Integer getReplacementFineAmount() {
+    public BigDecimal getReplacementFineAmount() {
         if (null == replacementFeeAmt) {
             replacementFeeAmt = getFeeAmountBasedOnFeeType(OLEConstants.FEE_TYPE_CODE_REPL_FEE);
         }

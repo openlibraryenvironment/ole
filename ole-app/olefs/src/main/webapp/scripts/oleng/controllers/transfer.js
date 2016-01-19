@@ -3,7 +3,7 @@ var app = angular.module("transferApp", ['ui.tree']);
 
 app.controller('searchController', ['$scope', '$http', '$rootScope', searchConditions]);
 function searchConditions($scope, $http, $rootScope) {
-    $rootScope.baseUri = 'http://192.168.55.69:9090/oledocstore/bib/select?q='
+    $rootScope.baseUri = '/oledocstore/bib/select?q='
     $rootScope.searched = true;
     $scope.rows = 10;
     $scope.start = 0;
@@ -59,7 +59,7 @@ function searchConditions($scope, $http, $rootScope) {
     $scope.search = function () {
         angular.forEach($scope.conditions, function (condition) {
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10').
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
                 success(function (data) {
                     console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;
@@ -84,7 +84,7 @@ function searchConditions($scope, $http, $rootScope) {
         angular.forEach($scope.conditions, function (condition) {
             $scope.start = $scope.start - $scope.pageSize;
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&start=' + $scope.start).
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
                 success(function (data) {
                     console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;
@@ -108,7 +108,7 @@ function searchConditions($scope, $http, $rootScope) {
         $scope.start = $scope.start + $scope.pageSize;
         angular.forEach($scope.conditions, function (condition) {
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&start=' + $scope.start).
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
                 success(function (data) {
                     console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;

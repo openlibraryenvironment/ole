@@ -65,7 +65,7 @@ jq(document).ready(function () {
         if(this.id=='E-Resource-Instance-Navigation'){
             window.setTimeout(function () {
                 jq("#instanceDetails").tableExport();
-            }, 800)
+            }, 1000)
         }
     });
 
