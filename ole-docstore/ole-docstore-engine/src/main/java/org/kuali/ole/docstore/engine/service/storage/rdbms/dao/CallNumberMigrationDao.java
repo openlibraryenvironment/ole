@@ -1,6 +1,9 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.dao;
 
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -23,8 +26,10 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
     private static Map<String, String> callNumberType = new HashMap<>();
     private int holdingsTotalCount = 0;
     private int itemTotalCount = 0;
+    private int chunkSize = 1000;
 
     public void init() throws Exception {
+        this.chunkSize = Integer.parseInt(getParameter());
         fetchCallNumberType();
         getHoldingsTotalCount();
         getItemTotalCount();
@@ -59,7 +64,6 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int start = 0;
         int end = 0;
         int tempHoldingsRecord = holdingsTotalCount;
-        int chunkSize = 1000;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -77,6 +81,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         }
         executorService.shutdown();
         stopWatch.stop();
+        LOG.debug("Time Taken "+ holdingsTotalCount + " for holdings Migration :: " +stopWatch.prettyPrint());
     }
 
 
@@ -84,7 +89,6 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int start = 0;
         int end = 0;
         int tempItemRecord = itemTotalCount;
-        int chunkSize = 1000;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -102,6 +106,14 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         }
         executorService.shutdown();
         stopWatch.stop();
+        LOG.error("Time Taken " + itemTotalCount + " for Item Migration :: " + stopWatch.prettyPrint());
+    }
+
+
+    public String getParameter() {
+        ParameterKey parameterKey = ParameterKey.create("OLE", "OLE-DESC", "Describe", "CALL_NUMBER_MIGRATION_CHUNK_SIZE");
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
     }
 
 }
