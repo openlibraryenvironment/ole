@@ -40,10 +40,12 @@ validateDataMappingRow = function(dataMappingRow, $scope) {
             $scope.batchProfileForm['dataMappingSubField_0'].$invalid = true;
             error = true;
         }
-        if (dataMappingRow.destination == undefined || dataMappingRow.destination == null) {
-            $scope.batchProfileForm['dataMappingDestination_0'].$dirty = true;
-            $scope.batchProfileForm['dataMappingDestination_0'].$invalid = true;
-            error = true;
+        if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
+            if (dataMappingRow.destination == undefined || dataMappingRow.destination == null) {
+                $scope.batchProfileForm['dataMappingDestination_0'].$dirty = true;
+                $scope.batchProfileForm['dataMappingDestination_0'].$invalid = true;
+                error = true;
+            }
         }
         if (dataMappingRow.field == undefined || dataMappingRow.field == null) {
             $scope.batchProfileForm['dataMappingField_0'].$dirty = true;
@@ -51,10 +53,12 @@ validateDataMappingRow = function(dataMappingRow, $scope) {
             error = true;
         }
     } else if (dataMappingRow.dataMappingDocType == 'Constant') {
-        if (dataMappingRow.destination == undefined || dataMappingRow.destination == null) {
-            $scope.batchProfileForm['dataMappingDestination_0'].$dirty = true;
-            $scope.batchProfileForm['dataMappingDestination_0'].$invalid = true;
-            error = true;
+        if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
+            if (dataMappingRow.destination == undefined || dataMappingRow.destination == null) {
+                $scope.batchProfileForm['dataMappingDestination_0'].$dirty = true;
+                $scope.batchProfileForm['dataMappingDestination_0'].$invalid = true;
+                error = true;
+            }
         }
         if (dataMappingRow.field == undefined || dataMappingRow.field == null) {
             $scope.batchProfileForm['dataMappingField_0'].$dirty = true;

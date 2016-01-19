@@ -492,7 +492,8 @@ var addOperations = [
 ];
 
 var addOperationsWithMultiple = [
-    {id: 'multiple', name: 'Create multiple'},
+    {id: 'createMultipleAndDeleteAllExisting', name: 'Create multiple and Delete all existing and add'},
+    {id: 'createMultipleAndKeepAllExisting', name: 'Create multiple and Keep all existing and add'},
     {id: 'deleteAll', name: 'Delete all existing and add'},
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
@@ -611,7 +612,7 @@ var orderFields = [
     {id: 'Vendor Instructions Note', name: 'Vendor Instructions Note'},
     {id: 'vendorNumber', name: 'Vendor Number'},
     {id: 'vendorProfileCode', name: 'Vendor Profile Code'},
-    {id: 'vendorReferenceNumber', name: 'Vendor Reference Number'},
+    {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
     {id: 'volumeNumber', name: 'Volume Number'}
 ];
 

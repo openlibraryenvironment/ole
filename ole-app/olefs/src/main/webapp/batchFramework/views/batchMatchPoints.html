@@ -50,6 +50,7 @@
                             <select class="form-control" id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
                                     ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
                                     ng-change="populateMatchPointTypes(matchPoint)">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
                                         ng-repeat="option in matchPoint.matchPointDocTypes" value="{{option.name}}">
                                     {{option.name}}
@@ -62,6 +63,7 @@
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine"
                                     ng-change="populateDestinationFieldValues(matchPoint,matchPoint.matchPointDocType, matchPoint.matchPointType)">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.matchPointTypes  | orderBy:'name'" value="{{option.name}}">
                                     {{option.name}}
@@ -84,6 +86,7 @@
                                     || matchPoint.matchPointType == 'Donor Note'
                                     || matchPoint.matchPointType == 'Donor Public Display'
                                     || matchPoint.matchPointType == 'Vendor Line Item Identifier')">
+                                <option value=""></option>
                                 <option ng-selected="{{option.value == matchPoint.matchPointValue}}"
                                         ng-repeat="option in constantValues | orderBy:'value'"
                                         value="{{option.value}}">
