@@ -62,7 +62,7 @@ public class ItemCallNumberProcessor implements Callable {
                     String[] arraysqls = itemQuerylist.toArray(new String[itemQuerylist.size()]);
                     itemQuerylist.clear();
                     jdbcTemplate.batchUpdate(arraysqls);
-                    stopWatch.start();
+                    stopWatch.stop();
                     LOG.debug("Time Taken " + arraysqls.length + " for Item Migration :: " + stopWatch.prettyPrint());
                     return null;
                 }
