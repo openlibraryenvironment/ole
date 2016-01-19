@@ -30,6 +30,8 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             $scope.dataTransformationsActivePanel = [];
             $scope.mainSectionPanel.requisitionForTitlesOption = null;
             $scope.mainSectionPanel.marcOnly = false;
+            $scope.matchPointsPanel[0].matchPointType = null;
+            $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
             $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
             $scope.dataMappingsPanel[0].dataField = null;
             $scope.dataMappingsPanel[0].ind1 = null;
@@ -44,10 +46,17 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             clearProfileValues();
             $scope.matchPointsPanel = [matchPoint];
             $scope.addOrOverlayPanel = [addOrOverlay];
-            $scope.dataMappingsPanel[0].dataMappingFields = dataMappingOrderFields;
+            $scope.matchPointsPanel[0].matchPointType = null;
+            $scope.matchPointsPanel[0].matchPointDocType = null;
+            $scope.matchPointsPanel[0].matchPointTypes = orderFields;
+            $scope.dataMappingsPanel[0].dataMappingFields = orderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
         } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
             clearProfileValues();
+            $scope.matchPointsPanel = [matchPoint];
+            $scope.matchPointsPanel[0].matchPointType = null;
+            $scope.matchPointsPanel[0].matchPointDocType = null;
+            $scope.matchPointsPanel[0].matchPointTypes = invoiceFields;
             $scope.dataMappingsPanel[0].dataMappingFields = invoiceFields;
         }
     };
@@ -84,7 +93,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             return;
         }
         $scope.matchPointsPanel.push(matchPointRow);
-        $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
+        $scope.matchPointsPanel[0].matchPointDocType = null;
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
         $scope.matchPointsPanel[0].dataField = null;
@@ -125,17 +134,22 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             $scope.matchPointsPanel[index].matchPointOrderDocTypes = dataMappingProcessTypes;
             $scope.matchPointsPanel[index].matchPointTypes = getMatchPointType($scope.matchPointsPanel[index].matchPointDocType);
             $scope.matchPointsPanel[index].isAddLine = false;
-            $scope.populateDestinationFieldValues(null, $scope.matchPointsPanel[index].matchPointDocType,$scope.matchPointsPanel[index].matchPointType);
+            $scope.matchPointsPanel[index].title = 'Match Points';
+            $scope.populateDestinationFieldValues($scope.matchPointsPanel[index], $scope.matchPointsPanel[index].matchPointDocType,$scope.matchPointsPanel[index].matchPointType);
         }
     };
 
     function getMatchPointType(type) {
-        if(type == 'Holdings') {
+        if (type == 'Holdings') {
             return matchPointObject.matchPointTypeForHoldings;
-        } else if(type == 'Item') {
+        } else if (type == 'Item') {
             return matchPointObject.matchPointTypeForItem;
-        }else if(type == 'EHoldings') {
+        } else if (type == 'EHoldings') {
             return matchPointObject.matchPointTypeForEHoldings;
+        } else if ((type == 'Bib Marc' || type == 'Constant') && $scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+            return orderFields;
+        } else if ((type == 'Bib Marc' || type == 'Constant') && $scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
+            return invoiceFields;
         }
         return "[]";
     }
@@ -374,7 +388,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             $scope.dataMappingsPanel[index].destinations = populateDestinationForDataMappingToEdit($scope.dataMappingsPanel[index].dataMappingDocType);
             $scope.dataMappingsPanel[index].transferOptions = transferOptions;
             if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
-                $scope.dataMappingsPanel[index].dataMappingFields = dataMappingOrderFields;
+                $scope.dataMappingsPanel[index].dataMappingFields = orderFields;
             } else if ($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
                 $scope.dataMappingsPanel[index].dataMappingFields = invoiceFields;
             } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
@@ -508,8 +522,10 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             matchPoint.matchPointTypes = matchPointObject.matchPointTypeForItem;
         } else if(matchPoint.matchPointDocType == 'EHoldings') {
             matchPoint.matchPointTypes =  matchPointObject.matchPointTypeForEHoldings;
-        } else if(matchPoint.matchPointDocType == 'Bib Marc' || matchPoint.matchPointDocType == 'Constant') {
-            matchPoint.matchPointTypes = dataMappingOrderFields;
+        } else if($scope.mainSectionPanel.batchProcessType == 'Order Record Import' && (matchPoint.matchPointDocType == 'Bib Marc' || matchPoint.matchPointDocType == 'Constant')) {
+            matchPoint.matchPointTypes = orderFields;
+        } else if($scope.mainSectionPanel.batchProcessType == 'Invoice Import' && (matchPoint.matchPointDocType == 'Bib Marc' || matchPoint.matchPointDocType == 'Constant')) {
+            matchPoint.matchPointTypes = invoiceFields;
         }
 
     };
@@ -604,7 +620,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         dataMapping.destinations = populateDestinationForDataMappingToEdit(dataMapping.dataMappingDocType);
         dataMapping.transferOptions = transferOptions;
         if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
-            dataMapping.dataMappingFields = dataMappingOrderFields;
+            dataMapping.dataMappingFields = orderFields;
         } else if ($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             dataMapping.dataMappingFields = invoiceFields;
         } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
@@ -668,7 +684,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
     };
 
     $scope.populateDestinationFieldValues = function (dataObject, dataType, fieldType) {
-        if (dataType !== 'Bib Marc') {
+        if (dataType !== 'Bib Marc' || dataObject.title == 'Match Points') {
             $scope.constantValues = [];
             if (fieldType === 'Staff Only') {
                 $scope.constantValues = booleanOptionsYorN;

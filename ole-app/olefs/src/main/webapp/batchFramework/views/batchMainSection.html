@@ -22,13 +22,13 @@
                     <tbody>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Batch Profile Name:</span>
+                            <label class="col-sm-4">Batch Profile Name:</label>
                             <input class="form-control" id="profileName" name="profileName" type="text"
                                ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"
                                ng-disabled="submitted" required/>
                         </td>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Description:</span>
+                            <label class="col-sm-4">Description:</label>
                             <input class="form-control" id="profileDescription" name="profileDescription" type="text"
                                    ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"
                                    ng-disabled="submitted"/>
@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Batch Process Type:</span>
+                            <label class="col-sm-4">Batch Process Type:</label>
                             <select class="form-control" id="batchProcessType" name="batchProcessType"
                                     ng-model="mainSectionPanel.batchProcessType"
                                     ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
@@ -49,7 +49,7 @@
                             </select>
                         </td>
                         <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
-                            <span class="col-sm-4">Bib Import Profile:</span>
+                            <label class="col-sm-4">Bib Import Profile:</label>
                             <select class="form-control" id="bibImportProfile" name="bibImportProfile"
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
@@ -64,7 +64,7 @@
                     </tr>
                     <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Requisitions For Titles:</span>
+                            <label class="col-sm-4">Requisitions For Titles:</label>
                             <select class="form-control" id="requisitionForTitles" name="requisitionForTitles"
                                     ng-model="mainSectionPanel.requisitionForTitlesOption"
                                     ng-disabled="submitted" style="width: 230px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
@@ -76,7 +76,7 @@
                             </select>
                         </td>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Marc Only:</span>
+                            <label class="col-sm-4">Marc Only:</label>
                             <input class="form-control" id="marcOnly" name="marcOnly" type="checkbox"
                                    ng-model="mainSectionPanel.marcOnly" style="width: 170px; height: 20px;"
                                    ng-disabled="submitted">

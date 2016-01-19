@@ -563,7 +563,7 @@ var invoiceFields = [
     {id: 'vendorNumber', name: 'Vendor Number'}
 ];
 
-var dataMappingOrderFields = [
+var orderFields = [
     {id: 'accountNumber', name: 'Account Number'},
     {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
     {id: 'assignToUser', name: 'Assign To User'},
@@ -644,7 +644,6 @@ var matchPoint = {
     title: 'Match Points',
     matchPointDocTypes: documentTypes,
     matchPointOrderDocTypes: dataMappingProcessTypes,
-    matchPointDocType: 'Bibliographic',
     holdingsMatchPoints: holdingsMatchPoints,
     itemMatchPoints: itemMatchPoints,
     eHoldingsMatchPoints: eHoldingsMatchPoints,
@@ -698,7 +697,7 @@ var dataMappingOrder = {
     holdingsFields: holdingsMatchPoints,
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsDataMappings,
-    dataMappingFields: dataMappingOrderFields,
+    dataMappingFields: orderFields,
     discountTypes: discountTypes,
     transferOptions: transferOptions,
     transferOption: 'Pre Transfer',
