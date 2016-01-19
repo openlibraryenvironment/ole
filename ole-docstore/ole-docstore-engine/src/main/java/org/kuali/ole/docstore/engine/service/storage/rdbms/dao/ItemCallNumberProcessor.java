@@ -11,6 +11,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.StopWatch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,10 @@ public class ItemCallNumberProcessor implements Callable {
             template.execute(new TransactionCallback<Object>() {
                 @Override
                 public Object doInTransaction(TransactionStatus status) {
-                    int count = 0;
+                    StopWatch stopWatch = new StopWatch();
+                    stopWatch.start();
                     List<String> itemQuerylist = new ArrayList<>();
                     while (itemCallNumberResultSet.next()) {
-                        count++;
                         String callNumberTypeId = itemCallNumberResultSet.getString("CALL_NUMBER_TYPE_ID");
                         String callNumber = itemCallNumberResultSet.getString("CALL_NUMBER");
                         String itemId = String.valueOf(itemCallNumberResultSet.getInt("ITEM_ID"));
@@ -59,7 +60,10 @@ public class ItemCallNumberProcessor implements Callable {
                         }
                     }
                     String[] arraysqls = itemQuerylist.toArray(new String[itemQuerylist.size()]);
+                    itemQuerylist.clear();
                     jdbcTemplate.batchUpdate(arraysqls);
+                    stopWatch.start();
+                    LOG.debug("Time Taken " + arraysqls.length + " for Item Migration :: " + stopWatch.prettyPrint());
                     return null;
                 }
             });
