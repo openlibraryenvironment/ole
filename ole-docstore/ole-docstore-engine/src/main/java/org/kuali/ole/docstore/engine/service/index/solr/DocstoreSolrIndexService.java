@@ -142,9 +142,16 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
         modifySolrDocForSource(sourceIds, destinationId, solrInputDocuments);
 
         modifySolrDocForDestination(destinationId, sourceIds, solrInputDocuments);
-
+        /*try {
+            SolrServer server = SolrServerManager.getInstance().getSolrServer();
+            UpdateResponse updateResponse = server.add(solrInputDocuments);
+            server.commit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }*/
         indexSolrDocuments(solrInputDocuments, true);
-        // server.commit();
 
     }
 
@@ -484,6 +491,38 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
         solrInputDocument.addField(LANGUAGE_DISPLAY, sourceDocument.getFieldValues(LANGUAGE_DISPLAY));
         solrInputDocument.addField(PUBLICATIONDATE_DISPLAY, sourceDocument.getFieldValues(PUBLICATIONDATE_DISPLAY));
 
+    }
+
+    /**
+     * This method is used to index the bib info to holdings or items
+     *
+     * @param solrInputDocument - holdings or items solr input documents
+     * @param sourceDocument -
+     */
+    protected void setBibInfoForHoldingsOrItems(SolrInputDocument solrInputDocument, SolrDocument sourceDocument) {
+        if(sourceDocument!=null){
+            solrInputDocument.setField(TITLE_SEARCH, sourceDocument.getFieldValues(TITLE_SEARCH));
+            solrInputDocument.setField(TITLE_SORT, sourceDocument.getFieldValues(TITLE_SORT));
+            solrInputDocument.setField(AUTHOR_SEARCH, sourceDocument.getFieldValues(AUTHOR_SEARCH));
+            solrInputDocument.setField(PUBLICATIONPLACE_DISPLAY, sourceDocument.getFieldValues(PUBLICATIONPLACE_DISPLAY));
+            solrInputDocument.setField(PUBLISHER_SEARCH, sourceDocument.getFieldValues(PUBLISHER_SEARCH));
+            solrInputDocument.setField(PUBLISHER_SORT, sourceDocument.getFieldValue(PUBLISHER_SORT));
+            solrInputDocument.setField(ISSN_SEARCH, sourceDocument.getFieldValues(ISSN_SEARCH));
+            solrInputDocument.setField(ISBN_SEARCH, sourceDocument.getFieldValues(ISBN_SEARCH));
+            solrInputDocument.setField(FORMAT_SEARCH, sourceDocument.getFieldValues(FORMAT_SEARCH));
+            solrInputDocument.setField(LANGUAGE_SEARCH, sourceDocument.getFieldValues(LANGUAGE_SEARCH));
+            solrInputDocument.setField(PUBLICATIONDATE_SEARCH, sourceDocument.getFieldValues(PUBLICATIONDATE_SEARCH));
+            solrInputDocument.setField(MDF_035A, sourceDocument.getFieldValues(MDF_035A));
+
+            solrInputDocument.setField(TITLE_DISPLAY, sourceDocument.getFieldValues(TITLE_DISPLAY));
+            solrInputDocument.setField(AUTHOR_DISPLAY, sourceDocument.getFieldValues(AUTHOR_DISPLAY));
+            solrInputDocument.setField(PUBLISHER_DISPLAY, sourceDocument.getFieldValues(PUBLISHER_DISPLAY));
+            solrInputDocument.setField(ISSN_DISPLAY, sourceDocument.getFieldValues(ISSN_DISPLAY));
+            solrInputDocument.setField(ISBN_DISPLAY, sourceDocument.getFieldValues(ISBN_DISPLAY));
+            solrInputDocument.setField(FORMAT_DISPLAY, sourceDocument.getFieldValues(FORMAT_DISPLAY));
+            solrInputDocument.setField(LANGUAGE_DISPLAY, sourceDocument.getFieldValues(LANGUAGE_DISPLAY));
+            solrInputDocument.setField(PUBLICATIONDATE_DISPLAY, sourceDocument.getFieldValues(PUBLICATIONDATE_DISPLAY));
+        }
     }
 
     /**
