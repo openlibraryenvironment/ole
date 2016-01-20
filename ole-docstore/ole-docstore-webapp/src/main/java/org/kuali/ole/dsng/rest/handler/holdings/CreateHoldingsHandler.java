@@ -64,7 +64,7 @@ public class CreateHoldingsHandler extends Handler {
             HoldingsRecord holdingsRecord = new HoldingsRecord();
             exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
 
-            JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+            JSONArray dataMappings = holdingJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
             if(dataMappings.length() > 0) {
                 JSONObject dataMapping = (JSONObject) dataMappings.get(0);
                 Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
