@@ -43,7 +43,7 @@ public class DamagedItemNoteHandler {
                     olePatronNotesList.add(olePatronNotes);
                     olePatronDocument.setNotes(olePatronNotesList);
                 }
-                KRADServiceLocator.getBusinessObjectService().save(olePatronDocument);
+                KRADServiceLocator.getBusinessObjectService().save(olePatronDocument.getNotes());
             }
         }
     }
