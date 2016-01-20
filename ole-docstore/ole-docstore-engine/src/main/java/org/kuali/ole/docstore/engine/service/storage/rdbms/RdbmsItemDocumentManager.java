@@ -175,10 +175,13 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             oldItemRecord = processItemRecordForAudit(oldItemRecord);
             ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
             modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
-            Audit auditedObject = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
-            if(auditedObject.getColumnUpdated().equalsIgnoreCase("barcode")){
-                //TODO: Update item barcode handler
-                System.out.println();
+            List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
+
+            for (Iterator<Audit> iterator = itemAuditedFields.iterator(); iterator.hasNext(); ) {
+                Audit auditedField = iterator.next();
+                if(auditedField.getColumnUpdated().equalsIgnoreCase("barcode")){
+                    //TODO: Update item barcode handler
+                }
             }
 
         } catch (ClassNotFoundException e) {

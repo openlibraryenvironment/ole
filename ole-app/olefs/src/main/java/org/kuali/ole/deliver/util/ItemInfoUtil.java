@@ -229,4 +229,17 @@ public class ItemInfoUtil extends OLEUtil {
         List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
         return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
     }
+
+    public ItemRecord getItemRecordByBarcode(String itemBarcode) {
+        ItemRecord itemRecord = null;
+        HashMap<String, String> criteriaMap = new HashMap<>();
+        criteriaMap.put("barCode", itemBarcode);
+        List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class,
+                criteriaMap);
+        if (null != itemRecords && !itemRecords.isEmpty()) {
+            itemRecord = itemRecords.get(0);
+        }
+
+        return itemRecord;
+    }
 }
