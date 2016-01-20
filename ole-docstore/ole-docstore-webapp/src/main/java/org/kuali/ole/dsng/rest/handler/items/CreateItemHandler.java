@@ -45,11 +45,11 @@ public class CreateItemHandler extends Handler {
         try {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS);
             if (null != holdingsRecord && StringUtils.equals(holdingsRecord.getHoldingsType(), PHoldings.PRINT)) {
-                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("item");
+                JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
                 ItemRecord itemRecord = new ItemRecord();
                 exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
 
-                JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
                 if(dataMappings.length() > 0) {
                     JSONObject dataMapping = (JSONObject) dataMappings.get(0);
                     Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
