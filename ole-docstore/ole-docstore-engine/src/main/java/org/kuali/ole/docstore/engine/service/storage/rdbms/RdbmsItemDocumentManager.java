@@ -2,6 +2,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.audit.Audit;
 import org.kuali.ole.audit.ItemAudit;
@@ -38,6 +39,7 @@ import org.kuali.ole.docstore.engine.service.DocstoreDateTimeUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
+import org.kuali.ole.utility.OleHttpRestClient;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -175,15 +177,22 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             oldItemRecord = processItemRecordForAudit(oldItemRecord);
             ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
             modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
+            //OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,modifiedItemRecord,itemRecord.getItemId(),"ole");
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
 
             for (Iterator<Audit> iterator = itemAuditedFields.iterator(); iterator.hasNext(); ) {
                 Audit auditedField = iterator.next();
                 if(auditedField.getColumnUpdated().equalsIgnoreCase("barcode")){
-                    //TODO: Update item barcode handler
+                    OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
+                    String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+                    String url = olefsUrl + "/rest/oledsdata/item/update/barcode";
+                    JSONObject request = new JSONObject();
+                    request.put("oldBarcode", oldItemRecord.getBarCode());
+                    request.put("newBarcode", itemRecord.getBarCode());
+                    oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
+
                 }
             }
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
