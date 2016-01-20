@@ -10,6 +10,7 @@ import java.text.StringCharacterIterator;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.Audit;
 import org.kuali.ole.audit.HoldingsAudit;
 import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
@@ -474,7 +475,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         holdings.setContent(content);
         buildLabelForHoldings(holdingsRecord, holdings);
         try {
-            OleAuditManager.getInstance().audit(HoldingsAudit.class,oldHoldingsRecord,holdingsRecord,holdingsRecord.getHoldingsId(),"ole");
+            Audit auditedHoldings = OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.Audit;
 import org.kuali.ole.audit.ItemAudit;
 import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
@@ -174,7 +175,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             oldItemRecord = processItemRecordForAudit(oldItemRecord);
             ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
             modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
-            OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,modifiedItemRecord,itemRecord.getItemId(),"ole");
+            Audit auditedObject = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
+            if(auditedObject.getColumnUpdated().equalsIgnoreCase("barcode")){
+                //TODO: Update item barcode handler
+                System.out.println();
+            }
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
