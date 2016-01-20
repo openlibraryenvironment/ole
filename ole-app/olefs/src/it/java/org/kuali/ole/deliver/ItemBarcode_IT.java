@@ -3,6 +3,7 @@ package org.kuali.ole.deliver;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.kuali.ole.KFSTestCaseBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.controller.ItemBarcodeUpdateHandler;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -21,7 +22,7 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * Created by hemalathas on 1/19/16.
  */
-public class ItemBarcode_IT extends KFSTestCaseBase {
+public class ItemBarcode_IT extends OLETestCaseBase {
 
     @Test
     public void updateItemBarcode() {
@@ -33,23 +34,23 @@ public class ItemBarcode_IT extends KFSTestCaseBase {
         barcode = itemRecord.getBarCode();
 
         OleDeliverRequestBo oleDeliverRequestBos = new OleDeliverRequestBo();
-        oleDeliverRequestBos.setItemId("10");
+        oleDeliverRequestBos.setItemId(itemRecord.getBarCode());
         oleDeliverRequestBos.setRequestId("ole");
-        oleDeliverRequestBos.setItemUuid("wio-2");
+        String itemUuid = "wio-" + itemRecord.getItemId();
+        oleDeliverRequestBos.setItemUuid(itemUuid);
         OleDeliverRequestBo deliverRequestBo = KRADServiceLocator.getBusinessObjectService().save(oleDeliverRequestBos);
 
-        itemRecord.setBarCode("2000");
         ItemBarcodeUpdateHandler itemBarcodeUpdateHandler = new ItemBarcodeUpdateHandler();
-        itemBarcodeUpdateHandler.updateItemBarcode(itemRecord, barcode);
+        itemBarcodeUpdateHandler.updateItemBarcode(itemRecord.getBarCode(), "2000");
 
 
         itemBarcodeMap.clear();
-        itemBarcodeMap.put("itemUuid", "wio-2");
+        itemBarcodeMap.put("itemUuid", itemUuid);
         List<OleDeliverRequestBo> deliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemBarcodeMap);
         assertTrue(CollectionUtils.isNotEmpty(deliverRequestBoList));
         for (Iterator<OleDeliverRequestBo> iterator = deliverRequestBoList.iterator(); iterator.hasNext(); ) {
             OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
-            assertEquals(oleDeliverRequestBo.getItemId(), itemRecord.getBarCode());
+            assertEquals(oleDeliverRequestBo.getItemId(), "2000");
             assertNotEquals(oleDeliverRequestBo.getItemId(), barcode);
         }
     }
