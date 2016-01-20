@@ -99,6 +99,7 @@ public class OleNGConstants {
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
     public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple and Delete all existing and add";
     public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple and Keep all existing and add";
+    public static final String CREATE_MULTIPLE = "Create multiple";
     public static final String MATCH_POINT = "matchPoints";
     public static final String ONE = "1";
     public static final String TWO = "2";
