@@ -1149,17 +1149,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         }
 
         if((newOlePatronDocument.getOlePatronId() != null) && (newOlePatronDocument.isBarcodeEditable())){
-            Map<String,String> requestMap = new HashMap<>();
-            List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<OleDeliverRequestBo>();
-            requestMap.put("borrowerId",newOlePatronDocument.getOlePatronId());
-            List<OleDeliverRequestBo> deliverRequestBoList = (List<OleDeliverRequestBo>)getBusinessObjectService().findMatching(OleDeliverRequestBo.class,requestMap);
-            if(CollectionUtils.isNotEmpty(deliverRequestBoList)){
-                for(OleDeliverRequestBo oleDeliverRequestBo : deliverRequestBoList){
-                    oleDeliverRequestBo.setBorrowerBarcode(newOlePatronDocument.getBarcode());
-                    oleDeliverRequestBos.add(oleDeliverRequestBo);
-                }
-                List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>)getBusinessObjectService().save(oleDeliverRequestBos);
-            }
+            String oldBarcode = ((OlePatronDocument)document.getOldMaintainableObject().getDataObject()).getBarcode();
+            PatronBarcodeUpdateHandler patronBarcodeUpdateHandler = new PatronBarcodeUpdateHandler();
+            patronBarcodeUpdateHandler.updatePatronBarcode(newOlePatronDocument,oldBarcode);
 
         }
         return model;
