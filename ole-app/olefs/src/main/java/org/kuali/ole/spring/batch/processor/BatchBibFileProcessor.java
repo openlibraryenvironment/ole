@@ -13,7 +13,6 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
-import org.kuali.ole.util.StringUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -190,20 +189,22 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<JSONObject> bibDataMappings = prepareDataMappings(Collections.singletonList(marcRecord), batchProcessProfile, OleNGConstants.BIBLIOGRAPHIC, transformationOption);
         dataMappings.put(OleNGConstants.BIB_DATAMAPPINGS, bibDataMappings);
 
-        List<JSONObject> holdingsDataMappings = prepareDataMappings(Collections.singletonList(marcRecord), batchProcessProfile, OleNGConstants.HOLDINGS, transformationOption);
+        List<Record> recordListForHoldings = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.HOLDINGS);
+        List<JSONObject> holdingsDataMappings = prepareDataMappings(recordListForHoldings, batchProcessProfile, OleNGConstants.HOLDINGS, transformationOption);
         dataMappings.put(OleNGConstants.HOLDINGS_DATAMAPPINGS, holdingsDataMappings);
 
-        List<JSONObject> itemDataMappings = prepareDataMappings(Collections.singletonList(marcRecord), batchProcessProfile, OleNGConstants.ITEM, transformationOption);
+        List<Record> recordListForItem = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.ITEM);
+        List<JSONObject> itemDataMappings = prepareDataMappings(recordListForItem, batchProcessProfile, OleNGConstants.ITEM, transformationOption);
         dataMappings.put(OleNGConstants.ITEM_DATAMAPPINGS, itemDataMappings);
 
-        List<Record> recordListForEHoldings = getRecordListForEHoldings(marcRecord, batchProcessProfile, OleNGConstants.EHOLDINGS);
+        List<Record> recordListForEHoldings = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.EHOLDINGS);
         List<JSONObject> eholdingsDataMappings = prepareDataMappings(recordListForEHoldings, batchProcessProfile, OleNGConstants.EHOLDINGS, transformationOption);
         dataMappings.put(OleNGConstants.EHOLDINGS_DATAMAPPINGS, eholdingsDataMappings);
 
         return dataMappings;
     }
 
-    private List<Record> getRecordListForEHoldings(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType) {
+    private List<Record> getRecordList(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType) {
         String multiTagField = getMultiTagField(batchProcessProfile,docType);
         List<Record> records = new ArrayList<>();
         if(StringUtils.isNotBlank(multiTagField)) {

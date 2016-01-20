@@ -84,13 +84,13 @@ public class CreateHoldingsHandler extends Handler {
                             }
                         }
                     }
-                    setValueToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
+                    setCommonValuesToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
                     createdHoldingsDocuments.add(holdingsRecord);
                 }
             } else {
                 HoldingsRecord holdingsRecord = new HoldingsRecord();
                 exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                setValueToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
+                setCommonValuesToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
                 createdHoldingsDocuments.add(holdingsRecord);
             }
 
@@ -107,7 +107,7 @@ public class CreateHoldingsHandler extends Handler {
         }
     }
 
-    private void setValueToHoldingsRecord(JSONObject requestJsonObject, Exchange exchange, BibRecord bibRecord, HoldingsRecord holdingsRecord) {
+    private void setCommonValuesToHoldingsRecord(JSONObject requestJsonObject, Exchange exchange, BibRecord bibRecord, HoldingsRecord holdingsRecord) {
         String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
         Timestamp createdDate = getDateTimeStamp(createdDateString);
         String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);

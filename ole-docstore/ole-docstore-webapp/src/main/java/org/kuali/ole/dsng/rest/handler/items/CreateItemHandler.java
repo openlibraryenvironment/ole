@@ -46,42 +46,40 @@ public class CreateItemHandler extends Handler {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS);
             if (null != holdingsRecord && StringUtils.equals(holdingsRecord.getHoldingsType(), PHoldings.PRINT)) {
                 JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
-                ItemRecord itemRecord = new ItemRecord();
-                exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
-
-                JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
-                if(dataMappings.length() > 0) {
-                    JSONObject dataMapping = (JSONObject) dataMappings.get(0);
-                    Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                        String key1 = (String) iterator3.next();
-                        for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                            ItemHandler itemHandler = iterator4.next();
-                            if (itemHandler.isInterested(key1)) {
-                                itemHandler.setBusinessObjectService(getBusinessObjectService());
-                                itemHandler.processDataMappings(dataMapping, exchange);
-                            }
-                        }
-                    }
-                }
-
-                String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
-                Timestamp createdDate = getDateTimeStamp(createdDateString);
-                String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
-                itemRecord.setCreatedBy(createdBy);
-                itemRecord.setCreatedDate(createdDate);
-                itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-                itemRecord.setHoldingsRecord(holdingsRecord);
-                itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-
-                getItemDAO().save(itemRecord);
 
                 List createdItemDocuments = (List) exchange.get(OleNGConstants.ITEMS_CREATED);
                 if(null == createdItemDocuments) {
                     createdItemDocuments = new ArrayList();
                 }
-                createdItemDocuments.add(itemRecord);
 
+                JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                if(dataMappings.length() > 0) {
+                    for(int index = 0; index < dataMappings.length(); index++) {
+                        ItemRecord itemRecord = new ItemRecord();
+                        exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
+                        JSONObject dataMapping = (JSONObject) dataMappings.get(index);
+                        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+                        for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                            String key1 = (String) iterator3.next();
+                            for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                                ItemHandler itemHandler = iterator4.next();
+                                if (itemHandler.isInterested(key1)) {
+                                    itemHandler.setBusinessObjectService(getBusinessObjectService());
+                                    itemHandler.processDataMappings(dataMapping, exchange);
+                                }
+                            }
+                        }
+                        setCommonValuesToItemRecord(requestJsonObject, holdingsRecord, itemRecord);
+                        getItemDAO().save(itemRecord);
+                        createdItemDocuments.add(itemRecord);
+                    }
+
+                } else {
+                    ItemRecord itemRecord = new ItemRecord();
+                    setCommonValuesToItemRecord(requestJsonObject, holdingsRecord, itemRecord);
+                    getItemDAO().save(itemRecord);
+                    createdItemDocuments.add(itemRecord);
+                }
                 exchange.add(OleNGConstants.ITEMS_CREATED, createdItemDocuments);
             }
 
@@ -95,6 +93,17 @@ public class CreateItemHandler extends Handler {
             e.printStackTrace();
         }
 
+    }
+
+    private void setCommonValuesToItemRecord(JSONObject requestJsonObject, HoldingsRecord holdingsRecord, ItemRecord itemRecord) {
+        String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
+        Timestamp createdDate = getDateTimeStamp(createdDateString);
+        String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
+        itemRecord.setCreatedBy(createdBy);
+        itemRecord.setCreatedDate(createdDate);
+        itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+        itemRecord.setHoldingsRecord(holdingsRecord);
+        itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
     }
 
     public List<ItemHandler> getItemMetaDataHandlers() {
