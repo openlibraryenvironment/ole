@@ -1,13 +1,10 @@
 package org.kuali.ole.select.controller;
 
 
-import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.kuali.ole.KFSTestCaseBase;
-import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.docstore.common.client.DocstoreRestClient;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -15,7 +12,6 @@ import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.OleDocstoreResponse;
-import org.kuali.ole.select.controller.OLEEResourceRecordController;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.fixture.OLEEResourceRecordDocumentFixture;
 import org.kuali.ole.select.form.OLEEResourceRecordForm;
@@ -25,16 +21,11 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
-import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-import org.supercsv.cellprocessor.FmtDate;
-import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
@@ -46,8 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +44,6 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.kuali.ole.fixture.UserNameFixture.khuntley;
 
 /**
  * Created with IntelliJ IDEA.
@@ -170,41 +158,40 @@ public class OLEEResourceRecordController_IT extends KFSTestCaseBase {
     public void testCSVFileWrite() throws Exception {
 
         ICsvBeanWriter beanWriter = null;
-        CellProcessor[] processors = new CellProcessor[3];
+        CellProcessor[] processors = new CellProcessor[]{
+                new NotNull(),
+                new NotNull(),
+                new NotNull(),
+                new NotNull(),
+        };
         String tempLocation = System.getProperty("java.io.tmpdir");
-
+        String fileSeperator = System.getProperty("file.separator");
         try {
             OLEEResourceRecordDocument oleeResourceRecordDocument = new OLEEResourceRecordDocument();
             oleeResourceRecordDocument.setFiscalYearCost(100.00);
             oleeResourceRecordDocument.setYearPriceQuote(200.00);
-            oleeResourceRecordDocument.setCostIncrease(100);;
+            oleeResourceRecordDocument.setCostIncrease(100);
             oleeResourceRecordDocument.setPercentageIncrease(10);
 
-            File csvFile = new File(tempLocation+"PriceIncreaseAnalysis.csv");
+            File csvFile = new File(tempLocation + fileSeperator + "PriceIncreaseAnalysis.csv");
             beanWriter = new CsvBeanWriter(new FileWriter(csvFile),
                     CsvPreference.STANDARD_PREFERENCE);
-            List<OLEEResourceRecordDocument> oleeResourceRecordDocumentList = Arrays.asList(oleeResourceRecordDocument);
             String[] header = {"Previous fiscal year cost", "Current year price quote", "Cost increase", "Percent increase"};
+            String[] fieldMapping = {"fiscalYearCost", "yearPriceQuote", "costIncrease", "percentageIncrease"};
             beanWriter.writeHeader(header);
-            for (OLEEResourceRecordDocument eresourceRecordDocument : oleeResourceRecordDocumentList) {
-                beanWriter.write(eresourceRecordDocument, header, processors);
-            }
-
+            beanWriter.write(oleeResourceRecordDocument, fieldMapping, processors);
         } catch (IOException ex) {
             System.err.println("Error writing the CSV file: " + ex);
         } finally {
             if (beanWriter != null) {
                 try {
                     beanWriter.close();
-                    File file = new File(tempLocation+"PriceIncreaseAnalysis.csv");
+                    File file = new File(tempLocation + fileSeperator + "PriceIncreaseAnalysis.csv");
                     assertTrue(file.exists());
                 } catch (IOException ex) {
 
                 }
             }
         }
-
-
-
     }
 }
