@@ -10,10 +10,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
-import org.kuali.ole.deliver.util.FineDateTimeUtil;
-import org.kuali.ole.deliver.util.ItemFineRate;
-import org.kuali.ole.deliver.util.NoticeInfo;
-import org.kuali.ole.deliver.util.OleItemRecordForCirc;
+import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.ItemOleml;
@@ -76,9 +73,9 @@ public class CircUtilController extends RuleExecutor {
                     String noticeType = iterator.next();
                     for (Iterator<NoticeDueDateProcessor> objectIterator = noticeProcessors.iterator(); objectIterator.hasNext(); ) {
                         NoticeDueDateProcessor noticeProcessor = objectIterator.next();
-                        if(noticeProcessor.isInterested(noticeType)){
+                        if (noticeProcessor.isInterested(noticeType)) {
                             List<OLEDeliverNotice> oleDeliverNotices = noticeProcessor.generateNotices(noticeInfo, currentLoanDocument);
-                            if(CollectionUtils.isNotEmpty(oleDeliverNotices)){
+                            if (CollectionUtils.isNotEmpty(oleDeliverNotices)) {
                                 deliverNotices.addAll(oleDeliverNotices);
                             }
                         }
@@ -94,16 +91,7 @@ public class CircUtilController extends RuleExecutor {
     }
 
     public ItemRecord getItemRecordByBarcode(String itemBarcode) {
-        ItemRecord itemRecord = null;
-        HashMap<String, String> criteriaMap = new HashMap<>();
-        criteriaMap.put("barCode", itemBarcode);
-        List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class,
-                criteriaMap);
-        if (null != itemRecords && !itemRecords.isEmpty()) {
-            itemRecord = itemRecords.get(0);
-        }
-
-        return itemRecord;
+        return ItemInfoUtil.getInstance().getItemRecordByBarcode(itemBarcode);
     }
 
     public String convertDateToString(Date date, String format) {
@@ -509,7 +497,7 @@ public class CircUtilController extends RuleExecutor {
         return noticeProcessors;
     }
 
-    public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate){
+    public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate) {
         String billPayment = null;
         ItemFineRate itemFineRate = loanDocument.getItemFineRate();
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
