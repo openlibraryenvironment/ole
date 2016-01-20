@@ -4260,7 +4260,9 @@
                     a portal used to locate bibliographic, holdings, e-holdings or item records in
                     OLE. From the workbench, you can take further actions on records. The Search
                     Workbench supports a variety of searches and both a title and a call number
-                    browse. </para>
+                    browse. It also supports cross-document searching, that is, matching field from
+                    one type of documents to fields from another document type (example: finding
+                    items whose bibliographic record has a particular ISBN).</para>
                 <para>Access Search Workbench by clicking on the <emphasis role="bold">search
                         workbench</emphasis> button. This button is located in the left corner of
                     the upper menu and is visible at all times in any module.</para>
@@ -4338,9 +4340,7 @@
                         <orderedlist>
                             <listitem>
                                 <para>First select a <emphasis role="bold">Document Type</emphasis>
-                                    from the drop down menu provided. The Document Type selection
-                                    drives the menu of available search fields in the <emphasis
-                                        role="bold">In Field</emphasis> menu.  Available <emphasis
+                                    from the drop down menu provided.  Available <emphasis
                                         role="bold">Document Types</emphasis> are:</para>
                                 <itemizedlist>
                                     <listitem>
@@ -4360,13 +4360,6 @@
                                             release)</para>
                                     </listitem>
                                 </itemizedlist>
-                                <note>
-                                    <para>Defaults for the document type's In Field and "As a
-                                        phrase" can be set for Bibliographic, E-Holdings, Holdings
-                                        and Item searches with the parameters BIB_SEARCHSCOPE_FIELD,
-                                        EHOLDINGS_SEARCHSCOPE_FIELD, HOLDINGS_SEARCHSCOPE_FIELD, and
-                                        ITEM_SEARCHSCOPE_FIELD</para>
-                                </note>
                                 <para/>
                                 <para>
                                     <screenshot>
@@ -4379,6 +4372,31 @@
                                         </mediaobject>
                                     </screenshot>
                                 </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">In Doc Type</emphasis> automatically
+                                    sets itself to the same type you chose on <emphasis role="bold"
+                                        >Document Type</emphasis>. If you need to search for
+                                    information that belongs to a different document type, select
+                                    one of the options in <emphasis role="bold">In Doc
+                                        Type</emphasis>. This will create a cross-document
+                                    search.</para>
+                                <para><emphasis role="bold">Example:</emphasis> you want to find
+                                    items, but the only information you have is an ISBN. Since ISBN
+                                    is a field that belongs to the bibliographic record, you are
+                                    searching across document types. Select “item” in <emphasis
+                                        role="bold">Document Type</emphasis>; introduce the ISBN on
+                                        <emphasis role="bold">Search For</emphasis>; and select
+                                    “bibliographic” on <emphasis role="bold">In Doc
+                                    Type</emphasis>.</para>
+                                <note>
+                                    <para>The <emphasis role="bold">In Doc Type</emphasis> selection
+                                        drives the menu of available search fields in the <emphasis
+                                            role="bold">In Field</emphasis> menu.  Unless you make a
+                                        different selection, <emphasis role="bold">In Doc
+                                            Type</emphasis> and <emphasis role="bold">Document Type
+                                        </emphasis>will have the same content.</para>
+                                </note>
                                 <para/>
                             </listitem>
                             <listitem>
@@ -4442,15 +4460,23 @@
                                     </screenshot>
                                 </para>
                                 <para/>
+                                <note>
+                                    <para>Defaults for the document type's <emphasis role="bold">In
+                                            Field</emphasis> and "As a phrase" can be set for
+                                        Bibliographic, E-Holdings, Holdings and Item searches with
+                                        the parameters BIB_SEARCHSCOPE_FIELD,
+                                        EHOLDINGS_SEARCHSCOPE_FIELD, HOLDINGS_SEARCHSCOPE_FIELD, and
+                                        ITEM_SEARCHSCOPE_FIELD</para>
+                                </note>
                             </listitem>
                             <listitem>
                                 <para>Using the <emphasis role="bold">In Field</emphasis> menu,
-                                    select a field to be searched from a drop-down list. This menu
-                                    is driven by the <emphasis role="bold">In Doc Type</emphasis>
-                                    that you selected for your search. Include all listed fields in
-                                    your search by leaving the <emphasis role="bold">In
-                                        Field</emphasis> box set to <emphasis role="bold"
-                                        >ANY</emphasis>.</para>
+                                    select a field to be searched from a drop-down list. As
+                                    mentioned above, this menu is driven by the <emphasis
+                                        role="bold">In Doc Type</emphasis> that you selected for
+                                    your search. Include all listed fields in your search by leaving
+                                    the <emphasis role="bold">In Field</emphasis> box set to
+                                        <emphasis role="bold">ANY</emphasis>.</para>
                                 <para/>
                                 <para>
                                     <screenshot>
@@ -4502,6 +4528,33 @@
                                     <listitem>
                                         <para>Adjust the Boolean operators as needed by clicking the
                                             radio buttons next to AND, OR, or NOT</para>
+                                        <note>
+                                            <para>Search Workbench currently allows users to
+                                                introduce several additional search conditions.
+                                                However, cross-document search is limited to two
+                                                document types. Example: if <emphasis role="bold"
+                                                  >Document Type</emphasis> equals “item” and
+                                                  <emphasis role="bold">In Doc Type</emphasis>
+                                                equals “bibliographic” any additional search
+                                                condition should be restricted to either “item” or
+                                                “bibliographic.”</para>
+                                            <para>The AND and OR operators are used to link two or
+                                                more search conditions while the NOT operator is
+                                                used to negate the current condition in which it
+                                                resides. </para>
+                                            <para>Example: [“food” in document type “Bibliographic”
+                                                in field “Title” AND </para>
+                                            <para>“dog food” in document type “Bibliographic” in
+                                                field “Title” NOT]… will search for “food” in Title
+                                                that doesn’t have “dog food” in Title.</para>
+                                            <para>In other words, if the conditions are A AND B NOT
+                                                then it essentially is A AND (NOT B)</para>
+                                            <para>For additional information about using Boolean
+                                                operators with the Search Workbench, see the <link
+                                                  xlink:href="https://docs.google.com/document/d/17-uSI2WLVVw8z6jHmDnDvuNg1969rNl9DB80T0-dZeg/edit#heading=h.58dblavn6fca"
+                                                  >Operators</link> section of the Search Workbench
+                                                Technical Document.</para>
+                                        </note>
                                         <para/>
                                         <para>
                                             <screenshot>
@@ -4589,8 +4642,8 @@
                                     results. There are no maximum record limits to constrain your
                                     searches.</para>
                                 <para>To display a single record in the search results for editing
-                                    from the above example, click in the blue title entry. To open
-                                    multiple records for editing, click <inlinemediaobject>
+                                    from the above example, click in the blue title entry. </para>
+                                <para>To open multiple records for editing, click <inlinemediaobject>
                                         <alt>Select All Records</alt>
                                         <imageobject>
                                             <imagedata
@@ -4692,7 +4745,7 @@
                     </section>
                     <section>
                         <title><anchor xml:id="_browsing"/>Browsing</title>
-                        <para>The search workbench supports browsing by title and by call number.
+                        <para>The Search Workbench supports browsing by title and by call number.
                             You can begin browsing by selecting <emphasis role="bold"
                                 >Browse</emphasis> in the “Select Records By:” drop-down
                             list.</para>
@@ -4761,7 +4814,7 @@
                             <para/>
                             <para>The information that appears in addition to the title is locally
                                 configurable and will vary from institution-to-institution. To edit
-                                the bibliographic record for a title in the above example, click on
+                                the bibliographic record for a title in the browse results, click on
                                 the title. </para>
                             <para>To open multiple records for editing, put a check in the box to
                                 the left of the titles for the records that you want to edit and
@@ -4854,7 +4907,7 @@
                                 selecting additional records for editing.</para>
                             <para>The information that appears in addition to the title is locally
                                 configurable and will vary from institution-to-institution. To edit
-                                the bibliographic record for a title in the example above, click on
+                                the bibliographic record for a title in the browse results, click on
                                 the title.</para>
                             <para>Clicking on the call number in the example above will open either
                                 a holdings record or an item record, depending on which one you
