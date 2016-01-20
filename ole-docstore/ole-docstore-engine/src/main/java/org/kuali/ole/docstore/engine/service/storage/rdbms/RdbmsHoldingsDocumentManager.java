@@ -113,8 +113,6 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         holdingsRecord.setAccessStatus(oleHoldings.getAccessStatus());
         if (oleHoldings.getLink() != null) {
-//            holdingsRecord.setLink(oleHoldings.getLink().getUrl() != null ? oleHoldings.getLink().getUrl() : "");
-//            holdingsRecord.setLinkText(oleHoldings.getLink().getText() != null ? oleHoldings.getLink().getText() : "");
             saveLink(oleHoldings.getLink(), holdingsRecord.getHoldingsId());
         }
         holdingsRecord.setImprint(oleHoldings.getImprint() != null ? oleHoldings.getImprint() : "");
@@ -178,18 +176,12 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         getBusinessObjectService().save(holdingsRecord);
         if (oleHoldings.getStatisticalSearchingCode() != null) {
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
-//            if(holdingsStatisticalSearchRecord !=null){
-//                holdingsRecord.setHoldingsStatisticalSearchId(holdingsStatisticalSearchRecord.getHoldingsStatisticalSearchId());
-//            }
         }
         if (oleHoldings.getExtentOfOwnership() != null) {
             saveEHoldingsExtentOfOwnerShip(oleHoldings.getExtentOfOwnership(), holdingsRecord.getHoldingsId());
         }
         if (oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAccessLocation() != null) {
             HoldingsAccessLocation holdingsAccessLocation = saveHoldingsAccessLocation(oleHoldings.getHoldingsAccessInformation().getAccessLocation(), holdingsRecord.getHoldingsId());
-//            if(holdingsAccessLocation != null) {
-//                holdingsRecord.setHoldingsAccessLocationId(holdingsAccessLocation.getHoldingsAccessLocationId());
-//            }
         }
         if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() >= 0) {
             saveDonorList(oleHoldings.getDonorInfo(), holdingsRecord.getHoldingsId());
