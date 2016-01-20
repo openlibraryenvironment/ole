@@ -61,46 +61,38 @@ public class CreateHoldingsHandler extends Handler {
         try {
             BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
-            HoldingsRecord holdingsRecord = new HoldingsRecord();
-            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-
-            JSONArray dataMappings = holdingJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
-            if(dataMappings.length() > 0) {
-                JSONObject dataMapping = (JSONObject) dataMappings.get(0);
-                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                    String key1 = (String) iterator3.next();
-                    for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                        HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
-                        if (holdingsMetaDataHandlelr1.isInterested(key1)) {
-                            holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                            holdingsMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
-                        }
-                    }
-                }
-            }
-
-            String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
-            Timestamp createdDate = getDateTimeStamp(createdDateString);
-            String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
-            holdingsRecord.setCreatedBy(createdBy);
-            holdingsRecord.setCreatedDate(createdDate);
-            holdingsRecord.setBibId(bibRecord.getBibId());
-
-            setHoldingType(holdingsRecord);
-
-            holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
-            holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
-
-            getHoldingDAO().save(holdingsRecord);
-
-            createItem(requestJsonObject, exchange,holdingsRecord);
 
             List createdHoldingsDocuments = (List) exchange.get(OleNGConstants.HOLDINGS_CREATED);
             if(null == createdHoldingsDocuments) {
                 createdHoldingsDocuments = new ArrayList();
             }
-            createdHoldingsDocuments.add(holdingsRecord);
+
+            JSONArray dataMappings = holdingJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+            if(dataMappings.length() > 0) {
+                for(int index = 0; index < dataMappings.length() ; index++) {
+                    HoldingsRecord holdingsRecord = new HoldingsRecord();
+                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                    JSONObject dataMapping = (JSONObject) dataMappings.get(index);
+                    Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                        String key1 = (String) iterator3.next();
+                        for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                            HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
+                            if (holdingsMetaDataHandlelr1.isInterested(key1)) {
+                                holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
+                                holdingsMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
+                            }
+                        }
+                    }
+                    setValueToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
+                    createdHoldingsDocuments.add(holdingsRecord);
+                }
+            } else {
+                HoldingsRecord holdingsRecord = new HoldingsRecord();
+                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                setValueToHoldingsRecord(requestJsonObject, exchange, bibRecord, holdingsRecord);
+                createdHoldingsDocuments.add(holdingsRecord);
+            }
 
             exchange.add(OleNGConstants.HOLDINGS_CREATED, createdHoldingsDocuments);
 
@@ -113,6 +105,24 @@ public class CreateHoldingsHandler extends Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setValueToHoldingsRecord(JSONObject requestJsonObject, Exchange exchange, BibRecord bibRecord, HoldingsRecord holdingsRecord) {
+        String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
+        Timestamp createdDate = getDateTimeStamp(createdDateString);
+        String createdBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
+        holdingsRecord.setCreatedBy(createdBy);
+        holdingsRecord.setCreatedDate(createdDate);
+        holdingsRecord.setBibId(bibRecord.getBibId());
+
+        setHoldingType(holdingsRecord);
+
+        holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
+        holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
+
+        getHoldingDAO().save(holdingsRecord);
+
+        createItem(requestJsonObject, exchange,holdingsRecord);
     }
 
     public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
