@@ -131,7 +131,9 @@ public class MarcRecordUtil {
                     for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                         Subfield subfield = subfieldIterator.next();
                         String data = subfield.getData();
-                        values.add(data);
+                        if (StringUtils.isNotBlank(data)) {
+                            values.add(data);
+                        }
                     }
             }
         }
