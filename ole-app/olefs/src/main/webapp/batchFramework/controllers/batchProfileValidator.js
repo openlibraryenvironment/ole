@@ -96,6 +96,11 @@ makeMatchPointValid = function($scope) {
     $scope.batchProfileForm['matchPointSubField_0'].$invalid = false;
 };
 
+makeFieldOperationValid = function($scope) {
+    $scope.batchProfileForm['fieldOperationDataField_0'].$dirty = false;
+    $scope.batchProfileForm['fieldOperationSubField_0'].$dirty = false;
+};
+
 makeDataMappingValid = function($scope) {
     $scope.batchProfileForm['dataMappingDataField_0'].$dirty = false;
     $scope.batchProfileForm['dataMappingDataField_0'].$invalid = false;
@@ -107,4 +112,10 @@ makeDataMappingValid = function($scope) {
     $scope.batchProfileForm['dataMappingField_0'].$invalid = false;
     $scope.batchProfileForm['dataMappingConstant_0'].$dirty = false;
     $scope.batchProfileForm['dataMappingConstant_0'].$invalid = false;
+};
+
+clearAllValidations = function($scope) {
+    makeMatchPointValid($scope);
+    makeFieldOperationValid($scope);
+    makeDataMappingValid($scope);
 };

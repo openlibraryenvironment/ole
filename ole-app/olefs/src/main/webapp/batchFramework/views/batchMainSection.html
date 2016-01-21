@@ -53,7 +53,7 @@
                             <select class="form-control" id="bibImportProfile" name="bibImportProfile"
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
-                                    style="width: 170px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                                    style="width: 170px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
                                 <option value=""></option>
                                 <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
                                         ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"

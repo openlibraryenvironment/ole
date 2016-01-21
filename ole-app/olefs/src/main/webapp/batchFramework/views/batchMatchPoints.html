@@ -37,7 +37,7 @@
                     <tr ng-repeat="matchPoint in matchPointsPanel">
                         <td ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
                             <select class="form-control" id="matchPointOrderDocumentType_{{$index}}" name="matchPointOrderDocumentType_{{$index}}"
-                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
+                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine" style="width: 100px;"
                                     ng-change="populateMatchPointTypes(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
                                         ng-repeat="option in matchPoint.matchPointOrderDocTypes" value="{{option.name}}">

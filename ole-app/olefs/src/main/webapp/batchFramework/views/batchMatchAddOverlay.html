@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <a bs-collapse-toggle href="#" ng-click="toggle(addOrOverlayPanel)">
+                <a bs-collapse-toggle href="#" ng-click="addOrOverlayPanel.collapsed = !addOrOverlayPanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !addOrOverlayPanel.collapsed, 'glyphicon-chevron-down': addOrOverlayPanel.collapsed}"></span>
                     Matching, Add and Overlay
