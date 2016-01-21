@@ -219,7 +219,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
                 BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
                 if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
-                    if(batchProfileAddOrOverlay.getAddOperation().equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE)) {
+                    String addOperation = batchProfileAddOrOverlay.getAddOperation();
+                    if(StringUtils.isNotBlank(addOperation) && addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE)) {
                         return batchProfileAddOrOverlay.getDataField();
                     }
                 }
