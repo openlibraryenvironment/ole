@@ -29,6 +29,7 @@
                         <th>Dest Ind1 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind1."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                         <th>Dest Ind2 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind2."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                         <th>Dest Subfield <a href="#" data-toggle="tooltip" uib-tooltip="Destination Subfield"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Multivalue</th>
                         <th>Value</th>
                         <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
@@ -151,6 +152,11 @@
                                    ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || matchPoint.matchPointDocType == 'Bib Marc') && !matchPoint.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destSubField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" type="checkbox" name="matchPointIsMultiValue_{{$index}}"
+                                   id="matchPointIsMultiValue_{{$index}}"
+                                   ng-model="matchPoint.isMultiValue">
                         </td>
                         <td>
                             <input class="form-control" id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"

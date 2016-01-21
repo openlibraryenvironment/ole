@@ -139,6 +139,7 @@
                                     id="addOrOverlayAddOperationMultiple_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOperation"
                                     ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == addOrOverlay.addOperation}}"
                                         ng-repeat="option in addOrOverlay.addOperationsWithMultiple" value="{{option.name}}">
                                     {{option.name}}
