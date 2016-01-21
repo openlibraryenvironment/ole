@@ -476,8 +476,6 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         buildLabelForHoldings(holdingsRecord, holdings);
         try {
             List<Audit> auditList= OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
-            System.out.println();
-            OleAuditManager.getInstance().audit(HoldingsAudit.class,oldHoldingsRecord,holdingsRecord,holdingsRecord.getHoldingsId(),"ole");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
