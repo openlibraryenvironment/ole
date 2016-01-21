@@ -179,19 +179,16 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
             //OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,modifiedItemRecord,itemRecord.getItemId(),"ole");
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
-
-            for (Iterator<Audit> iterator = itemAuditedFields.iterator(); iterator.hasNext(); ) {
-                Audit auditedField = iterator.next();
-                if(auditedField.getColumnUpdated().equalsIgnoreCase("barcode")){
-                    OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
-                    String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
-                    String url = olefsUrl + "/rest/oledsdata/item/update/barcode";
-                    JSONObject request = new JSONObject();
-                    request.put("oldBarcode", oldItemRecord.getBarCode());
-                    request.put("newBarcode", itemRecord.getBarCode());
-                    oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
-
-                }
+            String oldBarcode = oldItemRecord.getBarCode();
+            String newBarcode = itemRecord.getBarCode();
+            if(!(oldBarcode.equals(newBarcode))){
+                OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
+                String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+                String url = olefsUrl + "/rest/oledsdata/item/update/barcode";
+                JSONObject request = new JSONObject();
+                request.put("oldBarcode", oldBarcode);
+                request.put("newBarcode", newBarcode);
+                oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
