@@ -61,6 +61,7 @@
                                     ng-model="addOrOverlay.addOrOverlayField"
                                     ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine"
                                     ng-change="populateDestinationFieldValues(addOrOverlay, addOrOverlay.addOrOverlayDocType, addOrOverlay.addOrOverlayField)">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayField}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayFields" value="{{option.name}}">
                                     {{option.name}}
@@ -73,6 +74,7 @@
                                     id="addOrOverlayFieldOperation_{{$index}}" style="height: 30px; width: 100px;"
                                     ng-model="addOrOverlay.addOrOverlayFieldOperation"
                                     ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayFieldOperation}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayFieldOperations"
                                         value="{{option.name}}">
@@ -87,6 +89,7 @@
                                     id="addOrOverlayFieldValue_{{$index}}" style="height: 30px; width: 150px;"
                                     ng-model="addOrOverlay.addOrOverlayFieldValue"
                                     ng-show="addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
+                                <option value=""></option>
                                 <option ng-selected="{{option.value == addOrOverlay.addOrOverlayFieldValue}}"
                                         ng-repeat="option in constantValues | orderBy:'value'" value="{{option.value}}">
                                     {{option.value}}

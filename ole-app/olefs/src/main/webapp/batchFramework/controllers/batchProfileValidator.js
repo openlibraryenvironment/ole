@@ -89,19 +89,48 @@ validateFieldOperationRow = function (fieldOperationRow, $scope) {
     return error;
 };
 
-makeMatchPointValid = function($scope) {
+validateDataTransformationRow = function (dataTransformationRow, $scope) {
+    var error = false;
+    if (checkIfEmpty(dataTransformationRow.dataTransformationSourceField)) {
+        $scope.batchProfileForm['dataTransformationSourceField_0'].$dirty = true;
+        $scope.batchProfileForm['dataTransformationSourceField_0'].$invalid = true;
+        error = true;
+    }
+    if (checkIfEmpty(dataTransformationRow.dataTransformationOperation)) {
+        $scope.batchProfileForm['dataTransformationOperation_0'].$dirty = true;
+        $scope.batchProfileForm['dataTransformationOperation_0'].$invalid = true;
+        error = true;
+    }
+    if (checkIfEmpty(dataTransformationRow.dataTransformationDestinationField)) {
+        if (dataTransformationRow.dataTransformationOperation == 'Move' || dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix' || dataTransformationRow.dataTransformationOperation == 'Replace') {
+            $scope.batchProfileForm['dataTransformationDestinationField_0'].$dirty = true;
+            $scope.batchProfileForm['dataTransformationDestinationField_0'].$invalid = true;
+            error = true;
+        }
+    }
+    if (checkIfEmpty(dataTransformationRow.dataTransformationConstant)) {
+        if (dataTransformationRow.dataTransformationOperation == 'Delete Value' || dataTransformationRow.dataTransformationOperation == 'New' || dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix' || dataTransformationRow.dataTransformationOperation == 'Replace') {
+            $scope.batchProfileForm['dataTransformationConstant_0'].$dirty = true;
+            $scope.batchProfileForm['dataTransformationConstant_0'].$invalid = true;
+            error = true;
+        }
+    }
+    return error;
+};
+
+makeMatchPointValid = function ($scope) {
     $scope.batchProfileForm['matchPointDataField_0'].$dirty = false;
     $scope.batchProfileForm['matchPointDataField_0'].$invalid = false;
     $scope.batchProfileForm['matchPointSubField_0'].$dirty = false;
     $scope.batchProfileForm['matchPointSubField_0'].$invalid = false;
 };
 
-makeFieldOperationValid = function($scope) {
+makeFieldOperationValid = function ($scope) {
     $scope.batchProfileForm['fieldOperationDataField_0'].$dirty = false;
     $scope.batchProfileForm['fieldOperationSubField_0'].$dirty = false;
 };
 
-makeDataMappingValid = function($scope) {
+makeDataMappingValid = function ($scope) {
     $scope.batchProfileForm['dataMappingDataField_0'].$dirty = false;
     $scope.batchProfileForm['dataMappingDataField_0'].$invalid = false;
     $scope.batchProfileForm['dataMappingSubField_0'].$dirty = false;
@@ -114,8 +143,27 @@ makeDataMappingValid = function($scope) {
     $scope.batchProfileForm['dataMappingConstant_0'].$invalid = false;
 };
 
-clearAllValidations = function($scope) {
+makeDataTransformationValid = function ($scope) {
+    $scope.batchProfileForm['dataTransformationSourceField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationSourceField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationOperation_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationOperation_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationDestinationField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationDestinationField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationConstant_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationConstant_0'].$invalid = false;
+};
+
+clearAllValidations = function ($scope) {
     makeMatchPointValid($scope);
     makeFieldOperationValid($scope);
     makeDataMappingValid($scope);
+    makeDataTransformationValid($scope);
+};
+
+checkIfEmpty = function (field) {
+    if (field == undefined || field == null || field == '') {
+        return true;
+    }
+    return false;
 };
