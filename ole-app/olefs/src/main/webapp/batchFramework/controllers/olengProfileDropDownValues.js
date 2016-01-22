@@ -492,6 +492,7 @@ var addOperations = [
 ];
 
 var addOperationsWithMultiple = [
+    {id: 'createMultiple', name: 'Create multiple'},
     {id: 'createMultipleAndDeleteAllExisting', name: 'Create multiple and Delete all existing and add'},
     {id: 'createMultipleAndKeepAllExisting', name: 'Create multiple and Keep all existing and add'},
     {id: 'deleteAll', name: 'Delete all existing and add'},

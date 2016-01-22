@@ -108,6 +108,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
         $scope.matchPointsPanel[0].destInd1 = null;
         $scope.matchPointsPanel[0].destInd2 = null;
         $scope.matchPointsPanel[0].destSubField = null;
+        $scope.matchPointsPanel[0].isMultiValue = false;
         $scope.matchPointsPanel[0].constant = null;
     };
 
@@ -130,6 +131,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
                 destInd1: $scope.matchPointsPanel[index].destInd1,
                 destInd2: $scope.matchPointsPanel[index].destInd2,
                 destSubField: $scope.matchPointsPanel[index].destSubField,
+                isMultiValue: $scope.matchPointsPanel[index].isMultiValue,
                 constant: $scope.matchPointsPanel[index].constant,
                 isAddLine: true
             };
@@ -171,6 +173,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
             destInd1: $scope.matchPointsPanel[index].destInd1,
             destInd2: $scope.matchPointsPanel[index].destInd2,
             destSubField: $scope.matchPointsPanel[index].destSubField,
+            isMultiValue: $scope.matchPointsPanel[index].isMultiValue,
             constant: $scope.matchPointsPanel[index].constant,
             isAddLine: true
         };
@@ -519,6 +522,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
         matchPoint.destInd1 = null;
         matchPoint.destInd2 = null;
         matchPoint.destSubField = null;
+        matchPoint.isMultiValue = false;
 
         if(matchPoint.matchPointDocType == 'Holdings') {
             matchPoint.matchPointTypes = matchPointObject.matchPointTypeForHoldings;
@@ -547,6 +551,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
             destInd1: $scope.matchPointsPanel[index].destInd1,
             destInd2: $scope.matchPointsPanel[index].destInd2,
             destSubField: $scope.matchPointsPanel[index].destSubField,
+            isMultiValue: $scope.matchPointsPanel[index].isMultiValue,
             constant: $scope.matchPointsPanel[index].constant,
             isAddLine: true,
             isEdit: false
