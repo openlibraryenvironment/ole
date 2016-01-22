@@ -137,8 +137,18 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
     private OleDeliverRequestBo processDefaultRequestTypeAndPickupLocation(OleDeliverRequestBo oleDeliverRequestBo){
         Map<String,String> criteriaMap = new HashMap<String,String>();
         List<OleCirculationDesk> oleCirculationDesks = null;
-        List<OleCirculationDeskDetail> oleCirculationDeskDetailList = null;
+        OleCirculationDeskDetail oleCirculationDeskDetail = null;
         String pickUpLocationCode =getLoanProcessor().getParameter(OLEConstants.DEFAULT_PICK_UP_LOCATION);
+        String requestType = getLoanProcessor().getParameter(OLEConstants.DEFAULT_REQUEST_TYPE);
+        if(StringUtils.isEmpty(pickUpLocationCode) || StringUtils.isEmpty(requestType)){
+        criteriaMap = new HashMap<String,String>();
+        criteriaMap.put("operatorId",oleDeliverRequestBo.getOperatorCreateId());
+        criteriaMap.put("defaultLocation","Y");
+            List<OleCirculationDeskDetail> oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>)getBusinessObjectService().findMatching(OleCirculationDeskDetail.class,criteriaMap);
+            if(oleCirculationDeskDetailList.size()>0){
+                oleCirculationDeskDetail = oleCirculationDeskDetailList.get(0);
+            }
+        }
         if(StringUtils.isNotEmpty(pickUpLocationCode)){
             criteriaMap = new HashMap<>();
             criteriaMap.put(OLEConstants.PICKUP_LOCATION, "true");
@@ -149,23 +159,11 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
                 oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDesks.get(0).getCirculationDeskCode());
                 oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesks.get(0));
             }
-        }else{
-        criteriaMap = new HashMap<String,String>();
-        criteriaMap.put("operatorId",oleDeliverRequestBo.getOperatorCreateId());
-        criteriaMap.put("defaultLocation","Y");
-            oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>)getBusinessObjectService().findMatching(OleCirculationDeskDetail.class,criteriaMap);
-        if(oleCirculationDeskDetailList.size()>0){
-            if(oleCirculationDeskDetailList.get(0).getOleCirculationDesk()!=null && oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation()!=null){
-                oleDeliverRequestBo.setPickUpLocationId(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskId());
-                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskCode());
-                oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskDetailList.get(0).getOleCirculationDesk());
-                oleDeliverRequestBo.setRequestTypeId(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType().getRequestTypeId());
-                oleDeliverRequestBo.setRequestTypeCode(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType().getRequestTypeCode());
-                oleDeliverRequestBo.setOleDeliverRequestType(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType());
+        }else if(oleCirculationDeskDetail!=null && oleCirculationDeskDetail.getOleCirculationDesk()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation()!=null){
+                oleDeliverRequestBo.setPickUpLocationId(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskId());
+                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskCode());
+                           oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskDetail.getOleCirculationDesk());
             }
-        }
-      }
-        String requestType = getLoanProcessor().getParameter(OLEConstants.DEFAULT_REQUEST_TYPE);
         if(StringUtils.isNotEmpty(requestType)){
             criteriaMap = new HashMap<>();
             criteriaMap.put("requestTypeCode", requestType);
@@ -175,10 +173,11 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
                 oleDeliverRequestBo.setRequestTypeCode(oleDeliverRequestTypes.get(0).getRequestTypeCode());
                 oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypes.get(0));
             }
-        }else if(StringUtils.isNotEmpty(pickUpLocationCode)){
-            oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType().getRequestTypeId());
-            oleDeliverRequestBo.setRequestTypeCode(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType().getRequestTypeCode());
-            oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType());
+        }else if(oleCirculationDeskDetail!=null && oleCirculationDeskDetail.getOleCirculationDesk()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType()!=null){
+            oleDeliverRequestBo.setRequestTypeId(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType().getRequestTypeId());
+            oleDeliverRequestBo.setRequestTypeCode(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType().getRequestTypeCode());
+            oleDeliverRequestBo.setOleDeliverRequestType(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType());
+
         }
         return oleDeliverRequestBo;
     }
