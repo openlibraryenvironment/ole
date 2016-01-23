@@ -33,7 +33,7 @@ public class DonorNoteHandler extends ItemHandler {
             for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
                     break;
                 }
             }
@@ -63,6 +63,7 @@ public class DonorNoteHandler extends ItemHandler {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorNote(donorNote);
                     oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                    donorList.add(oleItemDonorRecord);
                 }
                 itemRecord.setDonorList(donorList);
             }

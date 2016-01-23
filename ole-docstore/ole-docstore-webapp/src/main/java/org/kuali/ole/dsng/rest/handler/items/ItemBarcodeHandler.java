@@ -27,7 +27,7 @@ public class ItemBarcodeHandler extends ItemHandler {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String itemBarcode = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getBarCode(), itemBarcode)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 
@@ -39,7 +39,6 @@ public class ItemBarcodeHandler extends ItemHandler {
             String itemBarcode = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
             itemRecord.setBarCode(itemBarcode);
-            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
     }
 }

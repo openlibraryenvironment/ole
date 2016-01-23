@@ -33,7 +33,7 @@ public class DonorPublicDisplayHandler extends ItemHandler {
             for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 if(StringUtils.equals(oleItemDonorRecord.getDonorPublicDisplay(),donorPublicDisplay)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
                     break;
                 }
             }

@@ -179,7 +179,20 @@ public class MatchPointProcessor extends BatchUtil {
             } else {
                 String subField = batchProfileMatchPoint.getSubField();
                 if (StringUtils.isNotBlank(subField)) {
-                    value = getMarcRecordUtil().getDataFieldValue(marcRecord,dataField,"$" + subField);
+                    if (batchProfileMatchPoint.isMultiValue()) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        List<String> multiDataFieldValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, batchProfileMatchPoint.getInd1(), batchProfileMatchPoint.getInd2(), subField);
+                        for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
+                            String next = iterator.next();
+                            stringBuilder.append(next);
+                            if(iterator.hasNext()){
+                                stringBuilder.append(",");
+                            }
+                        }
+                        value = stringBuilder.toString();
+                    }else {
+                        value = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, batchProfileMatchPoint.getInd1(), batchProfileMatchPoint.getInd2(), subField);
+                    }
                 }
             }
         }

@@ -22,7 +22,7 @@ public class CreateBibHandler extends BibHandler {
         List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
-            if(op.equals("111") || op.equals("211")){
+            if (op.equals("111") || op.equals("211")) {
                 return true;
             }
         }
@@ -31,40 +31,37 @@ public class CreateBibHandler extends BibHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        if (!requestJsonObject.has(OleNGConstants.ID)) {
-            try {
-                String newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
-                String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-                String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
+        String newBibContent = null;
+        try {
+            newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+            String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+            String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
-                BibRecord bibRecord = new BibRecord();
-                bibRecord.setContent(newBibContent);
-                bibRecord.setCreatedBy(createdBy);
-                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
+            BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
 
-                Timestamp createdDate = getDateTimeStamp(createdDateString);
+            bibRecord.setContent(newBibContent);
+            bibRecord.setCreatedBy(createdBy);
+            bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                bibRecord.setDateCreated(createdDate);
-                BibRecord createdBibRecord = getBibDAO().save(bibRecord);
+            Timestamp createdDate = getDateTimeStamp(createdDateString);
 
-                String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
-                bibRecord.setContent(modifiedcontent);
+            bibRecord.setDateCreated(createdDate);
+            BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
-                exchange.add(OleNGConstants.BIB, bibRecord);
+            String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
+            bibRecord.setContent(modifiedcontent);
 
-                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+            setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
-                createdBibRecord = getBibDAO().save(bibRecord);
+            getBibDAO().save(bibRecord);
 
-                exchange.add(OleNGConstants.BIB, createdBibRecord);
+//            exchange.add(OleNGConstants.BIB, createdBibRecord);
 
-                createHoldings(requestJsonObject, exchange);
+//                createHoldings(requestJsonObject, exchange);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
     }
 
     private void createHoldings(JSONObject requestJsonObject, Exchange exchange) {
@@ -72,6 +69,6 @@ public class CreateBibHandler extends BibHandler {
         createHoldingsProcessor.setHoldingDAO(getHoldingDAO());
         createHoldingsProcessor.setItemDAO(getItemDAO());
         createHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
-        createHoldingsProcessor.processHoldings(requestJsonObject,exchange);
+        createHoldingsProcessor.processHoldings(requestJsonObject, exchange);
     }
 }

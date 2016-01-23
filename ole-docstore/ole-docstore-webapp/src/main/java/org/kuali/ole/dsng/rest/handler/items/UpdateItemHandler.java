@@ -40,64 +40,21 @@ public class UpdateItemHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        List<ItemRecord> itemRecordsToUpdate = new ArrayList<ItemRecord>();
+        List<ItemRecord> itemRecords = (List<ItemRecord>) exchange.get(OleNGConstants.ITEM);
         try {
-            String ops = requestJsonObject.getString(OleNGConstants.OPS);
+
             String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
             String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
+            JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
 
-            List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
-            if(CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
-                for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsRecordsToUpdate.iterator(); holdingsRecordIterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
-                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
-                    boolean isItemMatched = false;
-                    if (CollectionUtils.isNotEmpty(itemRecords)) {
-                        for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                            JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
-                            ItemRecord itemRecord = iterator.next();
-                            if (itemJsonObject.has(OleNGConstants.MATCH_POINT)) {
-                                JSONObject matchPoints = itemJsonObject.getJSONObject(OleNGConstants.MATCH_POINT);
-                                HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                                });
-
-
-                                exchange.add(OleNGConstants.ITEM_RECORD,itemRecord);
-
-                                matchPointsLoop:
-                                for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
-                                    String key = (String) iterator1.next();
-                                    for (Iterator<ItemHandler> iterator2 = getItemMetaDataHandlers().iterator(); iterator2.hasNext(); ) {
-                                        Handler itemMetaDataHandlelr = iterator2.next();
-                                        if (itemMetaDataHandlelr.isInterested(key)) {
-                                            itemMetaDataHandlelr.process(matchPoints, exchange);
-                                            if (null != exchange.get(OleNGConstants.MATCHED_ITEM)) {
-                                                isItemMatched = true;
-                                                itemRecord.setUpdatedBy(updatedBy);
-                                                itemRecord.setUpdatedDate(updatedDate);
-                                                ItemRecord record = processOverlay(exchange, itemJsonObject, itemRecord);
-                                                itemRecordsToUpdate.add(record);
-                                                break matchPointsLoop;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        getItemDAO().saveAll(itemRecordsToUpdate);
-                        List itemsToUpdate = (List) exchange.get(OleNGConstants.ITEMS_UPDATED);
-                        if(null == itemsToUpdate) {
-                            itemsToUpdate = new ArrayList();
-                        }
-                        itemsToUpdate.addAll(itemRecordsToUpdate);
-
-                        exchange.add(OleNGConstants.ITEMS_UPDATED,itemsToUpdate);
-                    }
-                    if(!isItemMatched) {
-                        createItem(requestJsonObject, exchange, ops, holdingsRecord);
-                    }
-                }
+            for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                ItemRecord itemRecord = iterator.next();
+                itemRecord.setUpdatedBy(updatedBy);
+                itemRecord.setUpdatedDate(updatedDate);
+                exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                processOverlay(exchange, itemJsonObject, itemRecord);
+                exchange.remove(OleNGConstants.ITEM_RECORD);
             }
 
         } catch (JSONException e) {
@@ -109,7 +66,11 @@ public class UpdateItemHandler extends Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        getItemDAO().saveAll(itemRecords);
     }
+
+
 
     private void createItem(JSONObject requestJsonObject, Exchange exchange, String ops, HoldingsRecord holdingsRecord) {
         CreateItemHandler createItemHandler = new CreateItemHandler();
@@ -128,20 +89,19 @@ public class UpdateItemHandler extends Handler {
         if(dataMappings.length() > 0) {
             JSONObject dataMapping = (JSONObject) dataMappings.get(0);
             Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-            for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                String key1 = (String) iterator3.next();
-                for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                    ItemHandler itemMetaDataHandlelr1 = iterator4.next();
-                    if (itemMetaDataHandlelr1.isInterested(key1)) {
-                        itemMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                        itemMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
+            for (Iterator dataMappingsIterator = dataMappingsMap.keySet().iterator(); dataMappingsIterator.hasNext(); ) {
+                String key1 = (String) dataMappingsIterator.next();
+                for (Iterator<ItemHandler> itemMetaDataHandlerIterator = getItemMetaDataHandlers().iterator(); itemMetaDataHandlerIterator.hasNext(); ) {
+                    ItemHandler itemMetaDataHandlelr = itemMetaDataHandlerIterator.next();
+                    if (itemMetaDataHandlelr.isInterested(key1)) {
+                        itemMetaDataHandlelr.setBusinessObjectService(getBusinessObjectService());
+                        itemMetaDataHandlelr.processDataMappings(dataMapping, exchange);
                     }
                 }
             }
         }
 
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-        exchange.remove(OleNGConstants.MATCHED_ITEM);
         return itemRecord;
     }
 

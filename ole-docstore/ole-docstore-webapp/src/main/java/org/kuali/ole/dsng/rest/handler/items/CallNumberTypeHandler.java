@@ -30,7 +30,7 @@ public class CallNumberTypeHandler extends ItemHandler {
         String callNumberType = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (null != itemRecord.getCallNumberTypeRecord() &&
                 StringUtils.equals(itemRecord.getCallNumberTypeRecord().getCallNumberTypeId(),callNumberType)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 
@@ -46,7 +46,6 @@ public class CallNumberTypeHandler extends ItemHandler {
                 itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
             }
-            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
     }
 }

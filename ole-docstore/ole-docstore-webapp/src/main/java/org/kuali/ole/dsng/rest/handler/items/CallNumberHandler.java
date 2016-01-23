@@ -27,7 +27,7 @@ public class CallNumberHandler extends ItemHandler {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getCallNumber(), callNumber)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 
@@ -39,7 +39,6 @@ public class CallNumberHandler extends ItemHandler {
             String callNumberValue = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
             itemRecord.setCallNumber(callNumberValue);
-            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
     }
 }

@@ -53,7 +53,7 @@ public class ItemLocationHandler extends ItemHandler {
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(value)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
                     break;
                 }
             }

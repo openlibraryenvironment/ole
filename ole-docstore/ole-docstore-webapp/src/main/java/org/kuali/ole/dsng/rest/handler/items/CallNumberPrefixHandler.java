@@ -27,7 +27,7 @@ public class CallNumberPrefixHandler extends ItemHandler {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getCallNumberPrefix(), callNumberPrefix)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 

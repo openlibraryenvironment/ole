@@ -53,50 +53,22 @@ public class UpdateHoldingsHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        List<HoldingsRecord> holdingsRecordsToUpdate = new ArrayList<HoldingsRecord>();
-
+        List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS);
         try {
-            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS);
+
             String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
             String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
 
-            if (holdingJsonObject.has(OleNGConstants.MATCH_POINT)) {
-                JSONObject matchPoints = holdingJsonObject.getJSONObject(OleNGConstants.MATCH_POINT);
-                HashMap map = new ObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                });
-
-                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                matchPointsLoop:
-                for (Iterator iterator1 = map.keySet().iterator(); iterator1.hasNext(); ) {
-                    String key = (String) iterator1.next();
-                    for (Iterator<HoldingsHandler> iterator2 = getHoldingMetaDataHandlers().iterator(); iterator2.hasNext(); ) {
-                        Handler holdingsMetaDataHandlelr = iterator2.next();
-                        if (holdingsMetaDataHandlelr.isInterested(key)) {
-                            holdingsMetaDataHandlelr.process(matchPoints, exchange);
-                            if (null != exchange.get(OleNGConstants.MATCHED_HOLDINGS)) {
-                                holdingsRecord.setUpdatedDate(updatedDate);
-                                holdingsRecord.setUpdatedBy(updatedBy);
-                                setMatchFound(exchange);
-
-                                HoldingsRecord processedHoldings = processOverlay(exchange, holdingsRecord, holdingJsonObject);
-                                holdingsRecordsToUpdate.add(processedHoldings);
-                                break matchPointsLoop;
-                            }
-                        }
-                    }
-                }
+            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                holdingsRecord.setUpdatedDate(updatedDate);
+                holdingsRecord.setUpdatedBy(updatedBy);
+                setMatchFound(exchange);
+                processOverlay(exchange, holdingsRecord, holdingJsonObject);
             }
-
-            List holdingRecordsToUpdate = (List) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
-            if(null == holdingRecordsToUpdate) {
-                holdingRecordsToUpdate = new ArrayList();
-            }
-            holdingRecordsToUpdate.addAll(holdingsRecordsToUpdate);
-
-            exchange.add(OleNGConstants.HOLDINGS_UPDATED,holdingRecordsToUpdate);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -107,6 +79,8 @@ public class UpdateHoldingsHandler extends Handler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        getHoldingDAO().saveAll(holdingsRecords);
     }
 
     public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {

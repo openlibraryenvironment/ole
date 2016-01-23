@@ -368,13 +368,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
                     marcValues.add(marcValue);
                 } else {
-                    String ind1 = (batchProfileDataMapping.getInd1() != null ? String.valueOf(batchProfileDataMapping.getInd1().charAt(0)) : " ");
-                    String ind2 = (batchProfileDataMapping.getInd2() != null ? String.valueOf(batchProfileDataMapping.getInd2().charAt(0)) : " ");
                     String subField = batchProfileDataMapping.getSubField();
                     if (multiValue) {
-                        marcValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, ind1, ind2, subField);
+                        marcValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
                     } else {
-                        marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, ind1, ind2, subField);
+                        marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
                         if (StringUtils.isNotBlank(marcValue)) {
                             marcValues.add(marcValue);
                         }

@@ -30,7 +30,7 @@ public class ItemTypeHandler extends ItemHandler {
         String itemTypeName = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (null != itemRecord.getItemTypeRecord() &&
                 StringUtils.equals(itemRecord.getItemTypeRecord().getName(),itemTypeName)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 

@@ -27,7 +27,7 @@ public class CopyNumberHandler extends ItemHandler {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getCopyNumber(), copyNumber)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
         }
     }
 

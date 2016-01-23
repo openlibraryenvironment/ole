@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
+import org.apache.commons.beanutils.converters.BooleanArrayConverter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
@@ -38,7 +39,7 @@ public class CallNumberPrefixHandler extends HoldingsHandler {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if(StringUtils.equals(holdingRecord.getCallNumberPrefix(),callNumberPrefix)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+            exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
         }
     }
 }

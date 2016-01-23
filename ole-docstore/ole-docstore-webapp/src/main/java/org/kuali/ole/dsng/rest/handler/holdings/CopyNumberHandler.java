@@ -28,7 +28,7 @@ public class CopyNumberHandler extends HoldingsHandler {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(holdingsRecord.getCopyNumber(),copyNumber)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+            exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
         }
     }
 

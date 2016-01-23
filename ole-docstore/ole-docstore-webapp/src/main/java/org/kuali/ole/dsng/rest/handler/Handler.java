@@ -2,12 +2,17 @@ package org.kuali.ole.dsng.rest.handler;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.dsng.rest.handler.items.ItemHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -15,9 +20,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 12/23/15.
@@ -36,6 +39,8 @@ public abstract class Handler extends OleDsHelperUtil {
     public final static String HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
     public final static String HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
 
+
+    protected List<Handler> metaDataHandlers;
 
     BibDAO bibDAO;
 
@@ -95,5 +100,28 @@ public abstract class Handler extends OleDsHelperUtil {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+
+    public void processDataMappings(JSONObject jsonObject, Exchange exchange) throws JSONException, IOException {
+        JSONArray dataMappings = jsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+        JSONObject dataMapping = (JSONObject) dataMappings.get(0);
+        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {
+        });
+
+        for (Iterator dataMappingsIterator = dataMappingsMap.keySet().iterator(); dataMappingsIterator.hasNext(); ) {
+            String key1 = (String) dataMappingsIterator.next();
+            for (Iterator<Handler> itemMetatDataHandlerIterator = getMetaDataHandlers().iterator(); itemMetatDataHandlerIterator.hasNext(); ) {
+                Handler handler = itemMetatDataHandlerIterator.next();
+                if (handler.isInterested(key1)) {
+                    handler.setBusinessObjectService(getBusinessObjectService());
+                    handler.processDataMappings(dataMapping, exchange);
+                }
+            }
+        }
+    }
+
+    public List<Handler> getMetaDataHandlers() {
+        return new ArrayList<Handler>();
     }
 }

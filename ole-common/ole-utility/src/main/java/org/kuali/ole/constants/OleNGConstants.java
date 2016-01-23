@@ -4,7 +4,7 @@ package org.kuali.ole.constants;
  * Created by SheikS on 1/6/2016.
  */
 public class OleNGConstants {
-
+    
     public static final class BatchProcess {
         public static final String ACCOUNT_NUMBER = "Account Number";
         public static final String VENDOR_INFO_CUSOTMER_NUMBER = "Acquisition Unit\'s Vendor account / Vendor Info Customer #";

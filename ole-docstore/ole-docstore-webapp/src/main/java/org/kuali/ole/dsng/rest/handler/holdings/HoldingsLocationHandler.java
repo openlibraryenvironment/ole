@@ -51,7 +51,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(value)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
                     break;
                 }
             }

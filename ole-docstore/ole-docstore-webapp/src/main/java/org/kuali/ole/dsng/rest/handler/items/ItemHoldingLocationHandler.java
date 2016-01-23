@@ -56,7 +56,7 @@ public class ItemHoldingLocationHandler extends ItemHandler {
                     map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
                 if (map.get(matchPointLevelId).equals(value)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
                     break;
                 }
             }

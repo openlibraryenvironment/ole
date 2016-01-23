@@ -100,7 +100,6 @@ public class MarcRecordUtil {
     *   field : 050
     *   tags  : ind1|ind2|$a$b*/
     public String getDataFieldValueWithIndicators(Record marcRecord, String field, String ind1, String ind2, String subField) {
-
         StringBuilder stringBuilder = new StringBuilder();
 
         List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, field, ind1, ind2, subField);
@@ -121,12 +120,13 @@ public class MarcRecordUtil {
     *   tags  : ind1|ind2|$a$b*/
     public List<String> getMultiDataFieldValues(Record marcRecord, String field, String ind1, String ind2, String subField) {
         List<String> values = new ArrayList<>();
-
+        String indicator1 = (ind1 != null ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (ind2 != null ? String.valueOf(ind2.charAt(0)) : " ");
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
 
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            if (dataField.getIndicator1() == ind1.charAt(0) && dataField.getIndicator2() == ind2.charAt(0)) {
+            if (doIndicatorsMatch(indicator1, indicator2, dataField)) {
                     List <Subfield> subFields = dataField.getSubfields(subField);
                     for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                         Subfield subfield = subfieldIterator.next();
@@ -138,6 +138,16 @@ public class MarcRecordUtil {
             }
         }
         return values;
+    }
+
+    private boolean doIndicatorsMatch(String indicator1, String indicator2, DataField dataField) {
+        boolean result = true;
+        if(StringUtils.isNotBlank(indicator1)){
+            result = dataField.getIndicator1() == indicator1.charAt(0);
+        } else if (StringUtils.isNotBlank(indicator2)){
+            result&= dataField.getIndicator2() == indicator2.charAt(0);
+        }
+        return result;
     }
 
 

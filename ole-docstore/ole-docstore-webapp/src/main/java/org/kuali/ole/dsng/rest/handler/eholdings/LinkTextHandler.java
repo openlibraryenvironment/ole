@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -29,17 +30,34 @@ public class LinkTextHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String linkText = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsUriRecord> holdingsUriRecords = holdingRecord.getHoldingsUriRecords();
-        if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
-            for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsUriRecord holdingsUriRecord = iterator.next();
-                if(StringUtils.equals(holdingsUriRecord.getText(),linkText)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
+        List<HoldingsRecord> holdingsRecordsToBeUpdated = new ArrayList<HoldingsRecord>();
+
+        List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
+
+        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = iterator.next();
+            String linkText = getStringValueFromJsonObject(requestJsonObject, TYPE);
+            List<String> parsedValues = parseCommaSeperatedValues(linkText);
+            List<HoldingsUriRecord> holdingsUriRecords = holdingsRecord.getHoldingsUriRecords();
+            for (Iterator<String> iterator1 = parsedValues.iterator(); iterator1.hasNext(); ) {
+                String linkTextValue = iterator1.next();
+                if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
+                    for (Iterator<HoldingsUriRecord> iterator2 = holdingsUriRecords.iterator(); iterator2.hasNext(); ) {
+                        HoldingsUriRecord holdingsUriRecord = iterator2.next();
+                        if(StringUtils.equals(holdingsUriRecord.getText(),linkTextValue)) {
+                            if(!holdingsRecordsToBeUpdated.contains(holdingsRecord)){
+                                holdingsRecordsToBeUpdated.add(holdingsRecord);
+                            } else {
+                                holdingsRecordsToBeUpdated.remove(holdingsRecord);
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecordsToBeUpdated);
     }
 
     @Override

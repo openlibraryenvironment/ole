@@ -30,7 +30,7 @@ public class CallNumberTypeHandler extends HoldingsHandler {
         String callNumberTypeCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if ((null != holdingsRecord.getCallNumberTypeRecord() &&
                 StringUtils.equals(holdingsRecord.getCallNumberTypeRecord().getCode(),callNumberTypeCode))) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+            exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
         }
     }
 
