@@ -79,6 +79,7 @@ public class OleNGConstants {
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String ACTION_OPS = "actionOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
     public static final String HOLDINGS_DATAMAPPINGS = "holdingsDataMappings";
     public static final String EHOLDINGS_DATAMAPPINGS = "eHoldingsDataMappings";
@@ -99,12 +100,15 @@ public class OleNGConstants {
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
     public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple and Delete all existing and add";
     public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple and Keep all existing and add";
+    public static final String DELETE_ALL_EXISTING_AND_ADD = "Delete all existing and add";
+    public static final String KEEP_ALL_EXISTING_AND_ADD = "Keep all existing and add";
     public static final String CREATE_MULTIPLE = "Create multiple";
     public static final String MATCH_POINT = "matchPoints";
     public static final String ONE = "1";
     public static final String TWO = "2";
     public static final String THREE = "3";
     public static final String FOUR = "4";
+    public static final String FIVE = "5";
     public static final String MDF_ = "mdf_";
     public static final String CONTROL_FIELD_ = "controlfield_";
     public static final String BIB_QUERY_BEGIN = "((DocType:bibliographic) AND (";
@@ -133,6 +137,7 @@ public class OleNGConstants {
     public static final String SUBFIELD = "subField";
     public static final String IGNORE_GPF = "ignoreGPF";
     public static final String IS_ADDLINE = "isAddLine";
+    public static final String DOC_TYPE = "docType";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";

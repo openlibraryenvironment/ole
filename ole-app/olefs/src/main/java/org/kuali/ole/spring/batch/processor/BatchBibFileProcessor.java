@@ -74,6 +74,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private String getOperationInd(String operation) {
         return getOperationIndMap().get(operation);
     }
+    private String getAddOperationInd(String operation) {
+        return getAddOperationIndMap().get(operation);
+    }
 
     private String getMatchOptionInd(String matchOption) {
         return getMatchOptionIndMap().get(matchOption);
@@ -108,6 +111,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
         bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
+        bibData.put(OleNGConstants.ACTION_OPS, getActionOps(batchProcessProfile));
 
         // Prepare data mapping before MARC Transformation
         Map<String, List<JSONObject>> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, OleNGConstants.PRE_MARC_TRANSFORMATION);
@@ -245,6 +249,31 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             addOverlayOps.add(matchOptionInd + dataTypeInd + operationInd);
         }
         return addOverlayOps;
+    }
+
+    public List getActionOps(BatchProcessProfile batchProcessProfile) {
+        List actionOps = new ArrayList();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String addOperation = batchProfileAddOrOverlay.getAddOperation();
+
+            String operationInd = getAddOperationInd(addOperation);
+            try {
+                JSONObject action = new JSONObject();
+                action.put(OleNGConstants.ACTION,operationInd);
+                action.put(OleNGConstants.DOC_TYPE,batchProfileAddOrOverlay.getDataType());
+                action.put(OleNGConstants.DATA_FIELD,batchProfileAddOrOverlay.getDataField());
+                action.put(OleNGConstants.IND1,batchProfileAddOrOverlay.getInd1());
+                action.put(OleNGConstants.IND2,batchProfileAddOrOverlay.getInd2());
+                action.put(OleNGConstants.SUBFIELD,batchProfileAddOrOverlay.getSubField());
+                actionOps.add(action);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return actionOps;
     }
 
     /**
@@ -441,6 +470,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             operationIndMap.put(OleNGConstants.ADD, OleNGConstants.ONE);
             operationIndMap.put(OleNGConstants.OVERLAY, OleNGConstants.TWO);
             operationIndMap.put(OleNGConstants.DISCARD, OleNGConstants.THREE);
+        }
+        return operationIndMap;
+    }
+
+    public Map<String, String> getAddOperationIndMap() {
+        if (null == operationIndMap) {
+            operationIndMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
+            operationIndMap.put(OleNGConstants.CREATE_MULTIPLE, OleNGConstants.ONE);
+            operationIndMap.put(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING, OleNGConstants.TWO);
+            operationIndMap.put(OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING, OleNGConstants.THREE);
+            operationIndMap.put(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD, OleNGConstants.FOUR);
+            operationIndMap.put(OleNGConstants.KEEP_ALL_EXISTING_AND_ADD, OleNGConstants.FIVE);
+
         }
         return operationIndMap;
     }
