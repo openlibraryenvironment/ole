@@ -4708,6 +4708,19 @@
                                     records displayed on a single screen via a drop-down list. Note
                                     that you can see the total number of records in the search
                                     results just below the list.</para>
+                                <para>Sort the search results by clicking on the column
+                                    header.</para>
+                                <para>
+                                    <screenshot>
+                                        <mediaobject>
+                                            <alt>Sortable column headers within the Search Workbench </alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-268.png"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </screenshot>
+                                </para>
                                 <para>At the bottom of the list on the right, you can click on
                                         <emphasis role="bold">Next</emphasis> to go to forward one
                                     screen of results or <emphasis role="bold">Previous</emphasis>
