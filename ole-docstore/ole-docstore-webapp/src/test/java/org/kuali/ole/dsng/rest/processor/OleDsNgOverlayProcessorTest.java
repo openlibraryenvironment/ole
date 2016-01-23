@@ -31,6 +31,8 @@ public class OleDsNgOverlayProcessorTest extends DocstoreTestCaseBase {
 
     private JSONObject dataMappingJSONForHoldings = new JSONObject();
 
+    private JSONObject dataMappingJSONForEHoldings = new JSONObject();
+
     private JSONObject dataMappingJSONForItems = new JSONObject();
 
     @Before
@@ -125,6 +127,88 @@ public class OleDsNgOverlayProcessorTest extends DocstoreTestCaseBase {
         bibData.put(OleNGConstants.TAG_001, "1231421");
 
         request.put(bibData);
+
+    }
+
+    @Test
+    public void createBibEHoldings() throws Exception {
+        JSONArray request = new JSONArray();
+        JSONObject bibData = new JSONObject();
+
+
+        JSONObject eholdingsDta = new JSONObject();
+        JSONArray dataMappingsForEHoldings = new JSONArray();
+        JSONArray callNumbers = new JSONArray();
+        callNumbers.put("1231");
+        dataMappingJSONForEHoldings.put("Call Number", callNumbers);
+        dataMappingsForEHoldings.put(dataMappingJSONForEHoldings);
+        eholdingsDta.put(OleNGConstants.DATAMAPPING, dataMappingsForEHoldings);
+
+        JSONObject holdingsData = new JSONObject();
+        JSONObject itemData = new JSONObject();
+
+
+        bibData.put(OleNGConstants.HOLDINGS, holdingsData);
+        bibData.put(OleNGConstants.ITEM, itemData);
+        bibData.put(OleNGConstants.EHOLDINGS, eholdingsDta);
+        bibData.put(OleNGConstants.UPDATED_BY, "ole-quickstart");
+        bibData.put(OleNGConstants.UPDATED_DATE, DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
+        bibData.put(OleNGConstants.MODIFIED_CONTENT, getMarcXMLContent());
+
+        JSONArray ops = new JSONArray();
+        ops.put("111");
+        ops.put("241");
+
+        bibData.put(OleNGConstants.OPS, ops);
+        bibData.put(OleNGConstants.TAG_001, "1231421");
+
+        request.put(bibData);
+
+        String response = oleDsNgOverlayProcessor.processBibAndHoldingsAndItems(request.toString());
+        assertNotNull(response);
+    }
+
+    @Test
+    public void overlayBibEHoldings() throws Exception {
+        JSONArray request = new JSONArray();
+        JSONObject bibData = new JSONObject();
+
+
+        JSONObject eholdingsDta = new JSONObject();
+        JSONObject matchpointsForEHoldings = new JSONObject();
+        matchpointsForEHoldings.put(Handler.LOCATION_LEVEL_1, "UC");
+        eholdingsDta.put(OleNGConstants.MATCH_POINT, matchpointsForEHoldings);
+        JSONArray dataMappingsForEHoldings = new JSONArray();
+        JSONArray callNumbers = new JSONArray();
+        callNumbers.put("1231");
+        dataMappingJSONForEHoldings.put("Call Number", callNumbers);
+        dataMappingsForEHoldings.put(dataMappingJSONForEHoldings);
+        eholdingsDta.put(OleNGConstants.DATAMAPPING, dataMappingsForEHoldings);
+
+
+        JSONObject holdingsData = new JSONObject();
+        JSONObject itemData = new JSONObject();
+
+
+        bibData.put(OleNGConstants.ID, "171771");
+        bibData.put(OleNGConstants.HOLDINGS, holdingsData);
+        bibData.put(OleNGConstants.EHOLDINGS, eholdingsDta);
+        bibData.put(OleNGConstants.ITEM, itemData);
+        bibData.put(OleNGConstants.UPDATED_BY, "ole-quickstart");
+        bibData.put(OleNGConstants.UPDATED_DATE, DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
+        bibData.put(OleNGConstants.MODIFIED_CONTENT, getMarcXMLContent());
+
+        JSONArray ops = new JSONArray();
+        ops.put("112");
+        ops.put("142");
+
+        bibData.put(OleNGConstants.OPS, ops);
+        bibData.put(OleNGConstants.TAG_001, "1231421");
+
+        request.put(bibData);
+
+        String response = oleDsNgOverlayProcessor.processBibAndHoldingsAndItems(request.toString());
+        assertNotNull(response);
 
     }
 

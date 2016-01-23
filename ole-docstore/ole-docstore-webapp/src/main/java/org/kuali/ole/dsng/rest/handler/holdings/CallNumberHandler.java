@@ -43,7 +43,6 @@ public class CallNumberHandler extends HoldingsHandler {
             String callNumberValue = listFromJSONArray.get(0);
             HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
             holdingRecord.setCallNumber(callNumberValue);
-            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
         }
     }
 }

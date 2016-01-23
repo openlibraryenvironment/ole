@@ -66,7 +66,7 @@ public class UpdateHoldingsHandler extends Handler {
                 HoldingsRecord holdingsRecord = iterator.next();
                 holdingsRecord.setUpdatedDate(updatedDate);
                 holdingsRecord.setUpdatedBy(updatedBy);
-                setMatchFound(exchange);
+                exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
                 processOverlay(exchange, holdingsRecord, holdingJsonObject);
             }
 
@@ -80,6 +80,7 @@ public class UpdateHoldingsHandler extends Handler {
             e.printStackTrace();
         }
 
+        exchange.remove(OleNGConstants.HOLDINGS_RECORD);
         getHoldingDAO().saveAll(holdingsRecords);
     }
 

@@ -54,7 +54,6 @@ public class UpdateItemHandler extends Handler {
                 itemRecord.setUpdatedDate(updatedDate);
                 exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
                 processOverlay(exchange, itemJsonObject, itemRecord);
-                exchange.remove(OleNGConstants.ITEM_RECORD);
             }
 
         } catch (JSONException e) {
@@ -67,6 +66,7 @@ public class UpdateItemHandler extends Handler {
             e.printStackTrace();
         }
 
+        exchange.remove(OleNGConstants.ITEM_RECORD);
         getItemDAO().saveAll(itemRecords);
     }
 

@@ -12,6 +12,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
@@ -28,12 +29,17 @@ import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.DiscardBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.UpdateBibHandler;
+import org.kuali.ole.dsng.rest.handler.eholdings.*;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberPrefixHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberTypeHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CopyNumberHandler;
 import org.kuali.ole.dsng.rest.handler.items.*;
+import org.kuali.ole.dsng.rest.handler.items.DonorCodeHandler;
+import org.kuali.ole.dsng.rest.handler.items.DonorNoteHandler;
+import org.kuali.ole.dsng.rest.handler.items.DonorPublicDisplayHandler;
+import org.kuali.ole.dsng.rest.handler.items.StatisticalSearchCodeHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -55,8 +61,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     private List<Handler> bibHandlers;
     private List<Handler> holdingHandlers;
+    private List<Handler> eholdingHandlers;
     private List<Handler> itemHandlers;
     private List<HoldingsHandler> holdingMetaDataHandlers;
+    private List<HoldingsHandler> eholdingMetaDataHandlers;
     private List<ItemHandler> itemMetaDataHandlers;
 
     public List<Handler> getBibHandlers() {
@@ -104,6 +112,62 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return itemMetaDataHandlers;
     }
 
+    public List<HoldingsHandler> getEholdingMetaDataHandlers() {
+
+        if (null == eholdingMetaDataHandlers) {
+            eholdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
+            eholdingMetaDataHandlers.add(new HoldingsLocationHandler());
+            eholdingMetaDataHandlers.add(new CallNumberHandler());
+            eholdingMetaDataHandlers.add(new CallNumberTypeHandler());
+            eholdingMetaDataHandlers.add(new CallNumberPrefixHandler());
+            eholdingMetaDataHandlers.add(new CopyNumberHandler());
+            eholdingMetaDataHandlers.add(new AccessLocationHandler());
+            eholdingMetaDataHandlers.add(new AccessPasswordHandler());
+            eholdingMetaDataHandlers.add(new AccessStatusHandler());
+            eholdingMetaDataHandlers.add(new AccessUserNameHandler());
+            eholdingMetaDataHandlers.add(new AccessPasswordHandler());
+            eholdingMetaDataHandlers.add(new AdminUrlHandler());
+            eholdingMetaDataHandlers.add(new AdminUserNameHandler());
+            eholdingMetaDataHandlers.add(new AuthenticationTypeHandler());
+            eholdingMetaDataHandlers.add(new CancellationDecisionDateHandler());
+            eholdingMetaDataHandlers.add(new CancellationEffectiveDateHandler());
+            eholdingMetaDataHandlers.add(new CancellationReasonHandler());
+            eholdingMetaDataHandlers.add(new CoverageStartDateHandler());
+            eholdingMetaDataHandlers.add(new CoverageStartIssueHandler());
+            eholdingMetaDataHandlers.add(new CoverageStartVolumeHandler());
+            eholdingMetaDataHandlers.add(new CoverageEndDateHandler());
+            eholdingMetaDataHandlers.add(new CoverageEndIssueHandler());
+            eholdingMetaDataHandlers.add(new CoverageEndVolumeHandler());
+            eholdingMetaDataHandlers.add(new CurrentSubscriptionEndDateHandler());
+            eholdingMetaDataHandlers.add(new CurrentSubscriptionStartDateHandler());
+            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorCodeHandler());
+            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorNoteHandler());
+            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorPublicDisplayHandler());
+            eholdingMetaDataHandlers.add(new EResourceIdHandler());
+            eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
+            eholdingMetaDataHandlers.add(new InitialSubscriptionEndDateHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessStartDateHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessStartIssueHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessStartVolumeHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessEndDateHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessEndIssueHandler());
+            eholdingMetaDataHandlers.add(new PerpetualAccessEndVolumeHandler());
+            eholdingMetaDataHandlers.add(new PersistentLinkHandler());
+            eholdingMetaDataHandlers.add(new PlatformHandler());
+            eholdingMetaDataHandlers.add(new ProxiedHandler());
+            eholdingMetaDataHandlers.add(new PublisherHandler());
+            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.StatisticalSearchCodeHandler());
+            eholdingMetaDataHandlers.add(new SubscriptionStatusHandler());
+            eholdingMetaDataHandlers.add(new UrlHandler());
+            eholdingMetaDataHandlers.add(new LinkTextHandler());
+            eholdingMetaDataHandlers.add(new ImprintHandler());
+            eholdingMetaDataHandlers.add(new NonPublicNoteHandler());
+            eholdingMetaDataHandlers.add(new PublicNoteHandler());
+            eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
+        }
+        return eholdingMetaDataHandlers;
+    }
+
     public void setBibHandlers(List<Handler> bibHandlers) {
         this.bibHandlers = bibHandlers;
     }
@@ -115,6 +179,14 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             holdingHandlers.add(new UpdateHoldingsHandler());
         }
         return holdingHandlers;
+    }
+    public List<Handler> getEHoldingHandlers() {
+        if (null == eholdingHandlers) {
+            eholdingHandlers = new ArrayList<Handler>();
+            eholdingHandlers.add(new CreateEHoldingsHandler());
+            eholdingHandlers.add(new UpdateEholdingsHandler());
+        }
+        return eholdingHandlers;
     }
 
     public void setHoldingHandlers(List<Handler> holdingHandlers) {
@@ -151,15 +223,22 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 String ops = bibJSONDataObject.getString(OleNGConstants.OPS);
 
+                List<String> operationsList = getListFromJSONArray(ops);
+
                 BibRecord bibRecord = prepareBib(bibJSONDataObject);
                 exchange.add(OleNGConstants.BIB, bibRecord);
 
-                List<HoldingsRecord> holdingsForUpdateOrCreate = null;
-                if (ops.contains("122") || ops.contains("221")) {
+                List<HoldingsRecord> holdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
+                if (operationsList.contains("122") || operationsList.contains("221")) {
                     holdingsForUpdateOrCreate = preparePHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.HOLDINGS), exchange);
                     exchange.add(OleNGConstants.HOLDINGS, holdingsForUpdateOrCreate);
-                } if (ops.contains("142") || ops.contains("241")){
+                }
+
+                List<HoldingsRecord> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
+                if (operationsList.contains("142") || operationsList.contains("241")){
                     //TODO: prepare EHoldings list
+                    eholdingsForUpdateOrCreate = prepareEHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.EHOLDINGS), exchange);
+                    exchange.add(OleNGConstants.EHOLDINGS, eholdingsForUpdateOrCreate);
                 }
 
                 List<ItemRecord> itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject.getJSONObject(OleNGConstants.ITEM), exchange);
@@ -184,6 +263,19 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 }
 
                 for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
+                    getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                }
+
+                for (Iterator<Handler> iterator = getEHoldingHandlers().iterator(); iterator.hasNext(); ) {
+                    Handler holdingsHandler = iterator.next();
+                    if (holdingsHandler.isInterested(ops)) {
+                        holdingsHandler.setHoldingDAO(holdingDAO);
+                        holdingsHandler.process(bibJSONDataObject, exchange);
+                    }
+                }
+
+                for (Iterator<HoldingsRecord> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
                     HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
                     getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
                 }
@@ -333,6 +425,61 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         return holdingsRecords;
+    }
+
+
+    private List<HoldingsRecord> prepareEHoldingsRecord(BibRecord bibRecord, JSONObject eholdingsJSON, Exchange exchange) {
+        List<HoldingsRecord> eholdingsRecords = new ArrayList<HoldingsRecord>();
+        if (null == bibRecord.getBibId()) {
+            HoldingsRecord holdingsRecord = new HoldingsRecord();
+            holdingsRecord.setHoldingsType(EHoldings.ELECTRONIC);
+            holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
+            eholdingsRecords.add(holdingsRecord);
+        } else if (eholdingsJSON.has(OleNGConstants.MATCH_POINT)) {
+            List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
+
+            for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                if (holdingsRecord.getHoldingsType().equals(EHoldings.ELECTRONIC)) {
+                    JSONObject matchPoints = null;
+                    try {
+                        matchPoints = eholdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
+
+                        HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                        });
+
+                        for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
+                            String key = (String) matchPointIterator.next();
+                            for (Iterator<HoldingsHandler> holdingsRecordIterator = getEholdingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                                HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
+                                if (holdingsHandler.isInterested(key)) {
+                                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                                    holdingsHandler.process(matchPoints, exchange);
+                                    Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
+                                    if (null != match && match.equals(Boolean.TRUE)) {
+                                        eholdingsRecords.add(holdingsRecord);
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (JsonParseException e) {
+                        e.printStackTrace();
+                    } catch (JsonMappingException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+        }
+
+        return eholdingsRecords;
     }
 
     private BibRecord prepareBib(JSONObject bibJSONDataObject) {

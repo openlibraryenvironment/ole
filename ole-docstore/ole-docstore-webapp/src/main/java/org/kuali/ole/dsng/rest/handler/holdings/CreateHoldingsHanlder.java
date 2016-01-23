@@ -49,6 +49,7 @@ public class CreateHoldingsHanlder extends Handler {
             }
 
         }
+        exchange.remove(OleNGConstants.HOLDINGS_RECORD);
         getHoldingDAO().saveAll(holdingsRecords);
     }
 
