@@ -259,18 +259,20 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             String addOperation = batchProfileAddOrOverlay.getAddOperation();
 
-            String operationInd = getAddOperationInd(addOperation);
-            try {
-                JSONObject action = new JSONObject();
-                action.put(OleNGConstants.ACTION,operationInd);
-                action.put(OleNGConstants.DOC_TYPE,batchProfileAddOrOverlay.getDataType());
-                action.put(OleNGConstants.DATA_FIELD,batchProfileAddOrOverlay.getDataField());
-                action.put(OleNGConstants.IND1,batchProfileAddOrOverlay.getInd1());
-                action.put(OleNGConstants.IND2,batchProfileAddOrOverlay.getInd2());
-                action.put(OleNGConstants.SUBFIELD,batchProfileAddOrOverlay.getSubField());
-                actionOps.add(action);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (StringUtils.isNotBlank(addOperation)) {
+                String operationInd = getAddOperationInd(addOperation);
+                try {
+                    JSONObject action = new JSONObject();
+                    action.put(OleNGConstants.ACTION,operationInd);
+                    action.put(OleNGConstants.DOC_TYPE,batchProfileAddOrOverlay.getDataType());
+                    action.put(OleNGConstants.DATA_FIELD,batchProfileAddOrOverlay.getDataField());
+                    action.put(OleNGConstants.IND1,batchProfileAddOrOverlay.getInd1());
+                    action.put(OleNGConstants.IND2,batchProfileAddOrOverlay.getInd2());
+                    action.put(OleNGConstants.SUBFIELD,batchProfileAddOrOverlay.getSubField());
+                    actionOps.add(action);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return actionOps;

@@ -41,6 +41,7 @@ import org.kuali.ole.dsng.rest.handler.items.DonorNoteHandler;
 import org.kuali.ole.dsng.rest.handler.items.DonorPublicDisplayHandler;
 import org.kuali.ole.dsng.rest.handler.items.StatisticalSearchCodeHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -180,6 +181,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
         return holdingHandlers;
     }
+
     public List<Handler> getEHoldingHandlers() {
         if (null == eholdingHandlers) {
             eholdingHandlers = new ArrayList<Handler>();
@@ -235,9 +237,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 }
 
                 List<HoldingsRecord> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
-                if (operationsList.contains("142") || operationsList.contains("241")){
+                if (operationsList.contains("142") || operationsList.contains("241")) {
                     //TODO: prepare EHoldings list
-                    eholdingsForUpdateOrCreate = prepareEHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.EHOLDINGS), exchange);
+                    eholdingsForUpdateOrCreate = prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
                     exchange.add(OleNGConstants.EHOLDINGS, eholdingsForUpdateOrCreate);
                 }
 
@@ -428,13 +430,50 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
 
-    private List<HoldingsRecord> prepareEHoldingsRecord(BibRecord bibRecord, JSONObject eholdingsJSON, Exchange exchange) {
+    private List<HoldingsRecord> prepareEHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
+        JSONObject eholdingsJSON = null;
+        JSONArray actionOps = null;
+        List<Record> marcRecords;
+        Integer numOccurances  = 0;
+        try {
+            eholdingsJSON = bibJSON.getJSONObject(OleNGConstants.EHOLDINGS);
+            actionOps = bibJSON.getJSONArray(OleNGConstants.ACTION_OPS);
+            String marcContent = bibJSON.getString(OleNGConstants.MODIFIED_CONTENT);
+            marcRecords = getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(marcContent);
+            for (int i = 0; i < actionOps.length(); i++) {
+                try {
+                    JSONObject actionOp = (JSONObject) actionOps.get(i);
+                    String docType = actionOp.getString(OleNGConstants.DOC_TYPE);
+                    if (docType.equalsIgnoreCase(OleNGConstants.EHOLDINGS)) {
+                        String dataField = actionOp.has(OleNGConstants.DATA_FIELD) ? actionOp.getString(OleNGConstants.DATA_FIELD) : null;
+                        String ind1 = actionOp.has(OleNGConstants.IND1) ? actionOp.getString(OleNGConstants.IND1) : null;
+                        String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
+                        String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
+
+                        numOccurances = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         List<HoldingsRecord> eholdingsRecords = new ArrayList<HoldingsRecord>();
         if (null == bibRecord.getBibId()) {
-            HoldingsRecord holdingsRecord = new HoldingsRecord();
-            holdingsRecord.setHoldingsType(EHoldings.ELECTRONIC);
-            holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
-            eholdingsRecords.add(holdingsRecord);
+            if(numOccurances > 0){
+               for(int count = 0; count < numOccurances; count++){
+                   HoldingsRecord holdingsRecord = new HoldingsRecord();
+                   holdingsRecord.setHoldingsType(EHoldings.ELECTRONIC);
+                   holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
+                   eholdingsRecords.add(holdingsRecord);
+               }
+            }
+
         } else if (eholdingsJSON.has(OleNGConstants.MATCH_POINT)) {
             List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
 

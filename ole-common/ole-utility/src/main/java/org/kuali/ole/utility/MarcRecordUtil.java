@@ -256,4 +256,9 @@ public class MarcRecordUtil {
         }
         return marcXMLConverter;
     }
+
+    public Integer getNumOccurances(Record marcRecord, String dataField, String ind1, String ind2, String subField) {
+        List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, dataField, ind1, ind2, subField);
+        return multiDataFieldValues.size();
+    }
 }
