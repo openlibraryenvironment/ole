@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by pvsubrah on 1/22/16.
  */
-public class CreateHoldingsHanlderNew extends Handler {
+public class CreateHoldingsHanlder extends Handler {
     @Override
     public Boolean isInterested(String operation) {
         List<String> operationsList = getListFromJSONArray(operation);

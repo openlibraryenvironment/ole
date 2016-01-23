@@ -5,14 +5,12 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
 import org.kuali.ole.docstore.common.response.ItemResponse;
@@ -111,7 +109,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     public List<Handler> getHoldingHandlers() {
         if (null == holdingHandlers) {
             holdingHandlers = new ArrayList<Handler>();
-            holdingHandlers.add(new CreateHoldingsHanlderNew());
+            holdingHandlers.add(new CreateHoldingsHanlder());
             holdingHandlers.add(new UpdateHoldingsHandler());
         }
         return holdingHandlers;

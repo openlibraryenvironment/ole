@@ -70,19 +70,6 @@ public class UpdateItemHandler extends Handler {
         getItemDAO().saveAll(itemRecords);
     }
 
-
-
-    private void createItem(JSONObject requestJsonObject, Exchange exchange, String ops, HoldingsRecord holdingsRecord) {
-        CreateItemHandler createItemHandler = new CreateItemHandler();
-        if(createItemHandler.isInterested(ops)) {
-            exchange.add(OleNGConstants.HOLDINGS,holdingsRecord);
-            createItemHandler.setItemDAO(getItemDAO());
-            createItemHandler.setBusinessObjectService(getBusinessObjectService());
-            createItemHandler.process(requestJsonObject,exchange);
-            exchange.remove(OleNGConstants.HOLDINGS);
-        }
-    }
-
     private ItemRecord processOverlay(Exchange exchange,JSONObject itemJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
 
         JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
