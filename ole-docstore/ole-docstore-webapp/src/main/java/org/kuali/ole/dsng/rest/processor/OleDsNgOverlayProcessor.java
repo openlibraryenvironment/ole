@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -11,6 +12,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
 import org.kuali.ole.docstore.common.response.ItemResponse;
@@ -152,8 +154,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 BibRecord bibRecord = prepareBib(bibJSONDataObject);
                 exchange.add(OleNGConstants.BIB, bibRecord);
 
-                List<HoldingsRecord> holdingsForUpdateOrCreate = prepareHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.HOLDINGS), exchange);
-                exchange.add(OleNGConstants.HOLDINGS, holdingsForUpdateOrCreate);
+                List<HoldingsRecord> holdingsForUpdateOrCreate = null;
+                if (ops.contains("122") || ops.contains("221")) {
+                    holdingsForUpdateOrCreate = preparePHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.HOLDINGS), exchange);
+                    exchange.add(OleNGConstants.HOLDINGS, holdingsForUpdateOrCreate);
+                } if (ops.contains("142") || ops.contains("241")){
+                    //TODO: prepare EHoldings list
+                }
 
                 List<ItemRecord> itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject.getJSONObject(OleNGConstants.ITEM), exchange);
                 exchange.add(OleNGConstants.ITEM, itemsForUpdateOrCreate);
@@ -274,10 +281,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return itemRecords;
     }
 
-    private List<HoldingsRecord> prepareHoldingsRecord(BibRecord bibRecord, JSONObject holdingsJSON, Exchange exchange) {
+    private List<HoldingsRecord> preparePHoldingsRecord(BibRecord bibRecord, JSONObject holdingsJSON, Exchange exchange) {
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (null == bibRecord.getBibId()) {
             HoldingsRecord holdingsRecord = new HoldingsRecord();
+            holdingsRecord.setHoldingsType(PHoldings.PRINT);
             holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
             holdingsRecords.add(holdingsRecord);
         } else if (holdingsJSON.has(OleNGConstants.MATCH_POINT)) {
@@ -285,38 +293,40 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
             for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
                 HoldingsRecord holdingsRecord = iterator.next();
+                if (holdingsRecord.getHoldingsType().equals(PHoldings.PRINT)) {
+                    JSONObject matchPoints = null;
+                    try {
+                        matchPoints = holdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
 
-                JSONObject matchPoints = null;
-                try {
-                    matchPoints = holdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
+                        HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                        });
 
-                    HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                    });
-
-                    for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
-                        String key = (String) matchPointIterator.next();
-                        for (Iterator<HoldingsHandler> holdingsRecordIterator = getHoldingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
-                            HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
-                            if (holdingsHandler.isInterested(key)) {
-                                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                                holdingsHandler.process(matchPoints, exchange);
-                                Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
-                                if (null != match && match.equals(Boolean.TRUE)) {
-                                    holdingsRecords.add(holdingsRecord);
+                        for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
+                            String key = (String) matchPointIterator.next();
+                            for (Iterator<HoldingsHandler> holdingsRecordIterator = getHoldingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                                HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
+                                if (holdingsHandler.isInterested(key)) {
+                                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                                    holdingsHandler.process(matchPoints, exchange);
+                                    Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
+                                    if (null != match && match.equals(Boolean.TRUE)) {
+                                        holdingsRecords.add(holdingsRecord);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
-                } catch (JsonMappingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (JsonParseException e) {
+                        e.printStackTrace();
+                    } catch (JsonMappingException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
 
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
