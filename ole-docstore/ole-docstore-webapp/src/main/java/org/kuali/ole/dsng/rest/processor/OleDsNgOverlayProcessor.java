@@ -122,7 +122,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     public List<Handler> getItemHandlers() {
         if (null == itemHandlers) {
             itemHandlers = new ArrayList<Handler>();
-            itemHandlers.add(new CreateItemHandlerNew());
+            itemHandlers.add(new CreateItemHandler());
             itemHandlers.add(new UpdateItemHandler());
         }
         return itemHandlers;

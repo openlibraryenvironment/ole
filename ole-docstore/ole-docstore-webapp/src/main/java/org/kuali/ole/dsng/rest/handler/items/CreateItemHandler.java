@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by SheikS on 12/26/2015.
  */
-public class CreateItemHandlerNew extends Handler {
+public class CreateItemHandler extends Handler {
 
     @Override
     public Boolean isInterested(String operation) {
