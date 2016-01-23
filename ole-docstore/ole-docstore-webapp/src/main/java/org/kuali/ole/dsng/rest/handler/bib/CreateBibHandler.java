@@ -6,7 +6,6 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -55,20 +54,8 @@ public class CreateBibHandler extends BibHandler {
 
             getBibDAO().save(bibRecord);
 
-//            exchange.add(OleNGConstants.BIB, createdBibRecord);
-
-//                createHoldings(requestJsonObject, exchange);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void createHoldings(JSONObject requestJsonObject, Exchange exchange) {
-        CreateHoldingsProcessor createHoldingsProcessor = new CreateHoldingsProcessor();
-        createHoldingsProcessor.setHoldingDAO(getHoldingDAO());
-        createHoldingsProcessor.setItemDAO(getItemDAO());
-        createHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
-        createHoldingsProcessor.processHoldings(requestJsonObject, exchange);
     }
 }
