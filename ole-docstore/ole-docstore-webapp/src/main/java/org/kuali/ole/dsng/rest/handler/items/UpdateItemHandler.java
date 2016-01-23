@@ -72,22 +72,18 @@ public class UpdateItemHandler extends Handler {
 
     private ItemRecord processOverlay(Exchange exchange,JSONObject itemJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
 
-        JSONArray dataMappings = itemJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
-        if(dataMappings.length() > 0) {
-            JSONObject dataMapping = (JSONObject) dataMappings.get(0);
-            Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-            for (Iterator dataMappingsIterator = dataMappingsMap.keySet().iterator(); dataMappingsIterator.hasNext(); ) {
-                String key1 = (String) dataMappingsIterator.next();
-                for (Iterator<ItemHandler> itemMetaDataHandlerIterator = getItemMetaDataHandlers().iterator(); itemMetaDataHandlerIterator.hasNext(); ) {
-                    ItemHandler itemMetaDataHandlelr = itemMetaDataHandlerIterator.next();
-                    if (itemMetaDataHandlelr.isInterested(key1)) {
-                        itemMetaDataHandlelr.setBusinessObjectService(getBusinessObjectService());
-                        itemMetaDataHandlelr.processDataMappings(dataMapping, exchange);
-                    }
+        JSONObject dataMapping = itemJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+        for (Iterator dataMappingsIterator = dataMappingsMap.keySet().iterator(); dataMappingsIterator.hasNext(); ) {
+            String key1 = (String) dataMappingsIterator.next();
+            for (Iterator<ItemHandler> itemMetaDataHandlerIterator = getItemMetaDataHandlers().iterator(); itemMetaDataHandlerIterator.hasNext(); ) {
+                ItemHandler itemMetaDataHandlelr = itemMetaDataHandlerIterator.next();
+                if (itemMetaDataHandlelr.isInterested(key1)) {
+                    itemMetaDataHandlelr.setBusinessObjectService(getBusinessObjectService());
+                    itemMetaDataHandlelr.processDataMappings(dataMapping, exchange);
                 }
             }
         }
-
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
         return itemRecord;
     }

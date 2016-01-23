@@ -90,18 +90,15 @@ public class UpdateHoldingsHandler extends Handler {
 
     private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject holdingJsonObject) throws JSONException, IOException {
 
-        JSONArray dataMappings = holdingJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
-        if(dataMappings.length() > 0) {
-            JSONObject dataMapping = (JSONObject) dataMappings.get(0);
-            Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-            for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                String key1 = (String) iterator3.next();
-                for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                    HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
-                    if (holdingsMetaDataHandlelr1.isInterested(key1)) {
-                        holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
-                        holdingsMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
-                    }
+        JSONObject dataMapping = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+        Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+        for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+            String key1 = (String) iterator3.next();
+            for (Iterator<HoldingsHandler> iterator4 = getHoldingMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
+                HoldingsHandler holdingsMetaDataHandlelr1 = iterator4.next();
+                if (holdingsMetaDataHandlelr1.isInterested(key1)) {
+                    holdingsMetaDataHandlelr1.setBusinessObjectService(getBusinessObjectService());
+                    holdingsMetaDataHandlelr1.processDataMappings(dataMapping, exchange);
                 }
             }
         }
