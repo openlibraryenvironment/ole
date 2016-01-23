@@ -601,19 +601,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return solrInputDocumentMap;
     }
 
-    private void processBib(JSONObject requestJsonObject, Exchange exchange, String ops) {
-        for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
-            Handler handler = iterator.next();
-            if (handler.isInterested(ops)) {
-                handler.setBibDAO(bibDAO);
-                handler.setHoldingDAO(holdingDAO);
-                handler.setItemDAO(itemDAO);
-                handler.setBusinessObjectService(getBusinessObjectService());
-                handler.process(requestJsonObject, exchange);
-            }
-        }
-    }
-
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
         String returnValue = null;
         try {
