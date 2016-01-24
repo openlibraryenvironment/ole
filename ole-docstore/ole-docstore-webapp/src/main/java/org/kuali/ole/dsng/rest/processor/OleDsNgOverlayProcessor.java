@@ -1,8 +1,8 @@
 package org.kuali.ole.dsng.rest.processor;
 
+import org.apache.commons.codec.language.bm.Rule;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -232,7 +232,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 List<HoldingsRecord> holdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
                 if (operationsList.contains("122") || operationsList.contains("221")) {
-                    holdingsForUpdateOrCreate = preparePHoldingsRecord(bibRecord, bibJSONDataObject.getJSONObject(OleNGConstants.HOLDINGS), exchange);
+                    holdingsForUpdateOrCreate = preparePHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
                     exchange.add(OleNGConstants.HOLDINGS, holdingsForUpdateOrCreate);
                 }
 
@@ -243,57 +243,16 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     exchange.add(OleNGConstants.EHOLDINGS, eholdingsForUpdateOrCreate);
                 }
 
-                List<ItemRecord> itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject.getJSONObject(OleNGConstants.ITEM), exchange);
+                List<ItemRecord> itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
                 exchange.add(OleNGConstants.ITEM, itemsForUpdateOrCreate);
 
-                for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
-                    Handler bibHandler = iterator.next();
-                    if (bibHandler.isInterested(ops)) {
-                        bibHandler.setBibDAO(bibDAO);
-                        bibHandler.process(bibJSONDataObject, exchange);
-                    }
-                }
+                processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 
-                getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+                processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
 
-                for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
-                    Handler holdingsHandler = iterator.next();
-                    if (holdingsHandler.isInterested(ops)) {
-                        holdingsHandler.setHoldingDAO(holdingDAO);
-                        holdingsHandler.process(bibJSONDataObject, exchange);
-                    }
-                }
+                processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, eholdingsForUpdateOrCreate);
 
-                for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
-                    getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-                }
-
-                for (Iterator<Handler> iterator = getEHoldingHandlers().iterator(); iterator.hasNext(); ) {
-                    Handler holdingsHandler = iterator.next();
-                    if (holdingsHandler.isInterested(ops)) {
-                        holdingsHandler.setHoldingDAO(holdingDAO);
-                        holdingsHandler.process(bibJSONDataObject, exchange);
-                    }
-                }
-
-                for (Iterator<HoldingsRecord> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
-                    HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
-                    getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-                }
-
-                for (Iterator<Handler> iterator = getItemHandlers().iterator(); iterator.hasNext(); ) {
-                    Handler itemHandler = iterator.next();
-                    if (itemHandler.isInterested(ops)) {
-                        itemHandler.setItemDAO(itemDAO);
-                        itemHandler.process(bibJSONDataObject, exchange);
-                    }
-                }
-
-                for (Iterator<ItemRecord> itemRecordIterator = itemsForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
-                    ItemRecord itemRecord = itemRecordIterator.next();
-                    getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
-                }
+                processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops, itemsForUpdateOrCreate);
 
                 bibResponses.add(bibResponse);
             }
@@ -315,16 +274,86 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return response;
     }
 
-    private List<ItemRecord> prepareItemsRecord(List<HoldingsRecord> holdingsRecords, JSONObject itemJSON, Exchange exchange) {
+    private void processItems(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<ItemRecord> itemsForUpdateOrCreate) {
+        for (Iterator<Handler> iterator = getItemHandlers().iterator(); iterator.hasNext(); ) {
+            Handler itemHandler = iterator.next();
+            if (itemHandler.isInterested(ops)) {
+                itemHandler.setItemDAO(itemDAO);
+                itemHandler.process(bibJSONDataObject, exchange);
+            }
+        }
+
+        for (Iterator<ItemRecord> itemRecordIterator = itemsForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
+            ItemRecord itemRecord = itemRecordIterator.next();
+            getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+        }
+    }
+
+    private void processEHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<HoldingsRecord> eholdingsForUpdateOrCreate) {
+        for (Iterator<Handler> iterator = getEHoldingHandlers().iterator(); iterator.hasNext(); ) {
+            Handler holdingsHandler = iterator.next();
+            if (holdingsHandler.isInterested(ops)) {
+                holdingsHandler.setHoldingDAO(holdingDAO);
+                holdingsHandler.process(bibJSONDataObject, exchange);
+            }
+        }
+
+        for (Iterator<HoldingsRecord> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
+            getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+        }
+    }
+
+    private void processHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<HoldingsRecord> holdingsForUpdateOrCreate) {
+        for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
+            Handler holdingsHandler = iterator.next();
+            if (holdingsHandler.isInterested(ops)) {
+                holdingsHandler.setHoldingDAO(holdingDAO);
+                holdingsHandler.process(bibJSONDataObject, exchange);
+            }
+        }
+
+        for (Iterator<HoldingsRecord> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
+            getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+        }
+    }
+
+    private void processBib(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, BibRecord bibRecord) {
+        for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
+            Handler bibHandler = iterator.next();
+            if (bibHandler.isInterested(ops)) {
+                bibHandler.setBibDAO(bibDAO);
+                bibHandler.process(bibJSONDataObject, exchange);
+            }
+        }
+
+        getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+    }
+
+    private List<ItemRecord> prepareItemsRecord(List<HoldingsRecord> holdingsRecords, JSONObject bibJSON, Exchange exchange) {
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
+
+        JSONObject itemJSON = null;
+        Integer numOccurances = 0;
+        try {
+            itemJSON = bibJSON.getJSONObject(OleNGConstants.ITEM);
+            numOccurances = getNumOccurances(itemJSON);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
             HoldingsRecord holdingsRecord = iterator.next();
             if (null == holdingsRecord.getHoldingsId()) {
-                ItemRecord itemRecord = new ItemRecord();
-                itemRecord.setHoldingsRecord(holdingsRecord);
-                itemRecords.add(itemRecord);
-                holdingsRecord.setItemRecords(itemRecords);
+                for (int i = 0; i < numOccurances; i++) {
+                    ItemRecord itemRecord = new ItemRecord();
+                    itemRecord.setHoldingsRecord(holdingsRecord);
+                    itemRecords.add(itemRecord);
+                    holdingsRecord.setItemRecords(itemRecords);
+                }
             } else {
 
                 JSONObject matchPoints = null;
@@ -375,55 +404,26 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return itemRecords;
     }
 
-    private List<HoldingsRecord> preparePHoldingsRecord(BibRecord bibRecord, JSONObject holdingsJSON, Exchange exchange) {
+    private List<HoldingsRecord> preparePHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
+
+        JSONObject holdingsJSON = null;
+        Integer numOccurances = 0;
+        try {
+            holdingsJSON = bibJSON.getJSONObject(OleNGConstants.HOLDINGS);
+            numOccurances = getNumOccurances(holdingsJSON);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         if (null == bibRecord.getBibId()) {
-            HoldingsRecord holdingsRecord = new HoldingsRecord();
-            holdingsRecord.setHoldingsType(PHoldings.PRINT);
-            holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
-            holdingsRecords.add(holdingsRecord);
-        } else if (holdingsJSON.has(OleNGConstants.MATCH_POINT)) {
-            List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
-
-            for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = iterator.next();
-                if (holdingsRecord.getHoldingsType().equals(PHoldings.PRINT)) {
-                    JSONObject matchPoints = null;
-                    try {
-                        matchPoints = holdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
-
-                        HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                        });
-
-                        for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
-                            String key = (String) matchPointIterator.next();
-                            for (Iterator<HoldingsHandler> holdingsRecordIterator = getHoldingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
-                                HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
-                                if (holdingsHandler.isInterested(key)) {
-                                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                                    holdingsHandler.process(matchPoints, exchange);
-                                    Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
-                                    if (null != match && match.equals(Boolean.TRUE)) {
-                                        holdingsRecords.add(holdingsRecord);
-                                    }
-                                }
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (JsonParseException e) {
-                        e.printStackTrace();
-                    } catch (JsonMappingException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+            for (int i = 0; i < numOccurances; i++) {
+                holdingsRecords.add(getNewHoldings(bibRecord, PHoldings.PRINT));
             }
 
-            exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+        } else if (holdingsJSON.has(OleNGConstants.MATCH_POINT)) {
+            holdingsRecords = determineHoldingsByMatchPoints(bibRecord, exchange, holdingsJSON, PHoldings.PRINT);
         }
 
         return holdingsRecords;
@@ -432,31 +432,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     private List<HoldingsRecord> prepareEHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
         JSONObject eholdingsJSON = null;
-        JSONArray actionOps = null;
-        List<Record> marcRecords;
-        Integer numOccurances  = 0;
+        Integer numOccurances = 0;
         try {
             eholdingsJSON = bibJSON.getJSONObject(OleNGConstants.EHOLDINGS);
-            actionOps = bibJSON.getJSONArray(OleNGConstants.ACTION_OPS);
-            String marcContent = bibJSON.getString(OleNGConstants.MODIFIED_CONTENT);
-            marcRecords = getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(marcContent);
-            for (int i = 0; i < actionOps.length(); i++) {
-                try {
-                    JSONObject actionOp = (JSONObject) actionOps.get(i);
-                    String docType = actionOp.getString(OleNGConstants.DOC_TYPE);
-                    if (docType.equalsIgnoreCase(OleNGConstants.EHOLDINGS)) {
-                        String dataField = actionOp.has(OleNGConstants.DATA_FIELD) ? actionOp.getString(OleNGConstants.DATA_FIELD) : null;
-                        String ind1 = actionOp.has(OleNGConstants.IND1) ? actionOp.getString(OleNGConstants.IND1) : null;
-                        String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
-                        String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
-
-                        numOccurances = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            numOccurances = getNumOccurances(bibJSON);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -465,60 +444,100 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         List<HoldingsRecord> eholdingsRecords = new ArrayList<HoldingsRecord>();
         if (null == bibRecord.getBibId()) {
-            if(numOccurances > 0){
-               for(int count = 0; count < numOccurances; count++){
-                   HoldingsRecord holdingsRecord = new HoldingsRecord();
-                   holdingsRecord.setHoldingsType(EHoldings.ELECTRONIC);
-                   holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
-                   eholdingsRecords.add(holdingsRecord);
-               }
+            for (int count = 0; count < numOccurances; count++) {
+                eholdingsRecords.add(getNewHoldings(bibRecord, EHoldings.ELECTRONIC));
             }
 
         } else if (eholdingsJSON.has(OleNGConstants.MATCH_POINT)) {
-            List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
+            eholdingsRecords = determineHoldingsByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
 
-            for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = iterator.next();
-                if (holdingsRecord.getHoldingsType().equals(EHoldings.ELECTRONIC)) {
-                    JSONObject matchPoints = null;
-                    try {
-                        matchPoints = eholdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
+        }
 
-                        HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
-                        });
+        return eholdingsRecords;
+    }
 
-                        for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
-                            String key = (String) matchPointIterator.next();
-                            for (Iterator<HoldingsHandler> holdingsRecordIterator = getEholdingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
-                                HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
-                                if (holdingsHandler.isInterested(key)) {
-                                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                                    holdingsHandler.process(matchPoints, exchange);
-                                    Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
-                                    if (null != match && match.equals(Boolean.TRUE)) {
-                                        eholdingsRecords.add(holdingsRecord);
-                                    }
+    private HoldingsRecord getNewHoldings(BibRecord bibRecord, String holdingsType) {
+        HoldingsRecord holdingsRecord = new HoldingsRecord();
+        holdingsRecord.setHoldingsType(holdingsType);
+        holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
+        return holdingsRecord;
+    }
+
+    private List<HoldingsRecord> determineHoldingsByMatchPoints(BibRecord bibRecord, Exchange exchange, JSONObject holdingsJSON, String docType) {
+        List<HoldingsRecord> eholdingsRecords = new ArrayList<HoldingsRecord>();
+        List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
+
+        for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = iterator.next();
+            if (holdingsRecord.getHoldingsType().equals(docType)) {
+                JSONObject matchPoints = null;
+                try {
+                    matchPoints = holdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
+
+                    HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                    });
+
+                    for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
+                        String key = (String) matchPointIterator.next();
+                        for (Iterator<HoldingsHandler> holdingsRecordIterator = getEholdingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                            HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
+                            if (holdingsHandler.isInterested(key)) {
+                                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                                holdingsHandler.process(matchPoints, exchange);
+                                Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
+                                if (null != match && match.equals(Boolean.TRUE)) {
+                                    eholdingsRecords.add(holdingsRecord);
                                 }
                             }
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (JsonParseException e) {
-                        e.printStackTrace();
-                    } catch (JsonMappingException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (JsonParseException e) {
+                    e.printStackTrace();
+                } catch (JsonMappingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
             }
-
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
         }
 
         return eholdingsRecords;
+    }
+
+    private Integer getNumOccurances(JSONObject bibJSON) throws JSONException {
+        Integer numOccurances = null;
+        JSONArray actionOps;
+        List<Record> marcRecords;
+        if (bibJSON.has(OleNGConstants.ACTION_OPS)) {
+            actionOps = bibJSON.getJSONArray(OleNGConstants.ACTION_OPS);
+        } else {
+            return 1;
+        }
+        String marcContent = bibJSON.getString(OleNGConstants.MODIFIED_CONTENT);
+        marcRecords = getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(marcContent);
+
+        for (int i = 0; i < actionOps.length(); i++) {
+            try {
+                JSONObject actionOp = (JSONObject) actionOps.get(i);
+                String docType = actionOp.getString(OleNGConstants.DOC_TYPE);
+                if (docType.equalsIgnoreCase(OleNGConstants.EHOLDINGS) || docType.equalsIgnoreCase(OleNGConstants.HOLDINGS) || docType.equalsIgnoreCase(OleNGConstants.ITEM)) {
+                    String dataField = actionOp.has(OleNGConstants.DATA_FIELD) ? actionOp.getString(OleNGConstants.DATA_FIELD) : null;
+                    String ind1 = actionOp.has(OleNGConstants.IND1) ? actionOp.getString(OleNGConstants.IND1) : null;
+                    String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
+                    String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
+
+                    numOccurances = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return numOccurances;
     }
 
     private BibRecord prepareBib(JSONObject bibJSONDataObject) {
@@ -586,58 +605,6 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             }
         }
         return itemResponses;
-    }
-
-    private Map<String, SolrInputDocument> prepareHoldingsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
-        List<HoldingsRecord> holdingsRecordsToUpdate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_UPDATED);
-        List<HoldingsRecord> holdingsRecordsToCreate = (List<HoldingsRecord>) exchange.get(OleNGConstants.HOLDINGS_CREATED);
-
-        List<HoldingsRecord> finalHoldingsForSolr = new ArrayList<HoldingsRecord>();
-        if (CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
-            finalHoldingsForSolr.addAll(holdingsRecordsToUpdate);
-        }
-        if (CollectionUtils.isNotEmpty(holdingsRecordsToCreate)) {
-            finalHoldingsForSolr.addAll(holdingsRecordsToCreate);
-        }
-
-        solrInputDocumentMap = prepareSolrInputDocumentsForHoldings(solrInputDocumentMap, finalHoldingsForSolr);
-        return solrInputDocumentMap;
-    }
-
-    private Map<String, SolrInputDocument> prepareItemsForSolr(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange) {
-        List<ItemRecord> itemRecordsToUpdate = (List<ItemRecord>) exchange.get(OleNGConstants.ITEMS_UPDATED);
-        List<ItemRecord> itemRecordsToCreate = (List<ItemRecord>) exchange.get(OleNGConstants.ITEMS_CREATED);
-
-        List<ItemRecord> finalItemsForSolr = new ArrayList<ItemRecord>();
-        if (CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
-            finalItemsForSolr.addAll(itemRecordsToUpdate);
-        }
-        if (CollectionUtils.isNotEmpty(itemRecordsToCreate)) {
-            finalItemsForSolr.addAll(itemRecordsToCreate);
-        }
-
-        solrInputDocumentMap = prepareSolrInputDocumentsForItems(solrInputDocumentMap, finalItemsForSolr);
-        return solrInputDocumentMap;
-    }
-
-    private Map<String, SolrInputDocument> prepareSolrInputDocumentsForHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, List<HoldingsRecord> holdingsRecordsToUpdate) {
-        if (CollectionUtils.isNotEmpty(holdingsRecordsToUpdate)) {
-            for (Iterator<HoldingsRecord> iterator = holdingsRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = iterator.next();
-                solrInputDocumentMap = getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
-            }
-        }
-        return solrInputDocumentMap;
-    }
-
-    private Map<String, SolrInputDocument> prepareSolrInputDocumentsForItems(Map<String, SolrInputDocument> solrInputDocumentMap, List<ItemRecord> itemRecordsToUpdate) {
-        if (CollectionUtils.isNotEmpty(itemRecordsToUpdate)) {
-            for (Iterator<ItemRecord> iterator = itemRecordsToUpdate.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = iterator.next();
-                solrInputDocumentMap = getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
-            }
-        }
-        return solrInputDocumentMap;
     }
 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
