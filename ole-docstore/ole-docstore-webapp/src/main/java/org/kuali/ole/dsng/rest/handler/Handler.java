@@ -104,7 +104,7 @@ public abstract class Handler extends OleDsHelperUtil {
 
 
     public void processDataMappings(JSONObject jsonObject, Exchange exchange) throws JSONException, IOException {
-        JSONObject dataMapping = jsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+        JSONObject dataMapping = (JSONObject) exchange.get(OleNGConstants.DATAMAPPING);
         Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {
         });
 
