@@ -687,6 +687,7 @@ var dataMapping = {
     transferOption: 'Pre Marc Transformation',
     priority: 1,
     isMultiValue: false,
+    isRepeatableField: false,
     isAddLine: false,
     collapsed: true
 };

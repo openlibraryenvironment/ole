@@ -31,7 +31,8 @@
                         </th>
                         <th>Field</th>
                         <th>Value</th>
-                        <th>Multivalue</th>
+                        <th>Multiple Field</th>
+                        <th>Repeatable Field</th>
                         <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Pre/Post Transformation</th>
                         <th>Priority</th>
                         <th ng-hide="submitted" style="width: 90px;"></th>
@@ -231,6 +232,11 @@
                             <input class="form-control" type="checkbox" name="dataMappingIsMultiValue_{{$index}}"
                                    id="dataMappingIsMultiValue_{{$index}}"
                                    ng-model="dataMapping.isMultiValue">
+                        </td>
+                        <td>
+                            <input class="form-control" type="checkbox" name="dataMappingIsRepeatableField_{{$index}}"
+                                   id="dataMappingIsRepeatableField_{{$index}}"
+                                   ng-model="dataMapping.isRepeatableField">
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <select class="form-control" name="dataMappingTransferOption__{{$index}}"

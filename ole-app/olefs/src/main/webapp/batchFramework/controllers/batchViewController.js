@@ -41,6 +41,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             $scope.dataMappingsPanel[0].destination = null;
             $scope.dataMappingsPanel[0].field = null;
             $scope.dataMappingsPanel[0].isMultiValue = false;
+            $scope.dataMappingsPanel[0].isRepeatableField = false;
             $scope.dataMappingsPanel[0].priority = 1;
         } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
             clearProfileValues();
@@ -84,6 +85,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].priority = 1;
         $scope.dataMappingsPanel[0].isMultiValue = false;
+        $scope.dataMappingsPanel[0].isRepeatableField = false;
         $scope.dataMappingsPanel.collapsed = false;
     }
 
@@ -362,6 +364,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         $scope.dataMappingsPanel[0].field = null;
         $scope.dataMappingsPanel[0].transferOption = 'Pre Marc Transformation';
         $scope.dataMappingsPanel[0].isMultiValue = false;
+        $scope.dataMappingsPanel[0].isRepeatableField = false;
         $scope.dataMappingsPanel[0].priority = 1;
     };
 
@@ -384,6 +387,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
                 transferOption: $scope.dataMappingsPanel[index].transferOption,
                 priority: $scope.dataMappingsPanel[index].priority,
                 isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
+                isRepeatableField: $scope.dataMappingsPanel[index].isRepeatableField,
                 isAddLine: true
             };
             $scope.dataMappingsPanel[index].isEdit = true;
@@ -415,6 +419,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             transferOption: $scope.dataMappingsPanel[index].transferOption,
             priority: $scope.dataMappingsPanel[index].priority,
             isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
+            isRepeatableField: $scope.dataMappingsPanel[index].isRepeatableField,
             isAddLine: true
         };
         $scope.dataMappingsPanel[index] = updatedRow;
@@ -614,6 +619,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             transferOption: $scope.dataMappingsPanel[index].transferOption,
             priority: $scope.dataMappingsPanel[index].priority,
             isMultiValue: $scope.dataMappingsPanel[index].isMultiValue,
+            isRepeatableField: $scope.dataMappingsPanel[index].isRepeatableField,
             isAddLine: true,
             isEdit: false
         };
