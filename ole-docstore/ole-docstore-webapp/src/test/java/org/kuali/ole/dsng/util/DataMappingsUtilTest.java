@@ -14,8 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -37,10 +35,6 @@ public class DataMappingsUtilTest {
 
     @Mock
     ArrayList<VariableField> variableFields;
-
-    @Mock
-    Iterator keysIterator;
-
 
     @Before
     public void setUp() throws Exception {
