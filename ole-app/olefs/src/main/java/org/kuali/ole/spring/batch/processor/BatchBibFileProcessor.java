@@ -74,6 +74,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private String getOperationInd(String operation) {
         return getOperationIndMap().get(operation);
     }
+
     private String getAddOperationInd(String operation) {
         return getAddOperationIndMap().get(operation);
     }
@@ -178,10 +179,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
         List<JSONObject> finalObjects = new ArrayList<>();
 
-        for(int index = 0; index < dataMappingsPreTrans.size() ; index++) {
+        for (int index = 0; index < dataMappingsPreTrans.size(); index++) {
             JSONObject preTransformObject = dataMappingsPreTrans.get(index);
             JSONObject postTransformObject = dataMappingsPostTrans.get(index);
-            finalObjects.add(buildOneObject(preTransformObject,postTransformObject));
+            finalObjects.add(buildOneObject(preTransformObject, postTransformObject));
         }
 
         return finalObjects;
@@ -209,20 +210,20 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     private List<Record> getRecordList(Record marcRecord, BatchProcessProfile batchProcessProfile, String docType) {
-        String multiTagField = getMultiTagField(batchProcessProfile,docType);
+        String multiTagField = getMultiTagField(batchProcessProfile, docType);
         List<Record> records = new ArrayList<>();
-        if(StringUtils.isNotBlank(multiTagField)) {
-            records =  splitRecordByMultiValue(marcRecord, multiTagField);
+        if (StringUtils.isNotBlank(multiTagField)) {
+            records = splitRecordByMultiValue(marcRecord, multiTagField);
         }
         return CollectionUtils.isNotEmpty(records) ? records : Collections.singletonList(marcRecord);
     }
 
     private String getMultiTagField(BatchProcessProfile batchProcessProfile, String docType) {
         List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
-        if(CollectionUtils.isNotEmpty(batchProfileAddOrOverlayList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileAddOrOverlayList)) {
             for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
                 BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
-                if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+                if (batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                     String addOperation = batchProfileAddOrOverlay.getAddOperation();
                     if(StringUtils.isNotBlank(addOperation) && (addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE)
                     ||  addOperation.equalsIgnoreCase(OleNGConstants.OVERLAY_MULTIPLE))) {
@@ -264,12 +265,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 String operationInd = getAddOperationInd(addOperation);
                 try {
                     JSONObject action = new JSONObject();
-                    action.put(OleNGConstants.ACTION,operationInd);
-                    action.put(OleNGConstants.DOC_TYPE,batchProfileAddOrOverlay.getDataType());
-                    action.put(OleNGConstants.DATA_FIELD,batchProfileAddOrOverlay.getDataField());
-                    action.put(OleNGConstants.IND1,batchProfileAddOrOverlay.getInd1());
-                    action.put(OleNGConstants.IND2,batchProfileAddOrOverlay.getInd2());
-                    action.put(OleNGConstants.SUBFIELD,batchProfileAddOrOverlay.getSubField());
+                    action.put(OleNGConstants.ACTION, operationInd);
+                    action.put(OleNGConstants.DOC_TYPE, batchProfileAddOrOverlay.getDataType());
+                    action.put(OleNGConstants.DATA_FIELD, batchProfileAddOrOverlay.getDataField());
+                    action.put(OleNGConstants.IND1, batchProfileAddOrOverlay.getInd1());
+                    action.put(OleNGConstants.IND2, batchProfileAddOrOverlay.getInd2());
+                    action.put(OleNGConstants.SUBFIELD, batchProfileAddOrOverlay.getSubField());
                     actionOps.add(action);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -307,7 +308,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
 
                     boolean multiValue = batchProfileDataMapping.isMultiValue();
-
                     List<String> fieldValues = getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
 
                     if (CollectionUtils.isNotEmpty(fieldValues)) {
@@ -372,7 +372,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     for (Iterator<String> iterator = values.iterator(); iterator.hasNext(); ) {
                         String value = iterator.next();
                         stringBuilder.append(value);
-                        if(iterator.hasNext()){
+                        if (iterator.hasNext()) {
                             stringBuilder.append(" ");
                         }
                     }
@@ -602,8 +602,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
             Record clonedRecord = (Record) ObjectUtils.deepCopy(record);
-            getMarcRecordUtil().removeFieldFromRecord(clonedRecord,field);
-            getMarcRecordUtil().addVariableFieldToRecord(clonedRecord,dataField);
+            getMarcRecordUtil().removeFieldFromRecord(clonedRecord, field);
+            getMarcRecordUtil().addVariableFieldToRecord(clonedRecord, dataField);
             records.add(clonedRecord);
         }
 
