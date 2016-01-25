@@ -231,7 +231,18 @@ function enableDataTableForExistingLoanedItem(){
     var pageSize = jq("#existingLoanItemTable_length").val();
     jq('#existingLoanItemTable').DataTable( {
         "bLengthChange": false,
-        "iDisplayLength" : pageSize
+        "iDisplayLength" : pageSize,
+        "bStateSave" : true,
+        "bPaginate":false,
+        "bFilter":false,
+        "bInfo":false,
+
+        fnStateSave :function(settings,data){
+            localStorage.setItem("dataTables_state", JSON.stringify(data));
+        },
+        fnStateLoad: function(settings) {
+            return JSON.parse(localStorage.getItem("dataTables_state"));
+        }
     } );
 }
 
@@ -239,5 +250,6 @@ function destroyDataTableForExistingLoanAndCreateNewDataTable(){
     jq('#existingLoanItemTable').dataTable().fnDestroy();
     enableDataTableForExistingLoanedItem();
 }
+
 
 window.onload=enableDataTableForExistingLoanedItem
