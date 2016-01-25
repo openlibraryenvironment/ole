@@ -45,7 +45,7 @@
   <param name="oracle.dba.password">manager</param>
 
   <param name="mysql.dba.url">jdbc:mysql://localhost</param>
-  <param name="mysql.url">${mysql.dba.url}/oletwozero</param>
+  <param name="mysql.url">${mysql.dba.url}/${jdbc.username}</param>
   <param name="mysql.dba.username">root</param>
   <param name="mysql.dba.password">NONE</param>
   <param name="mysql.driver">com.mysql.jdbc.Driver</param>
