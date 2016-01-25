@@ -88,6 +88,8 @@ public class OleNGConstants {
     public static final String BIBLIOGRAPHIC = "bibliographic";
     public static final String HOLDINGS = "holdings";
     public static final String EHOLDINGS = "eholdings";
+    public static final String EHOLDINGS_FOR_CREATE = "eholdingsForCreate";
+    public static final String EHOLDINGS_FOR_UPDATE = "eholdingsForUpdate";
     public static final String ITEM = "item";
     public static final String BIB_MARC = "Bib Marc";
     public static final String CONSTANT = "Constant";
@@ -169,6 +171,7 @@ public class OleNGConstants {
     public static final String ITEM_RECORD = "itemRecord";
     public static final String MATCHED_HOLDINGS = "matchedHoldings";
     public static final String MATCHED_ITEM = "matchedItem";
+    public static final String MATCHED_VALUE = "matchedValue";
     public static final String BIB_UPDATED = "bibUpdated";
     public static final String HOLDINGS_CREATED = "holdingRecordsToCreate";
     public static final String HOLDINGS_UPDATED = "holdingRecordsToUpdate";

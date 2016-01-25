@@ -43,6 +43,7 @@ public class LinkTextHandler extends HoldingsHandler {
                     HoldingsUriRecord holdingsUriRecord = iterator2.next();
                     if (StringUtils.equals(holdingsUriRecord.getText(), linkTextValue)) {
                         exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, linkTextValue);
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package org.kuali.ole.dsng.rest.processor;
 
-import org.apache.commons.codec.language.bm.Rule;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.solr.common.SolrInputDocument;
@@ -24,6 +23,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.dao.BibDAO;
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
+import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
@@ -236,10 +236,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     exchange.add(OleNGConstants.HOLDINGS, holdingsForUpdateOrCreate);
                 }
 
-                List<HoldingsRecord> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
+                List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
                 if (operationsList.contains("142") || operationsList.contains("241")) {
-                    eholdingsForUpdateOrCreate = prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
-                    exchange.add(OleNGConstants.EHOLDINGS, eholdingsForUpdateOrCreate);
+                    prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
                 }
 
                 List<ItemRecord> itemsForUpdateOrCreate = new ArrayList<ItemRecord>();
@@ -291,7 +290,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
     }
 
-    private void processEHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<HoldingsRecord> eholdingsForUpdateOrCreate) {
+    private void processEHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate) {
         for (Iterator<Handler> iterator = getEHoldingHandlers().iterator(); iterator.hasNext(); ) {
             Handler holdingsHandler = iterator.next();
             if (holdingsHandler.isInterested(ops)) {
@@ -300,8 +299,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             }
         }
 
-        for (Iterator<HoldingsRecord> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = holdingsRecordIterator.next();
+        for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+            HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
+            HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
             getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
         }
     }
@@ -432,7 +432,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
 
-    private List<HoldingsRecord> prepareEHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
+    public void prepareEHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
+        List<HoldingsRecordAndDataMapping> updateEHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
+        List<HoldingsRecordAndDataMapping> createEHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         JSONObject eholdingsJSON = null;
         Integer numOccurances = 0;
         try {
@@ -444,18 +446,26 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
 
-        List<HoldingsRecord> eholdingsRecords = new ArrayList<HoldingsRecord>();
+        List<HoldingsRecordAndDataMapping> eholdingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         if (null == bibRecord.getBibId()) {
             for (int count = 0; count < numOccurances; count++) {
-                eholdingsRecords.add(getNewHoldings(bibRecord, EHoldings.ELECTRONIC));
+                eholdingsRecordAndDataMappings.add(getNewEHoldings(bibRecord, EHoldings.ELECTRONIC));
             }
 
         } else if (eholdingsJSON.has(OleNGConstants.MATCH_POINT)) {
-            eholdingsRecords = determineHoldingsByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
-
+            eholdingsRecordAndDataMappings = determineHoldingsAndValueByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
         }
 
-        return eholdingsRecords;
+        for (Iterator<HoldingsRecordAndDataMapping> iterator = eholdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+            HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
+            if(null == holdingsRecordAndDataMapping.getHoldingsRecord().getHoldingsId()) {
+                createEHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
+            } else {
+                updateEHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
+            }
+        }
+        exchange.add(OleNGConstants.EHOLDINGS_FOR_CREATE, createEHoldingsRecordAndDataMappings);
+        exchange.add(OleNGConstants.EHOLDINGS_FOR_UPDATE, updateEHoldingsRecordAndDataMappings);
     }
 
     private HoldingsRecord getNewHoldings(BibRecord bibRecord, String holdingsType) {
@@ -463,6 +473,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         holdingsRecord.setHoldingsType(holdingsType);
         holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
         return holdingsRecord;
+    }
+
+    private HoldingsRecordAndDataMapping getNewEHoldings(BibRecord bibRecord, String holdingsType) {
+        HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = new HoldingsRecordAndDataMapping();
+
+        HoldingsRecord holdingsRecord = new HoldingsRecord();
+        holdingsRecord.setHoldingsType(holdingsType);
+        holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
+
+        holdingsRecordAndDataMapping.setHoldingsRecord(holdingsRecord);
+
+        return holdingsRecordAndDataMapping;
     }
 
     private List<HoldingsRecord> determineHoldingsByMatchPoints(BibRecord bibRecord, Exchange exchange, JSONObject holdingsJSON, String docType) {
@@ -508,6 +530,93 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         return eholdingsRecords;
+    }
+
+    public List<HoldingsRecordAndDataMapping> determineHoldingsAndValueByMatchPoints(BibRecord bibRecord, Exchange exchange, JSONObject holdingsJSON, String docType) {
+        List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
+        List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
+
+        JSONArray dataMappings = null;
+        if (holdingsJSON.has(OleNGConstants.DATAMAPPING)) {
+            try {
+                dataMappings = holdingsJSON.getJSONArray(OleNGConstants.DATAMAPPING);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
+            HoldingsRecord holdingsRecord = iterator.next();
+            if (holdingsRecord.getHoldingsType().equals(docType)) {
+                JSONObject matchPoints = null;
+                try {
+                    matchPoints = holdingsJSON.getJSONObject(OleNGConstants.MATCH_POINT);
+
+                    HashMap map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+                    });
+
+                    for (Iterator matchPointIterator = map.keySet().iterator(); matchPointIterator.hasNext(); ) {
+                        String key = (String) matchPointIterator.next();
+                        for (Iterator<HoldingsHandler> holdingsRecordIterator = getEholdingMetaDataHandlers().iterator(); holdingsRecordIterator.hasNext(); ) {
+                            HoldingsHandler holdingsHandler = holdingsRecordIterator.next();
+                            if (holdingsHandler.isInterested(key)) {
+                                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                                holdingsHandler.process(matchPoints, exchange);
+                                Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
+                                if (null != match && match.equals(Boolean.TRUE)) {
+                                    HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = new HoldingsRecordAndDataMapping();
+                                    holdingsRecordAndDataMapping.setHoldingsRecord(holdingsRecord);
+                                    String matchedValue = (String) exchange.get(OleNGConstants.MATCHED_VALUE);
+                                    JSONObject filterdDataMapping = findDataMappingByValue(dataMappings, key, matchedValue);
+                                    holdingsRecordAndDataMapping.setDataMapping(filterdDataMapping);
+                                    holdingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
+                                    exchange.remove(OleNGConstants.MATCHED_HOLDINGS);
+                                    exchange.remove(OleNGConstants.MATCHED_VALUE);
+                                }
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (JsonParseException e) {
+                    e.printStackTrace();
+                } catch (JsonMappingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+        }
+
+        List<JSONObject> unAssignedDataMappings = filterUnAssignedDataMappings(dataMappings);
+        if(CollectionUtils.isNotEmpty(unAssignedDataMappings)) {
+            for (Iterator<JSONObject> iterator = unAssignedDataMappings.iterator(); iterator.hasNext(); ) {
+                JSONObject dataMapping = iterator.next();
+                HoldingsRecordAndDataMapping newEHoldings = getNewEHoldings(bibRecord, EHoldings.ELECTRONIC);
+                newEHoldings.setDataMapping(dataMapping);
+                holdingsRecordAndDataMappings.add(newEHoldings);
+            }
+        }
+
+        return holdingsRecordAndDataMappings;
+    }
+
+    private List<JSONObject> filterUnAssignedDataMappings(JSONArray dataMappings) {
+        ArrayList<JSONObject> unAssignedDataMappings = new ArrayList<JSONObject>();
+        if(null != dataMappings) {
+            for(int index = 0 ; index < dataMappings.length() ; index++) {
+                try {
+                    JSONObject datamapping = dataMappings.getJSONObject(index);
+                    if(!datamapping.has("assigned")) {
+                        unAssignedDataMappings.add(datamapping);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return unAssignedDataMappings;
     }
 
     private Integer getNumOccurances(JSONObject bibJSON) throws JSONException {
@@ -617,5 +726,25 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    private JSONObject findDataMappingByValue(JSONArray dataMappings,
+                                              String type, String value) throws JSONException {
+        if (null != dataMappings) {
+            for(int index = 0; index < dataMappings.length(); index++) {
+                JSONObject dataMapping = dataMappings.getJSONObject(index);
+                if(dataMapping.has(type)) {
+                    JSONArray dataMappingValues = dataMapping.getJSONArray(type);
+                    for(int innerIndex = 0 ; innerIndex < dataMappingValues.length(); innerIndex++) {
+                        String dataMappingValue = dataMappingValues.getString(innerIndex);
+                        if(dataMappingValue.equalsIgnoreCase(value)){
+                            dataMapping.put("assigned", Boolean.TRUE);
+                            return dataMapping;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
