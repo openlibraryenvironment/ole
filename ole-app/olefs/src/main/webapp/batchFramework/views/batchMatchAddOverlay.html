@@ -47,7 +47,7 @@
                             <select class="form-control" name="addOrOverlayDocumentType_{{$index}}"
                                     id="addOrOverlayDocumentType_{{$index}}" style="height: 30px; width: 150px;"
                                     ng-model="addOrOverlay.addOrOverlayDocType" ng-hide="addOrOverlay.isAddLine"
-                                    ng-change="setDefaultsAddOrOverlay(addOrOverlay)">
+                                    ng-change="setDefaultsAddOrOverlay(mainSectionPanel.batchProcessType,addOrOverlay)">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayDocType}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayDocTypes" value="{{option.name}}">
                                     {{option.name}}
@@ -98,6 +98,7 @@
                             <select class="form-control" name="addOrOverlayOperation_{{$index}}" id="addOrOverlayOperation_{{$index}}"
                                     style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
+                                    ng-change="populateActionDropDownValues(mainSectionPanel.batchProcessType,addOrOverlay)"
                                     ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.operations" value="{{option.name}}">
@@ -117,6 +118,7 @@
                             <select class="form-control" name="doNotMatchAddOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
                                     id="doNotMatchAddOrOverlayOperation_{{$index}}"
                                     ng-model="addOrOverlay.operation"
+                                    ng-change="populateActionDropDownValues(mainSectionPanel.batchProcessType,addOrOverlay)"
                                     ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && !addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.doNotMatchOperations" value="{{option.name}}">
@@ -138,7 +140,9 @@
                             <select class="form-control" name="addOrOverlayAddOperationMultiple_{{$index}}"
                                     id="addOrOverlayAddOperationMultiple_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="addOrOverlay.addOperation"
-                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' && !addOrOverlay.isAddLine">
+                                    ng-show="mainSectionPanel.batchProcessType == 'Bib Import' &&
+                                    (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' ||
+                                    addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine">
                                 <option value=""></option>
                                 <option ng-selected="{{option.name == addOrOverlay.addOperation}}"
                                         ng-repeat="option in addOrOverlay.addOperationsWithMultiple" value="{{option.name}}">

@@ -208,7 +208,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         });
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
         $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'Bibliographic';
-        $scope.addOrOverlayPanel[0].operation = 'Add';
+        $scope.addOrOverlayPanel[0].operation = '';
         $scope.addOrOverlayPanel[0].addOrOverlayField = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldValue = null;
@@ -652,17 +652,33 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         dataTransformation.dataTransformationDestinationField = null;
     };
 
-    $scope.setDefaultsAddOrOverlay = function (addOrOverlay) {
+    $scope.setDefaultsAddOrOverlay = function (batchProcessType, addOrOverlay) {
         addOrOverlay.addOrOverlayField = null;
         addOrOverlay.addOrOverlayFieldOperation = null;
         addOrOverlay.addOrOverlayFieldValue = null;
-        addOrOverlay.operation = 'Add';
-        addOrOverlay.addOperation = 'Add';
+        addOrOverlay.operation = '';
+        addOrOverlay.addOperation = '';
         addOrOverlay.addItems = false;
         addOrOverlay.dataField = null;
         addOrOverlay.ind1 = null;
         addOrOverlay.ind2 = null;
         addOrOverlay.subfield = null;
+
+    };
+
+    $scope.populateActionDropDownValues = function (batchProcessType, addOrOverlay) {
+        if(batchProcessType == 'Bib Import' && (addOrOverlay.matchOption == 'If Match Found' || addOrOverlay.matchOption == 'If Match Not Found')
+            && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
+            && addOrOverlay.operation == 'Add') {
+            addOrOverlay.addOperationsWithMultiple = createMultiple;
+        } else if(batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Found'
+        && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
+        && addOrOverlay.operation == 'Overlay') {
+            addOrOverlay.addOperationsWithMultiple = overlayMultiple;
+        } else {
+            addOrOverlay.addOperationsWithMultiple = null;
+        }
+
     };
 
     $scope.populateDestinationFields = function (dataMapping) {

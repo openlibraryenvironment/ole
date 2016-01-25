@@ -103,6 +103,7 @@ public class OleNGConstants {
     public static final String DELETE_ALL_EXISTING_AND_ADD = "Delete all existing and add";
     public static final String KEEP_ALL_EXISTING_AND_ADD = "Keep all existing and add";
     public static final String CREATE_MULTIPLE = "Create multiple";
+    public static final String OVERLAY_MULTIPLE = "Overlay multiple";
     public static final String MATCH_POINT = "matchPoints";
     public static final String ONE = "1";
     public static final String TWO = "2";
