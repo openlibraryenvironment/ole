@@ -5483,11 +5483,6 @@
                                auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <inverse-foreignkey field-ref="oleERSIdentifier"/>
         </collection-descriptor>
-        <collection-descriptor name="oleERSInvoices" element-class-ref="org.kuali.ole.select.document.OLEEResourceInvoices"
-                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
-            <inverse-foreignkey field-ref="oleERSIdentifier"/>
-        </collection-descriptor>-->
         <collection-descriptor name="copyList" proxy="true" element-class-ref="org.kuali.ole.select.businessobject.OleCopy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="oleERSIdentifier" />
         </collection-descriptor>
