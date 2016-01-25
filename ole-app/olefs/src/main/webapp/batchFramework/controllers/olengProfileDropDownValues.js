@@ -491,12 +491,16 @@ var addOperations = [
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
 
-var addOperationsWithMultiple = [
+var createMultiple = [
     {id: 'createMultiple', name: 'Create multiple'},
     {id: 'createMultipleAndDeleteAllExisting', name: 'Create multiple and Delete all existing and add'},
     {id: 'createMultipleAndKeepAllExisting', name: 'Create multiple and Keep all existing and add'},
     {id: 'deleteAll', name: 'Delete all existing and add'},
     {id: 'keepAll', name: 'Keep all existing and add'}
+];
+
+var overlayMultiple = [
+    {id: 'overlayMultiple', name: 'Overlay multiple'}
 ];
 
 var fieldOperations = [
@@ -666,7 +670,6 @@ var addOrOverlay = {
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
     addOperations: addOperations,
-    addOperationsWithMultiple: addOperationsWithMultiple,
     matchedOrderOperations: matchedOrderOperations,
     unmatchedOrderOperations: unmatchedOrderOperations,
     addItems: false,
