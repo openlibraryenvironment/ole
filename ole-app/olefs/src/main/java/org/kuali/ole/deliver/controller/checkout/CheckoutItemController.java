@@ -8,7 +8,9 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
+import org.kuali.ole.deliver.controller.checkin.CheckinItemController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
+import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
@@ -60,14 +62,13 @@ public class CheckoutItemController extends CircFastAddItemController {
                 showDialog("overrideMessageDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                showDialog("checkoutRenewOptionDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("checkoutRenewOptionDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.LOANED_BY_DIFFERENT_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                resetItemInfoForNextTrans(circForm);
-                showDialog("generalInfoDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.GENERAL_INFO)){
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("generalInfoDialog",circForm,request,response);
@@ -118,14 +119,13 @@ public class CheckoutItemController extends CircFastAddItemController {
                 showDialog("overrideMessageDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                showDialog("checkoutRenewOptionDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("checkoutRenewOptionDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.LOANED_BY_DIFFERENT_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                resetItemInfoForNextTrans(circForm);
-                showDialog("generalInfoDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             } else if(null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
                 handleMissingPieceProcess(request, response, circForm, droolsResponse);
             } else if (null!= droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
@@ -168,14 +168,13 @@ public class CheckoutItemController extends CircFastAddItemController {
                 showDialog("overrideMessageDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                showDialog("checkoutRenewOptionDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("checkoutRenewOptionDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.LOANED_BY_DIFFERENT_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                resetItemInfoForNextTrans(circForm);
-                showDialog("generalInfoDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             } else if(null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
                 handleMissingPieceProcess(request, response, circForm, droolsResponse);
             } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
@@ -216,14 +215,13 @@ public class CheckoutItemController extends CircFastAddItemController {
                 showDialog("overrideMessageDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                showDialog("checkoutRenewOptionDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("checkoutRenewOptionDialog", circForm, request, response);
             }else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.LOANED_BY_DIFFERENT_PATRON)) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
-                resetItemInfoForNextTrans(circForm);
-                showDialog("generalInfoDialog", circForm, request, response);
+                showDialog("itemAlreadyLoaned", circForm, request, response);
             } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.DUE_DATE_TRUNCATED)){
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showDialog("dueDateTruncated",circForm,request,response);
@@ -369,6 +367,39 @@ public class CheckoutItemController extends CircFastAddItemController {
         String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.FAST_ADD_LINK;
         oleLoanForm.setFastAddUrl(url);
         return getUIFModelAndView(oleLoanForm, "circViewPage");
+    }
+
+    @RequestMapping(params = "methodToCall=proceedBackgroundCheckIn")
+    public ModelAndView proceedBackgroundCheckIn(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        CheckinItemController checkinItemController = new CheckinItemController();
+        CheckinForm checkinForm = new CheckinForm();
+        checkinForm.setItemBarcode(circForm.getItemBarcode());
+        checkinForm.setSelectedCirculationDesk(circForm.getSelectedCirculationDesk());
+        checkinForm.setCustomDueDateMap(new Date());
+        DroolsResponse droolsResponse = checkinItemController.getCheckinUIController(checkinForm).checkin(checkinForm);
+        if (droolsResponse != null && org.apache.commons.lang.StringUtils.isNotBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
+            if (droolsResponse.retriveErrorCode() != null) {
+                droolsResponse.getErrorMessage().clearErrorMessage();
+                if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
+                    droolsResponse.addErrorMessage("Item is Claims Returned. So the checkin process has to be handled manually");
+                } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
+                    droolsResponse.addErrorMessage("Item has missing pieces. So the checkin process has to be handled manually");
+                } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
+                    droolsResponse.addErrorMessage("Item is Damaged. So the checkin process has to be handled manually");
+                } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
+                    droolsResponse.addErrorMessage("Requests exists for this item. So the checkin process has to be handled manually");
+                } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.GENERAL_MESSAGE_FLAG)) {
+                    droolsResponse.addErrorMessage("No checkin rule found!");
+                }
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+            }
+            showDialog("blockCheckinProcessDialog", circForm, request, response);
+        } else {
+            proceedToValidateItemAndSaveLoan(circForm, result, request, response);
+        }
+        return getUIFModelAndView(circForm);
     }
 
     public void createClaimsReturnForItem(CircForm circForm, List<OleLoanDocument> loanDocumentList, OlePatronDocument olePatronDocument) throws Exception {

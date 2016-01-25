@@ -68,7 +68,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item has an existing request by the patron who is different than the current borrower.");
+   $d.addErrorMessage("Item currently loaned to some one else and has an existing request by the patron who is different than the current borrower.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM);
   end
@@ -82,7 +82,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item currently loaned by some one else.");
+   $d.addErrorMessage("Item currently loaned to some one else.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.LOANED_BY_DIFFERENT_PATRON);
   end
@@ -98,7 +98,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item currently loaned by same patron.");
+   $d.addErrorMessage("Item currently loaned to the same patron.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON);
   end
