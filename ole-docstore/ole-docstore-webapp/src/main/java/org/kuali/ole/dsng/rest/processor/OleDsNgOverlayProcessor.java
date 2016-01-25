@@ -220,8 +220,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
-                String valueOf001 = bibJSONDataObject.getString(OleNGConstants.TAG_001);
-                bibResponse.setValueOf001(valueOf001);
+//                String valueOf001 = bibJSONDataObject.getString(OleNGConstants.TAG_001);
+//                bibResponse.setValueOf001(valueOf001);
 
                 String ops = bibJSONDataObject.getString(OleNGConstants.OPS);
 
@@ -448,8 +448,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         List<HoldingsRecordAndDataMapping> eholdingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         if (null == bibRecord.getBibId()) {
+
+            JSONArray dataMappings = getDataMappingsJSONArray(eholdingsJSON);
+
             for (int count = 0; count < numOccurances; count++) {
-                eholdingsRecordAndDataMappings.add(getNewEHoldings(bibRecord, EHoldings.ELECTRONIC));
+                HoldingsRecordAndDataMapping newEHoldings = getNewEHoldings(bibRecord, EHoldings.ELECTRONIC);
+
+                try {
+                    newEHoldings.setDataMapping(dataMappings.getJSONObject(count));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                eholdingsRecordAndDataMappings.add(newEHoldings);
             }
 
         } else if (eholdingsJSON.has(OleNGConstants.MATCH_POINT)) {
@@ -480,6 +490,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         HoldingsRecord holdingsRecord = new HoldingsRecord();
         holdingsRecord.setHoldingsType(holdingsType);
+        holdingsRecord.setBibId(bibRecord.getBibId());
         holdingsRecord.setBibRecords(Collections.singletonList(bibRecord));
 
         holdingsRecordAndDataMapping.setHoldingsRecord(holdingsRecord);
@@ -536,14 +547,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         List<HoldingsRecord> holdingsForBib = bibRecord.getHoldingsRecords();
 
-        JSONArray dataMappings = null;
-        if (holdingsJSON.has(OleNGConstants.DATAMAPPING)) {
-            try {
-                dataMappings = holdingsJSON.getJSONArray(OleNGConstants.DATAMAPPING);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        JSONArray dataMappings = getDataMappingsJSONArray(holdingsJSON);
         for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
             HoldingsRecord holdingsRecord = iterator.next();
             if (holdingsRecord.getHoldingsType().equals(docType)) {
@@ -600,6 +604,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         return holdingsRecordAndDataMappings;
+    }
+
+    private JSONArray getDataMappingsJSONArray(JSONObject holdingsJSON) {
+        JSONArray dataMappings = null;
+        if (holdingsJSON.has(OleNGConstants.DATAMAPPING)) {
+            try {
+                dataMappings = holdingsJSON.getJSONArray(OleNGConstants.DATAMAPPING);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataMappings;
     }
 
     private List<JSONObject> filterUnAssignedDataMappings(JSONArray dataMappings) {
