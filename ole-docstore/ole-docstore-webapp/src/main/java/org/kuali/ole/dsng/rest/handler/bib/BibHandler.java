@@ -64,7 +64,8 @@ public abstract class BibHandler extends Handler {
     public BibRecord setDataMappingValues(BibRecord bibRecord, JSONObject requestJsonObject, Exchange exchange) {
         try {
             if (requestJsonObject.has(OleNGConstants.DATAMAPPING)) {
-                JSONObject dataMapping = requestJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+                JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                JSONObject dataMapping = dataMappings.getJSONObject(0);
                 Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
                 for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
                     String key1 = (String) iterator3.next();
