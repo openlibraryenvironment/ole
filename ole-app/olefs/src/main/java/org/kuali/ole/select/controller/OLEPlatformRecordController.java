@@ -12,17 +12,21 @@ import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.service.OLEPlatformService;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -138,7 +142,19 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
             olePlatformRecordDocument.setVendorDetailAssignedIdentifier(null);
         }
         getOlePlatformService().addVendorEventLog(olePlatformRecordDocument);
-        return super.save(olePlatformRecordForm, result, request, response);
+        ModelAndView modelAndView =  super.save(olePlatformRecordForm, result, request, response);
+        if (GlobalVariables.getMessageMap().getInfoMessages().containsKey(KRADConstants.GLOBAL_MESSAGES)) {
+            AutoPopulatingList<ErrorMessage> errorMessages = GlobalVariables.getMessageMap().getInfoMessages().get(KRADConstants.GLOBAL_MESSAGES);
+            Map<String, ErrorMessage> messageMap = new HashMap<>();
+            for (int index = 0; index < errorMessages.size(); index++) {
+                messageMap.put(errorMessages.get(index).getErrorKey(), errorMessages.get(index));
+            }
+            if (messageMap.containsKey(OLEConstants.MESSAGE_UNSAVED_CHANGES)) {
+                errorMessages.remove(messageMap.get(RiceKeyConstants.MESSAGE_SAVED));
+            }
+        }
+
+        return modelAndView;
     }
 
     /**
