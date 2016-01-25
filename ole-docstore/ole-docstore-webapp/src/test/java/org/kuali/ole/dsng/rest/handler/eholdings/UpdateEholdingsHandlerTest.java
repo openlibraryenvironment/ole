@@ -124,4 +124,85 @@ public class UpdateEholdingsHandlerTest {
         updateEholdingsHandler.setBusinessObjectService(mockBusinessObjectService);
         updateEholdingsHandler.process(bibData, exchange);
     }
+
+    @Test
+    public void testForUrlMatchPoint() throws Exception {
+        BibRecord bibRecord = new BibRecord();
+        bibRecord.setBibId("1001");
+        ArrayList<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
+
+        HoldingsRecord holdingsRecord1 = new HoldingsRecord();
+        holdingsRecord1.setHoldingsId("1");
+        ArrayList<HoldingsUriRecord> holdingsUriRecords1 = new ArrayList<HoldingsUriRecord>();
+        HoldingsUriRecord holdingsUriRecord1 = new HoldingsUriRecord();
+        holdingsUriRecord1.setUri("https://www.google.com");
+        holdingsUriRecord1.setText("google");
+        holdingsUriRecords1.add(holdingsUriRecord1);
+        holdingsRecord1.setHoldingsUriRecords(holdingsUriRecords1);
+        holdingsRecord1.setHoldingsType(EHoldings.ELECTRONIC);
+        holdingsRecords.add(holdingsRecord1);
+
+
+        HoldingsRecord holdingsRecord2 = new HoldingsRecord();
+        holdingsRecord2.setHoldingsId("2");
+        ArrayList<HoldingsUriRecord> holdingsUriRecords2 = new ArrayList<HoldingsUriRecord>();
+        HoldingsUriRecord holdingsUriRecord2 = new HoldingsUriRecord();
+        holdingsUriRecord2.setUri("https://www.gmail.com");
+        holdingsUriRecord2.setText("gmail");
+        holdingsUriRecords2.add(holdingsUriRecord2);
+        holdingsRecord2.setHoldingsUriRecords(holdingsUriRecords2);
+        holdingsRecord2.setHoldingsType(EHoldings.ELECTRONIC);
+        holdingsRecords.add(holdingsRecord2);
+
+        bibRecord.setHoldingsRecords(holdingsRecords);
+
+        JSONObject eholdingsData = new JSONObject();
+        JSONObject matchpointsForEHoldings = new JSONObject();
+        matchpointsForEHoldings.put("URL", "https://www.google.com");
+        eholdingsData.put(OleNGConstants.MATCH_POINT, matchpointsForEHoldings);
+
+        JSONArray dataMappingsForEHoldings = new JSONArray();
+        JSONArray linkText = new JSONArray();
+        linkText.put("google Account");
+        dataMappingJSONForEHoldings1.put("Link Text", linkText);
+        JSONArray url = new JSONArray();
+        url.put("https://www.google.com");
+        dataMappingJSONForEHoldings1.put("URL", url);
+
+        JSONArray linkText2 = new JSONArray();
+        linkText2.put("gmail");
+        dataMappingJSONForEHoldings2.put("Link Text", linkText2);
+        JSONArray ur12 = new JSONArray();
+        ur12.put("https://www.gmail.com/mail");
+        dataMappingJSONForEHoldings2.put("URL", ur12);
+        dataMappingsForEHoldings.put(dataMappingJSONForEHoldings2);
+        dataMappingsForEHoldings.put(dataMappingJSONForEHoldings1);
+        eholdingsData.put(OleNGConstants.DATAMAPPING, dataMappingsForEHoldings);
+
+
+        JSONObject bibData = new JSONObject();
+        JSONObject holdingsData = new JSONObject();
+        JSONObject itemData = new JSONObject();
+
+        bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
+        bibData.put(OleNGConstants.HOLDINGS, holdingsData);
+        bibData.put(OleNGConstants.ITEM, itemData);
+        bibData.put(OleNGConstants.UPDATED_BY, "ole-quickstart");
+        bibData.put(OleNGConstants.UPDATED_DATE, DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
+
+        Exchange exchange = new Exchange();
+        new OleDsNgOverlayProcessor().prepareEHoldingsRecord(bibRecord, bibData, exchange);
+        List eholdingsForCreate = (List) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
+        assertNotNull(eholdingsForCreate);
+        assertTrue(eholdingsForCreate.size() == 1);
+
+        List eholdingsForUpdate = (List) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
+        assertNotNull(eholdingsForUpdate);
+        assertTrue(eholdingsForUpdate.size() == 1);
+
+        UpdateEholdingsHandler updateEholdingsHandler = new UpdateEholdingsHandler();
+        updateEholdingsHandler.setHoldingDAO(mockHoldingDAO);
+        updateEholdingsHandler.setBusinessObjectService(mockBusinessObjectService);
+        updateEholdingsHandler.process(bibData, exchange);
+    }
 }

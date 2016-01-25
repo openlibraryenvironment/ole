@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,9 +27,13 @@ public class ItemBarcodeHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String itemBarcode = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getBarCode(), itemBarcode)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-            exchange.add(OleNGConstants.MATCHED_VALUE, itemBarcode);
+        List<String> parsedValues = parseCommaSeperatedValues(itemBarcode);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String barcodeValue = iterator.next();
+            if (StringUtils.equals(itemRecord.getBarCode(), barcodeValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, barcodeValue);
+            }
         }
     }
 

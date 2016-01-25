@@ -123,4 +123,14 @@ public abstract class Handler extends OleDsHelperUtil {
     public List<Handler> getMetaDataHandlers() {
         return new ArrayList<Handler>();
     }
+
+    public List<String> parseCommaSeperatedValues(String value){
+        List values = new ArrayList();
+
+        StringTokenizer stringTokenizer = new StringTokenizer(value, ",");
+        while(stringTokenizer.hasMoreTokens()){
+            values.add(stringTokenizer.nextToken());
+        }
+        return values;
+    }
 }

@@ -31,12 +31,17 @@ public class UrlHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String url = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsUriRecord> holdingsUriRecords = holdingRecord.getHoldingsUriRecords();
-        if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
-            for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsUriRecord holdingsUriRecord = iterator.next();
-                if(StringUtils.equals(holdingsUriRecord.getUri(),url)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(url);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String urlValue = iterator.next();
+            List<HoldingsUriRecord> holdingsUriRecords = holdingRecord.getHoldingsUriRecords();
+            if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
+                for (Iterator<HoldingsUriRecord> holdingsUriRecordIterator = holdingsUriRecords.iterator(); holdingsUriRecordIterator.hasNext(); ) {
+                    HoldingsUriRecord holdingsUriRecord = holdingsUriRecordIterator.next();
+                    if(StringUtils.equals(holdingsUriRecord.getUri(),urlValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, urlValue);
+                    }
                 }
             }
         }
