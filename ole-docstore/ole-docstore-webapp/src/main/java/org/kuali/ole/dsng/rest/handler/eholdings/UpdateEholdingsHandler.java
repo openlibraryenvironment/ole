@@ -106,13 +106,17 @@ public class UpdateEholdingsHandler extends Handler {
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
             JSONObject holdingJsonObject = getHoldingsJsonObject(requestJsonObject);
+            JSONArray dataMappings = holdingJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
 
+            int index = 0;
             for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
                 HoldingsRecord holdingsRecord = iterator.next();
                 holdingsRecord.setUpdatedDate(updatedDate);
                 holdingsRecord.setUpdatedBy(updatedBy);
                 exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
-                processOverlay(exchange, holdingsRecord, holdingJsonObject);
+
+                processOverlay(exchange, holdingsRecord, dataMappings.getJSONObject(index));
+                index++;
             }
 
         } catch (JSONException e) {
@@ -132,9 +136,7 @@ public class UpdateEholdingsHandler extends Handler {
         return requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
     }
 
-    private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject holdingJsonObject) throws JSONException, IOException {
-
-        JSONObject dataMapping = holdingJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+    private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject dataMapping) throws JSONException, IOException {
         Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
         for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
             String key1 = (String) iterator3.next();
