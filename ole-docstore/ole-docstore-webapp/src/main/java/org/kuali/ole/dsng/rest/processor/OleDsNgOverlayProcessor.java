@@ -238,13 +238,15 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 List<HoldingsRecord> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecord>();
                 if (operationsList.contains("142") || operationsList.contains("241")) {
-                    //TODO: prepare EHoldings list
                     eholdingsForUpdateOrCreate = prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
                     exchange.add(OleNGConstants.EHOLDINGS, eholdingsForUpdateOrCreate);
                 }
 
-                List<ItemRecord> itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
-                exchange.add(OleNGConstants.ITEM, itemsForUpdateOrCreate);
+                List<ItemRecord> itemsForUpdateOrCreate = new ArrayList<ItemRecord>();
+                if (operationsList.contains(132) || operationsList.contains(231)) {
+                    itemsForUpdateOrCreate = prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
+                    exchange.add(OleNGConstants.ITEM, itemsForUpdateOrCreate);
+                }
 
                 processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 

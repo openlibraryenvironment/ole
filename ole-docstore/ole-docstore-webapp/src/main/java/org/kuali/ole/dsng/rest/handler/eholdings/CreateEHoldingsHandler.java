@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -36,24 +37,40 @@ public class CreateEHoldingsHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) exchange.get(OleNGConstants.EHOLDINGS);
-        for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-            HoldingsRecord holdingsRecord = iterator.next();
-            holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
-            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-            try {
-                JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
-                processDataMappings(holdingsJSONObject, exchange);
-                setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        try {
+          JSONObject eHoldings =  requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
+            JSONArray dataMappings = eHoldings.getJSONArray(OleNGConstants.DATAMAPPING);
+            int index = 0;
+
+            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
+                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                try {
+                    JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
+                    exchange.add(OleNGConstants.DATAMAPPING, dataMappings.get(index));
+                    index++;
+                    processDataMappings(holdingsJSONObject, exchange);
+                    setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
 
+            exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+            getHoldingDAO().saveAll(holdingsRecords);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-        getHoldingDAO().saveAll(holdingsRecords);
+
     }
 
 
