@@ -32,8 +32,6 @@ public class BatchProfileDataMapping extends MarcDataField {
     @JsonProperty("isMultiValue")
     private boolean isMultiValue;
 
-    @JsonProperty("isRepeatableField")
-    private boolean isRepeatableField;
 
     @JsonProperty("priority")
     private int priority;
@@ -92,14 +90,6 @@ public class BatchProfileDataMapping extends MarcDataField {
 
     public void setMultiValue(boolean multiValue) {
         isMultiValue = multiValue;
-    }
-
-    public boolean isRepeatableField() {
-        return isRepeatableField;
-    }
-
-    public void setRepeatableField(boolean repeatableField) {
-        isRepeatableField = repeatableField;
     }
 
     public int getPriority() {
