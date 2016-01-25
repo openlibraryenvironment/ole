@@ -13,6 +13,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
@@ -42,17 +43,22 @@ public class CreateItemHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
+        List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+        List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
+
         JSONObject itemJSONObject;
-        List<ItemRecord> itemRecords = null;
         try {
             itemJSONObject = requestJsonObject.getJSONObject(OleNGConstants.ITEM);
-            itemRecords = (List<ItemRecord>) exchange.get(OleNGConstants.ITEM);
-            for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = iterator.next();
+            for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
                 itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
                 exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
                 processDataMappings(itemJSONObject, exchange);
                 setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                itemRecords.add(itemRecord);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,9 +66,9 @@ public class CreateItemHandler extends Handler {
             e.printStackTrace();
         }
 
-
+        exchange.remove(OleNGConstants.ITEM_RECORD);
+        exchange.remove(OleNGConstants.DATAMAPPING);
         getItemDAO().saveAll(itemRecords);
-
 
     }
 

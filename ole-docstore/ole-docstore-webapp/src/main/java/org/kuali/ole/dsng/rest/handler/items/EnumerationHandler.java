@@ -27,6 +27,7 @@ public class EnumerationHandler extends ItemHandler {
         String enumeration = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getEnumeration(), enumeration)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, enumeration);
         }
     }
 

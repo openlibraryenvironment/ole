@@ -114,8 +114,8 @@ public class UpdateEholdingsHandler extends Handler {
                 JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
                 if(null != dataMappingByValue) {
                     processOverlay(exchange, holdingsRecord, dataMappingByValue);
-                    holdingsRecords.add(holdingsRecord);
                 }
+                holdingsRecords.add(holdingsRecord);
             }
 
         } catch (JSONException e) {
@@ -129,11 +129,6 @@ public class UpdateEholdingsHandler extends Handler {
         }
         exchange.remove(OleNGConstants.HOLDINGS_RECORD);
         getHoldingDAO().saveAll(holdingsRecords);
-    }
-
-
-    public JSONObject getHoldingsJsonObject(JSONObject requestJsonObject) throws JSONException {
-        return requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
     }
 
     private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject dataMapping) throws JSONException, IOException {

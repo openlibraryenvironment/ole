@@ -31,6 +31,7 @@ public class ItemStatusHandler extends ItemHandler {
         if (null != itemRecord.getItemStatusRecord() &&
                 StringUtils.equals(itemRecord.getItemStatusRecord().getName(),itemStatusName)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, itemStatusName);
         }
     }
 

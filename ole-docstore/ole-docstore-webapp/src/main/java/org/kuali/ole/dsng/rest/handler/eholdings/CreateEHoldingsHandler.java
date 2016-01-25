@@ -61,8 +61,6 @@ public class CreateEHoldingsHandler extends Handler {
         exchange.remove(OleNGConstants.HOLDINGS_RECORD);
         exchange.remove(OleNGConstants.DATAMAPPING);
         getHoldingDAO().saveAll(holdingsRecords);
-
-
     }
 
 

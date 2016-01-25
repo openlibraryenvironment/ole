@@ -34,6 +34,7 @@ public class DonorPublicDisplayHandler extends ItemHandler {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 if(StringUtils.equals(oleItemDonorRecord.getDonorPublicDisplay(),donorPublicDisplay)) {
                     exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, donorPublicDisplay);
                     break;
                 }
             }

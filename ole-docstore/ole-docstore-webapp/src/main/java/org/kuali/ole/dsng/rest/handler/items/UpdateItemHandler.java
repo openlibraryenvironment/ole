@@ -12,6 +12,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
@@ -40,20 +41,25 @@ public class UpdateItemHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        List<ItemRecord> itemRecords = (List<ItemRecord>) exchange.get(OleNGConstants.ITEM);
+        List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+        List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
         try {
 
             String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
             Timestamp updatedDate = getDateTimeStamp(updatedDateString);
             String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
-            JSONObject itemJsonObject = requestJsonObject.getJSONObject("item");
 
-            for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = iterator.next();
+            for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
                 itemRecord.setUpdatedBy(updatedBy);
                 itemRecord.setUpdatedDate(updatedDate);
                 exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                processOverlay(exchange, itemJsonObject, itemRecord);
+                if (null != dataMapping) {
+                    processOverlay(exchange, dataMapping, itemRecord);
+                }
+                itemRecords.add(itemRecord);
             }
 
         } catch (JSONException e) {
@@ -70,9 +76,7 @@ public class UpdateItemHandler extends Handler {
         getItemDAO().saveAll(itemRecords);
     }
 
-    private ItemRecord processOverlay(Exchange exchange,JSONObject itemJsonObject, ItemRecord itemRecord) throws JSONException, IOException {
-
-        JSONObject dataMapping = itemJsonObject.getJSONObject(OleNGConstants.DATAMAPPING);
+    private ItemRecord processOverlay(Exchange exchange,JSONObject dataMapping, ItemRecord itemRecord) throws JSONException, IOException {
         Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
         for (Iterator dataMappingsIterator = dataMappingsMap.keySet().iterator(); dataMappingsIterator.hasNext(); ) {
             String key1 = (String) dataMappingsIterator.next();
@@ -87,18 +91,6 @@ public class UpdateItemHandler extends Handler {
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
         return itemRecord;
     }
-
-    private Collection getCollletion(String values) {
-        List queryValues = new ArrayList();
-
-        StringTokenizer stringTokenizer = new StringTokenizer(values, ",");
-        while (stringTokenizer.hasMoreTokens()) {
-            queryValues.add(stringTokenizer.nextToken());
-        }
-        return queryValues;
-    }
-
-
 
     public List<ItemHandler> getItemMetaDataHandlers() {
         if(null == itemMetaDataHandlers){

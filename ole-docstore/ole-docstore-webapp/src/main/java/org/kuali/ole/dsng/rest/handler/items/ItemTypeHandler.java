@@ -31,6 +31,7 @@ public class ItemTypeHandler extends ItemHandler {
         if (null != itemRecord.getItemTypeRecord() &&
                 StringUtils.equals(itemRecord.getItemTypeRecord().getName(),itemTypeName)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, itemTypeName);
         }
     }
 

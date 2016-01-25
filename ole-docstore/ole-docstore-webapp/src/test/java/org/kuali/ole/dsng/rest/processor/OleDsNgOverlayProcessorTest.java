@@ -271,7 +271,7 @@ public class OleDsNgOverlayProcessorTest extends DocstoreTestCaseBase {
 
 
         Exchange exchange = new Exchange();
-        List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = oleDsNgOverlayProcessor.determineHoldingsAndValueByMatchPoints(bibRecord, exchange, eholdingsData, EHoldings.ELECTRONIC);
+        List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = oleDsNgOverlayProcessor.determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, eholdingsData, EHoldings.ELECTRONIC);
         assertTrue(CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings));
         assertTrue(holdingsRecordAndDataMappings.size() == 2);
     }

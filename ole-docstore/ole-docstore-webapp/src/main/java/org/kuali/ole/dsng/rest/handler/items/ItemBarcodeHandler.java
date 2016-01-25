@@ -28,6 +28,7 @@ public class ItemBarcodeHandler extends ItemHandler {
         String itemBarcode = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getBarCode(), itemBarcode)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, itemBarcode);
         }
     }
 

@@ -28,6 +28,7 @@ public class CallNumberHandler extends ItemHandler {
         String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getCallNumber(), callNumber)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, callNumber);
         }
     }
 

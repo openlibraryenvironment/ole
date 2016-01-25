@@ -27,6 +27,7 @@ public class VendorLineItemIdHandler extends ItemHandler {
         String vendorLineItemIdentifier = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getVendorLineItemId(), vendorLineItemIdentifier)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, vendorLineItemIdentifier);
         }
     }
 

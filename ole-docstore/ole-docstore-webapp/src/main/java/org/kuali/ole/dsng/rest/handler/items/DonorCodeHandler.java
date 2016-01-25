@@ -34,6 +34,7 @@ public class DonorCodeHandler extends ItemHandler {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 if(StringUtils.equals(oleItemDonorRecord.getDonorCode(),donorCode)) {
                     exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, donorCode);
                     break;
                 }
             }

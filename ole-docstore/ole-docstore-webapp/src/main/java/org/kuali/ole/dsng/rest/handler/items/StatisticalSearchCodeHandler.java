@@ -37,6 +37,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
                 if(null != itemStatisticalSearchRecord.getStatisticalSearchRecord() &&
                         StringUtils.equals(itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
                     exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, statisticalSearchCode);
                 }
             }
         }

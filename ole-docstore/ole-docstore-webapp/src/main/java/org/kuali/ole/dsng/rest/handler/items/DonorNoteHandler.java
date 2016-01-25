@@ -34,6 +34,7 @@ public class DonorNoteHandler extends ItemHandler {
                 OLEItemDonorRecord oleItemDonorRecord = iterator.next();
                 if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
                     exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, donorNote);
                     break;
                 }
             }

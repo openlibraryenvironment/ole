@@ -87,10 +87,14 @@ public class OleNGConstants {
     public static final String DATAMAPPING = "dataMapping";
     public static final String BIBLIOGRAPHIC = "bibliographic";
     public static final String HOLDINGS = "holdings";
+    public static final String HOLDINGS_FOR_CREATE = "holdingsForCreate";
+    public static final String HOLDINGS_FOR_UPDATE = "holdingsForUpdate";
     public static final String EHOLDINGS = "eholdings";
     public static final String EHOLDINGS_FOR_CREATE = "eholdingsForCreate";
     public static final String EHOLDINGS_FOR_UPDATE = "eholdingsForUpdate";
     public static final String ITEM = "item";
+    public static final String ITEMS_FOR_CREATE = "itemsForCreate";
+    public static final String ITEMS_FOR_UPDATE = "itemsForUpdate";
     public static final String BIB_MARC = "Bib Marc";
     public static final String CONSTANT = "Constant";
     public static final String PRE_MARC_TRANSFORMATION = "Pre Marc Transformation";

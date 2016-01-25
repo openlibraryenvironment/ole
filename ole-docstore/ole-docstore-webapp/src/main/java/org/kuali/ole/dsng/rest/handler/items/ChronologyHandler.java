@@ -27,6 +27,7 @@ public class ChronologyHandler extends ItemHandler {
         String chronology = getStringValueFromJsonObject(requestJsonObject, TYPE);
         if (StringUtils.equals(itemRecord.getChronology(), chronology)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, chronology);
         }
     }
 

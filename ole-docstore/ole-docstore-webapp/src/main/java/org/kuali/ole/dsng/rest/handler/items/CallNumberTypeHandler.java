@@ -31,6 +31,7 @@ public class CallNumberTypeHandler extends ItemHandler {
         if (null != itemRecord.getCallNumberTypeRecord() &&
                 StringUtils.equals(itemRecord.getCallNumberTypeRecord().getCallNumberTypeId(),callNumberType)) {
             exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+            exchange.add(OleNGConstants.MATCHED_VALUE, callNumberType);
         }
     }
 
