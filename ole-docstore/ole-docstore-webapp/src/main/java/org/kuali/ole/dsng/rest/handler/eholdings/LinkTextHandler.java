@@ -77,8 +77,6 @@ public class LinkTextHandler extends HoldingsHandler {
                 holdingRecord.setHoldingsUriRecords(holdingsUriRecords);
 
             }
-
-            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
         }
     }
 }
