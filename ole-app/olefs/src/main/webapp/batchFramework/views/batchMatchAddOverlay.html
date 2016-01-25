@@ -176,32 +176,36 @@
                             <input class="form-control" id="addOrOverlayDataField_{{$index}}" name="addOrOverlayDataField_{{$index}}"
                                    type="text"
                                    ng-model="addOrOverlay.dataField"
-                                   ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' &&
-                                   (addOrOverlay.addOperation == 'Create multiple' || addOrOverlay.addOperation == 'Create multiple and Delete all existing and add' || addOrOverlay.addOperation == 'Create multiple and Keep all existing and add') && !addOrOverlay.isAddLine"
+                                   ng-show="(addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings'
+                                   || addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add'
+                                   || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine"
                                    style="height: 30px; width: 100px;"/>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.dataField"></span>
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <input class="form-control" id="addOrOverlayInd1_{{$index}}" name="addOrOverlayInd1_{{$index}}" type="text"
                                    ng-model="addOrOverlay.ind1"
-                                   ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' &&
-                                   (addOrOverlay.addOperation == 'Create multiple' || addOrOverlay.addOperation == 'Create multiple and Delete all existing and add' || addOrOverlay.addOperation == 'Create multiple and Keep all existing and add') && !addOrOverlay.isAddLine"
+                                   ng-show="(addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings'
+                                   || addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add'
+                                   || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.ind1"></span>
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <input class="form-control" id="addOrOverlayInd2_{{$index}}" name="addOrOverlayInd2_{{$index}}" type="text"
                                    ng-model="addOrOverlay.ind2"
-                                   ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' &&
-                                   (addOrOverlay.addOperation == 'Create multiple' || addOrOverlay.addOperation == 'Create multiple and Delete all existing and add' || addOrOverlay.addOperation == 'Create multiple and Keep all existing and add') && !addOrOverlay.isAddLine"
+                                   ng-show="(addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings'
+                                   || addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add'
+                                   || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.ind2"></span>
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <input class="form-control" id="addOrOverlaySubField_{{$index}}" name="addOrOverlaySubField_{{$index}}" type="text"
                                    ng-model="addOrOverlay.subField"
-                                   ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item') && addOrOverlay.operation == 'Add' &&
-                                   (addOrOverlay.addOperation == 'Create multiple' || addOrOverlay.addOperation == 'Create multiple and Delete all existing and add' || addOrOverlay.addOperation == 'Create multiple and Keep all existing and add') && !addOrOverlay.isAddLine"
+                                   ng-show="(addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings'
+                                   || addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add'
+                                   || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine"
                                    style="height: 30px; width: 50px;"/>
                             <span ng-show="addOrOverlay.isAddLine" ng-bind="addOrOverlay.subField"></span>
                         </td>
