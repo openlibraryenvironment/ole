@@ -245,9 +245,10 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             $scope.addOrOverlayPanel[index].bibDoNotMatchOperations = bibDoNotMatchOperations;
             $scope.addOrOverlayPanel[index].doNotMatchOperations = doNotMatchOperations;
             $scope.addOrOverlayPanel[index].addOperations = addOperations;
-            $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationsWithMultiple;
             $scope.addOrOverlayPanel[index].matchedOrderOperations = matchedOrderOperations;
             $scope.addOrOverlayPanel[index].unmatchedOrderOperations = unmatchedOrderOperations;
+            var addOperationWithMultipleOptions = getAddOperationWithMultipleOptions($scope.mainSectionPanel.batchProcessType,$scope.addOrOverlayPanel[index]);
+            $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationWithMultipleOptions;
             $scope.addOrOverlayPanel[index].isAddLine = false;
         }
     };
@@ -666,19 +667,22 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
 
     };
 
-    $scope.populateActionDropDownValues = function (batchProcessType, addOrOverlay) {
-        if(batchProcessType == 'Bib Import' && (addOrOverlay.matchOption == 'If Match Found' || addOrOverlay.matchOption == 'If Match Not Found')
+    function getAddOperationWithMultipleOptions(batchProcessType, addOrOverlay) {
+        if (batchProcessType == 'Bib Import' && (addOrOverlay.matchOption == 'If Match Found' || addOrOverlay.matchOption == 'If Match Not Found')
             && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
             && addOrOverlay.operation == 'Add') {
-            addOrOverlay.addOperationsWithMultiple = createMultiple;
-        } else if(batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Found'
-        && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
-        && addOrOverlay.operation == 'Overlay') {
-            addOrOverlay.addOperationsWithMultiple = overlayMultiple;
+            return createMultiple;
+        } else if (batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Found'
+            && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
+            && addOrOverlay.operation == 'Overlay') {
+            return overlayMultiple;
         } else {
-            addOrOverlay.addOperationsWithMultiple = null;
+            return null;
         }
+    }
 
+    $scope.populateActionDropDownValues = function (batchProcessType, addOrOverlay) {
+        addOrOverlay.addOperationsWithMultiple = getAddOperationWithMultipleOptions(batchProcessType, addOrOverlay);
     };
 
     $scope.populateDestinationFields = function (dataMapping) {
