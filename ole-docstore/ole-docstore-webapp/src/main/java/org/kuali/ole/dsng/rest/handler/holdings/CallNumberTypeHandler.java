@@ -10,6 +10,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.CallNumberUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,9 +29,14 @@ public class CallNumberTypeHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String callNumberTypeCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if ((null != holdingsRecord.getCallNumberTypeRecord() &&
-                StringUtils.equals(holdingsRecord.getCallNumberTypeRecord().getCode(),callNumberTypeCode))) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+        List<String> parsedValues = parseCommaSeperatedValues(callNumberTypeCode);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String callNumberTypeCodeValue = iterator.next();
+            if ((null != holdingsRecord.getCallNumberTypeRecord() &&
+                    StringUtils.equals(holdingsRecord.getCallNumberTypeRecord().getCode(),callNumberTypeCodeValue))) {
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, callNumberTypeCodeValue);
+            }
         }
     }
 

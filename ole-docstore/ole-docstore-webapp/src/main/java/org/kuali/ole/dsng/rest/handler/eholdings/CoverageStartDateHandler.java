@@ -32,12 +32,18 @@ public class CoverageStartDateHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String coverageStartDate = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstanceCoverageRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
-                EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
-                if(StringUtils.equals(eInstanceCoverageRecord.getCoverageStartDate(),coverageStartDate)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(coverageStartDate);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String coverageStartDateValue = iterator.next();
+            List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
+            if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                for (Iterator<EInstanceCoverageRecord> eInstanceCoverageRecordIterator = eInstanceCoverageRecords.iterator();
+                     eInstanceCoverageRecordIterator.hasNext(); ) {
+                    EInstanceCoverageRecord eInstanceCoverageRecord = eInstanceCoverageRecordIterator.next();
+                    if(StringUtils.equals(eInstanceCoverageRecord.getCoverageStartDate(),coverageStartDateValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, coverageStartDateValue);
+                    }
                 }
             }
         }

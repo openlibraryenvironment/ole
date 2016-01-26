@@ -8,6 +8,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,9 +26,13 @@ public class ChronologyHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String chronology = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getChronology(), chronology)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-            exchange.add(OleNGConstants.MATCHED_VALUE, chronology);
+        List<String> parsedValues = parseCommaSeperatedValues(chronology);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String chronologyValue = iterator.next();
+            if (StringUtils.equals(itemRecord.getChronology(), chronologyValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, chronologyValue);
+            }
         }
     }
 

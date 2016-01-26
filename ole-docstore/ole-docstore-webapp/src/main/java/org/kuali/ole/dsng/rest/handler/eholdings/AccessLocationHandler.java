@@ -32,13 +32,18 @@ public class AccessLocationHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String accessLocation = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
-        if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
-            for (Iterator<HoldingsAccessLocation> iterator = holdingsAccessLocations.iterator(); iterator.hasNext(); ) {
-                HoldingsAccessLocation holdingsAccessLocation = iterator.next();
-                if(null != holdingsAccessLocation.getAccessLocation() && StringUtils.equals(holdingsAccessLocation.getAccessLocation().getCode(),accessLocation)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(accessLocation);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String accessLocationValue = iterator.next();
+            List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
+            if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
+                for (Iterator<HoldingsAccessLocation> holdingsAccessLocationIterator = holdingsAccessLocations.iterator(); holdingsAccessLocationIterator.hasNext(); ) {
+                    HoldingsAccessLocation holdingsAccessLocation = holdingsAccessLocationIterator.next();
+                    if(null != holdingsAccessLocation.getAccessLocation() && StringUtils.equals(holdingsAccessLocation.getAccessLocation().getCode(),accessLocationValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, accessLocationValue);
+                        break;
+                    }
                 }
             }
         }

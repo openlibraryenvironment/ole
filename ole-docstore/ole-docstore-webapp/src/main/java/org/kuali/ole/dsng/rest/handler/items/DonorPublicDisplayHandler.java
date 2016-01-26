@@ -28,14 +28,18 @@ public class DonorPublicDisplayHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                if(StringUtils.equals(oleItemDonorRecord.getDonorPublicDisplay(),donorPublicDisplay)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-                    exchange.add(OleNGConstants.MATCHED_VALUE, donorPublicDisplay);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(donorPublicDisplay);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String donorPublicDisplayValue = iterator.next();
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<OLEItemDonorRecord> oleItemDonorRecordIterator = donorList.iterator(); oleItemDonorRecordIterator.hasNext(); ) {
+                    OLEItemDonorRecord oleItemDonorRecord = oleItemDonorRecordIterator.next();
+                    if(StringUtils.equals(oleItemDonorRecord.getDonorPublicDisplay(),donorPublicDisplayValue)) {
+                        exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, donorPublicDisplayValue);
+                        break;
+                    }
                 }
             }
         }

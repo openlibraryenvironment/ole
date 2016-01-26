@@ -30,8 +30,13 @@ public class CallNumberHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(holdingRecord.getCallNumber(), callNumber)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+        List<String> parsedValues = parseCommaSeperatedValues(callNumber);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String callNumberValue = iterator.next();
+            if (StringUtils.equals(holdingRecord.getCallNumber(), callNumberValue)) {
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, callNumberValue);
+            }
         }
     }
 

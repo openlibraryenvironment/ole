@@ -28,14 +28,18 @@ public class DonorNoteHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String donorNote = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-                    exchange.add(OleNGConstants.MATCHED_VALUE, donorNote);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(donorNote);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String donorNoteValue = iterator.next();
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<OLEItemDonorRecord> oleItemDonorRecordIterator = donorList.iterator(); oleItemDonorRecordIterator.hasNext(); ) {
+                    OLEItemDonorRecord oleItemDonorRecord = oleItemDonorRecordIterator.next();
+                    if (StringUtils.equals(oleItemDonorRecord.getDonorNote(), donorNoteValue)) {
+                        exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, donorNoteValue);
+                        break;
+                    }
                 }
             }
         }

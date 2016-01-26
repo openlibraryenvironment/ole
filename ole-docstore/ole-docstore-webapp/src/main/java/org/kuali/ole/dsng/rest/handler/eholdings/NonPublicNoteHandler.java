@@ -32,13 +32,18 @@ public class NonPublicNoteHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
-        if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
-            for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsNoteRecord holdingsNoteRecord = iterator.next();
-                if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.NON_PUBLIC) &&
-                        StringUtils.equals(holdingsNoteRecord.getNote(),publicNote)){
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(publicNote);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String nonPublicNoteValue =  iterator.next();
+            List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
+            if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
+                for (Iterator<HoldingsNoteRecord> holdingsNoteRecordIterator = holdingsNoteRecords.iterator(); holdingsNoteRecordIterator.hasNext(); ) {
+                    HoldingsNoteRecord holdingsNoteRecord = holdingsNoteRecordIterator.next();
+                    if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.NON_PUBLIC) &&
+                            StringUtils.equals(holdingsNoteRecord.getNote(),nonPublicNoteValue)){
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, nonPublicNoteValue);
+                    }
                 }
             }
         }

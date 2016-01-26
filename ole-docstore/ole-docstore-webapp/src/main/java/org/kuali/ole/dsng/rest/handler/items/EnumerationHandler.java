@@ -8,6 +8,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,9 +26,13 @@ public class EnumerationHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String enumeration = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getEnumeration(), enumeration)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-            exchange.add(OleNGConstants.MATCHED_VALUE, enumeration);
+        List<String> parsedValues = parseCommaSeperatedValues(enumeration);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String enumerationValue = iterator.next();
+            if (StringUtils.equals(itemRecord.getEnumeration(), enumerationValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, enumerationValue);
+            }
         }
     }
 

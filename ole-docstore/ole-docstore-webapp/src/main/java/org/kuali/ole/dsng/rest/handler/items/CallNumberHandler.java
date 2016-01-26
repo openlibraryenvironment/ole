@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,9 +27,13 @@ public class CallNumberHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String callNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getCallNumber(), callNumber)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
-            exchange.add(OleNGConstants.MATCHED_VALUE, callNumber);
+        List<String> parsedValues = parseCommaSeperatedValues(callNumber);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String callNumberValue = iterator.next();
+            if (StringUtils.equals(itemRecord.getCallNumber(), callNumberValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, callNumberValue);
+            }
         }
     }
 

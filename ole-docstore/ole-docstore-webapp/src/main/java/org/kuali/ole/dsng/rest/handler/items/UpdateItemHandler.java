@@ -43,37 +43,39 @@ public class UpdateItemHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
-        try {
+        if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
+            try {
 
-            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
-            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
-            String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
+                String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
+                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
 
-            for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
-                ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                itemRecord.setUpdatedBy(updatedBy);
-                itemRecord.setUpdatedDate(updatedDate);
-                exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                if (null != dataMapping) {
-                    processOverlay(exchange, dataMapping, itemRecord);
+                for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                    ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                    JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                    itemRecord.setUpdatedBy(updatedBy);
+                    itemRecord.setUpdatedDate(updatedDate);
+                    exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                    if (null != dataMapping) {
+                        processOverlay(exchange, dataMapping, itemRecord);
+                    }
+                    itemRecords.add(itemRecord);
                 }
-                itemRecords.add(itemRecord);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            exchange.remove(OleNGConstants.ITEM_RECORD);
+            getItemDAO().saveAll(itemRecords);
         }
-
-        exchange.remove(OleNGConstants.ITEM_RECORD);
-        getItemDAO().saveAll(itemRecords);
     }
 
     private ItemRecord processOverlay(Exchange exchange,JSONObject dataMapping, ItemRecord itemRecord) throws JSONException, IOException {

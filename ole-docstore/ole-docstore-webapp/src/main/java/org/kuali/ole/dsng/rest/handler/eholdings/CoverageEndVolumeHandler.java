@@ -30,12 +30,18 @@ public class CoverageEndVolumeHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String coverageEndVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstanceCoverageRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
-                EInstanceCoverageRecord eInstanceCoverageRecord = iterator.next();
-                if(StringUtils.equals(eInstanceCoverageRecord.getCoverageEndVolume(),coverageEndVolume)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(coverageEndVolume);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String coverageEndVolumeValue = iterator.next();
+            List<EInstanceCoverageRecord> eInstanceCoverageRecords = holdingsRecord.geteInstanceCoverageRecordList();
+            if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                for (Iterator<EInstanceCoverageRecord> iteraeInstanceCoverageRecordIteratoror = eInstanceCoverageRecords.iterator();
+                     iteraeInstanceCoverageRecordIteratoror.hasNext(); ) {
+                    EInstanceCoverageRecord eInstanceCoverageRecord = iteraeInstanceCoverageRecordIteratoror.next();
+                    if(StringUtils.equals(eInstanceCoverageRecord.getCoverageEndVolume(),coverageEndVolumeValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, coverageEndVolumeValue);
+                    }
                 }
             }
         }

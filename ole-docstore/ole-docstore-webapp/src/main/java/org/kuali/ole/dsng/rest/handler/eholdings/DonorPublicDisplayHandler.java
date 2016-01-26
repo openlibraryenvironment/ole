@@ -30,13 +30,18 @@ public class DonorPublicDisplayHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEHoldingsDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator.next();
-                if(StringUtils.equals(oleHoldingsDonorRecord.getDonorPublicDisplay(),donorPublicDisplay)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(donorPublicDisplay);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String donorDisplayValue = iterator.next();
+            List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<OLEHoldingsDonorRecord> oleHoldingsDonorRecordIterator = donorList.iterator(); oleHoldingsDonorRecordIterator.hasNext(); ) {
+                    OLEHoldingsDonorRecord oleHoldingsDonorRecord = oleHoldingsDonorRecordIterator.next();
+                    if(StringUtils.equals(oleHoldingsDonorRecord.getDonorPublicDisplay(),donorDisplayValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, donorDisplayValue);
+                        break;
+                    }
                 }
             }
         }

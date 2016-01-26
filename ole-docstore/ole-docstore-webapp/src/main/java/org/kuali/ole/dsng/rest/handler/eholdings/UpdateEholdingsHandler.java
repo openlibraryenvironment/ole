@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -100,35 +101,37 @@ public class UpdateEholdingsHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
-        try {
-            String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-            String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
-            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+        if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
+            try {
+                String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+                String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
+                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-            for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                holdingsRecord.setUpdatedDate(updatedDate);
-                holdingsRecord.setUpdatedBy(updatedBy);
-                exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
-                JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                if(null != dataMappingByValue) {
-                    processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
+                    HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                    holdingsRecord.setUpdatedDate(updatedDate);
+                    holdingsRecord.setUpdatedBy(updatedBy);
+                    exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
+                    JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
+                    if(null != dataMappingByValue) {
+                        processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                    }
+                    holdingsRecords.add(holdingsRecord);
                 }
-                holdingsRecords.add(holdingsRecord);
-            }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+            getHoldingDAO().saveAll(holdingsRecords);
         }
-        exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-        getHoldingDAO().saveAll(holdingsRecords);
     }
 
     private HoldingsRecord processOverlay(Exchange exchange, HoldingsRecord holdingsRecord, JSONObject dataMapping) throws JSONException, IOException {

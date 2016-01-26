@@ -34,13 +34,18 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
-        if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
-            for (Iterator<HoldingsStatisticalSearchRecord> iterator = holdingsStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = iterator.next();
-                if(null != holdingsStatisticalSearchRecord.getStatisticalSearchRecord() &&
-                        StringUtils.equals(holdingsStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(statisticalSearchCode);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String statisticalSearchCodeValue = iterator.next();
+            List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
+            if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
+                for (Iterator<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordIterator = holdingsStatisticalSearchRecords.iterator(); holdingsStatisticalSearchRecordIterator.hasNext(); ) {
+                    HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecordIterator.next();
+                    if(null != holdingsStatisticalSearchRecord.getStatisticalSearchRecord() &&
+                            StringUtils.equals(holdingsStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCodeValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, statisticalSearchCodeValue);
+                    }
                 }
             }
         }

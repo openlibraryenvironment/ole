@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,8 +28,13 @@ public class AdminPasswordHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String adminPassword = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(holdingRecord.getAdminPassword(), adminPassword)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(adminPassword);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String adminPasswordValue = iterator.next();
+            if (StringUtils.equals(holdingRecord.getAdminPassword(), adminPasswordValue)) {
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, adminPasswordValue);
+            }
         }
     }
 

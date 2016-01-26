@@ -11,6 +11,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.AuthenticationTypeUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,9 +30,14 @@ public class AuthenticationTypeHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String authendicationType = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (null != holdingRecord.getAuthenticationType() &&
-                StringUtils.equals(holdingRecord.getAuthenticationType().getCode(), authendicationType)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(authendicationType);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String authendicationTypeValue = iterator.next();
+            if (null != holdingRecord.getAuthenticationType() &&
+                    StringUtils.equals(holdingRecord.getAuthenticationType().getCode(), authendicationTypeValue)) {
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, authendicationTypeValue);
+            }
         }
     }
 
