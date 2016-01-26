@@ -666,6 +666,7 @@ var addOrOverlay = {
     operations: operations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
+    linkFields: dataMappingObject.destinationFieldsForBibMarcHoldings,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,

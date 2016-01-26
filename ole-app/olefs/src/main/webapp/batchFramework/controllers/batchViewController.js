@@ -204,6 +204,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             ind1: $scope.addOrOverlayPanel[0].ind1,
             ind2: $scope.addOrOverlayPanel[0].ind2,
             subField: $scope.addOrOverlayPanel[0].subField,
+            linkField: $scope.addOrOverlayPanel[0].linkField,
             isAddLine: true
         });
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
@@ -216,6 +217,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         $scope.addOrOverlayPanel[0].ind1 = null;
         $scope.addOrOverlayPanel[0].ind2 = null;
         $scope.addOrOverlayPanel[0].subField = null;
+        $scope.addOrOverlayPanel[0].linkField = null;
 
     };
 
@@ -236,11 +238,13 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
                 ind1: $scope.addOrOverlayPanel[index].ind1,
                 ind2: $scope.addOrOverlayPanel[index].ind2,
                 subField: $scope.addOrOverlayPanel[index].subField,
+                linkField: $scope.addOrOverlayPanel[index].linkField,
                 isAddLine: true
             };
             $scope.addOrOverlayPanel[index].isEdit = true;
             $scope.addOrOverlayPanel[index].matchOptions = matchOptions;
             $scope.addOrOverlayPanel[index].addOrOverlayDocTypes = addOrOverlayDocumentTypes;
+            $scope.addOrOverlayPanel[index].linkFields = dataMappingObject.destinationFieldsForBibMarcHoldings;
             $scope.addOrOverlayPanel[index].operations = operations;
             $scope.addOrOverlayPanel[index].bibDoNotMatchOperations = bibDoNotMatchOperations;
             $scope.addOrOverlayPanel[index].doNotMatchOperations = doNotMatchOperations;
@@ -264,6 +268,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             ind1: $scope.addOrOverlayPanel[index].ind1,
             ind2: $scope.addOrOverlayPanel[index].ind2,
             subField: $scope.addOrOverlayPanel[index].subField,
+            linkField: $scope.addOrOverlayPanel[index].linkField,
             isAddLine: true
         };
         $scope.addOrOverlayPanel[index] = updatedRow;
@@ -567,6 +572,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             ind1: $scope.addOrOverlayPanel[index].ind1,
             ind2: $scope.addOrOverlayPanel[index].ind2,
             subField: $scope.addOrOverlayPanel[index].subField,
+            linkField: $scope.addOrOverlayPanel[index].linkField,
             isAddLine: true,
             isEdit: false
         };
@@ -664,6 +670,7 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
         addOrOverlay.ind1 = null;
         addOrOverlay.ind2 = null;
         addOrOverlay.subfield = null;
+        addOrOverlay.linkField = null;
 
     };
 
