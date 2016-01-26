@@ -14,7 +14,6 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
-import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
 import org.kuali.ole.docstore.common.response.ItemResponse;
@@ -33,18 +32,17 @@ import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.DiscardBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.UpdateBibHandler;
 import org.kuali.ole.dsng.rest.handler.eholdings.*;
-import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberPrefixHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberTypeHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CopyNumberHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.items.*;
 import org.kuali.ole.dsng.rest.handler.items.DonorCodeHandler;
 import org.kuali.ole.dsng.rest.handler.items.DonorNoteHandler;
 import org.kuali.ole.dsng.rest.handler.items.DonorPublicDisplayHandler;
 import org.kuali.ole.dsng.rest.handler.items.StatisticalSearchCodeHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -375,7 +373,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
 
         JSONObject itemJSON = null;
-        Integer numOccurances = 0;
+        Map<String, Integer> numOccurances = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
         try {
             itemJSON = bibJSON.getJSONObject(OleNGConstants.ITEM);
             numOccurances = getNumOccurances(bibJSON);
@@ -388,7 +386,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
             if (null == holdingsRecord.getHoldingsId()) {
                 JSONArray dataMappings = getDataMappingsJSONArray(itemJSON);
-                for (int i = 0; i < numOccurances; i++) {
+                for (int i = 0; i < numOccurances.get(OleNGConstants.ITEM); i++) {
                     ItemRecordAndDataMapping itemRecordAndDataMapping = getNewItemRecord(holdingsRecord);
                     itemRecords.add(itemRecordAndDataMapping.getItemRecord());
                     try {
@@ -490,7 +488,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<HoldingsRecordAndDataMapping> updatePHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         List<HoldingsRecordAndDataMapping> createPHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         JSONObject holdingsJSON = null;
-        Integer numOccurances = 0;
+        Map<String, Integer> numOccurances = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
         try {
             holdingsJSON = bibJSON.getJSONObject(OleNGConstants.HOLDINGS);
             numOccurances = getNumOccurances(bibJSON);
@@ -503,7 +501,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         if (null == bibRecord.getBibId()) {
             JSONArray dataMappings = getDataMappingsJSONArray(holdingsJSON);
-            for (int count = 0; count < numOccurances; count++) {
+            for (int count = 0; count < numOccurances.get(OleNGConstants.HOLDINGS); count++) {
                 HoldingsRecordAndDataMapping newEHoldings = getNewHoldings(bibRecord, PHoldings.PRINT);
                 try {
                     newEHoldings.setDataMapping(dataMappings.getJSONObject(count));
@@ -534,7 +532,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<HoldingsRecordAndDataMapping> updateEHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         List<HoldingsRecordAndDataMapping> createEHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         JSONObject eholdingsJSON = null;
-        Integer numOccurances = 0;
+        Map<String, Integer> numOccurances = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
         try {
             eholdingsJSON = bibJSON.getJSONObject(OleNGConstants.EHOLDINGS);
             numOccurances = getNumOccurances(bibJSON);
@@ -548,7 +546,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         if (null == bibRecord.getBibId()) {
             JSONArray dataMappings = getDataMappingsJSONArray(eholdingsJSON);
 
-            for (int count = 0; count < numOccurances; count++) {
+            for (int count = 0; count < numOccurances.get(OleNGConstants.EHOLDINGS); count++) {
                 HoldingsRecordAndDataMapping newEHoldings = getNewHoldings(bibRecord, EHoldings.ELECTRONIC);
 
                 try {
@@ -696,14 +694,18 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return unAssignedDataMappings;
     }
 
-    private Integer getNumOccurances(JSONObject bibJSON) throws JSONException {
-        Integer numOccurances = null;
+    private Map<String, Integer> getNumOccurances(JSONObject bibJSON) throws JSONException {
+        Map numOccurances = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+        numOccurances.put(OleNGConstants.HOLDINGS, 1);
+        numOccurances.put(OleNGConstants.EHOLDINGS, 1);
+        numOccurances.put(OleNGConstants.ITEM, 1);
+
         JSONArray actionOps;
         List<Record> marcRecords;
         if (bibJSON.has(OleNGConstants.ACTION_OPS)) {
             actionOps = bibJSON.getJSONArray(OleNGConstants.ACTION_OPS);
         } else {
-            return 1;
+            return numOccurances;
         }
         String marcContent = bibJSON.getString(OleNGConstants.MODIFIED_CONTENT);
         marcRecords = getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(marcContent);
@@ -718,7 +720,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                     String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
                     String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
 
-                    numOccurances = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
+                    numOccurances.put(docType, getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField));
                 }
 
             } catch (JSONException e) {
