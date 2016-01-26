@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -304,7 +305,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         for (Iterator<ItemRecordAndDataMapping> itemRecordIterator = itemForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
             ItemRecordAndDataMapping itemRecordAndDataMapping = itemRecordIterator.next();
             ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-            getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+            if (StringUtils.isNotBlank(itemRecord.getItemId())) {
+                getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+            }
         }
     }
 
@@ -329,7 +332,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
             HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
             HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-            getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+            if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+            }
         }
     }
 
@@ -345,7 +350,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
             HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
             HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-            getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+            if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+            }
         }
     }
 
