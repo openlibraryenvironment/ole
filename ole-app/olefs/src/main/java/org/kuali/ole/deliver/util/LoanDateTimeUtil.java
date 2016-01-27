@@ -7,6 +7,7 @@ import org.joda.time.Interval;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.calendar.bo.*;
+import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.FixedDateUtil;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -24,6 +25,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private OleCalendar activeCalendar;
     private BusinessObjectService businessObjectService;
     private Boolean nonWorkingHoursCheck = false;
+    private String period;
 
     public Date calculateDateTimeByPeriod(String loanPeriod, OleCirculationDesk oleCirculationDesk) {
         Date loanDueDate;
@@ -98,25 +100,51 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     }
 
     private Date handleNonWorkingHoursWorkflow(Date loanDueDate, List<? extends OleBaseCalendarWeek> oleBaseCalendarWeekList) {
-        Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList = getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDate, oleBaseCalendarWeekList);
-        if (nonWorkingHoursCheck) {
-            loanDueDate = processDueDateAndGracePeriod(loanDueDate, openAndClosingTimeForTheGivenDayFromWeekList);
-        } else {
-            boolean loanDueTimeWithinWorkingHours = isLoanDueTimeWithinWorkingHours(loanDueDate, oleBaseCalendarWeekList);
-            if (!loanDueTimeWithinWorkingHours) {
-                if (includeNonWorkingHours()) {
+        if (StringUtils.isNotBlank(period) && (period.equalsIgnoreCase("h") || period.equalsIgnoreCase("m"))) {
+            Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList = getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDate, oleBaseCalendarWeekList);
+            if (nonWorkingHoursCheck) {
+                loanDueDate = processDueDateAndGracePeriod(loanDueDate, openAndClosingTimeForTheGivenDayFromWeekList);
+            } else {
+                boolean loanDueTimeWithinWorkingHours = isLoanDueTimeWithinWorkingHours(loanDueDate, oleBaseCalendarWeekList);
+                if (!loanDueTimeWithinWorkingHours) {
+                    if (includeNonWorkingHours()) {
                     Date followingDay =getFollowingDay(loanDueDate);
-                    nonWorkingHoursCheck = true;
-                    loanDueDate = calculateDueDate(followingDay);
-                } else {
-                    Map<String, String> closeTime = openAndClosingTimeForTheGivenDayFromWeekList.get("closeTime");
-                    Calendar calendar = resolveDateTime(closeTime, loanDueDate);
-                    loanDueDate = calendar.getTime();
-                }
+                        nonWorkingHoursCheck = true;
+                        loanDueDate = calculateDueDate(followingDay);
+                    } else {
+                        Map<String, String> closeTime = openAndClosingTimeForTheGivenDayFromWeekList.get("closeTime");
+                        Calendar calendar = resolveDateTime(closeTime, loanDueDate);
+                        loanDueDate = calendar.getTime();
+                    }
             } else if(inDueDateFallsBeforeOpeningTimeOfLibrary(openAndClosingTimeForTheGivenDayFromWeekList.get("openTime"), loanDueDate)) {
                 loanDueDate = processDueDateAndGracePeriod(loanDueDate,openAndClosingTimeForTheGivenDayFromWeekList);
+                }
             }
+        } else {
+            loanDueDate = processDueTime(loanDueDate);
         }
+        return loanDueDate;
+    }
+
+    private Date processDueTime(Date loanDueDate) {
+        boolean validTime = false;
+        int hours = 23;
+        int minutes = 59;
+        int seconds = 59;
+        String defaultDueTime = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+        if (StringUtils.isNotBlank(defaultDueTime)) {
+            validTime = new CircUtilController().validateTime(defaultDueTime);
+        }
+        if (validTime) {
+            StringTokenizer timeTokenizer = new StringTokenizer(defaultDueTime, ":");
+            hours = timeTokenizer.hasMoreTokens() ? Integer.parseInt(timeTokenizer.nextToken()) : 0;
+            minutes = timeTokenizer.hasMoreTokens() ? Integer.parseInt(timeTokenizer.nextToken()) : 0;
+            seconds = timeTokenizer.hasMoreTokens() ? Integer.parseInt(timeTokenizer.nextToken()) : 0;
+        }
+        loanDueDate.setHours(hours);
+        loanDueDate.setMinutes(minutes);
+        loanDueDate.setSeconds(seconds);
         return loanDueDate;
     }
 
@@ -138,22 +166,23 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     private Date getLoanDueDate(String loanPeriod) {
         Date loanDueDate = null;
+        if (StringUtils.isNotBlank(loanPeriod)) {
+            if (loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)) {
+                loanDueDate = new FixedDateUtil().getFixedDateByPolicyId(getPolicyId());
+            } else {
+                StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
+                String amount = stringTokenizer.nextToken();
+                period = stringTokenizer.nextToken();
 
-        if (loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)) {
-            loanDueDate = new FixedDateUtil().getFixedDateByPolicyId(getPolicyId());
-        } else {
-            StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
-            String amount = stringTokenizer.nextToken();
-            String period = stringTokenizer.nextToken();
-
-            if (period.equalsIgnoreCase("m")) {
-                loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("h")) {
-                loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("d")) {
-                loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("w")) {
-                loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+                if (period.equalsIgnoreCase("m")) {
+                    loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("h")) {
+                    loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("d")) {
+                    loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("w")) {
+                    loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+                }
             }
         }
         return loanDueDate;
