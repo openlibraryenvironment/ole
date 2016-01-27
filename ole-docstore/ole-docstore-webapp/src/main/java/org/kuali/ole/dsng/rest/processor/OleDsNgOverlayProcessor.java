@@ -378,18 +378,20 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+
             HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
             HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+            JSONArray actionOps = getActionOps(bibJSON);
+
+            JSONArray itemDataMappings = getDataMappingsJSONArray(itemJSON);
+
+            List<JSONObject> dataMappingForItemMatchedWithHoldingsMapping = getDataMappingForItemMatchedWithHoldingsMapping(holdingsRecordAndDataMapping.getDataMapping(), itemDataMappings, actionOps);
+
             if (null == holdingsRecord.getHoldingsId()) {
-                JSONArray dataMappings = getDataMappingsJSONArray(itemJSON);
-                for (int i = 0; i < numOccurances.get(OleNGConstants.ITEM); i++) {
+                for (int i = 0; i < dataMappingForItemMatchedWithHoldingsMapping.size(); i++) {
                     ItemRecordAndDataMapping itemRecordAndDataMapping = getNewItemRecord(holdingsRecord);
                     itemRecords.add(itemRecordAndDataMapping.getItemRecord());
-                    try {
-                        itemRecordAndDataMapping.setDataMapping(dataMappings.getJSONObject(i));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    itemRecordAndDataMapping.setDataMapping(dataMappingForItemMatchedWithHoldingsMapping.get(i));
                     itemRecordAndDataMappings.add(itemRecordAndDataMapping);
                 }
                 holdingsRecord.setItemRecords(itemRecords);
@@ -411,6 +413,19 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
         exchange.add(OleNGConstants.ITEMS_FOR_CREATE, createItemRecordAndDataMappings);
         exchange.add(OleNGConstants.ITEMS_FOR_UPDATE, updateItemRecordAndDataMappings);
+    }
+
+    private JSONArray getActionOps(JSONObject bibJSON) {
+        JSONArray actionOps = null;
+        if (bibJSON.has(OleNGConstants.ACTION_OPS)) {
+            try {
+                actionOps = bibJSON.getJSONArray(OleNGConstants.ACTION_OPS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return actionOps;
     }
 
     private ItemRecordAndDataMapping getNewItemRecord(HoldingsRecord holdingsRecord) {
@@ -481,22 +496,23 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return itemRecordAndDataMappings;
     }
 
-    private JSONObject getDataMappingForItemMatchedWithHoldingsMapping(JSONObject holdingsDataMapping, JSONArray itemDataMappings, JSONArray actionOps) {
+    private List<JSONObject> getDataMappingForItemMatchedWithHoldingsMapping(JSONObject holdingsDataMapping, JSONArray itemDataMappings, JSONArray actionOps) {
+        List<JSONObject> matchedMappings = new ArrayList<JSONObject>();
         try {
             String itemLinkField = getLinkFieldForItem(actionOps);
-            if(StringUtils.isNotBlank(itemLinkField)) {
-                for(int index = 0 ; index < itemDataMappings.length(); index++) {
+            if (StringUtils.isNotBlank(itemLinkField)) {
+                for (int index = 0; index < itemDataMappings.length(); index++) {
                     JSONObject dataMapping = itemDataMappings.getJSONObject(index);
-                    if(dataMapping.has(itemLinkField)) {
+                    if (dataMapping.has(itemLinkField)) {
                         JSONArray valueArray = dataMapping.getJSONArray(itemLinkField);
-                        for(int valueIndex =0 ;  valueIndex < valueArray.length(); valueIndex++) {
+                        for (int valueIndex = 0; valueIndex < valueArray.length(); valueIndex++) {
                             String itemLinkFieldValue = valueArray.getString(valueIndex);
                             JSONArray holdingsValueArray = holdingsDataMapping.getJSONArray(itemLinkField);
-                            for(int holdingValueIndex = 0 ; holdingValueIndex < holdingsValueArray.length(); holdingValueIndex++){
+                            for (int holdingValueIndex = 0; holdingValueIndex < holdingsValueArray.length(); holdingValueIndex++) {
                                 String holdingLinkFieldValue = holdingsValueArray.getString(holdingValueIndex);
-                                if(itemLinkFieldValue.equalsIgnoreCase(holdingLinkFieldValue)) {
+                                if (itemLinkFieldValue.equalsIgnoreCase(holdingLinkFieldValue)) {
                                     dataMapping.put("assigned", Boolean.TRUE);
-                                    return dataMapping;
+                                    matchedMappings.add(dataMapping);
                                 }
                             }
                         }
@@ -506,15 +522,15 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return matchedMappings;
     }
 
     private String getLinkFieldForItem(JSONArray actionOps) throws JSONException {
         String itemLinkField = null;
         for (int index = 0; index < actionOps.length(); index++) {
             JSONObject jsonObject = actionOps.getJSONObject(index);
-            if(jsonObject.getString(OleNGConstants.DOC_TYPE).equalsIgnoreCase(OleNGConstants.ITEM)) {
-                if(jsonObject.has(OleNGConstants.LINKFIELD)){
+            if (jsonObject.getString(OleNGConstants.DOC_TYPE).equalsIgnoreCase(OleNGConstants.ITEM)) {
+                if (jsonObject.has(OleNGConstants.LINKFIELD)) {
                     itemLinkField = jsonObject.getString(OleNGConstants.LINKFIELD);
                     break;
                 }
