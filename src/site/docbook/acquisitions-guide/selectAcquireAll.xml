@@ -9799,7 +9799,7 @@
                             <alt>Refresh Account Summary</alt>
                             <imageobject>
                                 <imagedata
-                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-60a.png"
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-176.png"
                                 />
                             </imageobject>
                         </inlinemediaobject> to reload the page and view all the fiscal years,
@@ -22900,7 +22900,16 @@
                     </section>
                     <section>
                         <title>Subscription tab</title>
-                        <para/>
+                        <para>The Subscription tab shows information about e-resources that undergo
+                            continuing payments and may be renewed or canceled.  Subscription
+                            information is inherited from the e-resource to affiliated e-holdings,
+                            unless the fields are modified at the e-holdings level.  Fill in all
+                            relevant data and click <inlinemediaobject>
+                                <alt>Save</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-54.png"/>
+                                </imageobject>
+                            </inlinemediaobject> on the E-Resource Record.</para>
                         <para>
                             <screenshot>
                                 <mediaobject>
@@ -22933,7 +22942,11 @@
                                             <para role="Table Cells">Subscription Status</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">Required. Defines whether the
+                                                resource is currently subscribed (“Active”) or
+                                                unsubscribed (“Cancelled,” “Ceased,” or “Inactive”).
+                                                Select the Subscription Status from the drop-down
+                                                menu.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22942,7 +22955,16 @@
                                                 Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This indicates the date that
+                                                the resource’s subscription began. Enter a date
+                                                directly (mm/dd/yyyy) or use the calendar icon <inlinemediaobject>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>.</para>
+                                            <para>This date may be useful to record for purposes of
+                                                tracking perpetual access entitlements.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22951,7 +22973,14 @@
                                                 Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This indicates the current
+                                                subscription year’s start date. Enter a date or use
+                                                the calendar icon <inlinemediaobject>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22960,7 +22989,14 @@
                                                 Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This indicates the current
+                                                subscription year’s end date.  Enter a date or use
+                                                the calendar icon <inlinemediaobject>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22968,14 +23004,25 @@
                                             <para role="Table Cells">Cancellation Candidate?</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This field should be selected
+                                                if this resource is flagged during the renewals
+                                                period as a candidate for cancellation. Check the
+                                                checkbox to make the selection.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top"
                                             >Cancellation Decision Date</entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">Once a decision has been made
+                                                to cancel the e-resource, this date field can be
+                                                populated with the date that the decision was made.
+                                                Enter a date or use the calendar icon <inlinemediaobject>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22984,7 +23031,15 @@
                                                 Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">Once a decision has been made
+                                                to cancel the e-resource, this date field can be
+                                                populated with the date that the cancellation will
+                                                take effect.  Enter a date or use the calendar icon <inlinemediaobject>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -22992,7 +23047,9 @@
                                             <para role="Table Cells">Cancellation Reason</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This is a free text field to
+                                                record the reason that the decision was made to
+                                                cancel the e-resource.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -23000,7 +23057,14 @@
                                             <para role="Table Cells">Renewal Alert Enabled?</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">If this field is marked “yes,”
+                                                then automated alerts should be enabled on all
+                                                E-Resource records in OLE that have a subscription
+                                                end date.  Automated alerts will appear in the
+                                                action list of the recipient specified.  Notice
+                                                period must be filled out for the Alerts to be
+                                                completely enabled.  The default setting is for this
+                                                field to be checked.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -23008,7 +23072,10 @@
                                             <para role="Table Cells">Notice Period in Days</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This setting will allow the
+                                                user to select the number of days before the
+                                                subscription end date that an alert should be
+                                                triggered.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -23016,7 +23083,15 @@
                                             <para role="Table Cells">Recipient</para>
                                         </entry>
                                         <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
+                                            <para role="Table Cells">This is the role or individual
+                                                OLE user to whom an alert should be sent prior to
+                                                the subscription end date.  Enter a username or
+                                                search for it from the lookup <inlinemediaobject>
+                                                  <alt>lookup</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>.</para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -23484,8 +23559,13 @@
                                                   </inlinemediaobject></para>
                                             </listitem>
                                             <listitem>
-                                                <para> Click <emphasis role="bold">save</emphasis>
-                                                  on the E-Resource E-Holdings menu page. </para>
+                                                <para> Click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject> on the E-Resource E-Holdings
+                                                  menu page. </para>
                                                 <para> Holdings records will appear in the
                                                   E-Holdings Details tab (see below). </para>
                                             </listitem>
@@ -23516,8 +23596,12 @@
                                             </listitem>
                                             <listitem>
                                                 <para> This will open the Editor to a blank new
-                                                  E-Holdings record. Fill out the details and click
-                                                  <emphasis role="bold">Save</emphasis>. </para>
+                                                  E-Holdings record. Fill out the details and click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject>. </para>
                                                 <note>
                                                   <para role="Normal"> For more information about
                                                   the <link linkend="_EInstanceEditor">E-Holdings
@@ -23528,7 +23612,12 @@
                                             </listitem>
                                             <listitem>
                                                 <para> Return to the E-Resource E-Holdings menu page
-                                                  and click <emphasis role="bold">Save</emphasis>. </para>
+                                                  and click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject>. </para>
                                                 <para> Holdings will appear in the E-Holdings
                                                   Details tab (see below). </para>
                                             </listitem>
@@ -23553,16 +23642,28 @@
                                             </listitem>
                                             <listitem>
                                                 <para> Populate the automatically created E-Holdings
-                                                  for the title and click <emphasis role="bold"
-                                                  >Save</emphasis>. Additionally, you could add a
-                                                  new Holdings and Item to the bibliographic record
-                                                  if desired and click <emphasis role="bold"
-                                                  >Save</emphasis>. </para>
+                                                  for the title and click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject>. Additionally, you could add
+                                                  a new Holdings and Item to the bibliographic
+                                                  record if desired and click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject>. </para>
                                             </listitem>
                                             <listitem>
                                                 <para> Return to the E-Resource E-Holdings menu page
-                                                  and click <emphasis role="bold">Save</emphasis>.
-                                                </para>
+                                                  and click <inlinemediaobject>
+                                                  <alt>Save</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-54.png"/>
+                                                  </imageobject>
+                                                  </inlinemediaobject>. </para>
                                             </listitem>
                                             <listitem>
                                                 <para> Holdings will appear in the E-Holdings
@@ -24034,6 +24135,71 @@
                             <para>Next to a member of the OLE_Cataloger.</para>
                         </listitem>
                     </itemizedlist>
+                </section>
+                <section>
+                    <title>Deleting an E-Resource Record</title>
+                    <para>Clicking on the “Delete” button at the top or bottom of a saved e-resource
+                        record will allow the user to delete the record:</para>
+                    <para><inlinemediaobject>
+                            <alt>Buttons from a saved E-Resource Record</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-82.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <note>
+                        <para>The e-resource record can only be deleted if it is not attached to any
+                            e-holdings, purchase orders, license agreements, or other e-resource
+                            records. If a user attempts to delete an E-Resource that is linked to
+                            one of the above record types, they will receive a dialogue box that
+                            says “This E-Resource could not be deleted because it is attached to one
+                            or more other records.” The user will need to delete whatever
+                            attachments are linked to the e-resource record first, and then delete
+                            the e-resource record itself. </para>
+                    </note>
+                </section>
+                <section>
+                    <title>Deleting E-Holdings Records</title>
+                    <para>To delete e-holdings linked to an e-resource record, click on the
+                        e-holdings tab. This will bring up a list of all e-holdings attached to the
+                        e-resource record. Click on the “Delete related holdings” button
+                        here:</para>
+                    <para><inlinemediaobject>
+                            <alt>Buttons from the E-Holdings tab of the E-Resource Record</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/buttons%20for%20deleting%20e-holdings%20linked%20to%20e-resource.PNG"
+                                />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>A dialogue box will appear with all e-holdings details. </para>
+                    <para><inlinemediaobject>
+                            <alt>E-Holdings Details Dialog box for deleting holdings</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-83.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>Check the box to the left of title of the e-holdings to be deleted. Then
+                        click the <inlinemediaobject>
+                            <alt>Delete</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-49.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button at the bottom of the box.</para>
+                    <para>A warning notice will appear informing the user that the deletions will be
+                        permanent. The user is given the choice to cancel, or go ahead with the
+                        deletion. To continue, click "OK". </para>
+                    <para>An e-holdings dialogue box will appear listing all e-holdings that were
+                        deleted. If any e-holdings are linked to purchase orders, they will not be
+                        deleted. Those are listed separately in a “Not Deleted e-holdings details”
+                        section of the dialogue box.</para>
+                    <para><inlinemediaobject>
+                            <alt>E-Holdings Instances Not Deleted Dialog box</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/e-holdings%20not%20deleted%20dialogue%20box.PNG"
+                                />
+                            </imageobject>
+                        </inlinemediaobject></para>
                 </section>
             </section>
         </section>
@@ -32122,159 +32288,6 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_fundCode"/>Fund Code</title>
-            <para role="Body Text"><inlinemediaobject>
-                    <alt>Maintenance</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/maintenanceMenu.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
-                    <alt>Chart of Accounts</alt>
-                    <imageobject>
-                        <imagedata
-                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
-                        />
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
-                    <alt>Account</alt>
-                    <imageobject>
-                        <imagedata
-                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccounts.png"
-                        />
-                    </imageobject>
-                </inlinemediaobject>&gt;<inlinemediaobject>
-                    <alt>Fund Code</alt>
-                    <imageobject>
-                        <imagedata
-                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-165.png"/>
-                    </imageobject>
-                </inlinemediaobject>&gt;<inlinemediaobject>
-                    <alt>Fund Code Lookup</alt>
-                    <imageobject>
-                        <imagedata
-                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-166.png"/>
-                    </imageobject>
-                </inlinemediaobject> &gt;<inlinemediaobject>
-                    <alt>Fund Code</alt>
-                    <imageobject>
-                        <imagedata
-                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-167.png"/>
-                    </imageobject>
-                </inlinemediaobject></para>
-            <section>
-                <title>Document Layout</title>
-                <para role="Body Text">The Fund Code document includes the <emphasis role="bold"
-                        >Add/Edit Fund Code</emphasis> and <emphasis role="bold">Accounting
-                        Lines</emphasis>tabs.</para>
-                <para role="Illustration">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Fund Code Document</alt>
-                            <imageobject>
-                                <imagedata
-                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-168.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
-                <section>
-                    <title>Add/Edit Fund Code Tab</title>
-                    <para role="Illustration">
-                        <screenshot>
-                            <mediaobject>
-                                <alt>Fund Code: Add/Edit Fund Code Tab</alt>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-169.png"
-                                        width="100%"/>
-                                </imageobject>
-                            </mediaobject>
-                        </screenshot>
-                    </para>
-                    <para role="TableHeading"><emphasis role="bold">Edit Object Code tab
-                            definition</emphasis></para>
-                    <informaltable frame="topbot">
-                        <tgroup cols="2">
-                            <colspec colname="col1" colnum="1"/>
-                            <colspec colname="col2" colnum="2"/>
-                            <tbody>
-                                <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Title </para>
-                                    </entry>
-                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">Description </para>
-                                    </entry>
-                                </row>
-                                <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Fund Code </para>
-                                    </entry>
-                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">Required. Enter the fund code.
-                                        </para>
-                                    </entry>
-                                </row>
-                                <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Active Indicator</para>
-                                    </entry>
-                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">Optional. Select the check box if
-                                            the object code is active and can be used on financial
-                                            documents. Clear the check box if it is inactive.</para>
-                                    </entry>
-                                </row>
-                            </tbody>
-                        </tgroup>
-                    </informaltable>
-                </section>
-                <section>
-                    <title>Add/Edit Fund Code Tab</title>
-                    <para>Enter the accounting lines you would like to associate with your fund
-                        code.  Click <inlinemediaobject>
-                            <alt>Add</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-88.png"/>
-                            </imageobject>
-                        </inlinemediaobject> to add the accounting lines to the fund code.</para>
-                    <para role="Illustration">
-                        <screenshot>
-                            <mediaobject>
-                                <alt>Fund Code: Accounting Lines Tab</alt>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-171.png"
-                                        width="100%"/>
-                                </imageobject>
-                            </mediaobject>
-                        </screenshot>
-                    </para>
-                    <note>
-                        <para> For more information about Accounting Lines, see <link
-                                linkend="_OLEAccountingLines">OLE Financial Documents Accounting
-                                Lines Tab</link> under <emphasis>OLE Basic
-                            Functionality</emphasis>.</para>
-                    </note>
-                </section>
-            </section>
-            <section>
-                <title>Process Overview</title>
-                <section>
-                    <title>Business Rules<indexterm significance="normal">
-                            <primary>business rules</primary>
-                            <secondary>Object Code</secondary>
-                        </indexterm><indexterm significance="normal">
-                            <primary> Object Code</primary>
-                            <secondary>business rules</secondary>
-                        </indexterm></title>
-                    <para/>
-                </section>
-            </section>
-        </section>
-        <section>
             <title><anchor xml:id="_ObjectCode"/>Object Code<indexterm significance="normal">
                     <primary>Object Code</primary>
                 </indexterm></title>
@@ -34540,6 +34553,279 @@
                                 Functionality</emphasis>.</para>
                         </note>
                     </section>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_fundCode"/>Fund Code</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>Account</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccounts.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Fund Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-165.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Fund Code Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-166.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Fund Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-167.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para>Fund Codes allow for the creation of an identifier that will always generate the
+                same accounting line once used on an OLE e-document. Essentially, the Fund Code
+                creates an “alias” that is entered into e-docs which then inserts the desired
+                accounting string without the user having to enter the required Chart, Account
+                Number, and so forth. This allows the user to save time from entering in the same
+                accounting string repetitively and also minimizes the possibility that a user might
+                enter an incorrect accounting string.</para>
+            <para>For example, the fund code “MATH” would always enter in the accounting
+                string “2015/YourLibrary/MathFund/TEXT” (the fiscal year, chart code, account
+                number, and object code, respectively) to represent a math textbook (TEXT) purchased
+                under the MathFund account number, from your institution’s chart, in FY 2015.</para>
+            <para>Fund codes are used typically in the creation of a Requisition, the
+                amendment of a Purchase Order, and utilizing accounting strings in the Invoice
+                eDocs.</para>
+            <para>The creation of the Fund Codes is completed in the Maintenance tab under “Chart of
+                Accounts.” </para>
+            <para role="Body Text">Only members of OLE-SYS Manager role can create Fund Code
+                documents. </para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">The Fund Code document includes the <emphasis role="bold"
+                        >Add/Edit Fund Code</emphasis> and <emphasis role="bold">Accounting
+                        Lines</emphasis>tabs.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Fund Code Document</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-168.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Add/Edit Fund Code Tab</title>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Fund Code: Add/Edit Fund Code Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-169.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Add/Edit Fund Code tab
+                            definition</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Fund Code </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Enter the fund code.
+                                        </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Active Indicator</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select the check box if
+                                            the object code is active and can be used on financial
+                                            documents. Clear the check box if it is inactive.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Accounting Lines Tab</title>
+                    <para>Enter the accounting lines you would like to associate with your fund
+                        code. Click <inlinemediaobject>
+                            <alt>Add</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-88.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to add the accounting lines to the fund code.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Fund Code: Accounting Lines Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-171.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Accounting Lines tab
+                            definition</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Chart</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Required. The Chart you want to
+                                            represent in the fund code.  Select the chart code from
+                                            the <emphasis role="bold">Chart</emphasis> list. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Account Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Required. The Account Number you
+                                            want to represent in the fund code.  Enter the account
+                                            number or search for it from the <emphasis role="bold"
+                                                >Account</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Sub-Account</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Optional. The Sub-Account you want
+                                            to represent in the fund code.  Enter the sub-account
+                                            number or search for it from the <emphasis role="bold"
+                                                >Sub-Account</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Object</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Required. The Object Code you want
+                                            to represent in the fund code.  Enter the object code or
+                                            search for it from the <emphasis role="bold">Object
+                                                Code</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Sub-Object</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Optional.  The Sub-Object Code you
+                                            want to represent in the fund code.  Enter the
+                                            sub-object code or search for it from the <emphasis
+                                                role="bold">Sub-Object</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Project</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Optional. Enter the project code
+                                            or search for it from the <emphasis role="bold"
+                                                >Project</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Org Ref ID</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Optional. Enter the appropriate
+                                            data for the transactions. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Percent</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Required. The percentage used in
+                                            the accounting string you want to represent. Not to be
+                                            confused with a vendor discount percentage.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
                 </section>
             </section>
         </section>

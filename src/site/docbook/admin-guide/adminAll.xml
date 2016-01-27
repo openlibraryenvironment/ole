@@ -1143,6 +1143,10 @@
                                 </listitem>
                                 <listitem>
                                     <para>Chart Code</para>
+                                    <note>
+                                        <para>A valid Fund Code may be substituted for chart,
+                                            account, and object codes. </para>
+                                    </note>
                                 </listitem>
                                 <listitem>
                                     <para>Funding Source</para>
@@ -1203,6 +1207,10 @@
                                 </listitem>
                                 <listitem>
                                     <para>Chart Code</para>
+                                    <note>
+                                        <para>A valid Fund Code may be substituted for chart,
+                                            account, and object codes. </para>
+                                    </note>
                                 </listitem>
                                 <listitem>
                                     <para>Funding Source</para>

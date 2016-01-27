@@ -880,7 +880,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     if(dummyPurchaseOrderItemsWithPO!=null && dummyPurchaseOrderItemsWithPO.size() > 0){
                         olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemMap, dummyPurchaseOrderItemsWithPO);
                     }
-                    if(olePurchaseOrderItems!=null && olePurchaseOrderItems.size()<1) {
+                    if(olePurchaseOrderItems==null || olePurchaseOrderItems.size()<1) {
                         olePurchaseOrderItems = ruleOneScenarioWithOutPurchaseOrderNumber(invoiceRecord, vendorIds, olePurchaseOrderItems, itemMap);
                     }
                     PurchaseOrderDocument purchaseOrderDocument = null;
@@ -922,7 +922,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                 if(dummyTitlePurchaseOrderItemsWithPO!=null && dummyTitlePurchaseOrderItemsWithPO.size()>0){
                                     olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(olePurchaseOrderItems, itemTitleMap, dummyTitlePurchaseOrderItemsWithPO);
                                 }
-                                if(olePurchaseOrderItems!=null && olePurchaseOrderItems.size()<1) {
+                                if(olePurchaseOrderItems==null || olePurchaseOrderItems.size()<1) {
                                     olePurchaseOrderItems = ruleTwoWithOutPONumber(vendorIds, olePurchaseOrderItems, titleId,itemTitleMap);
                                 }
                                 if (titleId != null && olePurchaseOrderItems != null && olePurchaseOrderItems.size() > 0 && isUnlinkPO(itemMap)) {
