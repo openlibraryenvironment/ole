@@ -142,6 +142,7 @@ public class OleNGConstants {
     public static final String IND1 = "ind1";
     public static final String IND2 = "ind2";
     public static final String SUBFIELD = "subField";
+    public static final String LINKFIELD = "linkField";
     public static final String IGNORE_GPF = "ignoreGPF";
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
