@@ -41,9 +41,10 @@ public class OleCamelContext {
             context.addRoutes(new RouteBuilder() {
                 @Override
                 public void configure() throws Exception {
-                    String userHome = System.getProperty("user.home");
+                    String projectHome = System.getProperty("project.home");
+                    String fileEndPointPath = null == defaultFilePath ? projectHome+"/reports" : defaultFilePath + "?fileName=" + defaultFileName + "&fileExist=Append";
                     from("seda:messages")
-                            .to("file:" + userHome + defaultFilePath + "?fileName=" + defaultFileName + "&fileExist=Append");
+                            .to("file:" + fileEndPointPath);
                 }
             });
         } catch (Exception e) {

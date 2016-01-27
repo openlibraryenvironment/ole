@@ -24,7 +24,7 @@ public class ReportLogHandler {
     }
 
     public void logMessage(Object message) throws Exception {
-        if(null != filePath && null != fileName) {
+        if(null != fileName) {
             CamelContext context = OleCamelContext.getInstance().getContext();
             if (null == sedaProducer) {
                 sedaProducer = context.createProducerTemplate();
