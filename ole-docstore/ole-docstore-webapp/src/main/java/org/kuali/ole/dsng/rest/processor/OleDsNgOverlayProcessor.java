@@ -484,6 +484,49 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         return itemRecordAndDataMappings;
     }
 
+    private JSONObject getDataMappingForItemMatchedWithHoldingsMapping(JSONObject holdingsDataMapping, JSONArray itemDataMappings, JSONArray actionOps) {
+        try {
+            String itemLinkField = getLinkFieldForItem(actionOps);
+            if(StringUtils.isNotBlank(itemLinkField)) {
+                for(int index = 0 ; index < itemDataMappings.length(); index++) {
+                    JSONObject dataMapping = itemDataMappings.getJSONObject(index);
+                    if(dataMapping.has(itemLinkField)) {
+                        JSONArray valueArray = dataMapping.getJSONArray(itemLinkField);
+                        for(int valueIndex =0 ;  valueIndex < valueArray.length(); valueIndex++) {
+                            String itemLinkFieldValue = valueArray.getString(valueIndex);
+                            JSONArray holdingsValueArray = holdingsDataMapping.getJSONArray(itemLinkField);
+                            for(int holdingValueIndex = 0 ; holdingValueIndex < holdingsValueArray.length(); holdingValueIndex++){
+                                String holdingLinkFieldValue = holdingsValueArray.getString(holdingValueIndex);
+                                if(itemLinkFieldValue.equalsIgnoreCase(holdingLinkFieldValue)) {
+                                    dataMapping.put("assigned", Boolean.TRUE);
+                                    return dataMapping;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getLinkFieldForItem(JSONArray actionOps) throws JSONException {
+        String itemLinkField = null;
+        for (int index = 0; index < actionOps.length(); index++) {
+            JSONObject jsonObject = actionOps.getJSONObject(index);
+            if(jsonObject.getString(OleNGConstants.DOC_TYPE).equalsIgnoreCase(OleNGConstants.ITEM)) {
+                if(jsonObject.has(OleNGConstants.LINKFIELD)){
+                    itemLinkField = jsonObject.getString(OleNGConstants.LINKFIELD);
+                    break;
+                }
+            }
+
+        }
+        return itemLinkField;
+    }
+
     private void preparePHoldingsRecord(BibRecord bibRecord, JSONObject bibJSON, Exchange exchange) {
         List<HoldingsRecordAndDataMapping> updatePHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
         List<HoldingsRecordAndDataMapping> createPHoldingsRecordAndDataMappings = new ArrayList<HoldingsRecordAndDataMapping>();
