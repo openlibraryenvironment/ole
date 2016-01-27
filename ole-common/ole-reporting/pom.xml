@@ -11,11 +11,6 @@
 
     <artifactId>ole-reporting</artifactId>
 
-    <!--<properties>
-        <junit.version>4.11</junit.version>
-        <camel.version>2.16.1</camel.version>
-    </properties>-->
-
     <dependencies>
 
         <dependency>

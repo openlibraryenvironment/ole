@@ -10,20 +10,13 @@ import org.apache.camel.impl.DefaultCamelContext;
 public class OleCamelContext {
     public static OleCamelContext oleCamelContext;
     private CamelContext context;
-    private String filePath = "/kuali/main/local/reports?fileName=report.txt";
+    private String defaultFilePath;
+    private String defaultFileName;
 
     private OleCamelContext() {
         context = new DefaultCamelContext();
         try {
             context.start();
-            context.addRoutes(new RouteBuilder() {
-                @Override
-                public void configure() throws Exception {
-                    String userHome = System.getProperty("user.home");
-                    from("seda:messages")
-                            .to("file:" + userHome + filePath + "&fileExist=Append");
-                }
-            });
         } catch (Exception e) {
             System.out.println("Camel Context not initialized");
             e.printStackTrace();
@@ -41,11 +34,36 @@ public class OleCamelContext {
         return context;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public void setFileNameAndPath(String filePath, String fileName) {
+        this.defaultFilePath = filePath;
+        this.defaultFileName = fileName;
+        try {
+            context.addRoutes(new RouteBuilder() {
+                @Override
+                public void configure() throws Exception {
+                    String userHome = System.getProperty("user.home");
+                    from("seda:messages")
+                            .to("file:" + userHome + defaultFilePath + "?fileName=" + defaultFileName + "&fileExist=Append");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public String getDefaultFilePath() {
+        return defaultFilePath;
+    }
+
+    public void setDefaultFilePath(String defaultFilePath) {
+        this.defaultFilePath = defaultFilePath;
+    }
+
+    public String getDefaultFileName() {
+        return defaultFileName;
+    }
+
+    public void setDefaultFileName(String defaultFileName) {
+        this.defaultFileName = defaultFileName;
     }
 }
