@@ -31,7 +31,7 @@ public class ReportLogHandler {
             }
             sedaProducer.sendBody("seda:messages", message);
         } else {
-            throw new Exception("File Path and File Name required.");
+            throw new Exception("File Name required.");
         }
     }
 
