@@ -1,8 +1,12 @@
 package org.kuali.ole;
 
 import junit.framework.Assert;
+import org.apache.camel.Exchange;
+import org.apache.camel.Message;
+import org.apache.camel.Processor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.reflect.FieldUtils;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -51,4 +55,26 @@ public class ReportLogHandlerTest {
             e.printStackTrace();
         }
     }
+
+
+    @Test
+    public void injectIntermediatePoint1() throws Exception {
+        String filePath = System.getProperty("java.io.tmpdir");
+        String fileName = "test-report.txt";
+
+        FileUtils.forceDelete(new File(filePath+File.separator+fileName));
+
+        MockReportLogHandler mockReportLogHandler = MockReportLogHandler.getInstance();
+        mockReportLogHandler.setFileNameAndPath(filePath, fileName);
+        mockReportLogHandler.logMessage("Message formatted to JSON");
+        Thread.sleep(5000);
+
+        String fileContent = FileUtils.readFileToString(new File(filePath + "/" + fileName));
+        assertNotNull(fileContent);
+        assertTrue(StringUtils.isNotBlank(fileContent));
+
+        System.out.println(fileContent);
+
+    }
+
 }

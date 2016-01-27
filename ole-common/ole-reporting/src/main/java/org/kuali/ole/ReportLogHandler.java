@@ -1,7 +1,9 @@
 package org.kuali.ole;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.builder.RouteBuilder;
 
 /**
  * Created by pvsubrah on 1/10/15.
@@ -13,7 +15,7 @@ public class ReportLogHandler {
     private String filePath;
     private String fileName;
 
-    private ReportLogHandler() {
+    protected ReportLogHandler() {
     }
 
     public static ReportLogHandler getInstance() {
@@ -55,5 +57,9 @@ public class ReportLogHandler {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public void addProcessor(Processor processor){
+        OleCamelContext.getInstance().addProcessor(processor);
     }
 }
