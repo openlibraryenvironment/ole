@@ -5,11 +5,10 @@ import org.kuali.ole.ReportLogHandler;
 /**
  * Created by pvsubrah on 1/27/16.
  */
-public class BatchReportLogHandler extends ReportLogHandler {
-    private BatchReportLogHandler() {
-        super();
-        setFileName("batch-report.txt");
-//        injectProcessor(new BatchReportProcessor());
-    }
+public class BatchReportLogHandler  {
+
+    //TODO: 1. Init as a static instance
+    //TODO: 2. Add Processor
+    //TODO: 3. Set the fileName = batch-report.txt
 
 }

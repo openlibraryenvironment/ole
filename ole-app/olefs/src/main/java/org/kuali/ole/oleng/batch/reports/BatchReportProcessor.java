@@ -9,6 +9,7 @@ import org.apache.camel.Processor;
 public class BatchReportProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
-        //TODO: Format the batch response and send it to the logger.
+        //TODO: Format the batch response - exchange.getIn();
+        //TODO: Set it back on the exchange.
     }
 }
