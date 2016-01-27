@@ -271,6 +271,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     action.put(OleNGConstants.IND1, batchProfileAddOrOverlay.getInd1());
                     action.put(OleNGConstants.IND2, batchProfileAddOrOverlay.getInd2());
                     action.put(OleNGConstants.SUBFIELD, batchProfileAddOrOverlay.getSubField());
+                    action.put(OleNGConstants.LINKFIELD, batchProfileAddOrOverlay.getLinkField());
                     actionOps.add(action);
                 } catch (JSONException e) {
                     e.printStackTrace();
