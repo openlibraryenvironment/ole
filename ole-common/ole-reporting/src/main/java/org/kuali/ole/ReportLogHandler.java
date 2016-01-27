@@ -10,6 +10,8 @@ public class ReportLogHandler {
 
     private ProducerTemplate sedaProducer;
     static ReportLogHandler reportLogHandler;
+    private String filePath;
+    private String fileName;
 
     private ReportLogHandler() {
     }
@@ -22,11 +24,36 @@ public class ReportLogHandler {
     }
 
     public void logMessage(Object message) throws Exception {
-        CamelContext context = OleCamelContext.getInstance().getContext();
-        if (null == sedaProducer) {
-            sedaProducer = context.createProducerTemplate();
+        if(null != filePath && null != fileName) {
+            CamelContext context = OleCamelContext.getInstance().getContext();
+            if (null == sedaProducer) {
+                sedaProducer = context.createProducerTemplate();
+            }
+            sedaProducer.sendBody("seda:messages", message);
+        } else {
+            throw new Exception("File Path and File Name required.");
         }
-        sedaProducer.sendBody("seda:messages", message);
     }
 
+    public void setFileNameAndPath(String filePath, String fileName) {
+        this.filePath = filePath;
+        this.fileName = fileName;
+        OleCamelContext.getInstance().setFileNameAndPath(filePath, fileName);
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }
