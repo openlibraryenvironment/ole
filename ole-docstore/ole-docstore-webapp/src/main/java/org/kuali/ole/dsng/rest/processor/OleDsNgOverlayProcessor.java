@@ -233,26 +233,22 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 exchange.add(OleNGConstants.BIB, bibRecord);
 
                 List<HoldingsRecordAndDataMapping> holdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
-                if (operationsList.contains("122") || operationsList.contains("221")) {
-                    preparePHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
-                }
 
-                List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
-                if (operationsList.contains("142") || operationsList.contains("241")) {
-                    prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
-                }
+
+                preparePHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
+
+                prepareEHoldingsRecord(bibRecord, bibJSONDataObject, exchange);
 
                 List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_CREATE);
                 List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
-                if(CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)){
+                if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
                     holdingsForUpdateOrCreate.addAll(createHoldingsRecordAndDataMappings);
                 }
-                if(CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)){
+                if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
                     holdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
                 }
-                List<ItemRecord> itemsForUpdateOrCreate = new ArrayList<ItemRecord>();
                 if (operationsList.contains("132") || operationsList.contains("231")) {
-                    prepareItemsRecord(holdingsForUpdateOrCreate,bibJSONDataObject,exchange);
+                    prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
                 }
 
                 processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
@@ -294,10 +290,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
         List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
         List<ItemRecordAndDataMapping> itemForUpdateOrCreate = new ArrayList<ItemRecordAndDataMapping>();
-        if(CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
+        if (CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
             itemForUpdateOrCreate.addAll(createItemRecordAndDataMappings);
         }
-        if(CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
+        if (CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
             itemForUpdateOrCreate.addAll(updateItemRecordAndDataMappings);
         }
         for (Iterator<ItemRecordAndDataMapping> itemRecordIterator = itemForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
@@ -321,10 +317,10 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
         List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
         List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
-        if(CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
+        if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
             eholdingsForUpdateOrCreate.addAll(createHoldingsRecordAndDataMappings);
         }
-        if(CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
+        if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
             eholdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
         }
         for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
@@ -399,7 +395,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 holdingsRecord.setItemRecords(itemRecords);
             } else {
                 List<ItemRecordAndDataMapping> preparedItemAndDataMappings = determineItemsAndDataMappingByMatchPoints(holdingsRecord, exchange, itemJSON);
-                if(CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
+                if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
                     itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
                 }
             }
@@ -407,7 +403,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
             ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
-            if(null == itemRecordAndDataMapping.getItemRecord().getItemId()) {
+            if (null == itemRecordAndDataMapping.getItemRecord().getItemId()) {
                 createItemRecordAndDataMappings.add(itemRecordAndDataMapping);
             } else {
                 updateItemRecordAndDataMappings.add(itemRecordAndDataMapping);
@@ -434,7 +430,8 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         HashMap map = null;
         try {
             matchPoints = itemJSON.getJSONObject(OleNGConstants.MATCH_POINT);
-            map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {});
+            map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
+            });
             if (CollectionUtils.isNotEmpty(itemRecordsForHoldings)) {
                 for (Iterator<ItemRecord> itemRecordIterator = itemRecordsForHoldings.iterator(); itemRecordIterator.hasNext(); ) {
                     ItemRecord itemRecord = itemRecordIterator.next();
@@ -472,7 +469,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         List<JSONObject> unAssignedDataMappings = filterUnAssignedDataMappings(clonedDataMappings);
-        if(CollectionUtils.isNotEmpty(unAssignedDataMappings)) {
+        if (CollectionUtils.isNotEmpty(unAssignedDataMappings)) {
             for (Iterator<JSONObject> iterator = unAssignedDataMappings.iterator(); iterator.hasNext(); ) {
                 JSONObject dataMapping = iterator.next();
                 ItemRecordAndDataMapping itemRecordAndDataMapping = getNewItemRecord(holdingsRecord);
@@ -502,13 +499,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         if (null == bibRecord.getBibId()) {
             JSONArray dataMappings = getDataMappingsJSONArray(holdingsJSON);
             for (int count = 0; count < numOccurances.get(OleNGConstants.HOLDINGS); count++) {
-                HoldingsRecordAndDataMapping newEHoldings = getNewHoldings(bibRecord, PHoldings.PRINT);
+                HoldingsRecordAndDataMapping newHoldings = getNewHoldings(bibRecord, PHoldings.PRINT);
                 try {
-                    newEHoldings.setDataMapping(dataMappings.getJSONObject(count));
+                    newHoldings.setDataMapping(dataMappings.getJSONObject(count));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                holdingsRecordAndDataMappings.add(newEHoldings);
+                holdingsRecordAndDataMappings.add(newHoldings);
             }
 
         } else if (holdingsJSON.has(OleNGConstants.MATCH_POINT)) {
@@ -517,7 +514,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
             HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-            if(null == holdingsRecordAndDataMapping.getHoldingsRecord().getHoldingsId()) {
+            if (null == holdingsRecordAndDataMapping.getHoldingsRecord().getHoldingsId()) {
                 createPHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
             } else {
                 updatePHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
@@ -563,7 +560,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
         for (Iterator<HoldingsRecordAndDataMapping> iterator = eholdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
             HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-            if(null == holdingsRecordAndDataMapping.getHoldingsRecord().getHoldingsId()) {
+            if (null == holdingsRecordAndDataMapping.getHoldingsRecord().getHoldingsId()) {
                 createEHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
             } else {
                 updateEHoldingsRecordAndDataMappings.add(holdingsRecordAndDataMapping);
@@ -635,7 +632,7 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
         }
 
         List<JSONObject> unAssignedDataMappings = filterUnAssignedDataMappings(clonedDataMapping);
-        if(CollectionUtils.isNotEmpty(unAssignedDataMappings)) {
+        if (CollectionUtils.isNotEmpty(unAssignedDataMappings)) {
             for (Iterator<JSONObject> iterator = unAssignedDataMappings.iterator(); iterator.hasNext(); ) {
                 JSONObject dataMapping = iterator.next();
                 HoldingsRecordAndDataMapping newEHoldings = getNewHoldings(bibRecord, EHoldings.ELECTRONIC);
@@ -679,11 +676,11 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
     private List<JSONObject> filterUnAssignedDataMappings(JSONArray dataMappings) {
         ArrayList<JSONObject> unAssignedDataMappings = new ArrayList<JSONObject>();
-        if(null != dataMappings) {
-            for(int index = 0 ; index < dataMappings.length() ; index++) {
+        if (null != dataMappings) {
+            for (int index = 0; index < dataMappings.length(); index++) {
                 try {
                     JSONObject datamapping = dataMappings.getJSONObject(index);
-                    if(!datamapping.has("assigned")) {
+                    if (!datamapping.has("assigned")) {
                         unAssignedDataMappings.add(datamapping);
                     }
                 } catch (JSONException e) {
@@ -810,13 +807,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     private JSONObject findDataMappingByValue(JSONArray dataMappings,
                                               String type, String value) throws JSONException {
         if (null != dataMappings) {
-            for(int index = 0; index < dataMappings.length(); index++) {
+            for (int index = 0; index < dataMappings.length(); index++) {
                 JSONObject dataMapping = dataMappings.getJSONObject(index);
-                if(dataMapping.has(type)) {
+                if (dataMapping.has(type)) {
                     JSONArray dataMappingValues = dataMapping.getJSONArray(type);
-                    for(int innerIndex = 0 ; innerIndex < dataMappingValues.length(); innerIndex++) {
+                    for (int innerIndex = 0; innerIndex < dataMappingValues.length(); innerIndex++) {
                         String dataMappingValue = dataMappingValues.getString(innerIndex);
-                        if(dataMappingValue.equalsIgnoreCase(value)){
+                        if (dataMappingValue.equalsIgnoreCase(value)) {
                             dataMapping.put("assigned", Boolean.TRUE);
                             return dataMapping;
                         }
