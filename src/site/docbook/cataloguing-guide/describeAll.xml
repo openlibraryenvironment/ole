@@ -1208,6 +1208,10 @@
                                             <para>Scheme used to shelve a bibliographic item in the
                                                 collections of the reporting organization. Select
                                                 the Call Number Type from the drop down. </para>
+                                            <tip>
+                                                <para>Set this field as a default with the parameter
+                                                  HOLDINGS_CALL_NUMBER_TYPE</para>
+                                            </tip>
                                         </entry>
                                     </row>
                                     <row>
@@ -1660,6 +1664,10 @@
                                             <para>Scheme used to shelve a bibliographic item in the
                                                 collections of the reporting organization. Select
                                                 the Call Number Type from the drop down. </para>
+                                            <tip>
+                                                <para>Set this field as a default with the parameter
+                                                  ITEM_CALL_NUMBER_TYPE</para>
+                                            </tip>
                                         </entry>
                                     </row>
                                     <row>
@@ -2818,11 +2826,10 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para> If you delete the E-Holdings, it will be removed immediately without
-                    requiring any confirmation. You can also select the E-Holdings in the left pane
-                    and click the <emphasis role="bold">Delete</emphasis> button in the E-Holdings
-                    Editor. This will also delete the E-Holdings immediately without requiring
-                    confirmation. </para>
+                <para> A confirmation screen will appear.  Press <emphasis role="bold"
+                        >Continue</emphasis> to delete the E-Holdings record.  You can also select
+                    the E-Holdings in the left pane and click the <emphasis role="bold"
+                        >Delete</emphasis> button in the E-Holdings Editor. </para>
                 <para>Click the <inlinemediaobject>
                         <alt>Delete Bib</alt>
                         <imageobject>
@@ -3125,6 +3132,10 @@
                                             <para>Scheme used to shelve a bibliographic item in the
                                                 collections of the reporting organization. Select
                                                 the Call Number Type from the drop down. </para>
+                                            <tip>
+                                                <para>Set this field as a default with the parameter
+                                                  EHOLDINGS_CALL_NUMBER_TYPE</para>
+                                            </tip>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -3939,12 +3950,9 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-61.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will delete the E-Holdings immediately. <note>
-                                    <para> Although you will still be viewing the E-Holdings in the
-                                        editor, if you navigate away from it you will find it has
-                                        been fully deleted. </para>
-                                </note>
-                            </para>
+                                </inlinemediaobject> button will delete the E-Holdings.  Click
+                                    <emphasis role="bold">Continue</emphasis> to confirm the
+                                deletion.  </para>
                         </listitem>
                     </itemizedlist>
                 </section>
