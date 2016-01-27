@@ -112,8 +112,6 @@ public class ExistingLoanSearchLayout extends LayoutManagerBase implements
 
         List<Integer> pageSizes = DocumentSearchConfig.getPageSizes();
         List<KeyValue> pso = new ArrayList<>(pageSizes.size() + 1);
-        pso.add(new ConcreteKeyValue("10", "10"));
-        pso.add(new ConcreteKeyValue("25", "25"));
         for (Integer ps : pageSizes) {
             String pss = Integer.toString(ps);
             pso.add(new ConcreteKeyValue(pss, pss));
