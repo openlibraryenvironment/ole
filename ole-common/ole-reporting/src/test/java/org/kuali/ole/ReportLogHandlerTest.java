@@ -12,13 +12,13 @@ import java.util.Objects;
 /**
  * Created by angelind on 1/25/16.
  */
-public class OleReporting_UT {
+public class ReportLogHandlerTest {
 
     @Test
     public void generateReportLogTest() {
 
         String message = "Welcome OleReporting. These messages will be reported and logged in the text file.";
-        String filePath = "/kuali/main/local/reports";
+        String filePath = System.getProperty("java.io.tmpdir");
         String fileName = "test-report.txt";
         boolean isReportLogged = false;
         try {
