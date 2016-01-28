@@ -191,19 +191,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private Map<String, List<JSONObject>> prepareDataMapping(Record marcRecord, BatchProcessProfile batchProcessProfile, String transformationOption) throws JSONException {
         Map<String, List<JSONObject>> dataMappings = new HashMap<>();
 
-        List<JSONObject> bibDataMappings = prepareDataMappings(Collections.singletonList(marcRecord), batchProcessProfile, OleNGConstants.BIBLIOGRAPHIC, transformationOption);
+        List<JSONObject> bibDataMappings = prepareDataMappings(Collections.singletonList(marcRecord), batchProcessProfile, OleNGConstants.BIBLIOGRAPHIC, transformationOption,false);
         dataMappings.put(OleNGConstants.BIB_DATAMAPPINGS, bibDataMappings);
 
         List<Record> recordListForHoldings = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.HOLDINGS);
-        List<JSONObject> holdingsDataMappings = prepareDataMappings(recordListForHoldings, batchProcessProfile, OleNGConstants.HOLDINGS, transformationOption);
+        List<JSONObject> holdingsDataMappings = prepareDataMappings(recordListForHoldings, batchProcessProfile, OleNGConstants.HOLDINGS, transformationOption,true);
         dataMappings.put(OleNGConstants.HOLDINGS_DATAMAPPINGS, holdingsDataMappings);
 
         List<Record> recordListForItem = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.ITEM);
-        List<JSONObject> itemDataMappings = prepareDataMappings(recordListForItem, batchProcessProfile, OleNGConstants.ITEM, transformationOption);
+        List<JSONObject> itemDataMappings = prepareDataMappings(recordListForItem, batchProcessProfile, OleNGConstants.ITEM, transformationOption,true);
         dataMappings.put(OleNGConstants.ITEM_DATAMAPPINGS, itemDataMappings);
 
         List<Record> recordListForEHoldings = getRecordList(marcRecord, batchProcessProfile, OleNGConstants.EHOLDINGS);
-        List<JSONObject> eholdingsDataMappings = prepareDataMappings(recordListForEHoldings, batchProcessProfile, OleNGConstants.EHOLDINGS, transformationOption);
+        List<JSONObject> eholdingsDataMappings = prepareDataMappings(recordListForEHoldings, batchProcessProfile, OleNGConstants.EHOLDINGS, transformationOption,true);
         dataMappings.put(OleNGConstants.EHOLDINGS_DATAMAPPINGS, eholdingsDataMappings);
 
         return dataMappings;
@@ -293,7 +293,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
      * 3. Handling priority when determining values for the destination field.
      * @throws JSONException
      */
-    public List<JSONObject> prepareDataMappings(List<Record> marcRecords, BatchProcessProfile batchProcessProfile, String docType, String transformationOption) throws JSONException {
+    public List<JSONObject> prepareDataMappings(List<Record> marcRecords, BatchProcessProfile batchProcessProfile,
+                                                String docType, String transformationOption, boolean addMatchPoint) throws JSONException {
         List<JSONObject> dataMappings = new ArrayList<>();
         List<BatchProfileDataMapping> filteredDataMappings = filterDataMappingsByTransformationOption(batchProcessProfile.getBatchProfileDataMappingList(), transformationOption);
 
@@ -318,10 +319,33 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     }
                 }
             }
-            dataMappings.add(buildDataMappingsJSONObject(valueByPriorityMap));
+            JSONObject dataMapping = buildDataMappingsJSONObject(valueByPriorityMap);
+            if(addMatchPoint) {
+                addMatchPointToDataMapping(marcRecord,dataMapping, batchProcessProfile, docType);
+            }
+            dataMappings.add(dataMapping);
         }
 
         return dataMappings;
+    }
+
+    private void addMatchPointToDataMapping(Record marcRecord, JSONObject dataMapping, BatchProcessProfile batchProcessProfile, String docType) {
+        try {
+            JSONObject matchPoints = getMatchPointProcessor().prepareMatchPointsForDocType(marcRecord, batchProcessProfile.getBatchProfileMatchPointList(), docType);
+            for (Iterator iterator = matchPoints.keys(); iterator.hasNext(); ) {
+                String key = (String) iterator.next();
+                String matchPointsString = matchPoints.getString(key);
+                StringTokenizer matchPointValueTockenize = new StringTokenizer(matchPointsString,",");
+                JSONArray valueArray = new JSONArray();
+                while(matchPointValueTockenize.hasMoreTokens()) {
+                    String value = matchPointValueTockenize.nextToken();
+                    valueArray.put(value);
+                }
+                dataMapping.put(key,valueArray);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private JSONObject buildDataMappingsJSONObject(Map<String, List<ValueByPriority>> valueByPriorityMap) throws JSONException {
