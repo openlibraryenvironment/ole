@@ -26,6 +26,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private BusinessObjectService businessObjectService;
     private Boolean nonWorkingHoursCheck = false;
     private String period;
+    private ParameterValueResolver parameterValueResolver;
 
     public Date calculateDateTimeByPeriod(String loanPeriod, OleCirculationDesk oleCirculationDesk) {
         Date loanDueDate;
@@ -121,18 +122,17 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
                 }
             }
         } else {
-            loanDueDate = processDueTime(loanDueDate);
+            loanDueDate = processDueTimeForRegularLoan(loanDueDate);
         }
         return loanDueDate;
     }
 
-    private Date processDueTime(Date loanDueDate) {
+    private Date processDueTimeForRegularLoan(Date loanDueDate) {
         boolean validTime = false;
         int hours = 23;
         int minutes = 59;
         int seconds = 59;
-        String defaultDueTime = ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+        String defaultDueTime = getDefaultTimeForDueDate();
         if (StringUtils.isNotBlank(defaultDueTime)) {
             validTime = new CircUtilController().validateTime(defaultDueTime);
         }
@@ -146,6 +146,11 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         loanDueDate.setMinutes(minutes);
         loanDueDate.setSeconds(seconds);
         return loanDueDate;
+    }
+
+    public String getDefaultTimeForDueDate() {
+        return getParameterValueResolver().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
     }
 
     private Date processDueDateAndGracePeriod(Date loanDueDate, Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList) {
@@ -207,7 +212,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     }
 
     public Boolean includeNonWorkingHours() {
-        return ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants
+        return getParameterValueResolver().getParameterAsBoolean(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CALENDER_FLAG);
     }
 
@@ -221,7 +226,6 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     private Calendar resolveDateTime(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
         String time = closingTimeForTheGivenDay.keySet().iterator().next();
-        String timeSession = closingTimeForTheGivenDay.get(time);
         StringTokenizer timeTokenizer = new StringTokenizer(time, ":");
         int hour = Integer.parseInt(timeTokenizer.nextToken());
 
@@ -290,7 +294,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     }
 
     public String getGracePeriodForIncludingNonWorkingHours() {
-        return ParameterValueResolver.getInstance().getParameter(OLEConstants
+        return getParameterValueResolver().getParameter(OLEConstants
                 .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.GRACE_PERIOD_FOR_NON_WORKING_HOURS);
     }
 
@@ -365,5 +369,16 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     public void setActiveCalendar(OleCalendar activeCalendar) {
         this.activeCalendar = activeCalendar;
+    }
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if (null == parameterValueResolver) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
     }
 }
