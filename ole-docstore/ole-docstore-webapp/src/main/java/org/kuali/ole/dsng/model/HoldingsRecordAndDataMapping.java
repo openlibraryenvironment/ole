@@ -25,4 +25,5 @@ public class HoldingsRecordAndDataMapping {
     public void setDataMapping(JSONObject dataMapping) {
         this.dataMapping = dataMapping;
     }
+
 }
