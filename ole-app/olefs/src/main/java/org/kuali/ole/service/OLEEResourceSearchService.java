@@ -84,7 +84,9 @@ public interface OLEEResourceSearchService {
 
     public void getAcquisitionInfoFromPOAndInvoice(String holdingsId, WorkEInstanceOlemlForm workEInstanceOlemlForm);
 
-    public void getPOInvoiceForERS(OLEEResourceRecordDocument oleERSDoc);
+    public void getInvoiceForERS(OLEEResourceRecordDocument oleERSDoc);
+
+    public void getPoForERS(OLEEResourceRecordDocument oleERSDoc);
 
     public void removeDuplicateEresDocumentsFromList(List<OLEEResourceRecordDocument> eresourceDocumentList);
 

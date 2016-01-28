@@ -435,9 +435,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             eResource.setLinkedERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
 
             parentDocument.getOleLinkedEresources().add(eResource);
-            getOleEResourceSearchService().getPOInvoiceForERS(parentDocument);
             KRADServiceLocatorWeb.getDocumentService().updateDocument(parentDocument);
-            getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
             KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
             return super.reload(oleERSform, result, request, response);
         }
@@ -492,7 +490,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
         }
-        getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
         getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
         return super.save(oleERSform, result, request, response);
     }
@@ -713,31 +710,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return getUIFModelAndView(oleERSform, OLEConstants.OLEEResourceRecord.E_RES_INSTANCE_TAB);
     }
 
-    /**
-     * This method takes List of UUids as parameter and creates a LinkedHashMap with instance as key and id as value. and calls
-     * Docstore's QueryServiceImpl class getWorkBibRecords method and return workBibDocument for passed instance Id.
-     *
-     * @param instanceIdsList
-     * @return List<WorkBibDocument>
-     */
-//    private List<WorkBibDocument> getWorkBibDocuments(List<String> instanceIdsList, String docType) {
-//        List<LinkedHashMap<String, String>> instanceIdMapList = new ArrayList<LinkedHashMap<String, String>>();
-//        for (String instanceId : instanceIdsList) {
-//            LinkedHashMap<String, String> instanceIdMap = new LinkedHashMap<String, String>();
-//            instanceIdMap.put(docType, instanceId);
-//            instanceIdMapList.add(instanceIdMap);
-//        }
-//
-//        QueryService queryService = QueryServiceImpl.getInstance();
-//        List<WorkBibDocument> workBibDocuments = new ArrayList<WorkBibDocument>();
-//        try {
-//            workBibDocuments = queryService.getWorkBibRecords(instanceIdMapList);
-//        } catch (Exception ex) {
-//            // TODO Auto-generated catch block
-//            ex.printStackTrace();
-//        }
-//        return workBibDocuments;
-//    }
 
     /**
      * Called by the delete line action for a model collection. Method
@@ -1572,9 +1544,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
             linkedEresource.setRemoveRelationShip(false);
-            //oleeResourceRecordDocument.setOleLinkedEresources(null);
-            oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
-        }
+         }
         return getUIFModelAndView(form);
     }
 
@@ -2133,38 +2103,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleGokbViews = (List<OleGokbView>) getBusinessObjectService().findAll(OleGokbView.class);
         }
 
-        //search by publisher if given in search params
-/*        if (StringUtils.isNotEmpty(publisher)) {
-
-            Map publisherMap = new HashMap();
-            publisherMap.put("organizationName", publisher);
-            List<OleGokbOrganization> oleGokbOrganizations = (List<OleGokbOrganization>) getBusinessObjectService().findMatching(OleGokbOrganization.class, publisherMap);
-
-            List<Integer> gokbOrgIds = new ArrayList<>();
-
-            for(OleGokbOrganization oleGokbOrganization : oleGokbOrganizations) {
-                gokbOrgIds.add(oleGokbOrganization.getGokbOrganizationId());
-            }
-
-            if(oleGokbViews != null && oleGokbViews.size() > 0) {
-                Iterator<OleGokbView> oleGokbViewIterator = oleGokbViews.iterator();
-
-                while(oleGokbViewIterator.hasNext()) {
-                    OleGokbView oleGokbView = oleGokbViewIterator.next();
-
-                    if(!gokbOrgIds.contains(oleGokbView.getPublisherId())) {
-                        oleGokbViewIterator.remove();
-                    }
-                }
-            }
-            else if (stringBuilder.length() == 0) {
-                oleGokbViews = new ArrayList<>();
-                for(Integer id : gokbOrgIds) {
-                    oleGokbViews.add(getBusinessObjectService().findBySinglePrimaryKey(OleGokbView.class, id));
-                }
-            }
-        }*/
-
         List<OLEGOKbPackage> olegoKbPackages = getOleeResourceHelperService().searchGokbForPackagess(oleGokbTipps, oleEResourceRecordForm);
         if (olegoKbPackages.size() == 0) {
             oleEResourceRecordForm.setShowMultiplePlatforms(false);
@@ -2303,10 +2241,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (oleeResourceRecordDocument.getTitle() != null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getTitle())) {
             oleEResourceRecordForm.setPackageName(oleeResourceRecordDocument.getTitle());
         }
-//        if(oleeResourceRecordDocument.getPlatformProvider() !=null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getPlatformProvider())){
-//            oleEResourceRecordForm.setPlatformProvider(oleeResourceRecordDocument.getPlatformProvider());
-//        }
-
         List<String> platformProviderList = getOleeResourceHelperService().getPlatformProvidersForInstance(oleeResourceRecordDocument.getOleERSInstances());
 
         oleEResourceRecordForm.setPlatformProviderList(platformProviderList);
@@ -3085,17 +3019,16 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     }
 
 
-    @RequestMapping(params = "methodToCall=populatePOAndInvoice")
-    public ModelAndView populatePOAndInvoice(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    @RequestMapping(params = "methodToCall=populateInvoice")
+    public ModelAndView populateInvoice(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         if(oleeResourceRecordDocument.getOleERSInstances()!=null && oleeResourceRecordDocument.getOleERSInstances().size()==0){
             getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
         }
-        if(oleeResourceRecordDocument.getOleERSIdentifier()!=null){
-            OLEEResourceSearchServiceImpl oleeResourceSearchService = new OLEEResourceSearchServiceImpl();
-            oleeResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
+        if(oleeResourceRecordDocument.getOleERSIdentifier()!=null){           
+            getOleEResourceSearchService().getInvoiceForERS(oleeResourceRecordDocument);
         }
         return super.navigate(oleEResourceRecordForm, result, request, response);
     }
@@ -3162,9 +3095,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if(oleeResourceRecordDocument.getOleERSInstances()!=null && oleeResourceRecordDocument.getOleERSInstances().size()==0){
             getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
         }
-        if(oleeResourceRecordDocument.getOleERSIdentifier()!=null){
-            OLEEResourceSearchServiceImpl oleeResourceSearchService = new OLEEResourceSearchServiceImpl();
-            oleeResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
+        if(oleeResourceRecordDocument.getOleERSIdentifier()!= null) {
+            getOleEResourceSearchService().getPoForERS(oleeResourceRecordDocument);
+            getOleEResourceSearchService().getInvoiceForERS(oleeResourceRecordDocument);
         }
         getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
         return super.navigate(oleEResourceRecordForm, result, request, response);
@@ -3197,6 +3130,20 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     }
 
 
+
+    @RequestMapping(params = "methodToCall=populatePO")
+    public ModelAndView populatePO(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(oleeResourceRecordDocument.getOleERSInstances()!=null && oleeResourceRecordDocument.getOleERSInstances().size()==0){
+            getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
+        }
+        if(oleeResourceRecordDocument.getOleERSIdentifier() != null) {
+            getOleEResourceSearchService().getPoForERS(oleeResourceRecordDocument);
+        }
+        return super.navigate(oleEResourceRecordForm, result, request, response);
+    }
 
 
 
