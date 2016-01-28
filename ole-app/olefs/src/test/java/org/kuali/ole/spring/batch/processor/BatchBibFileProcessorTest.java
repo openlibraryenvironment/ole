@@ -147,7 +147,7 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null, "a")).thenReturn("123");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
 
         assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"123\"]");
@@ -189,7 +189,7 @@ public class BatchBibFileProcessorTest {
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null,  "a")).thenReturn("123");
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null,  "b")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"123 213\"]");
 
@@ -230,7 +230,7 @@ public class BatchBibFileProcessorTest {
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null,  "a")).thenReturn("123");
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null,  "b")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"123\"]");
     }
@@ -281,7 +281,7 @@ public class BatchBibFileProcessorTest {
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null, "a")).thenReturn("123");
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null, "b")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
      assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"123 12321\"]");
     }
@@ -330,7 +330,7 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValueWithIndicators(mockRecord, "050", null, null, "a")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(mockRecord), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         assertEquals(bibDataMappings.get(0).get("Call Number").toString(), "[\"213 12321\"]");
     }
@@ -423,7 +423,7 @@ public class BatchBibFileProcessorTest {
 
        // Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         System.out.println(bibDataMappings);
     }
@@ -523,7 +523,7 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(marcRecordUtil.getDataFieldValue(mockRecord, "050", "b")).thenReturn("213");
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         System.out.println(bibDataMappings);
     }
@@ -621,7 +621,133 @@ public class BatchBibFileProcessorTest {
 
         Mockito.when(mockBatchProcesProfile.getBatchProfileDataMappingList()).thenReturn(profileDataMappings);
 
-        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings", "pre marc transformation");
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings",  "pre marc transformation",false);
+        assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
+        System.out.println(bibDataMappings);
+    }
+
+    @Test
+    public void testAddMatchPointToDataMapping() throws Exception, JSONException {
+        BatchBibFileProcessor batchFileProcessor = new BatchBibFileProcessor();
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        ControlField controlField = marcFactory.newControlField();
+        controlField.setTag("003");
+        controlField.setData("OCLOC");
+
+        record.addVariableField(controlField);
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("035");
+        dataField.setIndicator1(' ');
+        dataField.setIndicator2(' ');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 035-1 a");
+        dataField.addSubfield(subfield);
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('b');
+        subfield2.setData("Value for 035-1 b");
+        dataField.addSubfield(subfield2);
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("035");
+        dataField1.setIndicator1(' ');
+        dataField1.setIndicator2(' ');
+
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('a');
+        subfield3.setData("Value for 035-1 a");
+        dataField1.addSubfield(subfield3);
+
+        Subfield subfield4 = marcFactory.newSubfield();
+        subfield4.setCode('b');
+        subfield4.setData("Value for 035-1 b");
+        dataField1.addSubfield(subfield4);
+
+        DataField dataField2 = marcFactory.newDataField();
+        dataField2.setTag("856");
+        dataField2.setIndicator1(' ');
+        dataField2.setIndicator2(' ');
+
+        Subfield subfield5 = marcFactory.newSubfield();
+        subfield5.setCode('y');
+        subfield5.setData("Link Text 1");
+        dataField2.addSubfield(subfield5);
+
+        Subfield subfield6 = marcFactory.newSubfield();
+        subfield6.setCode('3');
+        subfield6.setData("Link Text 2");
+        dataField2.addSubfield(subfield6);
+
+        record.addVariableField(dataField2);
+
+        ArrayList<BatchProfileDataMapping> profileDataMappings = new ArrayList<>();
+
+        Mockito.when(mockDataProfileMapping1.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping1.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping1.getField()).thenReturn("Call Number Type");
+        Mockito.when(mockDataProfileMapping1.getDataField()).thenReturn("003");
+        Mockito.when(mockDataProfileMapping1.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping1.getPriority()).thenReturn(1);
+
+        profileDataMappings.add(mockDataProfileMapping1);
+
+
+        Mockito.when(mockDataProfileMapping2.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping2.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping2.getField()).thenReturn("Public Note");
+        Mockito.when(mockDataProfileMapping2.getDataField()).thenReturn("035");
+        Mockito.when(mockDataProfileMapping2.getSubField()).thenReturn("b");
+        Mockito.when(mockDataProfileMapping2.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping2.getPriority()).thenReturn(1);
+
+        profileDataMappings.add(mockDataProfileMapping2);
+
+        Mockito.when(mockDataProfileMapping4.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping4.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping4.getField()).thenReturn("Public Note");
+        Mockito.when(mockDataProfileMapping4.getDataField()).thenReturn("035");
+        Mockito.when(mockDataProfileMapping4.getSubField()).thenReturn("a");
+        Mockito.when(mockDataProfileMapping4.getDataType()).thenReturn("bib marc");
+        Mockito.when(mockDataProfileMapping4.getPriority()).thenReturn(1);
+        profileDataMappings.add(mockDataProfileMapping4);
+
+
+        Mockito.when(mockDataProfileMapping3.getTransferOption()).thenReturn("Pre Marc Transformation");
+        Mockito.when(mockDataProfileMapping3.getDestination()).thenReturn("holdings");
+        Mockito.when(mockDataProfileMapping3.getField()).thenReturn("Copy Number");
+        Mockito.when(mockDataProfileMapping3.getDataType()).thenReturn("constant");
+        Mockito.when(mockDataProfileMapping3.getConstant()).thenReturn("12321");
+        Mockito.when(mockDataProfileMapping3.getPriority()).thenReturn(1);
+
+        profileDataMappings.add(mockDataProfileMapping3);
+
+
+        ArrayList<BatchProfileMatchPoint> batchProfileMatchPoints = new ArrayList<>();
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint1);
+        Mockito.when(mockMatchProfileMatchPoint1.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint1.getMatchPointType()).thenReturn("Link Text");
+        Mockito.when(mockMatchProfileMatchPoint1.getDataField()).thenReturn("856");
+        Mockito.when(mockMatchProfileMatchPoint1.getSubField()).thenReturn("y");
+
+        batchProfileMatchPoints.add(mockMatchProfileMatchPoint2);
+        Mockito.when(mockMatchProfileMatchPoint2.getDataType()).thenReturn("Holdings");
+        Mockito.when(mockMatchProfileMatchPoint2.getMatchPointType()).thenReturn("Link Text");
+        Mockito.when(mockMatchProfileMatchPoint2.getDataField()).thenReturn("856");
+        Mockito.when(mockMatchProfileMatchPoint2.getSubField()).thenReturn("3");
+
+        Mockito.when(mockBatchProcesProfile.getBatchProfileDataMappingList()).thenReturn(profileDataMappings);
+        Mockito.when(mockBatchProcesProfile.getBatchProfileMatchPointList()).thenReturn(batchProfileMatchPoints);
+
+        batchFileProcessor.setMatchPointProcessor(new MatchPointProcessor());
+        List<JSONObject> bibDataMappings = batchFileProcessor.prepareDataMappings(Collections.singletonList(record), mockBatchProcesProfile, "holdings",  "pre marc transformation",true);
         assertTrue(CollectionUtils.isNotEmpty(bibDataMappings));
         System.out.println(bibDataMappings);
     }

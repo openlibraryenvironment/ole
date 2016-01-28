@@ -147,7 +147,7 @@ public class MatchPointProcessor extends BatchUtil {
 
 
 
-    private JSONObject prepareMatchPointsForDocType(Record marcRecord, List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {
+    public JSONObject prepareMatchPointsForDocType(Record marcRecord, List<BatchProfileMatchPoint> batchProfileMatchPoints, String docType) throws JSONException {
         JSONObject matchPoints = new JSONObject();
         if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
