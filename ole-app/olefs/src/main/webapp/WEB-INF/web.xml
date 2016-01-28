@@ -450,11 +450,22 @@ This file contains custom application specific web.xml content.
             <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
         </taglib>
     </jsp-config>
+
     <servlet>
         <servlet-name>rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>6</load-on-startup>
     </servlet>
+
+    <filter>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <filter-class>org.kuali.ole.oleng.rest.filter.OleNGRestLoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
 
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
