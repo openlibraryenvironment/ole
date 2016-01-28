@@ -910,10 +910,53 @@ public class BatchBibFileProcessorTest {
         record.addVariableField(dataField1);
 
         BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
-        List<Record> records = batchBibFileProcessor.splitRecordByMultiValue(record, "856");
+        MarcDataField marcDataField = new MarcDataField();
+        marcDataField.setDataField("856");
+        List<Record> records = batchBibFileProcessor.splitRecordByMultiValue(record, marcDataField);
         assertTrue(CollectionUtils.isNotEmpty(records));
         assertTrue(records.size() == 2);
     }
+
+
+    @Test
+    public void testSplitRecordsByTagFieldAndIndicators() {
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("856");
+        dataField.setIndicator1('1');
+        dataField.setIndicator2('2');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('a');
+        subfield.setData("Value for 856 a-1");
+        dataField.addSubfield(subfield);
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("856");
+        dataField1.setIndicator1(' ');
+        dataField1.setIndicator2('2');
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('a');
+        subfield1.setData("Value for 856 a-2");
+        dataField1.addSubfield(subfield1);
+
+        record.addVariableField(dataField1);
+
+        BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
+        MarcDataField marcDataField = new MarcDataField();
+        marcDataField.setDataField("856");
+        marcDataField.setInd1("1");
+        List<Record> records = batchBibFileProcessor.splitRecordByMultiValue(record, marcDataField);
+        assertTrue(CollectionUtils.isNotEmpty(records));
+        assertTrue(records.size() == 1);
+    }
+
     @Test
     public void testActionOps() {
 
