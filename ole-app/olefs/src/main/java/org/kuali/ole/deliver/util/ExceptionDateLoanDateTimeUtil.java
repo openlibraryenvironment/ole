@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.util;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate;
 
@@ -17,7 +18,7 @@ public class ExceptionDateLoanDateTimeUtil extends ExceptionPeriodLoanDateTimeUt
 
         for (Iterator<OleCalendarExceptionDate> iterator = oleCalendarExceptionDateList.iterator(); iterator.hasNext(); ) {
             OleCalendarExceptionDate oleCalendarExceptionDate = iterator.next();
-            if (datesMatch(oleCalendarExceptionDate.getDate(), loanDueDate) == 0) {
+            if (oleCalendarExceptionDate.getDate() != null && DateUtils.isSameDay(oleCalendarExceptionDate.getDate(), loanDueDate)) {
                 return oleCalendarExceptionDate;
             }
         }
