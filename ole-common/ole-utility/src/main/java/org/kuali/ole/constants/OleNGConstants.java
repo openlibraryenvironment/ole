@@ -118,6 +118,7 @@ public class OleNGConstants {
     public static final String TRANSACTION_MANAGER = "transactionManager";
     public static final String PROFILE_NAME = "profileName";
     public static final String PROFILE_ID = "profileId";
+    public static final String PROFILE_TYPE = "profileType";
     public static final String CONTENT = "content";
     public static final String ACTION = "action";
     public static final String COPY = "copy";

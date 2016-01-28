@@ -1,6 +1,6 @@
 var batchProfileApp = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap']);
 
-batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+batchProfileApp.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
     $scope.booleanOptions = booleanOptions;
     $scope.submitted = false;
     $scope.rowToEdit = null;
@@ -92,8 +92,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     }
 
     $scope.matchPointAdd = function () {
+        $scope.matchPointIndex = 0;
         var matchPointRow = getMatchPointRowByIndex(0);
-        if (validateMatchPointRow(matchPointRow, $scope)) {
+        if (!isValidMatchPointRow(matchPointRow, 0, $scope)) {
             return;
         }
         $scope.matchPointsPanel.push(matchPointRow);
@@ -110,6 +111,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
         $scope.matchPointsPanel[0].destSubField = null;
         $scope.matchPointsPanel[0].isMultiValue = false;
         $scope.matchPointsPanel[0].constant = null;
+        $scope.matchPointsPanel[0].matchPointTypes = null;
     };
 
     $scope.matchPointCopyRow = function (index) {
@@ -146,7 +148,11 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     }
 
     $scope.matchPointUpdateRow = function(index) {
+        $scope.matchPointIndex = index;
         var updatedRow = getMatchPointRowByIndex(index);
+        if (!isValidMatchPointRow(updatedRow, index, $scope)) {
+            return;
+        }
         $scope.matchPointsPanel[index] = updatedRow;
         $scope.matchPointsPanel[index].isEdit = false;
         $scope.rowToEdit = null;
@@ -224,8 +230,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.fieldOperationAdd = function () {
+        $scope.fieldOperationIndex = 0;
         var fieldOperationRow = getFieldOperationRowByIndex(0);
-        if (validateFieldOperationRow(fieldOperationRow, $scope)) {
+        if (!isValidFieldOperationRow(fieldOperationRow, 0, $scope)) {
             return;
         }
         $scope.fieldOperationsPanel.push(fieldOperationRow);
@@ -254,11 +261,16 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.fieldOperationUpdateRow = function(index) {
+        $scope.fieldOperationIndex = index;
         var updatedRow = getFieldOperationRowByIndex(index);
+        if (!isValidFieldOperationRow(updatedRow, index, $scope)) {
+            return;
+        }
         $scope.fieldOperationsPanel[index] = updatedRow;
         $scope.fieldOperationsPanel[index].isEdit = false;
         $scope.rowToEdit = null;
     };
+
     $scope.fieldOperationCancelUpdate = function(index) {
         $scope.fieldOperationsPanel[index].isEdit = false;
         $scope.fieldOperationsPanel[index] = $scope.rowToEdit;
@@ -272,8 +284,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.dataMappingAdd = function () {
+        $scope.dataMappingIndex = 0;
         var dataMappingRow = getDataMappingRowByIndex(0);
-        if (validateDataMappingRow(dataMappingRow, $scope)) {
+        if (!isValidDataMappingRow(dataMappingRow, 0, $scope)) {
             return;
         }
         $scope.dataMappingsPanel.push(dataMappingRow);
@@ -315,7 +328,11 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.dataMappingUpdateRow = function(index) {
+        $scope.dataMappingIndex = index;
         var updatedRow = getDataMappingRowByIndex(index);
+        if (!isValidDataMappingRow(updatedRow, index, $scope)) {
+            return;
+        }
         $scope.dataMappingsPanel[index] = updatedRow;
         $scope.dataMappingsPanel[index].isEdit = false;
         $scope.rowToEdit = null;
@@ -334,8 +351,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.dataTransformationAdd = function () {
+        $scope.dataTransformIndex = 0;
         var dataTransformationRow = getDataTransformationRowByIndex(0);
-        if (validateDataTransformationRow(dataTransformationRow, $scope)) {
+        if (!isValidDataTransformationRow(dataTransformationRow, 0, $scope)) {
             return;
         }
         $scope.dataTransformationsPanel.push(dataTransformationRow);
@@ -365,7 +383,11 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
     };
 
     $scope.dataTransformationUpdateRow = function(index) {
+        $scope.dataTransformIndex = index;
         var updatedRow = getDataTransformationRowByIndex(index);
+        if (!isValidDataTransformationRow(updatedRow, index, $scope)) {
+            return;
+        }
         $scope.dataTransformationsPanel[index] = updatedRow;
         $scope.dataTransformationsPanel[index].isEdit = false;
         $scope.rowToEdit = null;
@@ -639,19 +661,20 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
         //JSON.stringify(vars)
         var urlVars = getUrlVars();
         var profileId = urlVars['profileId'];
+        var profileType = decodeURIComponent(urlVars['profileType']);
         var action = urlVars['action'];
         if (profileId !== null && profileId !== undefined && profileId !== '') {
             var data = {};
             data["profileId"] = profileId;
             data["action"] = action;
-            $timeout(function() {
+            $scope.mainSectionPanel.batchProcessType = profileType;
             $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
                     $scope.mainSectionPanel.profileId = data.profileId;
                     $scope.mainSectionPanel.profileName = data.profileName;
                     $scope.mainSectionPanel.profileDescription = data.description;
-                    $scope.mainSectionPanel.batchProcessType = data.batchProcessType;
+                    //$scope.mainSectionPanel.batchProcessType = data.batchProcessType;
                     $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
                     $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;
                     $scope.mainSectionPanel.marcOnly = data.marcOnly;
@@ -670,7 +693,6 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', '$timeo
                         getBibImportProfileNames($scope, $http);
                     }
                 });
-            }, 700, false);
         }
     };
 

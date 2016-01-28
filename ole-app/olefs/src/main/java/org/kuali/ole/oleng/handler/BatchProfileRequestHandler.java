@@ -41,6 +41,7 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
                 JSONObject profile = new JSONObject();
                 profile.put(OleNGConstants.PROFILE_NAME,batchProcessProfile.getBatchProcessProfileName());
                 profile.put(OleNGConstants.PROFILE_ID,batchProcessProfile.getBatchProcessProfileId());
+                profile.put(OleNGConstants.PROFILE_TYPE,batchProcessProfile.getBatchProcessType());
                 byte[] content = batchProcessProfile.getContent();
                 profile.put(OleNGConstants.CONTENT, (null != content ? IOUtils.toString(content) : "{}"));
                 jsonArray.put(profile);

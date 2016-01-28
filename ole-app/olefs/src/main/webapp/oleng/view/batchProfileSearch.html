@@ -70,7 +70,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="profile in profiles">
-                <td><a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=edit">edit</a> &nbsp;&nbsp;&nbsp;
+                <td><a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&profileType={{profile.profileType}}&action=edit">edit</a> &nbsp;&nbsp;&nbsp;
                     <a href="../../batchProcessProfile.html?profileId={{profile.profileId}}&action=copy">copy</a> &nbsp;&nbsp;&nbsp;
                     <a ng-click="deleteProfile(profile.profileId,$index)" href="">delete</a> &nbsp;&nbsp;&nbsp;
                     <a ng-click="exportProfile($index)" href="">export</a>
