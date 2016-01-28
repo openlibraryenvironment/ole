@@ -3020,7 +3020,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
 
     @RequestMapping(params = "methodToCall=populateInvoice")
-    public ModelAndView populatePOAndInvoice(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView populateInvoice(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
@@ -3096,6 +3096,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
         }
         if(oleeResourceRecordDocument.getOleERSIdentifier()!= null) {
+            getOleEResourceSearchService().getPoForERS(oleeResourceRecordDocument);
             getOleEResourceSearchService().getInvoiceForERS(oleeResourceRecordDocument);
         }
         getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
