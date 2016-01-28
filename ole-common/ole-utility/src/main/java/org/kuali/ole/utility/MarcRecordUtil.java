@@ -120,8 +120,8 @@ public class MarcRecordUtil {
     *   tags  : ind1|ind2|$a$b*/
     public List<String> getMultiDataFieldValues(Record marcRecord, String field, String ind1, String ind2, String subField) {
         List<String> values = new ArrayList<>();
-        String indicator1 = (ind1 != null ? String.valueOf(ind1.charAt(0)) : " ");
-        String indicator2 = (ind2 != null ? String.valueOf(ind2.charAt(0)) : " ");
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
 
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
