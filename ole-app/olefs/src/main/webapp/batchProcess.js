@@ -51,7 +51,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
     ];
 
     $scope.profileNames = [];
-    var url = "ole-kr-krad/batch/upload";
+    var url = "rest/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
         var profileName = $scope.profileName;

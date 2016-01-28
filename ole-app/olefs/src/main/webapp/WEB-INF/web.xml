@@ -467,6 +467,11 @@ This file contains custom application specific web.xml content.
         <servlet-name>rest</servlet-name>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
+
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
         <url-pattern>/rest/*</url-pattern>
