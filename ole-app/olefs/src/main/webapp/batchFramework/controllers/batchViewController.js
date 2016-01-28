@@ -772,7 +772,14 @@ app.controller('batchProfileController', ['$scope', '$http', '$timeout', functio
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
             "batchProfileDataTransformerList": $scope.dataTransformationsPanel
         };
-        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile)
+        var userName = parent.$("div#login-info").text();
+        var user = userName.replace("    Logged in User:","").trim();
+        var config = {headers:  {
+            "userName" : user
+        }
+        };
+
+        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile,config)
             .success(function (data) {
                 $scope.profile = data;
                 $scope.message = 'Document was successfully submitted.';

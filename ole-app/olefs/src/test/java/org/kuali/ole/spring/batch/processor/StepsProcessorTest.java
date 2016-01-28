@@ -370,8 +370,14 @@ public class StepsProcessorTest {
         batchProfileDataTransformers.add(mockBatchProfileDataTransformer4);
         Mockito.when(mockBatchProfileDataTransformer4.getOperation()).thenReturn("Delete Value");
         Mockito.when(mockBatchProfileDataTransformer4.getConstant()).thenReturn("Value for ");
-        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("035 $a$b");
+        Mockito.when(mockBatchProfileDataTransformer4.getSourceField()).thenReturn("035 $a");
         Mockito.when(mockBatchProfileDataTransformer4.getStep()).thenReturn(2);
+
+
+        batchProfileDataTransformers.add(mockBatchProfileDataTransformer5);
+        Mockito.when(mockBatchProfileDataTransformer5.getOperation()).thenReturn("Delete Value");
+        Mockito.when(mockBatchProfileDataTransformer5.getSourceField()).thenReturn("035 $b");
+        Mockito.when(mockBatchProfileDataTransformer5.getStep()).thenReturn(3);
 
         Mockito.when(mockBatchProcessProfile.getBatchProfileDataTransformerList()).thenReturn(batchProfileDataTransformers);
 
@@ -385,7 +391,7 @@ public class StepsProcessorTest {
         System.out.println("035 $a : " + valueOf035$a);
 
         String valueOf035$b= getMarcRecordUtil().getDataFieldValue(record, "035 $b");
-        assertTrue(StringUtils.equals(valueOf035$b,"035 b"));
+        assertTrue(StringUtils.isBlank(valueOf035$b));
         System.out.println("035 $b : " + valueOf035$b);
     }
 

@@ -220,6 +220,7 @@
                                     ng-model="addOrOverlay.linkField"
                                     ng-show="(addOrOverlay.addOrOverlayDocType == 'Item') && (addOrOverlay.operation == 'Add'
                                    || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine">
+                                <option value=""></option>
                                 <option ng-selected="{{option.name == addOrOverlay.linkField}}"
                                         ng-repeat="option in addOrOverlay.linkFields" value="{{option.name}}">
                                     {{option.name}}
