@@ -501,21 +501,6 @@ This file contains custom application specific web.xml content.
         <url-pattern>/fileDownloadServlet/*</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet>
-        <servlet-name>documentrest</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/document-servlet.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>documentrest</servlet-name>
-        <url-pattern>/documentrest/*</url-pattern>
-    </servlet-mapping>-->
-
     <!-- Ole loader servlet configuration-->
     <servlet>
         <servlet-name>oleLoaderServlet</servlet-name>
