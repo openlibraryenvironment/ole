@@ -13,6 +13,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -92,7 +93,8 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+        String solrURLBase = ConfigContext.getCurrentContextConfig().getProperty("solr.url.base");
+        String solrURL = solrURLBase + File.separator + "solr"+ File.separator + "bib";
         LOG.info("Solr URl : " + solrURL);
         return solrURL;
 //        return "http://localhost:8080/oledocstore/bib";
