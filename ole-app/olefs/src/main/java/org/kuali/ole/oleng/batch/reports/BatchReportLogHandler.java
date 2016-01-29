@@ -22,16 +22,13 @@ public class BatchReportLogHandler  {
         if(null == batchReportLogHandler) {
             batchReportLogHandler = new BatchReportLogHandler();
             injectProcessor(new BatchReportProcessor());
+            ReportLogHandler.getInstance().setFileNameAndPath(null, getReportFileName());
         }
         return batchReportLogHandler;
     }
 
-    public String getReportFileName() {
-        return "batch-report.txt";
-    }
-
-    public void setFileName() {
-        ReportLogHandler.getInstance().setFileNameAndPath(null, getReportFileName());
+    public static String getReportFileName() {
+        return "batch-report"+"-${date:now:yyyyMMddHHmmssSSS}"+".txt";
     }
 
     public void logMessage(Object message) throws Exception {

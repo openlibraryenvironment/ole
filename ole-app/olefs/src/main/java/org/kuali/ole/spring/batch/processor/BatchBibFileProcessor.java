@@ -10,10 +10,12 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.MarcDataField;
+import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -23,6 +25,7 @@ import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -39,6 +42,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
+        int matchedBibsCount = 0;
+        int unmatchedBibsCount = 0;
+        int multipleMatchedBibsCount = 0;
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             JSONObject jsonObject = null;
 
@@ -50,27 +56,47 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                     if (null == results || results.size() > 1) {
                         System.out.println("**** More than one record found for query : " + query);
-                        return null;
+                        multipleMatchedBibsCount = multipleMatchedBibsCount + results.size();
+                        continue;
                     }
 
                     if (null != results && results.size() == 1) {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
+                        matchedBibsCount = matchedBibsCount + 1;
                     } else {
                         jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                        unmatchedBibsCount = unmatchedBibsCount + 1;
                     }
                 }
             } else {
                 jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                unmatchedBibsCount = unmatchedBibsCount + 1;
             }
             jsonArray.put(jsonObject);
         }
 
         if (jsonArray.length() > 0) {
             response = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
+            try {
+                OleNGBibImportResponse oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+                oleNGBibImportResponse.setMatchedBibsCount(matchedBibsCount);
+                oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedBibsCount);
+                oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedBibsCount);
+                generateBatchReport(oleNGBibImportResponse);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return response;
+    }
+
+    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse) throws Exception {
+        BatchReportLogHandler batchReportLogHandler = BatchReportLogHandler.getInstance();
+        batchReportLogHandler.logMessage(oleNGBibImportResponse);
     }
 
     private String getOperationInd(String operation) {

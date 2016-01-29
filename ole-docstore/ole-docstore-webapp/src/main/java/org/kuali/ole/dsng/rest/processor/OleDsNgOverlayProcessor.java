@@ -231,6 +231,13 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
                 List<String> operationsList = getListFromJSONArray(ops);
 
                 BibRecord bibRecord = prepareBib(bibJSONDataObject);
+
+                if(StringUtils.isNotBlank(bibRecord.getBibId())) {
+                    bibResponse.setOperation(OleNGConstants.UPDATED);
+                } else {
+                    bibResponse.setOperation(OleNGConstants.CREATED);
+                }
+
                 exchange.add(OleNGConstants.BIB, bibRecord);
 
                 List<HoldingsRecordAndDataMapping> holdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
@@ -242,23 +249,57 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
 
                 List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_CREATE);
                 List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
+                List<HoldingsRecordAndDataMapping> createEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
+                List<HoldingsRecordAndDataMapping> updateEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
                 if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
                     holdingsForUpdateOrCreate.addAll(createHoldingsRecordAndDataMappings);
+                    oleNGBibImportResponse.setUnmatchedHoldingsCount(oleNGBibImportResponse.getUnmatchedHoldingsCount() + createHoldingsRecordAndDataMappings.size());
                 }
                 if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
                     holdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
+                    oleNGBibImportResponse.setMatchedHoldingsCount(oleNGBibImportResponse.getMatchedHoldingsCount() + updateHoldingsRecordAndDataMappings.size());
+                }
+                if(CollectionUtils.isNotEmpty(createEHoldingsRecordAndDataMappings)) {
+                    oleNGBibImportResponse.setUnmatchedEHoldingsCount(oleNGBibImportResponse.getUnmatchedEHoldingsCount() + createEHoldingsRecordAndDataMappings.size());
+                }
+                if(CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
+                    oleNGBibImportResponse.setMatchedEHoldingsCount(oleNGBibImportResponse.getMatchedEHoldingsCount() + updateEHoldingsRecordAndDataMappings.size());
                 }
                 if (operationsList.contains("132") || operationsList.contains("231")) {
                     prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
                 }
 
+                List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+                List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+
+                if(CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
+                    oleNGBibImportResponse.setUnmatchedItemsCount(oleNGBibImportResponse.getUnmatchedItemsCount() + createItemRecordAndDataMappings.size());
+                }
+                if(CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
+                    oleNGBibImportResponse.setMatchedItemsCount(oleNGBibImportResponse.getMatchedItemsCount() + updateItemRecordAndDataMappings.size());
+                }
+
                 processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
+
+                bibResponse.setBibId(bibRecord.getBibId());
 
                 processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
 
                 processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
                 processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
+
+                buildBibResponses(bibResponse, exchange);
+
+                Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
+                if(null != multipleMatchedHoldings) {
+                    oleNGBibImportResponse.setMultipleMatchedHoldingsCount(oleNGBibImportResponse.getMultipleMatchedHoldingsCount() + multipleMatchedHoldings);
+                }
+
+                Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
+                if(null != multipleMatchedEHoldings) {
+                    oleNGBibImportResponse.setMultipleMatchedEHoldingsCount(oleNGBibImportResponse.getMultipleMatchedEHoldingsCount() + multipleMatchedEHoldings);
+                }
 
                 bibResponses.add(bibResponse);
             }
@@ -278,6 +319,121 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             e.printStackTrace();
         }
         return response;
+    }
+
+    public void buildBibResponses(BibResponse bibResponse, Exchange exchange) {
+        buildHoldingResponses(bibResponse,exchange);
+        buildEHoldingResponses(bibResponse,exchange);
+    }
+
+    public void buildEHoldingResponses(BibResponse bibResponse, Exchange exchange) {
+        List<HoldingsRecordAndDataMapping> createEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
+        List<HoldingsRecordAndDataMapping> updateEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
+        List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
+        if(CollectionUtils.isNotEmpty(createEHoldingsRecordAndDataMappings)) {
+            for(HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : createEHoldingsRecordAndDataMappings) {
+                HoldingsResponse holdingsResponse = new HoldingsResponse();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                holdingsResponse.setOperation(OleNGConstants.CREATED);
+                holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
+                holdingsResponses.add(holdingsResponse);
+            }
+        }
+        if(CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
+            for(HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateEHoldingsRecordAndDataMappings) {
+                HoldingsResponse holdingsResponse = new HoldingsResponse();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                holdingsResponse.setOperation(OleNGConstants.UPDATED);
+                holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
+                holdingsResponses.add(holdingsResponse);
+            }
+        }
+        if(CollectionUtils.isNotEmpty(holdingsResponses)) {
+            if(CollectionUtils.isNotEmpty(bibResponse.getHoldingsResponses())) {
+                bibResponse.getHoldingsResponses().addAll(holdingsResponses);
+            } else {
+                bibResponse.setHoldingsResponses(holdingsResponses);
+            }
+        }
+    }
+
+    public void buildHoldingResponses(BibResponse bibResponse, Exchange exchange) {
+        List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_CREATE);
+        List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
+        List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
+        if(CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
+            for(HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : createHoldingsRecordAndDataMappings) {
+                HoldingsResponse holdingsResponse = new HoldingsResponse();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                if(null != holdingsRecord) {
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                    holdingsResponse.setOperation(OleNGConstants.CREATED);
+                    holdingsResponse.setHoldingsType(PHoldings.PRINT);
+                    buildItemResponse(holdingsResponse, exchange, holdingsRecord);
+                    holdingsResponses.add(holdingsResponse);
+                }
+            }
+        }
+
+        if(CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
+            for(HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateHoldingsRecordAndDataMappings) {
+                HoldingsResponse holdingsResponse = new HoldingsResponse();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                if(null != holdingsRecord) {
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                    holdingsResponse.setOperation(OleNGConstants.UPDATED);
+                    holdingsResponse.setHoldingsType(PHoldings.PRINT);
+                    buildItemResponse(holdingsResponse, exchange, holdingsRecord);
+                    holdingsResponses.add(holdingsResponse);
+                }
+            }
+        }
+        if(CollectionUtils.isNotEmpty(holdingsResponses)) {
+            if(CollectionUtils.isNotEmpty(bibResponse.getHoldingsResponses())) {
+                bibResponse.getHoldingsResponses().addAll(holdingsResponses);
+            } else {
+                bibResponse.setHoldingsResponses(holdingsResponses);
+            }
+        }
+    }
+
+    public void buildItemResponse(HoldingsResponse holdingsResponse, Exchange exchange, HoldingsRecord holdingsRecord) {
+        List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+        List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+        List<ItemResponse> itemResponses = new ArrayList<ItemResponse>();
+        if(CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
+            for(ItemRecordAndDataMapping itemRecordAndDataMapping : createItemRecordAndDataMappings) {
+                ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                if(holdingsRecord.getHoldingsId().equals(itemRecord.getHoldingsId())) {
+                    ItemResponse itemResponse = new ItemResponse();
+                    itemResponse.setItemId(itemRecord.getItemId());
+                    itemResponse.setOperation(OleNGConstants.CREATED);
+                    itemResponses.add(itemResponse);
+                }
+            }
+        }
+        if(!(OleNGConstants.CREATED.equalsIgnoreCase(holdingsResponse.getOperation()))) {
+            if(CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
+                for(ItemRecordAndDataMapping itemRecordAndDataMapping : updateItemRecordAndDataMappings) {
+                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                    if(holdingsRecord.getHoldingsId().equals(itemRecord.getHoldingsId())) {
+                        ItemResponse itemResponse = new ItemResponse();
+                        itemResponse.setItemId(itemRecord.getItemId());
+                        itemResponse.setOperation(OleNGConstants.UPDATED);
+                        itemResponses.add(itemResponse);
+                    }
+                }
+            }
+        }
+        if(CollectionUtils.isNotEmpty(itemResponses)) {
+            if(CollectionUtils.isNotEmpty(holdingsResponse.getItemResponses())) {
+                holdingsResponse.getItemResponses().addAll(itemResponses);
+            } else {
+                holdingsResponse.setItemResponses(itemResponses);
+            }
+        }
     }
 
     private void processItems(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops) {
@@ -737,6 +893,24 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             String key = holdingsRecordIterator.next();
             if(matchedHoldingsByMatchPoint.get(key).size() == 1){
                 holdingsRecordAndDataMappings.add(matchedHoldingsByMatchPoint.get(key).get(0));
+            } else {
+                if(docType.equalsIgnoreCase(PHoldings.PRINT)) {
+                    Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
+                    if(null != multipleMatchedHoldings) {
+                        multipleMatchedHoldings = multipleMatchedHoldings + matchedHoldingsByMatchPoint.size();
+                    } else {
+                        multipleMatchedHoldings = matchedHoldingsByMatchPoint.size();
+                    }
+                    exchange.add("multipleMatchedHoldings", multipleMatchedHoldings);
+                } else if(docType.equalsIgnoreCase(EHoldings.ELECTRONIC)) {
+                    Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
+                    if(null != multipleMatchedEHoldings) {
+                        multipleMatchedEHoldings = multipleMatchedEHoldings + matchedHoldingsByMatchPoint.size();
+                    } else {
+                        multipleMatchedEHoldings = matchedHoldingsByMatchPoint.size();
+                    }
+                    exchange.add("multipleMatchedEHoldings", multipleMatchedEHoldings);
+                }
             }
         }
 

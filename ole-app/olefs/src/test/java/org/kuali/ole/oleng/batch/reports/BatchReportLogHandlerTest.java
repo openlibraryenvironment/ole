@@ -26,10 +26,9 @@ public class BatchReportLogHandlerTest extends OLETestCaseBase {
     public void injectIntermediateBatchPoint() throws Exception {
         OleNGBibImportResponse oleNGBibImportResponse = buildOleNGBibImportResponse();
         BatchReportLogHandler batchReportLogHandler = BatchReportLogHandler.getInstance();
-        batchReportLogHandler.setFileName();
         batchReportLogHandler.logMessage(oleNGBibImportResponse);
         Thread.sleep(5000);
-        String fileContent = FileUtils.readFileToString(new File(ConfigContext.getCurrentContextConfig().getProperty("project.home") + "/reports/batch-report.txt"));
+        String fileContent = FileUtils.readFileToString(new File(ConfigContext.getCurrentContextConfig().getProperty("project.home") + "/reports/batch-report"+"-${date:now:yyyyMMddHHmmssSSS}"+".txt"));
         assertNotNull(fileContent);
         assertTrue(StringUtils.isNotBlank(fileContent));
         System.out.println(fileContent);
