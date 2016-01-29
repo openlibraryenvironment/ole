@@ -305,7 +305,9 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
             }
 
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);
-            getBibIndexer().commitDocumentToSolr(solrInputDocuments);
+            if (CollectionUtils.isNotEmpty(solrInputDocuments)) {
+                getBibIndexer().commitDocumentToSolr(solrInputDocuments);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
