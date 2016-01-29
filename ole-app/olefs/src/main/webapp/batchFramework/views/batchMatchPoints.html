@@ -12,8 +12,8 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <p style="color:red" ng-show="batchProfileForm.matchPointDataField_0.$dirty && batchProfileForm.matchPointDataField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data/Control Field is required</p>
-                <p style="color:red" ng-show="batchProfileForm.matchPointSubField_0.$dirty && batchProfileForm.matchPointSubField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required for Data Field</p>
+                <p style="color:red" ng-show="batchProfileForm['matchPointDataField_'+matchPointIndex].$dirty && batchProfileForm['matchPointDataField_'+matchPointIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data/Control Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['matchPointSubField_'+matchPointIndex].$dirty && batchProfileForm['matchPointSubField_'+matchPointIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required for Data Field</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -38,7 +38,7 @@
                     <tr ng-repeat="matchPoint in matchPointsPanel">
                         <td ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
                             <select class="form-control" id="matchPointOrderDocumentType_{{$index}}" name="matchPointOrderDocumentType_{{$index}}"
-                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
+                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine" style="width: 100px;"
                                     ng-change="populateMatchPointTypes(matchPoint)">
                                 <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
                                         ng-repeat="option in matchPoint.matchPointOrderDocTypes" value="{{option.name}}">
@@ -156,7 +156,7 @@
                         <td>
                             <input class="form-control" type="checkbox" name="matchPointIsMultiValue_{{$index}}"
                                    id="matchPointIsMultiValue_{{$index}}"
-                                   ng-model="matchPoint.isMultiValue">
+                                   ng-model="matchPoint.isMultiValue" style="height: 20px;">
                         </td>
                         <td>
                             <input class="form-control" id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"
