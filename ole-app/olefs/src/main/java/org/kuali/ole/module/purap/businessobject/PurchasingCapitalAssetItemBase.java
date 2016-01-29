@@ -150,4 +150,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         return m;
     }
 
+    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = capitalAssetTransactionType;
+    }
 }

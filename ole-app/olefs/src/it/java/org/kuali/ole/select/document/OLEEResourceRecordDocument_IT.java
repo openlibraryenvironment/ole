@@ -243,11 +243,13 @@ public class OLEEResourceRecordDocument_IT extends KualiTestBase {
         oleeResourceRecordDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.LINK_EXIST_INSTANCE);
 
         oleEResourceSearchService = GlobalResourceLoader.getService(OLEConstants.OLEEResourceRecord.ERESOURSE_SEARCH_SERVICE);
-        oleEResourceSearchService.getNewInstance(oleeResourceRecordDocument,oleeResourceRecordDocument.getDocumentNumber());
+        oleEResourceSearchService.getNewInstance(oleeResourceRecordDocument, oleeResourceRecordDocument.getDocumentNumber());
         assertEquals(1,oleeResourceRecordDocument.getOleERSInstances().size());
         assertEquals(holdingId, oleeResourceRecordDocument.getOleERSInstances().get(0).getInstanceId());
 
-        oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
+        oleEResourceSearchService.getPoForERS(oleeResourceRecordDocument);
+        oleEResourceSearchService.getInvoiceForERS(oleeResourceRecordDocument);
+
         assertEquals(olePurchaseOrderDocument.getPurapDocumentIdentifier(), oleeResourceRecordDocument.getOleERSPOItems().get(0).getOlePOItemId());
     }
 
