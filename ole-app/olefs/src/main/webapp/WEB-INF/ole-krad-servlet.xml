@@ -42,8 +42,6 @@
     <context:component-scan base-package="org.kuali.ole.batch"/>
     <context:component-scan base-package="org.kuali.ole.coa"/>
     <context:component-scan base-package="org.kuali.ole.alert"/>
-    <context:component-scan base-package="org.kuali.ole.spring.batch"/>
-    <context:component-scan base-package="org.kuali.ole.oleng"/>
     <context:component-scan base-package="org.kuali.ole.deliver.rest"/>
 
     <bean id="inquiryController" class="org.kuali.ole.krad.OleInquiryController" />

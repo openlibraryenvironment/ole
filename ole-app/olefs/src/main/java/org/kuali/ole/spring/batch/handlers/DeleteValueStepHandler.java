@@ -34,15 +34,16 @@ public class DeleteValueStepHandler extends StepHandler {
             }
 
         } else {
+            String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
             if (StringUtils.isNotBlank(constantField)) {
                 StringTokenizer stringTokenizer = new StringTokenizer(constantField, ",");
                 while(stringTokenizer.hasMoreTokens()) {
                     String constant = stringTokenizer.nextToken();
-                    String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
                     getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, sourceSubField, constant, "");
                 }
             } else {
-                getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, getMarcRecordUtil().getDataFieldValue(marcRecord, sourceField), "");
+                String dataFieldValue = getMarcRecordUtil().getDataFieldValue(marcRecord, sourceField,sourceSubField);
+                getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, sourceSubField, dataFieldValue, "");
             }
         }
     }

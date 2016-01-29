@@ -3,8 +3,6 @@ package org.kuali.ole.spring.batch.processor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,18 +14,17 @@ import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.Record;
-import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by pvsubrah on 12/7/15.
@@ -304,7 +301,7 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         String rawMarc = FileUtils.readFileToString(file);
         jsonObject.put("marcContent",rawMarc);
         System.out.println(jsonObject.toString());
-        String URL = "http://localhost:8080/olefs/ole-kr-krad/batch/submit/api";
+        String URL = "http://localhost:8080/olefs/rest/batch/submit/api";
         String jsonString = jsonObject.toString();
         String responseContent = sendPostRequest(URL, jsonString,"json");
         assertTrue(StringUtils.isNotBlank(responseContent));
