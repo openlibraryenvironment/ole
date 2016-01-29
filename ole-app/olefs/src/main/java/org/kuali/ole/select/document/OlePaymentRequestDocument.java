@@ -1510,5 +1510,12 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
         LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - end");
     }
 
+    public boolean isCurrencyTypeIndicator() {
+        return currencyTypeIndicator;
+    }
+
+    public void setCurrencyTypeIndicator(boolean currencyTypeIndicator) {
+        this.currencyTypeIndicator = currencyTypeIndicator;
+    }
 }
 

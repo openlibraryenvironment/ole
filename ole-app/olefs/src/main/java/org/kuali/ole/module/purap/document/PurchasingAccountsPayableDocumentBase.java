@@ -212,6 +212,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return false;
     }
 
+    public void setSensitive(boolean sensitive) {
+        this.sensitive = sensitive;
+    }
+
     /**
      * @see org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument#isInquiryRendered()
      */
@@ -1491,13 +1495,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }*/
 
 
-   /* public OleLicensingRequirement getLicenseReqmt() {
+    public OleLicensingRequirement getLicenseReqmt() {
         return licenseReqmt;
     }
 
     public void setLicenseReqmt(OleLicensingRequirement licenseReqmt) {
         this.licenseReqmt = licenseReqmt;
-    }*/
+    }
 
     /*@Override
     public void setLicenseRequestDocNum(String licenseRequestDocNum) {
@@ -1826,5 +1830,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public void setCreditMemoInfoFlag(boolean creditMemoInfoFlag) {
         this.creditMemoInfoFlag = creditMemoInfoFlag;
+    }
+
+    public boolean isAllowDeleteAwareCollection() {
+        return allowDeleteAwareCollection;
+    }
+
+    public void setAllowDeleteAwareCollection(boolean allowDeleteAwareCollection) {
+        this.allowDeleteAwareCollection = allowDeleteAwareCollection;
     }
 }

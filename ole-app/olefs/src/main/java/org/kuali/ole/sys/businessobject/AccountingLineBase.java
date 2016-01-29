@@ -1049,6 +1049,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         return builder.toString();
     }
 
-
-
+    public void setReferenceFinancialSystemDocumentTypeCode(DocumentTypeEBO referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
+    }
 }

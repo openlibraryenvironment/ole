@@ -192,5 +192,14 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
         }
     }
     // rSmart-jkneal-KFSCSU-199-end mod for selected accounting period
-    // CSU 6702 END    
+    // CSU 6702 END
+
+
+    public boolean isCheckPostingYearForCopy() {
+        return checkPostingYearForCopy;
+    }
+
+    public void setCheckPostingYearForCopy(boolean checkPostingYearForCopy) {
+        this.checkPostingYearForCopy = checkPostingYearForCopy;
+    }
 }

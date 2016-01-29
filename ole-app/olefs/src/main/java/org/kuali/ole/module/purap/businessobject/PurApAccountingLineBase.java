@@ -272,4 +272,8 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public Integer getPurApSequenceNumber() {
         return super.getSequenceNumber();
     }
+
+    public void setPurApSequenceNumber(Integer purApSequenceNumber) {
+        this.purApSequenceNumber = purApSequenceNumber;
+    }
 }
