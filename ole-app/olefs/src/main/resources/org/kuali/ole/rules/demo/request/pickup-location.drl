@@ -10,11 +10,10 @@ activation-group "pickup-location"
 when
 
  $p : OlePatronDocument(getBorrowerTypeCode() in ("UGRAD"))
- $pr : OLEPlaceRequestForm(getItemType() in ("BOOK") , getItemLocation() in ("B-EDUC/BED-STACKS","B-EDUC/BED-TEACHMAT"))
-
+ $pr : OLEPlaceRequestForm(getItemType() in ("BOOK") , getItemLocation() in ("B-EDUC/BED-STACKS"))
+ $d : DroolsResponse()
 then
  $pr.setPickUpLocation("BL_EDUC,BL_HPER");
-
-
+ $d.setRuleMatched(true);
  end
 
