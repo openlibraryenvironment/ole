@@ -13,6 +13,10 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationSourceField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationSourceField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Source Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Operation is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationDestinationField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationDestinationField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Value is required</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -69,7 +73,8 @@
                             <select class="form-control" id="dataTransformationOperation_{{$index}}"
                                     name="dataTransformationOperation_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationOperation"
-                                    ng-show="!dataTransformation.isAddLine">
+                                    ng-show="!dataTransformation.isAddLine"
+                                    ng-change="clearDataTransformationValidations()">
                                 <option ng-selected="{{option.name == dataTransformation.dataTransformationOperation}}"
                                         ng-repeat="option in dataTransformation.dataTransformationOperations  | orderBy:'name'"
                                         value="{{option.name}}">

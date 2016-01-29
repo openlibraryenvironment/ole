@@ -345,3 +345,13 @@ getMaintenanceDataForFieldTypeForDropDown = function (fieldType, $scope, $http) 
         }
     }
 };
+
+
+getBibImportProfileNames = function ($scope, $http) {
+    if ($scope.bibImportProfileNames == undefined) {
+        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": "Bib Import"}}).success(function (data) {
+            $scope.bibImportProfileNames = data;
+        });
+    }
+};
+
