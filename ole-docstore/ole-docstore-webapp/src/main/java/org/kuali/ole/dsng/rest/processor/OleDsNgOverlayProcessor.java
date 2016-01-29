@@ -437,86 +437,102 @@ public class OleDsNgOverlayProcessor extends OleDsHelperUtil implements Docstore
     }
 
     private void processItems(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops) {
+        boolean doIndex = false;
         for (Iterator<Handler> iterator = getItemHandlers().iterator(); iterator.hasNext(); ) {
             Handler itemHandler = iterator.next();
             if (itemHandler.isInterested(ops)) {
+                doIndex = true;
                 itemHandler.setItemDAO(itemDAO);
                 itemHandler.process(bibJSONDataObject, exchange);
             }
         }
-        List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
-        List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
-        List<ItemRecordAndDataMapping> itemForUpdateOrCreate = new ArrayList<ItemRecordAndDataMapping>();
-        if (CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
-            itemForUpdateOrCreate.addAll(createItemRecordAndDataMappings);
-        }
-        if (CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
-            itemForUpdateOrCreate.addAll(updateItemRecordAndDataMappings);
-        }
-        for (Iterator<ItemRecordAndDataMapping> itemRecordIterator = itemForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
-            ItemRecordAndDataMapping itemRecordAndDataMapping = itemRecordIterator.next();
-            ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-            if (StringUtils.isNotBlank(itemRecord.getItemId())) {
-                getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+        if (doIndex) {
+            List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+            List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+            List<ItemRecordAndDataMapping> itemForUpdateOrCreate = new ArrayList<ItemRecordAndDataMapping>();
+            if (CollectionUtils.isNotEmpty(createItemRecordAndDataMappings)) {
+                itemForUpdateOrCreate.addAll(createItemRecordAndDataMappings);
+            }
+            if (CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
+                itemForUpdateOrCreate.addAll(updateItemRecordAndDataMappings);
+            }
+            for (Iterator<ItemRecordAndDataMapping> itemRecordIterator = itemForUpdateOrCreate.iterator(); itemRecordIterator.hasNext(); ) {
+                ItemRecordAndDataMapping itemRecordAndDataMapping = itemRecordIterator.next();
+                ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                if (StringUtils.isNotBlank(itemRecord.getItemId())) {
+                    getItemIndexer().getInputDocumentForItem(itemRecord, solrInputDocumentMap);
+                }
             }
         }
     }
 
     private void processEHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops) {
+        boolean doIndex = false;
         for (Iterator<Handler> iterator = getEHoldingHandlers().iterator(); iterator.hasNext(); ) {
             Handler holdingsHandler = iterator.next();
             if (holdingsHandler.isInterested(ops)) {
+                doIndex = true;
                 holdingsHandler.setHoldingDAO(holdingDAO);
                 holdingsHandler.process(bibJSONDataObject, exchange);
             }
         }
 
-        List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
-        List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
-        List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
-        if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
-            eholdingsForUpdateOrCreate.addAll(createHoldingsRecordAndDataMappings);
-        }
-        if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
-            eholdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
-        }
-        for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
-            HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
-            HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-            if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
-                getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+        if (doIndex) {
+            List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
+            List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
+            List<HoldingsRecordAndDataMapping> eholdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
+            if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
+                eholdingsForUpdateOrCreate.addAll(createHoldingsRecordAndDataMappings);
+            }
+            if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
+                eholdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
+            }
+            for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = eholdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+                HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                    getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                }
             }
         }
     }
 
     private void processHoldings(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, List<HoldingsRecordAndDataMapping> holdingsForUpdateOrCreate) {
+        boolean doIndex = false;
         for (Iterator<Handler> iterator = getHoldingHandlers().iterator(); iterator.hasNext(); ) {
             Handler holdingsHandler = iterator.next();
             if (holdingsHandler.isInterested(ops)) {
+                doIndex = true;
                 holdingsHandler.setHoldingDAO(holdingDAO);
                 holdingsHandler.process(bibJSONDataObject, exchange);
             }
         }
 
-        for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
-            HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
-            HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-            if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
-                getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+        if (doIndex) {
+            for (Iterator<HoldingsRecordAndDataMapping> holdingsRecordIterator = holdingsForUpdateOrCreate.iterator(); holdingsRecordIterator.hasNext(); ) {
+                HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = holdingsRecordIterator.next();
+                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                    getHoldingIndexer().getInputDocumentForHoldings(holdingsRecord, solrInputDocumentMap);
+                }
             }
         }
     }
 
     private void processBib(Map<String, SolrInputDocument> solrInputDocumentMap, Exchange exchange, JSONObject bibJSONDataObject, String ops, BibRecord bibRecord) {
+        boolean doIndex = false;
         for (Iterator<Handler> iterator = getBibHandlers().iterator(); iterator.hasNext(); ) {
             Handler bibHandler = iterator.next();
             if (bibHandler.isInterested(ops)) {
+                doIndex = true;
                 bibHandler.setBibDAO(bibDAO);
                 bibHandler.process(bibJSONDataObject, exchange);
             }
         }
 
-        getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+        if (doIndex) {
+            getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
+        }
     }
 
     public JSONObject getJSONObject(JSONArray jsonArray, int index) {
