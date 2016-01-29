@@ -63,9 +63,11 @@ jq(document).ready(function () {
 
     jq("#OLEEResourceRecordView-Menu a").click(function(){
         if(this.id=='E-Resource-Instance-Navigation'){
-            window.setTimeout(function () {
+           /* window.setTimeout(function () {
+                jq("#instanceDetails").removeClass("DTTT_button DTTT_button_text xls");
+                jq("#instanceDetails").removeClass("DTTT_button DTTT_button_text csv");
                 jq("#instanceDetails").tableExport();
-            }, 1000)
+            }, 3000)*/
         }
     });
 
@@ -626,4 +628,32 @@ function openEresourcePODetailSection() {
     index = parseInt(index)+1;
     var detailLinkId = '#EResourcePOSection_detLink_line'+index;
     jq(detailLinkId).focus().click();
+}
+
+function hideExportSection(){
+    jq("#OLEEResourceRecordView-InstanceDetails-Export").hide();
+}
+
+/*jq(document).ajaxComplete(function(event) {
+    console.log(event);
+    var pageId = event.target.URL.toString();
+    var id = pageId.split("pageId=");
+    console.log(id[1]);
+    if(id[1] == "OLEEResourceRecordView-E-ResourceInstanceTab" && event.target.readyState == 'complete'){
+        showExport();
+    }
+});*/
+
+function exportData(name){
+    jq("#OLEEResourceRecordView-InstanceDetails-Export").show();
+    var tableId = jq("#OLEEResourceRecordView-InstanceDetailSection-Export_disclosureContent table").attr("id");
+    //alert(tableId);
+    var id = 0;
+    if(name == 'xls'){
+        id = 2;
+    }else if(name == 'xml'){
+        id = 1;
+    }
+    jq('#ToolTables_'+ tableId + '_'+id).click();
+    jq("#OLEEResourceRecordView-InstanceDetails-Export").hide();
 }

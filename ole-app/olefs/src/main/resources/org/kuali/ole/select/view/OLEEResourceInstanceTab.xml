@@ -15,6 +15,7 @@
                 <ref bean="OLEEResourceRecordView-InstanceId"/>
                 <ref bean="OLEEResourceRecordView-BibId"/>
                 <ref bean="OLEEResourceRecordView-InstanceDetails"/>
+                <ref bean="OLEEResourceRecordView-InstanceDetails-Export"/>
                 <ref bean="OLEEResourceRecordView-coverageFlag"/>
                 <ref bean="OLEEResourceRecordView-perpetualAccessFlag"/>
                 <ref bean="OLEEResourceRecordView-eInstanceFlag"/>
@@ -387,6 +388,24 @@
         <property name="headerText" value="E-Holdings Details" />
         <property name="items">
             <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:right;margin-left:0em"
+                                  p:actionScript="exportData('xls')"
+                                  p:actionLabel="xls" p:cssClasses="DTTT_button DTTT_button_text"/>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:right;margin-left:0em"
+                                  p:actionScript="exportData('xml')"
+                                  p:actionLabel="xml" p:cssClasses="DTTT_button DTTT_button_text"/>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:right;margin-left:5em"
+                                  p:actionScript="exportData('csv')"
+                                  p:actionLabel="csv" p:cssClasses="DTTT_button DTTT_button_text"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="OLEEResourceRecordView-InstanceDetailSection"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no Intstances linked to the E-Resource Record."
@@ -415,6 +434,52 @@
             </list>
         </property>
     </bean>
+
+    <bean id="exportFlag" parent="Uif-InputField" p:propertyName="export">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDetails-Export" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Instance Details" />
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-InstanceDetailSection-Export"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDetailSection-Export" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="propertyName" value="eRSInstances" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean id="eResource-ISBN" parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN/ISSN"/>
+                <bean id="eResource-Holdings" parent="Uif-DataField" p:propertyName="instanceHoldings" p:label="Holdings"/>
+                <!--<bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL"/>-->
+                <!--<bean id="eResource-PublicDisplayNote" parent="Uif-DataField" p:propertyName="publicDisplayNote" p:label="Public Display"/>-->
+                <bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL" />
+                <bean id="eResource-publisher" parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean id="eResource-accessStatus" parent="Uif-DataField" p:propertyName="status" p:label="Access Status"/>
+                <bean id="eResource-subscriptionStatus" parent="Uif-DataField" p:propertyName="subscriptionStatus" p:label="Subscription Status"/>
+                <bean id="eResource-platForm" parent="Uif-DataField" p:propertyName="platformName" p:label="Platform"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OLEEResourceRecordView-CreateChildE-ResourcePopUp" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
