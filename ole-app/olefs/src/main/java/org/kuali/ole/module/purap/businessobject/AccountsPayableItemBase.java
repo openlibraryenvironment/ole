@@ -154,4 +154,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
 
     }
 
+    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = capitalAssetTransactionType;
+    }
 }

@@ -1340,4 +1340,8 @@ public class OleInvoiceItem extends InvoiceItem {
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+
+    public void setItemExtendedPrice(BigDecimal itemExtendedPrice) {
+        this.itemExtendedPrice = itemExtendedPrice;
+    }
 }

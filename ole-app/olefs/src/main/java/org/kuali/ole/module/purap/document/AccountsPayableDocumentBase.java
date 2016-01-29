@@ -621,5 +621,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public boolean shouldGiveErrorForEmptyAccountsProration() {
         return true;
     }
+
+    public PurApItemUseTax getOffsetUseTax() {
+        return offsetUseTax;
+    }
+
+    public void setOffsetUseTax(PurApItemUseTax offsetUseTax) {
+        this.offsetUseTax = offsetUseTax;
+    }
 }
 
