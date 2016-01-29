@@ -9,6 +9,7 @@ public class HoldingsResponse {
     private String holdingsId;
     private String operation;
     private List<ItemResponse> itemResponses;
+    private String holdingsType;
 
     public String getHoldingsId() {
         return holdingsId;
@@ -32,5 +33,13 @@ public class HoldingsResponse {
 
     public void setItemResponses(List<ItemResponse> itemResponses) {
         this.itemResponses = itemResponses;
+    }
+
+    public String getHoldingsType() {
+        return holdingsType;
+    }
+
+    public void setHoldingsType(String holdingsType) {
+        this.holdingsType = holdingsType;
     }
 }

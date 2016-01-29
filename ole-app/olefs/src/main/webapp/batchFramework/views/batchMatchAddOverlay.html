@@ -171,14 +171,10 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <span ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add'"
+                            <span ng-show="mainSectionPanel.batchProcessType == 'Bib Import' && addOrOverlay.isAddLine && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && addOrOverlay.operation == 'Add'"
                                   ng-bind="addOrOverlay.addOperation"></span>
                             <span ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' && addOrOverlay.isAddLine"
                                   ng-bind="addOrOverlay.addOperation"></span>
-                            <label ng-show="addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings'  && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay') && !addOrOverlay.isAddLine">
-                                <input type="checkbox" ng-model="addOrOverlay.addItems"> Add Items
-                            </label>
-                            <span ng-show="addOrOverlay.isAddLine && addOrOverlay.matchOption == 'If Match Found' && addOrOverlay.addOrOverlayDocType == 'Holdings' && (addOrOverlay.operation == 'Add' || addOrOverlay.operation == 'Overlay')">Add Items {{addOrOverlay.addItems}}</span>
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <input class="form-control" id="addOrOverlayDataField_{{$index}}" name="addOrOverlayDataField_{{$index}}"
