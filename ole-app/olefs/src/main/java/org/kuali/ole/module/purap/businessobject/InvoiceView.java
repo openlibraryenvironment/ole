@@ -234,4 +234,14 @@ public class InvoiceView extends AbstractRelatedView {
     public void setPaymentRequestViews(List<PaymentRequestView> paymentRequestViews) {
         this.paymentRequestViews = paymentRequestViews;
     }
+
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+
 }

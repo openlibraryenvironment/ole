@@ -174,4 +174,12 @@ public class PaymentRequestView extends AbstractRelatedView {
     public String getDocumentTypeName() {
         return OLEConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
+
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
 }
