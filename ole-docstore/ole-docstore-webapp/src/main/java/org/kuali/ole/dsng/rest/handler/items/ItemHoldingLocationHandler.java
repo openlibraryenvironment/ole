@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -9,10 +10,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.LocationUtil;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/20/2015.
@@ -21,23 +19,41 @@ public class ItemHoldingLocationHandler extends ItemHandler {
 
     private LocationUtil locationUtil;
 
+    private String locationLevel;
+
     @Override
     public Boolean isInterested(String operation) {
-        return (operation.equals(HOLDINGS_LOCATION_LEVEL_1) || operation.equals(HOLDINGS_LOCATION_LEVEL_2) || operation.equals(HOLDINGS_LOCATION_LEVEL_3) ||
-                operation.equals(HOLDINGS_LOCATION_LEVEL_4) || operation.equals(HOLDINGS_LOCATION_LEVEL_5));
+        boolean locationLevel1Match = operation.equals(HOLDINGS_LOCATION_LEVEL_1);
+        boolean locationLevel2Match = operation.equals(HOLDINGS_LOCATION_LEVEL_2);
+        boolean locationLevel3Match = operation.equals(HOLDINGS_LOCATION_LEVEL_3);
+        boolean locationLevel4Match = operation.equals(HOLDINGS_LOCATION_LEVEL_4);
+        boolean locationLevel5Match = operation.equals(HOLDINGS_LOCATION_LEVEL_5);
+        if(locationLevel1Match) {
+            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+        } else if(locationLevel2Match) {
+            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+        } else if(locationLevel3Match) {
+            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+        } else if(locationLevel4Match) {
+            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+        } else if(locationLevel5Match) {
+            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+        }
+        return  (locationLevel1Match || locationLevel2Match || locationLevel3Match ||
+                locationLevel4Match || locationLevel5Match);
+
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
 
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
+        String locationLevel = getStringValueFromJsonObject(requestJsonObject, this.locationLevel);
+        List<String> parsedValues = parseCommaSeperatedValues(locationLevel);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String locationLevelValue = iterator.next();
 
-        for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
-            String key = (String) iterator.next();
-            String value = getStringValueFromJsonObject(requestJsonObject, key);
-
-
-            OleLocation locationBasedOnCode = getLocationUtil().getLocationByCode(value);
+            OleLocation locationBasedOnCode = getLocationUtil().getLocationByCode(locationLevelValue);
 
             OleLocationLevel oleLocationLevel = locationBasedOnCode.getOleLocationLevel();
             String matchPointLevelId = oleLocationLevel.getLevelId();
@@ -54,12 +70,13 @@ public class ItemHoldingLocationHandler extends ItemHandler {
                     String token = stringTokenizer.nextToken();
                     map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
-                if (map.get(matchPointLevelId).equals(value)) {
-                    exchange.add("matchedItem", itemRecord);
+                String levelId = (String) map.get(matchPointLevelId);
+                if (StringUtils.isNotBlank(levelId) && levelId.equals(locationLevelValue)) {
+                    exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, locationLevelValue);
                     break;
                 }
             }
-
         }
 
     }
@@ -73,8 +90,8 @@ public class ItemHoldingLocationHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         // No need to any process.
-        exchange.add("itemRecord", itemRecord);
+        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
     }
 }

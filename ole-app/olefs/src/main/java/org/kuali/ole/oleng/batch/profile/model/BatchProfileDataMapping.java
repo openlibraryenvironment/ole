@@ -29,6 +29,10 @@ public class BatchProfileDataMapping extends MarcDataField {
     @JsonProperty("transferOption")
     private String transferOption;
 
+    @JsonProperty("isMultiValue")
+    private boolean isMultiValue;
+
+
     @JsonProperty("priority")
     private int priority;
 
@@ -78,6 +82,14 @@ public class BatchProfileDataMapping extends MarcDataField {
 
     public void setTransferOption(String transferOption) {
         this.transferOption = transferOption;
+    }
+
+    public boolean isMultiValue() {
+        return isMultiValue;
+    }
+
+    public void setMultiValue(boolean multiValue) {
+        isMultiValue = multiValue;
     }
 
     public int getPriority() {

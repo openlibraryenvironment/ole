@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.dao.impl;
 
 import org.kuali.ole.coa.businessobject.*;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.util.OrderImportFieldValuesUtil;
@@ -27,9 +28,8 @@ import java.util.Map;
  */
 @Repository("SelectDAO")
 @Scope("prototype")
-public class SelectDAOImpl implements SelectDAO {
+public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements SelectDAO {
 
-    private BusinessObjectService businessObjectService;
     private KeyValuesService keyValuesService;
     private OleSelectDocumentService oleSelectDocumentService;
     private OrderImportFieldValuesUtil orderImportFieldValuesUtil;
@@ -152,13 +152,6 @@ public class SelectDAOImpl implements SelectDAO {
     @Override
     public List<OleCurrencyType> fetchAllCurrencyType() {
         return (List<OleCurrencyType>) KRADServiceLocator.getBusinessObjectService().findAll(OleCurrencyType.class);
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        if(null == businessObjectService){
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
-        }
-        return businessObjectService;
     }
 
     public KeyValuesService getKeyValuesService() {

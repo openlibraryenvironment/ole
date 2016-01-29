@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Created by rajeshbabuk on 12/14/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BatchProfileAddOrOverlay {
+public class BatchProfileAddOrOverlay extends MarcDataField {
 
     private String matchOption;
 
@@ -26,6 +26,7 @@ public class BatchProfileAddOrOverlay {
     private String addOrOverlayField;
     private String addOrOverlayFieldOperation;
     private String addOrOverlayFieldValue;
+    private String linkField;
 
     public String getAddOrOverlayField() {
         return addOrOverlayField;
@@ -113,5 +114,13 @@ public class BatchProfileAddOrOverlay {
 
     public void setAddItems(boolean addItems) {
         this.addItems = addItems;
+    }
+
+    public String getLinkField() {
+        return linkField;
+    }
+
+    public void setLinkField(String linkField) {
+        this.linkField = linkField;
     }
 }

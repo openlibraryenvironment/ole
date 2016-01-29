@@ -3,12 +3,11 @@ package org.kuali.ole.dsng.rest.handler.bib;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsProcessor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 public class UpdateBibHandler extends BibHandler {
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if(op.equals("112") || op.equals("212")){
@@ -31,12 +30,12 @@ public class UpdateBibHandler extends BibHandler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         try {
-            String newBibContent = requestJsonObject.getString("modifiedContent");
-            String updatedBy = requestJsonObject.getString("updatedBy");
-            String updatedDateString = (String) requestJsonObject.get("updatedDate");
+            String newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+            String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+            String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
-            if (requestJsonObject.has("id")) {
-                String bibId = requestJsonObject.getString("id");
+            if (requestJsonObject.has(OleNGConstants.ID)) {
+                String bibId = requestJsonObject.getString(OleNGConstants.ID);
                 BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
                 bibRecord.setStatusUpdatedBy(updatedBy);
                 bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
@@ -47,27 +46,15 @@ public class UpdateBibHandler extends BibHandler {
 
                 String newContent = process001And003(newBibContent, bibId);
                 bibRecord.setContent(newContent);
-                exchange.add("bib", bibRecord);
+                exchange.add(OleNGConstants.BIB, bibRecord);
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
-                BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
-                exchange.add("bib", updatedBibRecord);
+                getBibDAO().save(bibRecord);
 
-                exchange.add("bibUpdated",updatedBibRecord);
-
-                processHoldings(requestJsonObject,exchange);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }
-
-    private void processHoldings(JSONObject requestJsonObject, Exchange exchange) {
-        UpdateHoldingsProcessor updateHoldingsProcessor = new UpdateHoldingsProcessor();
-        updateHoldingsProcessor.setHoldingDAO(getHoldingDAO());
-        updateHoldingsProcessor.setItemDAO(getItemDAO());
-        updateHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
-        updateHoldingsProcessor.processHoldings(requestJsonObject,exchange);
     }
 }

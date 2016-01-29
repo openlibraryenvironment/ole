@@ -1,33 +1,38 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/26/2015.
  */
 public class CreateItemHandler extends Handler {
 
-    List<ItemHandler> itemMetaDataHandlers;
-
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
             if (op.equals("131") || op.equals("231")) {
@@ -39,84 +44,67 @@ public class CreateItemHandler extends Handler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
+        List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+        List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
 
-        try {
-            HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get("holdings");
-            if (null != holdingsRecord && StringUtils.equals(holdingsRecord.getHoldingsType(), PHoldings.PRINT)) {
-                JSONObject holdingJsonObject = requestJsonObject.getJSONObject("items");
-                ItemRecord itemRecord = new ItemRecord();
-                exchange.add("itemRecord",itemRecord);
-
-                JSONObject dataMappings = holdingJsonObject.getJSONObject("dataMapping");
-                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {
-                });
-                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                    String key1 = (String) iterator3.next();
-                    for (Iterator<ItemHandler> iterator4 = getItemMetaDataHandlers().iterator(); iterator4.hasNext(); ) {
-                        ItemHandler itemHandler = iterator4.next();
-                        if (itemHandler.isInterested(key1)) {
-                            itemHandler.setBusinessObjectService(getBusinessObjectService());
-                            itemHandler.processDataMappings(dataMappings, exchange);
-                        }
-                    }
+        if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
+            JSONObject itemJSONObject;
+            try {
+                itemJSONObject = requestJsonObject.getJSONObject(OleNGConstants.ITEM);
+                for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                    ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                    JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                    exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
+                    itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
+                    exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                    processDataMappings(itemJSONObject, exchange);
+                    setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                    itemRecords.add(itemRecord);
                 }
-
-                String createdDateString = getStringValueFromJsonObject(requestJsonObject, "updatedDate");
-                Timestamp createdDate = getDateTimeStamp(createdDateString);
-                String createdBy = getStringValueFromJsonObject(requestJsonObject,"updatedBy");
-                itemRecord.setCreatedBy(createdBy);
-                itemRecord.setCreatedDate(createdDate);
-                itemRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-                itemRecord.setHoldingsRecord(holdingsRecord);
-                itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-
-                getItemDAO().save(itemRecord);
-
-                List createdItemDocuments = (List) exchange.get("itemRecordsToCreate");
-                if(null == createdItemDocuments) {
-                    createdItemDocuments = new ArrayList();
-                }
-                createdItemDocuments.add(itemRecord);
-
-                exchange.add("itemRecordsToCreate", createdItemDocuments);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            exchange.remove(OleNGConstants.ITEM_RECORD);
+            exchange.remove(OleNGConstants.DATAMAPPING);
+            getItemDAO().saveAll(itemRecords);
         }
 
     }
 
-    public List<ItemHandler> getItemMetaDataHandlers() {
-        if(null == itemMetaDataHandlers){
-            itemMetaDataHandlers = new ArrayList<ItemHandler>();
-            itemMetaDataHandlers.add(new CallNumberHandler());
-            itemMetaDataHandlers.add(new CallNumberPrefixHandler());
-            itemMetaDataHandlers.add(new CallNumberTypeHandler());
-            itemMetaDataHandlers.add(new ChronologyHandler());
-            itemMetaDataHandlers.add(new CopyNumberHandler());
-            itemMetaDataHandlers.add(new DonorCodeHandler());
-            itemMetaDataHandlers.add(new DonorNoteHandler());
-            itemMetaDataHandlers.add(new DonorPublicDisplayHandler());
-            itemMetaDataHandlers.add(new EnumerationHandler());
-            itemMetaDataHandlers.add(new ItemHoldingLocationHandler());
-            itemMetaDataHandlers.add(new ItemBarcodeHandler());
-            itemMetaDataHandlers.add(new ItemStatusHandler());
-            itemMetaDataHandlers.add(new ItemTypeHandler());
-            itemMetaDataHandlers.add(new ItemLocationHandler());
-            itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
-            itemMetaDataHandlers.add(new VendorLineItemIdHandler());
-        }
-        return itemMetaDataHandlers;
+    private void setCommonValuesToItemRecord(JSONObject requestJsonObject, ItemRecord itemRecord) {
+        String createdDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
+        Timestamp createdDate = getDateTimeStamp(createdDateString);
+        String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
+        itemRecord.setCreatedBy(createdBy);
+        itemRecord.setCreatedDate(createdDate);
+        itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
     }
 
-    public void setItemMetaDataHandlers(List<ItemHandler> itemMetaDataHandlers) {
-        this.itemMetaDataHandlers = itemMetaDataHandlers;
+    @Override
+    public List<Handler> getMetaDataHandlers() {
+        if (null == metaDataHandlers) {
+            metaDataHandlers = new ArrayList<Handler>();
+            metaDataHandlers.add(new CallNumberHandler());
+            metaDataHandlers.add(new CallNumberPrefixHandler());
+            metaDataHandlers.add(new CallNumberTypeHandler());
+            metaDataHandlers.add(new ChronologyHandler());
+            metaDataHandlers.add(new CopyNumberHandler());
+            metaDataHandlers.add(new DonorCodeHandler());
+            metaDataHandlers.add(new DonorNoteHandler());
+            metaDataHandlers.add(new DonorPublicDisplayHandler());
+            metaDataHandlers.add(new EnumerationHandler());
+            metaDataHandlers.add(new ItemHoldingLocationHandler());
+            metaDataHandlers.add(new ItemBarcodeHandler());
+            metaDataHandlers.add(new ItemStatusHandler());
+            metaDataHandlers.add(new ItemTypeHandler());
+            metaDataHandlers.add(new ItemLocationHandler());
+            metaDataHandlers.add(new StatisticalSearchCodeHandler());
+            metaDataHandlers.add(new VendorLineItemIdHandler());
+        }
+        return metaDataHandlers;
     }
 }

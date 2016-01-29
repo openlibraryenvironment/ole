@@ -17,7 +17,7 @@
                     <thead>
                     <tr>
                         <th>Doc Type</th>
-                        <th>Action Type</th>
+                        <!--<th>Action Type</th>-->
                         <th>Source</th>
                         <th>Operation <a href="#" data-toggle="tooltip" uib-tooltip="1. Delete - This deletes a tag completely 2. Move - This removes a tag value (source) and adds a new tag value (destination) 3. New - Add a new source tag 4. Prepend with Prefix -
                          This takes the value of the source tag and prepends it to the destination tag enclosed within () 5. Replace - This replaces the destination tag value with the source tag value"><span class="glyphicon glyphicon-info-sign"></span></a></th>
@@ -43,7 +43,7 @@
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationDocType"></span>
                         </td>
-                        <td>
+                        <!--<td>
                             <select class="form-control" name="dataTransformationActionType_{{$index}}"
                                     id="dataTransformationActionType_{{$index}}"
                                     ng-model="dataTransformation.dataTransformationActionType"
@@ -55,7 +55,7 @@
                             </select>
                             <span ng-show="dataTransformation.isAddLine"
                                   ng-bind="dataTransformation.dataTransformationActionType"></span>
-                        </td>
+                        </td>-->
                         <td>
                             <input class="form-control" id="dataTransformationSourceField_{{$index}}"
                                    name="dataTransformationSourceField_{{$index}}" type="text"

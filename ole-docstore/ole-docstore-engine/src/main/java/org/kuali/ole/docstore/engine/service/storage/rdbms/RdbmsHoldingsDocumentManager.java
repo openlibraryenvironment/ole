@@ -10,6 +10,7 @@ import java.text.StringCharacterIterator;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.audit.Audit;
 import org.kuali.ole.audit.HoldingsAudit;
 import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
@@ -112,8 +113,6 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         holdingsRecord.setAccessStatus(oleHoldings.getAccessStatus());
         if (oleHoldings.getLink() != null) {
-//            holdingsRecord.setLink(oleHoldings.getLink().getUrl() != null ? oleHoldings.getLink().getUrl() : "");
-//            holdingsRecord.setLinkText(oleHoldings.getLink().getText() != null ? oleHoldings.getLink().getText() : "");
             saveLink(oleHoldings.getLink(), holdingsRecord.getHoldingsId());
         }
         holdingsRecord.setImprint(oleHoldings.getImprint() != null ? oleHoldings.getImprint() : "");
@@ -177,18 +176,12 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         getBusinessObjectService().save(holdingsRecord);
         if (oleHoldings.getStatisticalSearchingCode() != null) {
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
-//            if(holdingsStatisticalSearchRecord !=null){
-//                holdingsRecord.setHoldingsStatisticalSearchId(holdingsStatisticalSearchRecord.getHoldingsStatisticalSearchId());
-//            }
         }
         if (oleHoldings.getExtentOfOwnership() != null) {
             saveEHoldingsExtentOfOwnerShip(oleHoldings.getExtentOfOwnership(), holdingsRecord.getHoldingsId());
         }
         if (oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAccessLocation() != null) {
             HoldingsAccessLocation holdingsAccessLocation = saveHoldingsAccessLocation(oleHoldings.getHoldingsAccessInformation().getAccessLocation(), holdingsRecord.getHoldingsId());
-//            if(holdingsAccessLocation != null) {
-//                holdingsRecord.setHoldingsAccessLocationId(holdingsAccessLocation.getHoldingsAccessLocationId());
-//            }
         }
         if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() >= 0) {
             saveDonorList(oleHoldings.getDonorInfo(), holdingsRecord.getHoldingsId());
@@ -474,7 +467,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         holdings.setContent(content);
         buildLabelForHoldings(holdingsRecord, holdings);
         try {
-            OleAuditManager.getInstance().audit(HoldingsAudit.class,oldHoldingsRecord,holdingsRecord,holdingsRecord.getHoldingsId(),"ole");
+            List<Audit> auditList= OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

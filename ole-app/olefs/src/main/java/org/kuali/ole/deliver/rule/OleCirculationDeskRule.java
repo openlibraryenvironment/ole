@@ -113,7 +113,8 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
             Map<String, String> circDeskLocation = new HashMap<String, String>();
             circDeskLocation.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION, oleCirculationDeskLocation.getCirculationDeskLocation());
             List<OleCirculationDeskLocation> circulationDeskLocationInDatabase = (List<OleCirculationDeskLocation>) getBoService().findMatching(OleCirculationDeskLocation.class, circDeskLocation);
-            if ((circulationDeskLocationInDatabase.size() > 0)) {
+            for(OleCirculationDeskLocation oleCirculationDeskLocation1 : circulationDeskLocationInDatabase ){
+                if(oleCirculationDeskLocation1.getCirculationPickUpDeskLocation()==null){
                 if (!circulationDeskAction.equalsIgnoreCase(OLEConstants.OleCirculationDesk.COPY)) {
                     if (!(circulationDeskLocationInDatabase.get(0).getCirculationDeskId().equalsIgnoreCase(oleCirculationDeskLocation.getCirculationDeskId()))) {
                         this.putFieldError(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION, OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION_MAPPED_ERROR);
@@ -124,6 +125,7 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
                     return false;
                 }
             }
+        }
         }
         return true;
     }

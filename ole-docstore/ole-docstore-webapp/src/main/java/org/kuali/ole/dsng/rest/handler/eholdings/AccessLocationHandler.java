@@ -2,7 +2,9 @@ package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsAccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
@@ -28,15 +30,20 @@ public class AccessLocationHandler extends HoldingsHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String accessLocation = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
-        if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
-            for (Iterator<HoldingsAccessLocation> iterator = holdingsAccessLocations.iterator(); iterator.hasNext(); ) {
-                HoldingsAccessLocation holdingsAccessLocation = iterator.next();
-                if(null != holdingsAccessLocation.getAccessLocation() && StringUtils.equals(holdingsAccessLocation.getAccessLocation().getCode(),accessLocation)) {
-                    exchange.add("matchedItem", holdingRecord);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(accessLocation);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String accessLocationValue = iterator.next();
+            List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
+            if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
+                for (Iterator<HoldingsAccessLocation> holdingsAccessLocationIterator = holdingsAccessLocations.iterator(); holdingsAccessLocationIterator.hasNext(); ) {
+                    HoldingsAccessLocation holdingsAccessLocation = holdingsAccessLocationIterator.next();
+                    if(null != holdingsAccessLocation.getAccessLocation() && StringUtils.equals(holdingsAccessLocation.getAccessLocation().getCode(),accessLocationValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, accessLocationValue);
+                        break;
+                    }
                 }
             }
         }
@@ -44,26 +51,37 @@ public class AccessLocationHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get("holdingsRecord");
-        String accessLocationCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
-        if(null !=  accessLocation) {
+        HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             List<HoldingsAccessLocation> holdingsAccessLocations = holdingRecord.getHoldingsAccessLocations();
-            if(CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
-                for (Iterator<HoldingsAccessLocation> iterator = holdingsAccessLocations.iterator(); iterator.hasNext(); ) {
-                    HoldingsAccessLocation holdingsAccessLocation = iterator.next();
-                    holdingsAccessLocation.setAccessLocation(accessLocation);
+            if (CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String accessLocationCode = iterator.next();
+                    AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
+                    if (null != accessLocation) {
+                        for (Iterator<HoldingsAccessLocation> iterator1 = holdingsAccessLocations.iterator(); iterator1.hasNext(); ) {
+                            HoldingsAccessLocation holdingsAccessLocation = iterator1.next();
+                            holdingsAccessLocation.setAccessLocation(accessLocation);
+                        }
+                    }
                 }
             } else {
-                holdingsAccessLocations = new ArrayList<HoldingsAccessLocation>();
-                HoldingsAccessLocation holdingsAccessLocation = new HoldingsAccessLocation();
-                holdingsAccessLocation.setAccessLocation(accessLocation);
-                holdingsAccessLocation.setHoldingsId(holdingRecord.getHoldingsId());
-                holdingsAccessLocation.setHoldingsRecord(holdingRecord);
-                holdingsAccessLocations.add(holdingsAccessLocation);
-                holdingRecord.setHoldingsAccessLocations(holdingsAccessLocations);
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String accessLocationCode = iterator.next();
+                    AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
+                    holdingsAccessLocations = new ArrayList<HoldingsAccessLocation>();
+                    HoldingsAccessLocation holdingsAccessLocation = new HoldingsAccessLocation();
+                    holdingsAccessLocation.setAccessLocation(accessLocation);
+                    holdingsAccessLocation.setHoldingsId(holdingRecord.getHoldingsId());
+                    holdingsAccessLocation.setHoldingsRecord(holdingRecord);
+                    holdingsAccessLocations.add(holdingsAccessLocation);
+                    holdingRecord.setHoldingsAccessLocations(holdingsAccessLocations);
+                }
             }
+            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
         }
-        exchange.add("holdingsRecord", holdingRecord);
+
     }
 }

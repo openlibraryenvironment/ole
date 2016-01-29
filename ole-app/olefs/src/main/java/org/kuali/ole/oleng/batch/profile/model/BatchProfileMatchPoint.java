@@ -19,6 +19,7 @@ public class BatchProfileMatchPoint extends MarcDataField {
     private String destInd1;
     private String destInd2;
     private String destSubField;
+    private boolean isMultiValue;
 
     public long getMatchPointId() {
         return matchPointId;
@@ -92,4 +93,11 @@ public class BatchProfileMatchPoint extends MarcDataField {
         this.destSubField = destSubField;
     }
 
+    public boolean isMultiValue() {
+        return isMultiValue;
+    }
+
+    public void setMultiValue(boolean multiValue) {
+        isMultiValue = multiValue;
+    }
 }

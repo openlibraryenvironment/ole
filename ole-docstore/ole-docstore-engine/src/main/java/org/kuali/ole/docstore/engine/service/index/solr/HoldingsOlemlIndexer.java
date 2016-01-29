@@ -619,19 +619,132 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
 
 
     protected void modifySolrDocForDestination(String destinationBibId, List<String> holdingsIds, List<SolrInputDocument> solrInputDocumentListFinal) {
-
-        SolrDocument destBibSolrDocument = getSolrDocumentByUUID(destinationBibId);
+        updateSolrDocForDestination(destinationBibId, holdingsIds, solrInputDocumentListFinal);
+        /*SolrDocument destBibSolrDocument = getSolrDocumentByUUID(destinationBibId);
         destBibSolrDocument.addField("holdingsIdentifier", holdingsIds);
         SolrInputDocument solrInputDocument = new SolrInputDocument();
         buildSolrInputDocFromSolrDoc(destBibSolrDocument, solrInputDocument);
-        solrInputDocumentListFinal.add(solrInputDocument);
+        solrInputDocumentListFinal.add(solrInputDocument);*/
+    }
+
+    protected void updateSolrDocForDestination(String destinationBibId, List<String> holdingsIds, List<SolrInputDocument> solrInputDocumentListFinal){
+
+        //Add holdings id to destination bib
+        SolrInputDocument destBibInputSolrDocument = new SolrInputDocument();
+        destBibInputSolrDocument.addField(AtomicUpdateConstants.UNIQUE_ID, destinationBibId);
+        SolrDocument destBibSolrDocument = getSolrDocumentByUUID(destinationBibId);
+        addHoldingsDataToBib(destBibSolrDocument,destBibInputSolrDocument,holdingsIds);
+        addItemDataToBib(destBibSolrDocument,destBibInputSolrDocument,holdingsIds);
+        solrInputDocumentListFinal.add(destBibInputSolrDocument);
+    }
+
+    private void addHoldingsDataToBib(SolrDocument destBibSolrDocument, SolrInputDocument destBibInputSolrDocument, List<String> holdingsIds){
+
+        //Get existing holdings ids form bib
+        Object holdingsField = destBibSolrDocument.get(HOLDINGS_IDENTIFIER);
+        List<String> holdingsIdsList = new ArrayList<>();
+        if(holdingsField instanceof String){
+            String holdingsIdentifier = (String) holdingsField;
+            holdingsIdsList.add(holdingsIdentifier);
+        } else if (holdingsField instanceof List) {
+            List<String> holdingsIdentifierList = (List<String>) holdingsField;
+            holdingsIdsList.addAll(holdingsIdentifierList);
+        }
+
+        //Add the holdings ids being transfered to the bib, along with the existing holdings ids
+        holdingsIdsList.addAll(holdingsIds);
+        Map holdingsIdsMap = new HashMap();
+        holdingsIdsMap.put(AtomicUpdateConstants.SET, holdingsIdsList);
+        destBibInputSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
+    }
+
+    private void addItemDataToBib(SolrDocument destBibSolrDocument, SolrInputDocument destBibInputSolrDocument, List<String> holdingsIds){
+        //Get Existing item ids form bib
+        Object itemField = destBibSolrDocument.get(ITEM_IDENTIFIER);
+        List<String> itemIdsList = new ArrayList<>();
+        if(itemField instanceof String){
+            String itemIdentifier = (String) itemField;
+            itemIdsList.add(itemIdentifier);
+        } else if(itemField instanceof List) {
+            List<String> holdingsIdentifierList = (List<String>) itemField;
+            itemIdsList.addAll(holdingsIdentifierList);
+        }
+
+        //Get item ids from the holdings being transfered and add to destination bib document, along with the existing item ids.
+        SolrDocumentList holdingsSolrDocumentList = getSolrDocumentByUUIDs(holdingsIds);
+        for(SolrDocument solrDocument : holdingsSolrDocumentList){
+            Object object = solrDocument.get(ITEM_IDENTIFIER);
+            if (object instanceof String) {
+                String itemIdentifier = (String) object;
+                itemIdsList.add(itemIdentifier);
+            } else if (object instanceof List) {
+                List<String> itemIdentifierList = (List<String>) object;
+                itemIdsList.addAll(itemIdentifierList);
+            }
+        }
+        Map<String, List<String>> itemIdsMap = new HashMap<>();
+        itemIdsMap.put(AtomicUpdateConstants.SET, itemIdsList);
+        destBibInputSolrDocument.setField(ITEM_IDENTIFIER, itemIdsMap);
+    }
+
+    protected void updateSolrDocForSource(List<String> holdingsIds, String bibId, List<SolrInputDocument> solrInputDocumentList) {
+        SolrDocumentList holdingsSolrDocumentList = getSolrDocumentByUUIDs(holdingsIds);
+        SolrDocument destBibSolrDocument = getSolrDocumentByUUID(bibId);
+        for (SolrDocument holdingsSolrDocument : holdingsSolrDocumentList) {
+
+            //For each holdings being transfered set the destination bib id
+            String sourceBibIdentifier = (String) holdingsSolrDocument.getFieldValue(BIB_IDENTIFIER);
+            String sourceHoldingsIdentifier = (String) holdingsSolrDocument.getFieldValue(ID);
+            SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
+            holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, sourceHoldingsIdentifier);
+            Map bibMap = new HashMap();
+            bibMap.put(AtomicUpdateConstants.SET, bibId);
+            holdingsSolrInputDocument.setField(BIB_IDENTIFIER, bibMap);
+            setBibInfoForHoldingsOrItems(holdingsSolrInputDocument, destBibSolrDocument);
+            solrInputDocumentList.add(holdingsSolrInputDocument);
+
+            //For each holdings being transfered remove the holdings ids being transfered from the source bib
+            SolrInputDocument bibSolrInputDocument = new SolrInputDocument();
+            bibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, sourceBibIdentifier);
+            Map<String, String> holdingsIdsMap = new HashMap<String, String>();
+            holdingsIdsMap.put(AtomicUpdateConstants.REMOVE, sourceHoldingsIdentifier);
+            bibSolrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
+
+            //For each holdings being transfered remove the items ids of the associated holdings being transfered from the source bib
+            Object object = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+            List<String> itemIds = new ArrayList<>();
+            if (object instanceof String) {
+                String itemIdentifier = (String) object;
+                itemIds.add(itemIdentifier);
+                SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+                itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemIdentifier);
+                itemSolrInputDocument.setField(BIB_IDENTIFIER, bibMap);
+                setBibInfoForHoldingsOrItems(itemSolrInputDocument, destBibSolrDocument);
+                solrInputDocumentList.add(itemSolrInputDocument);
+            } else if (object instanceof List) {
+                List<String> itemIdentifierList = (List<String>) object;
+                for(String itemIdentifier : itemIdentifierList){
+                    SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+                    itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemIdentifier);
+                    itemSolrInputDocument.setField(BIB_IDENTIFIER, bibMap);
+                    setBibInfoForHoldingsOrItems(itemSolrInputDocument, destBibSolrDocument);
+                    solrInputDocumentList.add(itemSolrInputDocument);
+                }
+                itemIds.addAll(itemIdentifierList);
+            }
+            Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
+            itemIdMap.put(AtomicUpdateConstants.REMOVE, itemIds);
+            bibSolrInputDocument.addField(ITEM_IDENTIFIER, itemIdMap);
+            solrInputDocumentList.add(bibSolrInputDocument);
+        }
 
     }
 
     protected void modifySolrDocForSource(List<String> holdingsIds, String bibId, List<SolrInputDocument> solrInputDocumentList) {
-        String sourceBibIdentifier = "";
-        SolrDocumentList solrDocumentList = getSolrDocumentByUUIDs(holdingsIds);
-        for (SolrDocument holdingsSolrDocument : solrDocumentList) {
+        updateSolrDocForSource(holdingsIds, bibId, solrInputDocumentList);
+        /*String sourceBibIdentifier = "";
+        SolrDocumentList holdingsSolrDocumentList = getSolrDocumentByUUIDs(holdingsIds);
+        for (SolrDocument holdingsSolrDocument : holdingsSolrDocumentList) {
             sourceBibIdentifier = (String) holdingsSolrDocument.getFieldValue("bibIdentifier");
             String sourceHoldingsIdentifier = (String) holdingsSolrDocument.getFieldValue("id");
             removeHoldingsInSourceBib(sourceBibIdentifier, sourceHoldingsIdentifier ,solrInputDocumentList);
@@ -661,27 +774,27 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             buildSolrInputDocFromSolrDoc(holdingsSolrDocument, solrInputDocument);
             solrInputDocumentList.add(solrInputDocument);
-        }
+        }*/
 
     }
 
     private void removeHoldingsInSourceBib(String bibIdentifier,String holdingsId ,List<SolrInputDocument> solrInputDocumentList) {
-        SolrDocument solrDocument = getSolrDocumentByUUID(bibIdentifier);
-        Object field = solrDocument.getFieldValue("holdingsIdentifier");
+        SolrDocument bibSolrDocument = getSolrDocumentByUUID(bibIdentifier);
+        Object field = bibSolrDocument.getFieldValue("holdingsIdentifier");
         List bibIdentifierList = null;
         if (field instanceof String) {
-            String holdingsIdentifier = (String) solrDocument.getFieldValue("holdingsIdentifier");
+            String holdingsIdentifier = (String) bibSolrDocument.getFieldValue("holdingsIdentifier");
             bibIdentifierList = new ArrayList<>();
             bibIdentifierList.add(holdingsIdentifier);
 
         } else if (field instanceof List) {
-            bibIdentifierList = (List) solrDocument.getFieldValue("holdingsIdentifier");
+            bibIdentifierList = (List) bibSolrDocument.getFieldValue("holdingsIdentifier");
         }
         bibIdentifierList.remove(holdingsId);
-        solrDocument.setField("holdingsIdentifier", bibIdentifierList);
+        bibSolrDocument.setField("holdingsIdentifier", bibIdentifierList);
 
         SolrInputDocument solrInputDocument = new SolrInputDocument();
-        buildSolrInputDocFromSolrDoc(solrDocument, solrInputDocument);
+        buildSolrInputDocFromSolrDoc(bibSolrDocument, solrInputDocument);
         solrInputDocumentList.add(solrInputDocument);
 
     }

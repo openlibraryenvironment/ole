@@ -12,10 +12,11 @@ import java.sql.*;
 public class OleOjbClobConversionUtil implements FieldConversion {
         @Override
         public Object javaToSql(Object source) throws ConversionException {
-            return source;
+            return new String((byte[])source);
         }
 
         @Override
+
         public Object sqlToJava(Object source) throws ConversionException {
             byte[] bytes = null;
             if (source == null) {
@@ -28,7 +29,7 @@ public class OleOjbClobConversionUtil implements FieldConversion {
                     return bytes;
                 } else if(source instanceof String){
                      String content = (String)source;
-                    if(!content.contains("HTML") || !content.contains("html")){
+                    if(!content.contains("HTML") && !content.contains("html")){
                     bytes = Hex.decodeHex(((String) source).toCharArray());
                     return bytes;
                     }else{

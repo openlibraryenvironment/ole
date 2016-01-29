@@ -1,19 +1,14 @@
 package org.kuali.ole.oleng.handler;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.describe.bo.OleShelvingScheme;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.*;
-import org.kuali.ole.oleng.service.BatchProfileService;
-import org.kuali.ole.spring.batch.BatchUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,8 +30,8 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
     public String prepareProfileForSearch(String requestContent) throws JSONException, IOException {
         JSONObject requestObject = new JSONObject(requestContent);
         String profileName = null;
-        if(requestObject.has("profileName")){
-           profileName =  getStringValueFromJsonObject(requestObject, "profileName");
+        if(requestObject.has(OleNGConstants.PROFILE_NAME)){
+           profileName =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_NAME);
         }
         JSONArray jsonArray = new JSONArray();
         List<BatchProcessProfile> matching = getBatchProcessProfiles(profileName);
@@ -44,10 +39,10 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
             for (Iterator<BatchProcessProfile> iterator = matching.iterator(); iterator.hasNext(); ) {
                 BatchProcessProfile batchProcessProfile = iterator.next();
                 JSONObject profile = new JSONObject();
-                profile.put("profileName",batchProcessProfile.getBatchProcessProfileName());
-                profile.put("profileId",batchProcessProfile.getBatchProcessProfileId());
+                profile.put(OleNGConstants.PROFILE_NAME,batchProcessProfile.getBatchProcessProfileName());
+                profile.put(OleNGConstants.PROFILE_ID,batchProcessProfile.getBatchProcessProfileId());
                 byte[] content = batchProcessProfile.getContent();
-                profile.put("content", (null != content ? IOUtils.toString(content) : "{}"));
+                profile.put(OleNGConstants.CONTENT, (null != content ? IOUtils.toString(content) : "{}"));
                 jsonArray.put(profile);
             }
         }
@@ -58,22 +53,22 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
         JSONObject requestObject = new JSONObject(requestContent);
         String profileId = null;
         String action = null;
-        if(requestObject.has("profileId")){
-           profileId =  getStringValueFromJsonObject(requestObject, "profileId");
+        if(requestObject.has(OleNGConstants.PROFILE_ID)){
+           profileId =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_ID);
         }
-        if(requestObject.has("action")){
-           action =  getStringValueFromJsonObject(requestObject, "action");
+        if(requestObject.has(OleNGConstants.ACTION)){
+           action =  getStringValueFromJsonObject(requestObject, OleNGConstants.ACTION);
         }
         BatchProcessProfile matching = getBatchProcessProfileById(Long.parseLong(profileId));
         if(null != matching){
             byte[] content = matching.getContent();
             JSONObject jsonObject = new JSONObject((null != content ? IOUtils.toString(content) : "{}"));
-            if(StringUtils.equals(action,"copy")){
-                jsonObject.put("profileId",JSONObject.NULL);
-                jsonObject.put("profileName",JSONObject.NULL);
-                jsonObject.put("description",JSONObject.NULL);
-            }else if(StringUtils.equals(action,"edit")){
-                jsonObject.put("profileId",profileId);
+            if(StringUtils.equals(action,OleNGConstants.COPY)){
+                jsonObject.put(OleNGConstants.PROFILE_ID,JSONObject.NULL);
+                jsonObject.put(OleNGConstants.PROFILE_NAME,JSONObject.NULL);
+                jsonObject.put(OleNGConstants.DESCRIPTION,JSONObject.NULL);
+            }else if(StringUtils.equals(action,OleNGConstants.EDIT)){
+                jsonObject.put(OleNGConstants.PROFILE_ID,profileId);
             }
             return jsonObject.toString();
         }
@@ -84,12 +79,12 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
         JSONObject requestObject = new JSONObject(requestContent);
         String profileId = null;
         String action = null;
-        if(requestObject.has("profileId")){
-            profileId =  getStringValueFromJsonObject(requestObject, "profileId");
+        if(requestObject.has(OleNGConstants.PROFILE_ID)){
+            profileId =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_ID);
         }
         getBatchProfileService().deleteProfileById(Long.parseLong(profileId));
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("stauts","Successfully Deleted Profile");
+        jsonObject.put(OleNGConstants.STATUS,"Successfully Deleted Profile");
         return jsonObject.toString();
     }
 

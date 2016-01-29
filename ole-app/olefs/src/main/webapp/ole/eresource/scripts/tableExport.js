@@ -47,16 +47,20 @@
                     xls: function (rdel, name) {
                         var colD = $.fn.tableExport.xls.separator,
                             dataURL = 'data:application/vnd.ms-excel;charset=utf-16,' +
-                                encodeURIComponent($rows.map(function (i, val) {
+                                encodeURI($rows.map(function (i, val) {
                                     var $cols = $(val).find('th, td');
                                     return $cols.map(function (i, val) {
-                                        var text = $(val).text().replace(new RegExp("\n","g"),"");
+                                        var text = $(val).text();
+                                        text = text.replace(new RegExp("\n","g"),"");
+                                        //text = text.replace("'","/'");
                                         return text;
                                     }).get().join(colD);
                                 }).get().join(rdel)),
                             myFile = name + ".xls",
                             myContent = $.fn.tableExport.xls.buttonContent,
                             myClass = $.fn.tableExport.xls.defaultClass;
+                        dataURL = dataURL.replace(/['()]/g, escape); //escape special character '
+                        dataURL = dataURL.replace(/#/g, escape); //escape special character #
                         createButton(dataURL, myFile, myContent, myClass);
                     },
                     csv: function (rdel, name) {

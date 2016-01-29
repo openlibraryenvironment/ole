@@ -3,6 +3,18 @@ function openLightboxOnLoad(dialogId) {
     jQuery('.uif-dialogButtons').button();
 }
 
+function toggleCurrentLoanSection(){
+    jq( "#currentLoanListSection-HorizontalBoxSection" ).click(function() {
+        jq( "#currentLoanList-HorizontalBoxSection" ).toggle();
+    });
+}
+
+function toggleExistingLoanSection(){
+    jq( "#existingLoanItemListSection-HorizontalBoxSection" ).click(function() {
+        jq( "#existingLoanItemList-HorizontalBoxSection" ).toggle();
+    });
+}
+
 function openLightboxOnLoadWithOverrideParameters(dialogId,overrideParameters) {
     showLightboxComponent(dialogId, overrideParameters);
     jQuery('.uif-dialogButtons').button();
@@ -219,7 +231,18 @@ function enableDataTableForExistingLoanedItem(){
     var pageSize = jq("#existingLoanItemTable_length").val();
     jq('#existingLoanItemTable').DataTable( {
         "bLengthChange": false,
-        "iDisplayLength" : pageSize
+        "iDisplayLength" : pageSize,
+        "bStateSave" : true,
+        "bPaginate":false,
+        "bFilter":false,
+        "bInfo":false,
+
+        fnStateSave :function(settings,data){
+            localStorage.setItem("dataTables_state", JSON.stringify(data));
+        },
+        fnStateLoad: function(settings) {
+            return JSON.parse(localStorage.getItem("dataTables_state"));
+        }
     } );
 }
 
@@ -227,5 +250,6 @@ function destroyDataTableForExistingLoanAndCreateNewDataTable(){
     jq('#existingLoanItemTable').dataTable().fnDestroy();
     enableDataTableForExistingLoanedItem();
 }
+
 
 window.onload=enableDataTableForExistingLoanedItem

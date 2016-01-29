@@ -23,6 +23,7 @@
             <th>Missing Piece Note</th>
             <th>Item Damaged Note</th>
             <th>Pending Requests</th>
+            <th>Send Notices</th>
         </thead>
         <tbody>
             <#list manager.searchLines as line>
@@ -58,11 +59,18 @@
                            href="lookup?methodToCall=search&amp;itemId=${line.row.itemId!}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo">${line.row.requestFlag!?html}</a>
                     </div>
                 </td>
+                <td>
+                    <div>
+                        <a target="_blank"
+                           href=${line.row.sentNoticesUrl}>View Sent Notices in a New Window</a>
+                    </div>
+                </td>
             </tr>
             </#list>
         </tbody>
         <tfoot>
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>

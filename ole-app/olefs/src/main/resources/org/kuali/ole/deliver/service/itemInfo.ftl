@@ -75,9 +75,9 @@
         </#if>
 
     </TR>
-    <#if (oleNoticeBo.noticeTitle == "Overdue Notice") || (oleNoticeBo.noticeTitle == "Courtesy Notice")>
+    <#if (oleNoticeBo.noticeType == "Overdue Notice") || (oleNoticeBo.noticeType == "Courtesy Notice")>
   <TR>
-      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item was due")} :</TD>
+      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Due Date")} :</TD>
       <#if oleNoticeBo.dueDateString??>
           <TD>${oleNoticeBo.dueDateString}</TD>
       <#else>
@@ -86,7 +86,7 @@
 
   </TR>
     </#if>
-    <#if oleNoticeBo.noticeTitle == "Lost">
+    <#if oleNoticeBo.noticeType == "Lost">
         <TR>
             <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library location")} :</TD>
             <#if oleNoticeBo.itemLibrary ??>

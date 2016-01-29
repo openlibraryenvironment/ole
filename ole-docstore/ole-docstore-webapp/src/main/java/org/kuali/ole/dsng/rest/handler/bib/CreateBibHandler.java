@@ -3,12 +3,11 @@ package org.kuali.ole.dsng.rest.handler.bib;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsProcessor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,10 +18,10 @@ public class CreateBibHandler extends BibHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        List<String> operationsList = getOperationsList(operation);
+        List<String> operationsList = getListFromJSONArray(operation);
         for (Iterator iterator = operationsList.iterator(); iterator.hasNext(); ) {
             String op = (String) iterator.next();
-            if(op.equals("111") || op.equals("211")){
+            if (op.equals("111") || op.equals("211")) {
                 return true;
             }
         }
@@ -31,47 +30,32 @@ public class CreateBibHandler extends BibHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        if (!requestJsonObject.has("id")) {
-            try {
-                String newBibContent = requestJsonObject.getString("unmodifiedContent");
-                String createdBy = requestJsonObject.getString("updatedBy");
-                String createdDateString = (String) requestJsonObject.get("updatedDate");
+        String newBibContent = null;
+        try {
+            newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+            String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+            String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
-                BibRecord bibRecord = new BibRecord();
-                bibRecord.setContent(newBibContent);
-                bibRecord.setCreatedBy(createdBy);
-                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
+            BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
 
-                Timestamp createdDate = getDateTimeStamp(createdDateString);
+            bibRecord.setContent(newBibContent);
+            bibRecord.setCreatedBy(createdBy);
+            bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                bibRecord.setDateCreated(createdDate);
-                BibRecord createdBibRecord = getBibDAO().save(bibRecord);
+            Timestamp createdDate = getDateTimeStamp(createdDateString);
 
-                String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
-                bibRecord.setContent(modifiedcontent);
+            bibRecord.setDateCreated(createdDate);
+            BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
-                exchange.add("bib", bibRecord);
+            String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
+            bibRecord.setContent(modifiedcontent);
 
-                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+            setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
-                createdBibRecord = getBibDAO().save(bibRecord);
+            getBibDAO().save(bibRecord);
 
-                exchange.add("bib", createdBibRecord);
-
-                createHoldings(requestJsonObject, exchange);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-    }
-
-    private void createHoldings(JSONObject requestJsonObject, Exchange exchange) {
-        CreateHoldingsProcessor createHoldingsProcessor = new CreateHoldingsProcessor();
-        createHoldingsProcessor.setHoldingDAO(getHoldingDAO());
-        createHoldingsProcessor.setItemDAO(getItemDAO());
-        createHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
-        createHoldingsProcessor.processHoldings(requestJsonObject,exchange);
     }
 }

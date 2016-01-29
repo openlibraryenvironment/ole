@@ -8,8 +8,8 @@
 *target
 *overlays
 
-# Ecplise
-.classpath
-.settings
+#Eclipse
 .project
-
+.metadata
+.classpath
+.settings/

@@ -14,17 +14,21 @@
             <div class="panel-body">
                 <input class="form-control" type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId"
                        ng-model="mainSectionPanel.profileId">
+                <p style="color:red" ng-show="batchProfileForm.profileName.$dirty && batchProfileForm.profileName.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Profile name is required</p>
+                <p style="color:red" ng-show="batchProfileForm.batchProcessType.$dirty && batchProfileForm.batchProcessType.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Batch Process Type is required</p>
+                <p style="color:red" ng-show="batchProfileForm.bibImportProfile.$dirty && batchProfileForm.bibImportProfile.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Bib Import Profile is required</p>
+                <p style="color:red" ng-show="batchProfileForm.requisitionForTitles.$dirty && batchProfileForm.requisitionForTitles.$invalid">Batch Process Type is required</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <tbody>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Batch Profile Name:</span>
+                            <label class="col-sm-4">Batch Profile Name:</label>
                             <input class="form-control" id="profileName" name="profileName" type="text"
-                                   ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"
-                                   ng-disabled="submitted"/>
+                               ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"
+                               ng-disabled="submitted" required/>
                         </td>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Description:</span>
+                            <label class="col-sm-4">Description:</label>
                             <input class="form-control" id="profileDescription" name="profileDescription" type="text"
                                    ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"
                                    ng-disabled="submitted"/>
@@ -32,11 +36,11 @@
                     </tr>
                     <tr>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Batch Process Type:</span>
+                            <label class="col-sm-4">Batch Process Type:</label>
                             <select class="form-control" id="batchProcessType" name="batchProcessType"
                                     ng-model="mainSectionPanel.batchProcessType"
                                     ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
-                                    style="width: 170px">
+                                    style="width: 170px" required>
                                 <option ng-selected="{{option.name == mainSectionPanel.batchProcessType}}"
                                         ng-repeat="option in mainSectionPanel.batchProcessTypeValues | orderBy:'name'"
                                         value="{{option.name}}">
@@ -45,11 +49,12 @@
                             </select>
                         </td>
                         <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
-                            <span class="col-sm-4">Bib Import Profile:</span>
+                            <label class="col-sm-4">Bib Import Profile:</label>
                             <select class="form-control" id="bibImportProfile" name="bibImportProfile"
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
-                                    style="width: 170px">
+                                    style="width: 170px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                                <option value=""></option>
                                 <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
                                         ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"
                                         value="{{option.profileName}}">
@@ -60,10 +65,10 @@
                     </tr>
                     <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Requisitions For Titles:</span>
+                            <label class="col-sm-4">Requisitions For Titles:</label>
                             <select class="form-control" id="requisitionForTitles" name="requisitionForTitles"
                                     ng-model="mainSectionPanel.requisitionForTitlesOption"
-                                    ng-disabled="submitted" style="width: 230px">
+                                    ng-disabled="submitted" style="width: 230px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
                                 <option ng-selected="{{option.name == mainSectionPanel.requisitionForTitlesOption}}"
                                         ng-repeat="option in mainSectionPanel.requisitionForTitlesValues"
                                         value="{{option.name}}">
@@ -72,7 +77,7 @@
                             </select>
                         </td>
                         <td class="col-sm-6">
-                            <span class="col-sm-4">Marc Only:</span>
+                            <label class="col-sm-4">Marc Only:</label>
                             <input class="form-control" id="marcOnly" name="marcOnly" type="checkbox"
                                    ng-model="mainSectionPanel.marcOnly" style="width: 170px; height: 20px;"
                                    ng-disabled="submitted">

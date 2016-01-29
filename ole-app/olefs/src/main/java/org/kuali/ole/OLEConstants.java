@@ -3677,6 +3677,7 @@ public class OLEConstants {
     public static final String NOTICE_ITEM_BARCODE = "Item_Barcode";
     public static final String ORIGINAL_DUE_DATE = "Original Due Date";
     public static final String NEW_DUE_DATE = "New Due Date";
+    public static final String ITEM_DUE_DATE = "Item Due Date";
     public static final String ITEM_WAS_DUE = "Item was due";
     public static final String HOLD_EXPIRATION_DATE = "Hold Expiration Date";
     public static final String NOTICE_RECALL_DUE_DATE = "Hold Expiration Date";
@@ -3727,7 +3728,7 @@ public class OLEConstants {
 
     public static final String HOLDINGS_CALL_NUMBER_TYPE ="HOLDINGS_CALL_NUMBER_TYPE";
     public static final String ITEM_CALL_NUMBER_TYPE ="ITEM_CALL_NUMBER_TYPE";
-    public static final String E_HOLDINGS_CALL_NUMBER_TYPE ="E-HOLDINGS_CALL_NUMBER_TYPE";
+    public static final String E_HOLDINGS_CALL_NUMBER_TYPE ="EHOLDINGS_CALL_NUMBER_TYPE";
 
     public static final String DEFAULT_PAGE_SIZE_LOANED_ITEMS = "DEFAULT_PAGE_SIZE_LOANED_ITEMS";
     public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";

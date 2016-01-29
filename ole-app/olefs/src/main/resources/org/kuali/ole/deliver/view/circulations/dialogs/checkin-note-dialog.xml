@@ -45,9 +45,9 @@
         </property>
     </bean>
 
-    <bean id="checkInNoteMessage" parent="Uif-MessageField"  p:messageText="@{checkedInItem.checkinNote}" />
+    <bean id="checkInNoteMessage" parent="Uif-DataField" p:propertyName="checkedInItem.checkinNote"/>
 
-    <bean id="checkInNoteButton" parent="Uif-HorizontalFieldGroup">
+    <bean id="checkInNoteButton" parent="Uif-HorizontalFieldGroup" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
         <property name="items">
             <list>
                 <bean id="checkInNoteButton-Remove" parent="Uif-SecondaryActionButton-Small" p:render="@{permissionToRemoveNote}" p:methodToCall="deleteCheckinNote" p:actionLabel="Remove Note"  p:successCallback="jq.fancybox.close();

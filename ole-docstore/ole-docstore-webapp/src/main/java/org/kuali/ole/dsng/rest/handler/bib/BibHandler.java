@@ -4,8 +4,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
@@ -38,29 +40,40 @@ public abstract class BibHandler extends Handler {
     }
 
     public void replaceBibIdTo001Tag(Record record,String bibId) {
-        getMarcRecordUtil().updateControlFieldValue(record,"001",bibId);
+        if(getMarcRecordUtil().hasField(record, OleNGConstants.TAG_001)) {
+            getMarcRecordUtil().updateControlFieldValue(record,OleNGConstants.TAG_001,bibId);
+        } else {
+            // If 001 tag is not available creating tag
+            getMarcRecordUtil().addControlField(record,OleNGConstants.TAG_001,bibId);
+        }
     }
 
     public void replaceOrganizationCodeTo003Tag(Record record) {
-        String controlField003Value = getMarcRecordUtil().getControlFieldValue(record, "003");
         String organizationCode = ConfigContext.getCurrentContextConfig().getProperty("organization.marc.code");
-        if(StringUtils.isBlank(controlField003Value)) {
-            getMarcRecordUtil().updateControlFieldValue(record,"003",organizationCode);
+        if(getMarcRecordUtil().hasField(record,OleNGConstants.TAG_003)) {
+            String controlField003Value = getMarcRecordUtil().getControlFieldValue(record, OleNGConstants.TAG_003);
+            if(StringUtils.isBlank(controlField003Value)) {
+                getMarcRecordUtil().updateControlFieldValue(record,OleNGConstants.TAG_003,organizationCode);
+            }
+        } else {
+            // If 003 tag is not available creating tag
+            getMarcRecordUtil().addControlField(record,OleNGConstants.TAG_003,organizationCode);
         }
     }
 
     public BibRecord setDataMappingValues(BibRecord bibRecord, JSONObject requestJsonObject, Exchange exchange) {
         try {
-            if (requestJsonObject.has("dataMapping")) {
-                JSONObject dataMappings = requestJsonObject.getJSONObject("dataMapping");
-                HashMap dataMappingsMap = new ObjectMapper().readValue(dataMappings.toString(), new TypeReference<Map<String, String>>() {});
+            if (requestJsonObject.has(OleNGConstants.DATAMAPPING)) {
+                JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
+                JSONObject dataMapping = dataMappings.getJSONObject(0);
+                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
                 for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
                     String key1 = (String) iterator3.next();
                     for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
                         BibHandler bibHandler = iterator4.next();
                         if (bibHandler.isInterested(key1)) {
                             bibHandler.setBusinessObjectService(getBusinessObjectService());
-                            bibHandler.processDataMappings(dataMappings, exchange);
+                            bibHandler.processDataMappings(dataMapping, exchange);
                         }
                     }
                 }

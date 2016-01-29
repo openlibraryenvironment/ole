@@ -1,11 +1,13 @@
 package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -91,6 +93,64 @@ public class MarcRecordUtil {
         return stringBuilder.toString();
     }
 
+
+
+    /*This method will get the field and tags and will return return the concadinated value
+    * Eg:
+    *   field : 050
+    *   tags  : ind1|ind2|$a$b*/
+    public String getDataFieldValueWithIndicators(Record marcRecord, String field, String ind1, String ind2, String subField) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, field, ind1, ind2, subField);
+        for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
+            String fieldValue = iterator.next();
+            stringBuilder.append(fieldValue);
+            if(iterator.hasNext()){
+                stringBuilder.append(" ");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+
+    /*This method will get the field and tags and will return return the concadinated value
+    * Eg:
+    *   field : 050
+    *   tags  : ind1|ind2|$a$b*/
+    public List<String> getMultiDataFieldValues(Record marcRecord, String field, String ind1, String ind2, String subField) {
+        List<String> values = new ArrayList<>();
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+
+        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            if (doIndicatorsMatch(indicator1, indicator2, dataField)) {
+                    List <Subfield> subFields = dataField.getSubfields(subField);
+                    for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                        Subfield subfield = subfieldIterator.next();
+                        String data = subfield.getData();
+                        if (StringUtils.isNotBlank(data)) {
+                            values.add(data);
+                        }
+                    }
+            }
+        }
+        return values;
+    }
+
+    private boolean doIndicatorsMatch(String indicator1, String indicator2, DataField dataField) {
+        boolean result = true;
+        if(StringUtils.isNotBlank(indicator1)){
+            result = dataField.getIndicator1() == indicator1.charAt(0);
+        } else if (StringUtils.isNotBlank(indicator2)){
+            result&= dataField.getIndicator2() == indicator2.charAt(0);
+        }
+        return result;
+    }
+
+
     /*This method will get the field and tags and will return return the concadinated value
     * Eg:
     *   fieldAndTag : 050 $a$b*/
@@ -134,11 +194,13 @@ public class MarcRecordUtil {
         }
     }
 
-    private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String location) {
-        if(stringBuilder.length() > 0 ) {
-            stringBuilder.append(" ");
+    private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            if(stringBuilder.length() > 0 ) {
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append(value);
         }
-        stringBuilder.append(location);
     }
 
 
@@ -175,6 +237,11 @@ public class MarcRecordUtil {
         return Verifier.isControlField(field);
     }
 
+    public boolean hasField(Record marcRecord, String field) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(field);
+        return (CollectionUtils.isNotEmpty(variableFields) ? true: false);
+    }
+
     public List<Record> convertMarcXmlContentToMarcRecord(String marcRecord) {
         return getMarcXMLConverter().convertMarcXmlToRecord(marcRecord);
     }
@@ -188,5 +255,15 @@ public class MarcRecordUtil {
             marcXMLConverter = new MarcXMLConverter();
         }
         return marcXMLConverter;
+    }
+
+    public Integer getNumOccurances(Record marcRecord, String dataField, String ind1, String ind2, String subField) {
+        Integer numOccurances;
+
+        List<VariableField> dataFields = marcRecord.getVariableFields(dataField);
+
+        numOccurances = dataFields.size();
+
+        return numOccurances;
     }
 }

@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.constants.OleNGConstants;
 import org.marc4j.marc.Record;
 
 import java.util.StringTokenizer;
@@ -17,7 +18,7 @@ public class DeleteValueStepHandler extends StepHandler {
     public void processSteps(Record marcRecord) {
         String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
 
-        String sourceFieldStringArray[] = sourceFieldString.split("[' ']");
+        String sourceFieldStringArray[] = sourceFieldString.split(OleNGConstants.SPACE_SPLIT);
         String sourceField = sourceFieldStringArray[0];
 
         String constantField = getBatchProfileDataTransformer().getConstant();
@@ -33,21 +34,22 @@ public class DeleteValueStepHandler extends StepHandler {
             }
 
         } else {
+            String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
             if (StringUtils.isNotBlank(constantField)) {
                 StringTokenizer stringTokenizer = new StringTokenizer(constantField, ",");
                 while(stringTokenizer.hasMoreTokens()) {
                     String constant = stringTokenizer.nextToken();
-                    String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
                     getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, sourceSubField, constant, "");
                 }
             } else {
-                getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, getMarcRecordUtil().getDataFieldValue(marcRecord, sourceField), "");
+                String dataFieldValue = getMarcRecordUtil().getDataFieldValue(marcRecord, sourceField,sourceSubField);
+                getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, sourceSubField, dataFieldValue, "");
             }
         }
     }
 
     @Override
     public Boolean isInterested(String operation) {
-       return operation.equalsIgnoreCase("Delete Value");
+       return operation.equalsIgnoreCase(OleNGConstants.DELETE_VALUE);
     }
 }

@@ -1,33 +1,25 @@
 package org.kuali.ole.dsng.util;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.converter.MarcXMLConverter;
-import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
-import org.kuali.ole.docstore.model.rdbms.bo.OLEDonorRecord;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
 import org.kuali.ole.utility.MarcRecordUtil;
-import org.kuali.ole.utility.callnumber.CallNumberFactory;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.marc4j.marc.Record;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by SheikS on 11/30/2015.
  */
-public class OleDsHelperUtil extends  BusinessObjectServiceHelperUtil implements DocstoreConstants {
+public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements DocstoreConstants {
 
     private ObjectMapper objectMapper;
 
@@ -47,6 +39,29 @@ public class OleDsHelperUtil extends  BusinessObjectServiceHelperUtil implements
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
+        JSONArray returnValue = null;
+        try {
+            returnValue = jsonObject.getJSONArray(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public List<String> getListFromJSONArray(String operation){
+        List ops = new ArrayList();
+        try {
+            ops = new ObjectMapper().readValue(operation, new TypeReference<List<String>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ops;
+
     }
 
     private void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {

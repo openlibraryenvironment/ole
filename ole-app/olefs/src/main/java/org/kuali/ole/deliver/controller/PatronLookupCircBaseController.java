@@ -17,6 +17,8 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -121,6 +123,15 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
     }
 
     public boolean hasProxyPatrons(DroolsExchange droolsExchange) {
+        List<OleProxyPatronDocument> expiredOleProxyPatronDocuments = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(getPatronDocument(droolsExchange).getOleProxyPatronDocumentList())) {
+            for(OleProxyPatronDocument oleProxyPatronDocument : getPatronDocument(droolsExchange).getOleProxyPatronDocumentList()) {
+                if(oleProxyPatronDocument.getProxyPatronExpirationDate() != null && oleProxyPatronDocument.getProxyPatronExpirationDate().before(new Date())) {
+                    expiredOleProxyPatronDocuments.add(oleProxyPatronDocument);
+                }
+            }
+        }
+        getPatronDocument(droolsExchange).getOleProxyPatronDocumentList().removeAll(expiredOleProxyPatronDocuments);
         return CollectionUtils.isNotEmpty(getPatronDocument(droolsExchange).getOleProxyPatronDocumentList());
     }
 

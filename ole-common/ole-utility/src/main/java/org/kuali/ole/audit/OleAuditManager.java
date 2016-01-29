@@ -15,6 +15,8 @@ import java.util.*;
 public class OleAuditManager {
     private static OleAuditManager oleAuditManager;
     private static Map<String,List<String>> auditFieldMap ;
+    private BusinessObjectService businessObjectService;
+
     private OleAuditManager() {
 
     }
@@ -30,10 +32,10 @@ public class OleAuditManager {
     }
 
 
-    public Audit audit(Class tClass, Object existing, Object updated, String foreignKeyRefId, String actor) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        Audit audit = null;
+    public List<Audit> audit(Class tClass, Object existing, Object updated, String foreignKeyRefId, String actor) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        List<Audit> audits = new ArrayList();
         List<ValueChange> diff = ObjectDiffer.getInstance().diff(existing, updated);
-        List<String> auditFields = new ArrayList<String>();
+        List<String> auditFields;
         if(!auditFieldMap.containsKey(existing.getClass().getName())){
             auditFields = getAuditFields(existing);
             auditFieldMap.put(existing.getClass().getCanonicalName(),auditFields);
@@ -47,7 +49,7 @@ public class OleAuditManager {
                 Object left = valueChange.getLeft();
                 Object right = valueChange.getRight();
                 Class<?> aClass = Class.forName(tClass.getName());
-                audit = (Audit) aClass.newInstance();
+                Audit audit = (Audit) aClass.newInstance();
                 audit.setActor(actor);
                 audit.setForeignKeyRef(foreignKeyRefId);
                 audit.setColumnUpdated(propertyName);
@@ -55,19 +57,22 @@ public class OleAuditManager {
                 audit.setColumnValue(right.toString().getBytes());
                 }
                 audit.setUpdateDate(new Timestamp(System.currentTimeMillis()));
-
-                BusinessObjectService businessObjectService =
-                        KRADServiceLocator.getBusinessObjectService();
-
-                businessObjectService.save(audit);
+                audits.add(audit);
             }
+
+            getBusinessObjectService().save(audits);
         }
 
 
-        return audit;
+        return audits;
     }
 
-
+    public BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
 
     public  List<String> getAuditFields(Object object){
         List<String> auditFields = new ArrayList<String>();

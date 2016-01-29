@@ -1,11 +1,18 @@
 package org.kuali.ole.oleng.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.resolvers.*;
 import org.kuali.ole.oleng.service.OrderImportService;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.utility.MarcRecordUtil;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.marc4j.marc.Record;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,25 +24,67 @@ import java.util.List;
 public class OrderImportServiceImpl implements OrderImportService {
 
     private List<TxValueResolver> valueResolvers;
+    private MarcRecordUtil marcRecordUtil;
+    private BusinessObjectService businessObjectService;
 
     @Override
-    public OleTxRecord processDataMapping(OleTxRecord oleTxRecord, BatchProcessProfile batchProcessProfile) {
+    public OleTxRecord processDataMapping(String bibId, BatchProcessProfile batchProcessProfile) {
+        OleTxRecord oleTxRecord = new OleTxRecord();
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
-        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+
+        if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
+
+            BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibId));
+            List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
+            Record marcRecord = records.get(0);
+
             for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
                 BatchProfileDataMapping batchProfileDataMapping = iterator.next();
 
                 String destinationField = batchProfileDataMapping.getField();
-                String destinationValue = batchProfileDataMapping.getConstant();
                 for (Iterator<TxValueResolver> valueResolverIterator = getValueResolvers().iterator(); valueResolverIterator.hasNext(); ) {
                     TxValueResolver txValueResolver = valueResolverIterator.next();
                     if (txValueResolver.isInterested(destinationField)) {
+                        String destinationValue = getDestinationValue(marcRecord, batchProfileDataMapping);
                         txValueResolver.setAttributeValue(oleTxRecord, destinationValue);
                     }
                 }
             }
         }
         return oleTxRecord;
+    }
+
+    private String getDestinationValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
+        String destValue = null;
+        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
+            String dataField = batchProfileDataMapping.getDataField();
+            String subField = batchProfileDataMapping.getSubField();
+
+            if (getMarcRecordUtil().isControlField(dataField)) {
+                destValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
+            } else {
+                destValue = getMarcRecordUtil().getDataFieldValue(marcRecord, dataField, subField);
+            }
+
+        } else if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.CONSTANT)) {
+            destValue = batchProfileDataMapping.getConstant();
+        }
+
+        return destValue;
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if (null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
     }
 
     public List<TxValueResolver> getValueResolvers() {
@@ -58,6 +107,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new ItemNumPartsValueResolver());
             valueResolvers.add(new ItemPriceSourceValueResolver());
             valueResolvers.add(new ItemListPriceValueResolver());
+            valueResolvers.add(new ItemStatusValueResolver());
             valueResolvers.add(new MethodOfPOTransmissionValueResolver());
             valueResolvers.add(new ObjectCodeValueResolver());
             valueResolvers.add(new OrderTypeValueResolver());
@@ -79,8 +129,11 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new TaxIndicatorValueResolver());
             valueResolvers.add(new VendorChoiceValueResolver());
             valueResolvers.add(new VendorNumberValueResolver());
+            valueResolvers.add(new VendorItemIdentifierValueResolver());
+            valueResolvers.add(new VendorCustomerNumberValueResolver());
             valueResolvers.add(new VendorInstructionsNoteValueResolver());
             valueResolvers.add(new DeliveryBuildingRoomNumberValueResolver());
+            valueResolvers.add(new SpecialProcessingInstructionNoteValueResolver());
         }
         return valueResolvers;
     }

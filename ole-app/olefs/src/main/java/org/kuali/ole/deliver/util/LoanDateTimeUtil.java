@@ -138,22 +138,23 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     private Date getLoanDueDate(String loanPeriod) {
         Date loanDueDate = null;
+        if (StringUtils.isNotBlank(loanPeriod)) {
+            if (loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)) {
+                loanDueDate = new FixedDateUtil().getFixedDateByPolicyId(getPolicyId());
+            } else {
+                StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
+                String amount = stringTokenizer.nextToken();
+                String period = stringTokenizer.nextToken();
 
-        if (loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)) {
-            loanDueDate = new FixedDateUtil().getFixedDateByPolicyId(getPolicyId());
-        } else {
-            StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
-            String amount = stringTokenizer.nextToken();
-            String period = stringTokenizer.nextToken();
-
-            if (period.equalsIgnoreCase("m")) {
-                loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("h")) {
-                loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("d")) {
-                loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
-            } else if (period.equalsIgnoreCase("w")) {
-                loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+                if (period.equalsIgnoreCase("m")) {
+                    loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("h")) {
+                    loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("d")) {
+                    loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
+                } else if (period.equalsIgnoreCase("w")) {
+                    loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+                }
             }
         }
         return loanDueDate;

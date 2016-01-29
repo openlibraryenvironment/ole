@@ -1147,6 +1147,13 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         } catch (Exception e) {
             return model;
         }
+
+        if((newOlePatronDocument.getOlePatronId() != null) && (newOlePatronDocument.isBarcodeEditable())){
+            String oldBarcode = ((OlePatronDocument)document.getOldMaintainableObject().getDataObject()).getBarcode();
+            PatronBarcodeUpdateHandler patronBarcodeUpdateHandler = new PatronBarcodeUpdateHandler();
+            patronBarcodeUpdateHandler.updatePatronBarcode(newOlePatronDocument,oldBarcode);
+
+        }
         return model;
     }
 

@@ -16,11 +16,20 @@
             buildBibData(bibTree, $http, $scope);
             $scope.tree1 = bibTree;
         };
+
         $scope.copyToTree2 = function () {
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
             $scope.tree2 = bibTree;
         };
+
+        $rootScope.updateMessage = function () {
+            $scope.message = $rootScope.message;
+        };
+
+        $scope.cancel = function () {
+
+        }
 
         $scope.previous = function (holdingsIdentifier) {
             //Item tree searchResult previous
@@ -68,7 +77,7 @@
                             success(function (data) {
                                 console.log(data.response.docs);
                                 angular.forEach(data.response.docs, function (itemResponse) {
-                                    var locationDisplay = "Item";
+                                    var locationDisplay = "Item - " + itemResponse.id;
                                     if (itemResponse.hasOwnProperty('Location_display')) {
                                         locationDisplay = itemResponse.Location_display[0]
                                     }
@@ -124,7 +133,7 @@ function buildItemData(holdingsResponse, itemData, $http, $scope) {
         success(function (data) {
             console.log(data.response.docs);
             angular.forEach(data.response.docs, function (itemResponse) {
-                var locationDispaly = "Item";
+                var locationDispaly = "Item - " + itemResponse.id;
                 if (itemResponse.hasOwnProperty('Location_display')) {
                     locationDispaly = itemResponse.Location_display[0]
                 }

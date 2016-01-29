@@ -225,7 +225,6 @@ var dataMappingObject = {
         {id: 'accessPassword', name: 'Access Password'},
         {id: 'authenticationType', name: 'Authentication Type'},
         {id: 'proxied', name: 'Proxied'},
-        {id: 'callNumberType', name: 'Call Number Type'},
         {id: 'prefix', name: 'Prefix'},
         {id: 'coverageStartDateRelativeFormat', name: 'Coverage Start Date Relative Format'},
         {id: 'coverageEndDateRelativeFormat', name: 'Coverage End Date Relative Format'},
@@ -492,6 +491,18 @@ var addOperations = [
     {id: 'keepAll', name: 'Keep all existing and add'}
 ];
 
+var createMultiple = [
+    {id: 'createMultiple', name: 'Create multiple'},
+    {id: 'createMultipleAndDeleteAllExisting', name: 'Create multiple and Delete all existing and add'},
+    {id: 'createMultipleAndKeepAllExisting', name: 'Create multiple and Keep all existing and add'},
+    {id: 'deleteAll', name: 'Delete all existing and add'},
+    {id: 'keepAll', name: 'Keep all existing and add'}
+];
+
+var overlayMultiple = [
+    {id: 'overlayMultiple', name: 'Overlay multiple'}
+];
+
 var fieldOperations = [
     {id: 'profile', name: 'Profile Protected Field'}
 ];
@@ -558,7 +569,7 @@ var invoiceFields = [
     {id: 'vendorNumber', name: 'Vendor Number'}
 ];
 
-var dataMappingOrderFields = [
+var orderFields = [
     {id: 'accountNumber', name: 'Account Number'},
     {id: 'vendorCustomerNumber', name: 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'},
     {id: 'assignToUser', name: 'Assign To User'},
@@ -606,7 +617,7 @@ var dataMappingOrderFields = [
     {id: 'Vendor Instructions Note', name: 'Vendor Instructions Note'},
     {id: 'vendorNumber', name: 'Vendor Number'},
     {id: 'vendorProfileCode', name: 'Vendor Profile Code'},
-    {id: 'vendorReferenceNumber', name: 'Vendor Reference Number'},
+    {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
     {id: 'volumeNumber', name: 'Volume Number'}
 ];
 
@@ -639,7 +650,6 @@ var matchPoint = {
     title: 'Match Points',
     matchPointDocTypes: documentTypes,
     matchPointOrderDocTypes: dataMappingProcessTypes,
-    matchPointDocType: 'Bibliographic',
     holdingsMatchPoints: holdingsMatchPoints,
     itemMatchPoints: itemMatchPoints,
     eHoldingsMatchPoints: eHoldingsMatchPoints,
@@ -656,6 +666,7 @@ var addOrOverlay = {
     operations: operations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
+    linkFields: dataMappingObject.destinationFieldsForBibMarcHoldings,
     operation: 'Add',
     bibDoNotMatchOperations: bibDoNotMatchOperations,
     doNotMatchOperations: doNotMatchOperations,
@@ -679,6 +690,7 @@ var dataMapping = {
     transferOptions: transferOptions,
     transferOption: 'Pre Marc Transformation',
     priority: 1,
+    isMultiValue: false,
     isAddLine: false,
     collapsed: true
 };
@@ -691,7 +703,7 @@ var dataMappingOrder = {
     holdingsFields: holdingsMatchPoints,
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsDataMappings,
-    dataMappingFields: dataMappingOrderFields,
+    dataMappingFields: orderFields,
     discountTypes: discountTypes,
     transferOptions: transferOptions,
     transferOption: 'Pre Transfer',

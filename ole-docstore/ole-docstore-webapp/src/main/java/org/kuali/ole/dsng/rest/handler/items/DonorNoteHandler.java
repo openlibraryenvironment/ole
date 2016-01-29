@@ -2,7 +2,9 @@ package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -24,38 +26,54 @@ public class DonorNoteHandler extends ItemHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String donorNote = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                if(StringUtils.equals(oleItemDonorRecord.getDonorNote(),donorNote)) {
-                    exchange.add("matchedItem", itemRecord);
-                    break;
+        List<String> parsedValues = parseCommaSeperatedValues(donorNote);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String donorNoteValue = iterator.next();
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<OLEItemDonorRecord> oleItemDonorRecordIterator = donorList.iterator(); oleItemDonorRecordIterator.hasNext(); ) {
+                    OLEItemDonorRecord oleItemDonorRecord = oleItemDonorRecordIterator.next();
+                    if (StringUtils.equals(oleItemDonorRecord.getDonorNote(), donorNoteValue)) {
+                        exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, donorNoteValue);
+                        break;
+                    }
                 }
             }
         }
     }
 
+
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        String donorNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        ItemRecord itemRecord = (ItemRecord) exchange.get("itemRecord");
-        List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
-        if(CollectionUtils.isNotEmpty(donorList)) {
-            for (Iterator<OLEItemDonorRecord> iterator = donorList.iterator(); iterator.hasNext(); ) {
-                OLEItemDonorRecord oleItemDonorRecord = iterator.next();
-                oleItemDonorRecord.setDonorNote(donorNote);
+        ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            if(CollectionUtils.isNotEmpty(donorList)) {
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorNote = iterator.next();
+                    for (Iterator<OLEItemDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
+                        OLEItemDonorRecord oleItemDonorRecord = iterator1.next();
+                        oleItemDonorRecord.setDonorNote(donorNote);
+                    }
+                }
+            } else {
+                donorList = new ArrayList<OLEItemDonorRecord>();
+                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                    String donorNote = iterator.next();
+                    OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
+                    oleItemDonorRecord.setDonorNote(donorNote);
+                    oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                    donorList.add(oleItemDonorRecord);
+                }
+                itemRecord.setDonorList(donorList);
             }
-        } else {
-            donorList = new ArrayList<OLEItemDonorRecord>();
-            OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
-            oleItemDonorRecord.setDonorNote(donorNote);
-            oleItemDonorRecord.setItemId(itemRecord.getItemId());
-            itemRecord.setDonorList(donorList);
-        }
-        exchange.add("itemRecord", itemRecord);
 
+            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+        }
     }
 }

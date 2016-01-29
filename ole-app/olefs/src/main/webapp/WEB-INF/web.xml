@@ -450,11 +450,27 @@ This file contains custom application specific web.xml content.
             <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
         </taglib>
     </jsp-config>
+
     <servlet>
         <servlet-name>rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>6</load-on-startup>
     </servlet>
+
+    <filter>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <filter-class>org.kuali.ole.oleng.rest.filter.OleNGRestLoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
 
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
@@ -500,21 +516,6 @@ This file contains custom application specific web.xml content.
         <servlet-name>fileDownloadServlet</servlet-name>
         <url-pattern>/fileDownloadServlet/*</url-pattern>
     </servlet-mapping>
-
-    <!--<servlet>
-        <servlet-name>documentrest</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/document-servlet.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>documentrest</servlet-name>
-        <url-pattern>/documentrest/*</url-pattern>
-    </servlet-mapping>-->
 
     <!-- Ole loader servlet configuration-->
     <servlet>
