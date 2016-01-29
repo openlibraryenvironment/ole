@@ -30,12 +30,17 @@ public class PerpetualAccessStartVolumeHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String perpetualAccessStartVolume = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
-                EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
-                if(StringUtils.equals(eInstancePerpetualAccessRecord.getPerpetualAccessStartVolume(),perpetualAccessStartVolume)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(perpetualAccessStartVolume);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String perpetualAccessStartVolumeValue = iterator.next();
+            List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+            if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                for (Iterator<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecordIterator = eInstanceCoverageRecords.iterator(); eInstancePerpetualAccessRecordIterator.hasNext(); ) {
+                    EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = eInstancePerpetualAccessRecordIterator.next();
+                    if(StringUtils.equals(eInstancePerpetualAccessRecord.getPerpetualAccessStartVolume(),perpetualAccessStartVolumeValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, perpetualAccessStartVolumeValue);
+                    }
                 }
             }
         }

@@ -32,6 +32,7 @@ public class BatchProfileDataMapping extends MarcDataField {
     @JsonProperty("isMultiValue")
     private boolean isMultiValue;
 
+
     @JsonProperty("priority")
     private int priority;
 

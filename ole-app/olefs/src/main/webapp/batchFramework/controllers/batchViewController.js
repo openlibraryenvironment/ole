@@ -175,7 +175,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel.push(addOrOverlayRow);
         $scope.addOrOverlayPanel[0].matchOption = 'If Match Found';
         $scope.addOrOverlayPanel[0].addOrOverlayDocType = 'Bibliographic';
-        $scope.addOrOverlayPanel[0].operation = 'Add';
+        $scope.addOrOverlayPanel[0].operation = '';
         $scope.addOrOverlayPanel[0].addOrOverlayField = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldOperation = null;
         $scope.addOrOverlayPanel[0].addOrOverlayFieldValue = null;
@@ -183,6 +183,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel[0].ind1 = null;
         $scope.addOrOverlayPanel[0].ind2 = null;
         $scope.addOrOverlayPanel[0].subField = null;
+        $scope.addOrOverlayPanel[0].linkField = null;
+
     };
 
     $scope.addOrOverlayCopyRow = function (index) {
@@ -196,16 +198,18 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.addOrOverlayPanel[index].isEdit = true;
             $scope.addOrOverlayPanel[index].matchOptions = matchOptions;
             $scope.addOrOverlayPanel[index].addOrOverlayDocTypes = addOrOverlayDocumentTypes;
+            $scope.addOrOverlayPanel[index].linkFields = dataMappingObject.destinationFieldsForBibMarcHoldings;
             $scope.addOrOverlayPanel[index].operations = operations;
             $scope.addOrOverlayPanel[index].bibDoNotMatchOperations = bibDoNotMatchOperations;
             $scope.addOrOverlayPanel[index].doNotMatchOperations = doNotMatchOperations;
             $scope.addOrOverlayPanel[index].addOperations = addOperations;
-            $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationsWithMultiple;
             $scope.addOrOverlayPanel[index].matchedOrderOperations = matchedOrderOperations;
             $scope.addOrOverlayPanel[index].unmatchedOrderOperations = unmatchedOrderOperations;
             $scope.addOrOverlayPanel[index].addOrOverlayFields = addOrOverlayFields;
             $scope.addOrOverlayPanel[index].addOrOverlayFieldOperations = addOrOverlayFieldOperations;
             $scope.populateDestinationFieldValues($scope.addOrOverlayPanel[index], $scope.addOrOverlayPanel[index].addOrOverlayDocType, $scope.addOrOverlayPanel[index].addOrOverlayField);
+            var addOperationWithMultipleOptions = getAddOperationWithMultipleOptions($scope.mainSectionPanel.batchProcessType,$scope.addOrOverlayPanel[index]);
+            $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationWithMultipleOptions;
             $scope.addOrOverlayPanel[index].isAddLine = false;
         }
     };
@@ -467,6 +471,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             ind1: $scope.addOrOverlayPanel[index].ind1,
             ind2: $scope.addOrOverlayPanel[index].ind2,
             subField: $scope.addOrOverlayPanel[index].subField,
+            linkField: $scope.addOrOverlayPanel[index].linkField,
             isAddLine: true,
             isEdit: false
         };
@@ -553,17 +558,37 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         dataTransformation.dataTransformationDestinationField = null;
     };
 
-    $scope.setDefaultsAddOrOverlay = function (addOrOverlay) {
+    $scope.setDefaultsAddOrOverlay = function (batchProcessType, addOrOverlay) {
         addOrOverlay.addOrOverlayField = null;
         addOrOverlay.addOrOverlayFieldOperation = null;
         addOrOverlay.addOrOverlayFieldValue = null;
-        addOrOverlay.operation = 'Add';
-        addOrOverlay.addOperation = 'Add';
+        addOrOverlay.operation = '';
+        addOrOverlay.addOperation = '';
         addOrOverlay.addItems = false;
         addOrOverlay.dataField = null;
         addOrOverlay.ind1 = null;
         addOrOverlay.ind2 = null;
         addOrOverlay.subfield = null;
+        addOrOverlay.linkField = null;
+
+    };
+
+    function getAddOperationWithMultipleOptions(batchProcessType, addOrOverlay) {
+        if (batchProcessType == 'Bib Import' && (addOrOverlay.matchOption == 'If Match Found' || addOrOverlay.matchOption == 'If Match Not Found')
+            && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
+            && addOrOverlay.operation == 'Add') {
+            return createMultiple;
+        } else if (batchProcessType == 'Bib Import' && addOrOverlay.matchOption == 'If Match Found'
+            && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'EHoldings' || addOrOverlay.addOrOverlayDocType == 'Item')
+            && addOrOverlay.operation == 'Overlay') {
+            return overlayMultiple;
+        } else {
+            return null;
+        }
+    }
+
+    $scope.populateActionDropDownValues = function (batchProcessType, addOrOverlay) {
+        addOrOverlay.addOperationsWithMultiple = getAddOperationWithMultipleOptions(batchProcessType, addOrOverlay);
     };
 
     $scope.populateDestinationFields = function (dataMapping) {
@@ -650,7 +675,14 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
             "batchProfileDataTransformerList": $scope.dataTransformationsPanel
         };
-        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile)
+        var userName = parent.$("div#login-info").text();
+        var user = userName.replace("    Logged in User:","").trim();
+        var config = {headers:  {
+            "userName" : user
+        }
+        };
+
+        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile,config)
             .success(function (data) {
                 $scope.profile = data;
                 $scope.message = 'Document was successfully submitted.';

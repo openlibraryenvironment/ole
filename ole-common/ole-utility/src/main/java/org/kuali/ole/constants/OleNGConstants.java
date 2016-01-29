@@ -4,7 +4,7 @@ package org.kuali.ole.constants;
  * Created by SheikS on 1/6/2016.
  */
 public class OleNGConstants {
-
+    
     public static final class BatchProcess {
         public static final String ACCOUNT_NUMBER = "Account Number";
         public static final String VENDOR_INFO_CUSOTMER_NUMBER = "Acquisition Unit\'s Vendor account / Vendor Info Customer #";
@@ -79,6 +79,7 @@ public class OleNGConstants {
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String ACTION_OPS = "actionOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
     public static final String HOLDINGS_DATAMAPPINGS = "holdingsDataMappings";
     public static final String EHOLDINGS_DATAMAPPINGS = "eHoldingsDataMappings";
@@ -86,8 +87,14 @@ public class OleNGConstants {
     public static final String DATAMAPPING = "dataMapping";
     public static final String BIBLIOGRAPHIC = "bibliographic";
     public static final String HOLDINGS = "holdings";
+    public static final String HOLDINGS_FOR_CREATE = "holdingsForCreate";
+    public static final String HOLDINGS_FOR_UPDATE = "holdingsForUpdate";
     public static final String EHOLDINGS = "eholdings";
+    public static final String EHOLDINGS_FOR_CREATE = "eholdingsForCreate";
+    public static final String EHOLDINGS_FOR_UPDATE = "eholdingsForUpdate";
     public static final String ITEM = "item";
+    public static final String ITEMS_FOR_CREATE = "itemsForCreate";
+    public static final String ITEMS_FOR_UPDATE = "itemsForUpdate";
     public static final String BIB_MARC = "Bib Marc";
     public static final String CONSTANT = "Constant";
     public static final String PRE_MARC_TRANSFORMATION = "Pre Marc Transformation";
@@ -99,12 +106,16 @@ public class OleNGConstants {
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
     public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple and Delete all existing and add";
     public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple and Keep all existing and add";
+    public static final String DELETE_ALL_EXISTING_AND_ADD = "Delete all existing and add";
+    public static final String KEEP_ALL_EXISTING_AND_ADD = "Keep all existing and add";
     public static final String CREATE_MULTIPLE = "Create multiple";
+    public static final String OVERLAY_MULTIPLE = "Overlay multiple";
     public static final String MATCH_POINT = "matchPoints";
     public static final String ONE = "1";
     public static final String TWO = "2";
     public static final String THREE = "3";
     public static final String FOUR = "4";
+    public static final String FIVE = "5";
     public static final String MDF_ = "mdf_";
     public static final String CONTROL_FIELD_ = "controlfield_";
     public static final String BIB_QUERY_BEGIN = "((DocType:bibliographic) AND (";
@@ -132,8 +143,10 @@ public class OleNGConstants {
     public static final String IND1 = "ind1";
     public static final String IND2 = "ind2";
     public static final String SUBFIELD = "subField";
+    public static final String LINKFIELD = "linkField";
     public static final String IGNORE_GPF = "ignoreGPF";
     public static final String IS_ADDLINE = "isAddLine";
+    public static final String DOC_TYPE = "docType";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";
@@ -164,6 +177,7 @@ public class OleNGConstants {
     public static final String ITEM_RECORD = "itemRecord";
     public static final String MATCHED_HOLDINGS = "matchedHoldings";
     public static final String MATCHED_ITEM = "matchedItem";
+    public static final String MATCHED_VALUE = "matchedValue";
     public static final String BIB_UPDATED = "bibUpdated";
     public static final String HOLDINGS_CREATED = "holdingRecordsToCreate";
     public static final String HOLDINGS_UPDATED = "holdingRecordsToUpdate";

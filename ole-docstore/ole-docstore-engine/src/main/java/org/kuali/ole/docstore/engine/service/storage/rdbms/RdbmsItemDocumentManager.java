@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
+
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
@@ -174,7 +175,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
             String oldBarcode = oldItemRecord.getBarCode();
             String newBarcode = itemRecord.getBarCode();
-            if(!(oldBarcode.equals(newBarcode))){
+            if(StringUtils.isNotBlank(oldBarcode) && (!oldBarcode.equals(newBarcode))){
                 OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
                 String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
                 String url = olefsUrl + "/rest/oledsdata/item/update/barcode";

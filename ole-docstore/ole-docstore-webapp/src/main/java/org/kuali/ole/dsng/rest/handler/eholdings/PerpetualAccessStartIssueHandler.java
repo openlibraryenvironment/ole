@@ -30,12 +30,17 @@ public class PerpetualAccessStartIssueHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String perpetualAccessStartIssue = getStringValueFromJsonObject(requestJsonObject,TYPE);
-        List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
-        if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
-            for (Iterator<EInstancePerpetualAccessRecord> iterator = eInstanceCoverageRecords.iterator(); iterator.hasNext(); ) {
-                EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = iterator.next();
-                if(StringUtils.equals(eInstancePerpetualAccessRecord.getPerpetualAccessStartIssue(),perpetualAccessStartIssue)) {
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingsRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(perpetualAccessStartIssue);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String perpetualAccessStartIssueValue = iterator.next();
+            List<EInstancePerpetualAccessRecord> eInstanceCoverageRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
+            if(CollectionUtils.isNotEmpty(eInstanceCoverageRecords)) {
+                for (Iterator<EInstancePerpetualAccessRecord> itereInstancePerpetualAccessRecordIteratortor = eInstanceCoverageRecords.iterator(); itereInstancePerpetualAccessRecordIteratortor.hasNext(); ) {
+                    EInstancePerpetualAccessRecord eInstancePerpetualAccessRecord = itereInstancePerpetualAccessRecordIteratortor.next();
+                    if(StringUtils.equals(eInstancePerpetualAccessRecord.getPerpetualAccessStartIssue(),perpetualAccessStartIssueValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, perpetualAccessStartIssueValue);
+                    }
                 }
             }
         }

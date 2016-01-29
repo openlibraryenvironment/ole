@@ -10,6 +10,7 @@ import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,13 +29,18 @@ public class CurrentSubscriptionStartDateHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String currentSubscriptionStartDate = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        try{
-            Date parsedDate = DOCSTORE_DATE_FORMAT.parse(currentSubscriptionStartDate);
-            if (holdingRecord.getCurrentSubscriptionStartDate().compareTo(new Timestamp(parsedDate.getTime())) == 0) {
-                exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(currentSubscriptionStartDate);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String currentSubscriptionStartDateValue = iterator.next();
+            try{
+                Date parsedDate = DOCSTORE_DATE_FORMAT.parse(currentSubscriptionStartDateValue);
+                if (holdingRecord.getCurrentSubscriptionStartDate().compareTo(new Timestamp(parsedDate.getTime())) == 0) {
+                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                    exchange.add(OleNGConstants.MATCHED_VALUE, currentSubscriptionStartDateValue);
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-        } catch(Exception e) {
-            e.printStackTrace();
         }
     }
 

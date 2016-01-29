@@ -84,7 +84,11 @@ License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">
 <br/>
         commons-configuration.jar v. 1.6. &copy; 2001-2008 The Apache Software Foundation Licensed under the terms of Apache
         License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>        
+        commons-csv.jar v. 1.1.  &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
         <br/>
+        
 commons-dbcp.jar v. 1.4.  &copy; 2001-2010 The Apache Software Foundation Licensed under the terms of Apache
 License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
@@ -184,9 +188,12 @@ geronimo-stax-api_1.0_spec.jar, v1.0.1 &copy; 2003-2008 The Apache Software Foun
         hadoop-hdfs.jar, v2.2.0 &copy; 2007-2013 The Apache Software Foundation Licensed under the terms of Apache License, Version 2.0
         (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
         <br/>
-        httpclient.jar, v4.2 &copy; 1999-2012 The Apache Software Foundation Licensed under the terms of Apache License, Version 2.0
-        (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
-        <br/>
+        httpclient.jar v. 4.3.5.  &copy; 2005-2016 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>        
+        httpclient-cache.jar v. 4.2.5.  &copy; 2005-2016 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>          
 httpcore.jar, v4.3. &copy; 2005-2013 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
@@ -280,6 +287,18 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 org.apache.servicemix.bundles.jsmpp.jar, v2.1.0_3. &copy; 2005-2011 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
+        poi.jar v. 3.10-FINAL.  &copy; 2002-2014 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>  
+        poi-contib.jar v. 3.5-FINAL.  &copy; 2002-2009 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>  
+        poi-ooxml.jar v. 3.10-FINAL.  &copy; 2002-2014 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>  
+        poi-ooxml-schemas.jar v. 3.10-FINAL.  &copy; 2002-2014 The Apache Software Foundation Licensed under the terms of Apache
+        License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>          
 servlet-api.jar, v2.5. &copy; 1999-2012 The Apache Software Foundation Licensed under the terms of the Sun Binary License (<a href="http://download.oracle.com/otndocs/jcp/7089-jta-1.0.1B-mr-class-oth-JSpec/7089-jta-1.0.1B-mr-class-oth-JSpec-license.html">http://download.oracle.com/otndocs/jcp/7089-jta-1.0.1B-mr-class-oth-JSpec/7089-jta-1.0.1B-mr-class-oth-JSpec-license.html</a>)
 <br/>
 solr-analysis-extras.jar, v4.9.0. &copy; 2006-2014 The Apache Software Foundation Licensed under the terms of Apache License,
@@ -336,6 +355,9 @@ xml-apis.jar, v. 1.3.02. &copy; 2006 The Apache Software Foundation Licensed und
 xml-resolver.jar, v. 1.2. &copy; 2006 The Apache Software Foundation Licensed under the terms of Apache License, Version
 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
+        xmlbeans.jar, v2.3.0. &copy; 2004-2007 The Apache Software Foundation Licensed under the terms of Apache License,
+        Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>
 xmlschema-core.jar, v2.0.3. &copy; 2004-2012 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
@@ -360,15 +382,21 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     <br/>
     bcprov-jdk16.jar, v.1.46 &copy; 2000-2008 The Legion Of The Bouncy Castle (http://www.bouncycastle.org) Licensed under the terms of the Bouncy Castle License
     (<a href="http://www.bouncycastle.org/licence.html">http://www.bouncycastle.org/licence.html</a>)
+        <br/>
+        bcmail-jdk14.jar, v.1.38 &copy; 2000-2007 The Legion Of The Bouncy Castle (http://www.bouncycastle.org) Licensed under the terms of the Bouncy Castle License
+        (<a href="http://www.bouncycastle.org/licence.html">http://www.bouncycastle.org/licence.html</a>)
+        <br/>
+        bctsp-jdk14.jar, v.1.38 &copy; 2000-2007 The Legion Of The Bouncy Castle (http://www.bouncycastle.org) Licensed under the terms of the Bouncy Castle License
+        (<a href="http://www.bouncycastle.org/licence.html">http://www.bouncycastle.org/licence.html</a>)
 </p>
         
-        <p>CARROTSEARCH LABS</p>
+<p>CARROTSEARCH LABS</p>
         
-        <p>This product includes software developed by Carrot Search Labs (<a href="http://labs.carrotsearch.com/">http://labs.carrotsearch.com/</a>):
-                <br/>
-                hppc-0.5.2.jar, v.0.5.2 &copy; 2013 Carrot Search s.c. Licensed under the terms of the Apache License, Version 2.0
-                (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
-        </p>        
+<p>This product includes software developed by Carrot Search Labs (<a href="http://labs.carrotsearch.com/">http://labs.carrotsearch.com/</a>):
+         <br/>
+         hppc-0.5.2.jar, v.0.5.2 &copy; 2013 Carrot Search s.c. Licensed under the terms of the Apache License, Version 2.0
+         (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
+</p>        
 
 <p>CODEHAUS</p>
 
@@ -380,22 +408,13 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     classworlds.jar, v1.1. &copy; 2002-2004 Codehaus Licensed under the terms of Apache License, Version 2.0
     (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
     <br/>
-    jackson-jaxrs.jar, v. 1.7.1 &copy; 2003-2008 Codehaus Licensed under the terms of Apache License,
+    jackson-jaxrs.jar, v. 1.8.3. &copy; 2003-2011 Codehaus Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
     <br/>
-    jackson-xc.jar, v. 1.7.1 &copy; 2003-2008 Codehaus Licensed under the terms of Apache License,
-    Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
-    <br/>
-    jackson-annotations.jar, v. 2.0.5 &copy; 2009 FasterXML, LLC Licensed under the terms of Apache License,
+    jackson-xc.jar, v. 1.8.3. &copy; 2003-2011 Codehaus Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
     <br/>
     jackson-core-asl.jar, v. 1.8.8. &copy; 2007 Tatu Saloranta Licensed under the terms of Apache License,
-    Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
-    <br/>
-    jackson-core.jar, v. 2.0.5 &copy; 2007-2013 Tatu Saloranta Licensed under the terms of Apache License,
-    Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
-    <br/>
-    jackson-databind.jar, v. 2.0.5. &copy; 2007-2013 Tatu Saloranta Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
     <br/>
     jackson-mapper-asl.jar, v. 1.8.8. &copy; 2007 Tatu Saloranta Licensed under the terms of Apache License,
@@ -407,7 +426,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     jettison.jar, v. 1.1. &copy; 2006 Envoi Solutions LLC Licensed under the terms of Apache License, Version
     2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    mvel2.jar, v. 2.0.17. &copy; 2007 MVFLEX/Valhalla Project and the Codehaus Mike Brock, Dhanji Prasanna, John Graham, Mark Proctor Licensed under the terms of Apache License, Version
+    mvel2.jar, v. 2.2.4. &copy; 2007-2015 MVFLEX/Valhalla Project and the Codehaus Mike Brock, Dhanji Prasanna, John Graham, Mark Proctor Licensed under the terms of Apache License, Version
     2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
     plexus-util.jar, v. 3.0.15. &copy; 2001-2013 Codehaus Foundation Licensed under the terms of Apache License, Version
@@ -460,7 +479,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     dozer.jar, v5.3.2. &copy; 2005-2012 dozer Licensed under the terms of Apache License, Version 2.0
     (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 </p>
-
+        
 <p>ECLIPSE</p>
 
 <p>This product includes sofware developed by Eclipse (<a
@@ -472,13 +491,12 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     aspectjweaver.jar, v1.6.8. &copy; 2005 Contributors. Licensed under the terms of Eclipse Public License, Version 1.0
     (<a href="http://eclipse.org/legal/epl-v10.html">http://eclipse.org/legal/epl-v10.html</a>)
     <br/>
-        
+        ecj.jar, v4.3.1. &copy; 2006-2013 Contributors. Licensed under the terms of Eclipse Public License, Version 1.0
+        (<a href="http://eclipse.org/legal/epl-v10.html">http://eclipse.org/legal/epl-v10.html</a>)
+        <br/>        
         javax.servlet-3.0.0.v201112011016.jar, v3.0.0.v201112011016 &copy; 1997-2010 Oracle and/or its affiliates. Licensed under the terms of Eclipse Public License, Version 1.0
         (<a href="http://www.eclipse.org/legal/epl/notice.html">http://www.eclipse.org/legal/epl/notice.html</a>)
         <br/>
-    jdtcore.jar, v3.1.0. &copy; 2005 Contributors. Licensed under the terms of Eclipse Public License, Version 1.0
-    (<a href="http://www.eclipse.org/legal/epl/notice.html">http://www.eclipse.org/legal/epl/notice.html</a>)
-    <br/>
         jetty-continuation.jar, v8.1.10.v20130312 &copy; 1995-2013 Mort Bay Consulting Pty. Ltd. Licensed under the terms of Eclipse Public License, Version 1.0
         (<a href="http://www.eclipse.org/legal/epl/notice.html">http://www.eclipse.org/legal/epl/notice.html</a>)
         <br/>
@@ -557,7 +575,25 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     service.jar, v1.2. &copy; 2012-2013 eXtensible Catalog Licensed under the terms of MIT License
     (<a href="http://opensource.org/licenses/mit-license.php">http://opensource.org/licenses/mit-license.php</a>)
 </p>
-
+        
+<p>FASTERXML</p>
+        
+<p>This product includes sofware developed by FasterXML, LLC (<a
+      href="http://fasterxml.com">http://fasterxml.com/</a>):
+        <br/>
+        jackson-annotations.jar, v. 2.6.0-rc2 &copy; 2014-2015 FasterXML, LLC Licensed under the terms of Apache License,
+        Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
+        <br/>
+        jackson-core.jar, v. 2.3.3 &copy; 2012-2013 FasterXML, LLC Licensed under the terms of Apache License,
+        Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
+        <br/>
+        jackson-databind.jar, v. 2.6.0-rc &copy; 2014-2015 FasterXML, LLC Licensed under the terms of Apache License,
+        Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
+        <br/>
+        jackson-datatype-joda.jar, v. 2.6.0-rc &copy; 2014-2015 FasterXML, LLC Licensed under the terms of Apache License,
+        Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)        
+</p>        
+                
 <p>FREEMARKER</p>
 
 <p>This product includes sofware developed by FreeMarker (<a
@@ -582,7 +618,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
         ConcurrentLinkedHashMap, v1.2 &copy; 2008 Ben Manes, 2010 Google Inc. Licensed under the terms of Apache License, Version
         2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
         <br/>
-    guava.jar, v11.0. &copy; 2006-2011 Guava Authors. Licensed under the terms of Apache License, Version
+    guava.jar, v18.0. &copy; 2010-2014 Guava Authors. Licensed under the terms of Apache License, Version
     2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
     guice.jar, v2.0. &copy; 2006-2009 Google Inc. Licensed under the terms of Apache License, Version
@@ -712,7 +748,11 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     jaxb-impl.jar, 2.2.6 &copy; 1997-2011 Oracle and/or its affiliates Licensed under the terms of the Common Development
     and Disctribution License (CDDL - Version 1.1) (<a
             href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
-    <br/>
+        <br/>
+        jersey-client.jar, 1.8. &copy; 2010-2011 Oracle Corporation Licensed under the terms of the Common Development
+        and Disctribution License (CDDL - Version 1.1) (<a
+                href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
+        <br/>
     jersey-core.jar, 1.8. &copy; 2010-2011 Oracle Corporation Licensed under the terms of the Common Development
     and Disctribution License (CDDL - Version 1.1) (<a
             href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
@@ -752,7 +792,13 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes software developed by JBoss Community (<a
         href="http://www.jboss.org/overview/">http://www.jboss.org/overview/</a>):
-    <br/>
+        <br/>
+        drools-compiler.jar v6.2.0.Final. &copy; 2001-2015 JBoss by Red Hat Licensed under the terms of Apache License, Version 2.0
+        (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>
+        drools-core.jar v6.2.0.Final. &copy; 2001-2015 JBoss by Red Hat Licensed under the terms of Apache License, Version 2.0
+        (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)        
+        <br/>
     hibernate-commons-annotations.jar, v3.2.0. &copy; 2008 Red Hat Middleware LLC or third-party contributors Licensed under the terms of GNU Lesser General Public
     License (LGPL v2.1) (<a href="http://hibernate.org/license">http://hibernate.org/license</a>)
     <br/>
@@ -769,7 +815,14 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
             href="http://www.opensource.org/licenses/mozilla1.1.php">http://www.opensource.org/licenses/mozilla1.1.php</a>)
     <br/>
     Javassist, 3.15.0-GA. &copy; 1999-2013 by Shigeru Chiba Licensed under the terms of the Open Source Initiative OSI - Mozilla Public License 1.1 (MPL-1.1)(<a
-            href="http://www.opensource.org/licenses/mozilla1.1.php">http://www.opensource.org/licenses/mozilla1.1.php</a>)</p>
+            href="http://www.opensource.org/licenses/mozilla1.1.php">http://www.opensource.org/licenses/mozilla1.1.php</a>)
+        <br/>
+        kie-api.jar v6.2.0.Final. &copy; 2001-2015 JBoss by Red Hat Licensed under the terms of Apache License, Version 2.0
+        (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+        <br/>
+        kie-internal.jar v6.2.0.Final. &copy; 2001-2015 JBoss by Red Hat Licensed under the terms of Apache License, Version 2.0
+        (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
+</p>
 
 <p>JCRAFT</p>
 
@@ -811,7 +864,23 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     joda-time-jsptags.jar, v1.1.1. &copy; 1999-2004 The Apache Software Foundation, Modifications &copy; 2005 Stephen Colebourne Licensed under the terms of Apache License, Version
     2.0 (<a href="http://www.joda.org/joda-time/license.html">http://www.joda.org/joda-time/license.html</a>)
 </p>
-
+        
+        <p>JSOUP</p>
+        
+        <p>This product includes software developed by jsoup (<a href="http://jsoup.org/">http://jsoup.org/</a>):
+                <br/>
+                jsoup.jar, v1.8.3. &copy; 2009-2015 Jonathan Hedley Licensed under the terms of MIT
+                License (<a href="http://objenesis.org/license.html">http://objenesis.org/license.html</a>)
+        </p>
+        
+        p>JSON-LD</p>
+        
+        <p>This product includes software developed by JSON-LD (<a href="http://json-ld.org/">http://json-ld.org/</a>):
+                <br/>
+                jsonld-java.jar, v0.5.1. &copy; 2012 Deutsche Forschungszentrum für Künstliche Intelligenz GmbH Licensed under the revised BSD style license (<a
+                        href="https://github.com/jsonld-java/jsonld-java/blob/master/LICENCE">https://github.com/jsonld-java/jsonld-java/blob/master/LICENCE</a>)
+        </p>
+        
 <p>JUNIT</p>
 
 <p>This product includes software developed by JUnit (<a href="http://junit.org/">http://junit.org/</a>):
@@ -880,7 +949,14 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
                 morfologik-stemming.jar, v1.7.1. &copy; 2013  Marcin Miłkowski and Dawid Weiss. Licensed under the terms of the BSD Style
                 License (<a href="http://opensource.org/licenses/bsd-license.php">http://opensource.org/licenses/bsd-license.php</a>)
         </p>
-
+        
+        <p>NETTY PROJECT</p>
+        
+        <p>This product includes software developed by Netty Project (<a href="http://netty.io/">http://netty.io/</a>):
+                <br/>
+                netty-all.jar, v4.0.30.Final. &copy; 2008-2015 The Netty Project. Licensed under the terms of Apache License,
+                Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)</p>
+        
         <p>NOGGIT</p>
         
         <p>This product includes software developed by Noggit (<a href="http://noggit.org/">http://noggit.org/</a>):
@@ -1039,55 +1115,52 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes software developed by Spring (<a href="http://spring.io/projects">http://spring.io/projects</a>):
     <br/>
-    spring-aop.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
+    spring-aop.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-test, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-test, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-beans, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-beans, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-context, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-context, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-expression.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
+    spring-expression.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-core, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-core, v4.0.1.RELEASE &copy; 2002-2015 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-jdbc, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-jdbc, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-orm.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
+    spring-orm.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-context-support, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
+    spring-context-support, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License, Version 2.0 (<a
             href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
     spring-modules-ojb.jar, v0.8a &copy; 2002-2005 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-security-cas.jar, v3.1.0.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
+    spring-security-cas.jar, v4.0.1.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-security-core.jar, v3.1.0.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
+    spring-security-core.jar, v4.0.1.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-security-crypto.jar, v3.1.0.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
+    spring-security-web.jar, v4.0.1.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-security-web.jar, v3.1.0.RELEASE &copy; 2002-2011 the original author or authors Licensed under the terms of Apache License,
+    spring-tx.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-tx.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
+    spring-web.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
     <br/>
-    spring-web.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
-    Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
-    <br/>
-    spring-webmvc.jar, v3.2.3.RELEASE &copy; 2002-2013 the original author or authors Licensed under the terms of Apache License,
+    spring-webmvc.jar, v4.0.1.RELEASE &copy; 2002-2014 the original author or authors Licensed under the terms of Apache License,
     Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 </p>
 
@@ -1106,15 +1179,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes software developed by Tigris (<a href="http://marc4j.tigris.org/">http://marc4j.tigris.org/</a>):
     <br/>
-    marc4j.jar, v2.4. &copy; 2002-2006 Bas Peters Licensed under the terms of GNU Lesser General Public License
-    (<a href="http://www.gnu.org/licenses/licenses.html#LGPL">http://www.gnu.org/licenses/licenses.html#LGPL</a>)
-</p>
-
-<p>UNIVERSITY OF MARYLAND</p>
-
-<p>This product includes software developed by the University of Maryland (<a href="http://findbugs.sourceforge.net/index.html">http://findbugs.sourceforge.net/index.html</a>):
-    <br/>
-    findbugs-jsr305.jar, v1.3.9. &copy; 2003-2008 University of Maryland Licensed under the terms of GNU Lesser General Public License
+    marc4j.jar, v2.6.5. &copy; 2002-2015 Bas Peters Licensed under the terms of GNU Lesser General Public License
     (<a href="http://www.gnu.org/licenses/licenses.html#LGPL">http://www.gnu.org/licenses/licenses.html#LGPL</a>)
 </p>
 

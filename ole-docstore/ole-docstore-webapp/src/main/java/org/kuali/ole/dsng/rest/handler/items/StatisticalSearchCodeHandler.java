@@ -28,18 +28,24 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
-        if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
-            for (Iterator<ItemStatisticalSearchRecord> iterator = itemStatisticalSearchRecords.iterator(); iterator.hasNext(); ) {
-                ItemStatisticalSearchRecord itemStatisticalSearchRecord = iterator.next();
-                if(null != itemStatisticalSearchRecord.getStatisticalSearchRecord() &&
-                        StringUtils.equals(itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCode)) {
-                    exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+        String statisticalSearchCode = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        List<String> parsedValues = parseCommaSeperatedValues(statisticalSearchCode);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String statisticalSearchCodeValue = iterator.next();
+            List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords = itemRecord.getItemStatisticalSearchRecords();
+            if(CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
+                for (Iterator<ItemStatisticalSearchRecord> itemStatisticalSearchRecordIterator = itemStatisticalSearchRecords.iterator(); itemStatisticalSearchRecordIterator.hasNext(); ) {
+                    ItemStatisticalSearchRecord itemStatisticalSearchRecord = itemStatisticalSearchRecordIterator.next();
+                    if(null != itemStatisticalSearchRecord.getStatisticalSearchRecord() &&
+                            StringUtils.equals(itemStatisticalSearchRecord.getStatisticalSearchRecord().getCode(),statisticalSearchCodeValue)) {
+                        exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, statisticalSearchCodeValue);
+                    }
                 }
             }
         }
+
     }
 
     @Override

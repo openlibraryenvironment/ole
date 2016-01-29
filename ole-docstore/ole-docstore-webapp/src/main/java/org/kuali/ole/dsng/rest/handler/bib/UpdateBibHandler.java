@@ -6,7 +6,6 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.holdings.UpdateHoldingsProcessor;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -49,25 +48,13 @@ public class UpdateBibHandler extends BibHandler {
                 bibRecord.setContent(newContent);
                 exchange.add(OleNGConstants.BIB, bibRecord);
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
-                BibRecord updatedBibRecord = getBibDAO().save(bibRecord);
-                exchange.add(OleNGConstants.BIB, updatedBibRecord);
+                getBibDAO().save(bibRecord);
 
-                exchange.add(OleNGConstants.BIB_UPDATED,updatedBibRecord);
-
-                processHoldings(requestJsonObject,exchange);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }
-
-    private void processHoldings(JSONObject requestJsonObject, Exchange exchange) {
-        UpdateHoldingsProcessor updateHoldingsProcessor = new UpdateHoldingsProcessor();
-        updateHoldingsProcessor.setHoldingDAO(getHoldingDAO());
-        updateHoldingsProcessor.setItemDAO(getItemDAO());
-        updateHoldingsProcessor.setBusinessObjectService(getBusinessObjectService());
-        updateHoldingsProcessor.processHoldings(requestJsonObject,exchange);
     }
 }

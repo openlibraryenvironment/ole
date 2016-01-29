@@ -8,6 +8,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,8 +27,13 @@ public class CallNumberPrefixHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getCallNumberPrefix(), callNumberPrefix)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(callNumberPrefix);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String callNumberPrefixValue = iterator.next();
+            if (StringUtils.equals(itemRecord.getCallNumberPrefix(), callNumberPrefixValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, callNumberPrefixValue);
+            }
         }
     }
 

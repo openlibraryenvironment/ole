@@ -8,6 +8,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,8 +27,13 @@ public class CopyNumberHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(itemRecord.getCopyNumber(), copyNumber)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(copyNumber);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String copyNumberValue =  iterator.next();
+            if (StringUtils.equals(itemRecord.getCopyNumber(), copyNumberValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, copyNumberValue);
+            }
         }
     }
 

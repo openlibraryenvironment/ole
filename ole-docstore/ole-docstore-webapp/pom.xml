@@ -23,7 +23,7 @@
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
         <mysql.jdbc.version>5.1.18</mysql.jdbc.version>
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
-        <jaxb-impl.version>2.2.6</jaxb-impl.version>
+        <jaxb-impl.version>2.2.11</jaxb-impl.version>
         <servlet-api.version>2.5</servlet-api.version>
         <!--plugin versions -->
         <!--
@@ -352,6 +352,12 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-api</artifactId>
             <version>${rice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -1029,6 +1035,12 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
             <version>1.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.ole</groupId>
+            <artifactId>ole-reporting</artifactId>
+            <version>2.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

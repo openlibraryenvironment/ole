@@ -65,17 +65,15 @@ public abstract class BibHandler extends Handler {
         try {
             if (requestJsonObject.has(OleNGConstants.DATAMAPPING)) {
                 JSONArray dataMappings = requestJsonObject.getJSONArray(OleNGConstants.DATAMAPPING);
-                if(dataMappings.length() > 0) {
-                    JSONObject dataMapping = (JSONObject) dataMappings.get(0);
-                    Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
-                    for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
-                        String key1 = (String) iterator3.next();
-                        for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
-                            BibHandler bibHandler = iterator4.next();
-                            if (bibHandler.isInterested(key1)) {
-                                bibHandler.setBusinessObjectService(getBusinessObjectService());
-                                bibHandler.processDataMappings(dataMapping, exchange);
-                            }
+                JSONObject dataMapping = dataMappings.getJSONObject(0);
+                Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {});
+                for (Iterator iterator3 = dataMappingsMap.keySet().iterator(); iterator3.hasNext(); ) {
+                    String key1 = (String) iterator3.next();
+                    for (Iterator<BibHandler> iterator4 = getBibMetaDetaHandler().iterator(); iterator4.hasNext(); ) {
+                        BibHandler bibHandler = iterator4.next();
+                        if (bibHandler.isInterested(key1)) {
+                            bibHandler.setBusinessObjectService(getBusinessObjectService());
+                            bibHandler.processDataMappings(dataMapping, exchange);
                         }
                     }
                 }

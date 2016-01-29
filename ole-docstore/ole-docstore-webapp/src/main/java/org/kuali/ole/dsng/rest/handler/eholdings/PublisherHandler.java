@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,8 +28,13 @@ public class PublisherHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String publisher = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (StringUtils.equals(holdingRecord.getPublisherId(), publisher)) {
-            exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(publisher);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String publisherValue =  iterator.next();
+            if (StringUtils.equals(holdingRecord.getPublisherId(), publisherValue)) {
+                exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, publisherValue);
+            }
         }
     }
 

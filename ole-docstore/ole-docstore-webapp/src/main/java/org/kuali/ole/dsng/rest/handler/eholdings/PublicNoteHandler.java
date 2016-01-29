@@ -31,13 +31,18 @@ public class PublicNoteHandler extends HoldingsHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String publicNote = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
-        if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
-            for (Iterator<HoldingsNoteRecord> iterator = holdingsNoteRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsNoteRecord holdingsNoteRecord = iterator.next();
-                if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.PUBLIC) &&
-                        StringUtils.equals(holdingsNoteRecord.getNote(),publicNote)){
-                    exchange.add(OleNGConstants.MATCHED_HOLDINGS, holdingRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(publicNote);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String publicNoteValue = iterator.next();
+            List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
+            if (CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
+                for (Iterator<HoldingsNoteRecord> holdingsNoteRecordIterator = holdingsNoteRecords.iterator(); holdingsNoteRecordIterator.hasNext(); ) {
+                    HoldingsNoteRecord holdingsNoteRecord = holdingsNoteRecordIterator.next();
+                    if (StringUtils.equals(holdingsNoteRecord.getType(), OleNGConstants.PUBLIC) &&
+                            StringUtils.equals(holdingsNoteRecord.getNote(), publicNoteValue)) {
+                        exchange.add(OleNGConstants.MATCHED_HOLDINGS, Boolean.TRUE);
+                        exchange.add(OleNGConstants.MATCHED_VALUE, publicNoteValue);
+                    }
                 }
             }
         }
@@ -45,40 +50,22 @@ public class PublicNoteHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
+
+        List<HoldingsNoteRecord> holdingsNoteRecords = new ArrayList<HoldingsNoteRecord>();
+
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+
         JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
-        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
-            boolean isNoteFound = false;
-            List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();
-            if(CollectionUtils.isNotEmpty(holdingsNoteRecords)) {
-                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
-                    String nonPublicNote = iterator.next();
-                    for (Iterator<HoldingsNoteRecord> iterator1 = holdingsNoteRecords.iterator(); iterator1.hasNext(); ) {
-                        HoldingsNoteRecord holdingsNoteRecord = iterator1.next();
-                        if(StringUtils.equals(holdingsNoteRecord.getType(),OleNGConstants.PUBLIC)){
-                            holdingsNoteRecord.setNote(nonPublicNote);
-                            isNoteFound = true;
-                        }
-                    }
-                }
+        if (CollectionUtils.isNotEmpty(listFromJSONArray)) {
+            for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
+                String publicNote = iterator.next();
+                holdingsNoteRecords.add(createPublicNote(publicNote, holdingRecord.getHoldingsId()));
             }
-            if(CollectionUtils.isEmpty(holdingsNoteRecords) || isNoteFound) {
-                holdingsNoteRecords = new ArrayList<HoldingsNoteRecord>();
-                for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
-                    String nonPublicNote = iterator.next();
-                    HoldingsNoteRecord holdingsNoteRecord = new HoldingsNoteRecord();
-                    holdingsNoteRecord.setNote(nonPublicNote);
-                    holdingsNoteRecord.setType(OleNGConstants.PUBLIC);
-                    holdingsNoteRecord.setHoldingsId(holdingRecord.getHoldingsId());
-                    holdingsNoteRecords.add(holdingsNoteRecord);
 
-                }
-                holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
+            holdingRecord.setHoldingsNoteRecords(holdingsNoteRecords);
 
-            }
         }
-        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingRecord);
     }
 
     private HoldingsNoteRecord createPublicNote(String publicNote, String holdingsId) {

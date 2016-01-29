@@ -10,7 +10,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.dsng.util.CallNumberUtil;
 import org.kuali.ole.dsng.util.EnumerationUtil;
-import org.kuali.ole.dsng.util.LocationUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +64,6 @@ public class ItemIndexer extends OleDsNgIndexer  {
         if(null != holdingSolrInputDocuemnt) {
             Object bibs = holdingSolrInputDocuemnt.get(BIB_IDENTIFIER);
             addItemDetailsToHoldings(itemSolrInputDocument, holdingSolrInputDocuemnt);
-
 
             addBibInfoForHoldingsOrItems(itemSolrInputDocument, holdingSolrInputDocuemnt);
 

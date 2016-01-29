@@ -10,6 +10,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.util.CallNumberUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,9 +29,14 @@ public class CallNumberTypeHandler extends ItemHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
         String callNumberType = getStringValueFromJsonObject(requestJsonObject, TYPE);
-        if (null != itemRecord.getCallNumberTypeRecord() &&
-                StringUtils.equals(itemRecord.getCallNumberTypeRecord().getCallNumberTypeId(),callNumberType)) {
-            exchange.add(OleNGConstants.MATCHED_ITEM, itemRecord);
+        List<String> parsedValues = parseCommaSeperatedValues(callNumberType);
+        for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
+            String callNumberTypeValue = iterator.next();
+            if (null != itemRecord.getCallNumberTypeRecord() &&
+                    StringUtils.equals(itemRecord.getCallNumberTypeRecord().getCallNumberTypeId(),callNumberTypeValue)) {
+                exchange.add(OleNGConstants.MATCHED_ITEM, Boolean.TRUE);
+                exchange.add(OleNGConstants.MATCHED_VALUE, callNumberTypeValue);
+            }
         }
     }
 
@@ -46,7 +52,6 @@ public class CallNumberTypeHandler extends ItemHandler {
                 itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
             }
-            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }
     }
 }
