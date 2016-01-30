@@ -341,14 +341,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
-        String addedOpsValue = "2";
+        String addedOpsValue = OleNGConstants.TWO;
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String addOperation = batchProfileAddOrOverlay.getAddOperation();
                 if(StringUtils.isNotBlank(addOperation) && (addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING) ||
                         addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING))) {
-                    addedOpsValue = "1";
+                    addedOpsValue = OleNGConstants.ONE;
                 }
             }
         }
