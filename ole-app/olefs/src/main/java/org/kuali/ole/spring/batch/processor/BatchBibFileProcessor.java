@@ -8,8 +8,8 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
@@ -140,6 +140,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
         bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
+        bibData.put(OleNGConstants.ADDED_OPS, getAddedOps(batchProcessProfile));
         bibData.put(OleNGConstants.ACTION_OPS, getActionOps(batchProcessProfile));
 
         // Prepare data mapping before MARC Transformation
@@ -316,6 +317,42 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         }
         return actionOps;
+    }
+
+    public JSONObject getAddedOps(BatchProcessProfile batchProcessProfile) {
+        JSONObject addedOps = new JSONObject();
+
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+
+        try {
+            String holdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.HOLDINGS);
+            addedOps.put(OleNGConstants.HOLDINGS,holdingsAddedOps);
+
+            String itemAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.ITEM);
+            addedOps.put(OleNGConstants.ITEM,itemAddedOps);
+
+            String eholdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.EHOLDINGS);
+            addedOps.put(OleNGConstants.EHOLDINGS,eholdingsAddedOps);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return addedOps;
+    }
+
+    public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
+        String addedOpsValue = "2";
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+                String addOperation = batchProfileAddOrOverlay.getAddOperation();
+                if(StringUtils.isNotBlank(addOperation) && (addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING) ||
+                        addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING))) {
+                    addedOpsValue = "1";
+                }
+            }
+        }
+        return addedOpsValue;
     }
 
     /**

@@ -1001,5 +1001,49 @@ public class BatchBibFileProcessorTest {
 
     }
 
+    @Test
+    public void testAddedOps() {
+
+        BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
+        ArrayList<BatchProfileAddOrOverlay> batchProfileAddOrOverlays = new ArrayList<>();
+        BatchProfileAddOrOverlay batchProfileAddOrOverlay = new BatchProfileAddOrOverlay();
+        batchProfileAddOrOverlay.setDataType(OleNGConstants.HOLDINGS);
+        batchProfileAddOrOverlay.setMatchOption(OleNGConstants.IF_NOT_MATCH_FOUND);
+        batchProfileAddOrOverlay.setOperation(OleNGConstants.ADD);
+        batchProfileAddOrOverlay.setAddOperation(OleNGConstants.CREATE_MULTIPLE);
+        batchProfileAddOrOverlay.setDataField("856");
+        batchProfileAddOrOverlay.setInd1("0");
+        batchProfileAddOrOverlay.setInd2("4");
+        batchProfileAddOrOverlay.setSubField("y");
+        batchProfileAddOrOverlays.add(batchProfileAddOrOverlay);
+
+        BatchProfileAddOrOverlay batchProfileAddOrOverlay2 = new BatchProfileAddOrOverlay();
+        batchProfileAddOrOverlay2.setDataType(OleNGConstants.ITEM);
+        batchProfileAddOrOverlay2.setMatchOption(OleNGConstants.IF_NOT_MATCH_FOUND);
+        batchProfileAddOrOverlay2.setOperation(OleNGConstants.ADD);
+        batchProfileAddOrOverlay2.setAddOperation(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING);
+        batchProfileAddOrOverlay2.setDataField("876");
+        batchProfileAddOrOverlay2.setSubField("y");
+        batchProfileAddOrOverlays.add(batchProfileAddOrOverlay2);
+
+        BatchProfileAddOrOverlay batchProfileAddOrOverlay3 = new BatchProfileAddOrOverlay();
+        batchProfileAddOrOverlay3.setDataType(OleNGConstants.EHOLDINGS);
+        batchProfileAddOrOverlay3.setMatchOption(OleNGConstants.IF_NOT_MATCH_FOUND);
+        batchProfileAddOrOverlay3.setOperation(OleNGConstants.ADD);
+        batchProfileAddOrOverlay3.setAddOperation(OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING);
+        batchProfileAddOrOverlay3.setDataField("856");
+        batchProfileAddOrOverlay3.setInd1("0");
+        batchProfileAddOrOverlay3.setInd2("4");
+        batchProfileAddOrOverlay3.setSubField("u");
+        batchProfileAddOrOverlays.add(batchProfileAddOrOverlay3);
+
+        Mockito.when(mockBatchProcesProfile.getBatchProfileAddOrOverlayList()).thenReturn(batchProfileAddOrOverlays);
+        JSONObject addedOps = batchBibFileProcessor.getAddedOps(mockBatchProcesProfile);
+        assertNotNull(addedOps);
+        System.out.println(addedOps);
+
+
+    }
+
 
 }
