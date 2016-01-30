@@ -79,6 +79,7 @@ public class OleNGConstants {
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String ADDED_OPS = "addedOps";
     public static final String ACTION_OPS = "actionOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
     public static final String HOLDINGS_DATAMAPPINGS = "holdingsDataMappings";
@@ -104,8 +105,8 @@ public class OleNGConstants {
     public static final String DISCARD = "Discard";
     public static final String IF_MATCH_FOUND = "If Match Found";
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
-    public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple and Delete all existing and add";
-    public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple and Keep all existing and add";
+    public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple, Delete all existing and add";
+    public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple, Keep all existing and add";
     public static final String DELETE_ALL_EXISTING_AND_ADD = "Delete all existing and add";
     public static final String KEEP_ALL_EXISTING_AND_ADD = "Keep all existing and add";
     public static final String CREATE_MULTIPLE = "Create multiple";

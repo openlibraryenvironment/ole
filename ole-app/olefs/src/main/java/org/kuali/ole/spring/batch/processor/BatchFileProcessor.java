@@ -51,7 +51,6 @@ public abstract class BatchFileProcessor extends BatchUtil {
             String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
             String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
             FileUtils.write(new File(fileName), responseData);
-            LOG.info("Response Data : " + responseData);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
