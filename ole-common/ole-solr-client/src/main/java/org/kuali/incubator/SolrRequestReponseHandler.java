@@ -97,7 +97,6 @@ public class SolrRequestReponseHandler {
         String solrURL = solrURLBase + File.separator + "solr"+ File.separator + "bib";
         LOG.info("Solr URl : " + solrURL);
         return solrURL;
-//        return "http://localhost:8080/oledocstore/bib";
     }
 
     public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
