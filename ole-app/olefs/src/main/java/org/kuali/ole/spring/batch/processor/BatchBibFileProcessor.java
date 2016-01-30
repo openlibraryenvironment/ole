@@ -135,7 +135,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
-        bibData.put(OleNGConstants.TAG_001, getMarcRecordUtil().getControlFieldValue(marcRecord, OleNGConstants.TAG_001));
         bibData.put(OleNGConstants.UPDATED_BY, updatedUserName);
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
@@ -341,14 +340,44 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
-        String addedOpsValue = OleNGConstants.TWO;
+        String addedOpsValue = null;
+
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String addOperation = batchProfileAddOrOverlay.getAddOperation();
-                if(StringUtils.isNotBlank(addOperation) && (addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING) ||
-                        addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING))) {
-                    addedOpsValue = OleNGConstants.ONE;
+                if(StringUtils.isNotBlank(addOperation)){
+                    switch (addOperation){
+                        case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
+                            addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
+                            break;
+                        }
+
+                        case OleNGConstants.KEEP_ALL_EXISTING_AND_ADD: {
+                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                            break;
+                        }
+
+                        case OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING: {
+                            addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
+                            break;
+                        }
+
+                        case OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING: {
+                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                            break;
+                        }
+
+                        case OleNGConstants.CREATE_MULTIPLE: {
+                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                            break;
+                        }
+
+                        case OleNGConstants.OVERLAY_MULTIPLE: {
+                            addedOpsValue = OleNGConstants.OVERLAY;
+                            break;
+                        }
+                    }
                 }
             }
         }
