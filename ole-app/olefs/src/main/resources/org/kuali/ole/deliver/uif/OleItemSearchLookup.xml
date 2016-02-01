@@ -122,6 +122,7 @@
                 <bean parent="Uif-DataField" p:propertyName="author"/>
                 <bean parent="Uif-DataField" p:propertyName="publisher"/>
                 <bean parent="Uif-DataField" p:propertyName="itemBarCode"/>
+                <bean parent="Uif-DataField" p:propertyName="itemUUID"/>
                 <bean parent="Uif-DataField" p:propertyName="itemType"/>
                 <bean parent="Uif-DataField" p:propertyName="shelvingLocation"/>
                 <bean parent="Uif-DataField" p:propertyName="itemStatus"/>
