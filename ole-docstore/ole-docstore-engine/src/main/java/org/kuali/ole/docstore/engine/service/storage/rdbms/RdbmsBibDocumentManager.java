@@ -180,6 +180,11 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
                     List<LocationsCheckinCountRecord> locationsCheckinCountRecords = itemRecord.getLocationsCheckinCountRecords();
                     getBusinessObjectService().delete(locationsCheckinCountRecords);
                 }
+
+                if (itemRecord.getDonorList() != null && itemRecord.getDonorList().size() > 0) {
+                    List<OLEItemDonorRecord> itemRecordDonorList = itemRecord.getDonorList();
+                    getBusinessObjectService().delete(itemRecordDonorList);
+                }
                 itemRecord.setItemStatusId(null);
                 itemRecord.setItemTypeId(null);
                 itemRecord.setTempItemTypeId(null);
