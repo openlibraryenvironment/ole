@@ -46,7 +46,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "  </LookupUser>\n" +
                 "</NCIPMessage>";
 
-        String responseContent = sendPostRequest(URL, requestContent);
+        String responseContent = sendPostRequest(URL, requestContent,"xml");
         assertNotNull(responseContent);
         assertTrue(responseContent.trim().length() > 0);
         System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
@@ -92,7 +92,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "</AcceptItem>\n" +
                 "</NCIPMessage>";
 
-        String responseContent = sendPostRequest(URL, requestContent);
+        String responseContent = sendPostRequest(URL, requestContent,"xml");
         assertNotNull(responseContent);
         assertTrue(responseContent.trim().length() > 0);
         System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
@@ -123,7 +123,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "</CheckOutItem>\n" +
                 "</NCIPMessage>";
 
-        String responseContent = sendPostRequest(URL, requestContent);
+        String responseContent = sendPostRequest(URL, requestContent,"xml");
         assertNotNull(responseContent);
         assertTrue(responseContent.trim().length() > 0);
         System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
@@ -152,7 +152,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "</CheckInItem>\n" +
                 "</NCIPMessage>";
 
-        String responseContent = sendPostRequest(URL, requestContent);
+        String responseContent = sendPostRequest(URL, requestContent,"xml");
         assertNotNull(responseContent);
         assertTrue(responseContent.trim().length() > 0);
         System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));

@@ -145,4 +145,13 @@
 
     <bean id="applicationContextProvider" class="org.kuali.ole.dsng.service.ApplicationContextProvider"/>
 
+    <bean id="oleNGPlatformAwareDao" parent="platformAwareDao" class="org.kuali.ole.dsng.dao.OleNGPlatformAwareDao" />
+
+    <bean id="platformAwareDao" abstract="true"
+          class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
+
 </beans>

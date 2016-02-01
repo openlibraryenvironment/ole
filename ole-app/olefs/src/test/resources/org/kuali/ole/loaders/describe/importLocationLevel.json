@@ -5,14 +5,14 @@
       "code": "CAMPUS",
       "name": "Campus",
       "parent":{
-        "@id": "http://192.168.55.223:8080/olefs/api/locationLevel/1"
+        "@id": "http://ocalhost:8080/olefs/api/locationLevel/1"
       }
     },
     {
       "code": "CAMPUS",
       "name": "Campus",
       "parent":{
-        "@id": "http://192.168.55.223:8080/olefs/api/locationLevel/1"
+        "@id": "http://ocalhost:8080/olefs/api/locationLevel/1"
       }
     }
   ]

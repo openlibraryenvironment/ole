@@ -8124,6 +8124,40 @@ PRIMARY KEY (AUDIT_ID)
 
 
 
+-----------------------------------------------------------------------------
+-- OLE_NG_BAT_PRF_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_NG_BAT_PRF_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_NG_BAT_PRF_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_T
+(
+      PRF_ID NUMBER(10,0)
+        , PRF_NM VARCHAR2(40)
+        , PRF_TYP VARCHAR2(40)
+        , CONTENT BLOB
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE OLE_NG_BAT_PRF_T
+    ADD CONSTRAINT OLE_NG_BAT_PRF_TP1
+PRIMARY KEY (PRF_ID)
+/
+
+
+
+
+
+
+
 -- -----------------------------------------------------------------------
 -- OLE_GOKB_V
 -- -----------------------------------------------------------------------
@@ -10109,5 +10143,15 @@ END;
 /
 
 CREATE SEQUENCE HOLDINGS_AUDIT_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_NG_BAT_PRF_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_NG_BAT_PRF_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_NG_BAT_PRF_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 

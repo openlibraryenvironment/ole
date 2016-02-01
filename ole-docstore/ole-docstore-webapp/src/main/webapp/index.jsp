@@ -555,13 +555,7 @@
         var bibIds = document.getElementById("bibIds").value;
         var result = "";
             $.ajaxSetup({async:false});
-            window.open("http://192.168.40.18:9090/olefs/document?docAction=instanceDetails&format=xml&bibIds=" + bibIds);
-//            $.post("http://192.168.40.18:9090/olefs/document?docAction=instanceDetails&format=xml&bibIds=" + bibIds ,
-//                    function(data) {
-//                        alert("sss")
-//                        result = result + data.toString();
-//                    }, 'html'
-//            );
+            window.open("http://localhost:8080/olefs/document?docAction=instanceDetails&format=xml&bibIds=" + bibIds);
         document.getElementById("result").value = result;
         var endDate = new Date();
         var endTime = endDate.getTime();

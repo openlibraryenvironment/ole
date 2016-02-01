@@ -836,7 +836,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             }
 
         }
-
         if(!olePatronHelperService.validatePatron(newOlePatronDocument)) {
             return getUIFModelAndView(form);
         }

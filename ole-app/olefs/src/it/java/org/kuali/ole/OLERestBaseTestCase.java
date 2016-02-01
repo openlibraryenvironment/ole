@@ -17,7 +17,7 @@ public class OLERestBaseTestCase {
 
     private final String USER_AGENT = "Mozilla/5.0";
 
-    public String sendPostRequest(String url, String requestContent) {
+    public String sendPostRequest(String url, String requestContent,String format) {
         String responseContent = null;
         try {
             URL obj = new URL(url);
@@ -26,9 +26,9 @@ public class OLERestBaseTestCase {
             //add reuqest header
             con.setRequestMethod("POST");
             con.setRequestProperty("User-Agent", USER_AGENT);
-            con.setRequestProperty("Accept", "application/" + "xml");
+            con.setRequestProperty("Accept", "application/" + format);
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            con.setRequestProperty("Content-Type", "application/" + "xml");
+            con.setRequestProperty("Content-Type", "application/" + format);
 
             // Send post request
             con.setDoOutput(true);

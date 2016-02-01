@@ -2,30 +2,30 @@
   "@context": "http;//ole.kuali.org/standards/api/location.jsonld",
   "items":[
     {
-      "@id": "http://192.168.55.223:8080/olefs/api/location/921",
+      "@id": "http://localhost:8080/olefs/api/location/921",
       "code": "BLI-ELLI",
       "name": "Blmgtn - Lilly Library - Ellison Room 101",
       "parent":{
-        "@id": "http://192.168.55.223:8080/olefs/api/location/917",
+        "@id": "http://localhost:8080/olefs/api/location/917",
         "name": "Blmgtn - Lilly Library"
       },
       "level":{
         "@context": "http;//ole.kuali.org/standards/api/locationLevel.jsonld",
-        "@id": "http://192.168.55.223:8080/olefs/api/locationLevel/5",
+        "@id": "http://localhost:8080/olefs/api/locationLevel/5",
         "name": "Shelving Location"
       }
     },
     {
-      "@id": "http://192.168.55.223:8080/olefs/api/location/922",
+      "@id": "http://localhost:8080/olefs/api/location/922",
       "code": "BLI - LINC",
       "name": "Blmgtn - Lilly Library - Lincoln Room",
       "parent":{
-        "@id": "http://192.168.55.223:8080/olefs/api/location/917",
+        "@id": "http://localhost:8080/olefs/api/location/917",
         "name": "Blmgtn - Lilly Library"
       },
       "level":{
         "@context": "http;//ole.kuali.org/standards/api/locationLevel.jsonld",
-        "@id": "http://192.168.55.223:8080/olefs/api/locationLevel/5",
+        "@id": "http://localhost:8080/olefs/api/locationLevel/5",
         "name": "Shelving Location"
       }
     }
