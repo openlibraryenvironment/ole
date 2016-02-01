@@ -514,4 +514,12 @@ public class OleVendorCreditMemoDocument extends VendorCreditMemoDocument {
             this.setVendorAliasName(vendorDetailList.get(0).getVendorAliasName());
         }
     }
+
+    public boolean isCurrencyTypeIndicator() {
+        return currencyTypeIndicator;
+    }
+
+    public void setCurrencyTypeIndicator(boolean currencyTypeIndicator) {
+        this.currencyTypeIndicator = currencyTypeIndicator;
+    }
 }
