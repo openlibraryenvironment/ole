@@ -34,7 +34,9 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
         String returnValue = null;
         try {
-            returnValue = jsonObject.getString(key);
+            if (jsonObject.has(key)) {
+                returnValue = jsonObject.getString(key);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

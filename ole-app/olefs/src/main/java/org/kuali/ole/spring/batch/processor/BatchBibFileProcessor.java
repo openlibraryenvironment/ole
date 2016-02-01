@@ -340,11 +340,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
-        String addedOpsValue = OleNGConstants.DISCARD;
+        String addedOpsValue = null;
 
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
-            if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            if(matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String operation = batchProfileAddOrOverlay.getOperation();
                 if(operation.equalsIgnoreCase(OleNGConstants.ADD)) {
                     addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
@@ -379,6 +380,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     }
                 } else if(operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                     addedOpsValue = OleNGConstants.OVERLAY;
+                } else {
+                    addedOpsValue = OleNGConstants.DISCARD;
                 }
             }
         }

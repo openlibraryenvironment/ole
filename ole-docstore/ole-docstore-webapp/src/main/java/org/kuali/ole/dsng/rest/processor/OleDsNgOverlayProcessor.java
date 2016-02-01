@@ -435,7 +435,12 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     itemRecordAndDataMappings.add(itemRecordAndDataMapping);
                 }
                 holdingsRecord.setItemRecords(itemRecords);
-            } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+            } else if (StringUtils.isBlank(addedOps)) {
+                List<ItemRecordAndDataMapping> preparedItemAndDataMappings = createItemAndDataMappingForUnassignedMappings(holdingsRecord, itemDataMappings);
+                if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
+                    itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
+                }
+            }else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                 List<ItemRecordAndDataMapping> preparedItemAndDataMappings = determineItemsAndDataMappingByMatchPoints(holdingsRecord, exchange, itemJSON);
                 if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
                     itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
@@ -635,6 +640,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 holdingsRecordAndDataMappings.add(newHoldings);
             }
 
+        } else if (StringUtils.isBlank(addedOps)) {
+            holdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, PHoldings.PRINT, dataMappings);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
             holdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, holdingsJSON, PHoldings.PRINT);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
@@ -686,11 +693,13 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 eholdingsRecordAndDataMappings.add(newEHoldings);
             }
 
-        } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+        } else if (StringUtils.isBlank(addedOps)) {
+            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, EHoldings.ELECTRONIC, dataMappings);
+        }  else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
             eholdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
                 addedOps.equalsIgnoreCase(OleNGConstants.KEEP_ALL_EXISTING_AND_ADD)) {
-            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, PHoldings.PRINT, dataMappings);
+            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, EHoldings.ELECTRONIC, dataMappings);
         }
 
         for (Iterator<HoldingsRecordAndDataMapping> iterator = eholdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
