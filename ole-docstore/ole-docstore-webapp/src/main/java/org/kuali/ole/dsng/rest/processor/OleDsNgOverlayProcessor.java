@@ -102,7 +102,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 if (CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
                     oleNGBibImportResponse.setMatchedEHoldingsCount(oleNGBibImportResponse.getMatchedEHoldingsCount() + updateEHoldingsRecordAndDataMappings.size());
                 }
-                if (operationsList.contains("132") || operationsList.contains("231")) {
+                if (operationsList.contains("132") || operationsList.contains("131") || operationsList.contains("231")) {
                     prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
                 }
 
