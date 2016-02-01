@@ -188,12 +188,12 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY)) {
                 searchFieldStaffOnly.setDocType(DocType.BIB.getDescription());
                 searchField.setDocType(DocType.BIB.getDescription());
-                searchField.setFieldName("dateUpdated");
-                searchField.setFieldValue("[" + fromDate + " TO NOW]");
-                condition.setSearchScope(NONE);
-                condition.setSearchField(searchField);
-                searchParams.getSearchConditions().add(condition);
             }
+            searchField.setFieldName("dateUpdated");
+            searchField.setFieldValue("[" + fromDate + " TO NOW]");
+            condition.setSearchScope(NONE);
+            condition.setSearchField(searchField);
+            searchParams.getSearchConditions().add(condition);
 
             if (processDef.getOleBatchProcessProfileBo().getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
                 searchFieldStaffOnly.setFieldName("staffOnlyFlag");
@@ -1098,49 +1098,11 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     break;
                 }
             }
-
-            if (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport())
-                    && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY)) {
-                SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-                searchResultList.addAll(responseLocal.getSearchResults());
-
-            }
+            SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            searchResultList.addAll(responseLocal.getSearchResults());
         }
-
-        if (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport())
-                && (processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase("BIBANDHOLDINGS") || processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase("BIBHOLDINGSEHOLDINGS"))) {
-
-            getQueryForDocument(DocType.BIB.getDescription());
-            SearchResponse responseBib = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-            searchResultList.addAll(responseBib.getSearchResults());
-
-            getQueryForDocument(DocType.HOLDINGS.getDescription());
-            SearchResponse responsHoldings = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-            searchResultList.addAll(responsHoldings.getSearchResults());
-
-            getQueryForDocument(DocType.ITEM.getDescription());
-            SearchResponse responsItem = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-            searchResultList.addAll(responsItem.getSearchResults());
-
-        }
-
         response = new SearchResponse();
         response.getSearchResults().addAll(searchResultList);
-    }
-
-    private void getQueryForDocument( String documnet) {
-        SimpleDateFormat format = new SimpleDateFormat(SOLR_DT_FORMAT);
-        String fromDate = format.format(lastExportDate);
-
-        SearchCondition condition = getDefaultCondition();
-        SearchField searchField = new SearchField();
-        searchField.setDocType(documnet);
-        searchField.setFieldName("dateUpdated");
-        searchField.setFieldValue("[" + fromDate + " TO NOW]");
-        condition.setSearchScope(NONE);
-        condition.setSearchField(searchField);
-        searchParams.getSearchConditions().clear();
-        searchParams.getSearchConditions().add(condition);
     }
 
     public StringBuilder getErrBuilder() {

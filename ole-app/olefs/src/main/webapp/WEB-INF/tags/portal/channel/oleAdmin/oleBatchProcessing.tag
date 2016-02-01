@@ -25,16 +25,23 @@
     <portal:portalLink displayTitle="true" title="Batch Process Schedule" url="${ConfigProperties.application.url}/ole-kr-krad/oleBatchProcessJobController?viewId=OLEBatchScheduleJob&methodToCall=jobDocHandler&command=initiate&documentClass=org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo"/><br/>
 
     <portal:portalLink displayTitle="true" title="Batch Process Type" url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.batch.bo.OLEBatchProcessTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true" /><br/>
-<%--    <portal:portalLink displayTitle="true" title="Location Import"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/locationcontroller?viewId=OleLocationView&methodToCall=start"/> <br/>
-    <portal:portalLink displayTitle="true" title="Location Load Reports"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/> <br/>
-    <portal:portalLink displayTitle="true" title="Patron Import"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/patronrecordcontroller?viewId=OlePatronRecordView&methodToCall=start"/>
+
     <br/>
-    <portal:portalLink displayTitle="true"   title="Patron Import Records"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronIngestSummaryRecord&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/>
-    </br>--%>
+    <strong>OLE NG Batch</strong><br/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process" url="${ConfigProperties.application.url}/batchProcess.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process Profile Create" url="${ConfigProperties.application.url}/batchProcessProfile.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process Profile Search" url="${ConfigProperties.application.url}/oleng/view/batchProfileSearch.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Process Profile Import" url="${ConfigProperties.application.url}/oleng/view/batchProfileImport.html"/><br/>
+    <%--    <portal:portalLink displayTitle="true" title="Location Import"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/locationcontroller?viewId=OleLocationView&methodToCall=start"/> <br/>
+        <portal:portalLink displayTitle="true" title="Location Load Reports"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/> <br/>
+        <portal:portalLink displayTitle="true" title="Patron Import"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/patronrecordcontroller?viewId=OlePatronRecordView&methodToCall=start"/>
+        <br/>
+        <portal:portalLink displayTitle="true"   title="Patron Import Records"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronIngestSummaryRecord&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/>
+        </br>--%>
 
     <br/>
 

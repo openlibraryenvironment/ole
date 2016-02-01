@@ -78,6 +78,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
@@ -97,6 +98,10 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
@@ -488,7 +493,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderLastTransmitTimestamp(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, GlobalVariables.getUserSession().getPerson(), null);
-        performedAction=true;
+        performedAction = true;
         po.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         if (!performedAction) {
             Person systemUserPerson = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
@@ -711,7 +716,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
 
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument  olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = olePurchaseOrderDocument;
 
         try {
@@ -1785,7 +1790,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = null;
-        if(vendor.getVendorAddresses()!=null && vendor.getVendorHeader()!=null && vendor.getVendorHeader().getVendorType()!=null && vendor.getVendorHeader().getVendorType().getAddressType()!=null && vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode()!=null){
+        if (vendor.getVendorAddresses() != null && vendor.getVendorHeader() != null && vendor.getVendorHeader().getVendorType() != null && vendor.getVendorHeader().getVendorType().getAddressType() != null && vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode() != null) {
             defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         }
         if (defaultAddress != null) {
@@ -1839,6 +1844,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.debug("autoCloseFullyDisencumberedOrders() started");
         List<AutoClosePurchaseOrderView> autoCloseList = new ArrayList<AutoClosePurchaseOrderView>();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        List<Future> futures = new ArrayList<>();
+
 
         String autoCloseOrderFromDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_FROM_DATE);
         String autoCloseOrderToDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_TO_DATE);
@@ -1859,31 +1867,55 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         } catch (Exception e) {
             autoCloseOrderToDate = null;
         }
-
-
         autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes(), autoCloseOrderFromDate, autoCloseOrderToDate);
 
         //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
         //KFSMI-7533
-         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
-         (autoCloseList);
-
-        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
-            if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
+//         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
+//         (autoCloseList);
+        UserSession userSession = GlobalVariables.getUserSession();
+        for (AutoClosePurchaseOrderView poAutoClose : autoCloseList) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
             }
-            String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
-            String annotation = "This PO was automatically closed in batch.";
-            String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
             PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
+            String annotation = "This PO was automatically closed in batch.";
             createNoteForAutoCloseOrders(document, annotation);
-            createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
+            futures.add(executorService.submit(new OLEAutoClosePOExecutor(poAutoClose.getDocumentNumber(), userSession)));
+        }
+        List<PurchaseOrderDocument> closedPurchaseOrderDocumentList = new ArrayList<>();
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+
+            try {
+                PurchaseOrderDocument closedPurchaseOrderDocument = (PurchaseOrderDocument) future.get();
+                closedPurchaseOrderDocumentList.add(closedPurchaseOrderDocument);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        executorService.shutdown();
+
+
+        for (AutoClosePurchaseOrderView poAutoClose : autoCloseList) {
+            if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
+                }
+                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
+                String annotation = "This PO was automatically closed in batch.";
+                String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+                PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
+                createNoteForAutoCloseOrders(document, annotation);
+                createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
             }
 
         }
-        LOG.debug("autoCloseFullyDisencumberedOrders() ended");
 
+
+        LOG.debug("autoCloseFullyDisencumberedOrders() ended");
         resetAutoClosePurchaseOrderDateParameter();
         return true;
     }

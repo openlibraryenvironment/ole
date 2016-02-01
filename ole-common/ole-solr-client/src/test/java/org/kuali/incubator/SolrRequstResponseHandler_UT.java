@@ -21,14 +21,16 @@ import static junit.framework.Assert.assertNotNull;
 public class SolrRequstResponseHandler_UT {
     public static final Logger LOG = LoggerFactory.getLogger(SolrRequstResponseHandler_UT.class);
 
+    @Test
     public void testGetSolrResponseBasedOnAuthorSearch() throws Exception {
-        SolrRequestReponseHandler solrQueryManager = new SolrRequestReponseHandler();
-        List list = solrQueryManager.retriveResults("Author_search:Peri");
+        SolrRequestReponseHandler solrQueryManager = new MockSolrRequestResponseHanlder();
+        List list = solrQueryManager.retriveResults("mdf_980a:99964307763");
         assertNotNull(list);
         printResults(list);
     }
 
 
+    @Test
     public void testGetSolrResponseBasedOnUUIDSearch() throws Exception {
         System.setProperty("app.environment", "local");
         SolrRequestReponseHandler solrQueryManager = new SolrRequestReponseHandler();

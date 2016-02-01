@@ -112,7 +112,7 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://192.168.40.18</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306</property>
             <property name="odaUser">OLE</property>
             <encrypted-property name="odaPassword" encryptionID="base64">T0xF</encrypted-property>
         </oda-data-source>
