@@ -22,7 +22,7 @@ jq(".sorting_desc").live("click", function () {
 jq(document).ready(function () {
     window.onbeforeunload = null;
     jq(document).keypress(function(e) {
-        if(e.which == 13) {
+        if(e.which == 13 && !e.target.id.startsWith("u") ) {
             e.preventDefault();
             jq('#serial_search_button').click();
         }

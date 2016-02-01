@@ -31,6 +31,7 @@
                 <ref bean="OleRequestDocument-modifiedDate"/>
 
                 <ref bean="OleRequestDocument-title"/>
+                <ref bean="OleRequestDocument-itemUuid"/>
                 <ref bean="OleRequestDocument-author"/>
                 <ref bean="OleRequestDocument-shelvingLocation"/>
                 <ref bean="OleRequestDocument-callNumber"/>
@@ -417,6 +418,20 @@
         <property name="label" value="Title"/>
     </bean>
 
+    <bean id="OleRequestDocument-itemUuid" parent="OleRequestDocument-itemUuid-parentBean"/>
+
+    <bean id="OleRequestDocument-itemUuid-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemUuid"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Item Id"/>
+    </bean>
+
 
     <bean id="OleRequestDocument-author" parent="OleRequestDocument-author-parentBean"/>
 
@@ -606,10 +621,11 @@
                 <bean id="itemId" parent="Uif-LookupCriteriaInputField" p:propertyName="itemId" p:label="Item Barcode">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
-                              p:fieldConversions="itemBarCode:itemId,title:title" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:fieldConversions="itemBarCode:itemId,title:title,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
                 <bean id="title" parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Item Title"/>
+                <bean id="itemUuid" parent="Uif-LookupCriteriaInputField" p:propertyName="itemUuid" p:label="Item Id"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -627,6 +643,7 @@
                 <bean id="result-itemBarcode" parent="Uif-DataField" p:propertyName="itemId" />
                 <bean id="result-itemType" parent="Uif-DataField" p:propertyName="itemType" p:label="Item Type"/>
                 <bean id="result-title" parent="Uif-DataField" p:propertyName="title" />
+                <bean id="result-itemUuid" parent="Uif-DataField" p:propertyName="itemUuid" />
                 <bean id="result-author" parent="Uif-DataField" p:propertyName="author" />
                 <bean id="result-callNumber" parent="Uif-DataField" p:propertyName="callNumber" />
                 <bean id="result-itemStatus" parent="Uif-DataField" p:propertyName="itemStatus" p:label="Item Status"/>
@@ -838,6 +855,7 @@
 
                 <bean id="recallInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
                 <bean id="recallInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="recallInquiryRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid"/>
                 <bean id="recallInquiryRequest-title" parent="Uif-InputField" p:propertyName="title"/>
                 <bean id="recallInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
                 <bean id="recallInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
@@ -865,6 +883,7 @@
 
                 <bean id="onHoldInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
                 <bean id="onHoldInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="onHoldInquiryRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid"/>
                 <bean id="onHoldInquiryRequest-title" parent="Uif-InputField" p:propertyName="title"/>
                 <bean id="onHoldInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
                 <bean id="onHoldInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
@@ -891,6 +910,7 @@
             <list>
                 <bean id="pageInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
                 <bean id="pageInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="pageInquiryRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid"/>
                 <bean id="pageInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
                 <bean id="pageRequest-inquiryItemDetails-author"  parent="Uif-InputField" p:propertyName="author"/>
                 <bean id="pageRequest-inquiryItemDetails-shelvingLocation"  parent="Uif-InputField" p:propertyName="shelvingLocation"/>
@@ -917,6 +937,7 @@
         <property name="items">
             <list>
                 <bean id="copyInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="copyInquiryRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid"/>
                 <bean id="copyInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
                 <bean id="copyInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
                 <bean id="copyInquiryRequest-pickupLocation" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
@@ -943,6 +964,7 @@
             <list>
                 <bean id="inTransitInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
                 <bean id="inTransitInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="inTransitInquiryRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid"/>
                 <bean id="inTransitInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
                 <bean id="inTransitInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
                 <bean id="inTransitInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>

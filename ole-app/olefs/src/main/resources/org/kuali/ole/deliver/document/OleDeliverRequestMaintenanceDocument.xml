@@ -452,50 +452,54 @@
                       p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' }"/>
 
 
-                <bean id="RecallRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }"
+                <bean id="RecallRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch" p:readOnly="@{maintenanceAction eq 'Edit' }"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
-                <bean id="OnholdRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }"
+                <bean id="OnholdRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
-                <bean id="TransitRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }"
+                <bean id="TransitRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
-                <bean id="CopyRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }"
+                <bean id="CopyRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
-                <bean id="PageRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }"
+                <bean id="PageRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
                     </property>
                 </bean>
 
                 <bean id="recallRequest-itemTitle" parent="Uif-InputField" p:propertyName="title"
                       p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-itemUuid" parent="Uif-InputField" p:propertyName="itemUuid" p:required="true"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemUuid ne null and (document.newMaintainableObject.dataObject.itemUuid ne null and document.newMaintainableObject.dataObject.itemUuid ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+
                 <bean id="recallRequest-author" parent="Uif-InputField" p:propertyName="author"
                       p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
