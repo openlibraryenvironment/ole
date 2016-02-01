@@ -10,6 +10,7 @@ public class OLEItemSearchResultDisplayRow {
     private String itemType;
     private String itemStatus;
     private String itemBarCode;
+    private String itemUUID;
     private String enumeration;
     private String callNumber;
     private String chronology;
@@ -56,6 +57,14 @@ public class OLEItemSearchResultDisplayRow {
 
     public void setItemBarCode(String itemBarCode) {
         this.itemBarCode = itemBarCode;
+    }
+
+    public String getItemUUID() {
+        return itemUUID;
+    }
+
+    public void setItemUUID(String itemUUID) {
+        this.itemUUID = itemUUID;
     }
 
     public String getEnumeration() {

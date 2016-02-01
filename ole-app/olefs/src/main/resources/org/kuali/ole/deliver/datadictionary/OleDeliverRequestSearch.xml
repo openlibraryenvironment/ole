@@ -64,7 +64,7 @@
         </property>
     </bean>
     <bean id="RequestSearchSection-HorizontalBoxSection" parent="RequestSearchSection-HorizontalBoxSection-parentBean" />
-    <bean id="RequestSearchSection-HorizontalBoxSection-parentBean" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="14">
+    <bean id="RequestSearchSection-HorizontalBoxSection-parentBean" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="15">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
         <property name="propertyName" value="deliverRequestBos"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -80,6 +80,8 @@
                 <bean id="borrowerQueuePosition" parent="Uif-InputField" p:label="Queue Position" p:propertyName="borrowerQueuePosition">
                 </bean>
                 <bean id="itemBarcode" parent="Uif-DataField" p:propertyName="oleItemSearch.itemBarCode" p:label="Item Barcode" >
+                </bean>
+                <bean id="itemUuid" parent="Uif-DataField" p:propertyName="oleItemSearch.itemUUID" p:label="Item Id" >
                 </bean>
                 <bean id="itemTitle" parent="Uif-DataField" p:propertyName="oleItemSearch.title" p:label="Title" >
                 </bean>
