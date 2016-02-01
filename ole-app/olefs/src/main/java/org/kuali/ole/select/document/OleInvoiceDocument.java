@@ -2799,4 +2799,16 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     public void setInvoiceInfo(String invoiceInfo) {
         this.invoiceInfo = invoiceInfo;
     }
+
+    public boolean isCurrencyTypeIndicator() {
+        return currencyTypeIndicator;
+    }
+
+    public void setCurrencyTypeIndicator(boolean currencyTypeIndicator) {
+        this.currencyTypeIndicator = currencyTypeIndicator;
+    }
+
+    public void setCurrencyFormat(String currencyFormat) {
+        this.currencyFormat = currencyFormat;
+    }
 }

@@ -1543,4 +1543,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setVendorEnterKeyEvent(boolean vendorEnterKeyEvent) {
         this.vendorEnterKeyEvent = vendorEnterKeyEvent;
     }
+
+    public void setSupplierDiversityLabel(String supplierDiversityLabel) {
+        this.supplierDiversityLabel = supplierDiversityLabel;
+    }
 }

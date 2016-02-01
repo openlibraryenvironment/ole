@@ -205,4 +205,8 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
         return document.getDocumentHeader().getWorkflowDocument().getDateCreated();
     }
+
+    public void setCreateDate(DateTime createDate) {
+        this.createDate = createDate;
+    }
 }
