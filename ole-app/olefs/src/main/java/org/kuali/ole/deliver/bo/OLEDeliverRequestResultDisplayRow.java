@@ -12,6 +12,7 @@ public class OLEDeliverRequestResultDisplayRow {
     private String requestTypeCode;
     private String borrowerFirstName;
     private String borrowerLastName;
+    private String itemUuid;
     private String borrowerBarcode;
     private Date createDate;
     private Date expiryDate;
@@ -60,6 +61,14 @@ public class OLEDeliverRequestResultDisplayRow {
 
     public String getBorrowerBarcode() {
         return borrowerBarcode;
+    }
+
+    public String getItemUuid() {
+        return itemUuid;
+    }
+
+    public void setItemUuid(String itemUuid) {
+        this.itemUuid = itemUuid;
     }
 
     public void setBorrowerBarcode(String borrowerBarcode) {
