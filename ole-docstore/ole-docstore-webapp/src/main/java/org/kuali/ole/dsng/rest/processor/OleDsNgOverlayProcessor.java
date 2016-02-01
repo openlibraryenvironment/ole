@@ -102,7 +102,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 if (CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
                     oleNGBibImportResponse.setMatchedEHoldingsCount(oleNGBibImportResponse.getMatchedEHoldingsCount() + updateEHoldingsRecordAndDataMappings.size());
                 }
-                if (operationsList.contains("132") || operationsList.contains("231")) {
+                if (operationsList.contains("132") || operationsList.contains("131") || operationsList.contains("231")) {
                     prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
                 }
 
@@ -435,7 +435,12 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     itemRecordAndDataMappings.add(itemRecordAndDataMapping);
                 }
                 holdingsRecord.setItemRecords(itemRecords);
-            } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+            } else if (StringUtils.isBlank(addedOps)) {
+                List<ItemRecordAndDataMapping> preparedItemAndDataMappings = createItemAndDataMappingForUnassignedMappings(holdingsRecord, itemDataMappings);
+                if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
+                    itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
+                }
+            }else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                 List<ItemRecordAndDataMapping> preparedItemAndDataMappings = determineItemsAndDataMappingByMatchPoints(holdingsRecord, exchange, itemJSON);
                 if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
                     itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
@@ -635,6 +640,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 holdingsRecordAndDataMappings.add(newHoldings);
             }
 
+        } else if (StringUtils.isBlank(addedOps)) {
+            holdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, PHoldings.PRINT, dataMappings);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
             holdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, holdingsJSON, PHoldings.PRINT);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
@@ -686,11 +693,13 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 eholdingsRecordAndDataMappings.add(newEHoldings);
             }
 
-        } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+        } else if (StringUtils.isBlank(addedOps)) {
+            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, EHoldings.ELECTRONIC, dataMappings);
+        }  else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
             eholdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
                 addedOps.equalsIgnoreCase(OleNGConstants.KEEP_ALL_EXISTING_AND_ADD)) {
-            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, PHoldings.PRINT, dataMappings);
+            eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, EHoldings.ELECTRONIC, dataMappings);
         }
 
         for (Iterator<HoldingsRecordAndDataMapping> iterator = eholdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
@@ -995,38 +1004,6 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
         }
         return itemResponses;
-    }
-
-    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
-        String returnValue = null;
-        try {
-            if (null != jsonObject) {
-                returnValue = jsonObject.getString(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
-    }
-
-    public JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonObject.getJSONObject(key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
-    }
-
-    public JSONObject getJSONObjectFromJsonArray(JSONArray jsonArray, int index) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonArray.getJSONObject(index);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
     }
 
     private JSONObject findDataMappingByValue(JSONArray dataMappings, String type, String value) {

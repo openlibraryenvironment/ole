@@ -34,7 +34,9 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
         String returnValue = null;
         try {
-            returnValue = jsonObject.getString(key);
+            if (jsonObject.has(key)) {
+                returnValue = jsonObject.getString(key);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -49,6 +51,26 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    public JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) {
+        JSONObject returnObject = null;
+        try {
+            returnObject = jsonObject.getJSONObject(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject;
+    }
+
+    public JSONObject getJSONObjectFromJsonArray(JSONArray jsonArray, int index) {
+        JSONObject returnObject = null;
+        try {
+            returnObject = jsonArray.getJSONObject(index);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject;
     }
 
     public List<String> getListFromJSONArray(String operation){
