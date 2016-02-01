@@ -192,5 +192,7 @@ public class OleNGConstants {
     public final static String CREATED = "Created";
     public final static String UPDATED = "Updated";
 
+    public static final String FORWARD_SLASH = "/";
+
 
 }

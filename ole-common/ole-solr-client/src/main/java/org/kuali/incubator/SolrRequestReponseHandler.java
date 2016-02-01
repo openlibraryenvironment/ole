@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -93,8 +94,8 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        String solrURLBase = ConfigContext.getCurrentContextConfig().getProperty("solr.url.base");
-        String solrURL = solrURLBase + File.separator + "solr"+ File.separator + "bib";
+        String solrURLBase = ConfigContext.getCurrentContextConfig().getProperty("solr.url");
+        String solrURL = solrURLBase + OleNGConstants.FORWARD_SLASH + "bib";
         LOG.info("Solr URl : " + solrURL);
         return solrURL;
     }

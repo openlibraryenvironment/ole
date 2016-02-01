@@ -340,44 +340,45 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
-        String addedOpsValue = null;
+        String addedOpsValue = OleNGConstants.DISCARD;
 
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             if(batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
-                String addOperation = batchProfileAddOrOverlay.getAddOperation();
-                if(StringUtils.isNotBlank(addOperation)){
-                    switch (addOperation){
-                        case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
-                            addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
-                            break;
-                        }
+                String operation = batchProfileAddOrOverlay.getOperation();
+                if(operation.equalsIgnoreCase(OleNGConstants.ADD)) {
+                    addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
+                    String addOperation = batchProfileAddOrOverlay.getAddOperation();
+                    if(StringUtils.isNotBlank(addOperation)){
+                        switch (addOperation){
+                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
+                                addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
+                                break;
+                            }
 
-                        case OleNGConstants.KEEP_ALL_EXISTING_AND_ADD: {
-                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
-                            break;
-                        }
+                            case OleNGConstants.KEEP_ALL_EXISTING_AND_ADD: {
+                                addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                                break;
+                            }
 
-                        case OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING: {
-                            addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
-                            break;
-                        }
+                            case OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING: {
+                                addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
+                                break;
+                            }
 
-                        case OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING: {
-                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
-                            break;
-                        }
+                            case OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING: {
+                                addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                                break;
+                            }
 
-                        case OleNGConstants.CREATE_MULTIPLE: {
-                            addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
-                            break;
-                        }
-
-                        case OleNGConstants.OVERLAY_MULTIPLE: {
-                            addedOpsValue = OleNGConstants.OVERLAY;
-                            break;
+                            case OleNGConstants.CREATE_MULTIPLE: {
+                                addedOpsValue = OleNGConstants.KEEP_ALL_EXISTING_AND_ADD;
+                                break;
+                            }
                         }
                     }
+                } else if(operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+                    addedOpsValue = OleNGConstants.OVERLAY;
                 }
             }
         }
@@ -749,7 +750,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             if (null != subField) {
                 for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
                     Subfield sf = variableFieldIterator.next();
-                    matchedDataField&= subField.charAt(0) == sf.getCode();
+                    char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
+                    matchedDataField&= subFieldChar == sf.getCode();
                 }
             }
             if (matchedDataField) {

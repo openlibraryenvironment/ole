@@ -997,38 +997,6 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         return itemResponses;
     }
 
-    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
-        String returnValue = null;
-        try {
-            if (null != jsonObject) {
-                returnValue = jsonObject.getString(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
-    }
-
-    public JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonObject.getJSONObject(key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
-    }
-
-    public JSONObject getJSONObjectFromJsonArray(JSONArray jsonArray, int index) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonArray.getJSONObject(index);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
-    }
-
     private JSONObject findDataMappingByValue(JSONArray dataMappings, String type, String value) {
         if (null != dataMappings) {
             for (int index = 0; index < dataMappings.length(); index++) {
