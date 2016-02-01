@@ -94,8 +94,7 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        String solrURLBase = ConfigContext.getCurrentContextConfig().getProperty("solr.url");
-        String solrURL = solrURLBase + OleNGConstants.FORWARD_SLASH + "bib";
+        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("solr.url");
         LOG.info("Solr URl : " + solrURL);
         return solrURL;
     }
