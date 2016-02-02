@@ -1253,7 +1253,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     private void setRequestQueuePositionForOnholdItem(List<OleDeliverRequestBo> finalList, String itemStatus, List<OleDeliverRequestBo> recallHoldList, List<OleDeliverRequestBo> holdHoldList, List<OleDeliverRequestBo> pageHoldList, List<OleDeliverRequestBo> asrList) {
         OleDeliverRequestBo oleDeliverRequestBo1;
-        if(itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) && (CollectionUtils.isNotEmpty(holdHoldList) || CollectionUtils.isNotEmpty(recallHoldList) || CollectionUtils.isNotEmpty(pageHoldList) || CollectionUtils.isNotEmpty(asrList))) {
+        if(StringUtils.isNotBlank(itemStatus) && itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) && (CollectionUtils.isNotEmpty(holdHoldList) || CollectionUtils.isNotEmpty(recallHoldList) || CollectionUtils.isNotEmpty(pageHoldList) || CollectionUtils.isNotEmpty(asrList))) {
             if(CollectionUtils.isNotEmpty(recallHoldList)) {
                 for (int x = 0; x < recallHoldList.size(); x++) {
                     oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(recallHoldList.get(x));
