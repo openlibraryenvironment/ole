@@ -15,6 +15,7 @@ import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -107,6 +108,18 @@ public class SolrRequestReponseHandler {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error("Error while updating document to solr.");
+        }
+        return updateResponse;
+    }
+
+    public UpdateResponse deleteFromSolr(String query){
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = getHttpSolrServer().deleteByQuery(query);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return updateResponse;
     }

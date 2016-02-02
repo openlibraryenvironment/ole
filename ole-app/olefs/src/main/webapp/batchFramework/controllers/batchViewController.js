@@ -699,13 +699,14 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             var data = {};
             data["profileId"] = profileId;
             data["action"] = action;
+            $scope.mainSectionPanel.batchProcessType = profileType;
             $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
                 .success(function (data) {
                     $scope.profile = data;
                     $scope.mainSectionPanel.profileId = data.profileId;
                     $scope.mainSectionPanel.profileName = data.profileName;
                     $scope.mainSectionPanel.profileDescription = data.description;
-                    $scope.mainSectionPanel.batchProcessType = data.batchProcessType;
+                    //$scope.mainSectionPanel.batchProcessType = data.batchProcessType;
                     $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
                     $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;
                     $scope.mainSectionPanel.marcOnly = data.marcOnly;
@@ -715,7 +716,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
                     $scope.dataMappingsPanel = data.batchProfileDataMappingList;
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
+
                     addEmptyValueToAddNew(data.batchProcessType);
+
                     if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import')) {
                         $scope.dataMappingsActivePanel = [];
                         $scope.dataMappingsPanel.collapsed = false;

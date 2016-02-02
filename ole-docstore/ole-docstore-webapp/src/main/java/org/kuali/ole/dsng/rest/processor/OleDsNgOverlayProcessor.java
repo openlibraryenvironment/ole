@@ -377,7 +377,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
         }
 
-        if (doIndex) {
+        if (doIndex && StringUtils.isNotBlank(bibRecord.getBibId())) {
             getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
         }
     }
