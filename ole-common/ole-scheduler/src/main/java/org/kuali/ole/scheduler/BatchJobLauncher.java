@@ -49,10 +49,10 @@ public class BatchJobLauncher {
 	    HttpResponse response = httpClient.execute(request);
 	    
 	    // for debugging
-	    InputStream body = response.getEntity().getContent();
-	    String inputStreamString = new Scanner(body,"UTF-8").useDelimiter("\\A").next();
-	    System.out.println(inputStreamString);	    
-	    System.out.println(response.getStatusLine());
+//	    InputStream body = response.getEntity().getContent();
+//	    String inputStreamString = new Scanner(body,"UTF-8").useDelimiter("\\A").next();
+//	    System.out.println(inputStreamString);	    
+//	    System.out.println(response.getStatusLine());
 	    
 	} catch (ClientProtocolException e) {
 	    e.printStackTrace();
