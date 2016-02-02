@@ -99,7 +99,7 @@ public class OlePlaceRequestCirculationDeskKeyValue extends UifKeyValuesFinderBa
         List<OleCirculationDeskDetail> oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>)getBusinessObjectService().findMatching(OleCirculationDeskDetail.class,criteriaMap);
         if(oleCirculationDeskDetailList.size()>0){
           OleCirculationDeskDetail  oleCirculationDeskDetail = oleCirculationDeskDetailList.get(0);
-          if(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().isPickUpLocation()){
+          if(oleCirculationDeskDetail.getOleCirculationDesk()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().isPickUpLocation()){
             oleCirculationDesk = oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation();
           }
 
