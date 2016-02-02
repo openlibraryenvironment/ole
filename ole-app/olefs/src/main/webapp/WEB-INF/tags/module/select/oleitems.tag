@@ -998,14 +998,14 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.oleItemQuantity}"
                         property="document.item[${ctr}].oleItemQuantity"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:when test="${itemLine.oleItemQuantity > 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.oleItemQuantity}"
                         property="document.item[${ctr}].oleItemQuantity"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:when test="${itemLine.oleItemQuantity == 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
@@ -1019,7 +1019,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.oleItemQuantity}"
                         property="document.item[${ctr}].oleItemQuantity"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:otherwise>
@@ -1058,14 +1058,14 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.itemNoOfParts}"
                         property="document.item[${ctr}].itemNoOfParts"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:when test="${itemLine.itemNoOfParts > 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.itemNoOfParts}"
                         property="document.item[${ctr}].itemNoOfParts"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:when test="${itemLine.itemNoOfParts == 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
@@ -1079,7 +1079,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.itemNoOfParts}"
                         property="document.item[${ctr}].itemNoOfParts"
-                        readOnly="${not amendmentEntry}"
+                        readOnly="${amendmentEntry}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </c:when>
             <c:otherwise>
