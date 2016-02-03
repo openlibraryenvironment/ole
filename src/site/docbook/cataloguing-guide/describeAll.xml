@@ -192,14 +192,13 @@
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                                 </imageobject>
-                            </inlinemediaobject>s to add additional Holdings or E-Holdings
-                            records or <inlinemediaobject>
+                            </inlinemediaobject>s to add additional Holdings or E-Holdings records
+                            or <inlinemediaobject>
                                 <alt>E</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                                 </imageobject>
-                            </inlinemediaobject> to add additional E-Holdings
-                            records.</para>
+                            </inlinemediaobject> to add additional E-Holdings records.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -1010,7 +1009,7 @@
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                             </imageobject>
-                        </inlinemediaobject>.  For more information about the OLE E-Holdings Editor,
+                        </inlinemediaobject>. For more information about the OLE E-Holdings Editor,
                         see <link linkend="_EInstanceEditor">E-Holding Editor</link></para>
                 </note>
                 <para>Right click on the call number to delete a holdings record or add an item
@@ -1065,7 +1064,7 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
                         </imageobject>
-                    </inlinemediaobject> button to delete the bibliographic record.  You will be
+                    </inlinemediaobject> button to delete the bibliographic record. You will be
                     asked to confirm that you actually want to delete the record before you may
                     proceed. If you do not wish to delete the record, click on “Cancel”; you will
                     then be returned to the OLE Search Workbench instead of the record you have been
@@ -1617,7 +1616,7 @@
                             (often used for course reserves or "new books" collections).</para>
                         <note>
                             <para>Your institution may decide to supress this tab through the
-                                parameter  ITEM_LOCATION_DISCLOSURE. </para>
+                                parameter ITEM_LOCATION_DISCLOSURE. </para>
                         </note>
                         <para role="Normal"/>
                         <para role="Normal">
@@ -1762,7 +1761,8 @@
                                                 attached to an item as a unique identifier. Indexed
                                                 to permit retrieval when the barcode is scanned or
                                                 typed in as a search term. Used for identification
-                                                of physical item and for circulation purposes. </para>
+                                                of physical item and for circulation purposes.
+                                            </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1885,7 +1885,7 @@
                                             <note>
                                                 <para>This is an uncontrolled free-text field, so it
                                                   is possible to enter something other than a
-                                                  number.  However, entering any value other than a
+                                                  number. However, entering any value other than a
                                                   number will cause an error on Return of the item;
                                                   the item cannot be returned until record has been
                                                   corrected.</para>
@@ -1983,7 +1983,7 @@
                                             <para role="Table Cells">Donor Code</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The Code of the donor.  </para>
+                                            <para role="Table Cells">The Code of the donor. </para>
                                             <para role="Table Cells">Select the donor from the drop
                                                 down list: </para>
                                             <para role="Table Cells">Begin typing and a list of
@@ -2169,10 +2169,10 @@
                         <para>Just above the Claims Returned History tab, is the <emphasis
                                 role="bold">Claim Return Flag</emphasis>, <emphasis role="bold"
                                 >Claim Returned Create Date</emphasis>, and the <emphasis
-                                role="bold">Claims Return Note</emphasis>.  The flag may be checked
+                                role="bold">Claims Return Note</emphasis>. The flag may be checked
                             if a borrower claims to have returned an item from circulation but there
                             has been no circulation check-in transaction for the item. When checked,
-                            enter a corresponding Claims Return Date and note.  This flag is
+                            enter a corresponding Claims Return Date and note. This flag is
                             typically checked by an operator from the Loan screen.</para>
                         <note>
                             <para>For more information about claiming items from the Loan screen,
@@ -2211,9 +2211,9 @@
                         <title>Damaged History</title>
                         <para>Just above the Damaged History tab, is the <emphasis role="bold">Item
                                 Damaged Status</emphasis> and the <emphasis role="bold">Damaged Item
-                                Note</emphasis>.  This flag may be checked if an item has been
-                            damaged.  When checked, enter a note to be displayed with circulation
-                            transactions.  This flag is typically checked by an operator from the
+                                Note</emphasis>. This flag may be checked if an item has been
+                            damaged. When checked, enter a note to be displayed with circulation
+                            transactions. This flag is typically checked by an operator from the
                             Loan screen</para>
                         <note>
                             <para>For more information about marking an item damaged from the Loan
@@ -2240,14 +2240,14 @@
                     </section>
                     <section>
                         <title>Missing Piece Item History tab</title>
-                        <para>Just above the Intransit Loan History tab, is the <emphasis
+                        <para>Just above the Missing Piece Item History tab, is the <emphasis
                                 role="bold">Missing Piece Flag</emphasis>, the <emphasis role="bold"
                                 >No of missing pieces count</emphasis>, the <emphasis role="bold"
                                 >Missing Pieces Effective Date</emphasis>and the <emphasis
-                                role="bold">Missing Piece Note</emphasis>.  This flag may be checked
-                            if an item is missing pieces.  When checked, enter the number of pieces
+                                role="bold">Missing Piece Note</emphasis>. This flag may be checked
+                            if an item is missing pieces. When checked, enter the number of pieces
                             missing, the effective date, and note to be displayed with circulation
-                            transactions.  </para>
+                            transactions. </para>
                         <note>
                             <para>If you enter any missing pieces, you must include the full count
                                 in the <emphasis role="bold">Number of Pieces</emphasis> field of
@@ -2295,16 +2295,16 @@
                             the return.</para>
                     </section>
                     <section>
-                        <title>Intransit Loan History tab</title>
-                        <para>The Intransit Loan History tab allows circulation desk staff to see
-                            recent transit history of an item to help resolve problems with missing
+                        <title>Return History tab</title>
+                        <para>The Return History tab allows circulation desk staff to see recent
+                            transit history of an item to help resolve problems with missing
                             materials. This tab displays the Item Barcode, the Operator who checked
-                            in the item, the routing locations (from and to), and the date of
-                            transit (when the item was first returned).</para>
-                        <para>This information does not show when or if the item was returned to its
-                            home circulation desk. Nor does it record if the same or different
-                            operators return the item at different times at the same circulation
-                            desk, which means in-house use transaction are not captured.</para>
+                            in the item, the return location/circulation desk, the location/circ
+                            desk to which the item was routed in transit (if applicable), the status
+                            of the item when it was returned (ON HOLD, RECENTLY RETURNED, IN
+                            TRANSIT, etc.), and the date and time of the return.</para>
+                        <para>This information is captured each time an item is scanned via the
+                            Return screen.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -2783,7 +2783,7 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                         </imageobject>
-                    </inlinemediaobject> to add an OLE E-Holdings records.  When creating a new
+                    </inlinemediaobject> to add an OLE E-Holdings records. When creating a new
                     E-Instance, the ‘E-Holdings’ label will appear in the left pane after clicking
                         <emphasis role="bold">Save</emphasis> if you do not add a Location field and
                     the E-Instance is not linked to an E-Resource.</para>
@@ -2826,8 +2826,8 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para> A confirmation screen will appear.  Press <emphasis role="bold"
-                        >Continue</emphasis> to delete the E-Holdings record.  You can also select
+                <para> A confirmation screen will appear. Press <emphasis role="bold"
+                        >Continue</emphasis> to delete the E-Holdings record. You can also select
                     the E-Holdings in the left pane and click the <emphasis role="bold"
                         >Delete</emphasis> button in the E-Holdings Editor. </para>
                 <para>Click the <inlinemediaobject>
@@ -3003,6 +3003,184 @@
                                 </tbody>
                             </tgroup>
                         </informaltable>
+                    </section>
+                    <section>
+                        <title>Access Information tab</title>
+                        <para role="Normal">The Access Information tab contains all information
+                            about accessing the electronic title including the links, user names and
+                            passwords.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>E-Holdings Editor: Access Information Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-42.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="TableHeading"><emphasis role="bold">Access Information tab
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">URL</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>The URL for users to access the electronic
+                                                resource.  Click <inlinemediaobject>
+                                                  <alt>Add</alt>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/LicensingNoTitlePage-29.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>, the text box will expand to
+                                                display the entire URL.  See also <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link>.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Link Text</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"> Publicly displayable
+                                                information aside from coverage statement associated
+                                                with a specific link. For example "PDF version".
+                                            </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">No. of Simultaneous
+                                                Users</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The number of users who can
+                                                simultaneously access the electronic resource at one
+                                                time. This is pulled from the E-Resource record but
+                                                can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Location</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The institutional location(s)
+                                                where the electronic resource may be accessed.
+                                                Select a locally configured option(s) from the drop
+                                                down list. This is pulled from the E-Resource record
+                                                but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Username</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The user name to use to access
+                                                the electronic resource, if necessary. This is
+                                                pulled from the E-Resource record but can be
+                                                modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Password</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> The password to use to access the electronic
+                                                resource, if necessary. This is pulled from the
+                                                E-Resource record but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Authentication Type</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The type of Authentication
+                                                needed for the electronic resource. Select the type
+                                                from the drop down list. This is pulled from the
+                                                E-Resource record but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Persistent Link</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> The locally assigned persistent link for the
+                                                electronic resource. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin Username</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative user name
+                                                used to access the platform portal to manage the
+                                                electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin Password</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative password
+                                                used to access the platform portal to manage the
+                                                electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin URL</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative URL to
+                                                access the platform portal to manage the electronic
+                                                resource. This is site users would go to enter their
+                                                IP ranges, input their link-resolver URL, manage the
+                                                look and feel of the platform for their users,
+                                                gather usage stats, etc. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Proxied</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Check the box if access to the
+                                                electronic resource is proxied.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <para role="Normal"/>
                     </section>
                     <section>
                         <title>Location Information tab</title>
@@ -3562,177 +3740,6 @@
                         </informaltable>
                     </section>
                     <section>
-                        <title>Access Information tab</title>
-                        <para role="Normal">The Access Information tab contains all information
-                            about accessing the electronic title including the links, user names and
-                            passwords.</para>
-                        <para role="Normal"/>
-                        <para role="Normal">
-                            <screenshot>
-                                <mediaobject>
-                                    <alt>E-Holdings Editor: Access Information Tab</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-42.png"
-                                            width="100%"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </screenshot>
-                        </para>
-                        <para role="Normal"/>
-                        <para role="TableHeading"><emphasis role="bold">Access Information tab
-                                definition</emphasis></para>
-                        <informaltable frame="topbot">
-                            <tgroup cols="2">
-                                <colspec colname="col1" colnum="1"/>
-                                <colspec colname="col2" colnum="2"/>
-                                <tbody>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Title </para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Description </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">No. of Simultaneous
-                                                Users</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The number of users who can
-                                                simultaneously access the electronic resource at one
-                                                time. This is pulled from the E-Resource record but
-                                                can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Location</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The institutional location(s)
-                                                where the electronic resource may be accessed.
-                                                Select a locally configured option(s) from the drop
-                                                down list. This is pulled from the E-Resource record
-                                                but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Username</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The user name to use to access
-                                                the electronic resource, if necessary. This is
-                                                pulled from the E-Resource record but can be
-                                                modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Password</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The password to use to access the electronic
-                                                resource, if necessary. This is pulled from the
-                                                E-Resource record but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Authentication Type</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The type of Authentication
-                                                needed for the electronic resource. Select the type
-                                                from the drop down list. This is pulled from the
-                                                E-Resource record but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Persistent Link</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The locally assigned persistent link for the
-                                                electronic resource. See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Username</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative user name
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Password</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative password
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin URL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative URL to
-                                                access the platform portal to manage the electronic
-                                                resource. This is site users would go to enter their
-                                                IP ranges, input their link-resolver URL, manage the
-                                                look and feel of the platform for their users,
-                                                gather usage stats, etc.  See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Proxied</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Check the box if access to the
-                                                electronic resource is proxied.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">URL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>The URL for users to access the electronic
-                                                resource.  See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Link Text</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"> Publicly displayable
-                                                information aside from coverage statement associated
-                                                with a specific link. For example "PDF version".
-                                            </para>
-                                        </entry>
-                                    </row>
-                                </tbody>
-                            </tgroup>
-                        </informaltable>
-                        <para role="Normal"/>
-                    </section>
-                    <section>
                         <title>License Details tab</title>
                         <para role="Normal">The License Details tab identifies any License Requests
                             that are associated with an E-Resource to which this E-Holdings is
@@ -3950,9 +3957,9 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-61.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will delete the E-Holdings.  Click
+                                </inlinemediaobject> button will delete the E-Holdings. Click
                                     <emphasis role="bold">Continue</emphasis> to confirm the
-                                deletion.  </para>
+                                deletion. </para>
                         </listitem>
                     </itemizedlist>
                 </section>
@@ -4716,7 +4723,7 @@
             </note>
             <section>
                 <title>Process Overview</title>
-                <para>Enter bibliographic data into the workform.  Note that the 245 field is the
+                <para>Enter bibliographic data into the workform. Note that the 245 field is the
                     only required field; if absent, the system will display an error message and the
                     record will not be saved. </para>
                 <para role="Normal">
@@ -4818,10 +4825,10 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Once all the desired data has been keyed, submit the record.  The system
+                <para>Once all the desired data has been keyed, submit the record. The system
                     assigns a local identifier. </para>
                 <para>In order to modify or add data after the record is submitted, click on the bib
-                    local identifier displayed at the top of the page.  Alternatively, you may use
+                    local identifier displayed at the top of the page. Alternatively, you may use
                     the Search workbench to search for the bibliographic record, which will display
                     the record in the regular Marc editor to edit the bibliographic fields or to add
                     holdings/item records.</para>
@@ -5260,8 +5267,7 @@
                                 the series, or a record for a title in the series.</para>
                         </listitem>
                         <listitem>
-                            <para> In the left navigation pane, click on <emphasis
-                                    >either</emphasis>
+                            <para> In the left navigation pane, click on <emphasis>either</emphasis>
                                 “SH” or “AI” (it does not matter which you choose):</para>
                             <para/>
                             <para>
