@@ -90,6 +90,9 @@ public class CreateHoldingsHanlder extends Handler {
             metaDataHandlers.add(new CallNumberTypeHandler());
             metaDataHandlers.add(new CallNumberPrefixHandler());
             metaDataHandlers.add(new CopyNumberHandler());
+            metaDataHandlers.add(new AccessStatusHandler());
+            metaDataHandlers.add(new SubscriptionStatusHandler());
+            metaDataHandlers.add(new HoldingsStaffOnlyHandler());
         }
         return metaDataHandlers;
     }

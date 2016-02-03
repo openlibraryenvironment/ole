@@ -1,12 +1,10 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -129,6 +127,7 @@ public class CreateEHoldingsHandler extends Handler {
             metaDataHandlers.add(new NonPublicNoteHandler());
             metaDataHandlers.add(new PublicNoteHandler());
             metaDataHandlers.add(new NoOfSumultaneousUserHander());
+            metaDataHandlers.add(new HoldingsStaffOnlyHandler());
         }
         return metaDataHandlers;
     }

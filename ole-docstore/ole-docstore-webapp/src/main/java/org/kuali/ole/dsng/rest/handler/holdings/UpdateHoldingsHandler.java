@@ -34,6 +34,9 @@ public class UpdateHoldingsHandler extends Handler {
             holdingMetaDataHandlers.add(new CallNumberTypeHandler());
             holdingMetaDataHandlers.add(new CallNumberPrefixHandler());
             holdingMetaDataHandlers.add(new CopyNumberHandler());
+            holdingMetaDataHandlers.add(new AccessStatusHandler());
+            holdingMetaDataHandlers.add(new SubscriptionStatusHandler());
+            holdingMetaDataHandlers.add(new HoldingsStaffOnlyHandler());
         }
         return holdingMetaDataHandlers;
     }
