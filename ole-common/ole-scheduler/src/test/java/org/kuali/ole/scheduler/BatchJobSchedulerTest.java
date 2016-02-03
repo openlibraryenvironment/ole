@@ -19,6 +19,7 @@ public class BatchJobSchedulerTest {
             Thread.sleep(30000);
 
             // Print all jobs
+            System.out.println("two jobs:");
             System.out.println(batchJobScheduler.getAllJobs());
 
             // Print all triggers for a job -- do we want to allow multiple
@@ -27,6 +28,9 @@ public class BatchJobSchedulerTest {
 
             // delete a job
             batchJobScheduler.deleteJob("job1");
+
+            System.out.println("deleted job1:");
+            System.out.println(batchJobScheduler.getAllJobs());
 
             batchJobScheduler.stopScheduler();
         } catch (Exception e) {
