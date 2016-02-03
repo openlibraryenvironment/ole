@@ -81,6 +81,7 @@ public class OleNGConstants {
     public static final String OPS = "ops";
     public static final String ADDED_OPS = "addedOps";
     public static final String ACTION_OPS = "actionOps";
+    public static final String FIELD_OPS = "fieldOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
     public static final String HOLDINGS_DATAMAPPINGS = "holdingsDataMappings";
     public static final String EHOLDINGS_DATAMAPPINGS = "eHoldingsDataMappings";

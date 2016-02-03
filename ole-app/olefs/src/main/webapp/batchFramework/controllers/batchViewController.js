@@ -245,6 +245,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.fieldOperationsPanel[0].ind1 = null;
         $scope.fieldOperationsPanel[0].ind2 = null;
         $scope.fieldOperationsPanel[0].subField = null;
+        $scope.fieldOperationsPanel[0].value = null;
         $scope.fieldOperationsPanel[0].ignoreGPF = false;
     };
 
@@ -485,6 +486,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             ind1: $scope.fieldOperationsPanel[index].ind1,
             ind2: $scope.fieldOperationsPanel[index].ind2,
             subField: $scope.fieldOperationsPanel[index].subField,
+            value: $scope.fieldOperationsPanel[index].value,
             ignoreGPF: false,
             isAddLine: true,
             isEdit: false
@@ -569,6 +571,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         addOrOverlay.ind1 = null;
         addOrOverlay.ind2 = null;
         addOrOverlay.subfield = null;
+        addOrOverlay.value = null;
         addOrOverlay.linkField = null;
 
     };

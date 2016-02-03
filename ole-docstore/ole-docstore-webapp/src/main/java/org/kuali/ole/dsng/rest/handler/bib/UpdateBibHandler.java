@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -11,9 +12,14 @@ import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
+import org.marc4j.marc.VariableField;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,6 +57,9 @@ public class UpdateBibHandler extends BibHandler {
                 bibRecord.setStatusUpdatedDate(updatedDate);
 
                 String newContent = process001And003(newBibContent, bibId);
+
+                newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
+
                 bibRecord.setContent(newContent);
                 exchange.add(OleNGConstants.BIB, bibRecord);
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
@@ -127,5 +136,94 @@ public class UpdateBibHandler extends BibHandler {
     private String getAddedOpsValue(JSONObject jsonObject, String docType) {
         JSONObject addedOps = getJSONObjectFromJSONObject(jsonObject, OleNGConstants.ADDED_OPS);
         return getStringValueFromJsonObject(addedOps,docType);
+    }
+
+    private String processFieldOptions(String oldMarcContent,String newMarcContent, JSONObject requestJSON) {
+        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(newMarcContent);
+        if(CollectionUtils.isNotEmpty(records)) {
+            Record record = records.get(0);
+            JSONArray fieldOps = getJSONArrayeFromJsonObject(requestJSON, OleNGConstants.FIELD_OPS);
+            if(null != fieldOps) {
+                for(int index = 0; index < fieldOps.length(); index++) {
+                    JSONObject field = getJSONObjectFromJsonArray(fieldOps, index);
+                    List<VariableField> matchedDataFields = getDataFieldBasedOnFieldOps(oldMarcContent, field);
+                    if (CollectionUtils.isNotEmpty(matchedDataFields)) {
+                        for (Iterator<VariableField> iterator = matchedDataFields.iterator(); iterator.hasNext(); ) {
+                            VariableField variableField = iterator.next();
+                            getMarcRecordUtil().addVariableFieldToRecord(record,variableField);
+                        }
+                    }
+
+                }
+            }
+            return getMarcRecordUtil().convertMarcRecordToMarcContent(record);
+        }
+        return newMarcContent;
+
+    }
+
+    public List<VariableField> getDataFieldBasedOnFieldOps(String oldMarcContent, JSONObject fieldOption) {
+        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(oldMarcContent);
+        if(CollectionUtils.isNotEmpty(records)) {
+            Record record = records.get(0);
+            String dataField = getStringValueFromJsonObject(fieldOption,OleNGConstants.DATA_FIELD);
+            String ind1 = getStringValueFromJsonObject(fieldOption,OleNGConstants.IND1);
+            String ind2 = getStringValueFromJsonObject(fieldOption,OleNGConstants.IND2);
+            String subfield = getStringValueFromJsonObject(fieldOption,OleNGConstants.SUBFIELD);
+            String value = getStringValueFromJsonObject(fieldOption,OleNGConstants.VALUE);
+
+            List<VariableField> dataFields = record.getVariableFields(dataField);
+
+            if (CollectionUtils.isNotEmpty(dataFields)) {
+                if(StringUtils.isBlank(ind1) && StringUtils.isBlank(ind2) && StringUtils.isBlank(subfield)){
+                    return dataFields;
+                }
+
+                List<VariableField> fieldsToReturn = new ArrayList<VariableField>();
+
+                for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
+                    DataField field = (DataField) iterator.next();
+                    boolean matched = isMatched(field, ind1, ind2, subfield, value);
+                    if(matched) {
+                        fieldsToReturn.add(field);
+                    }
+                }
+
+                if(CollectionUtils.isNotEmpty(fieldsToReturn)){
+                    return fieldsToReturn;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isMatched( DataField field, String ind1, String ind2, String subfield, String value) {
+        boolean matchedDataField = true;
+        if (StringUtils.isNotBlank(ind1)) {
+            matchedDataField &= ind1.charAt(0) == field.getIndicator1();
+        }
+        if (matchedDataField && StringUtils.isNotBlank(ind2)) {
+            matchedDataField &= ind2.charAt(0) == field.getIndicator2();
+        }
+
+        if (matchedDataField && StringUtils.isNotBlank(subfield)) {
+            for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
+                Subfield sf = variableFieldIterator.next();
+                char subFieldChar = (StringUtils.isNotBlank(subfield) ? subfield.charAt(0) : ' ');
+                if(subFieldChar == sf.getCode()) {
+                    String data = sf.getData();
+                    if (StringUtils.isNotBlank(value)) {
+                        if(StringUtils.equals(data,value)){
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        } else if(matchedDataField && StringUtils.isBlank(subfield)) {
+            return true;
+        }
+        return false;
     }
 }

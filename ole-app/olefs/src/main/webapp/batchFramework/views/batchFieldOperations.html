@@ -23,6 +23,7 @@
                         <th>Ind1</th>
                         <th>Ind2</th>
                         <th>Subfield</th>
+                        <th>Value</th>
                         <th>Ignore GPF</th>
                         <th ng-hide="submitted" style="width: 90px;"></th>
                     </tr>
@@ -63,6 +64,12 @@
                                    type="text" ng-model="fieldOperation.subField"
                                    style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
                             <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.subField"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationValue_{{$index}}" name="fieldOperationValue_{{$index}}"
+                                   type="text" ng-model="fieldOperation.value"
+                                   ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.value"></span>
                         </td>
                         <td class="col-xs-1">
                             <input class="form-control" id="fieldOperationIgnoreGPF_{{$index}}"

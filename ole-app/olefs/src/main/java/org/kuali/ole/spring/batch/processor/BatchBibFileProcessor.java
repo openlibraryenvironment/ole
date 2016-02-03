@@ -11,10 +11,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
-import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
-import org.kuali.ole.oleng.batch.profile.model.MarcDataField;
+import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -141,6 +138,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
         bibData.put(OleNGConstants.ADDED_OPS, getAddedOps(batchProcessProfile));
         bibData.put(OleNGConstants.ACTION_OPS, getActionOps(batchProcessProfile));
+        bibData.put(OleNGConstants.FIELD_OPS, getFieldOps(batchProcessProfile));
 
         // Prepare data mapping before MARC Transformation
         Map<String, List<JSONObject>> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, OleNGConstants.PRE_MARC_TRANSFORMATION);
@@ -178,6 +176,28 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put(OleNGConstants.ITEM, itemData);
 
         return bibData;
+    }
+
+    private JSONArray getFieldOps(BatchProcessProfile batchProcessProfile) {
+        JSONArray fieldOps = new JSONArray();
+        List<BatchProfileFieldOperation> batchProfileFieldOperationList = batchProcessProfile.getBatchProfileFieldOperationList();
+        if(CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
+            for (Iterator<BatchProfileFieldOperation> iterator = batchProfileFieldOperationList.iterator(); iterator.hasNext(); ) {
+                BatchProfileFieldOperation batchProfileFieldOperation = iterator.next();
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.DATA_FIELD,batchProfileFieldOperation.getDataField());
+                    jsonObject.put(OleNGConstants.IND1,batchProfileFieldOperation.getInd1());
+                    jsonObject.put(OleNGConstants.IND2,batchProfileFieldOperation.getInd2());
+                    jsonObject.put(OleNGConstants.SUBFIELD,batchProfileFieldOperation.getSubField());
+                    jsonObject.put(OleNGConstants.VALUE,batchProfileFieldOperation.getValue());
+                    fieldOps.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return fieldOps;
     }
 
     private JSONObject buildOneObject(JSONObject bibDataMappingsPreTrans, JSONObject bibDataMappingsPostTrans) {

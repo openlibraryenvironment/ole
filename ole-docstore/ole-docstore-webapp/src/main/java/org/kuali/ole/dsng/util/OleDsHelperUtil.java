@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
@@ -61,7 +62,9 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
     public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
         JSONArray returnValue = null;
         try {
-            returnValue = jsonObject.getJSONArray(key);
+            if(jsonObject.has(key)){
+                returnValue = jsonObject.getJSONArray(key);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
