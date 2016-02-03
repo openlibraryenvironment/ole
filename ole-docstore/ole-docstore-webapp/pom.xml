@@ -3,12 +3,12 @@
     <parent>
         <artifactId>ole-docstore</artifactId>
         <groupId>org.kuali.ole</groupId>
-        <version>2.1-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.ole</groupId>
     <artifactId>ole-docstore-webapp</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
