@@ -732,9 +732,9 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
         JSONArray clonedDataMapping = getClonedDataMappingsJSONArray(holdingsJSON);
 
-        Map<String, List<HoldingsRecordAndDataMapping>> matchedHoldingsByMatchPoint = new HashMap<String, List<HoldingsRecordAndDataMapping>>();
 
         for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
+            Map<String, List<HoldingsRecordAndDataMapping>> matchedHoldingsByMatchPoint = new HashMap<String, List<HoldingsRecordAndDataMapping>>();
             HoldingsRecord holdingsRecord = iterator.next();
             if (holdingsRecord.getHoldingsType().equals(docType)) {
 
@@ -783,29 +783,30 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
 
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-        }
 
-        for (Iterator<String> holdingsRecordIterator = matchedHoldingsByMatchPoint.keySet().iterator(); holdingsRecordIterator.hasNext(); ) {
-            String key = holdingsRecordIterator.next();
-            if (matchedHoldingsByMatchPoint.get(key).size() == 1) {
-                holdingsRecordAndDataMappings.add(matchedHoldingsByMatchPoint.get(key).get(0));
-            } else {
-                if (docType.equalsIgnoreCase(PHoldings.PRINT)) {
-                    Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
-                    if (null != multipleMatchedHoldings) {
-                        multipleMatchedHoldings = multipleMatchedHoldings + matchedHoldingsByMatchPoint.size();
-                    } else {
-                        multipleMatchedHoldings = matchedHoldingsByMatchPoint.size();
+
+            for (Iterator<String> holdingsRecordIterator = matchedHoldingsByMatchPoint.keySet().iterator(); holdingsRecordIterator.hasNext(); ) {
+                String key = holdingsRecordIterator.next();
+                if (matchedHoldingsByMatchPoint.get(key).size() == 1) {
+                    holdingsRecordAndDataMappings.add(matchedHoldingsByMatchPoint.get(key).get(0));
+                } else {
+                    if (docType.equalsIgnoreCase(PHoldings.PRINT)) {
+                        Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
+                        if (null != multipleMatchedHoldings) {
+                            multipleMatchedHoldings = multipleMatchedHoldings + matchedHoldingsByMatchPoint.size();
+                        } else {
+                            multipleMatchedHoldings = matchedHoldingsByMatchPoint.size();
+                        }
+                        exchange.add("multipleMatchedHoldings", multipleMatchedHoldings);
+                    } else if (docType.equalsIgnoreCase(EHoldings.ELECTRONIC)) {
+                        Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
+                        if (null != multipleMatchedEHoldings) {
+                            multipleMatchedEHoldings = multipleMatchedEHoldings + matchedHoldingsByMatchPoint.size();
+                        } else {
+                            multipleMatchedEHoldings = matchedHoldingsByMatchPoint.size();
+                        }
+                        exchange.add("multipleMatchedEHoldings", multipleMatchedEHoldings);
                     }
-                    exchange.add("multipleMatchedHoldings", multipleMatchedHoldings);
-                } else if (docType.equalsIgnoreCase(EHoldings.ELECTRONIC)) {
-                    Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
-                    if (null != multipleMatchedEHoldings) {
-                        multipleMatchedEHoldings = multipleMatchedEHoldings + matchedHoldingsByMatchPoint.size();
-                    } else {
-                        multipleMatchedEHoldings = matchedHoldingsByMatchPoint.size();
-                    }
-                    exchange.add("multipleMatchedEHoldings", multipleMatchedEHoldings);
                 }
             }
         }

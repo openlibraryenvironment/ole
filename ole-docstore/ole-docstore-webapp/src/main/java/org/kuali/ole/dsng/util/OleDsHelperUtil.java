@@ -59,6 +59,18 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
         return returnValue;
     }
 
+    public boolean getBooleanValueFromJsonObject(JSONObject jsonObject, String key) {
+        boolean returnValue = false;
+        try {
+            if (jsonObject.has(key)) {
+                returnValue = jsonObject.getBoolean(key);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
     public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
         JSONArray returnValue = null;
         try {

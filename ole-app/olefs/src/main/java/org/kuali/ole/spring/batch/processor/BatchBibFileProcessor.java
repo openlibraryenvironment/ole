@@ -191,6 +191,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     jsonObject.put(OleNGConstants.IND2,batchProfileFieldOperation.getInd2());
                     jsonObject.put(OleNGConstants.SUBFIELD,batchProfileFieldOperation.getSubField());
                     jsonObject.put(OleNGConstants.VALUE,batchProfileFieldOperation.getValue());
+                    jsonObject.put(OleNGConstants.IGNORE_GPF,batchProfileFieldOperation.getIgnoreGPF());
                     fieldOps.put(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -274,7 +275,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 if (batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                     String addOperation = batchProfileAddOrOverlay.getAddOperation();
                     if (StringUtils.isNotBlank(addOperation) && (addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE)
-                            || addOperation.equalsIgnoreCase(OleNGConstants.OVERLAY_MULTIPLE))) {
+                            || addOperation.equalsIgnoreCase(OleNGConstants.OVERLAY_MULTIPLE) || addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_DELETE_ALL_EXISTING)
+                            || addOperation.equalsIgnoreCase(OleNGConstants.CREATE_MULTIPLE_KEEP_ALL_EXISTING))) {
                         String dataField = batchProfileAddOrOverlay.getDataField();
                         String ind1 = batchProfileAddOrOverlay.getInd1();
                         String ind2 = batchProfileAddOrOverlay.getInd2();

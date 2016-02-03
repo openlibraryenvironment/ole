@@ -171,26 +171,29 @@ public class UpdateBibHandler extends BibHandler {
             String ind2 = getStringValueFromJsonObject(fieldOption,OleNGConstants.IND2);
             String subfield = getStringValueFromJsonObject(fieldOption,OleNGConstants.SUBFIELD);
             String value = getStringValueFromJsonObject(fieldOption,OleNGConstants.VALUE);
+            Boolean ignoreGPF = getBooleanValueFromJsonObject(fieldOption,OleNGConstants.IGNORE_GPF);
 
-            List<VariableField> dataFields = record.getVariableFields(dataField);
+            if (null != ignoreGPF && ignoreGPF == Boolean.FALSE) {
+                List<VariableField> dataFields = record.getVariableFields(dataField);
 
-            if (CollectionUtils.isNotEmpty(dataFields)) {
-                if(StringUtils.isBlank(ind1) && StringUtils.isBlank(ind2) && StringUtils.isBlank(subfield)){
-                    return dataFields;
-                }
-
-                List<VariableField> fieldsToReturn = new ArrayList<VariableField>();
-
-                for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-                    DataField field = (DataField) iterator.next();
-                    boolean matched = isMatched(field, ind1, ind2, subfield, value);
-                    if(matched) {
-                        fieldsToReturn.add(field);
+                if (CollectionUtils.isNotEmpty(dataFields)) {
+                    if(StringUtils.isBlank(ind1) && StringUtils.isBlank(ind2) && StringUtils.isBlank(subfield)){
+                        return dataFields;
                     }
-                }
 
-                if(CollectionUtils.isNotEmpty(fieldsToReturn)){
-                    return fieldsToReturn;
+                    List<VariableField> fieldsToReturn = new ArrayList<VariableField>();
+
+                    for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
+                        DataField field = (DataField) iterator.next();
+                        boolean matched = isMatched(field, ind1, ind2, subfield, value);
+                        if(matched) {
+                            fieldsToReturn.add(field);
+                        }
+                    }
+
+                    if(CollectionUtils.isNotEmpty(fieldsToReturn)){
+                        return fieldsToReturn;
+                    }
                 }
             }
         }
