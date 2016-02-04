@@ -242,7 +242,8 @@
                 <bean id="detailed_Item_View_itemCallNumber" parent="Uif-DataField" p:label="Item Call Number" p:width="10%" p:propertyName="itemCallNumber"/>
                 <bean id="detailed_Item_View_itemCopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:width="10%" p:propertyName="itemCopyNumber"/>
                 <bean id="detailed_Item_View_itemEnumeration" parent="Uif-DataField" p:label="Item Enumeration" p:width="10%" p:propertyName="itemEnumeration"/>
-                <bean id="detailed_Item_View_itemChronologyOwnLocation" parent="Uif-DataField" p:width="10%" p:label="Item Chronology Own Location" p:propertyName="itemChronologyOwnLocation"/>
+                <bean id="detailed_Item_View_itemChronology" parent="Uif-DataField" p:width="10%" p:label="Item Chronology" p:propertyName="itemChronology"/>
+                <bean id="detailed_Item_View_itemOwnLocation" parent="Uif-DataField" p:width="10%" p:label="Item Own Location" p:propertyName="itemOwnLocation"/>
                 <bean id="detailed_Item_View_itemCheckOutDate" parent="Uif-DataField" p:label="Check-Out Date" p:width="10%" p:propertyName="checkOutDate"/>
                 <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
                 <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
