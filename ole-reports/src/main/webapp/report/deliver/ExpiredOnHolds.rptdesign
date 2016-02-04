@@ -112,18 +112,16 @@ if(params["Pickup Location"]!=null &amp;&amp; params["Pickup Location"]!=''){
 dbVendor = deliverReport.getDbVendor();
 if(dbVendor!=null){
 	if(dbVendor.equalsIgnoreCase("oracle")){
-		this.queryText = this.queryText+" and (CURRENT_DATE - (ODI.ITEM_STATUS_DATE_UPDATED + OCD.HLD_DAYS)) > 0";
-		this.queryText = this.queryText.replace("?","(ODI.ITEM_STATUS_DATE_UPDATED + OCD.HLD_DAYS)");
+		this.queryText = this.queryText+" and ODR.HOLD_EXP_DATE <= CURRENT_DATE";
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
-	    this.queryText = this.queryText+" and (TIMEDIFF(NOW(), DATE_ADD(ODI.ITEM_STATUS_DATE_UPDATED,INTERVAL OCD.HLD_DAYS DAY)) / 3600) > 0";
-	    this.queryText = this.queryText.replace("?","DATE_ADD(ODI.ITEM_STATUS_DATE_UPDATED,INTERVAL OCD.HLD_DAYS DAY)");
+	    this.queryText = this.queryText+" and date(ODR.HOLD_EXP_DATE) <= CURRENT_DATE";
 	}
 }]]></method>
             <method name="onFetch"><![CDATA[dataSetRow["Shelving Location"] = deliverReport.getShelvingLocation(dataSetRow["Location"],dataSetRow["Location Level"]);]]></method>
             <property name="dataSource">ExpiredOnHolds</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select 
-? as "Hold Shelf Expiration Date",
+ODR.HOLD_EXP_DATE as "Hold Shelf Expiration Date",
 OPEV.LAST_NM as "Patron Last Name",
 OPEV.FIRST_NM as "Patron First Name",
 ODI.BARCODE as "Item Barcode",
@@ -279,7 +277,7 @@ OLE_CRCL_DSK_T]]></xml-property>
                     <property name="name">Hold Shelf Expiration Date</property>
                     <text-property name="displayName">Hold Shelf Expiration Date</text-property>
                     <expression name="expression" type="javascript">dataSetRow["Hold Shelf Expiration Date"]</expression>
-                    <property name="dataType">date-time</property>
+                    <property name="dataType">date</property>
                 </structure>
                 <structure>
                     <property name="name">Patron Last Name</property>

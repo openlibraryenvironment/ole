@@ -1994,11 +1994,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         }
     }
 
-    public void deleteExpiredOnHoldNotices(List<OleDeliverRequestBo> expiredOnHoldNoticeBos) {
-        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<>();
+    public void deleteExpiredOnHoldNotices(List<OleDeliverRequestBo> expiredOnHoldNoticeBos, String operatorId) {
         for (OleDeliverRequestBo oleDeliverRequestBo : expiredOnHoldNoticeBos) {
             try {
-                deleteRequest(oleDeliverRequestBo.getRequestId(), oleDeliverRequestBo.getItemUuid(), "  ", oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.HOLD_REQUEST_EXPIRED));
+                deleteRequest(oleDeliverRequestBo.getRequestId(), oleDeliverRequestBo.getItemUuid(),operatorId, oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.HOLD_REQUEST_EXPIRED));
             } catch (Exception e) {
 
             }
