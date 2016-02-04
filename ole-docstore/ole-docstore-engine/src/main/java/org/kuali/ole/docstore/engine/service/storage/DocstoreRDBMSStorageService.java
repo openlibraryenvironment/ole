@@ -369,7 +369,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
     public void processBibTrees(BibTrees bibTrees) {
         List<Future> futures = new ArrayList<>();
         String parameter = ParameterValueResolver.getInstance().getParameter("OLE", "OLE-DESC",
-                "Describe", "NUM_THREADS_FOR_PROCESSING_BIB");
+                "DESCRIBE", "NUM_THREADS_FOR_PROCESSING_BIB");
         OleStopWatch oleStopWatch = new OleStopWatch();
         LOG.info("NUM_THREADS_FOR_PROCESSING_BIB: " + parameter);
         ExecutorService executorService = Executors.newFixedThreadPool(StringUtils.isNotEmpty(parameter) ? Integer

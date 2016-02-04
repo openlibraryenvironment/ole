@@ -1,0 +1,30 @@
+body {
+    padding: 40px !important;
+}
+
+.messageClass {
+    background-color: #EEF7FE;
+    border: 1px solid #CCEFFC;
+    border-radius: 4px 4px 4px 4px;
+    color: #3A87AD;
+    margin-bottom: 18px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.panel-title {
+    color: #1150B0;
+    font-size: 18px;
+}
+
+.panel-title:focus, .panel-title:hover {
+    color: #0a306a;
+}
+
+.batchTable {
+    margin-bottom: 0px;
+}
+
+.batchTable tr:hover {
+    background-color: #f5f5f5;
+}

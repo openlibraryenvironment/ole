@@ -439,27 +439,29 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
         LOG.info("HoldingsOlemlIndexer class");
         Holdings holdings = (Holdings) object;
         List<SolrDocument> solrDocumentList = getSolrDocumentBySolrId(holdings.getId());
-        SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
+        if (CollectionUtils.isNotEmpty(solrDocumentList)) {
+            SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
 
-        if (holdingsSolrDocument != null) {
-            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
-            SolrInputDocument solrDocForHolding = getSolrInputFieldsForHoldings(holdings);
-            addBibInfoForHoldingsOrItems(solrDocForHolding, holdingsSolrDocument);
+            if (holdingsSolrDocument != null) {
+                Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+                SolrInputDocument solrDocForHolding = getSolrInputFieldsForHoldings(holdings);
+                addBibInfoForHoldingsOrItems(solrDocForHolding, holdingsSolrDocument);
 
-            DocstoreService docstoreService = new DocstoreServiceImpl();
-            HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
-            ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
-            for (Item item : holdingsTree.getItems()) {
-                itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, solrDocForHolding);
+                DocstoreService docstoreService = new DocstoreServiceImpl();
+                HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
+                ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
+                for (Item item : holdingsTree.getItems()) {
+                    itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, solrDocForHolding);
+                }
+
+                solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());
+                solrDocForHolding.addField(ITEM_IDENTIFIER, itemIdentifier);
+                Date date = new Date();
+                solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
+                solrDocForHolding.addField(DATE_UPDATED, date);
+                solrInputDocuments.add(solrDocForHolding);
+                addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
             }
-
-            solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());
-            solrDocForHolding.addField(ITEM_IDENTIFIER, itemIdentifier);
-            Date date = new Date();
-            solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
-            solrDocForHolding.addField(DATE_UPDATED, date);
-            solrInputDocuments.add(solrDocForHolding);
-            addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
         }
     }
 

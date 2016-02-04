@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class ItemStatisticalSearchRecord extends PersistableBusinessObjectBase
     private String itemId;
     private String statisticalSearchId;
 
+    @JsonIgnore
     private ItemRecord itemRecord;
     private StatisticalSearchRecord statisticalSearchRecord;
 
