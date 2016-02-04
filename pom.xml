@@ -23,9 +23,9 @@
         <module>ole-reports</module>
     </modules>
     <scm>
-        <connection>scm:svn:https://svn.kuali.org/repos/ole/trunk</connection>
-        <developerConnection>scm:svn:https://svn.kuali.org/repos/ole/trunk</developerConnection>
-        <url>https://svn.kuali.org/repos/ole/trunk</url>
+        <connection>scm:git:https://github.com/openlibraryenvironment/ole.git</connection>
+        <developerConnection>scm:git:https://github.com/openlibraryenvironment/ole</developerConnection>
+        <url>https://github.com/openlibraryenvironment/ole</url>
     </scm>
     <properties>
         <rice.impex.artifactId>rice-impex-server-bootstrap</rice.impex.artifactId>
