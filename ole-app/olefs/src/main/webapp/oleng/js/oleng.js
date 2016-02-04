@@ -23,3 +23,12 @@ var OLENG_CONSTANTS = {
     PROFILE_IMPORT : "../../rest/describe/profile/import"
 
 };
+
+var BATCH_CONSTANTS = {
+    PROFILE_TYPES : [
+        {id: 'orderRecordImport', value: 'Order Record Import'},
+        {id: 'invoiceImport', value: 'Invoice Import'},
+        {id: 'bibImport', value: 'Bib Import'}
+    ]
+
+};

@@ -49,7 +49,6 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         if(CollectionUtils.isNotEmpty(records)) {
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if(null != bibImportProfile) {
-                //Todo : Need to Enable bib import process
                 OleNGBibImportResponse oleNGBibImportResponse = processBibImport(records, bibImportProfile);
 
                 Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = new TreeMap<>();

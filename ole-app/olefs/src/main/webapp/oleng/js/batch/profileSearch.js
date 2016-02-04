@@ -7,12 +7,14 @@ var batchProfileSearchApp = angular.module('batchProfileSearchApp', ['ngLoadingS
 batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile','$http', function($scope,searchProfile,$http){
 
     $scope.profiles = [];
+    $scope.profileTypes = BATCH_CONSTANTS.PROFILE_TYPES;
 
     var url = OLENG_CONSTANTS.PROFILE_SEARCH;
     $scope.search = function(){
         $scope.profiles = [];
         var profileName = $scope.profileName;
-        searchProfile.searchProfile($scope,profileName, url);
+        var profileType = $scope.profileType;
+        searchProfile.searchProfile($scope,profileName, profileType, url);
     };
 
     $scope.showModal = false;
@@ -44,9 +46,10 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
 
 
 batchProfileSearchApp.service('searchProfile', ['$http', function ($http) {
-    this.searchProfile = function($scope,profileName,uploadUrl){
+    this.searchProfile = function($scope,profileName,profileType, uploadUrl){
         var data = {};
         data["profileName"] = profileName;
+        data["profileType"] = profileType;
         $http.post(uploadUrl, JSON.stringify(data), {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}

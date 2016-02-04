@@ -26,11 +26,9 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
     @Autowired
     private BatchProfileService batchProfileService;
 
-    public List<BatchProcessProfile> getBatchProcessProfiles(String profileName) {
-        if(org.apache.commons.lang3.StringUtils.isNotBlank(profileName)){
-            Map map = new HashedMap();
-            map.put(OleNGConstants.BATCH_PROCESS_PROFILE_NAME,profileName);
-            return (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, map);
+    public List<BatchProcessProfile> getBatchProcessProfiles(Map searchCriteriaMap) {
+        if(null != searchCriteriaMap && searchCriteriaMap.size() > 0){
+            return (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, searchCriteriaMap);
         } else {
             return (List<BatchProcessProfile>) getBusinessObjectService().findAll(BatchProcessProfile.class);
         }

@@ -160,6 +160,7 @@ public class OleNGConstants {
     public static final String DOC_TYPE = "docType";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
+    public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
     public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";
 
     public static final String SUCCESS = "Success";
