@@ -42,10 +42,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         int matchedBibsCount = 0;
         int unmatchedBibsCount = 0;
         int multipleMatchedBibsCount = 0;
-        for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
+        for (int index=0 ; index < records.size(); index++){
+            Record marcRecord = records.get(index);
             JSONObject jsonObject = null;
 
-            Record marcRecord = iterator.next();
             if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
                 String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
 
@@ -60,15 +60,15 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     if (null != results && results.size() == 1) {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
-                        jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
+                        jsonObject = prepareRequest(index,bibId, marcRecord, batchProcessProfile);
                         matchedBibsCount = matchedBibsCount + 1;
                     } else {
-                        jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                        jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
                         unmatchedBibsCount = unmatchedBibsCount + 1;
                     }
                 }
             } else {
-                jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                jsonObject = prepareRequest(index,null, marcRecord, batchProcessProfile);
                 unmatchedBibsCount = unmatchedBibsCount + 1;
             }
             jsonArray.put(jsonObject);
@@ -120,7 +120,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
      * main bibData json object that contains the respective holdings, items json objects.
      * @throws JSONException
      */
-    private JSONObject prepareRequest(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
+    private JSONObject prepareRequest(int recordIndex, String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
 
         JSONObject bibData = new JSONObject();
@@ -132,6 +132,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
+        bibData.put(OleNGConstants.INDEX, recordIndex);
         bibData.put(OleNGConstants.UPDATED_BY, updatedUserName);
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);

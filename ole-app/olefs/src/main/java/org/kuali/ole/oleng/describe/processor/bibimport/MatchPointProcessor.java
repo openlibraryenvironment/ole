@@ -29,7 +29,8 @@ public class MatchPointProcessor extends BatchUtil {
         if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
                 BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIBLIOGRAPHIC)) {
+                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIBLIOGRAPHIC) ||
+                        batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
                     String query = formSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPoint);
                     if(StringUtils.isNotBlank(query)){
                         queryList.add(query) ;

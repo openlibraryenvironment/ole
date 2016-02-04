@@ -4,26 +4,19 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.asr.handler.*;
-import org.kuali.ole.ncip.service.CirculationRestService;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
+import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
 import org.kuali.ole.utility.OleStopWatch;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by sheiksalahudeenm on 25/6/15.
@@ -37,6 +30,9 @@ public class BatchRestController {
 
     @Autowired
     private BatchOrderImportProcessor batchOrderImportProcessor;
+
+    @Autowired
+    private BatchInvoiceImportProcessor batchInvoiceImportProcessor;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
@@ -77,6 +73,8 @@ public class BatchRestController {
             return batchOrderImportProcessor;
         } else if(batchType.equalsIgnoreCase("Bib Import")) {
             return batchBibFileProcessor;
+        } else if(batchType.equalsIgnoreCase("Invoice Import")) {
+            return batchInvoiceImportProcessor;
         }
         return null;
     }

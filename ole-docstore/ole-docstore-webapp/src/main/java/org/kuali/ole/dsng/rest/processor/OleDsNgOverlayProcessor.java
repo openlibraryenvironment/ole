@@ -10,6 +10,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -66,6 +67,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
+                int recordIndex = bibJSONDataObject.getInt(OleNGConstants.INDEX);
+                bibResponse.setRecordIndex(recordIndex);
 
                 String ops = bibJSONDataObject.getString(OleNGConstants.OPS);
                 List<String> operationsList = getListFromJSONArray(ops);
@@ -118,7 +121,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                 processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 
-                bibResponse.setBibId(bibRecord.getBibId());
+                bibResponse.setBibId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" +bibRecord.getBibId());
 
                 processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
 
@@ -181,17 +184,19 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : createEHoldingsRecordAndDataMappings) {
                 HoldingsResponse holdingsResponse = new HoldingsResponse();
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
-                holdingsResponse.setOperation(OleNGConstants.CREATED);
-                holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
-                holdingsResponses.add(holdingsResponse);
+                if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
+                    holdingsResponse.setOperation(OleNGConstants.CREATED);
+                    holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
+                    holdingsResponses.add(holdingsResponse);
+                }
             }
         }
         if (CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateEHoldingsRecordAndDataMappings) {
                 HoldingsResponse holdingsResponse = new HoldingsResponse();
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
                 holdingsResponse.setOperation(OleNGConstants.UPDATED);
                 holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
                 holdingsResponses.add(holdingsResponse);
@@ -214,8 +219,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : createHoldingsRecordAndDataMappings) {
                 HoldingsResponse holdingsResponse = new HoldingsResponse();
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                if (null != holdingsRecord) {
-                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(OleNGConstants.CREATED);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
                     buildItemResponse(holdingsResponse, exchange, holdingsRecord);
@@ -228,8 +233,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateHoldingsRecordAndDataMappings) {
                 HoldingsResponse holdingsResponse = new HoldingsResponse();
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                if (null != holdingsRecord) {
-                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
+                if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
+                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(OleNGConstants.UPDATED);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
                     buildItemResponse(holdingsResponse, exchange, holdingsRecord);
@@ -255,7 +260,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
                 if (holdingsRecord.getHoldingsId().equals(itemRecord.getHoldingsId())) {
                     ItemResponse itemResponse = new ItemResponse();
-                    itemResponse.setItemId(itemRecord.getItemId());
+                    itemResponse.setItemId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML+ "-" + itemRecord.getItemId());
                     itemResponse.setOperation(OleNGConstants.CREATED);
                     itemResponses.add(itemResponse);
                 }

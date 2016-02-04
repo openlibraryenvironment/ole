@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Created by SheikS on 12/17/2015.
  */
-public interface InvoiceService {
-    public OleInvoiceDocument createInvoiceDocument(List<OleInvoiceRecord> oleInvoiceRecords) throws Exception;
+public interface OleNGInvoiceService {
+    public OleInvoiceDocument createNewInvoiceDocument() throws Exception;
+    public OleInvoiceDocument populateInvoiceDocWithOrderInformation(OleInvoiceDocument oleInvoiceDocument, List<OleInvoiceRecord> oleInvoiceRecords) throws Exception;
     public OleInvoiceDocument saveInvoiceDocument(OleInvoiceDocument oleInvoiceDocument);
 }

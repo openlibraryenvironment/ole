@@ -68,6 +68,8 @@ public class UpdateBibHandler extends BibHandler {
 
                 getBibDAO().save(bibRecord);
 
+                saveBibInfoRecord(bibRecord,false);
+
             }
 
         } catch (JSONException e) {

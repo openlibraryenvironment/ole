@@ -128,11 +128,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
         Map<String, Record> map = new HashMap<>();
 
-        for (Iterator<Record> iterator = unMatchedRecords.iterator(); iterator.hasNext(); ) {
-            Record record =  iterator.next();
+        for (int index = 0; index < unMatchedRecords.size(); index++ ) {
+            Record record =  unMatchedRecords.get(index);
             for (Iterator<BibResponse> recordIterator = oleNGBibImportResponse.getBibResponses().iterator(); recordIterator.hasNext(); ) {
                 BibResponse bibResponse = recordIterator.next();
-                if(bibResponse.getValueOf001().equalsIgnoreCase(getMarcRecordUtil().getControlFieldValue(record, "001"))){
+                if(bibResponse.getRecordIndex() == index){
                     map.put(bibResponse.getBibId(), record);
                 }
             }

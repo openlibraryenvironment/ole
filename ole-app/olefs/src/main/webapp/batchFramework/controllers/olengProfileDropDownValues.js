@@ -550,24 +550,29 @@ var transformationOperations = [
     {id: 'prepend', name: 'Prepend with Prefix'}
 ];
 
-var invoiceFields = [
-    {id: 'accountNumber', name: 'Account Number'},
-    {id: 'bookPlate', name: 'Book Plate'},
-    {id: 'currencyType', name: 'Currency Type'},
-    {id: 'ebook', name: 'E-Book'},
-    {id: 'exchangeRate', name: 'Exchange Rate'},
-    {id: 'fundCode', name: 'Fund Code'},
-    {id: 'invoiceDate', name: 'Invoice Date'},
-    {id: 'invoiceNumber', name: 'Invoice Number'},
-    {id: 'foreignListPrice', name: 'Invoiced Foreign Price'},
-    {id: 'listPrice', name: 'Invoiced Price'},
-    {id: 'itemDescription', name: 'Item Description'},
-    {id: 'financialObjectCode', name: 'Object Code'},
-    {id: 'quantity', name: 'Quantity'},
-    {id: 'requestor', name: 'Requestor'},
-    {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
-    {id: 'vendorNumber', name: 'Vendor Number'}
-];
+var invoiceFieldObject = {
+    matchPoint : [
+        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'}
+    ],
+    dataMapping : [
+        {id: 'accountNumber', name: 'Account Number'},
+        {id: 'bookPlate', name: 'Book Plate'},
+        {id: 'currencyType', name: 'Currency Type'},
+        {id: 'ebook', name: 'E-Book'},
+        {id: 'exchangeRate', name: 'Exchange Rate'},
+        {id: 'fundCode', name: 'Fund Code'},
+        {id: 'invoiceDate', name: 'Invoice Date'},
+        {id: 'invoiceNumber', name: 'Invoice Number'},
+        {id: 'foreignListPrice', name: 'Invoiced Foreign Price'},
+        {id: 'invoicePrice', name: 'Invoiced Price'},
+        {id: 'itemDescription', name: 'Item Description'},
+        {id: 'financialObjectCode', name: 'Object Code'},
+        {id: 'quantity', name: 'Quantity'},
+        {id: 'requestor', name: 'Requestor'},
+        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
+        {id: 'vendorNumber', name: 'Vendor Number'}
+    ]
+}
 
 var orderFields = [
     {id: 'accountNumber', name: 'Account Number'},
@@ -720,7 +725,7 @@ var dataMappingInvoice = {
     holdingsFields: holdingsMatchPoints,
     itemFields: itemMatchPoints,
     eHoldingsFields: eHoldingsDataMappings,
-    dataMappingFields: invoiceFields,
+    dataMappingFields: invoiceFieldObject.dataMapping,
     discountTypes: discountTypes,
     transferOptions: transferOptions,
     transferOption: 'Pre Transfer',

@@ -69,7 +69,16 @@ public class OleNGConstants {
         public static final String SPL_PROCESS_NOTE = "Special Processing Instruction Note";
         public static final String VNDR_INSTR_NOTE = "Vendor Instructions Note";
         public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
-        public static final String VENDOR_REFERENCE_NUMBER = "Vendor Reference Number";
+        public static final String BOOK_PLATE = "Book Plate";
+        public static final String EBOOK = "E-Book";
+        public static final String EXCHANGE_RATE = "Exchange Rate";
+        public static final String INVOICE_DATE = "Invoice Date";
+        public static final String INVOICE_NUMBER = "Invoice Number";
+        public static final String INVOICE_FOREIGN_PRICE = "Invoiced Foreign Price";
+        public static final String INVOICE_PRICE = "Invoiced Price";
+        public static final String ITEM_DESCRIPTION = "Item Description";
+        public static final String REQUESTOR = "Requestor";
+        public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
     }
 
     public static final String TAG_001 = "001";
@@ -192,6 +201,7 @@ public class OleNGConstants {
 
     public final static String CREATED = "Created";
     public final static String UPDATED = "Updated";
+    public final static String INDEX = "index";
 
     public static final String FORWARD_SLASH = "/";
 

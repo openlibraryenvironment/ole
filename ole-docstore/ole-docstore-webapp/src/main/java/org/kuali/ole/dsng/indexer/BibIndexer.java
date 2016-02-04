@@ -1,10 +1,7 @@
 package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.OleException;
@@ -12,7 +9,6 @@ import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
-import org.kuali.ole.docstore.common.exception.DocstoreSearchException;
 import org.kuali.ole.docstore.engine.service.index.solr.Languages;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;

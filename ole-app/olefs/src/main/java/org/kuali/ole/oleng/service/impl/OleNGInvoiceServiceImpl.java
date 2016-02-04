@@ -16,7 +16,7 @@ import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.oleng.service.InvoiceService;
+import org.kuali.ole.oleng.service.OleNGInvoiceService;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OleVendorAccountInfo;
@@ -54,16 +54,27 @@ import java.util.*;
 /**
  * Created by SheikS on 12/17/2015.
  */
-@Service("invoiceService")
-public class InvoiceServiceImpl implements InvoiceService {
+@Service("oleNGInvoiceService")
+public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InvoiceServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OleNGInvoiceServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private OlePurapService olePurapService;
     private OleInvoiceService oleInvoiceService;
 
     @Override
-    public OleInvoiceDocument createInvoiceDocument(List<OleInvoiceRecord> oleInvoiceRecords) throws Exception {
+    public OleInvoiceDocument createNewInvoiceDocument() throws Exception {
+        OleInvoiceDocument invoiceDocument = null;
+        try {
+            invoiceDocument = (OleInvoiceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("OLE_PRQS");
+        } catch (WorkflowException e) {
+            LOG.error(e.getMessage());
+        }
+        return invoiceDocument;
+    }
+
+    @Override
+    public OleInvoiceDocument populateInvoiceDocWithOrderInformation(OleInvoiceDocument oleInvoiceDocument, List<OleInvoiceRecord> oleInvoiceRecords) throws Exception {
         SimpleDateFormat invoiceDateFormat = new SimpleDateFormat("yyyyMMdd");
         UserSession userSession = new UserSession("ole-quickstart");
         Person person = userSession.getPerson();
@@ -75,7 +86,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Set<BigDecimal> unitPrize = new TreeSet<>();
         Set<String> version = new TreeSet<>();
 
-        OleInvoiceDocument oleInvoiceDocument = initiateInvoiceDocument(person);
+        initiateInvoiceDocument(oleInvoiceDocument,person);
 
         OleInvoiceRecord oleInvoiceRecord = oleInvoiceRecords.get(0);
 
@@ -209,13 +220,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return false;
     }
 
-    private OleInvoiceDocument initiateInvoiceDocument(Person currentUser) throws Exception {
-        OleInvoiceDocument invoiceDocument = null;
-        try {
-            invoiceDocument = (OleInvoiceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("OLE_PRQS");
-        } catch (WorkflowException e) {
-            LOG.error(e.getMessage());
-        }
+    private OleInvoiceDocument initiateInvoiceDocument(OleInvoiceDocument invoiceDocument, Person currentUser) throws Exception {
+
         invoiceDocument.initiateDocument();
 
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -258,7 +264,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private List<OlePurchaseOrderItem> getPurchaseOrderItemByVendorIdAndPOId(OleInvoiceRecord invoiceRecord, String[] vendorIds) {
         Map parameterMap = new HashMap();
-        //parameterMap.put("vendorItemPoNumber", invoiceRecord.getVendorItemIdentifier()); // Todo  : Need to verify the vendorItemPoNumber
+        parameterMap.put("vendorItemPoNumber", invoiceRecord.getVendorItemIdentifier()); // Todo  : Need to verify the vendorItemPoNumber
         parameterMap.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
         parameterMap.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
         if(invoiceRecord.getPurchaseOrderNumber()!=null) {
