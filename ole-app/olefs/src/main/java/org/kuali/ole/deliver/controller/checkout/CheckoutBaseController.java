@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.controller.checkout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.drools.compiler.lang.DRL5Expressions;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.checkin.ClaimsReturnedNoteHandler;
@@ -14,7 +15,9 @@ import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -429,9 +432,9 @@ public abstract class CheckoutBaseController extends CircUtilController {
             handleNoticeTablePopulation(itemRecord);
         }
 
-
         OleLoanDocument savedLoanDocument = getBusinessObjectService().save(currentLoanDocument);
         if (null != savedLoanDocument.getLoanId()) {
+            updateCirculationHistoryRecord(oleForm);
             processAndSavePatronNotes(oleForm, currentLoanDocument);
             Boolean solrUpdateResults = updateItemInfoInSolr(getUpdateParameters(currentLoanDocument, oleForm), itemRecord.getItemId(), true);
             if (solrUpdateResults) {
@@ -451,6 +454,70 @@ public abstract class CheckoutBaseController extends CircUtilController {
         LOG.info("Time taken to process the loan: " + (oleStopWatch.getTotalTime()) + " ms");
         return oleForm.getDroolsExchange();
     }
+
+    private void updateCirculationHistoryRecord(OLEForm oleForm) {
+        ItemRecord itemRecord = getItemRecord(oleForm);
+        Map<String,String> criteriaMap = new HashMap<>();
+        criteriaMap.put("loanId",currentLoanDocument.getLoanId());
+        List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
+        if(circulationHistoryRecords.size()==0){
+            OleItemSearch oleItemSearch = new DocstoreUtil().getOleItemSearchList(currentLoanDocument.getItemUuid());
+            OlePatronDocument olePatronDocument = currentLoanDocument.getOlePatron();
+            OleCirculationHistory oleCirculationHistory = new OleCirculationHistory();
+            oleCirculationHistory.setLoanId(currentLoanDocument.getLoanId());
+            oleCirculationHistory.setCirculationPolicyId(currentLoanDocument.getCirculationPolicyId());
+            oleCirculationHistory.setBibAuthor(oleItemSearch.getAuthor());
+            oleCirculationHistory.setBibTitle(oleItemSearch.getTitle());
+           // oleCirculationHistory.setCheckInDate(currentLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
+            oleCirculationHistory.setCreateDate(currentLoanDocument.getCreateDate());
+            oleCirculationHistory.setCirculationLocationId(currentLoanDocument.getCirculationLocationId());
+            oleCirculationHistory.setDueDate(currentLoanDocument.getLoanDueDate());
+            oleCirculationHistory.setItemId(currentLoanDocument.getItemId());
+            oleCirculationHistory.setStatisticalCategory(olePatronDocument.getStatisticalCategory());
+            oleCirculationHistory.setProxyPatronId(olePatronDocument.getProxyPatronId());
+            if (olePatronDocument.getOleBorrowerType() != null) {
+                oleCirculationHistory.setPatronTypeId(olePatronDocument.getOleBorrowerType().getBorrowerTypeId());
+            }
+            oleCirculationHistory.setPatronId(currentLoanDocument.getPatronId());
+            oleCirculationHistory.setOleRequestId(currentLoanDocument.getOleRequestId());
+            oleCirculationHistory.setItemUuid(currentLoanDocument.getItemUuid());
+            oleCirculationHistory.setItemLocation(itemRecord.getLocation());
+            oleCirculationHistory.setHoldingsLocation(getHoldingsLocation(itemRecord.getHoldingsId()));
+            setAffiliationDetails(oleCirculationHistory);
+            oleCirculationHistory.setItemTypeId(itemRecord.getItemTypeId());
+            oleCirculationHistory.setTemporaryItemTypeId(itemRecord.getTempItemTypeId());
+            oleCirculationHistory.setProxyPatronId(currentLoanDocument.getProxyPatronId());
+            oleCirculationHistory.setOperatorCreateId(currentLoanDocument.getLoanOperatorId());
+            Date checkinDate = new Date();
+            checkinDate.setDate(0);
+            checkinDate.setMonth(0);
+            checkinDate.setYear(0);
+            checkinDate.setTime(0);
+            oleCirculationHistory.setCheckInDate(checkinDate);
+            getBusinessObjectService().save(oleCirculationHistory);
+        }
+    }
+
+    private String getHoldingsLocation(String holdignsId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("holdingsId", holdignsId);
+        HoldingsRecord byPrimaryKey = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, map);
+        if (null != byPrimaryKey) {
+            return byPrimaryKey.getLocation();
+        }
+        return null;
+    }
+
+    protected  void  setAffiliationDetails(OleCirculationHistory oleCirculationHistory){
+        if(currentLoanDocument.getOlePatron().getEntity().getDefaultAffiliation()!=null){
+            oleCirculationHistory.setAffiliationId(currentLoanDocument.getEntity().getDefaultAffiliation().getAffiliationTypeCode());
+        if(currentLoanDocument.getOlePatron().getEntity().getPrimaryEmployment()!=null&& currentLoanDocument.getOlePatron().getEntity().getPrimaryEmployment().getPrimaryDepartmentCode()!=null){
+            oleCirculationHistory.setDeptId(currentLoanDocument.getOlePatron().getEntity().getPrimaryEmployment().getPrimaryDepartmentCode());
+        }
+        }
+
+    }
+
 
     private void processAndSavePatronNotes(OLEForm oleForm, OleLoanDocument currentLoanDocument) {
 
