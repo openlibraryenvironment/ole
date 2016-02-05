@@ -124,7 +124,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                 }
             }
             HashMap purchaseOrderItemMap = new HashMap();
-            List<OlePurchaseOrderItem> olePurchaseOrderItems = getPurchaseOrderItemByVendorIdAndPOId(oleInvoiceRecord, vendorIds);
+            List<OlePurchaseOrderItem> olePurchaseOrderItems = getPurchaseOrderItemByVendorIdAndPOId(invoiceRecord, vendorIds);
             if(CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
                 olePurchaseOrderItems = sortAndProcessPurchaseOrderItems(purchaseOrderItemMap, olePurchaseOrderItems);
             }

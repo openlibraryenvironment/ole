@@ -106,8 +106,12 @@ public class MatchPointProcessor extends BatchUtil {
             String query = iterator.next();
             appendQuery(queryBuilder,query);
         }
-        String query = OleNGConstants.BIB_QUERY_BEGIN + queryBuilder.toString() + "))";
-        return query;
+        if (StringUtils.isNotBlank(queryBuilder.toString())) {
+            String query = OleNGConstants.BIB_QUERY_BEGIN + queryBuilder.toString() + "))";
+            return query;
+        } else {
+            return null;
+        }
     }
 
     private void appendQuery(StringBuilder queryBuilder, String query) {

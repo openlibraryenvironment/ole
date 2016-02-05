@@ -62,10 +62,7 @@ public abstract class BibHandler extends Handler {
     public void replaceOrganizationCodeTo003Tag(Record record) {
         String organizationCode = ConfigContext.getCurrentContextConfig().getProperty("organization.marc.code");
         if(getMarcRecordUtil().hasField(record,OleNGConstants.TAG_003)) {
-            String controlField003Value = getMarcRecordUtil().getControlFieldValue(record, OleNGConstants.TAG_003);
-            if(StringUtils.isBlank(controlField003Value)) {
-                getMarcRecordUtil().updateControlFieldValue(record,OleNGConstants.TAG_003,organizationCode);
-            }
+            getMarcRecordUtil().updateControlFieldValue(record,OleNGConstants.TAG_003,organizationCode);
         } else {
             // If 003 tag is not available creating tag
             getMarcRecordUtil().addControlField(record,OleNGConstants.TAG_003,organizationCode);
