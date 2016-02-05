@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -190,8 +191,7 @@ public class PatronBillHelperService {
                         }*/
                         feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
-                        feeType.setItemChronology(itemContent.getChronology());
-                        feeType.setItemOwnLocation(getItemLocation(itemContent)!=null?getItemLocation(itemContent):getHoldingLocation(oleHoldings));
+                        feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                         feeType.setItemEnumeration(itemContent.getEnumeration());
                         if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                             feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());
@@ -222,21 +222,6 @@ public class PatronBillHelperService {
         return feeTypes;
     }
 
-    public String getItemLocation(Item itemContent){
-        String itemLocation = null;
-        if(itemContent!=null && itemContent.getLocation()!=null && itemContent.getLocation().getLocationLevel()!=null) {
-            itemLocation = itemContent.getLocation().getLocationLevel().getName()+"-"+itemContent.getLocation().getLocationLevel().getLocationLevel().getName();
-        }
-        return itemLocation;
-    }
-
-    public String getHoldingLocation(OleHoldings oleHoldingsContent){
-        String holdingLocation = null;
-        if(oleHoldingsContent!=null && oleHoldingsContent.getLocation().getLocationLevel()!=null){
-            holdingLocation=oleHoldingsContent.getLocation().getLocationLevel().getName()+"-"+oleHoldingsContent.getLocation().getLocationLevel().getLocationLevel().getName();
-        }
-        return holdingLocation;
-    }
     /**
      * This method will retrieve paymentStatusName based on paymentStatusId
      *
@@ -652,8 +637,7 @@ public class PatronBillHelperService {
                         }*/
                         feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
-                        feeType.setItemChronology(itemContent.getChronology());
-                        feeType.setItemOwnLocation(getItemLocation(itemContent)!=null?getItemLocation(itemContent):getHoldingLocation(oleHoldings));
+                        feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                         feeType.setItemEnumeration(itemContent.getEnumeration());
                         if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                             feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());

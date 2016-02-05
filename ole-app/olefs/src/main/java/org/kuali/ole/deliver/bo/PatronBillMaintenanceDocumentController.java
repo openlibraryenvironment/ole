@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
@@ -23,6 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintenanceUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataObjectAuthorizationService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +63,6 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(org.kuali.ole.deliver.bo.PatronBillMaintenanceDocumentController.class);
     private BusinessObjectService businessObjectService;
     private DocstoreClientLocator docstoreClientLocator;
-    private PatronBillHelperService patronBillHelperService;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -81,13 +83,6 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
-    }
-
-    public PatronBillHelperService getPatronBillHelperService() {
-        if(patronBillHelperService!=null){
-            patronBillHelperService=new PatronBillHelperService();
-        }
-        return patronBillHelperService;
     }
 
     /**
@@ -278,7 +273,7 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                         } else if (fieldName.equalsIgnoreCase("author") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("bibliographic")) {
                             feeType.setItemAuthor(fieldValue);
                         } else if (fieldName.equalsIgnoreCase("itemChronology") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-                            feeType.setItemChronology(fieldValue);
+                            feeType.setItemChronologyOwnLocation(fieldValue);
                         } else if (fieldName.equalsIgnoreCase("itemEnumration") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
                             feeType.setItemEnumeration(fieldValue);
                         } else if (fieldName.equalsIgnoreCase("callnumber") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
@@ -336,8 +331,7 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                     }*/
                     feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
-                    feeType.setItemChronology(itemContent.getChronology());
-                    feeType.setItemOwnLocation(getPatronBillHelperService().getItemLocation(itemContent)!=null?getPatronBillHelperService().getItemLocation(itemContent):getPatronBillHelperService().getHoldingLocation(oleHoldings));
+                    feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                     feeType.setItemEnumeration(itemContent.getEnumeration());
                     if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                         feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());
@@ -381,8 +375,7 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                     }*/
                     feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
-                    feeType.setItemChronology(itemContent.getChronology());
-                    feeType.setItemOwnLocation(getPatronBillHelperService().getItemLocation(itemContent)!=null?getPatronBillHelperService().getItemLocation(itemContent):getPatronBillHelperService().getHoldingLocation(oleHoldings));
+                    feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                     feeType.setItemEnumeration(itemContent.getEnumeration());
                     if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                         feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());

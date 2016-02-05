@@ -21,7 +21,6 @@ import org.kuali.ole.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.ole.module.purap.document.*;
-import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -1377,8 +1376,6 @@ public class PurapConstants {
         returnMap.put("paymentHistoryPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryInvoiceViews", PurchasingAccountsPayableDocumentBase.class);
-        returnMap.put("paymentHistoryInvoiceViews", null);
-        returnMap.put("invoiceDocuments", OlePurchaseOrderItem.class);
         return returnMap;
     }
 
