@@ -254,6 +254,7 @@ public class PurapPropertyConstants {
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
 
     public static final String DOC_HDR_ID = "doc_hdr_id";
+    public static final String APP_DOC_STAT = "appDocStatus";
 
 }
 
