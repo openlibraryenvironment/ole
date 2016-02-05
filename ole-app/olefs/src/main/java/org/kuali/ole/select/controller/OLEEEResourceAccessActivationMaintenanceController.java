@@ -216,7 +216,29 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
 
     @Override
     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
+        MaintenanceDocumentForm forms = (MaintenanceDocumentForm) form;
+        org.kuali.rice.krad.maintenance.MaintenanceDocument oldMaintenanceDocument =  (MaintenanceDocument)documentService.getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
+        OLEEResourceAccessActivation oldOleeResourceAccess  = new OLEEResourceAccessActivation();
+        if(oldMaintenanceDocument != null){
+            oldOleeResourceAccess = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
+        }
+        OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+            OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
+            Timestamp timestamp = CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp();
+            oleeResourceEventLog.setEventDate(timestamp);
+            oleeResourceEventLog.setEventTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.getEventTypeName();
+            oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated : " +simpleDateFormat.format(oleeResourceAccess.getLastRecordLoadDate()));
+            oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
+            oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.setSaveFlag(true);
+            getBusinessObjectService().save(oleeResourceEventLog);
+        }
         getDocumentService().validateAndPersistDocument(maintenanceDocument,new SaveDocumentEvent(maintenanceDocument));
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_SAVED);
         return super.navigate(form, result, request, response);
@@ -247,7 +269,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
             oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
             oleeResourceEventLog.setSaveFlag(true);
-            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
+            getBusinessObjectService().save(oleeResourceEventLog);
         }
         if (!processAdHocRecipients(form, false, oleeResourceAccess)){
             String previousStatus = oleeResourceAccess.getAccessStatus();
@@ -350,7 +372,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
             oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
             oleeResourceEventLog.setSaveFlag(true);
-            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
+            getBusinessObjectService().save(oleeResourceEventLog);
         }
         if (!processAdHocRecipients(form, true, oleeResourceAccess)){
             oleeResourceAccess.setAdHocUserExists(false);
