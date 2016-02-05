@@ -85,7 +85,7 @@
                 <bean id="item_CallNumber" parent="Uif-DataField" p:label="Item Call Number" p:propertyName="feeType.itemCallNumber" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="item_CopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:propertyName="feeType.itemCopyNumber" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="item_Enumeration" parent="Uif-DataField" p:label="Item Enumeration" p:propertyName="feeType.itemEnumeration" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
-                <bean id="item_ChronologyOwnLocation" parent="Uif-DataField" p:label="Item Chronology Own Location" p:propertyName="feeType.itemChronologyOwnLocation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_ChronologyOwnLocation" parent="Uif-DataField" p:label="Item Chronology Own Location" p:propertyName="feeType.itemChronology" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
             </list>
         </property>
     </bean>
