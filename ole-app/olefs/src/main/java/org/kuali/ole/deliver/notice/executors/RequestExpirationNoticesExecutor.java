@@ -37,7 +37,7 @@ public class RequestExpirationNoticesExecutor extends RequestNoticesExecutor{
 
     @Override
     protected void postProcess() {
-
+        super.deleteNotices(filteredDeliverNotices);
     }
 
     @Override
