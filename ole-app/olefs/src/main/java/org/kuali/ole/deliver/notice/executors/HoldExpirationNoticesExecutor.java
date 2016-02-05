@@ -40,7 +40,7 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
 
     @Override
     protected void postProcess() {
-        getOleDeliverRequestHelperService().deleteExpiredOnHoldNotices(deliverRequestBos);
+        getOleDeliverRequestHelperService().deleteExpiredOnHoldNotices(deliverRequestBos, operatorId);
         //To do create the request history record and delete the record from the request table
     }
 
