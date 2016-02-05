@@ -22,6 +22,7 @@ import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -488,12 +489,17 @@ public abstract class CheckoutBaseController extends CircUtilController {
             oleCirculationHistory.setTemporaryItemTypeId(itemRecord.getTempItemTypeId());
             oleCirculationHistory.setProxyPatronId(currentLoanDocument.getProxyPatronId());
             oleCirculationHistory.setOperatorCreateId(currentLoanDocument.getLoanOperatorId());
-            Date checkinDate = new Date();
-            checkinDate.setDate(1);
-            checkinDate.setMonth(1);
-            checkinDate.setYear(1000);
-            checkinDate.setTime(1);
-            oleCirculationHistory.setCheckInDate(checkinDate);
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Timestamp checkInDate = new Timestamp(System.currentTimeMillis());
+            try{
+                Date date = dateFormat.parse("1/1/1000");
+                long time = date.getTime();
+                checkInDate=new Timestamp(time);
+            }catch(Exception e){
+                LOG.info("Exception occured while setting the checkin date for circulation history record for the item with item Barcode : "+oleCirculationHistory.getItemId()+" Loan Id : "+oleCirculationHistory.getLoanId());
+                LOG.error(e,e);
+            }
+            oleCirculationHistory.setCheckInDate(checkInDate);
             getBusinessObjectService().save(oleCirculationHistory);
         }
     }
