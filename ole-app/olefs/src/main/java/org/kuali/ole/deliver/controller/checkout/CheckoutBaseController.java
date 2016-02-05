@@ -489,10 +489,10 @@ public abstract class CheckoutBaseController extends CircUtilController {
             oleCirculationHistory.setProxyPatronId(currentLoanDocument.getProxyPatronId());
             oleCirculationHistory.setOperatorCreateId(currentLoanDocument.getLoanOperatorId());
             Date checkinDate = new Date();
-            checkinDate.setDate(0);
-            checkinDate.setMonth(0);
-            checkinDate.setYear(0);
-            checkinDate.setTime(0);
+            checkinDate.setDate(1);
+            checkinDate.setMonth(1);
+            checkinDate.setYear(1000);
+            checkinDate.setTime(1);
             oleCirculationHistory.setCheckInDate(checkinDate);
             getBusinessObjectService().save(oleCirculationHistory);
         }
