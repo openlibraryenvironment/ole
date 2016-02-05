@@ -777,34 +777,20 @@ public abstract class CheckinBaseController extends CircUtilController {
     private void createCirculationHistoryAndTemporaryHistoryRecords(OleLoanDocument oleLoanDocument, OleItemSearch oleItemSearch, ItemRecord itemRecord) throws Exception {
         try {
             OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();
-            OleCirculationHistory oleCirculationHistory = new OleCirculationHistory();
-            oleCirculationHistory.setLoanId(oleLoanDocument.getLoanId());
-            oleCirculationHistory.setCirculationPolicyId(oleLoanDocument.getCirculationPolicyId());
-            oleCirculationHistory.setBibAuthor(oleItemSearch.getAuthor());
-            oleCirculationHistory.setBibTitle(oleItemSearch.getTitle());
+            Map<String,String> criteriaMap = new HashMap<>();
+            criteriaMap.put("loanId",oleLoanDocument.getLoanId());
+            List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
+            if(circulationHistoryRecords.size()>0){
+            OleCirculationHistory oleCirculationHistory =  circulationHistoryRecords.get(0);
             oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
-            oleCirculationHistory.setCreateDate(oleLoanDocument.getCreateDate());
-            oleCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
             oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
-            oleCirculationHistory.setItemId(oleLoanDocument.getItemId());
             oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
             oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
-            oleCirculationHistory.setStatisticalCategory(olePatronDocument.getStatisticalCategory());
             oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
-            oleCirculationHistory.setProxyPatronId(olePatronDocument.getProxyPatronId());
-            if (olePatronDocument.getOleBorrowerType() != null) {
-                oleCirculationHistory.setPatronTypeId(olePatronDocument.getOleBorrowerType().getBorrowerTypeId());
-            }
-            oleCirculationHistory.setPatronId(oleLoanDocument.getPatronId());
             oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
             oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
-            oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
-            oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
-            oleCirculationHistory.setItemLocation(itemRecord.getLocation());
-            oleCirculationHistory.setHoldingsLocation(getHoldingsLocation(itemRecord.getHoldingsId()));
-
             OleCirculationHistory savedCircHistoryRecord = getBusinessObjectService().save(oleCirculationHistory);
-
+            }
             OleTemporaryCirculationHistory oleTemporaryCirculationHistory = new OleTemporaryCirculationHistory();
             oleTemporaryCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
             oleTemporaryCirculationHistory.setOlePatronId(oleLoanDocument.getPatronId());
