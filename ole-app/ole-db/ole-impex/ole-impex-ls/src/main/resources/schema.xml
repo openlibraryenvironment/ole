@@ -1125,7 +1125,7 @@
         <unique name="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
             <unique-column name="OLE_PTRN_ID"/>
             <unique-column name="PTRN_Q_POS"/>
-            <unique-column name="ITM_ID"/>
+            <unique-column name="ITEM_UUID"/>
         </unique>
         <index name="flk1">
             <index-column name="OLE_RQST_TYP_ID"/>
