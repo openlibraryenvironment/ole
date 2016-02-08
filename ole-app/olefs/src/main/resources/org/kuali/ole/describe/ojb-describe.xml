@@ -536,9 +536,9 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchProcessJob" table="OLE_NG_BAT_PRCS_T">
+    <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchProcessJob" table="OLE_NG_BAT_PRCS_JOB_T">
         <field-descriptor name="batchProcessId" column="PROCESS_ID" jdbc-type="INTEGER" primarykey="true" index="true"
-                          autoincrement="true" sequence-name="OLE_NG_BAT_PRCS_S"></field-descriptor>
+                          autoincrement="true" sequence-name="OLE_NG_BAT_PRCS_JOB_S"></field-descriptor>
         <field-descriptor name="batchProcessName" column="PROCESS_NAME" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="batchProcessType" column="PROCESS_TYPE" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="batchProfileId" column="PRF_ID" jdbc-type="INTEGER"></field-descriptor>
@@ -548,7 +548,7 @@
         <field-descriptor name="createdOn" column="CREATED_ON" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-        <collection-descriptor name="batchJobList" element-class-ref="org.kuali.ole.oleng.batch.process.model.BatchJob"
+        <collection-descriptor name="batchJobDetailsList" element-class-ref="org.kuali.ole.oleng.batch.process.model.BatchJobDetails"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" orderby="jobId" sort="DESC">
             <inverse-foreignkey field-ref="batchProcessId"/>
@@ -558,9 +558,9 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchJob" table="OLE_NG_BAT_JOB_T">
+    <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchJobDetails" table="OLE_NG_BAT_JOB_DETAILS_T">
         <field-descriptor name="jobId" column="JOB_ID" jdbc-type="INTEGER" primarykey="true" index="true"
-                          autoincrement="true" sequence-name="OLE_NG_BAT_JOB_S"></field-descriptor>
+                          autoincrement="true" sequence-name="OLE_NG_BAT_JOB_DETAILS_S"></field-descriptor>
         <field-descriptor name="jobName" column="JOB_NAME" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="batchProcessId" column="PROCESS_ID" jdbc-type="INTEGER"></field-descriptor>
         <field-descriptor name="batchProcessType" column="PROCESS_TYPE" jdbc-type="VARCHAR"></field-descriptor>
