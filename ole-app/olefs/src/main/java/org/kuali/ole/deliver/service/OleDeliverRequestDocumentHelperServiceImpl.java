@@ -1253,7 +1253,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     private void setRequestQueuePositionForOnholdItem(List<OleDeliverRequestBo> finalList, String itemStatus, List<OleDeliverRequestBo> recallHoldList, List<OleDeliverRequestBo> holdHoldList, List<OleDeliverRequestBo> pageHoldList, List<OleDeliverRequestBo> asrList) {
         OleDeliverRequestBo oleDeliverRequestBo1;
-        if(itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) && (CollectionUtils.isNotEmpty(holdHoldList) || CollectionUtils.isNotEmpty(recallHoldList) || CollectionUtils.isNotEmpty(pageHoldList) || CollectionUtils.isNotEmpty(asrList))) {
+        if(StringUtils.isNotBlank(itemStatus) && itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) && (CollectionUtils.isNotEmpty(holdHoldList) || CollectionUtils.isNotEmpty(recallHoldList) || CollectionUtils.isNotEmpty(pageHoldList) || CollectionUtils.isNotEmpty(asrList))) {
             if(CollectionUtils.isNotEmpty(recallHoldList)) {
                 for (int x = 0; x < recallHoldList.size(); x++) {
                     oleDeliverRequestBo1 = (OleDeliverRequestBo) ObjectUtils.deepCopy(recallHoldList.get(x));
@@ -1994,11 +1994,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         }
     }
 
-    public void deleteExpiredOnHoldNotices(List<OleDeliverRequestBo> expiredOnHoldNoticeBos) {
-        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<>();
+    public void deleteExpiredOnHoldNotices(List<OleDeliverRequestBo> expiredOnHoldNoticeBos, String operatorId) {
         for (OleDeliverRequestBo oleDeliverRequestBo : expiredOnHoldNoticeBos) {
             try {
-                deleteRequest(oleDeliverRequestBo.getRequestId(), oleDeliverRequestBo.getItemUuid(), "  ", oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.HOLD_REQUEST_EXPIRED));
+                deleteRequest(oleDeliverRequestBo.getRequestId(), oleDeliverRequestBo.getItemUuid(),operatorId, oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.HOLD_REQUEST_EXPIRED));
             } catch (Exception e) {
 
             }

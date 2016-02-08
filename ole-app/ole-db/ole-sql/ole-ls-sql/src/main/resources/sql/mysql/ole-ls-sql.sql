@@ -1677,6 +1677,8 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
         , CHECK_IN_DT_TIME DATETIME NOT NULL
         , CHECK_IN_OPTR_ID VARCHAR(40)
         , CHECK_IN_MACH_ID VARCHAR(100)
+        , ITEM_TYP_ID VARCHAR(100)
+        , TEMP_ITEM_TYP_ID VARCHAR(100)
         , ITEM_UUID VARCHAR(100) NOT NULL
     
     , CONSTRAINT OLE_DLVR_CIRC_RECORDP1 PRIMARY KEY(CIR_HIS_REC_ID)
@@ -1686,15 +1688,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 
@@ -2158,7 +2160,7 @@ CREATE TABLE OLE_DLVR_RQST_T
     
     , CONSTRAINT OLE_DLVR_RQST_TP1 PRIMARY KEY(OLE_RQST_ID)
 
-    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITM_ID)
+    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITEM_UUID)
 
 
 

@@ -606,14 +606,12 @@ public class DocstoreServiceImpl implements DocstoreService {
             getDocstoreStorageService().deleteBibs(bibIds);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting bib records ", e);
-            throw e;
         }
         try {
             getDocstoreIndexService().deleteBibs(bibIds);
         } catch (Exception e) {
             LOG.error("Exception occurred while indexing bib records after deletion", e);
             docstoreStorageService.rollback();
-            throw e;
         }
     }
 

@@ -1370,15 +1370,15 @@ public class PurapConstants {
         returnMap.put(PurapPropertyConstants.ACCOUNT_IDENTIFIER, PurchaseOrderAccount.class);
         returnMap.put(PurapPropertyConstants.PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER, PurchaseOrderVendorQuote.class);
         returnMap.put("relatedRequisitionViews", PurchasingAccountsPayableDocumentBase.class);
-        returnMap.put("relatedViews", PurchasingAccountsPayableDocumentBase.class);
-        returnMap.put("invoiceDocuments", OlePurchaseOrderItem.class);
         returnMap.put("relatedPurchaseOrderViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("relatedPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("relatedInvoiceViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("relatedCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("paymentHistoryInvoiceViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryInvoiceViews", null);
+        returnMap.put("invoiceDocuments", OlePurchaseOrderItem.class);
         return returnMap;
     }
 

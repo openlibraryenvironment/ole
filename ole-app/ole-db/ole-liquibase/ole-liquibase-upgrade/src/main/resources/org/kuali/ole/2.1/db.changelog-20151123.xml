@@ -215,6 +215,24 @@
         </update>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T1">
+        <addColumn
+                tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="ITEM_TYP_ID"   type="VARCHAR(100)"/>
+            <column name="TEMP_ITEM_TYP_ID"   type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
+        <dropUniqueConstraint uniqueColumns="OLE_PTRN_ID,PTRN_Q_POS,ITM_ID"
+                              constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                              tableName="OLE_DLVR_RQST_T"/>
+
+        <addUniqueConstraint columnNames="OLE_PTRN_ID,PTRN_Q_POS,ITEM_UUID"
+                             constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                             tableName="OLE_DLVR_RQST_T"/>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_T">
         <createTable tableName="OLE_NG_BAT_PRF_T">
             <column name="PRF_ID"   type="INTEGER(10)">
@@ -250,5 +268,7 @@
                 startWith="1"
                 tableName="OLE_NG_BAT_PRF_S"/>
     </changeSet>
+
+
 
 </databaseChangeLog>
