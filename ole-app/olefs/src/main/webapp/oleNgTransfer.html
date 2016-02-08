@@ -6,21 +6,44 @@
     <link rel="stylesheet" href="css/angular-ui-tree.min.css">
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/transfer.css">
+    <!--<link rel="stylesheet" href="css/datatables.min.css">-->
+    <link rel="stylesheet" href="css/oleng/bootstrap.min.css">
+    <link rel="stylesheet" href="css/oleng/bootstrap.css">
+    <link rel="stylesheet" href="css/oleng/bootstrap.css.map">
+    <link rel="stylesheet" href="css/oleng/bootstrap.theme.css">
+    <link rel="stylesheet" href="css/oleng/bootstrap.theme.css.map">
+    <link rel="stylesheet" href="css/oleng/bootstrap.theme.min.css">
+    <link rel="stylesheet" href="css/oleng/loading-bar.css">
+    <link rel="stylesheet" href="css/oleng/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="scripts/oleng/lib/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
     <script src="scripts/oleng/ui-tree.js"></script>
     <script src="scripts/oleng/controllers/transfer.js"></script>
     <script src="scripts/oleng/controllers/treesController.js"></script>
+    <script src="scripts/oleng/dirPagination.js"></script>
+    <script src="scripts/oleng/lib/angular-animate.js"></script>
+    <script src="scripts/oleng/lib/angular-loader.js"></script>
+    <script src="scripts/oleng/lib/angular-sanitize.js"></script>
+    <script src="scripts/oleng/lib/angular-scenario.js"></script>
+    <script src="scripts/oleng/lib/angular-mocks.js"></script>
+    <script src="scripts/oleng/lib/angular-strap.js"></script>
+    <!--<script src="script/oleng/datatables.min.js"></script>
+    <script src="script/oleng/angular-datatables.min.js"></script>-->
 </head>
 <body>
+<form name="searchForm">
 <div class="container">
-    <div class="jumbotron">
-        <h2>Transfer</h2>
+    <div>
+        <br><br>
+        <h2 style="display:inline !important; font-weight: bold;">Transfer Holdings/Item</h2>
+        <br><br>
     </div>
     <div ng-include="'templates/searchWorkBench.htm'"></div>
     <div ng-include="'templates/connectedTrees.html'"></div>
 </div>
+</form>
 </body>
 </html>
