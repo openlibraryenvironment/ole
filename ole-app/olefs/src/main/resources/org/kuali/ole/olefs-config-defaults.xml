@@ -452,8 +452,8 @@
     <param name="transaction.timeout" override="false">100000</param>
     <param name="batch.transaction.timeout" override="false">500000</param>
     <param name="batch.delete.directory">${staging.directory}/batchDelete</param>
-    <param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>
-    <param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>
+    <!--<param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>-->
+    <!--<param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>-->
     <param name="batch.gokbImport.directory">${staging.directory}/batchGOKbImport</param>
     <param name="batch.patron.directory">${staging.directory}/batchPatron</param>
     <param name="batch.location.directory">${staging.directory}/batchLocation</param>
@@ -491,5 +491,15 @@
     <param name="gokb.url">https://test-gokb.kuali.org/gokb/oai/</param>
 
     <param name="ole.reports.url">${ole.reports.url.base}</param>
+
+  <param name="batch.invoice.import.pending.directory">${staging.directory}/batch/invoice</param>
+  <param name="batch.invoice.import.done.directory">${staging.directory}/batch/invoice</param>
+  <param name="batch.invoice.import.problem.directory">${staging.directory}/batch/invoice</param>
+  <param name="batch.order.import.pending">${staging.directory}/batch/ordder</param>
+  <param name="batch.order.import.done">${staging.directory}/batch/ordder</param>
+  <param name="batch.order.import.problem">${staging.directory}/batch/ordder</param>
+  <param name="batch.bib.import.pending.directory">${staging.directory}/batch/bib</param>
+  <param name="batch.bib.import.done.directory">${staging.directory}/batch/bib</param>
+  <param name="batch.bib.import.problem.directory">${staging.directory}/batch/bib</param>
 
 </config>

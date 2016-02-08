@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -1687,15 +1688,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 
@@ -6544,12 +6545,12 @@ CREATE TABLE OLE_NG_BAT_PRF_T
 
 
 # -----------------------------------------------------------------------
-# OLE_NG_BAT_PRCS_T
+# OLE_NG_BAT_PRCS_JOB_T
 # -----------------------------------------------------------------------
-drop table if exists OLE_NG_BAT_PRCS_T
+drop table if exists OLE_NG_BAT_PRCS_JOB_T
 /
 
-CREATE TABLE OLE_NG_BAT_PRCS_T
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
 (
       PROCESS_ID INTEGER(10)
         , PROCESS_NAME VARCHAR(100)
@@ -6562,7 +6563,7 @@ CREATE TABLE OLE_NG_BAT_PRCS_T
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_PRCS_TP1 PRIMARY KEY(PROCESS_ID)
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(PROCESS_ID)
 
 
 
@@ -6578,12 +6579,12 @@ CREATE TABLE OLE_NG_BAT_PRCS_T
 
 
 # -----------------------------------------------------------------------
-# OLE_NG_BAT_JOB_T
+# OLE_NG_BAT_JOB_DETAILS_T
 # -----------------------------------------------------------------------
-drop table if exists OLE_NG_BAT_JOB_T
+drop table if exists OLE_NG_BAT_JOB_DETAILS_T
 /
 
-CREATE TABLE OLE_NG_BAT_JOB_T
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
 (
       JOB_ID INTEGER(10)
         , JOB_NAME VARCHAR(100)
@@ -6601,7 +6602,7 @@ CREATE TABLE OLE_NG_BAT_JOB_T
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_JOB_TP1 PRIMARY KEY(JOB_ID)
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_ID)
 
 
 
@@ -9413,29 +9414,29 @@ ALTER TABLE OLE_NG_BAT_PRF_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
-# OLE_NG_BAT_PRCS_S
+# OLE_NG_BAT_PRCS_JOB_S
 # -----------------------------------------------------------------------
-drop table if exists OLE_NG_BAT_PRCS_S
+drop table if exists OLE_NG_BAT_PRCS_JOB_S
 /
 
-CREATE TABLE OLE_NG_BAT_PRCS_S
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_S
 (
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_NG_BAT_PRCS_S auto_increment = 1
+ALTER TABLE OLE_NG_BAT_PRCS_JOB_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
-# OLE_NG_BAT_JOB_S
+# OLE_NG_BAT_JOB_DETAILS_S
 # -----------------------------------------------------------------------
-drop table if exists OLE_NG_BAT_JOB_S
+drop table if exists OLE_NG_BAT_JOB_DETAILS_S
 /
 
-CREATE TABLE OLE_NG_BAT_JOB_S
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_S
 (
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_NG_BAT_JOB_S auto_increment = 1
+ALTER TABLE OLE_NG_BAT_JOB_DETAILS_S auto_increment = 1
 /

@@ -271,4 +271,114 @@
 
 
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_T">
+        <createTable tableName="OLE_NG_BAT_PRCS_JOB_T">
+            <column name="PROCESS_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="PROCESS_NAME"   type="VARCHAR(100)"/>
+            <column name="PROCESS_TYPE"   type="VARCHAR(40)"/>
+            <column name="PRF_ID"   type="INTEGER(10)"/>
+            <column name="JOB_TYPE"   type="VARCHAR(40)"/>
+            <column name="CRON_EXP"   type="VARCHAR(100)"/>
+            <column name="CREATED_BY"   type="VARCHAR(40)"/>
+            <column name="CREATED_ON"   type="TIMESTAMP"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_NG_BAT_PRCS_JOB_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_S" dbms="mysql">
+        <createTable tableName="OLE_NG_BAT_PRCS_JOB_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_NG_BAT_PRCS_JOB_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_T">
+        <createTable tableName="OLE_NG_BAT_JOB_DETAILS_T">
+            <column name="JOB_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_NAME"   type="VARCHAR(100)"/>
+            <column name="PROCESS_ID"   type="INTEGER(10)"/>
+            <column name="PROCESS_TYPE"   type="VARCHAR(40)"/>
+            <column name="PROFILE_NAME"   type="VARCHAR(100)"/>
+            <column name="CREATED_BY"   type="VARCHAR(40)"/>
+            <column name="START_TIME"   type="TIMESTAMP"/>
+            <column name="END_TIME"   type="TIMESTAMP"/>
+            <column name="PER_COMPLETED"   type="VARCHAR(40)"/>
+            <column name="TIME_SPENT"   type="VARCHAR(40)"/>
+            <column name="TOTAL_RECORDS"   type="VARCHAR(40)"/>
+            <column name="TOTAL_RECORDS_PRCSD"   type="VARCHAR(40)"/>
+            <column name="STATUS"   type="VARCHAR(40)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_NG_BAT_JOB_DETAILS_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_S" dbms="mysql">
+        <createTable tableName="OLE_NG_BAT_JOB_DETAILS_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_NG_BAT_JOB_DETAILS_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_ID_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="PRF_ID"
+                                 baseTableName="OLE_NG_BAT_PRCS_JOB_T"
+                                 constraintName="OLE_NG_BAT_PRF_ID_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="PRF_ID"
+                                 referencedTableName="OLE_NG_BAT_PRF_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_ID_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="PROCESS_ID"
+                                 baseTableName="OLE_NG_BAT_JOB_DETAILS_T"
+                                 constraintName="OLE_NG_BAT_PRCS_ID_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="PROCESS_ID"
+                                 referencedTableName="OLE_NG_BAT_PRCS_JOB_T"/>
+    </changeSet>
+
 </databaseChangeLog>

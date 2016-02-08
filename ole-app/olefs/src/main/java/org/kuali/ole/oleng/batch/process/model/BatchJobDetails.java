@@ -1,6 +1,5 @@
 package org.kuali.ole.oleng.batch.process.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.kuali.ole.constants.OleNGConstants;
@@ -12,7 +11,7 @@ import java.sql.Timestamp;
  * Created by rajeshbabuk on 2/5/16.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BatchJob extends PersistableBusinessObjectBase {
+public class BatchJobDetails extends PersistableBusinessObjectBase {
 
     @JsonProperty(OleNGConstants.JOB_ID)
     private long jobId;
