@@ -20,7 +20,13 @@ var OLENG_CONSTANTS = {
     PROFILE_SUBMIT : "rest/describe/profile/submit",
     PROFILE_DELETE : "../../rest/describe/profile/delete",
     PROFILE_CANCEL : "portal.jsp",
-    PROFILE_IMPORT : "../../rest/describe/profile/import"
+    PROFILE_IMPORT : "../../rest/describe/profile/import",
+
+    PROCESS_SUBMIT : "rest/batch/process/submit",
+    PROCESS_LAUNCH : "rest/batch/process/launch",
+    PROCESS_JOBS : "rest/describe/getBatchProcessJobs",
+    BATCH_JOBS : "rest/describe/getBatchJobs",
+    DESTROY_PROCESS : "rest/batch/process/destroy"
 
 };
 

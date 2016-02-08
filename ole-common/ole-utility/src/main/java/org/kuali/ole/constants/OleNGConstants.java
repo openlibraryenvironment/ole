@@ -159,6 +159,26 @@ public class OleNGConstants {
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
 
+    public static final String PROCESS_ID = "processId";
+    public static final String BATCH_PROCESS_ID = "batchProcessId";
+    public static final String PROCESS_NAME = "batchProcessName";
+    public static final String PROCESS_TYPE = "batchProcessType";
+    public static final String JOB_TYPE = "jobType";
+    public static final String CRON_EXPRESSION = "cronExpression";
+    public static final String JOB_ID = "jobId";
+    public static final String JOB_NAME = "jobName";
+    public static final String CREATED_BY = "createdBy";
+    public static final String START_TIME = "startTime";
+    public static final String END_TIME = "startTime";
+    public static final String PER_COMPLETED = "perCompleted";
+    public static final String TIME_SPENT = "timeSpent";
+    public static final String TOTAL_RECORDS = "totalRecords";
+    public static final String TOTAL_RECORDS_PROCESSED = "totalRecordsProcessed";
+    public static final String JOB_STATUS = "status";
+    public static final String CREATED_ON = "createdOn";
+    public static final String EXECUTION_COUNT = "executionCount";
+    public static final String LAST_EXECUTION_STATUS = "lastExecutionStatus";
+
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
     public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";

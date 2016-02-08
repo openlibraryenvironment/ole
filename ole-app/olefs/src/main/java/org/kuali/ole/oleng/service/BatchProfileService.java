@@ -2,6 +2,8 @@ package org.kuali.ole.oleng.service;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.oleng.batch.process.model.BatchJob;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
@@ -26,5 +28,7 @@ public interface BatchProfileService {
     public JSONArray fetchValues(String type);
     public void deleteProfileById(Long profileId);
     public BatchProcessProfile saveProfile(BatchProcessProfile batchProcessProfile);
+    public List<BatchProcessJob> getAllBatchProcessJobs();
+    public List<BatchJob> getAllBatchJobs();
 
 }
