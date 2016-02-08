@@ -209,7 +209,7 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             if (deliverRequestHistoryRecordList != null && deliverRequestHistoryRecordList.size() > 0) {
                 singleItemResultDisplayRow.setRequestTypeCode(deliverRequestHistoryRecordList.get(0).getDeliverRequestTypeCode());
                 singleItemResultDisplayRow.setPickUpLocationCode(deliverRequestHistoryRecordList.get(0).getPickUpLocationCode());
-                singleItemResultDisplayRow.setFinalStatus("Filed");
+                singleItemResultDisplayRow.setFinalStatus("Filled");
                 singleItemResultDisplayRow.setFinalStatusDate(deliverRequestHistoryRecordList.get(0).getArchiveDate());
             }
         }
