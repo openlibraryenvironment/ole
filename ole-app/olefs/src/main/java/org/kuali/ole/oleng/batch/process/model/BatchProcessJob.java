@@ -50,7 +50,7 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     private String status;
 
     @JsonIgnore
-    private List<BatchJob> batchJobList;
+    private List<BatchJobDetails> batchJobDetailsList;
 
     public long getBatchProcessId() {
         return batchProcessId;
@@ -140,11 +140,11 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
         this.status = status;
     }
 
-    public List<BatchJob> getBatchJobList() {
-        return batchJobList;
+    public List<BatchJobDetails> getBatchJobDetailsList() {
+        return batchJobDetailsList;
     }
 
-    public void setBatchJobList(List<BatchJob> batchJobList) {
-        this.batchJobList = batchJobList;
+    public void setBatchJobDetailsList(List<BatchJobDetails> batchJobDetailsList) {
+        this.batchJobDetailsList = batchJobDetailsList;
     }
 }
