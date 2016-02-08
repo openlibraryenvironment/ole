@@ -233,7 +233,8 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.PROCESS_ID, batchProcessJob.getBatchProcessId());
                     jsonObject.put(OleNGConstants.PROCESS_NAME, batchProcessJob.getBatchProcessName());
                     jsonObject.put(OleNGConstants.PROCESS_TYPE, batchProcessJob.getBatchProcessType());
-                    jsonObject.put(OleNGConstants.PROFILE_NAME, batchProcessJob.getBatchProfileName());
+                    BatchProcessProfile batchProcessProfile = batchProcessJob.getBatchProcessProfile();
+                    jsonObject.put(OleNGConstants.PROFILE_NAME, (null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): ""));
                     jsonObject.put(OleNGConstants.CREATED_BY, batchProcessJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.CREATED_ON, batchProcessJob.getCreatedOn());
                     jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
