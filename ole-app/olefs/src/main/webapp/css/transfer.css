@@ -7,3 +7,12 @@
     padding: 8px 35px 8px 14px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+
+.panel-title {
+    color: #1150B0;
+    font-size: 18px;
+}
+
+.panel-title:focus, .panel-title:hover {
+    color: #0a306a;
+}
