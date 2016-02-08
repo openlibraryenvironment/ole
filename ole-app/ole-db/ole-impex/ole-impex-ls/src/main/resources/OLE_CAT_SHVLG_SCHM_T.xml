@@ -37,9 +37,21 @@
         SHVLG_SCHM_NM="Title"
         SRC="MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html"
         SRC_DT="20120322000000" VER_NBR="1"/>
+    <OLE_CAT_SHVLG_SCHM_T OBJ_ID="fb8119a1-eafb-4150-ad72-0f9c67e7d7df"
+                          ROW_ACT_IND="Y" SHVLG_SCHM_CD="SIX" SHVLG_SCHM_ID="8"
+                          SHVLG_SCHM_NM="Shelved separately"
+                          SRC="MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html"
+                          SRC_DT="20120322000000" VER_NBR="1"/>
+
+    <OLE_CAT_SHVLG_SCHM_T OBJ_ID="fb8119a1-eafb-4150-ad72-0f9c67e7d7dg"
+                          ROW_ACT_IND="Y" SHVLG_SCHM_CD="SEVEN" SHVLG_SCHM_ID="9"
+                          SHVLG_SCHM_NM="Source specified in subfield $2"
+                          SRC="MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html"
+                          SRC_DT="20120322000000" VER_NBR="1"/>
+
     <OLE_CAT_SHVLG_SCHM_T OBJ_ID="4f3ce4a3-5017-4812-9c23-99e45945507a"
-        ROW_ACT_IND="Y" SHVLG_SCHM_CD="OTHER" SHVLG_SCHM_ID="8"
-        SHVLG_SCHM_NM="Other Schema"
-        SRC="MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html"
-        SRC_DT="20120322000000" VER_NBR="1"/>
+                          ROW_ACT_IND="Y" SHVLG_SCHM_CD="EIGHT" SHVLG_SCHM_ID="10"
+                          SHVLG_SCHM_NM="Other Schema"
+                          SRC="MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html"
+                          SRC_DT="20120322000000" VER_NBR="1"/>
 </dataset>

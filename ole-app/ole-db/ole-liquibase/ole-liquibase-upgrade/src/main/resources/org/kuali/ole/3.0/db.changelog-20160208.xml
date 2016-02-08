@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_UPDATE">
+        <update tableName="OLE_CAT_SHVLG_SCHM_T">
+            <column name="SHVLG_SCHM_CD" value="EIGHT"/>
+            <column name="SHVLG_SCHM_ID" value="10"/>
+            <where>SHVLG_SCHM_ID = 8</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_INSERT" dbms="oracle">
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7df','Y','SIX',8,'Shelved separately','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',TO_DATE( '20120322000000', 'YYYYMMDDHH24MISS' ),1)</sql>
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',TO_DATE( '20120322000000', 'YYYYMMDDHH24MISS' ),1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_INSERT1" dbms="mysql">
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7df','Y','SIX',8,'Shelved separately','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html','2012-03-22 00:00:00',1)</sql>
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html','2012-03-22 00:00:00',1)</sql>
+    </changeSet>
+
+
+</databaseChangeLog>

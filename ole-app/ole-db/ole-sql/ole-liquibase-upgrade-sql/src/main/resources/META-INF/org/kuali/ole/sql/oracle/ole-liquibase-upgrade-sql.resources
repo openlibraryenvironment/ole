@@ -9,3 +9,4 @@ classpath:org/kuali/ole/sql/oracle/1.6.1.sql
 classpath:org/kuali/ole/sql/oracle/1.6.2.sql
 classpath:org/kuali/ole/sql/oracle/2.0.sql
 classpath:org/kuali/ole/sql/oracle/2.1.sql
+classpath:org/kuali/ole/sql/oracle/3.0.sql
