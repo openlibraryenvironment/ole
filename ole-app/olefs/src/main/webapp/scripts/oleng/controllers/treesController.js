@@ -131,7 +131,7 @@ function buildItemData(holdingsResponse, itemData, $http, $scope) {
     var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsResponse.holdingsIdentifier + ')';
     $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=0&rows=' + $scope.itemPageSize).
         success(function (data) {
-            console.log(data.response.docs);
+            //console.log(data.response.docs);
             angular.forEach(data.response.docs, function (itemResponse) {
                 var locationDispaly = "Item - " + itemResponse.id;
                 if (itemResponse.hasOwnProperty('Location_display')) {
