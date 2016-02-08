@@ -19,8 +19,6 @@ public class OLESOAPService {
             HttpURLConnection con = (HttpURLConnection) oURL.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-type", "text/xml; charset=utf-8");
-            // con.setRequestProperty("SOAPAction",
-            //   "http://192.168.55.223:8080/olefs/remoting/olePatronService");
             con.setDoOutput(true);
             OutputStream reqStream = con.getOutputStream();
             reqStream.write(requestContent.getBytes());

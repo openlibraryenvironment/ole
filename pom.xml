@@ -36,7 +36,7 @@
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         <!-- JAR versions (ordered alphabetically) -->
         <bagit.version>4.0</bagit.version>
-        <camel.version>2.9.1</camel.version>
+        <camel.version>2.16.1</camel.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.version>2.4</commons-io.version>

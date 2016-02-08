@@ -10,9 +10,12 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -29,7 +32,7 @@ public class SolrRequestReponseHandler {
     private HttpSolrServer server;
 
     public List retriveResults(String queryString) {
-        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
 
         server = getHttpSolrServer();
 
@@ -60,6 +63,25 @@ public class SolrRequestReponseHandler {
         return hitsOnPage;
     }
 
+    public SolrDocumentList getSolrDocumentList(String queryString) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
+        SolrDocumentList sdl = null;
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+        query.setIncludeScore(true);
+
+        try {
+            QueryResponse qr = server.query(query);
+            sdl = qr.getResults();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return sdl;
+    }
+
     private HttpSolrServer getHttpSolrServer() {
         if (null == server) {
             try {
@@ -73,17 +95,31 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("solr.url");
+        LOG.info("Solr URl : " + solrURL);
+        return solrURL;
     }
 
-    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument){
+    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
         UpdateResponse updateResponse = null;
         try {
-            UpdateResponse response = getHttpSolrServer().add(solrInputDocument);
+            updateResponse = getHttpSolrServer().add(solrInputDocument);
             updateResponse = server.commit();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error("Error while updating document to solr.");
+        }
+        return updateResponse;
+    }
+
+    public UpdateResponse deleteFromSolr(String query){
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = getHttpSolrServer().deleteByQuery(query);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return updateResponse;
     }

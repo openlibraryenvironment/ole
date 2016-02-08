@@ -3761,4 +3761,8 @@ public class OLEConstants {
     public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
     public static final String MAIN_REC_REC_TYP = "Main";
     public static final String MESSAGE_UNSAVED_CHANGES = "message.unsaved.changes";
+
+
+    public static final String MAX_NO_OF_THREAD_FOR_ORDER_IMPORT = "MAX_NO_OF_THREAD_FOR_ORDER_IMPORT";
+    public static final String CHUNK_SIZE_FOR_ORDER_IMPORT = "CHUNK_SIZE_FOR_ORDER_IMPORT";
 }

@@ -15,7 +15,7 @@ public class OLEItemTypeTest {
 
     private static final Logger LOG = Logger.getLogger(OLEItemTypeTest.class);
     private RestClient restClient = new RestClient();
-    public String BASE_URL = "http://192.168.55.223:8080/olefs/api/";
+    public String BASE_URL = "http://localhost:8080/olefs/api/";
 
 
     @Test

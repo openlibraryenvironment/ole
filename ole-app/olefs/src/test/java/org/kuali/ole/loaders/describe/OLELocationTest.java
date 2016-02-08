@@ -18,7 +18,7 @@ public class OLELocationTest{
 
     private static final Logger LOG = Logger.getLogger(OLELocationTest.class);
     private RestClient restClient = new RestClient();
-    public String BASE_URL = "http://192.168.55.223:8080/olefs/api/";
+    public String BASE_URL = "http://localhost:8080/olefs/api/";
 
 
     /* --------- Location Services Start ----------- */

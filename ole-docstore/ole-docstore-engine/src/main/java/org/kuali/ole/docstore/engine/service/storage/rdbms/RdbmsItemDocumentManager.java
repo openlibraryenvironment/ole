@@ -119,13 +119,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 String callNumber = cNum.getNumber();
                 callNumber = appendItemInfoToCallNumber(itemDocument, callNumber);
 
-//                boolean isValid = validateCallNumber(callNumber, cNum.getShelvingScheme().getCodeValue());
                 String value = "";
-//                if (isValid) {
-//                    value = buildSortableCallNumber(callNumber, cNum.getShelvingScheme().getCodeValue());
-//                } else {
-//                    value = callNumber;
-//                }
                 value = buildSortableCallNumber(callNumber, cNum.getShelvingScheme().getCodeValue());
                 if (cNum.getShelvingOrder() == null) {
                     cNum.setShelvingOrder(new ShelvingOrder());
@@ -178,7 +172,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             oldItemRecord = processItemRecordForAudit(oldItemRecord);
             ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
             modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
-            //OleAuditManager.getInstance().audit(ItemAudit.class,oldItemRecord,modifiedItemRecord,itemRecord.getItemId(),"ole");
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
             String oldBarcode = oldItemRecord.getBarCode();
             String newBarcode = itemRecord.getBarCode();
@@ -203,16 +196,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
     @Override
     public Object retrieve(String itemId) {
         Item item = retrieveItem(itemId, null, null);
-//        List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, getItemMap(itemId));
-//        if (itemRecords != null && itemRecords.size() > 0) {
-//            ItemRecord itemRecord = itemRecords.get(0);
-//            item = buildItemContent(itemRecord);
-//        }
-//        else {
-//            DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.ITEM_ID_NOT_FOUND, DocstoreResources.ITEM_ID_NOT_FOUND);
-//            docstoreException.addErrorParams("itemId", itemId);
-//            throw docstoreException;
-//        }
         return item;
     }
 
@@ -412,8 +395,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         item.setHighDensityStorage(highDensityStorage);
         if (itemRecord.getEffectiveDate() != null) {
-            //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());
             SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date effectiveDate = null;
@@ -459,20 +440,10 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             } catch (ParseException e) {
                 LOG.error("format string to Date " + e);
             }
-            item.setClaimsReturnedFlagCreateDate(format1.format(claimReturnCreateDate).toString());
-            //item.setClaimsReturnedFlagCreateDate(getGregorianCalendar(itemRecord.getClaimsReturnedFlagCreateDate()));
-            /*} catch (DatatypeConfigurationException e) {
-                LOG.error(" getGregorianCalendar", e);
-            }*/
+
         }
 
         if (itemRecord.getDueDateTime() != null) {
-            /*try {
-                item.setDueDateTime(getGregorianCalendar(itemRecord.getDueDateTime()));
-            } catch (DatatypeConfigurationException e) {
-                LOG.error(" getGregorianCalendar", e);
-            }*/
-            //try {
             SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]$";
@@ -495,11 +466,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             } catch (ParseException e) {
                 LOG.error("format string to Date " + e);
             }
-
-            /*item.setClaimsReturnedFlagCreateDate(getGregorianCalendar(itemRecord.getClaimsReturnedFlagCreateDate()));
-            } catch (DatatypeConfigurationException e) {
-                LOG.error(" getGregorianCalendar", e);
-            }*/
         }
         if (itemRecord.getOriginalDueDate() != null) {
             SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
@@ -574,7 +540,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Item itemDoc = new ItemOleml();
         itemDoc.setId(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), itemRecord.getItemId()));
         itemDoc.setContent(itemOlemlRecordProcessor.toXML(item));
-//        itemDoc.setHolding((Holdings) super.retrieve(itemRecord.getHoldingsId()));
         itemDoc.setLocation(itemRecord.getLocation());
         itemDoc.setCreatedBy(itemRecord.getCreatedBy());
         if(itemRecord.getStaffOnlyFlag() != null) {
@@ -636,18 +601,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         itemDoc.setSortedValue(sortedValue.toString());
         LOG.debug("Sorted Value : " + itemDoc.getSortedValue());
-        //itemDoc.setDisplayLabel(labelName.toString());
         itemDoc.setDisplayLabel(encodeString(labelName.toString()));
-//        List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getItemMap(itemDoc.getId()));
-//        if (!CollectionUtils.isEmpty(holdingsItemRecords)) {
-//            List<Holdings> holdingsList = new ArrayList<>();
-//            for (HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
-//                holdingsList.add((Holdings) super.retrieve(holdingsItemRecord.getHoldingsId()));
-//            }
-//            itemDoc.setHoldings(holdingsList);
-//            itemDoc.setAnalytic(true);
-//        }
-
         List<HoldingsItemRecord> holdingsItemRecords = itemRecord.getHoldingsItemRecords();
         if(holdingsItemRecords != null && holdingsItemRecords.size() > 0) {
             List<Holdings> holdingsList = new ArrayList<>();
@@ -967,7 +921,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setMissingPieceFlag(item.isMissingPieceFlag());
         getBusinessObjectService().save(itemRecord);
 
-        if (item.getStatisticalSearchingCode() != null) {
+        if (CollectionUtils.isNotEmpty(item.getStatisticalSearchingCode())) {
             ItemStatisticalSearchRecord itemStatisticalSearchRecord = saveItemStatisticalSearchCode(item.getStatisticalSearchingCode() , itemRecord.getItemId());
             List<ItemStatisticalSearchRecord> statisticalSearchRecords = new ArrayList<>();
             statisticalSearchRecords.add(itemStatisticalSearchRecord);
@@ -1634,42 +1588,42 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
     public void validateMissingPieces(Item itemDoc) {
 
         org.kuali.ole.docstore.common.document.content.instance.Item item = itemOlemlRecordProcessor.fromXML(itemDoc.getContent());
-            if (item.isMissingPieceFlag()) {
-                Boolean isValid=true;
-                if(item.getNumberOfPieces() == null || (item.getNumberOfPieces() != null && item.getNumberOfPieces().equals(""))){
-                    isValid=false;
-                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_VALIDATION, DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_VALIDATION);
+        if (item.isMissingPieceFlag()) {
+            Boolean isValid = true;
+            if (item.getNumberOfPieces() == null || (item.getNumberOfPieces() != null && item.getNumberOfPieces().equals(""))) {
+                isValid = false;
+                DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_VALIDATION, DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_VALIDATION);
+                throw docstoreException;
+            }
+            if (isValid && (!item.getNumberOfPieces().equals(""))) {
+                int noOfPieces = Integer.parseInt(item.getNumberOfPieces());
+                if (noOfPieces < 1) {
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_GREATER, DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_GREATER);
                     throw docstoreException;
-                }
-                if(isValid && (!item.getNumberOfPieces().equals("")) ){
-                    int noOfPieces=Integer.parseInt(item.getNumberOfPieces());
-                    if(noOfPieces<1){
-                        DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_GREATER, DocstoreResources.NO_PIECE_FLAG_BASED_ERROR_GREATER);
-                        throw docstoreException;
-                    }
-                }
-                if(item.getMissingPiecesCount() == null || (item.getMissingPiecesCount() != null && item.getMissingPiecesCount().equals(""))){
-                    isValid=false;
-                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_BLANK, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_BLANK);
-                    throw docstoreException;
-                }
-                if(isValid && (!item.getMissingPiecesCount().equals("")) ){
-
-                    int noOfMissingPieceCount=Integer.parseInt(item.getMissingPiecesCount());
-                    if(noOfMissingPieceCount<1){
-                        DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_GREATER, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_GREATER);
-                        throw docstoreException;
-                    }
-                }
-                if (isValid && item.getMissingPiecesCount() != null && item.getNumberOfPieces() != null && !item.getNumberOfPieces().equals("") && !item.getMissingPiecesCount().equals("")) {
-                    int noOfPieces = Integer.parseInt(item.getNumberOfPieces());
-                    int missingPieceCount = Integer.parseInt(item.getMissingPiecesCount());
-                    if (missingPieceCount > noOfPieces) {
-                        DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_COUNT, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_COUNT);
-                        throw docstoreException;
-                    }
                 }
             }
+            if (item.getMissingPiecesCount() == null || (item.getMissingPiecesCount() != null && item.getMissingPiecesCount().equals(""))) {
+                isValid = false;
+                DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_BLANK, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_BLANK);
+                throw docstoreException;
+            }
+            if (isValid && (!item.getMissingPiecesCount().equals(""))) {
+
+                int noOfMissingPieceCount = Integer.parseInt(item.getMissingPiecesCount());
+                if (noOfMissingPieceCount < 1) {
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_GREATER, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_GREATER);
+                    throw docstoreException;
+                }
+            }
+            if (isValid && item.getMissingPiecesCount() != null && item.getNumberOfPieces() != null && !item.getNumberOfPieces().equals("") && !item.getMissingPiecesCount().equals("")) {
+                int noOfPieces = Integer.parseInt(item.getNumberOfPieces());
+                int missingPieceCount = Integer.parseInt(item.getMissingPiecesCount());
+                if (missingPieceCount > noOfPieces) {
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_COUNT, DocstoreResources.MISSING_PIECE_FLAG_BASED_ERROR_COUNT);
+                    throw docstoreException;
+                }
+            }
+        }
     }
 
     public String getNormalized(String enumeration) {
