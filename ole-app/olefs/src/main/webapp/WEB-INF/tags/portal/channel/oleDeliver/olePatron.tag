@@ -5,6 +5,7 @@
 <div class="body">
     <portal:portalLink displayTitle="true"   title="Patron"
                        url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
+    <br>
     <portal:portalLink displayTitle="true" title="Deliver Notices"
                        url="${ConfigProperties.application.url}/ole-kr-krad/oleDeliverNoticeController?viewId=OLEDeliverNoticeView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true"   title="Edit Patron Bills"
