@@ -3,6 +3,8 @@ package org.kuali.ole.oleng.service.impl;
 import org.codehaus.jettison.json.JSONArray;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.DropDownValueProvidersForBatchProfile;
+import org.kuali.ole.oleng.batch.process.model.BatchJob;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.SelectDAO;
@@ -88,5 +90,15 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     @Override
     public BatchProcessProfile saveProfile(BatchProcessProfile batchProcessProfile) {
         return describeDAO.save(batchProcessProfile);
+    }
+
+    @Override
+    public List<BatchProcessJob> getAllBatchProcessJobs() {
+        return describeDAO.fetchAllBatchProcessJobs();
+    }
+
+    @Override
+    public List<BatchJob> getAllBatchJobs() {
+        return describeDAO.fetchAllBatchJobs();
     }
 }
