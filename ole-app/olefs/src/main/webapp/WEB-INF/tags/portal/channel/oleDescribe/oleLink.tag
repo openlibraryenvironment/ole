@@ -26,6 +26,9 @@
     <portal:portalLink displayTitle="true" title="Transfer titles, Holdings or Items"
                        url="${ConfigProperties.application.url}/ole-kr-krad/transferController?viewId=TransferView&methodToCall=start"/> <br/>
 
+    <portal:portalLink displayTitle="true" title="New Transfer titles, Holdings or Items"
+                       url="${ConfigProperties.application.url}/oleNgTransfer.html"/> <br/>
+
 
 </div>
 <channel:portalChannelBottom/>
