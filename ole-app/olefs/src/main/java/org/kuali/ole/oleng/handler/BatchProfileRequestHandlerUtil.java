@@ -7,6 +7,8 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.oleng.batch.process.model.BatchJob;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.service.BatchProfileService;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -14,6 +16,7 @@ import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -211,6 +214,65 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(OleNGConstants.ID, fieldValue.getKey());
                     jsonObject.put(OleNGConstants.VALUE, fieldValue.getValue());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
+
+    public String prepareBatchProcessJobs() {
+        List<BatchProcessJob> batchProcessJobs = batchProfileService.getAllBatchProcessJobs();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if (CollectionUtils.isNotEmpty(batchProcessJobs)) {
+                for (Iterator<BatchProcessJob> iterator = batchProcessJobs.iterator(); iterator.hasNext(); ) {
+                    BatchProcessJob batchProcessJob = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.PROCESS_ID, batchProcessJob.getBatchProcessId());
+                    jsonObject.put(OleNGConstants.PROCESS_NAME, batchProcessJob.getBatchProcessName());
+                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchProcessJob.getBatchProcessType());
+                    jsonObject.put(OleNGConstants.PROFILE_NAME, batchProcessJob.getBatchProfileName());
+                    jsonObject.put(OleNGConstants.CREATED_BY, batchProcessJob.getCreatedBy());
+                    jsonObject.put(OleNGConstants.CREATED_ON, batchProcessJob.getCreatedOn());
+                    jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
+                    jsonObject.put(OleNGConstants.CRON_EXPRESSION, batchProcessJob.getCronExpression());
+                    jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchProcessJob.getBatchJobList().size());
+                    if (CollectionUtils.isNotEmpty(batchProcessJob.getBatchJobList())) {
+                        jsonObject.put(OleNGConstants.LAST_EXECUTION_STATUS, batchProcessJob.getBatchJobList().get(0).getStatus());
+                    }
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
+
+    public String prepareBatchJobs() {
+        List<BatchJob> batchJobs = batchProfileService.getAllBatchJobs();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if (CollectionUtils.isNotEmpty(batchJobs)) {
+                for (Iterator<BatchJob> iterator = batchJobs.iterator(); iterator.hasNext(); ) {
+                    BatchJob batchJob = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_NAME, batchJob.getJobName());
+                    jsonObject.put(OleNGConstants.PROCESS_ID, batchJob.getBatchProcessId());
+                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchJob.getBatchProcessType());
+                    jsonObject.put(OleNGConstants.PROFILE_NAME, batchJob.getProfileName());
+                    jsonObject.put(OleNGConstants.CREATED_BY, batchJob.getCreatedBy());
+                    jsonObject.put(OleNGConstants.START_TIME, batchJob.getStartTime());
+                    jsonObject.put(OleNGConstants.END_TIME, batchJob.getEndTime());
+                    jsonObject.put(OleNGConstants.PER_COMPLETED, batchJob.getPerCompleted());
+                    jsonObject.put(OleNGConstants.TIME_SPENT, batchJob.getTimeSpent());
+                    jsonObject.put(OleNGConstants.TOTAL_RECORDS, batchJob.getTotalRecords());
+                    jsonObject.put(OleNGConstants.TOTAL_RECORDS_PROCESSED, batchJob.getTotalRecordsProcessed());
+                    jsonObject.put(OleNGConstants.JOB_STATUS, batchJob.getStatus());
                     jsonArray.put(jsonObject);
                 }
             }

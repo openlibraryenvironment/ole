@@ -75,4 +75,16 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getValuesForDropDown(@RequestParam("dropDownType") String dropDownType) {
         return batchProfileRequestHandler.prepareValuesForDowndown(dropDownType);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getBatchProcessJobs", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getBatchProcessJobs() {
+        return batchProfileRequestHandler.prepareBatchProcessJobs();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getBatchJobs", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getBatchJobs() {
+        return batchProfileRequestHandler.prepareBatchJobs();
+    }
 }

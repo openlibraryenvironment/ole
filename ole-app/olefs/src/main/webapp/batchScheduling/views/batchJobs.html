@@ -1,0 +1,53 @@
+<div class="container col-lg-12">
+    <div>
+        <div class="form-group">
+            <table datatable="ng" class="table table-bordered row-border hover">
+                <thead style="height: 20px">
+                <tr>
+                    <th>Job Id</th>
+                    <th>Job Name</th>
+                    <th style="width: 110px">Profile Type</th>
+                    <th style="width: 150px">Profile Name</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
+                    <th style="width: 150px">Next Run Time</th>
+                    <th>Cron Expression</th>
+                    <th>Execution Count</th>
+                    <th>Last Execution Status</th>
+                    <th style="width: 230px">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="batchProcessJob in batchProcessJobs">
+                    <td><span ng-bind="batchProcessJob.processId"></span></td>
+                    <td><span ng-bind="batchProcessJob.batchProcessName"></span></td>
+                    <td><span ng-bind="batchProcessJob.batchProcessType"></span></td>
+                    <td><span ng-bind="batchProcessJob.profileName"></span></td>
+                    <td><span ng-bind="batchProcessJob.createdBy"></span></td>
+                    <td><span ng-bind="batchProcessJob.createdOn"></span></td>
+                    <td><span ng-bind=""></span></td>
+                    <td><span ng-bind="batchProcessJob.cronExpression"></span></td>
+                    <td><span ng-bind="batchProcessJob.executionCount"></span></td>
+                    <td><span ng-bind="batchProcessJob.lastExecutionStatus"></span></td>
+                    <td>
+                        <button type="button" id="processLaunch_{{$index}}" class="btn btn-success btn-sm"
+                                name="processLaunch_{{$index}}" ng-click="launchJob(batchProcessJob.processId)">Launch
+                        </button>
+                        <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-sm"
+                                name="processSchedule_{{$index}}" ng-click="" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
+                        </button>
+                        <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-sm"
+                                name="processReschedule_{{$index}}" ng-click="" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
+                        </button>
+                        <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
+                                name="processDestroy_{{$index}}" ng-click="destroyJob(batchProcessJob.processId)">Destroy
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
