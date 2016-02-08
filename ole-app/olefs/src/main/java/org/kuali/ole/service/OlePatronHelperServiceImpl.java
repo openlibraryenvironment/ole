@@ -697,8 +697,8 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     public boolean validateRequiredField(OlePatronDocument olePatronDocument) {
         boolean valid = true;
         List<OleEntityAddressBo> addressBoList = olePatronDocument.getOleEntityAddressBo();
-        List<EntityEmailBo> emailBoList = olePatronDocument.getEmails();
-        if (!(addressBoList.size() > 0 || emailBoList.size() > 0)) {
+        List<OleEntityEmailBo> entityEmailBos = olePatronDocument.getOleEntityEmailBo();
+        if ((!(addressBoList.size() > 0)) && (!(entityEmailBos.size() > 0))) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_REQUIRED_ADDRESS);
             valid = false;
         }
