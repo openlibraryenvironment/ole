@@ -842,6 +842,8 @@
         <column name="CHECK_IN_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="CHECK_IN_OPTR_ID" size="40" type="VARCHAR"/>
         <column name="CHECK_IN_MACH_ID" size="100" type="VARCHAR"/>
+        <column name="ITEM_TYP_ID" size="100" type="VARCHAR"/>
+        <column name="TEMP_ITEM_TYP_ID" size="100" type="VARCHAR"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="fk_OLE_DLVR_CIRC_RECORD_FK2">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>

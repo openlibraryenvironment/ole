@@ -215,4 +215,13 @@
         </update>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T1">
+        <addColumn
+                tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="ITEM_TYP_ID"   type="VARCHAR(100)"/>
+            <column name="TEMP_ITEM_TYP_ID"   type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

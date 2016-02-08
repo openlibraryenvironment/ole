@@ -897,6 +897,8 @@
         <field-descriptor name="checkInOperatorId" column="CHECK_IN_OPTR_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="checkInMachineId" column="CHECK_IN_MACH_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemTypeId" column="ITEM_TYP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="temporaryItemTypeId" column="TEMP_ITEM_TYP_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory" table="OLE_DLVR_TEMP_CIRC_RECORD">

@@ -1,6 +1,5 @@
 package org.kuali.ole.deliver.bo;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -114,7 +113,7 @@ public class ItemBillHelperService {
                 }*/
                 feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                 feeType.setItemCopyNumber(itemContent.getCopyNumber());
-                feeType.setItemChronologyOwnLocation(itemContent.getChronology());
+                feeType.setItemChronology(itemContent.getChronology());
                 feeType.setItemEnumeration(itemContent.getEnumeration());
                 if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                     feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());
