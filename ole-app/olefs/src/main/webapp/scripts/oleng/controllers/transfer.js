@@ -166,7 +166,7 @@ function searchConditions($scope, $http, $rootScope) {
     ];
 
     $scope.conditions = [
-        {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'any', operator:'AND'}
+        {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator:'AND'}
     ];
 
     $scope.removeCondition = function (conditionToRemove) {
@@ -177,7 +177,7 @@ function searchConditions($scope, $http, $rootScope) {
     };
 
     $scope.addCondition = function (condition) {
-        $scope.conditions[0] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'any', operator: 'AND'};
+        $scope.conditions[0] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator: 'AND'};
         $scope.conditions.push({value: condition.value, searchScope: condition.searchScope, inDocumentType: condition.inDocumentType, inField: condition.inField, operator:condition.operator});
     };
 
@@ -186,7 +186,7 @@ function searchConditions($scope, $http, $rootScope) {
             condition.value = '';
             condition.searchScope = 'AND';
             condition.inDocumentType = 'bibliographic';
-            condition.inField = 'any'
+            condition.inField = 'all_text'
             condition.operator = 'AND';
         }, "");
     };
@@ -243,7 +243,7 @@ function searchConditions($scope, $http, $rootScope) {
         angular.forEach($scope.conditions, function (condition) {
             if(condition.inDocumentType == $scope.documentType && condition.value!= ''){
                 $scope.nonCrossDocTypeCondition.push(condition);
-            }else if(condition.inDocumentType != $scope.documentType) {
+            }else if(condition.inDocumentType != $scope.documentType && condition.value!= '') {
                 $scope.crossDocTypeCondition.push(condition);
             }
         }, "");
@@ -265,7 +265,7 @@ function searchConditions($scope, $http, $rootScope) {
                 if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'holdings'){
 
                     if(joinQuery.indexOf('holdingsIdentifier}(DocType:holdings)') ==-1){
-                        joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND((');
+                        joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND(');
                         joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
                     }else{
                         joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
@@ -303,7 +303,7 @@ function searchConditions($scope, $http, $rootScope) {
                 }else if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'bibliographic'){
 
                     if(joinQuery.indexOf('bibIdentifier}(DocType:bibliographic)') ==-1){
-                        joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND((');
+                        joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND(');
                         joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
                     }else{
                         joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
