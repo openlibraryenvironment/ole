@@ -1158,10 +1158,12 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                                 ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
                                 for(org.kuali.ole.docstore.common.document.Item item : itemList) {
                                     org.kuali.ole.docstore.common.document.content.instance.Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
-                                    if(itemContent.getPurchaseOrderLineItemIdentifier().equals(poNumber)) {
-                                        holdingsId =  holdings.getHoldings().getId();
-                                        itemId = item.getId();
-                                }
+                                    if(itemContent.getPurchaseOrderLineItemIdentifier() != null) {
+                                        if(itemContent.getPurchaseOrderLineItemIdentifier().equals(poNumber)) {
+                                            holdingsId =  holdings.getHoldings().getId();
+                                            itemId = item.getId();
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -381,4 +381,10 @@
                                  referencedTableName="OLE_NG_BAT_PRCS_JOB_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ITM_LOC">
+        <addColumn tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="ITM_LOC"   type="VARCHAR(600)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
