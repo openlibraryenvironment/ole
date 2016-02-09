@@ -9,3 +9,4 @@ classpath:org/kuali/ole/sql/mysql/1.6.1.sql
 classpath:org/kuali/ole/sql/mysql/1.6.2.sql
 classpath:org/kuali/ole/sql/mysql/2.0.sql
 classpath:org/kuali/ole/sql/mysql/2.1.sql
+classpath:org/kuali/ole/sql/mysql/3.0.sql
