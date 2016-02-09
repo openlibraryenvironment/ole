@@ -477,6 +477,7 @@ public class OLESearchController extends UifControllerBase {
         if (oleSearchForm.getSearchParams() == null) {
             SearchParams searchParams = (SearchParams) request.getSession().getAttribute("searchParams");
             oleSearchForm.setSearchParams(searchParams);
+            searchParams.setStartIndex(0);
         }
         oleSearchForm.getSearchConditions().clear();
         SearchCondition searchCondition = new SearchCondition();
