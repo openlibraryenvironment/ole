@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------------
 -- AP_AUTO_APRV_EXCL_T
 -----------------------------------------------------------------------------
@@ -19075,7 +19074,7 @@ CREATE TABLE PUR_VNDR_DTL_T
         , VNDR_PMT_MTHD_ID NUMBER(10)
         , VNDR_LINK_ID VARCHAR2(40)
         , VNDR_CLM_INTRVL VARCHAR2(40)
-        , NON_BILL_VND VARCHAR2(1) default 'Y'
+        , NON_BILL_VND VARCHAR2(1)
         , GOKB_ID NUMBER(10,0)
         , GOKB_ORG_STATUS VARCHAR2(30)
         , GOKB_LAST_UPDATED_DATE DATE
