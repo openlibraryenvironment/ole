@@ -28,6 +28,7 @@ var weekDays = [
 ];
 
 batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', function ($scope, $http) {
+    $scope.quickLaunch = {};
 
     $scope.init = function() {
         $scope.initializeCreateJob();
@@ -143,7 +144,7 @@ batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', f
     };
 
     $scope.closeModal = function() {
-        $scope.batchProcessJob.selectedFile = null;
+        $scope.quickLaunch.selectedFile = null;
         $scope.jobId = null;
         $scope.showModal = false;
     };
@@ -154,18 +155,21 @@ batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', f
         });
     };
 
-    $scope.submitQuickLaunch = function(){
+    $scope.submitQuickLaunch = function() {
         var fd = new FormData();
         fd.append('jobId', $scope.jobId);
-        fd.append('file', $scope.selectedFile);
-        console.log($scope);
+        fd.append('file', $scope.quickLaunch.selectedFile);
+        console.log($scope.quickLaunch.selectedFile);
         $http.post(OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).success(function (data) {
             $scope.message = "Job Launched";
+            $scope.showModal = false;
             //$scope.initializeExecutions();
         });
+        $scope.showModal = false;
+        $scope.closeModal();
     };
 
 }]);
