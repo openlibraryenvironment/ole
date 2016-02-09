@@ -36,9 +36,14 @@ public class BatchReportLogHandler {
         return batchReportLogHandler;
     }
 
+    /**
+     *
+     * The order of adding the processors matters.
+     */
     public static List<Processor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
+            processors.add(new MatchedRecordsReportProcessor());
             //TODO: Add SumaryReportProcessor
             //TODO: Add MatchedRecordsProcessor
             //TODO: Add UnMatchedRecordsProcessor
