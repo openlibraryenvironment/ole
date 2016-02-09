@@ -140,13 +140,13 @@ batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', f
 
     $scope.quickLaunchModal = function (jobId) {
         $scope.jobId = jobId;
-        $scope.showModal = !$scope.showModal;
+        $scope.quickLaunch.showModal = !$scope.showModal;
     };
 
     $scope.closeModal = function() {
         $scope.quickLaunch.selectedFile = null;
         $scope.jobId = null;
-        $scope.showModal = false;
+        $scope.quickLaunch.showModal = false;
     };
 
     $scope.destroyJob = function(jobId) {
@@ -165,10 +165,11 @@ batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', f
             headers: {'Content-Type': undefined}
         }).success(function (data) {
             $scope.message = "Job Launched";
-            $scope.showModal = false;
+            $scope.quickLaunch.showModal = false;
+            $scope.closeModal();
             //$scope.initializeExecutions();
         });
-        $scope.showModal = false;
+        $scope.quickLaunch.showModal = false;
         $scope.closeModal();
     };
 
