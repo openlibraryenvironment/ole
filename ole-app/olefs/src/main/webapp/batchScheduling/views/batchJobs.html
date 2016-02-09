@@ -14,7 +14,7 @@
                     <th>Cron Expression</th>
                     <th>Execution Count</th>
                     <th>Last Execution Status</th>
-                    <th style="width: 230px">Actions</th>
+                    <th style="width: 400px">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +30,9 @@
                     <td><span ng-bind="batchProcessJob.executionCount"></span></td>
                     <td><span ng-bind="batchProcessJob.lastExecutionStatus"></span></td>
                     <td>
+                        <button type="button" id="quickLaunch_{{$index}}" class="btn btn-warning btn-sm"
+                                name="quickLaunch_{{$index}}" ng-click="quickLaunchModal(batchProcessJob.processId)">Quick Launch
+                        </button>
                         <button type="button" id="processLaunch_{{$index}}" class="btn btn-success btn-sm"
                                 name="processLaunch_{{$index}}" ng-click="launchJob(batchProcessJob.processId)">Launch
                         </button>
@@ -49,5 +52,18 @@
         </div>
     </div>
 
+    <div>
+        <modal title="Quick Launch" visible="showModal">
+            <div style="height: 100px">
+                <div class="form-group">
+                    <label for="selectedFile" class="col-sm-6">Upload File</label>
+                    <input id="selectedFile" name="selectedFile" type="file" file-model="selectedFile" placeholder="Upload File"/>
+                    <div>
+                        <button id="submit" type="button" class="btn btn-primary pull-right" ng-click="submitQuickLaunch()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </modal>
+    </div>
 
 </div>
