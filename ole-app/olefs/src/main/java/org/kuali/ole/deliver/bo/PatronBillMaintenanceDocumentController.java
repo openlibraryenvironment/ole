@@ -84,7 +84,7 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
     }
 
     public PatronBillHelperService getPatronBillHelperService() {
-        if(patronBillHelperService!=null){
+        if(patronBillHelperService==null){
             patronBillHelperService=new PatronBillHelperService();
         }
         return patronBillHelperService;
@@ -197,7 +197,6 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
         PatronBillPayment patronBillPayment = (PatronBillPayment) document.getNewMaintainableObject().getDataObject();
         patronBillPayment.setZeroFeeAmount(false);
         patronBillPayment.setRequiredFeeAmount(false);
-        LoanProcessor loanProcessor = new LoanProcessor();
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
@@ -303,7 +302,9 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                 return getUIFModelAndView(form);
             }
         }
-
+        if(feeType.getItemUuid()!=null){
+            feeType.setItemOwnLocation(getPatronBillHelperService().getItemOrHoldingLocation(feeType.getItemUuid()));
+        }
         patronBillPayment.setErrorMessage(null);
         view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
         return getUIFModelAndView(form);
@@ -337,7 +338,6 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                     feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
                     feeType.setItemChronology(itemContent.getChronology());
-                    feeType.setItemOwnLocation(getPatronBillHelperService().getItemLocation(itemContent)!=null?getPatronBillHelperService().getItemLocation(itemContent):getPatronBillHelperService().getHoldingLocation(oleHoldings));
                     feeType.setItemEnumeration(itemContent.getEnumeration());
                     if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                         feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());
@@ -382,7 +382,6 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                     feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
                     feeType.setItemChronology(itemContent.getChronology());
-                    feeType.setItemOwnLocation(getPatronBillHelperService().getItemLocation(itemContent)!=null?getPatronBillHelperService().getItemLocation(itemContent):getPatronBillHelperService().getHoldingLocation(oleHoldings));
                     feeType.setItemEnumeration(itemContent.getEnumeration());
                     if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                         feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());

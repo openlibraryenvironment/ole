@@ -191,7 +191,6 @@ public class PatronBillHelperService {
                         feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
                         feeType.setItemChronology(itemContent.getChronology());
-                        feeType.setItemOwnLocation(getItemLocation(itemContent)!=null?getItemLocation(itemContent):getHoldingLocation(oleHoldings));
                         feeType.setItemEnumeration(itemContent.getEnumeration());
                         if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                             feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());
@@ -222,21 +221,28 @@ public class PatronBillHelperService {
         return feeTypes;
     }
 
-    public String getItemLocation(Item itemContent){
-        String itemLocation = null;
-        if(itemContent!=null && itemContent.getLocation()!=null && itemContent.getLocation().getLocationLevel()!=null) {
-            itemLocation = itemContent.getLocation().getLocationLevel().getName()+"-"+itemContent.getLocation().getLocationLevel().getLocationLevel().getName();
+
+    public String getItemOrHoldingLocation(String itemUUID){
+        String location = null;
+        try {
+            org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUUID);
+            ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+            Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
+            OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
+            if(itemContent!=null && itemContent.getLocation()!=null && itemContent.getLocation().getLocationLevel()!=null) {
+                location = itemContent.getLocation().getLocationLevel().getName()+"-"+itemContent.getLocation().getLocationLevel().getLocationLevel().getName();
+            }
+            if(location==null){
+                if(oleHoldings!=null && oleHoldings.getLocation()!=null && oleHoldings.getLocation().getLocationLevel()!=null) {
+                    location = oleHoldings.getLocation().getLocationLevel().getName()+"-"+oleHoldings.getLocation().getLocationLevel().getLocationLevel().getName();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return itemLocation;
+        return location;
     }
 
-    public String getHoldingLocation(OleHoldings oleHoldingsContent){
-        String holdingLocation = null;
-        if(oleHoldingsContent!=null && oleHoldingsContent.getLocation().getLocationLevel()!=null){
-            holdingLocation=oleHoldingsContent.getLocation().getLocationLevel().getName()+"-"+oleHoldingsContent.getLocation().getLocationLevel().getLocationLevel().getName();
-        }
-        return holdingLocation;
-    }
     /**
      * This method will retrieve paymentStatusName based on paymentStatusId
      *
@@ -653,7 +659,6 @@ public class PatronBillHelperService {
                         feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
                         feeType.setItemChronology(itemContent.getChronology());
-                        feeType.setItemOwnLocation(getItemLocation(itemContent)!=null?getItemLocation(itemContent):getHoldingLocation(oleHoldings));
                         feeType.setItemEnumeration(itemContent.getEnumeration());
                         if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                             feeType.setItemType(itemContent.getTemporaryItemType().getCodeValue());

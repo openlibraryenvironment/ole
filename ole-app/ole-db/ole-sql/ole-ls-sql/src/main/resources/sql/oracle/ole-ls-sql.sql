@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -2414,6 +2413,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , CHECK_OUT_DT_TIME TIMESTAMP
         , CHECK_IN_DT_TIME TIMESTAMP
         , OPERATOR_ID VARCHAR2(40)
+        , ITM_LOC VARCHAR2(600)
     
 
 )
