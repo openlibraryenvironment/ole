@@ -20,12 +20,12 @@
                 <ref bean="OleDonorInformation"/>
                 <ref bean="OleItemExtendedInformation"/>
                 <ref bean="OleCirculationInformation"/>
-                <ref bean="oleClaimsReturn-Section"/>
                 <ref bean="itemClaimsReturnedRecords"/>
-                <ref bean="OleItemDamaged-Section"/>
+                <ref bean="oleClaimsReturn-Section"/>
                 <ref bean="itemDamagedRecords"/>
-                <ref bean="OleMissingItem-Section"/>
+                <ref bean="OleItemDamaged-Section"/>
                 <ref bean="MissingPieceItemHistory"/>
+                <ref bean="OleMissingItem-Section"/>
                 <ref bean="OLEReturnHistoryRecords"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="hiddenItemLocationEditFlag"/>
@@ -782,7 +782,7 @@
     </bean>
 
     <bean id="MissingPieceItemHistory" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Missing Piece Item History" />
+        <property name="headerText" value="Missing Piece Item" />
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord" />
         <property name="propertyName" value="documentForm.selectedItem.missingPieceItemRecordList" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -847,7 +847,7 @@
 
     <bean  id="itemClaimsReturnedRecords"  parent="Uif-Disclosure-TableCollectionSection"
            p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Claims Returned History" />
+        <property name="headerText" value="Claims Returned" />
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord" />
         <property name="propertyName" value="documentForm.selectedItem.itemClaimsReturnedRecords" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -872,7 +872,7 @@
 
     <bean id="itemDamagedRecords" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Damaged History" />
+        <property name="headerText" value="Damaged" />
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord"/>
         <property name="propertyName" value="documentForm.selectedItem.itemDamagedRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
