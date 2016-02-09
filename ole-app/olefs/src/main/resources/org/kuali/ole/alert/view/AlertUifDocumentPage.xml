@@ -16,7 +16,7 @@
     </bean>
 
 
-    <bean id="OLE-Alerts" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1">
+    <bean id="OLE-Alerts" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Alerts"/>
         <property name="items">
             <list>
