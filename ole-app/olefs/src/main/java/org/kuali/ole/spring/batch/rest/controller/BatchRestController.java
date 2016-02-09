@@ -143,6 +143,13 @@ public class BatchRestController extends OleNgControllerBase {
         try {
             if (null != file) {
                 String fileContent = IOUtils.toString(file.getBytes());
+                BatchProcessJob bySinglePrimaryKey = getBusinessObjectService().findBySinglePrimaryKey(BatchProcessJob.class, jobId);
+                if(null != bySinglePrimaryKey) {
+                    long batchProfileId = bySinglePrimaryKey.getBatchProfileId();
+                    String batchProcessType = bySinglePrimaryKey.getBatchProcessType();
+                    processBatch(String.valueOf(batchProfileId),batchProcessType,fileContent);
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
