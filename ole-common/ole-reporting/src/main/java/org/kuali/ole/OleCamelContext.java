@@ -2,6 +2,7 @@ package org.kuali.ole;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -17,11 +18,6 @@ import java.util.List;
 public class OleCamelContext {
     public static OleCamelContext oleCamelContext;
     private CamelContext context;
-    private String defaultFilePath;
-    private String defaultFileName;
-    private String destinationURI;
-    private String startingURI;
-    List<Processor> processors;
 
     private OleCamelContext() {
         context = new DefaultCamelContext();
@@ -40,81 +36,23 @@ public class OleCamelContext {
         return oleCamelContext;
     }
 
+    public void shutDown() throws Exception {
+        getContext().stop();
+    }
+
+    public void start() throws Exception {
+        getContext().start();
+    }
+
     public CamelContext getContext() {
         return context;
     }
 
-    public void setFileNameAndPath(String filePath, String fileName) {
-        this.defaultFilePath = filePath;
-        this.defaultFileName = fileName;
-        buildInitialRoute();
+    public void addRoutes(String endPoint1, String endPoint2, List<Processor> processors) throws Exception {
+        getContext().addRoutes(new DynamicRouteBuilder(context, endPoint1, endPoint2, processors));
     }
 
-    private void buildInitialRoute() {
-        try {
-            context.addRoutes(new RouteBuilder() {
-                @Override
-                public void configure() throws Exception {
-                    from(getStartingURI())
-                            .process(getProcessors().get(0))
-                            .to(getDestinationURI());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ProducerTemplate createProducerTemplate() {
+        return getContext().createProducerTemplate();
     }
-
-
-    public List<Processor> getProcessors() {
-        if (null == processors) {
-            processors = new ArrayList<>();
-        }
-        return processors;
-    }
-
-    public void addProcessor(Processor processor) {
-        getProcessors().add(processor);
-    }
-
-    public String getDestinationURI() {
-        if (null == destinationURI) {
-            String projectHome = ConfigContext.getCurrentContextConfig().getProperty("project.home");
-            String fileEndPointPath = (null == defaultFilePath ? projectHome + "/reports" : defaultFilePath) + "?fileName=" + defaultFileName + "&fileExist=Append";
-            destinationURI = "file:" + fileEndPointPath;
-        }
-        return destinationURI;
-    }
-
-    public void setDestinationURI(String destinationURI) {
-        this.destinationURI = destinationURI;
-    }
-
-    public String getStartingURI() {
-        if (null == startingURI) {
-            startingURI = "seda:messages";
-        }
-        return startingURI;
-    }
-
-    public void setStartingURI(String startingURI) {
-        this.startingURI = startingURI;
-    }
-
-    public String getDefaultFilePath() {
-        return defaultFilePath;
-    }
-
-    public void setDefaultFilePath(String defaultFilePath) {
-        this.defaultFilePath = defaultFilePath;
-    }
-
-    public String getDefaultFileName() {
-        return defaultFileName;
-    }
-
-    public void setDefaultFileName(String defaultFileName) {
-        this.defaultFileName = defaultFileName;
-    }
-
 }

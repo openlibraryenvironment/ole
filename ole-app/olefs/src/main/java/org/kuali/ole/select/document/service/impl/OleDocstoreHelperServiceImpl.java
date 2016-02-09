@@ -439,123 +439,22 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         Iterator<Map.Entry<String, List<OleCopy>>> entries = copyListBasedOnLocation.entrySet().iterator();
         List<OleCopy> newCopyList = new ArrayList<>();
         String location=null;
-        boolean copyFlag = false;
         if(bibTree.getHoldingsTrees().size()>0){
         OleHoldings oleHolding=new HoldingOlemlRecordProcessor().fromXML(bibTree.getHoldingsTrees().get(0).getHoldings().getContent());
         StringBuffer locationName=new StringBuffer("");
         location=docstoreUtil.getLocation(oleHolding.getLocation(),locationName);
         }
-        int count = 0;
         while (entries.hasNext()) {
             Map.Entry<String, List<OleCopy>> entry = entries.next();
             List<OleCopy> oleCopyList = entry.getValue();
-            count++;
             if (oleCopyList != null && oleCopyList.size() > 0) {
                 OleCopy copy = oleCopyList.get(0);
                 if(copyListBasedOnLocation.size()==1 && oleCopyList.size() == 1 && !oleCopyList.get(0).getLocation().equalsIgnoreCase(itemLocation)){
-                    //copy.setLocation(itemLocation);
                     updateOleHolding(bibTree.getHoldingsTrees().get(0).getHoldings().getId(),bibTree, copy);
                     updateOleItem(poNumber, itemDocuments.get(0).getId(),poLineItemId, singleItem);
                 }
                 else {
                     performUpdateForPODocuments(poNumber, bibTree, documentTypeName, poLineItemId, note, singleItem, oleCopyList, copyList, newCopyList, oleDonors, itemTypeDescription, itemStatusValue ,initiatorName);
-
-                    /*if (bibTree.getHoldingsTrees().size()>0 && (location == null || location.isEmpty())
-                            && count == 1) {
-                        updateOleHolding(bibTree.getHoldingsTrees().get(0).getHoldings().getId(), bibTree, copy);
-                        int i = 0;
-                        for (OleCopy oleCopy : copyList) {
-                            if (oleCopy.getLocation().equals(copy.getLocation())) {
-                                if (i == 0) {
-                                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemDocuments.get(0).getId());
-                                    Item itemContent=new ItemOlemlRecordProcessor().fromXML(item.getContent());
-                                    if (item.getItemType() != null) {
-                                        ItemType docstoreItemType = new ItemType();
-                                        docstoreItemType.setCodeValue(itemTypeDescription);
-                                        docstoreItemType.setFullValue(itemTypeDescription);
-                                        itemContent.setItemType(docstoreItemType);
-                                    }
-                                    itemContent.setEnumeration(oleCopy.getEnumeration());
-                                    itemContent.setCopyNumber(oleCopy.getCopyNumber());
-                                    ItemStatus itemStatus = new ItemStatus();
-                                    itemStatus.setCodeValue(itemStatusValue);
-                                    itemStatus.setFullValue(itemStatusValue);
-                                    itemContent.setItemStatus(itemStatus);
-                                    itemContent.setPurchaseOrderLineItemIdentifier(poNumber);
-                                    if (singleItem != null) {
-                                        itemContent.setVendorLineItemIdentifier(singleItem.getVendorItemPoNumber());
-                                        if (singleItem.getExtendedPrice() != null) {
-                                            itemContent.setPrice(singleItem.getExtendedPrice().toString());
-                                        }
-                                        itemContent.setFund(populateFundCodes(singleItem.getSourceAccountingLines()));
-                                    }
-                                    oleCopy.setInstanceId(bibTree.getHoldingsTrees().get(0).getHoldings().getId());
-                                    oleCopy.setItemUUID(itemContent.getItemIdentifier());
-                                    List<OLELinkPurapDonor> oleReqDonors=new ArrayList<>();
-                                    List<DonorInfo> donorInfoList = new ArrayList<>();
-                                    boolean flag = true;
-                                    for (OLELinkPurapDonor reqDonorInfo : oleDonors) {
-                                        if (itemContent.getDonorInfo() != null && itemContent.getDonorInfo().size() > 0) {
-                                            for (DonorInfo itemDonorInfo : itemContent.getDonorInfo()) {
-                                                if (itemDonorInfo.getDonorCode().equals(itemDonorInfo.getDonorCode())) {
-                                                    flag = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (flag) {
-                                                oleReqDonors.add(reqDonorInfo);
-                                            }
-                                        }
-                                    }
-                                    if (itemContent.getDonorInfo() != null && itemContent.getDonorInfo().size() > 0) {
-                                        donorInfoList = setDonorInfoToItem(oleReqDonors, itemContent.getDonorInfo());
-                                    } else {
-                                        donorInfoList = setDonorInfoToItem(oleDonors, itemContent.getDonorInfo());
-                                    }
-                                    itemContent.setDonorInfo(donorInfoList);
-                                    item.setContent(new ItemOlemlRecordProcessor().toXML(itemContent));
-                                    item.setId(itemContent.getItemIdentifier());
-                                    getDocstoreClientLocator().getDocstoreClient().updateItem(item);
-                                }else {
-                                    Item item = setItemDetails(oleCopy,itemTypeDescription);
-                                    if (item.getItemStatus()!=null){
-                                        ItemStatus itemStatus = new ItemStatus();
-                                        itemStatus.setCodeValue(itemStatusValue);
-                                        itemStatus.setFullValue(itemStatusValue);
-                                        item.setItemStatus(itemStatus);
-                                    }
-                                    List<DonorInfo> donorInfoList = setDonorInfoToItem(oleDonors,new ArrayList<DonorInfo>());
-                                    item.setDonorInfo(donorInfoList);
-                                    item.setPurchaseOrderLineItemIdentifier(poNumber);
-                                    if (singleItem != null) {
-                                        item.setVendorLineItemIdentifier(singleItem.getVendorItemPoNumber());
-                                        if (singleItem.getExtendedPrice() != null) {
-                                            item.setPrice(singleItem.getExtendedPrice().toString());
-                                        }
-                                        item.setFund(populateFundCodes(singleItem.getSourceAccountingLines()));
-                                    }
-                                    org.kuali.ole.docstore.common.document.Item itemDocument = new org.kuali.ole.docstore.common.document.Item();
-                                    itemDocument.setContent(new ItemOlemlRecordProcessor().toXML(item));
-                                    itemDocument.setCategory(OLEConstants.ITEM_CATEGORY);
-                                    itemDocument.setType(OLEConstants.ITEM_TYPE);
-                                    itemDocument.setFormat(OLEConstants.ITEM_FORMAT);
-                                    itemDocument.setHolding(bibTree.getHoldingsTrees().get(0).getHoldings());
-                                    try {
-
-                                        getDocstoreClientLocator().getDocstoreClient().createItem(itemDocument);
-                                        oleCopy.setItemUUID(itemDocument.getId());
-                                        oleCopy.setInstanceId(itemDocument.getHolding().getId());
-
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                        throw new RuntimeException(ex);
-                                    }
-                                }
-                            }
-                            i++;
-                        }
-                    } else {
-                    }*/
                 }
             }
         }
@@ -649,16 +548,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         org.kuali.ole.docstore.common.document.content.instance.Location holdingLocation = new org.kuali.ole.docstore.common.document.content.instance.Location();
         org.kuali.ole.docstore.common.document.content.instance.LocationLevel holdingLocationLevel = new org.kuali.ole.docstore.common.document.content.instance.LocationLevel();
         String holdingLocationLevelCode = getLocationLevelCode(copy);
-        /*if (locationCopiesSplit.length == 3) {
-            holdingLocationLevelCode = OLEConstants.LOCATION_LEVEL_CODE_INSTITUTION + "/"
-                    + OLEConstants.LOCATION_LEVEL_CODE_CAMPUS + "/" + OLEConstants.LOCATION_LEVEL_CODE_LIBRARY;
-        } else {
-            holdingLocationLevelCode = OLEConstants.LOCATION_LEVEL_CODE_INSTITUTION + "/"
-                    + OLEConstants.LOCATION_LEVEL_CODE_LIBRARY;
-        }*/
-        /*
-         * holdingLocationLevelCode = OLEConstants.LOCATION_LEVEL_CODE_INSTITUTION + "/" + OLEConstants.LOCATION_LEVEL_CODE_LIBRARY;
-         */
+
         if (null != copy.getLocation()) {
             holdingLocation.setLocationLevel(setLocationLevels(holdingLocationLevel, holdingLocationLevelCode,
                     copy.getLocation()));
@@ -667,47 +557,6 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         holdingLocation.setStatus(OLEConstants.LOCATION_STATUS);
         oleHoldings.setLocation(holdingLocation);
         return oleHoldings;
-    }
-
-
-//    public WorkBibDocument performDocstoreUpdation(String itemTitleId, WorkBibDocument workBibDocument)
-//            throws Exception {
-//        List<WorkInstanceDocument> workInstanceDocuments = workBibDocument.getWorkInstanceDocumentList();
-//        for (WorkInstanceDocument workInstanceDocument : workInstanceDocuments) {
-//
-//            if (!itemTitleId.equalsIgnoreCase(workInstanceDocument.getInstanceIdentifier())) {
-//                deleteDocstoreRecord(OleSelectConstant.DOCSTORE_TYPE_INSTANCE,
-//                        workInstanceDocument.getInstanceIdentifier());
-//            } else {
-//                if (workInstanceDocument.getItemDocumentList().size() > 1) {
-//                    for (int i = 1; i < workInstanceDocument.getItemDocumentList().size(); i++) {
-//                        deleteDocstoreRecord(OleSelectConstant.DOCSTORE_TYPE_ITEM, workInstanceDocument
-//                                .getItemDocumentList().get(i).getItemIdentifier());
-//                    }
-//                }
-//            }
-//        }
-//        List<String> itemTitleIdsList = new ArrayList<String>();
-//        itemTitleIdsList.add(itemTitleId);
-//        List<WorkBibDocument> workBibDocuments = getWorkBibDocuments(itemTitleIdsList);
-//        return workBibDocuments.get(0);
-//    }
-
-    public String deleteDocstoreRecord(String docType, String uuid) throws IOException {
-        String docstoreRestfulURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(
-                OLEConstants.OLE_DOCSTORE_RESTFUL_URL);
-        docstoreRestfulURL = docstoreRestfulURL.concat("/") + uuid;
-        HttpClient httpClient = new HttpClient();
-        DeleteMethod deleteMethod = new DeleteMethod(docstoreRestfulURL);
-        NameValuePair nvp1 = new NameValuePair(OLEConstants.IDENTIFIER_TYPE, OLEConstants.UUID);
-        NameValuePair nvp2 = new NameValuePair(OLEConstants.OPERATION, OLEConstants.DELETE);
-        NameValuePair category = new NameValuePair(OLEConstants.DOC_CATEGORY, OLEConstants.BIB_CATEGORY_WORK);
-        NameValuePair type = new NameValuePair(OLEConstants.DOC_TYPE, docType);
-        NameValuePair format = new NameValuePair(OLEConstants.DOC_FORMAT, OLEConstants.BIB_FORMAT_OLEML);
-        deleteMethod.setQueryString(new NameValuePair[]{nvp1, nvp2, category, type, format});
-        int statusCode = httpClient.executeMethod(deleteMethod);
-        InputStream inputStream = deleteMethod.getResponseBodyAsStream();
-        return IOUtils.toString(inputStream);
     }
 
     /**
@@ -774,39 +623,6 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         return responseObject;
     }
 
-    /*
-     * public String createInstanceForBibRecord(String bibUuid, String docType, String xmlContent) throws Exception { String
-     * docstoreURL = getConfigurationService().getPropertyValueAsString(OLEConstants.DOCSTORE_APP_URL_KEY); Request requestObject =
-     * new Request(); requestObject.setUser(GlobalVariables.getUserSession() != null ? GlobalVariables.getUserSession()
-     * .getPrincipalId() : ""); requestObject.setOperation(OLEConstants.CHECK_IN_OPERATION); RequestDocument requestDocument = new
-     * RequestDocument(); requestDocument.setId(bibUuid); requestDocument.setCategory(OleSelectConstant.DOCSTORE_CATEGORY_WORK);
-     * requestDocument.setType(OleSelectConstant.DOCSTORE_TYPE_BIB);
-     * requestDocument.setFormat(OleSelectConstant.DOCSTORE_FORMAT_MARC); RequestDocument linkedRequestDocument = new
-     * RequestDocument(); linkedRequestDocument.setId(OLEConstants.NEW_ITEM_ID);
-     * linkedRequestDocument.setCategory(OleSelectConstant.DOCSTORE_CATEGORY_WORK);
-     * linkedRequestDocument.setType(OleSelectConstant.DOCSTORE_TYPE_INSTANCE);
-     * linkedRequestDocument.setFormat(OLEConstants.BIB_FORMAT_OLEML); linkedRequestDocument.setContent(new Content(xmlContent));
-     * List<RequestDocument> linkedRequestDocuments = new ArrayList<RequestDocument>();
-     * linkedRequestDocuments.add(linkedRequestDocument); requestDocument.setLinkedRequestDocuments(linkedRequestDocuments);
-     * ArrayList<RequestDocument> requestDocuments = new ArrayList<RequestDocument>(); requestDocuments.add(requestDocument);
-     * requestObject.setRequestDocuments(requestDocuments); RequestHandler requestHandler = new RequestHandler(); String xml =
-     * requestHandler.toXML(requestObject); String queryString = UPDATE_EXISTING_DOCSTORE_RECORD_QUERY_STRING +
-     * URLEncoder.encode(xml, "UTF-8"); return postData(docstoreURL, queryString); }
-     */
-
-    /*
-     * public InstanceCollection getInstanceCollection(String instanceUUID) throws Exception { String responseFromDocstore =
-     * getDocstoreData(instanceUUID); InstanceCollection instanceCollection = new
-     * WorkInstanceOlemlRecordProcessor().fromXML(responseFromDocstore); return instanceCollection; }
-     */
-
-    public String updateInstanceToDocstore(InstanceCollection instanceCollection) throws Exception {
-        String instanceXMLString = getWorkInstanceOlemlRecordProcessor().toXML(instanceCollection);
-        String instanceUUID = instanceCollection.getInstance().iterator().next().getInstanceIdentifier();
-        String response = updateInstanceRecord(instanceUUID, OLEConstants.BIB_TYPE_INSTANCE, instanceXMLString);
-        return response;
-    }
-
     public WorkInstanceOlemlRecordProcessor getWorkInstanceOlemlRecordProcessor() {
         if (workInstanceOlemlRecordProcessor == null) {
             workInstanceOlemlRecordProcessor = new WorkInstanceOlemlRecordProcessor();
@@ -840,32 +656,6 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         }
         return responseString;
     }
-
-    /**
-     * This method takes List of UUids as parameter and creates a LinkedHashMap with instance as key and id as value. and calls
-     * Docstore's QueryServiceImpl class getWorkBibRecords method and return workBibDocument for passed instance Id.
-     *
-     * @param instanceIdsList
-     * @return List<WorkBibDocument>
-     */
-//    public List<WorkBibDocument> getWorkBibDocuments(List<String> instanceIdsList) {
-//        List<LinkedHashMap<String, String>> instanceIdMapList = new ArrayList<LinkedHashMap<String, String>>();
-//        for (String instanceId : instanceIdsList) {
-//            LinkedHashMap<String, String> instanceIdMap = new LinkedHashMap<String, String>();
-//            instanceIdMap.put(DocType.BIB.getDescription(), instanceId);
-//            instanceIdMapList.add(instanceIdMap);
-//        }
-//
-//        QueryService queryService = QueryServiceImpl.getInstance();
-//        List<WorkBibDocument> workBibDocuments = new ArrayList<WorkBibDocument>();
-//        try {
-//            workBibDocuments = queryService.getWorkBibRecords(instanceIdMapList);
-//        } catch (Exception ex) {
-//            // TODO Auto-generated catch block
-//            ex.printStackTrace();
-//        }
-//        return workBibDocuments;
-//    }
 
     /**
      * This method takes locationLevelCode and locationLevelName as parameters and split level name and returns as location level.
@@ -1171,78 +961,6 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         List<OleLocation> matchingLocation = (List<OleLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class, barMap);
         return matchingLocation.size()>0 ? matchingLocation.get(0) : null;
     }
-
-
-    /*@Override
-    public void updateItemNote(PurApItem item, String note) {
-        OleRequisitionItem oleRequisitionItem = (OleRequisitionItem) item;
-        try {
-            List<String> itemTitleIdsList = new ArrayList<String>();
-            List<BibTree> bibTrees = new ArrayList<BibTree>();
-            itemTitleIdsList.add(oleRequisitionItem.getItemTitleId());
-            bibTrees = getBibTreeDocuments(itemTitleIdsList);
-            for (BibTree bibTree : bibTrees) {
-                if (null != oleRequisitionItem.getItemTitleId()) {
-                    performDocstoreUpdateForRequisitionItemRecord(oleRequisitionItem,
-                            bibTree, note);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void performDocstoreUpdateForRequisitionItemRecord(OleRequisitionItem oleRequisitionItem , BibTree bibTree, String note) throws Exception {
-        List<OleCopy> copyList = oleRequisitionItem.getCopyList();
-        String itemTitleId = oleRequisitionItem.getItemTitleId();
-        OleCopyHelperService oleCopyHelperService =  new OleCopyHelperServiceImpl();
-        HashMap<String, List<OleCopy>> copyListBasedOnLocation = oleCopyHelperService.getCopyListBasedOnLocation(copyList, itemTitleId);
-        Iterator<Map.Entry<String, List<OleCopy>>> entries = copyListBasedOnLocation.entrySet().iterator();
-        int count = 0;
-        if (copyList.size() == 0) {
-            OleCopy oleCopy = new OleCopy();
-            oleCopy.setLocation(oleRequisitionItem.getItemLocation());
-            if (bibTree.getHoldingsTrees().size() == 1) {
-                updateOleHoldingStaffOnly(bibTree,oleCopy,true);
-                bibTree.getBib().setStaffOnly(true);
-                getDocstoreClientLocator().getDocstoreClient().updateBib(bibTree.getBib());
-            }
-            for (int items=0; items < bibTree.getHoldingsTrees().size(); items++) {
-                updateOleItemStaffOnly(bibTree.getHoldingsTrees().get(items).getItems().get(0).getId(),null,note,true);
-                oleCopy.setReqDocNum(null);
-                oleCopy.setReqItemId(null);
-            }
-        }
-        while (entries.hasNext()) {
-            Map.Entry<String, List<OleCopy>> entry = entries.next();
-            List<OleCopy> oleCopyList = entry.getValue();
-            count++;
-            if (oleCopyList != null && oleCopyList.size() > 0) {
-                if (bibTree.getHoldingsTrees().size() == 1) {
-                    OleCopy copy = oleCopyList.get(0);
-                    updateOleHoldingStaffOnly(bibTree,copy,true);
-                    bibTree.getBib().setStaffOnly(true);
-                    getDocstoreClientLocator().getDocstoreClient().updateBib(bibTree.getBib());
-                }
-                for (OleCopy oleCopy : copyList) {
-                    for (int items=0; items < bibTree.getHoldingsTrees().size(); items++) {
-                        for (int singleItem=0; singleItem < bibTree.getHoldingsTrees().get(items).getItems().size(); singleItem++) {
-                            if (oleCopy.getItemUUID().equalsIgnoreCase(bibTree.getHoldingsTrees().get(items).getItems().get(singleItem).getId())) {
-                                if (!bibTree.getHoldingsTrees().get(items).getItems().get(singleItem).isStaffOnly()) {
-                                    updateOleItemStaffOnly(oleCopy.getItemUUID(),null,note,true);
-                                    oleCopy.setReqDocNum(null);
-                                    oleCopy.setReqItemId(null);
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-
-    }*/
 
     public List<DonorInfo> setDonorInfoToItem(List<OLELinkPurapDonor> oleDonors,List<DonorInfo> donorInfoList){
         for (OLELinkPurapDonor oleLinkPurapDonor : oleDonors) {
