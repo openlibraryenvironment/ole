@@ -42,7 +42,7 @@
                 success(function (data) {
                     console.log(data.response.docs);
                     angular.forEach(data.response.docs, function (itemResponse) {
-                        var locationDispaly = "Item";
+                        var locationDispaly = "Item - " + itemResponse.id;
                         if (itemResponse.hasOwnProperty('Location_display')) {
                             locationDispaly = itemResponse.Location_display[0]
                         }
@@ -178,6 +178,7 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
 function buildBibData(bibTree, $http, $scope) {
     angular.forEach($scope.searchResults, function (searchResult) {
         if (searchResult.selected) {
+            searchResult.selected = false;
             var holdingsData = [];
             buildHoldingsData(searchResult, holdingsData, $http, $scope);
 
