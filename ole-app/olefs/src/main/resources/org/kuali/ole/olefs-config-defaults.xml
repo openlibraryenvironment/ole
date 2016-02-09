@@ -492,14 +492,16 @@
 
     <param name="ole.reports.url">${ole.reports.url.base}</param>
 
-  <param name="batch.invoice.import.pending.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.invoice.import.done.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.invoice.import.problem.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.order.import.pending">${staging.directory}/batch/ordder</param>
-  <param name="batch.order.import.done">${staging.directory}/batch/ordder</param>
-  <param name="batch.order.import.problem">${staging.directory}/batch/ordder</param>
-  <param name="batch.bib.import.pending.directory">${staging.directory}/batch/bib</param>
-  <param name="batch.bib.import.done.directory">${staging.directory}/batch/bib</param>
-  <param name="batch.bib.import.problem.directory">${staging.directory}/batch/bib</param>
+  <param name="batch.invoice.import.pending.directory">${staging.directory}/batch/invoice/pending</param>
+  <param name="batch.invoice.import.done.directory">${staging.directory}/batch/invoice/done</param>
+  <param name="batch.invoice.import.problem.directory">${staging.directory}/batch/invoice/problem</param>
+
+  <param name="batch.order.import.pending">${staging.directory}/batch/order/pending</param>
+  <param name="batch.order.import.done">${staging.directory}/batch/order/done</param>
+  <param name="batch.order.import.problem">${staging.directory}/batch/order/invoice/problem</param>
+
+  <param name="batch.bib.import.pending.directory">${staging.directory}/batch/bib/pending</param>
+  <param name="batch.bib.import.done.directory">${staging.directory}/batch/bib/done</param>
+  <param name="batch.bib.import.problem.directory">${staging.directory}/batch/bib/invoice/problem</param>
 
 </config>

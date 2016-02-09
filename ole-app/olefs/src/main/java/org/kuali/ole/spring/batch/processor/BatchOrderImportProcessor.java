@@ -8,8 +8,10 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.dao.DescribeDAO;
@@ -101,7 +103,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             values.addAll(unMatchedRecords);
                         }
 
-                        Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, values);
+                        Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, matchedRecords);
                         matchedRecords.putAll(buildUnMatchedRecordsWithBibId);
                         try {
                             List<Integer> purapIds = orderProcessHandler.processOrder(matchedRecords, batchProcessProfile, orderRequestHandler);
@@ -124,20 +126,28 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return response;
     }
 
-    private Map<String, Record> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, List<Record> unMatchedRecords) {
+    private Map<String, Record> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, Map<String, Record> matchedRecords) {
 
         Map<String, Record> map = new HashMap<>();
 
-        for (int index = 0; index < unMatchedRecords.size(); index++ ) {
-            Record record =  unMatchedRecords.get(index);
-            for (Iterator<BibResponse> recordIterator = oleNGBibImportResponse.getBibResponses().iterator(); recordIterator.hasNext(); ) {
-                BibResponse bibResponse = recordIterator.next();
-                if(bibResponse.getRecordIndex() == index){
-                    map.put(bibResponse.getBibId(), record);
+        List<BibResponse> bibResponses = oleNGBibImportResponse.getBibResponses();
+        if(CollectionUtils.isNotEmpty(bibResponses)) {
+            for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
+                BibResponse bibResponse = iterator.next();
+                String bibId = bibResponse.getBibId();
+                if (!matchedRecords.containsKey(bibId)) {
+                    String bibIdWithoutPrefix = DocumentUniqueIDPrefix.getDocumentId(bibId);
+                    BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibIdWithoutPrefix);
+                    if(null != matchedBibRecord) {
+                        String content = matchedBibRecord.getContent();
+                        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
+                        if(CollectionUtils.isNotEmpty(records)) {
+                            map.put(bibId, records.get(0));
+                        }
+                    }
                 }
             }
         }
-
         return map;
     }
 

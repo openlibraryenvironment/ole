@@ -67,8 +67,6 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
-                int recordIndex = bibJSONDataObject.getInt(OleNGConstants.INDEX);
-                bibResponse.setRecordIndex(recordIndex);
 
                 String ops = bibJSONDataObject.getString(OleNGConstants.OPS);
                 List<String> operationsList = getListFromJSONArray(ops);

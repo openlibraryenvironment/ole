@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.rest.controller;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -15,6 +16,7 @@ import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
 import org.kuali.ole.utility.OleStopWatch;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,6 +85,7 @@ public class BatchRestController extends OleNgControllerBase {
     @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String createBatchJobDetailsEntry(@RequestBody String requestBody) {
+        String response = "";
         BatchProcessJob batchProcessJob;
         try {
             batchProcessJob = convertJsonToProcessJob(requestBody);
@@ -88,10 +93,11 @@ public class BatchRestController extends OleNgControllerBase {
             batchProcessJob.setCreatedBy(loginUser);
             batchProcessJob.setCreatedOn(new Timestamp(new Date().getTime()));
             getBusinessObjectService().save(batchProcessJob);
+            response = getObjectMapper().writeValueAsString(batchProcessJob);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return requestBody;
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/job/launch", produces = {MediaType.APPLICATION_JSON})
@@ -101,6 +107,30 @@ public class BatchRestController extends OleNgControllerBase {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
             BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
             getBusinessObjectService().save(batchJobDetails);
+
+            Map<String, String> fileDirectoryPathMap = getFileDirectoryPathMap(matchedBatchJob.getBatchProcessType());
+            String pendingDirecotryPath = fileDirectoryPathMap.get("pending");
+            String doneDirectoryPath = fileDirectoryPathMap.get("done");
+            if(StringUtils.isNotBlank(pendingDirecotryPath)) {
+                File pendingDirectory = new File(pendingDirecotryPath);
+                if(pendingDirectory.exists() && pendingDirectory.isDirectory()) {
+                    File[] files = pendingDirectory.listFiles();
+                    if(files.length > 0 ) {
+                        for(int index = 0; index < files.length; index++) {
+                            File file = files[index];
+                            String rawContent = FileUtils.readFileToString(file);
+
+                            processBatch(String.valueOf(batchJobDetails.getProfileId()),batchJobDetails.getBatchProcessType(),rawContent);
+
+                            if(StringUtils.isNotBlank(doneDirectoryPath)) {
+                                File doneDirectory = new File(doneDirectoryPath);
+                                FileUtils.moveFileToDirectory(file,doneDirectory,true);
+                            }
+                        }
+                    }
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,7 +157,8 @@ public class BatchRestController extends OleNgControllerBase {
         batchJob.setBatchProcessId(batchProcessJob.getBatchProcessId());
         batchJob.setJobName(batchProcessJob.getBatchProcessName());
         batchJob.setBatchProcessType(batchProcessJob.getBatchProcessType());
-        batchJob.setProfileName(batchProcessJob.getBatchProfileName());
+        batchJob.setProfileId(batchProcessJob.getBatchProfileId());
+        batchJob.setProfileName(batchProcessJob.getBatchProcessProfile().getBatchProcessProfileName());
         batchJob.setCreatedBy(batchProcessJob.getCreatedBy());
         batchJob.setStartTime(new Timestamp(new Date().getTime()));
         batchJob.setStatus("RUNNING");
@@ -155,5 +186,23 @@ public class BatchRestController extends OleNgControllerBase {
             return batchInvoiceImportProcessor;
         }
         return null;
+    }
+
+    public Map<String, String> getFileDirectoryPathMap(String batchType) {
+        Map<String, String> directoryPathMap = new HashMap<>();
+        if(batchType.equalsIgnoreCase("Invoice Import")){
+            directoryPathMap.put("pending", ConfigContext.getCurrentContextConfig().getProperty("batch.invoice.import.pending.directory"));
+            directoryPathMap.put("problem", ConfigContext.getCurrentContextConfig().getProperty("batch.invoice.import.problem.directory"));
+            directoryPathMap.put("done", ConfigContext.getCurrentContextConfig().getProperty("batch.invoice.import.done.directory"));
+        } else if(batchType.equalsIgnoreCase("Bib Import")) {
+            directoryPathMap.put("pending", ConfigContext.getCurrentContextConfig().getProperty("batch.bib.import.pending.directory"));
+            directoryPathMap.put("problem", ConfigContext.getCurrentContextConfig().getProperty("batch.bib.import.problem.directory"));
+            directoryPathMap.put("done", ConfigContext.getCurrentContextConfig().getProperty("batch.bib.import.done.directory"));
+        } else if(batchType.equalsIgnoreCase("Order Record Import")) {
+            directoryPathMap.put("pending", ConfigContext.getCurrentContextConfig().getProperty("batch.order.import.pending"));
+            directoryPathMap.put("problem", ConfigContext.getCurrentContextConfig().getProperty("batch.order.import.problem"));
+            directoryPathMap.put("done", ConfigContext.getCurrentContextConfig().getProperty("batch.order.import.done"));
+        }
+        return directoryPathMap;
     }
 }

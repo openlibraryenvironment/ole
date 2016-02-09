@@ -28,6 +28,9 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
     @JsonProperty(OleNGConstants.PROFILE_NAME)
     private String profileName;
 
+    @JsonProperty(OleNGConstants.PROFILE_ID)
+    private long profileId;
+
     @JsonProperty(OleNGConstants.CREATED_BY)
     private String createdBy;
 
@@ -154,5 +157,13 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(long profileId) {
+        this.profileId = profileId;
     }
 }
