@@ -223,5 +223,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
+        <dropUniqueConstraint uniqueColumns="OLE_PTRN_ID,PTRN_Q_POS,ITM_ID"
+                              constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                              tableName="OLE_DLVR_RQST_T"/>
+
+        <addUniqueConstraint columnNames="OLE_PTRN_ID,PTRN_Q_POS,ITEM_UUID"
+                             constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                             tableName="OLE_DLVR_RQST_T"/>
+    </changeSet>
+
 
 </databaseChangeLog>

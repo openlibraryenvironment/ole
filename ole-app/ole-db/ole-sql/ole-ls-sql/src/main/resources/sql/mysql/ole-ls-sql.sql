@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -2160,7 +2159,7 @@ CREATE TABLE OLE_DLVR_RQST_T
     
     , CONSTRAINT OLE_DLVR_RQST_TP1 PRIMARY KEY(OLE_RQST_ID)
 
-    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITM_ID)
+    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITEM_UUID)
 
 
 
