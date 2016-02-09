@@ -137,6 +137,26 @@ public class BatchRestController extends OleNgControllerBase {
         return String.valueOf(jobId);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        try {
+            if (null != file) {
+                String fileContent = IOUtils.toString(file.getBytes());
+                BatchProcessJob bySinglePrimaryKey = getBusinessObjectService().findBySinglePrimaryKey(BatchProcessJob.class, jobId);
+                if(null != bySinglePrimaryKey) {
+                    long batchProfileId = bySinglePrimaryKey.getBatchProfileId();
+                    String batchProcessType = bySinglePrimaryKey.getBatchProcessType();
+                    processBatch(String.valueOf(batchProfileId),batchProcessType,fileContent);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String destroyJob(@RequestParam("jobId") long jobId) {
