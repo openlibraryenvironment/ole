@@ -137,6 +137,19 @@ public class BatchRestController extends OleNgControllerBase {
         return String.valueOf(jobId);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        try {
+            if (null != file) {
+                String fileContent = IOUtils.toString(file.getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String destroyJob(@RequestParam("jobId") long jobId) {
