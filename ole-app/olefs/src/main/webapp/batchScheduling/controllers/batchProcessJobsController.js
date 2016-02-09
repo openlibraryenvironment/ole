@@ -1,4 +1,4 @@
-var batchSchedulingApp = angular.module('batchScheduling', ['datatables']);
+var batchProcessJobApp = angular.module('batchScheduling', ['datatables']);
 
 var jobTypes = [
     {id: 'adhoc', name: 'Adhoc'},
@@ -27,7 +27,8 @@ var weekDays = [
     {id: 'sunday', name: 'Sunday'}
 ];
 
-batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', function ($scope, $http) {
+batchProcessJobApp.controller('batchSchedulingController', ['$scope', '$http', function ($scope, $http) {
+    $scope.quickLaunch = {};
 
     $scope.init = function() {
         $scope.initializeCreateJob();
@@ -137,10 +138,97 @@ batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', f
         });
     };
 
+    $scope.quickLaunchModal = function (jobId) {
+        $scope.jobId = jobId;
+        $scope.quickLaunch.showModal = !$scope.showModal;
+    };
+
+    $scope.closeModal = function() {
+        $scope.quickLaunch.selectedFile = null;
+        $scope.jobId = null;
+        $scope.quickLaunch.showModal = false;
+    };
+
     $scope.destroyJob = function(jobId) {
         $http.get(OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}).success(function(data) {
             $scope.message = "Job Destroyed";
         });
-    }
+    };
 
+    $scope.submitQuickLaunch = function() {
+        var fd = new FormData();
+        fd.append('jobId', $scope.jobId);
+        fd.append('file', $scope.quickLaunch.selectedFile);
+        console.log($scope.quickLaunch.selectedFile);
+        $http.post(OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }).success(function (data) {
+            $scope.message = "Job Launched";
+            $scope.quickLaunch.showModal = false;
+            $scope.closeModal();
+            //$scope.initializeExecutions();
+        });
+        $scope.quickLaunch.showModal = false;
+        $scope.closeModal();
+    };
+
+}]);
+
+batchProcessJobApp.directive('modal', function () {
+    return {
+        template: '<div class="modal fade">' +
+        '<div class="modal-dialog">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">&times;</button>' +
+        '<h4 class="modal-title">{{ title }}</h4>' +
+        '</div>' +
+        '<div class="modal-body" ng-transclude></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>',
+        restrict: 'E',
+        transclude: true,
+        replace:true,
+        scope:true,
+        link: function postLink(scope, element, attrs) {
+            scope.title = attrs.title;
+
+            scope.$watch(attrs.visible, function(value){
+                if(value == true)
+                    $(element).modal('show');
+                else
+                    $(element).modal('hide');
+            });
+
+            $(element).on('shown.bs.modal', function(){
+                scope.$apply(function(){
+                    scope.$parent[attrs.visible] = true;
+                });
+            });
+
+            $(element).on('hidden.bs.modal', function(){
+                scope.$apply(function(){
+                    scope.$parent[attrs.visible] = false;
+                });
+            });
+        }
+    };
+});
+
+batchProcessJobApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
 }]);
