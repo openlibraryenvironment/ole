@@ -6,10 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.asr.handler.*;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.ncip.service.CirculationRestService;
-import org.kuali.ole.oleng.batch.process.model.BatchJob;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
@@ -18,23 +16,16 @@ import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,9 +78,9 @@ public class BatchRestController extends OleNgControllerBase {
         return batchResponse;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/process/submit", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
-    public String submitProcess(@RequestBody String requestBody) {
+    public String createBatchJobDetailsEntry(@RequestBody String requestBody) {
         BatchProcessJob batchProcessJob;
         try {
             batchProcessJob = convertJsonToProcessJob(requestBody);
@@ -103,24 +94,24 @@ public class BatchRestController extends OleNgControllerBase {
         return requestBody;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/process/launch", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.GET, value = "/job/launch", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
-    public String launchProcess(@RequestParam("processId") long processId) {
+    public String launchJob(@RequestParam("jobId") long jobId) {
         try {
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(processId);
-            BatchJob batchJob = createBatchJob(matchedBatchJob);
-            getBusinessObjectService().save(batchJob);
+            BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
+            BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
+            getBusinessObjectService().save(batchJobDetails);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return String.valueOf(processId);
+        return String.valueOf(jobId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/process/destroy", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
-    public String destroyProcess(@RequestParam("processId") long processId) {
+    public String destroyJob(@RequestParam("jobId") long jobId) {
         try {
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(processId);
+            BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
             if (null != matchedBatchJob) {
                 // Set Batch Process Job status to Destroyed
                 //getBusinessObjectService().save(matchedBatchJob);
@@ -128,11 +119,11 @@ public class BatchRestController extends OleNgControllerBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return String.valueOf(processId);
+        return String.valueOf(jobId);
     }
 
-    private BatchJob createBatchJob(BatchProcessJob batchProcessJob) {
-        BatchJob batchJob = new BatchJob();
+    private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob) {
+        BatchJobDetails batchJob = new BatchJobDetails();
         batchJob.setBatchProcessId(batchProcessJob.getBatchProcessId());
         batchJob.setJobName(batchProcessJob.getBatchProcessName());
         batchJob.setBatchProcessType(batchProcessJob.getBatchProcessType());

@@ -130,15 +130,15 @@ batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', f
         });
     }
 
-    $scope.launchJob = function (processId) {
-        $http.get(OLENG_CONSTANTS.PROCESS_LAUNCH, {params: {"processId": processId}}).success(function (data) {
+    $scope.launchJob = function (jobId) {
+        $http.get(OLENG_CONSTANTS.PROCESS_LAUNCH, {params: {"jobId": jobId}}).success(function (data) {
             $scope.message = "Job Launched";
             $scope.initializeExecutions();
         });
     };
 
-    $scope.destroyJob = function(batchProcessJob) {
-        $http.get(OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"processId": processId}}).success(function(data) {
+    $scope.destroyJob = function(jobId) {
+        $http.get(OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}).success(function(data) {
             $scope.message = "Job Destroyed";
         });
     }
