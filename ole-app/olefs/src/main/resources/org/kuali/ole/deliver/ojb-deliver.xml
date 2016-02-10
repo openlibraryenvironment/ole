@@ -1417,6 +1417,7 @@
         <field-descriptor name="dueDate" column="DUE_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="checkOutDate" column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="checkInDate" column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="itemOwnLocation" column="ITM_LOC" jdbc-type="VARCHAR" />
         <reference-descriptor name="patronBillPayment" class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="billNumber"/>
