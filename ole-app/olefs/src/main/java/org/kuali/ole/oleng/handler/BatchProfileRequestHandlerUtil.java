@@ -230,13 +230,13 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchProcessJob> iterator = batchProcessJobs.iterator(); iterator.hasNext(); ) {
                     BatchProcessJob batchProcessJob = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.PROCESS_ID, batchProcessJob.getBatchProcessId());
-                    jsonObject.put(OleNGConstants.PROCESS_NAME, batchProcessJob.getBatchProcessName());
-                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchProcessJob.getBatchProcessType());
-                    BatchProcessProfile batchProcessProfile = batchProcessJob.getBatchProcessProfile();
-                    jsonObject.put(OleNGConstants.PROFILE_NAME, (null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): ""));
+                    jsonObject.put(OleNGConstants.JOB_ID, batchProcessJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_NAME, batchProcessJob.getJobName());
+                    jsonObject.put(OleNGConstants.PROFILE_TYPE, batchProcessJob.getProfileType());
+                    jsonObject.put(OleNGConstants.PROFILE_NAME, batchProcessJob.getBatchProfileName());
                     jsonObject.put(OleNGConstants.CREATED_BY, batchProcessJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.CREATED_ON, batchProcessJob.getCreatedOn());
+                    jsonObject.put(OleNGConstants.NEXT_RUN_TIME, batchProcessJob.getNextRunTime());
                     jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
                     jsonObject.put(OleNGConstants.CRON_EXPRESSION, batchProcessJob.getCronExpression());
                     jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchProcessJob.getBatchJobDetailsList().size());
@@ -260,10 +260,10 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchJobDetails> iterator = batchJobs.iterator(); iterator.hasNext(); ) {
                     BatchJobDetails batchJob = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_DETAIL_ID, batchJob.getJobDetailId());
                     jsonObject.put(OleNGConstants.JOB_NAME, batchJob.getJobName());
-                    jsonObject.put(OleNGConstants.PROCESS_ID, batchJob.getBatchProcessId());
-                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchJob.getBatchProcessType());
+                    jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
+                    jsonObject.put(OleNGConstants.PROFILE_TYPE, batchJob.getProfileType());
                     jsonObject.put(OleNGConstants.PROFILE_NAME, batchJob.getProfileName());
                     jsonObject.put(OleNGConstants.CREATED_BY, batchJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.START_TIME, batchJob.getStartTime());

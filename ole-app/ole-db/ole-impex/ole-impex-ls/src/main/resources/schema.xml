@@ -3511,14 +3511,15 @@
     </table>
 
     <table name="OLE_NG_BAT_PRCS_JOB_T">
-        <column name="PROCESS_ID" primaryKey="true" size="10" type="INTEGER"/>
-        <column name="PROCESS_NAME" size="100" type="VARCHAR"/>
-        <column name="PROCESS_TYPE" size="40" type="VARCHAR"/>
+        <column name="JOB_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="JOB_NAME" size="100" type="VARCHAR"/>
+        <column name="PROFILE_TYPE" size="40" type="VARCHAR"/>
         <column name="PRF_ID" size="10" type="INTEGER"/>
         <column name="JOB_TYPE" size="40" type="VARCHAR"/>
         <column name="CRON_EXP" size="100" type="VARCHAR"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column name="CREATED_ON" type="TIMESTAMP"/>
+        <column name="NEXT_RUN_TIME" type="TIMESTAMP"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
         <foreign-key foreignTable="OLE_NG_BAT_PRF_T" name="OLE_NG_BAT_PRF_ID_FK">
@@ -3530,10 +3531,10 @@
     </table>
 
     <table name="OLE_NG_BAT_JOB_DETAILS_T">
-        <column name="JOB_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="JOB_DETAIL_ID" primaryKey="true" size="10" type="INTEGER"/>
         <column name="JOB_NAME" size="100" type="VARCHAR"/>
-        <column name="PROCESS_ID" size="10" type="INTEGER"/>
-        <column name="PROCESS_TYPE" size="40" type="VARCHAR"/>
+        <column name="JOB_ID" size="10" type="INTEGER"/>
+        <column name="PROFILE_TYPE" size="40" type="VARCHAR"/>
         <column name="PROFILE_NAME" size="100" type="VARCHAR"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column name="START_TIME" type="TIMESTAMP"/>
@@ -3546,10 +3547,10 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
         <foreign-key foreignTable="OLE_NG_BAT_PRCS_JOB_T" name="OLE_NG_BAT_PRCS_ID_FK">
-            <reference foreign="PROCESS_ID" local="PROCESS_ID"/>
+            <reference foreign="JOB_ID" local="JOB_ID"/>
         </foreign-key>
         <index name="OLE_NG_BAT_JOB_I">
-            <index-column name="PROCESS_ID"/>
+            <index-column name="JOB_ID"/>
         </index>
     </table>
 

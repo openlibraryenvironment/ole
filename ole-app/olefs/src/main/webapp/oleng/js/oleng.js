@@ -25,6 +25,7 @@ var OLENG_CONSTANTS = {
     PROCESS_SUBMIT : "rest/batch/job/create",
     PROCESS_LAUNCH : "rest/batch/job/launch",
     PROCESS_QUICK_LAUNCH : "rest/batch/job/quickLaunch",
+    PROCESS_SCHEDULE : "rest/batch/job/schedule",
     PROCESS_JOBS : "rest/describe/getBatchProcessJobs",
     BATCH_JOBS : "rest/describe/getBatchJobs",
     DESTROY_PROCESS : "rest/batch/job/destroy"

@@ -1,0 +1,81 @@
+<div class="form-group">
+    <table class="table table-condensed table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th ng-show="batchSchedule.scheduleOption === 'Provide Cron Expression'">Cron</th>
+            <th ng-show="batchSchedule.scheduleOption === 'Schedule'">Type</th>
+            <th ng-show="batchSchedule.scheduleType === 'Once'" style="width: 200px">Date</th>
+            <th ng-show="batchSchedule.scheduleType === 'Every Week' || batchSchedule.scheduleType === 'Every Month'">
+                Day
+            </th>
+            <th ng-show="batchSchedule.scheduleType === 'Every Month'">Month Frequency</th>
+            <th ng-show="batchSchedule.scheduleType === 'Once' || batchSchedule.scheduleType === 'Daily' || batchSchedule.scheduleType === 'Every Week' || batchSchedule.scheduleType === 'Every Month'">
+                Time
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <select class="form-control" id="scheduleOption" name="scheduleOption"
+                        ng-model="batchSchedule.scheduleOption"
+                        ng-change="onChangeScheduleOption()" style="width: 210px">
+                    <option ng-repeat="option in batchSchedule.scheduleOptions" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleOption === 'Provide Cron Expression'">
+                <input class="form-control" id="cronExpression" name="cronExpression"
+                       type="text"
+                       ng-model="batchSchedule.cronExpression"
+                       style="height: 30px; width: 150px;"/>
+            </td>
+            <td ng-show="batchSchedule.scheduleOption === 'Schedule'">
+                <select class="form-control" id="scheduleType" name="scheduleType"
+                        ng-model="batchSchedule.scheduleType" style="width: 150px">
+                    <option ng-repeat="option in batchSchedule.scheduleTypes" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Once'" style="width: 200px">
+                <input class="form-control" type="date" id="scheduleDate" name="scheduleDate"
+                       ng-model="batchSchedule.scheduleDate" style="height: 30px; width: 200px"/>
+                <!--<md-content style="width: 300px">
+                    <md-datepicker ng-model="batchSchedule.scheduleDate" md-placeholder="Enter date"></md-datepicker>
+                </md-content>-->
+            </td>
+            <td class="col-sm-6"
+                ng-show="batchSchedule.scheduleType === 'Every Week' || batchSchedule.scheduleType === 'Every Month'">
+                <select class="form-control" id="weekDay" name="weekDay"
+                        ng-model="batchSchedule.weekDay" style="width: 150px"
+                        ng-show="batchSchedule.scheduleType === 'Every Week'">
+                    <option ng-repeat="option in batchSchedule.weekDays" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+                <select class="form-control" id="monthDay" name="monthDay"
+                        ng-model="batchSchedule.monthDay" style="width: 70px"
+                        ng-show="batchSchedule.scheduleType === 'Every Month'">
+                    <option ng-repeat="option in batchSchedule.monthDays" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Every Month'">
+                <input class="form-control" id="monthFrequency" name="monthFrequency"
+                       type="text"
+                       ng-model="batchSchedule.monthFrequency"
+                       style="height: 30px; width: 130px;"/>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Once' || batchSchedule.scheduleType === 'Daily' || batchSchedule.scheduleType === 'Every Week' || batchSchedule.scheduleType === 'Every Month'">
+                <input class="form-control" id="scheduleTime" name="scheduleTime" type="text"
+                       ng-model="batchSchedule.scheduleTime" placeholder="HH:MM"
+                       style="height: 30px; width: 100px;"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
