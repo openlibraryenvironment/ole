@@ -5,6 +5,8 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
@@ -31,10 +33,38 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
     private MarcRecordUtil marcRecordUtil;
 
+
+    private SolrRequestReponseHandler solrRequestReponseHandler;
+
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
+        if(null == solrRequestReponseHandler) {
+            solrRequestReponseHandler = new SolrRequestReponseHandler();
+        }
+        return solrRequestReponseHandler;
+    }
+
+    public void setSolrRequestReponseHandler(SolrRequestReponseHandler solrRequestReponseHandler) {
+        this.solrRequestReponseHandler = solrRequestReponseHandler;
+    }
+
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
         String returnValue = null;
         try {
-            returnValue = jsonObject.getString(key);
+            if (jsonObject.has(key)) {
+                returnValue = jsonObject.getString(key);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public boolean getBooleanValueFromJsonObject(JSONObject jsonObject, String key) {
+        boolean returnValue = false;
+        try {
+            if (jsonObject.has(key)) {
+                returnValue = jsonObject.getBoolean(key);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -44,11 +74,33 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
     public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
         JSONArray returnValue = null;
         try {
-            returnValue = jsonObject.getJSONArray(key);
+            if(jsonObject.has(key)){
+                returnValue = jsonObject.getJSONArray(key);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return returnValue;
+    }
+
+    public JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) {
+        JSONObject returnObject = null;
+        try {
+            returnObject = jsonObject.getJSONObject(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject;
+    }
+
+    public JSONObject getJSONObjectFromJsonArray(JSONArray jsonArray, int index) {
+        JSONObject returnObject = null;
+        try {
+            returnObject = jsonArray.getJSONObject(index);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject;
     }
 
     public List<String> getListFromJSONArray(String operation){

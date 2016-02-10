@@ -2026,4 +2026,6 @@ public class OLEConstants {
     public static final String ERROR_REPORT = "ErrorReport";
     public static final String DATE_FORM_PO_BEGN_DT                = "MM/dd/yyyy";
     public static final String DATE_FORM_PO_END_DT = "12/31/9999";
+    public static final String THREAD_POOL_SIZE = "AUTO_CLOSE_PO_THREAD_POOL_SIZE";
+    public static final String ERESOURCE = "E-Resource";
 }

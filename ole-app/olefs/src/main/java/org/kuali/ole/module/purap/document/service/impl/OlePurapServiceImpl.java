@@ -619,7 +619,7 @@ public class OlePurapServiceImpl implements OlePurapService {
         List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = getRelatedPurchaseOrderList(purchaseOrderDocument);
         for(OlePurchaseOrderDocument linkedOlePurchaseOrderDocument:olePurchaseOrderDocumentList){
             for(OlePurchaseOrderItem olePurchaseOrderItem:(List<OlePurchaseOrderItem>)linkedOlePurchaseOrderDocument.getItems()){
-                if (olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)&&olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
+                if (olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE) && (olePurchaseOrderItem.getLinkToOrderOption().equals(OLEConstants.ERESOURCE) || olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId()))) {
                     List<OleInvoiceItem> oleInvoiceItemList = getOleInvoiceItemList(purchaseOrderDocument,olePurchaseOrderItem);
                     if(oleInvoiceItemList!=null){
                         for(OleInvoiceItem oleInvoiceItem:oleInvoiceItemList){

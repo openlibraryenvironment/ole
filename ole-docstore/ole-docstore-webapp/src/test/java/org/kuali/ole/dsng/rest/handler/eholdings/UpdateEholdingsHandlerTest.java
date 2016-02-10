@@ -108,6 +108,9 @@ public class UpdateEholdingsHandlerTest {
         bibData.put(OleNGConstants.ITEM, itemData);
         bibData.put(OleNGConstants.UPDATED_BY, "ole-quickstart");
         bibData.put(OleNGConstants.UPDATED_DATE, DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
+        JSONObject addedOps = new JSONObject();
+        addedOps.put(OleNGConstants.EHOLDINGS,OleNGConstants.OVERLAY);
+        bibData.put(OleNGConstants.ADDED_OPS, addedOps);
 
         Exchange exchange = new Exchange();
         new OleDsNgOverlayProcessor().prepareEHoldingsRecord(bibRecord, bibData, exchange);
@@ -189,6 +192,9 @@ public class UpdateEholdingsHandlerTest {
         bibData.put(OleNGConstants.ITEM, itemData);
         bibData.put(OleNGConstants.UPDATED_BY, "ole-quickstart");
         bibData.put(OleNGConstants.UPDATED_DATE, DocstoreConstants.DOCSTORE_DATE_FORMAT.format(new Date()));
+        JSONObject addedOps = new JSONObject();
+        addedOps.put(OleNGConstants.EHOLDINGS,OleNGConstants.OVERLAY);
+        bibData.put(OleNGConstants.ADDED_OPS, addedOps);
 
         Exchange exchange = new Exchange();
         new OleDsNgOverlayProcessor().prepareEHoldingsRecord(bibRecord, bibData, exchange);

@@ -87,7 +87,7 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
         String callNumber = searchCriteria.get("callNumber") != null ? searchCriteria.get("callNumber") : "";
         String itemType = searchCriteria.get("itemType") != null ? searchCriteria.get("itemType") : "";
         String itemBarCode = searchCriteria.get("itemBarCode") != null ? searchCriteria.get("itemBarCode") : "";
-        // String itemUuid = searchCriteria.get("itemUuid") != null ? searchCriteria.get("itemUuid") : "";
+        String itemUUID = searchCriteria.get("itemUUID") != null ? searchCriteria.get("itemUUID") : "";
         String pageDisplay = searchCriteria.get("pageDisplay") != null ? searchCriteria.get("pageDisplay") : "";
         String page_Size = searchCriteria.get("pageSize") != null ? searchCriteria.get("pageSize") : "";
 
@@ -146,9 +146,9 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
                 if (!itemBarCode.isEmpty()) {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("phrase", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_BARCODE, itemBarCode), "AND"));
                 }
-                /*if (!itemUuid.isEmpty()) {
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ID, itemUuid), "AND"));
-                }*/
+                if (!itemUUID.isEmpty()) {
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ID, itemUUID), "AND"));
+                }
                 getDocstoreUtil().getSearchResultFields(item_search_Params);
                 SearchResponse searchResponse = getDocstoreClientLocator().getDocstoreClient().search(item_search_Params);
                 this.totalRecCount = searchResponse.getTotalRecordCount();

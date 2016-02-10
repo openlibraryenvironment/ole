@@ -57,7 +57,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.*;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -1844,9 +1846,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.debug("autoCloseFullyDisencumberedOrders() started");
         List<AutoClosePurchaseOrderView> autoCloseList = new ArrayList<AutoClosePurchaseOrderView>();
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        ExecutorService executorService = Executors.newFixedThreadPool(Integer.parseInt(getParameterValue(OLEConstants.THREAD_POOL_SIZE)));
         List<Future> futures = new ArrayList<>();
-
 
         String autoCloseOrderFromDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_FROM_DATE);
         String autoCloseOrderToDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_TO_DATE);
@@ -1868,11 +1869,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             autoCloseOrderToDate = null;
         }
         autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes(), autoCloseOrderFromDate, autoCloseOrderToDate);
-
-        //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
-        //KFSMI-7533
-//         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
-//         (autoCloseList);
         UserSession userSession = GlobalVariables.getUserSession();
         for (AutoClosePurchaseOrderView poAutoClose : autoCloseList) {
             if (LOG.isDebugEnabled()) {
@@ -1886,7 +1882,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<PurchaseOrderDocument> closedPurchaseOrderDocumentList = new ArrayList<>();
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
-
             try {
                 PurchaseOrderDocument closedPurchaseOrderDocument = (PurchaseOrderDocument)future.get();
                 closedPurchaseOrderDocumentList.add(closedPurchaseOrderDocument);
@@ -2680,5 +2675,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
         this.oleSelectDocumentService = oleSelectDocumentService;
+    }
+
+    public String getParameterValue(String key) {
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID_OLE, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT, key);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
     }
 }

@@ -1431,11 +1431,27 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                 int j=0;
                 for (OleCopy newCopy : oleCopyList) {
                     if (!this.newCopyFlag) { // existing record's location  is updated with First copy from copyList
-                        updateOleHolding(bibTree.getHoldingsTrees().get(0).getHoldings().getId(),bibTree, newCopy);
+                        String holdingsId = null;
+                        String itemId = null;
+                        if (bibTree.getHoldingsTrees().size() > 0) {
+                            List<HoldingsTree>  holdingsTree = bibTree.getHoldingsTrees();
+                            for (HoldingsTree holdings : holdingsTree) {
+                                List<org.kuali.ole.docstore.common.document.Item> itemList = holdings.getItems();
+                                ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+                                for(org.kuali.ole.docstore.common.document.Item item : itemList) {
+                                    org.kuali.ole.docstore.common.document.content.instance.Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
+                                    if(itemContent.getPurchaseOrderLineItemIdentifier().equals(poNumber)) {
+                                        holdingsId =  holdings.getHoldings().getId();
+                                        itemId = item.getId();
+                                }
+                                }
+                            }
+                        }
+                        updateOleHolding(holdingsId, bibTree, newCopy);
                         if (bibTree.getHoldingsTrees().get(0).getItems().size()==1) {
-                            updateOlePOAItem(poNumber, bibTree.getHoldingsTrees().get(0).getItems().get(0).getId(), singleItem, oleCopyList);
-                            newCopy.setInstanceId(bibTree.getHoldingsTrees().get(0).getHoldings().getId());
-                            newCopy.setItemUUID(bibTree.getHoldingsTrees().get(0).getItems().get(0).getId());
+                            updateOlePOAItem(poNumber, itemId, singleItem, oleCopyList);
+                            newCopy.setInstanceId(holdingsId);
+                            newCopy.setItemUUID(itemId);
                             for (int copyCnt=0; copyCnt<oleCopyList.size(); copyCnt++) {
                                 if (!newCopy.getCopyId().equals(oleCopyList.get(copyCnt).getCopyId())) {
                                     newCopyList.add(oleCopyList.get(copyCnt));

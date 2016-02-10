@@ -5,7 +5,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
@@ -92,6 +91,7 @@ public class UpdateEholdingsHandler extends Handler {
             eholdingMetaDataHandlers.add(new NonPublicNoteHandler());
             eholdingMetaDataHandlers.add(new PublicNoteHandler());
             eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
+            eholdingMetaDataHandlers.add(new HoldingsStaffOnlyHandler());
         }
         return eholdingMetaDataHandlers;
 

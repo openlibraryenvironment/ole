@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -216,6 +217,33 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return results;
     }
 
+    public OLEDeliverNotice getOnHoldExpiredNotice(String requestId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("noticeType", OLEConstants.ONHOLD_EXPIRATION_NOTICE);
+        criteria.addEqualTo("requestId", requestId);
+        criteria.addLessOrEqualThan("noticeToBeSendDate", new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        List<OLEDeliverNotice> oleDeliverNoticeList = (List<OLEDeliverNotice>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (CollectionUtils.isNotEmpty(oleDeliverNoticeList)){
+            return oleDeliverNoticeList.get(0);
+        }
+        return null;
+    }
+
+    public OleDeliverRequestBo getHoldExpiredRequests(String itemId) {
+        Criteria criteria = new Criteria();
+        criteria.addIn("requestTypeId", Arrays.asList("2", "4", "6"));
+        criteria.addEqualTo("borrowerQueuePosition", "1");
+        criteria.addEqualTo("itemId", itemId);
+        criteria.addColumnNotNull("ONHLD_NTC_SNT_DT");
+        criteria.addLessOrEqualThan("holdExpirationDate", new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria);
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (CollectionUtils.isNotEmpty(oleDeliverRequestBoList)){
+            return oleDeliverRequestBoList.get(0);
+        }
+        return null;
+    }
 
 
 

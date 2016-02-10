@@ -528,9 +528,11 @@ public class ItemIndexer extends OleDsNgIndexer  {
             for (Iterator<LocationsCheckinCountRecord> iterator = locationsCheckinCountRecords.iterator(); iterator.hasNext(); ) {
                 LocationsCheckinCountRecord locationsCheckinCountRecord = iterator.next();
                 if (null != locationsCheckinCountRecord) {
-                    String checkInLocationCount = locationsCheckinCountRecord.getLocationCount().toString();
+                    Integer locationCount = locationsCheckinCountRecord.getLocationCount();
+                    String checkInLocationCount = (null != locationCount ? locationCount.toString() : "0");
                     appendData(sb, checkInLocationCount);
-                    String checkInLocationInHouseCount = locationsCheckinCountRecord.getLocationInhouseCount().toString();
+                    Integer locationInhouseCount = locationsCheckinCountRecord.getLocationInhouseCount();
+                    String checkInLocationInHouseCount = (null != locationInhouseCount ? locationInhouseCount.toString() : "0");
                     appendData(sb, checkInLocationInHouseCount);
                     String checkInLocationName = locationsCheckinCountRecord.getLocationName();
                     appendData(sb, checkInLocationName);

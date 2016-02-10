@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Batch Process Jobs</title>
+    <script src="framework/jquery/js/jquery-1.11.3.js"></script>
+    <script src="framework/angular/js/angular.js"></script>
+    <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css">
+    <script src="framework/bootstrap/js/bootstrap.min.js"></script>
+    <script src="batchScheduling/css/batchScheduling.css"></script>
+    <script src="batchScheduling/controllers/batchProcessJobsController.js"></script>
+    <script src="oleng/js/oleng.js"></script>
+    <script src="batchFramework/controllers/olengProfileDropDownValues.js"></script>
+    <script src="framework/plugins/js/datatables.min.js"></script>
+    <script src="framework/angular/js/angular-datatables.min.js"></script>
+    <link rel="stylesheet" href="framework/plugins/css/datatables.min.css" type="text/css" />
+    <link rel="stylesheet" href="framework/plugins/css/font-awesome.min.css">
+    <script src="framework/angular/js/ui-bootstrap-tpls-0.14.3.js"></script>
+    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>-->
+</head>
+<body>
+<form name="batchSchedulingForm" ng-app="batchScheduling" ng-controller="batchSchedulingController" data-ng-init="init()">
+    <div class="container col-lg-12">
+        <br/>
+        <h2 style="display:inline !important; font-weight: bold;">Batch Process Jobs</h2>
+        <br/><br/>
+        <ul class="nav nav-tabs">
+            <li ng-class="{'active' : selected==1}" ng-click="initializeCreateJob()"><a href="#">Create Job</a></li>
+            <li ng-class="{'active' : selected==2}" ng-click="initializeJobs()"><a href="#">Jobs</a></li>
+            <li ng-class="{'active' : selected==3}" ng-click="initializeExecutions()"><a href="#">Job Executions</a></li>
+        </ul>
+    </div>
+    <div ng-include src="page"></div>
+</form>
+</body>
+</html>

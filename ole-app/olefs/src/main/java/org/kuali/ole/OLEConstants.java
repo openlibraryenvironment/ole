@@ -1697,6 +1697,7 @@ public class OLEConstants {
     public static final String DAT_FORMAT_EFFECTIVE_NOTICE = "MM/dd/yyyy hh:mm:ss";
     public static final String INVAL_LOC = "error.invalid.location";
     public static final String ITEM_NOT_AVAILABLE = "item.not.available";
+    public static final String ITEM_BARCODE_OR_UUID_REQUIRED= "item.barcode.or.uuid.required";
     public static final String INVAL_ITEM = "Either item type or item status or both are empty";
     public static final String GENERAL_BLOCK = "generalBlock";
     public static final String LOST_BARCODE = "lostBarcode";

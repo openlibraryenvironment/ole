@@ -20,6 +20,21 @@ var OLENG_CONSTANTS = {
     PROFILE_SUBMIT : "rest/describe/profile/submit",
     PROFILE_DELETE : "../../rest/describe/profile/delete",
     PROFILE_CANCEL : "portal.jsp",
-    PROFILE_IMPORT : "../../rest/describe/profile/import"
+    PROFILE_IMPORT : "../../rest/describe/profile/import",
+
+    PROCESS_SUBMIT : "rest/batch/job/create",
+    PROCESS_LAUNCH : "rest/batch/job/launch",
+    PROCESS_JOBS : "rest/describe/getBatchProcessJobs",
+    BATCH_JOBS : "rest/describe/getBatchJobs",
+    DESTROY_PROCESS : "rest/batch/job/destroy"
+
+};
+
+var BATCH_CONSTANTS = {
+    PROFILE_TYPES : [
+        {id: 'orderRecordImport', value: 'Order Record Import'},
+        {id: 'invoiceImport', value: 'Invoice Import'},
+        {id: 'bibImport', value: 'Bib Import'}
+    ]
 
 };

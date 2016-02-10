@@ -5,6 +5,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,8 +79,8 @@ public class OleCamelContext {
 
     public String getDestinationURI() {
         if (null == destinationURI) {
-            String projectHome = System.getProperty("project.home");
-            String fileEndPointPath = null == defaultFilePath ? projectHome + "/reports" : defaultFilePath + "?fileName=" + defaultFileName + "&fileExist=Append";
+            String projectHome = ConfigContext.getCurrentContextConfig().getProperty("project.home");
+            String fileEndPointPath = (null == defaultFilePath ? projectHome + "/reports" : defaultFilePath) + "?fileName=" + defaultFileName + "&fileExist=Append";
             destinationURI = "file:" + fileEndPointPath;
         }
         return destinationURI;

@@ -1,15 +1,21 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.marc4j.marc.Record;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pvsubrah on 12/23/15.
@@ -53,6 +59,8 @@ public class CreateBibHandler extends BibHandler {
             setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
             getBibDAO().save(bibRecord);
+            
+            saveBibInfoRecord(bibRecord,true);
 
         } catch (JSONException e) {
             e.printStackTrace();

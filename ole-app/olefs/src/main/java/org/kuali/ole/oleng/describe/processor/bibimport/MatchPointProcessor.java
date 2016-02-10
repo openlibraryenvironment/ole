@@ -29,7 +29,8 @@ public class MatchPointProcessor extends BatchUtil {
         if (CollectionUtils.isNotEmpty(batchProfileMatchPoints)) {
             for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPoints.iterator(); iterator.hasNext(); ) {
                 BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
-                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIBLIOGRAPHIC)) {
+                if (batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIBLIOGRAPHIC) ||
+                        batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
                     String query = formSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPoint);
                     if(StringUtils.isNotBlank(query)){
                         queryList.add(query) ;
@@ -105,8 +106,12 @@ public class MatchPointProcessor extends BatchUtil {
             String query = iterator.next();
             appendQuery(queryBuilder,query);
         }
-        String query = OleNGConstants.BIB_QUERY_BEGIN + queryBuilder.toString() + "))";
-        return query;
+        if (StringUtils.isNotBlank(queryBuilder.toString())) {
+            String query = OleNGConstants.BIB_QUERY_BEGIN + queryBuilder.toString() + "))";
+            return query;
+        } else {
+            return null;
+        }
     }
 
     private void appendQuery(StringBuilder queryBuilder, String query) {

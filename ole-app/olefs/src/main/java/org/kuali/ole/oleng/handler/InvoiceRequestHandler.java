@@ -3,7 +3,7 @@ package org.kuali.ole.oleng.handler;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.oleng.service.InvoiceService;
+import org.kuali.ole.oleng.service.OleNGInvoiceService;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.document.OleInvoiceDocument;
@@ -21,15 +21,16 @@ import java.util.List;
 public class InvoiceRequestHandler extends OleNgUtil {
 
     @Autowired
-    private InvoiceService invoiceService;
+    private OleNGInvoiceService oleNGInvoiceService;
 
     public String processInvoice(String requestBody) throws Exception {
 
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
 
         List<OleInvoiceRecord> oleInvoiceRecords = getObjectMapper().readValue(requestBody, new TypeReference<List<OleInvoiceRecord>>(){});
-        OleInvoiceDocument oleInvoiceDocument = invoiceService.createInvoiceDocument(oleInvoiceRecords);
-        oleInvoiceDocument = invoiceService.saveInvoiceDocument(oleInvoiceDocument);
+        OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
+        oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument,oleInvoiceRecords);
+        oleInvoiceDocument = oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
 
         JSONObject jsonObject = new JSONObject();
         if(null != oleInvoiceDocument.getDocumentNumber()) {

@@ -1737,4 +1737,12 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
     public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
     }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
 }

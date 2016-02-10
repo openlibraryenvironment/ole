@@ -10,7 +10,7 @@ public class VendorItemIdentifierValueResolver extends TxValueResolver {
 
     @Override
     public boolean isInterested(String attributeName) {
-        return OleNGConstants.BatchProcess.VENDOR_REFERENCE_NUMBER.equals(attributeName);
+        return OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER.equals(attributeName);
     }
 
     @Override

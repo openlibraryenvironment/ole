@@ -1677,6 +1677,8 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
         , CHECK_IN_DT_TIME DATETIME NOT NULL
         , CHECK_IN_OPTR_ID VARCHAR(40)
         , CHECK_IN_MACH_ID VARCHAR(100)
+        , ITEM_TYP_ID VARCHAR(100)
+        , TEMP_ITEM_TYP_ID VARCHAR(100)
         , ITEM_UUID VARCHAR(100) NOT NULL
     
     , CONSTRAINT OLE_DLVR_CIRC_RECORDP1 PRIMARY KEY(CIR_HIS_REC_ID)
@@ -1686,15 +1688,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 
@@ -2158,7 +2160,7 @@ CREATE TABLE OLE_DLVR_RQST_T
     
     , CONSTRAINT OLE_DLVR_RQST_TP1 PRIMARY KEY(OLE_RQST_ID)
 
-    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITM_ID)
+    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITEM_UUID)
 
 
 
@@ -6543,6 +6545,79 @@ CREATE TABLE OLE_NG_BAT_PRF_T
 
 
 # -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
+(
+      PROCESS_ID INTEGER(10)
+        , PROCESS_NAME VARCHAR(100)
+        , PROCESS_TYPE VARCHAR(40)
+        , PRF_ID INTEGER(10)
+        , JOB_TYPE VARCHAR(40)
+        , CRON_EXP VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , CREATED_ON DATETIME
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(PROCESS_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                            
+                                    
+, INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_T
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
+(
+      JOB_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , PROCESS_ID INTEGER(10)
+        , PROCESS_TYPE VARCHAR(40)
+        , PROFILE_NAME VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , START_TIME DATETIME
+        , END_TIME DATETIME
+        , PER_COMPLETED VARCHAR(40)
+        , TIME_SPENT VARCHAR(40)
+        , TOTAL_RECORDS VARCHAR(40)
+        , TOTAL_RECORDS_PRCSD VARCHAR(40)
+        , STATUS VARCHAR(40)
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_NG_BAT_JOB_I (PROCESS_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -9336,4 +9411,32 @@ CREATE TABLE OLE_NG_BAT_PRF_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_NG_BAT_PRF_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRCS_JOB_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_S
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_JOB_DETAILS_S auto_increment = 1
 /

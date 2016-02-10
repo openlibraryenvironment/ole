@@ -8,11 +8,14 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rajeshbabuk on 12/10/15.
@@ -29,18 +32,28 @@ public class BatchProfileRequestHandler extends BatchProfileRequestHandlerUtil {
 
     public String prepareProfileForSearch(String requestContent) throws JSONException, IOException {
         JSONObject requestObject = new JSONObject(requestContent);
-        String profileName = null;
+        Map map = new HashMap();
         if(requestObject.has(OleNGConstants.PROFILE_NAME)){
-           profileName =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_NAME);
+            String profileName =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_NAME);
+            if (StringUtils.isNotBlank(profileName)) {
+                map.put(OleNGConstants.BATCH_PROCESS_PROFILE_NAME,profileName);
+            }
+        }
+        if(requestObject.has(OleNGConstants.PROFILE_TYPE)){
+            String profileType =  getStringValueFromJsonObject(requestObject, OleNGConstants.PROFILE_TYPE);
+            if (StringUtils.isNotBlank(profileType)) {
+                map.put(OleNGConstants.BATCH_PROCESS_PROFILE_TYPE,profileType);
+            }
         }
         JSONArray jsonArray = new JSONArray();
-        List<BatchProcessProfile> matching = getBatchProcessProfiles(profileName);
+        List<BatchProcessProfile> matching = getBatchProcessProfiles(map);
         if(CollectionUtils.isNotEmpty(matching)){
             for (Iterator<BatchProcessProfile> iterator = matching.iterator(); iterator.hasNext(); ) {
                 BatchProcessProfile batchProcessProfile = iterator.next();
                 JSONObject profile = new JSONObject();
                 profile.put(OleNGConstants.PROFILE_NAME,batchProcessProfile.getBatchProcessProfileName());
                 profile.put(OleNGConstants.PROFILE_ID,batchProcessProfile.getBatchProcessProfileId());
+                profile.put(OleNGConstants.PROFILE_TYPE,batchProcessProfile.getBatchProcessType());
                 byte[] content = batchProcessProfile.getContent();
                 profile.put(OleNGConstants.CONTENT, (null != content ? IOUtils.toString(content) : "{}"));
                 jsonArray.put(profile);

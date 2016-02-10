@@ -24,13 +24,13 @@
                         <td class="col-sm-6">
                             <label class="col-sm-4">Batch Profile Name:</label>
                             <input class="form-control" id="profileName" name="profileName" type="text"
-                               ng-model="mainSectionPanel.profileName" style="height: 30px; width: 150px;"
+                               ng-model="mainSectionPanel.profileName" style="height: 30px; width: 350px;"
                                ng-disabled="submitted" required/>
                         </td>
                         <td class="col-sm-6">
                             <label class="col-sm-4">Description:</label>
                             <input class="form-control" id="profileDescription" name="profileDescription" type="text"
-                                   ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 150px;"
+                                   ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 350px;"
                                    ng-disabled="submitted"/>
                         </td>
                     </tr>
@@ -53,7 +53,7 @@
                             <select class="form-control" id="bibImportProfile" name="bibImportProfile"
                                     ng-model="mainSectionPanel.bibImportProfileForOrderImport"
                                     ng-disabled="submitted"
-                                    style="width: 170px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                                    style="width: 170px" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
                                 <option value=""></option>
                                 <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
                                         ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"

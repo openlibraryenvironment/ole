@@ -10,9 +10,12 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -92,10 +95,9 @@ public class SolrRequestReponseHandler {
     }
 
     public String getSolrUrl() {
-        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+        String solrURL = ConfigContext.getCurrentContextConfig().getProperty("solr.url");
         LOG.info("Solr URl : " + solrURL);
         return solrURL;
-//        return "http://localhost:8080/oledocstore/bib";
     }
 
     public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument) {
@@ -106,6 +108,18 @@ public class SolrRequestReponseHandler {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error("Error while updating document to solr.");
+        }
+        return updateResponse;
+    }
+
+    public UpdateResponse deleteFromSolr(String query){
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = getHttpSolrServer().deleteByQuery(query);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return updateResponse;
     }

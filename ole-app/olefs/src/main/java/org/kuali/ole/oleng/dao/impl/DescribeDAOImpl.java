@@ -8,6 +8,8 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTy
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -82,6 +84,16 @@ public class DescribeDAOImpl extends BusinessObjectServiceHelperUtil implements 
     @Override
     public List<StatisticalSearchRecord> fetchStatisticalSearchCodes() {
         return (List<StatisticalSearchRecord>) getBusinessObjectService().findAll(StatisticalSearchRecord.class);
+    }
+
+    @Override
+    public List<BatchProcessJob> fetchAllBatchProcessJobs() {
+        return (List<BatchProcessJob>) getBusinessObjectService().findAll(BatchProcessJob.class);
+    }
+
+    @Override
+    public List<BatchJobDetails> fetchAllBatchJobDetails() {
+        return (List<BatchJobDetails>) getBusinessObjectService().findAll(BatchJobDetails.class);
     }
 
     @Override

@@ -12,12 +12,11 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <p style="color:red" ng-show="batchProfileForm.dataMappingDocumentType_0.$dirty && batchProfileForm.dataMappingDocumentType_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Provide Source and Destination field values</p>
-                <p style="color:red" ng-show="batchProfileForm.dataMappingDataField_0.$dirty && batchProfileForm.dataMappingDataField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data Field is required</p>
-                <p style="color:red" ng-show="batchProfileForm.dataMappingSubField_0.$dirty && batchProfileForm.dataMappingSubField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required</p>
-                <p style="color:red" ng-show="batchProfileForm.dataMappingDestination_0.$dirty && batchProfileForm.dataMappingDestination_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Type is required</p>
-                <p style="color:red" ng-show="batchProfileForm.dataMappingField_0.$dirty && batchProfileForm.dataMappingField_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
-                <p style="color:red" ng-show="batchProfileForm.dataMappingConstant_0.$dirty && batchProfileForm.dataMappingConstant_0.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field Value is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataMappingDataField_'+dataMappingIndex].$dirty && batchProfileForm['dataMappingDataField_'+dataMappingIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataMappingSubField_'+dataMappingIndex].$dirty && batchProfileForm['dataMappingSubField_'+dataMappingIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataMappingDestination_'+dataMappingIndex].$dirty && batchProfileForm['dataMappingDestination_'+dataMappingIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Type is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataMappingField_'+dataMappingIndex].$dirty && batchProfileForm['dataMappingField_'+dataMappingIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataMappingConstant_'+dataMappingIndex].$dirty && batchProfileForm['dataMappingConstant_'+dataMappingIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field Value is required</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -230,7 +229,7 @@
                         <td>
                             <input class="form-control" type="checkbox" name="dataMappingIsMultiValue_{{$index}}"
                                    id="dataMappingIsMultiValue_{{$index}}"
-                                   ng-model="dataMapping.isMultiValue">
+                                   ng-model="dataMapping.isMultiValue" style="height: 20px;">
                         </td>
                         <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
                             <select class="form-control" name="dataMappingTransferOption__{{$index}}"

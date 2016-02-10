@@ -69,7 +69,16 @@ public class OleNGConstants {
         public static final String SPL_PROCESS_NOTE = "Special Processing Instruction Note";
         public static final String VNDR_INSTR_NOTE = "Vendor Instructions Note";
         public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
-        public static final String VENDOR_REFERENCE_NUMBER = "Vendor Reference Number";
+        public static final String BOOK_PLATE = "Book Plate";
+        public static final String EBOOK = "E-Book";
+        public static final String EXCHANGE_RATE = "Exchange Rate";
+        public static final String INVOICE_DATE = "Invoice Date";
+        public static final String INVOICE_NUMBER = "Invoice Number";
+        public static final String INVOICE_FOREIGN_PRICE = "Invoiced Foreign Price";
+        public static final String INVOICE_PRICE = "Invoiced Price";
+        public static final String ITEM_DESCRIPTION = "Item Description";
+        public static final String REQUESTOR = "Requestor";
+        public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
     }
 
     public static final String TAG_001 = "001";
@@ -79,7 +88,9 @@ public class OleNGConstants {
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String ADDED_OPS = "addedOps";
     public static final String ACTION_OPS = "actionOps";
+    public static final String FIELD_OPS = "fieldOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
     public static final String HOLDINGS_DATAMAPPINGS = "holdingsDataMappings";
     public static final String EHOLDINGS_DATAMAPPINGS = "eHoldingsDataMappings";
@@ -104,8 +115,8 @@ public class OleNGConstants {
     public static final String DISCARD = "Discard";
     public static final String IF_MATCH_FOUND = "If Match Found";
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
-    public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple and Delete all existing and add";
-    public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple and Keep all existing and add";
+    public static final String CREATE_MULTIPLE_DELETE_ALL_EXISTING = "Create multiple, Delete all existing and add";
+    public static final String CREATE_MULTIPLE_KEEP_ALL_EXISTING = "Create multiple, Keep all existing and add";
     public static final String DELETE_ALL_EXISTING_AND_ADD = "Delete all existing and add";
     public static final String KEEP_ALL_EXISTING_AND_ADD = "Keep all existing and add";
     public static final String CREATE_MULTIPLE = "Create multiple";
@@ -129,6 +140,7 @@ public class OleNGConstants {
     public static final String TRANSACTION_MANAGER = "transactionManager";
     public static final String PROFILE_NAME = "profileName";
     public static final String PROFILE_ID = "profileId";
+    public static final String PROFILE_TYPE = "profileType";
     public static final String CONTENT = "content";
     public static final String ACTION = "action";
     public static final String COPY = "copy";
@@ -147,7 +159,28 @@ public class OleNGConstants {
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
 
+    public static final String PROCESS_ID = "processId";
+    public static final String BATCH_PROCESS_ID = "batchProcessId";
+    public static final String PROCESS_NAME = "batchProcessName";
+    public static final String PROCESS_TYPE = "batchProcessType";
+    public static final String JOB_TYPE = "jobType";
+    public static final String CRON_EXPRESSION = "cronExpression";
+    public static final String JOB_ID = "jobId";
+    public static final String JOB_NAME = "jobName";
+    public static final String CREATED_BY = "createdBy";
+    public static final String START_TIME = "startTime";
+    public static final String END_TIME = "startTime";
+    public static final String PER_COMPLETED = "perCompleted";
+    public static final String TIME_SPENT = "timeSpent";
+    public static final String TOTAL_RECORDS = "totalRecords";
+    public static final String TOTAL_RECORDS_PROCESSED = "totalRecordsProcessed";
+    public static final String JOB_STATUS = "status";
+    public static final String CREATED_ON = "createdOn";
+    public static final String EXECUTION_COUNT = "executionCount";
+    public static final String LAST_EXECUTION_STATUS = "lastExecutionStatus";
+
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
+    public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
     public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";
 
     public static final String SUCCESS = "Success";
@@ -189,6 +222,9 @@ public class OleNGConstants {
 
     public final static String CREATED = "Created";
     public final static String UPDATED = "Updated";
+    public final static String INDEX = "index";
+
+    public static final String FORWARD_SLASH = "/";
 
 
 }

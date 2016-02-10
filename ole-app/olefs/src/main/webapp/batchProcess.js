@@ -44,11 +44,7 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
 
 batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$http', function($scope, fileUpload,$http){
 
-    $scope.batchProcessTypes = [
-        {id: 'orderRecordImport', value: 'Order Record Import'},
-        {id: 'invoiceImport', value: 'Invoice Import'},
-        {id: 'bibImport', value: 'Bib Import'}
-    ];
+    $scope.batchProcessTypes = BATCH_CONSTANTS.PROFILE_TYPES;
 
     $scope.profileNames = [];
     var url = "rest/batch/upload";

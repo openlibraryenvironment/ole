@@ -43,7 +43,7 @@
         <index name="OLE_ACC_ACT_CONFIG_FK">
             <index-column name="ACC_ACT_ID"/>
         </index>
-     </table>
+    </table>
 
     <table name="OLE_ACC_TYP_T">
         <column name="ACC_TYP_ID" primaryKey="true" size="10" type="VARCHAR"/>
@@ -571,7 +571,7 @@
                 primaryKey="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_ID" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_LOCN" required="true" size="40" type="VARCHAR"/>
-        <column name="OLE_CRCL_PICKUP_DSK_LOCN"  size="40" type="VARCHAR"/>
+        <column name="OLE_CRCL_PICKUP_DSK_LOCN" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_CRCL_DSK_T" name="OLE_CRCL_LOCN_FK">
             <reference foreign="OLE_CRCL_DSK_ID" local="OLE_CRCL_DSK_ID"/>
         </foreign-key>
@@ -786,7 +786,7 @@
         <column name="JOB_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="JOB_TRG_NM" required="true" size="100" type="VARCHAR"/>
         <column name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="PCK_UP_LOCN"  size="100" type="VARCHAR"/>
+        <column name="PCK_UP_LOCN" size="100" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="JOB_CRON_EXPRSN" size="80" type="VARCHAR"/>
@@ -816,8 +816,8 @@
         <column name="OTHER_AFFILIATION" size="40" type="VARCHAR"/>
         <column name="STATISTICAL_CATEGORY" size="40" type="VARCHAR"/>
         <column name="ITM_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="ITM_LOCN"  size="100" type="VARCHAR"/>
-        <column name="HLDNG_LOCN"  size="100" type="VARCHAR"/>
+        <column name="ITM_LOCN" size="100" type="VARCHAR"/>
+        <column name="HLDNG_LOCN" size="100" type="VARCHAR"/>
         <column name="BIB_TIT" required="true" size="4000" type="VARCHAR"/>
         <column name="BIB_AUTH" size="500" type="VARCHAR"/>
         <column name="BIB_EDITION" size="500" type="VARCHAR"/>
@@ -825,7 +825,7 @@
         <column name="BIB_PUB_DT" type="DATE"/>
         <column name="BIB_ISBN" size="50" type="VARCHAR"/>
         <column name="PROXY_PTRN_ID" size="40" type="VARCHAR"/>
-        <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
+        <column name="DUE_DT_TIME" type="TIMESTAMP"/>
         <column name="PAST_DUE_DT_TIME" type="TIMESTAMP"/>
         <column name="CRTE_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="MODI_DT_TIME" type="TIMESTAMP"/>
@@ -842,6 +842,8 @@
         <column name="CHECK_IN_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="CHECK_IN_OPTR_ID" size="40" type="VARCHAR"/>
         <column name="CHECK_IN_MACH_ID" size="100" type="VARCHAR"/>
+        <column name="ITEM_TYP_ID" size="100" type="VARCHAR"/>
+        <column name="TEMP_ITEM_TYP_ID" size="100" type="VARCHAR"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="fk_OLE_DLVR_CIRC_RECORD_FK2">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
@@ -970,9 +972,9 @@
         <column name="PAY_ERROR_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_CANCEL_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_GENERAL_NOTE" size="500" type="VARCHAR"/>
-        <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
-        <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
-        <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
+        <column name="DUE_DT_TIME" type="TIMESTAMP"/>
+        <column name="CHECK_OUT_DT_TIME" type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME" type="TIMESTAMP"/>
         <column name="OPERATOR_ID" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DLVR_PTRN_BILL_T" name="FEE_TYP_BILL_ID">
             <reference foreign="PTRN_BILL_ID" local="PTRN_BILL_ID"/>
@@ -988,9 +990,9 @@
         <column name="BILL_PAY_AMT" required="true" scale="4" size="10" type="DECIMAL"/>
         <column name="CRTE_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="OPTR_CRTE_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="TRNS_NUMBER"  size="40" type="VARCHAR"/>
-        <column name="TRNS_NOTE"  size="500" type="VARCHAR"/>
-        <column name="TRNS_MODE"  size="40" type="VARCHAR"/>
+        <column name="TRNS_NUMBER" size="40" type="VARCHAR"/>
+        <column name="TRNS_NOTE" size="500" type="VARCHAR"/>
+        <column name="TRNS_MODE" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="ole_dlvr_ptrn_bill_fee_typ_t" name="BILL_PAY_ID">
             <reference foreign="ID" local="ITM_LINE_ID"/>
         </foreign-key>
@@ -1033,7 +1035,7 @@
 
     <table name="OLE_COPY_FORMAT_T">
         <column name="COPY_FORMAT_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="COPY_FORMAT_CD"  size="40" type="VARCHAR"/>
+        <column name="COPY_FORMAT_CD" size="40" type="VARCHAR"/>
         <column name="COPY_FORMAT_NM" size="40" type="VARCHAR"/>
         <column default="Y" name="COPY_FORMAT_ACTIVE" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -1067,7 +1069,7 @@
         <column name="OLE_OPRT_ID" required="true" size="80" type="VARCHAR"/>
         <column name="OLE_MACH_ID" size="80" type="VARCHAR"/>
         <column name="ARCH_DT_TIME" required="true" type="DATE"/>
-	<column name="OLE_REQ_OUTCOME_STATUS" size="80" type="VARCHAR"/>
+        <column name="OLE_REQ_OUTCOME_STATUS" size="80" type="VARCHAR"/>
         <column name="CRTE_DT_TIME" required="true" type="DATE"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -1102,8 +1104,8 @@
         <column name="RQST_STAT" size="10" type="VARCHAR"/>
         <column name="RQST_LVL" size="40" type="VARCHAR"/>
         <column name="BIB_ID" size="40" type="VARCHAR"/>
-        <column name="ASR_FLAG"  size="1" type="VARCHAR"/>
-        <column name="HOLD_EXP_DATE"  type="DATE"/>
+        <column name="ASR_FLAG" size="1" type="VARCHAR"/>
+        <column name="HOLD_EXP_DATE" type="DATE"/>
         <column name="RQST_NOTE" size="4000" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="flk5">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
@@ -1123,7 +1125,7 @@
         <unique name="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
             <unique-column name="OLE_PTRN_ID"/>
             <unique-column name="PTRN_Q_POS"/>
-            <unique-column name="ITM_ID"/>
+            <unique-column name="ITEM_UUID"/>
         </unique>
         <index name="flk1">
             <index-column name="OLE_RQST_TYP_ID"/>
@@ -1194,9 +1196,9 @@
         <column name="OLE_PTRN_ID" required="true" size="40" type="VARCHAR"/>
         <column name="ITM_ID" required="true" size="40" type="VARCHAR"/>
         <column name="CIRC_LOC_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
-        <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
-        <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME" type="TIMESTAMP"/>
+        <column name="DUE_DT_TIME" type="TIMESTAMP"/>
+        <column name="CHECK_OUT_DT_TIME" type="TIMESTAMP"/>
         <column name="OLE_PROXY_PTRN_ID" size="40" type="VARCHAR"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="fk1_ole_ptrn_t">
@@ -1566,7 +1568,7 @@
         <column name="MARC_REC_SRC_TYPE_ID" size="40" type="VARCHAR"/>
         <column name="LAST_REC_LOAD_DT" type="TIMESTAMP"/>
         <column name="MARC_REC_SRC" size="40" type="VARCHAR"/>
-        <column name="MARC_REC_UPDT_FREQ"  type="INTEGER"/>
+        <column name="MARC_REC_UPDT_FREQ" type="INTEGER"/>
         <column name="MARC_REC_UPDT_REGULARITY" size="200" type="VARCHAR"/>
         <column name="MARC_REC_URL" size="200" type="VARCHAR"/>
         <column name="MARC_REC_USR_NM" size="50" type="VARCHAR"/>
@@ -1582,11 +1584,15 @@
     </table>
 
     <table name="OLE_PUR_FRMT_T">
-        <column name="OLE_FRMT_ID" primaryKey="true" size="8" type="DECIMAL" zz_comment="Unique identifier of the format assigned to the Received Item, either by a library web form (if this field is supported on the form) or by an authorized user. &lt;BR>&lt;Core>OLE Core Team and HTC Discussion Jira OLE-2003 8/29/2011&lt;/Core>"/>
+        <column name="OLE_FRMT_ID" primaryKey="true" size="8" type="DECIMAL"
+                zz_comment="Unique identifier of the format assigned to the Received Item, either by a library web form (if this field is supported on the form) or by an authorized user. &lt;BR>&lt;Core>OLE Core Team and HTC Discussion Jira OLE-2003 8/29/2011&lt;/Core>"/>
         <column name="OLE_FORMAT" size="45" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR" zz_comment="The Object ID is used as a globally unique identifier of each row across all database tables (see caveat below). That is, every row in every table should have a different object value. It is typically defined as a VARCHAR field of 36 characters, and should be named [OBJ_ID]. A unique constraint should be applied to the object ID column, but must NOT be part of the primary key.&lt;BR>The object ID value is automatically stored by the framework and/or the database layer.&lt;BR>About the object ID&lt;BR>The value of the object ID is a Globally Unique Identifier (GUID). It is extremely likely that each row will have a unique value, and for practical purposes, we assume that each row will have a unique object ID."/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL" zz_comment="KFS/Rice uses optimistic locking to provide concurrency control. Optimistic locking requires the use of a version number field, named [VER_NBR]. On Oracle, the field is defined as a NUMBER(8,0). On MySQL, the field is defined as a DECIMAL(8). This column should NOT be part of the primary key."/>
-        <column name="ROW_ACTV_IND" size="1" type="VARCHAR" zz_comment="Indicates if the value is active or not&lt;BR>&lt;Core>OLE Core Team and HTC Discussion Jira OLE-2003 8/29/2011&#xa;&lt;/Core>&#xa;"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"
+                zz_comment="The Object ID is used as a globally unique identifier of each row across all database tables (see caveat below). That is, every row in every table should have a different object value. It is typically defined as a VARCHAR field of 36 characters, and should be named [OBJ_ID]. A unique constraint should be applied to the object ID column, but must NOT be part of the primary key.&lt;BR>The object ID value is automatically stored by the framework and/or the database layer.&lt;BR>About the object ID&lt;BR>The value of the object ID is a Globally Unique Identifier (GUID). It is extremely likely that each row will have a unique value, and for practical purposes, we assume that each row will have a unique object ID."/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"
+                zz_comment="KFS/Rice uses optimistic locking to provide concurrency control. Optimistic locking requires the use of a version number field, named [VER_NBR]. On Oracle, the field is defined as a NUMBER(8,0). On MySQL, the field is defined as a DECIMAL(8). This column should NOT be part of the primary key."/>
+        <column name="ROW_ACTV_IND" size="1" type="VARCHAR"
+                zz_comment="Indicates if the value is active or not&lt;BR>&lt;Core>OLE Core Team and HTC Discussion Jira OLE-2003 8/29/2011&#xa;&lt;/Core>&#xa;"/>
     </table>
 
     <table name="OLE_FRMT_TYPS_T">
@@ -2128,7 +2134,7 @@
         <column name="SER_RCPT_HIS_REC_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="SER_RCV_REC_ID" size="40" type="VARCHAR"/>
         <column name="RCV_REC_TYP" size="40" type="VARCHAR"/>
-        <column name="CHRON_LVL_1"  size="50" type="VARCHAR"/>
+        <column name="CHRON_LVL_1" size="50" type="VARCHAR"/>
         <column name="CHRON_LVL_2" size="50" type="VARCHAR"/>
         <column name="CHRON_LVL_3" size="50" type="VARCHAR"/>
         <column name="CHRON_LVL_4" size="50" type="VARCHAR"/>
@@ -2176,7 +2182,7 @@
         <column name="GEN_RCV_NOTE" size="500" type="VARCHAR"/>
         <column name="INSTANCE_ID" size="40" type="VARCHAR"/>
         <!--<column name="ISSN" size="40" type="VARCHAR"/>-->
-        <column name="PO_ID"  size="50" type="VARCHAR"/>
+        <column name="PO_ID" size="50" type="VARCHAR"/>
         <column name="PRINT_LBL" size="1" type="VARCHAR"/>
         <column name="PUBLIC_DISPLAY" size="1" type="VARCHAR"/>
         <!--<column name="PUBLISHER" size="150" type="VARCHAR"/>-->
@@ -2200,7 +2206,7 @@
 
     <table name="OLE_SER_RCV_REC_TYP_T">
         <column name="SER_RCV_REC_TYP_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="SER_RCV_REC_ID"  size="40" type="VARCHAR"/>
+        <column name="SER_RCV_REC_ID" size="40" type="VARCHAR"/>
         <column name="RCV_REC_TYP" size="40" type="VARCHAR"/>
         <column name="ACTN_DATE" type="DATE"/>
         <column name="ACTN_INTRVL" size="40" type="VARCHAR"/>
@@ -2492,7 +2498,7 @@
         <column name="NUM_REC_PRCS" size="20" type="VARCHAR"/>
         <column name="START_TIME" type="TIMESTAMP"/>
         <column name="END_TIME" type="TIMESTAMP"/>
-        <column name="TIME_SPENT"  size="40" type="VARCHAR"/>
+        <column name="TIME_SPENT" size="40" type="VARCHAR"/>
         <column name="PER_COMPLTED" size="20" type="VARCHAR"/>
         <column name="CRTE_TIME" type="DATE"/>
         <column name="STATUS" size="20" type="VARCHAR"/>
@@ -2515,8 +2521,8 @@
         <column name="NUM_EINSTANCES_DELETED" size="20" type="INTEGER"/>
         <column name="NUM_EINSTANCES_WITH_NO_LINK" size="20" type="INTEGER"/>
         <column name="NUM_BIBS_GT1_EINSTANCES" size="20" type="INTEGER"/>
-        <column name="NUM_EHOL_WITH_NO_PLAT" size="20" type="INTEGER" />
-        <column name="NUM_EHOL_WITH_NO_ERES"  size="20" type="INTEGER" />
+        <column name="NUM_EHOL_WITH_NO_PLAT" size="20" type="INTEGER"/>
+        <column name="NUM_EHOL_WITH_NO_ERES" size="20" type="INTEGER"/>
 
         <foreign-key foreignTable="OLE_BAT_PRCS_T" name="PRCS_FK_CONSTRAINT">
             <reference foreign="BAT_PRCS_ID" local="BAT_PRCS_ID"/>
@@ -2570,8 +2576,8 @@
     </table>
 
     <table name="OLE_BAT_PRF_DEL_FLD_T">
-        <column name="BAT_PRF_DEL_ID" primaryKey="true"  size="40" type="VARCHAR"/>
-        <column name="BAT_PRCS_PRF_ID"  size="40" type="VARCHAR"/>
+        <column name="BAT_PRF_DEL_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="BAT_PRF_DEL_TAG" size="5" type="VARCHAR"/>
         <column name="BAT_PRF_DEL_IND1" size="3" type="VARCHAR"/>
         <column name="BAT_PRF_DEL_IND2" size="3" type="VARCHAR"/>
@@ -2588,7 +2594,7 @@
     </table>
 
     <table name="OLE_BAT_PRF_RNM_FLD_T">
-        <column name="BAT_PRF_RNM_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_PRF_RNM_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="BAT_PRF_ORGNL_TAG" size="5" type="VARCHAR"/>
         <column name="BAT_PRF_ORGNL_IND1" size="3" type="VARCHAR"/>
@@ -2611,7 +2617,7 @@
     </table>
 
     <table name="OLE_BAT_INST_MTCH_PNT_T">
-        <column name="BAT_INST_MTCH_PNT_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_INST_MTCH_PNT_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_INST_MTCH_PNT_NME" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2625,7 +2631,7 @@
     </table>
 
     <table name="OLE_BAT_BIB_MTCH_PNT_T">
-        <column name="BAT_BIB_MTCH_PNT_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_BIB_MTCH_PNT_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_BIB_MTCH_PNT_NME" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2640,7 +2646,7 @@
 
 
     <table name="OLE_BAT_PRCS_BIB_STUS_T">
-        <column name="BAT_PRCS_BIB_STUS_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_PRCS_BIB_STUS_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_PRCS_BIB_STUS_NME" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2654,7 +2660,7 @@
     </table>
 
     <table name="OLE_BAT_BIB_WRK_UNT_T">
-        <column name="BAT_BIB_WRK_UNT_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_BIB_WRK_UNT_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_BIB_WRK_UNT_NME" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2668,7 +2674,7 @@
     </table>
 
     <table name="OLE_BAT_INST_WRK_UNT_T">
-        <column name="BAT_INST_WRK_UNT_ID" primaryKey="true"  size="40" type="VARCHAR"/>
+        <column name="BAT_INST_WRK_UNT_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="BAT_INST_WRK_UNT_NME" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2815,22 +2821,22 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="CLM_NTCE_SNDR_NM"  size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_SNDR_NM" size="40" type="VARCHAR"/>
         <column name="CLM_NTCE_VNDR_NM" size="40" type="VARCHAR"/>
         <column name="CLM_NTCE_CLM_DT" size="40" type="VARCHAR"/>
         <column name="CLM_NTCE_CLM_CNT" size="40" type="VARCHAR"/>
         <column name="CLM_NTCE_CLM_TYP" size="40" type="VARCHAR"/>
         <column name="CLM_NTCE_TIT" size="500" type="VARCHAR"/>
-        <column name="CLM_NTCE_PLC_OF_PUB"   size="500" type="VARCHAR"/>
-        <column name="CLM_NTCE_PUB"   size="500" type="VARCHAR"/>
-        <column name="CLM_NTCE_PUB_DT"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_ENUM"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_CHRON"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_VNDR_LIB_NUM"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_VNDR_ORD_NUM"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_VNDR_TIT_NUM"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_LIB_PO_NUM"  size="40" type="VARCHAR"/>
-        <column name="CLM_NTCE_UN_BND_LOC"  size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_PLC_OF_PUB" size="500" type="VARCHAR"/>
+        <column name="CLM_NTCE_PUB" size="500" type="VARCHAR"/>
+        <column name="CLM_NTCE_PUB_DT" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_ENUM" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_CHRON" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_VNDR_LIB_NUM" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_VNDR_ORD_NUM" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_VNDR_TIT_NUM" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_LIB_PO_NUM" size="40" type="VARCHAR"/>
+        <column name="CLM_NTCE_UN_BND_LOC" size="40" type="VARCHAR"/>
     </table>
 
 
@@ -2840,7 +2846,7 @@
         <column name="DONOR_NAME" size="255" type="VARCHAR"/>
         <column name="DONOR_NOTE" size="40" type="VARCHAR"/>
         <column name="DONOR_PUBLIC_DISPLAY" size="4000" type="VARCHAR"/>
-        <column name="DONOR_AMT" scale="2" size="19" type="DECIMAL" />
+        <column name="DONOR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="DONOR_BOOKPLATE_URL" size="40" type="VARCHAR"/>
         <column name="DONOR_PUBLIC_URL" size="40" type="VARCHAR"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
@@ -2851,7 +2857,7 @@
 
     <table name="OLE_ASR_ITM_T">
         <column name="ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="ITM_BAR_CD"  size="40" type="VARCHAR"/>
+        <column name="ITM_BAR_CD" size="40" type="VARCHAR"/>
         <column name="TITLE" size="37" type="VARCHAR"/>
         <column name="AUTHOR" size="37" type="VARCHAR"/>
         <column name="CALL_NBR" size="37" type="VARCHAR"/>
@@ -2865,7 +2871,7 @@
 
     <table name="OLE_ASR_RQST_T">
         <column name="ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="ITM_BAR_CD"  size="40" type="VARCHAR"/>
+        <column name="ITM_BAR_CD" size="40" type="VARCHAR"/>
         <column name="PTRN_ID" size="37" type="VARCHAR"/>
         <column name="PK_UP_LOCN" size="37" type="VARCHAR"/>
         <column name="PTRN_NM" size="37" type="VARCHAR"/>
@@ -2876,7 +2882,7 @@
     </table>
 
     <table name="OLE_DS_DOC_TYPE_T">
-        <column name="DOC_TYPE_ID" primaryKey="true"  type="INTEGER"/>
+        <column name="DOC_TYPE_ID" primaryKey="true" type="INTEGER"/>
         <column name="NAME" required="true" size="100" type="VARCHAR"/>
         <column name="DISPLAY_LABEL" required="false" size="100" type="VARCHAR"/>
         <column name="DESCRIPTION" required="false" size="400" type="VARCHAR"/>
@@ -2888,11 +2894,11 @@
     </table>
 
     <table name="OLE_DS_DOC_FORMAT_T">
-        <column name="DOC_FORMAT_ID" primaryKey="true"  type="INTEGER"/>
+        <column name="DOC_FORMAT_ID" primaryKey="true" type="INTEGER"/>
         <column name="NAME" required="true" size="100" type="VARCHAR"/>
         <column name="DISPLAY_LABEL" required="false" size="100" type="VARCHAR"/>
         <column name="DESCRIPTION" required="false" size="400" type="VARCHAR"/>
-        <column name="DOC_TYPE_ID"  type="INTEGER"/>
+        <column name="DOC_TYPE_ID" type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DS_DOC_TYPE_T" name="OLE_DS_DOC_FORMAT_TC1">
@@ -2907,8 +2913,8 @@
 
     <table name="OLE_DS_DOC_FIELD_T">
         <column name="DOC_FIELD_ID" primaryKey="true" type="INTEGER"/>
-        <column name="DOC_TYPE_ID"   type="INTEGER"/>
-        <column name="DOC_FORMAT_ID"   type="INTEGER"/>
+        <column name="DOC_TYPE_ID" type="INTEGER"/>
+        <column name="DOC_FORMAT_ID" type="INTEGER"/>
         <column name="NAME" required="false" size="100" type="VARCHAR"/>
         <column name="DISPLAY_LABEL" required="false" size="100" type="VARCHAR"/>
         <column name="DESCRIPTION" required="false" size="400" type="VARCHAR"/>
@@ -2936,7 +2942,7 @@
 
     <table name="OLE_DS_SEARCH_RESULT_PAGE_T">
         <column name="DOC_SEARCH_PAGE_SIZE_ID" primaryKey="true" type="INTEGER"/>
-        <column name="PAGE_SIZE" required="false"  type="INTEGER"/>
+        <column name="PAGE_SIZE" required="false" type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <unique name="PAGE_SIZE">
@@ -2946,8 +2952,8 @@
 
     <table name="OLE_DS_SEARCH_FACET_SIZE_T">
         <column name="DOC_SEARCH_FACET_SIZE_ID" primaryKey="true" type="INTEGER"/>
-        <column name="SHORT_SIZE" required="false"  type="INTEGER"/>
-        <column name="LONG_SIZE" required="false"  type="INTEGER"/>
+        <column name="SHORT_SIZE" required="false" type="INTEGER"/>
+        <column name="LONG_SIZE" required="false" type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
@@ -2955,7 +2961,7 @@
 
     <table name="OLE_DLVR_LOAN_NOTICE_T">
         <column name="ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="LOAN_ID"  size="40" type="VARCHAR"/>
+        <column name="LOAN_ID" size="40" type="VARCHAR"/>
         <column name="PTRN_ID" size="37" type="VARCHAR"/>
         <column name="NTC_TYP" size="37" type="VARCHAR"/>
         <column name="NTC_CNTNT_CONFIG_NAME" size="400" type="VARCHAR"/>
@@ -2983,7 +2989,7 @@
 
     <table name="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
         <column name="ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="LOAN_ID"  size="40" type="VARCHAR"/>
+        <column name="LOAN_ID" size="40" type="VARCHAR"/>
         <column name="PTRN_ID" size="37" type="VARCHAR"/>
         <column name="RQST_ID" size="37" type="VARCHAR"/>
         <column name="NTC_SNT_DT" type="DATE"/>
@@ -2999,14 +3005,14 @@
 
 
     <table name="OLE_RETURN_HISTORY_T">
-        <column name="ID"   type="VARCHAR" size="36" primaryKey="true"/>
-        <column name="ITEM_BARCODE"   type="VARCHAR"  size="40"/>
-        <column name="ITEM_UUID"   type="VARCHAR" size="40"/>
-        <column name="ITEM_RETURNED_DT"  type="TIMESTAMP"/>
-        <column name="OPERATOR"   type="VARCHAR" size="36"/>
-        <column name="CIR_DESK_LOC"  type="VARCHAR" size="100"/>
-        <column name="CIR_DESK_ROUTE_TO"  type="VARCHAR" size="100"/>
-        <column name="RETURNED_ITEM_STATUS"  type="VARCHAR" size="200"/>
+        <column name="ID" type="VARCHAR" size="36" primaryKey="true"/>
+        <column name="ITEM_BARCODE" type="VARCHAR" size="40"/>
+        <column name="ITEM_UUID" type="VARCHAR" size="40"/>
+        <column name="ITEM_RETURNED_DT" type="TIMESTAMP"/>
+        <column name="OPERATOR" type="VARCHAR" size="36"/>
+        <column name="CIR_DESK_LOC" type="VARCHAR" size="100"/>
+        <column name="CIR_DESK_ROUTE_TO" type="VARCHAR" size="100"/>
+        <column name="RETURNED_ITEM_STATUS" type="VARCHAR" size="200"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <index name="OLE_LOAN_INTRANSIT_HST_TI1">
@@ -3016,62 +3022,62 @@
 
 
     <table name="OLE_RNWL_HISTORY_T">
-        <column name="RNWL_HSTRY_ID"   type="VARCHAR" size="36" primaryKey="true"/>
-        <column name="LOAN_ID"   type="VARCHAR"  size="40"/>
-        <column name="PTRN_BARCODE"   type="VARCHAR" size="100"/>
+        <column name="RNWL_HSTRY_ID" type="VARCHAR" size="36" primaryKey="true"/>
+        <column name="LOAN_ID" type="VARCHAR" size="40"/>
+        <column name="PTRN_BARCODE" type="VARCHAR" size="100"/>
         <column name="ITEM_BARCODE" type="VARCHAR" size="100"/>
-        <column name="ITEM_UUID"   type="VARCHAR" size="100"/>
-        <column name="OPRTR_ID"  type="VARCHAR" size="100"/>
-        <column name="RNWD_DT"  type="TIMESTAMP"/>
-        <column name="RNWL_DUE_DT"  type="TIMESTAMP"/>
+        <column name="ITEM_UUID" type="VARCHAR" size="100"/>
+        <column name="OPRTR_ID" type="VARCHAR" size="100"/>
+        <column name="RNWD_DT" type="TIMESTAMP"/>
+        <column name="RNWL_DUE_DT" type="TIMESTAMP"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DRL_EDITOR_T">
-        <column name="EDITOR_ID"   type="VARCHAR" size="40" primaryKey="true"/>
+        <column name="EDITOR_ID" type="VARCHAR" size="40" primaryKey="true"/>
         <column name="EDITOR_TYP" size="40" type="VARCHAR"/>
-        <column name="FILE_NM"   type="VARCHAR"  size="40"/>
+        <column name="FILE_NM" type="VARCHAR" size="40"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DRL_RULE_T">
-        <column name="RULE_ID"   type="VARCHAR" size="40" primaryKey="true"/>
-        <column name="AGENDA_GROUP"   type="VARCHAR"  size="200"/>
-        <column name="EDITOR_ID"   type="VARCHAR"  size="200"/>
-        <column name="ACTIVATION_GROUP"   type="VARCHAR"  size="200"/>
-        <column name="RULE_TYP"   type="VARCHAR"  size="40"/>
-        <column name="RULE_NM"   type="VARCHAR"  size="200"/>
-        <column name="ITEM_TYPES"   type="BLOB" />
-        <column name="BORROWER_TYPES"   type="BLOB" />
-        <column name="INST_LOCATIONS"   type="BLOB" />
-        <column name="CAMPUS_LOCATIONS"   type="BLOB"/>
-        <column name="COLL_LOCATIONS"   type="BLOB"  />
-        <column name="LIBRARY_LOCATIONS"   type="BLOB" />
-        <column name="SHELVING_LOCATIONS"   type="BLOB"/>
-        <column name="CIRC_POLICY"   type="VARCHAR"  size="200"/>
-        <column name="LOAN_PERIOD"   type="VARCHAR"  size="50"/>
-        <column name="DFLT_RECALL_PERIOD"   type="VARCHAR"  size="50"/>
-        <column name="ITEM_TYP_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="BORROWER_TYP_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="INST_LOCATION_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="CAMPUS_LOCATION_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="LIBRARY_LOCATION_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="COLL_LOCATION_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="SHELVING_LOCATION_OPERATOR"   type="VARCHAR"  size="50"/>
-        <column name="LOAN_TYPE"   type="VARCHAR"  size="200"/>
-        <column name="ITM_TYP_COUNT"   type="VARCHAR"  size="50"/>
-        <column name="ITM_TYP_COUNT_OPTR"   type="VARCHAR"  size="50"/>
-        <column name="ERROR_MSG"   type="VARCHAR" size="500"/>
+        <column name="RULE_ID" type="VARCHAR" size="40" primaryKey="true"/>
+        <column name="AGENDA_GROUP" type="VARCHAR" size="200"/>
+        <column name="EDITOR_ID" type="VARCHAR" size="200"/>
+        <column name="ACTIVATION_GROUP" type="VARCHAR" size="200"/>
+        <column name="RULE_TYP" type="VARCHAR" size="40"/>
+        <column name="RULE_NM" type="VARCHAR" size="200"/>
+        <column name="ITEM_TYPES" type="BLOB"/>
+        <column name="BORROWER_TYPES" type="BLOB"/>
+        <column name="INST_LOCATIONS" type="BLOB"/>
+        <column name="CAMPUS_LOCATIONS" type="BLOB"/>
+        <column name="COLL_LOCATIONS" type="BLOB"/>
+        <column name="LIBRARY_LOCATIONS" type="BLOB"/>
+        <column name="SHELVING_LOCATIONS" type="BLOB"/>
+        <column name="CIRC_POLICY" type="VARCHAR" size="200"/>
+        <column name="LOAN_PERIOD" type="VARCHAR" size="50"/>
+        <column name="DFLT_RECALL_PERIOD" type="VARCHAR" size="50"/>
+        <column name="ITEM_TYP_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="BORROWER_TYP_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="INST_LOCATION_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="CAMPUS_LOCATION_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="LIBRARY_LOCATION_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="COLL_LOCATION_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="SHELVING_LOCATION_OPERATOR" type="VARCHAR" size="50"/>
+        <column name="LOAN_TYPE" type="VARCHAR" size="200"/>
+        <column name="ITM_TYP_COUNT" type="VARCHAR" size="50"/>
+        <column name="ITM_TYP_COUNT_OPTR" type="VARCHAR" size="50"/>
+        <column name="ERROR_MSG" type="VARCHAR" size="500"/>
         <column name="OVERRIDE_PERMISSION" type="VARCHAR" size="200"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DRL_FINE_LIMITS_T">
-        <column name="ID"   type="VARCHAR" size="40" primaryKey="true"/>
-        <column name="RULE_ID"   type="VARCHAR" size="40"/>
+        <column name="ID" type="VARCHAR" size="40" primaryKey="true"/>
+        <column name="RULE_ID" type="VARCHAR" size="40"/>
         <column name="BORROWER_TYPE" size="200" type="VARCHAR"/>
         <column name="LIMIT_AMOUNT" size="8" type="VARCHAR"/>
         <column name="OVERDUE_LIMIT" size="8" type="VARCHAR"/>
@@ -3089,7 +3095,7 @@
     <table name="ALRT_T">
         <column name="ALRT_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DCMNT_ID" size="40" type="VARCHAR"/>
-        <column name="ALRT_DT"  type="DATE"/>
+        <column name="ALRT_DT" type="DATE"/>
         <column name="ALRT_NTE" size="2000" type="VARCHAR"/>
         <column name="ALRT_CRT_DT" type="DATE"/>
         <column name="ALRT_MDFD_DT" type="DATE"/>
@@ -3118,7 +3124,6 @@
             <index-column name="ALRT_STAT"/>
         </index>
     </table>
-
 
 
     <table name="ALRT_DOC_TYP_T">
@@ -3163,30 +3168,30 @@
 
 
     <table name="ALRT_DOC_T">
-    <column name="ALRT_DOC_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="ALRT_DOC_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="DOC_TYP_ID" size="40" type="VARCHAR"/>
         <column name="DOC_TYP_NM" size="200" type="VARCHAR"/>
         <column name="ALRT_DOC_CRTR_ID" size="100" type="VARCHAR"/>
         <column name="ALRT_RPT" size="1" type="VARCHAR"/>
-    <column name="OBJ_ID" size="36" type="VARCHAR"/>
-    <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
     </table>
 
 
-<!--    <table name="ALRT_FLD_VAL_MAP_T">
+    <!--    <table name="ALRT_FLD_VAL_MAP_T">
 
-        <column name="ALRT_FLD_VAL_MAP_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="FLD_NM" size="40" type="VARCHAR"/>
-        <column name="FLD_TYP" size="100" type="VARCHAR"/>
-        <column name="FLD_VAL" size="100" type="VARCHAR"/>
-        <column name="ALRT_DOC_ID" size="40" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="8" type="DECIMAL"/>
-        <foreign-key foreignTable="ALRT_DOC_T" name="ALERT_FKP">
-            <reference foreign="ALRT_DOC_ID" local="ALRT_DOC_ID"/>
-        </foreign-key>
+            <column name="ALRT_FLD_VAL_MAP_ID" primaryKey="true" size="40" type="VARCHAR"/>
+            <column name="FLD_NM" size="40" type="VARCHAR"/>
+            <column name="FLD_TYP" size="100" type="VARCHAR"/>
+            <column name="FLD_VAL" size="100" type="VARCHAR"/>
+            <column name="ALRT_DOC_ID" size="40" type="VARCHAR"/>
+            <column name="OBJ_ID" size="36" type="VARCHAR"/>
+            <column name="VER_NBR" size="8" type="DECIMAL"/>
+            <foreign-key foreignTable="ALRT_DOC_T" name="ALERT_FKP">
+                <reference foreign="ALRT_DOC_ID" local="ALRT_DOC_ID"/>
+            </foreign-key>
 
-    </table>-->
+        </table>-->
 
     <table name="ALRT_CNDTN_NTFCN_INFO_T">
 
@@ -3211,14 +3216,12 @@
     </table>
 
 
-
-
     <table name="ACTN_LST_ALRT_T">
         <column name="ACTN_LST_ALRT_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DCMNT_ID" size="40" type="VARCHAR"/>
         <column name="TITL" size="800" type="VARCHAR"/>
         <column name="RCRD_TYP" size="80" type="VARCHAR"/>
-        <column name="ALRT_DT"  type="DATE"/>
+        <column name="ALRT_DT" type="DATE"/>
         <column name="NTE" size="800" type="VARCHAR"/>
         <column name="ACTV" size="1" type="VARCHAR"/>
         <column name="ALRT_USR_ID" size="40" type="VARCHAR"/>
@@ -3244,7 +3247,7 @@
 
     <table name="OLE_GOKB_PKG_T">
         <column name="GOKB_PKG_ID" primaryKey="true" type="INTEGER"/>
-        <column name="PKG_NAME"  size="1000" type="VARCHAR"/>
+        <column name="PKG_NAME" size="1000" type="VARCHAR"/>
         <column name="VARIANT_NAME" size="4000" type="VARCHAR"/>
         <column name="PKG_STATUS" size="20" type="VARCHAR"/>
         <column name="PKG_SCOPE" size="20" type="VARCHAR"/>
@@ -3259,9 +3262,9 @@
 
     <table name="OLE_GOKB_TIPP_T">
         <column name="GOKB_TIPP_ID" primaryKey="true" type="INTEGER"/>
-        <column name="GOKB_PKG_ID"  type="INTEGER"/>
-        <column name="GOKB_TITLE_ID"  type="INTEGER"/>
-        <column name="GOKB_PLTFRM_ID"  type="INTEGER"/>
+        <column name="GOKB_PKG_ID" type="INTEGER"/>
+        <column name="GOKB_TITLE_ID" type="INTEGER"/>
+        <column name="GOKB_PLTFRM_ID" type="INTEGER"/>
         <column name="TIPP_STATUS" size="100" type="VARCHAR"/>
         <column name="STATUS_REASON" size="300" type="VARCHAR"/>
         <column name="STRT_DT" type="DATE"/>
@@ -3401,7 +3404,8 @@
     </table>
 
     <!--<view name="OLE_GOKB_V" viewdefinition="SELECT TIPP.GOKB_TIPP_ID,TIPP.TIPP_STATUS,TITLE.GOKB_TITLE_ID,TITLE.TITLE_NAME,TITLE.PUBLSHR_ID,PACKAGE.GOKB_PKG_ID,PACKAGE.PKG_STATUS,PACKAGE.PKG_NAME,PLATFORM.GOKB_PLTFRM_ID,PLATFORM.PLTFRM_NAME,PLATFORM.PLTFRM_STATUS,PLATFORM.SOFTWARE_PLTFRM,ORG.GOKB_ORG_ID,ORG.ORG_NAME FROM  OLE_GOKB_TIPP_T TIPP, OLE_GOKB_PLTFRM_T PLATFORM, OLE_GOKB_ORG_T ORG, OLE_GOKB_TITLE_T TITLE, OLE_GOKB_PKG_T PACKAGE WHERE TIPP.GOKB_PLTFRM_ID=PLATFORM.GOKB_PLTFRM_ID AND TIPP.GOKB_PKG_ID=PACKAGE.GOKB_PKG_ID AND TIPP.GOKB_TITLE_ID=TITLE.GOKB_TITLE_ID AND PLATFORM.PLTFRM_PRVDR_ID=ORG.GOKB_ORG_ID"/>-->
-    <view name="OLE_GOKB_V" viewdefinition="SELECT TIPP.GOKB_TIPP_ID,TIPP.TIPP_STATUS,TITLE.GOKB_TITLE_ID,TITLE.TITLE_NAME,TITLE.PUBLSHR_ID,TITLE.TI_ISSN_ONLINE,TITLE.TI_ISSN_PRNT,TITLE.TI_ISSN_L,TITLE.MEDIUM,PACKAGE.GOKB_PKG_ID,PACKAGE.PKG_STATUS,PACKAGE.PKG_NAME,PLATFORM.GOKB_PLTFRM_ID,PLATFORM.PLTFRM_NAME,PLATFORM.PLTFRM_STATUS,PLATFORM.SOFTWARE_PLTFRM,ORG.GOKB_ORG_ID,ORG.ORG_NAME FROM  OLE_GOKB_TIPP_T TIPP, OLE_GOKB_PLTFRM_T PLATFORM, OLE_GOKB_ORG_T ORG, OLE_GOKB_TITLE_T TITLE, OLE_GOKB_PKG_T PACKAGE WHERE TIPP.GOKB_PLTFRM_ID=PLATFORM.GOKB_PLTFRM_ID AND TIPP.GOKB_PKG_ID=PACKAGE.GOKB_PKG_ID AND TIPP.GOKB_TITLE_ID=TITLE.GOKB_TITLE_ID AND PLATFORM.PLTFRM_PRVDR_ID=ORG.GOKB_ORG_ID"/>
+    <view name="OLE_GOKB_V"
+          viewdefinition="SELECT TIPP.GOKB_TIPP_ID,TIPP.TIPP_STATUS,TITLE.GOKB_TITLE_ID,TITLE.TITLE_NAME,TITLE.PUBLSHR_ID,TITLE.TI_ISSN_ONLINE,TITLE.TI_ISSN_PRNT,TITLE.TI_ISSN_L,TITLE.MEDIUM,PACKAGE.GOKB_PKG_ID,PACKAGE.PKG_STATUS,PACKAGE.PKG_NAME,PLATFORM.GOKB_PLTFRM_ID,PLATFORM.PLTFRM_NAME,PLATFORM.PLTFRM_STATUS,PLATFORM.SOFTWARE_PLTFRM,ORG.GOKB_ORG_ID,ORG.ORG_NAME FROM  OLE_GOKB_TIPP_T TIPP, OLE_GOKB_PLTFRM_T PLATFORM, OLE_GOKB_ORG_T ORG, OLE_GOKB_TITLE_T TITLE, OLE_GOKB_PKG_T PACKAGE WHERE TIPP.GOKB_PLTFRM_ID=PLATFORM.GOKB_PLTFRM_ID AND TIPP.GOKB_PKG_ID=PACKAGE.GOKB_PKG_ID AND TIPP.GOKB_TITLE_ID=TITLE.GOKB_TITLE_ID AND PLATFORM.PLTFRM_PRVDR_ID=ORG.GOKB_ORG_ID"/>
 
     <view name="OLE_PTRN_ENTITY_V" viewdefinition="(SELECT
     P.OLE_PTRN_ID,
@@ -3430,9 +3434,9 @@
         <column default="0" name="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
                 primaryKey="true" size="40" type="VARCHAR"/>
         <column name="FLD_NM" required="true" size="40" type="VARCHAR"/>
-        <column name="FLD_LBL"  size="40" type="VARCHAR"/>
-        <column name="BLNG_TO"  size="40" type="VARCHAR"/>
-        <column name="OLE_NOTC_CNTNT_CONFIG_ID"  size="40" type="VARCHAR"/>
+        <column name="FLD_LBL" size="40" type="VARCHAR"/>
+        <column name="BLNG_TO" size="40" type="VARCHAR"/>
+        <column name="OLE_NOTC_CNTNT_CONFIG_ID" size="40" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_NOTC_CNTNT_CONFIG_T" name="OLE_NOTC_CNTNT_CONFIG_FK">
@@ -3503,6 +3507,49 @@
         <column name="CONTENT" type="BLOB"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
+    </table>
+
+    <table name="OLE_NG_BAT_PRCS_JOB_T">
+        <column name="PROCESS_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="PROCESS_NAME" size="100" type="VARCHAR"/>
+        <column name="PROCESS_TYPE" size="40" type="VARCHAR"/>
+        <column name="PRF_ID" size="10" type="INTEGER"/>
+        <column name="JOB_TYPE" size="40" type="VARCHAR"/>
+        <column name="CRON_EXP" size="100" type="VARCHAR"/>
+        <column name="CREATED_BY" size="40" type="VARCHAR"/>
+        <column name="CREATED_ON" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="INTEGER"/>
+        <foreign-key foreignTable="OLE_NG_BAT_PRF_T" name="OLE_NG_BAT_PRF_ID_FK">
+            <reference foreign="PRF_ID" local="PRF_ID"/>
+        </foreign-key>
+        <index name="OLE_NG_BAT_PRCS_I">
+            <index-column name="PRF_ID"/>
+        </index>
+    </table>
+
+    <table name="OLE_NG_BAT_JOB_DETAILS_T">
+        <column name="JOB_ID" primaryKey="true" size="10" type="INTEGER"/>
+        <column name="JOB_NAME" size="100" type="VARCHAR"/>
+        <column name="PROCESS_ID" size="10" type="INTEGER"/>
+        <column name="PROCESS_TYPE" size="40" type="VARCHAR"/>
+        <column name="PROFILE_NAME" size="100" type="VARCHAR"/>
+        <column name="CREATED_BY" size="40" type="VARCHAR"/>
+        <column name="START_TIME" type="TIMESTAMP"/>
+        <column name="END_TIME" type="TIMESTAMP"/>
+        <column name="PER_COMPLETED" size="40" type="VARCHAR"/>
+        <column name="TIME_SPENT" size="40" type="VARCHAR"/>
+        <column name="TOTAL_RECORDS" size="40" type="VARCHAR"/>
+        <column name="TOTAL_RECORDS_PRCSD" size="40" type="VARCHAR"/>
+        <column name="STATUS" size="40" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="INTEGER"/>
+        <foreign-key foreignTable="OLE_NG_BAT_PRCS_JOB_T" name="OLE_NG_BAT_PRCS_ID_FK">
+            <reference foreign="PROCESS_ID" local="PROCESS_ID"/>
+        </foreign-key>
+        <index name="OLE_NG_BAT_JOB_I">
+            <index-column name="PROCESS_ID"/>
+        </index>
     </table>
 
 
@@ -3706,7 +3753,7 @@
     <sequence name="BIB_AUDIT_S" nextval="1"/>
     <sequence name="HOLDINGS_AUDIT_S" nextval="1"/>
     <sequence name="OLE_NG_BAT_PRF_S" nextval="1"/>
-
-
+    <sequence name="OLE_NG_BAT_PRCS_JOB_S" nextval="1"/>
+    <sequence name="OLE_NG_BAT_JOB_DETAILS_S" nextval="1"/>
 
 </database>

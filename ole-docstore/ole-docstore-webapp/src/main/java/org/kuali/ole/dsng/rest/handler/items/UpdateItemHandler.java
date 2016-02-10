@@ -113,6 +113,7 @@ public class UpdateItemHandler extends Handler {
             itemMetaDataHandlers.add(new ItemHoldingLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
+            itemMetaDataHandlers.add(new ItemStaffOnlyHandler());
         }
         return itemMetaDataHandlers;
     }

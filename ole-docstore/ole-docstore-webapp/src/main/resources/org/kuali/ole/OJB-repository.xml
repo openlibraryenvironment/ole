@@ -141,7 +141,7 @@
 
         <collection-descriptor name="itemRecords" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="holdingsId" />
         </collection-descriptor>
 

@@ -53,7 +53,7 @@ public class PurApObjectUtils {
 
 
         for (Field field : fields) {
-            if (!Modifier.isTransient(field.getModifiers())) {
+            if (!Modifier.isTransient(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
                 fieldNames.add(field.getName());
             } else {
                 if (LOG.isDebugEnabled()) {
