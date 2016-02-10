@@ -196,6 +196,7 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
 
     private void setDefaultValues(OleCirculationDesk oleCirculationDesk){
         if(oleCirculationDesk!=null && oleCirculationDesk.getDefaultRequestTypeCode()!=null){
+            oleCirculationDesk.setDefaultRequestTypeId(null);
             Map<String,String> requestTypeMap = new HashMap<String,String>();
             requestTypeMap.put("requestTypeCode",oleCirculationDesk.getDefaultRequestTypeCode());
             List<OleDeliverRequestType> oleDeliverRequestTypes = (List<OleDeliverRequestType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestType.class,requestTypeMap);

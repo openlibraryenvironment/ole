@@ -156,27 +156,19 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
             oleCirculationDesks = (List<OleCirculationDesk>)getBusinessObjectService().findMatching(OleCirculationDesk.class,criteriaMap);
             if(oleCirculationDesks!=null && oleCirculationDesks.size()>0){
               oleDeliverRequestBo.setPickUpLocationId(oleCirculationDesks.get(0).getCirculationDeskId());
-                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDesks.get(0).getCirculationDeskCode());
-                oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesks.get(0));
             }
         }else if(oleCirculationDeskDetail!=null && oleCirculationDeskDetail.getOleCirculationDesk()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation()!=null){
                 oleDeliverRequestBo.setPickUpLocationId(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskId());
-                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskCode());
-                oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskDetail.getOleCirculationDesk());
             }
         if(StringUtils.isNotEmpty(requestType)){
             criteriaMap = new HashMap<>();
             criteriaMap.put("requestTypeCode", requestType);
             List<OleDeliverRequestType> oleDeliverRequestTypes = (List<OleDeliverRequestType>)getBusinessObjectService().findMatching(OleDeliverRequestType.class,criteriaMap);
             if(oleDeliverRequestTypes.size()>0){
-                oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestTypes.get(0).getRequestTypeId());
                 oleDeliverRequestBo.setRequestTypeCode(oleDeliverRequestTypes.get(0).getRequestTypeCode());
-                oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypes.get(0));
             }
         }else if(oleCirculationDeskDetail!=null && oleCirculationDeskDetail.getOleCirculationDesk()!=null && oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType()!=null){
-            oleDeliverRequestBo.setRequestTypeId(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType().getRequestTypeId());
             oleDeliverRequestBo.setRequestTypeCode(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType().getRequestTypeCode());
-            oleDeliverRequestBo.setOleDeliverRequestType(oleCirculationDeskDetail.getOleCirculationDesk().getDefaultRequestType());
 
         }
         return oleDeliverRequestBo;
