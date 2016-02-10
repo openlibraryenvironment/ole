@@ -84,43 +84,45 @@ public class OLEEncumberedReportController extends UifControllerBase {
             poItemIdList.put("itemIdentifier", oleLinkPurapDonor.getPoItemId());
             OlePurchaseOrderItem olePurchaseOrderItem = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderItem.class, poItemIdList);
             if (oleLinkPurapDonor.getDonorCode() != null && olePurchaseOrderItem != null && olePurchaseOrderItem.getItemIdentifier() != null) {
-                if (!(oleEncumberedReportForm.getFromDate() == null && oleEncumberedReportForm.getToDate() == null)) {
-                    Map map = new HashMap();
-                    map.put(org.kuali.ole.OLEConstants.DOC_NUM, olePurchaseOrderItem.getDocumentNumber());
-                    OlePurchaseOrderDocument olePurchaseOrderDocument = boService.findByPrimaryKey(OlePurchaseOrderDocument.class, map);
-                    Date purchaseOrderDate = olePurchaseOrderDocument.getPurchaseOrderCreateTimestamp();
-                    try {
-                        String begin = null;
-                        if (oleEncumberedReportForm.getFromDate() != null) {
-                            begin = dateFormat.format(oleEncumberedReportForm.getFromDate());
-                        }
-                        String end = null;
-                        if (oleEncumberedReportForm.getToDate() != null) {
-                            end = dateFormat.format(oleEncumberedReportForm.getToDate());
-                        }
-                        boolean isValid = false;
-                        OleLicenseRequestServiceImpl oleLicenseRequestService = GlobalResourceLoader.getService(org.kuali.ole.OLEConstants.OleLicenseRequest.LICENSE_REQUEST_SERVICE);
-                        isValid = oleLicenseRequestService.validateDate(purchaseOrderDate, begin, end);
-                        if (isValid) {
-                            if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
-                                donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
-                            } else {
-                                List<Integer> poItemIds = new ArrayList<>();
-                                poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
-                                donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
+                Map map = new HashMap();
+                map.put(org.kuali.ole.OLEConstants.DOC_NUM, olePurchaseOrderItem.getDocumentNumber());
+                OlePurchaseOrderDocument olePurchaseOrderDocument = boService.findByPrimaryKey(OlePurchaseOrderDocument.class, map);
+                if(olePurchaseOrderDocument.isPurchaseOrderCurrentIndicator()) {
+                    if (!(oleEncumberedReportForm.getFromDate() == null && oleEncumberedReportForm.getToDate() == null)) {
+                        Date purchaseOrderDate = olePurchaseOrderDocument.getPurchaseOrderCreateTimestamp();
+                        try {
+                            String begin = null;
+                            if (oleEncumberedReportForm.getFromDate() != null) {
+                                begin = dateFormat.format(oleEncumberedReportForm.getFromDate());
                             }
-                        }
-                    } catch (Exception e) {
+                            String end = null;
+                            if (oleEncumberedReportForm.getToDate() != null) {
+                                end = dateFormat.format(oleEncumberedReportForm.getToDate());
+                            }
+                            boolean isValid = false;
+                            OleLicenseRequestServiceImpl oleLicenseRequestService = GlobalResourceLoader.getService(org.kuali.ole.OLEConstants.OleLicenseRequest.LICENSE_REQUEST_SERVICE);
+                            isValid = oleLicenseRequestService.validateDate(purchaseOrderDate, begin, end);
+                            if (isValid) {
+                                if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
+                                    donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
+                                } else {
+                                    List<Integer> poItemIds = new ArrayList<>();
+                                    poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
+                                    donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
+                                }
+                            }
+                        } catch (Exception e) {
                         LOG.error("Exception while calling the licenseRequest service" + e.getMessage());
                         throw new RuntimeException(e);
-                    }
-                } else {
-                    if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
-                        donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
+                      }
                     } else {
-                        List<Integer> poItemIds = new ArrayList<>();
-                        poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
-                        donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
+                        if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
+                            donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
+                        } else {
+                            List<Integer> poItemIds = new ArrayList<>();
+                            poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
+                            donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
+                        }
                     }
                 }
             }
