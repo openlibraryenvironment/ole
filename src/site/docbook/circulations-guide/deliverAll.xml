@@ -339,7 +339,8 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Loan screen: Sample Patron with one item checked out</alt>
+                                    <alt>Loan screen: Sample Patron Loaded with one item checked
+                                        out</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-20.png"
                                             width="100%"/>
@@ -367,7 +368,7 @@
                             at the top of the <emphasis role="bold">Items Checked Out This
                                 Session</emphasis> list.</para>
                         <para>To view all items a patron has checked out, click the <inlinemediaobject>
-                                <alt>Show All Items Currently Checked Out</alt>
+                                <alt>Checked Out Items</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
                                 </imageobject>
@@ -437,8 +438,12 @@
                             (*) before their labels, these are required. </para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">Click <emphasis role="bold"
-                            >Submit</emphasis>.</para>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
                         <para role="Normal">OLE will provide you with an error message if you forget
                             to enter a value for required field. If the system accepts the data, the
                             window closes and supplies the item barcode in the Item field of the
@@ -810,20 +815,6 @@
                         xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
                     for technical documentation about circulation processes.</para>
             </note>
-            <para>** Helpful notes:</para>
-            <itemizedlist>
-                <listitem>
-                    <para>At this time the back button simply sends you back to the Deliver
-                        homescreen (not back to the last page you were on). It does the same thing
-                        as Cancel</para>
-                </listitem>
-                <listitem>
-                    <para>If you select the wrong request type, you will receive an error. The
-                        system will allow you to select a new request type without having to start
-                        over. The same applies with patron, simply delete patron name and barcode
-                        and select the magnifying glass lookup to search for another patron. </para>
-                </listitem>
-            </itemizedlist>
             <para role="Body Text">The Request Document allows staff operators to place patron
                 requests for library items. </para>
             <para role="Body Text">Request types include:</para>

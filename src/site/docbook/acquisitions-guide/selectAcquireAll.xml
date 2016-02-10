@@ -20692,10 +20692,10 @@
                             <primary>Vendor (PVEN)</primary>
                             <secondary>Address tab</secondary>
                         </indexterm></title>
-                    <para role="Body Text">The <emphasis role="bold">Transmission
-                        Format</emphasis>tab allows users to choose how purchase orders will be sent
-                        to vendors. Transmission formats could be EDI or PDF files while the
-                        transmission type could be set to FTP, Email, Mail, etc.</para>
+                    <para role="Body Text">The <emphasis role="bold">Transmission Format</emphasis>
+                        tab allows users to choose how purchase orders will be sent to vendors.
+                        Transmission formats could be EDI or PDF files while the transmission type
+                        could be set to FTP, Email, Mail, etc.</para>
                     <para role="Body Text">Be sure to select at least one <emphasis role="bold"
                             >Preferred Transmission Format</emphasis> on the <emphasis role="bold"
                             >Transmission format</emphasis> tab.</para>
