@@ -4,10 +4,10 @@
             <table datatable="ng" class="table table-bordered row-border hover">
                 <thead style="height: 20px">
                 <tr>
-                    <th>Job Id</th>
+                    <th>Job Detail Id</th>
                     <th>Job Name</th>
-                    <th>Process Id</th>
-                    <th style="width: 110px">Process Type</th>
+                    <th>Job Id</th>
+                    <th style="width: 110px">Profile Type</th>
                     <th style="width: 150px">Profile Name</th>
                     <th>Created By</th>
                     <th>Start Time</th>
@@ -23,10 +23,10 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="batchJob in batchJobs">
-                    <td><span ng-bind="batchJob.jobId"></span></td>
+                    <td><span ng-bind="batchJob.jobDetailId"></span></td>
                     <td><span ng-bind="batchJob.jobName"></span></td>
-                    <td><span ng-bind="batchJob.processId"></span></td>
-                    <td><span ng-bind="batchJob.batchProcessType"></span></td>
+                    <td><span ng-bind="batchJob.jobId"></span></td>
+                    <td><span ng-bind="batchJob.profileType"></span></td>
                     <td><span ng-bind="batchJob.profileName"></span></td>
                     <td><span ng-bind="batchJob.createdBy"></span></td>
                     <td><span ng-bind="batchJob.startTime"></span></td>

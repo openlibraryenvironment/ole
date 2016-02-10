@@ -383,16 +383,17 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_T">
         <createTable tableName="OLE_NG_BAT_PRCS_JOB_T">
-            <column name="PROCESS_ID"   type="INTEGER(10)">
+            <column name="JOB_ID"   type="INTEGER(10)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="PROCESS_NAME"   type="VARCHAR(100)"/>
-            <column name="PROCESS_TYPE"   type="VARCHAR(40)"/>
+            <column name="JOB_NAME"   type="VARCHAR(100)"/>
+            <column name="PROFILE_TYPE"   type="VARCHAR(40)"/>
             <column name="PRF_ID"   type="INTEGER(10)"/>
             <column name="JOB_TYPE"   type="VARCHAR(40)"/>
             <column name="CRON_EXP"   type="VARCHAR(100)"/>
             <column name="CREATED_BY"   type="VARCHAR(40)"/>
             <column name="CREATED_ON"   type="TIMESTAMP"/>
+            <column name="NEXT_RUN_TIME"   type="TIMESTAMP"/>
             <column name="OBJ_ID"  type="VARCHAR(36)"/>
             <column name="VER_NBR" type="DECIMAL(8)"/>
         </createTable>
@@ -423,12 +424,12 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_T">
         <createTable tableName="OLE_NG_BAT_JOB_DETAILS_T">
-            <column name="JOB_ID"   type="INTEGER(10)">
+            <column name="JOB_DETAIL_ID"   type="INTEGER(10)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="JOB_NAME"   type="VARCHAR(100)"/>
-            <column name="PROCESS_ID"   type="INTEGER(10)"/>
-            <column name="PROCESS_TYPE"   type="VARCHAR(40)"/>
+            <column name="JOB_ID"   type="INTEGER(10)"/>
+            <column name="PROFILE_TYPE"   type="VARCHAR(40)"/>
             <column name="PROFILE_NAME"   type="VARCHAR(100)"/>
             <column name="CREATED_BY"   type="VARCHAR(40)"/>
             <column name="START_TIME"   type="TIMESTAMP"/>
@@ -481,12 +482,12 @@
     <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_ID_FK">
         <addForeignKeyConstraint baseTableCatalogName="ole"
                                  baseTableSchemaName="ole"
-                                 baseColumnNames="PROCESS_ID"
+                                 baseColumnNames="JOB_ID"
                                  baseTableName="OLE_NG_BAT_JOB_DETAILS_T"
                                  constraintName="OLE_NG_BAT_PRCS_ID_FK"
                                  onDelete="CASCADE"
                                  onUpdate="RESTRICT"
-                                 referencedColumnNames="PROCESS_ID"
+                                 referencedColumnNames="JOB_ID"
                                  referencedTableName="OLE_NG_BAT_PRCS_JOB_T"/>
     </changeSet>
 

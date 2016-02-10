@@ -1,20 +1,24 @@
 package org.kuali.ole.spring.batch.rest.controller;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.drools.core.time.impl.CronExpression;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
+import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
 import org.kuali.ole.utility.OleStopWatch;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
@@ -94,33 +100,48 @@ public class BatchRestController extends OleNgControllerBase {
         return requestBody;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/job/launch", produces = {MediaType.APPLICATION_JSON})
-    @ResponseBody
-    public String launchJob(@RequestParam("jobId") long jobId) {
-        try {
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
-            BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
-            getBusinessObjectService().save(batchJobDetails);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return String.valueOf(jobId);
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         try {
+            BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
+            BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
             if (null != file) {
                 String fileContent = IOUtils.toString(file.getBytes());
             }
+            getBusinessObjectService().save(batchJobDetails);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String scheduleJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, @RequestParam("scheduleJob") String scheduleJobString, HttpServletRequest request) {
+        try {
+            BatchScheduleJob batchScheduleJob = convertJsonToScheduleJob(scheduleJobString);
+            BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
+            if (null != file) {
+                saveUploadedFile(matchedBatchJob, file);
+            }
+            String cronExpression = batchScheduleJob.getCronExpression();
+            if (StringUtils.isNotBlank(cronExpression)) {
+                if (org.quartz.CronExpression.isValidExpression(cronExpression)) {
+                    matchedBatchJob.setCronExpression(cronExpression);
+                    CronExpression cron = new CronExpression(cronExpression);
+                    Date date = cron.getNextValidTimeAfter(new Date());
+                    matchedBatchJob.setNextRunTime(new Timestamp(date.getTime()));
+                }
+            }
+            getBusinessObjectService().save(matchedBatchJob);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(jobId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String destroyJob(@RequestParam("jobId") long jobId) {
         try {
@@ -136,15 +157,15 @@ public class BatchRestController extends OleNgControllerBase {
     }
 
     private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob) {
-        BatchJobDetails batchJob = new BatchJobDetails();
-        batchJob.setBatchProcessId(batchProcessJob.getBatchProcessId());
-        batchJob.setJobName(batchProcessJob.getBatchProcessName());
-        batchJob.setBatchProcessType(batchProcessJob.getBatchProcessType());
-        batchJob.setProfileName(batchProcessJob.getBatchProfileName());
-        batchJob.setCreatedBy(batchProcessJob.getCreatedBy());
-        batchJob.setStartTime(new Timestamp(new Date().getTime()));
-        batchJob.setStatus("RUNNING");
-        return batchJob;
+        BatchJobDetails batchJobDetails = new BatchJobDetails();
+        batchJobDetails.setJobId(batchProcessJob.getJobId());
+        batchJobDetails.setJobName(batchProcessJob.getJobName());
+        batchJobDetails.setProfileType(batchProcessJob.getProfileType());
+        batchJobDetails.setProfileName(batchProcessJob.getBatchProfileName());
+        batchJobDetails.setCreatedBy(batchProcessJob.getCreatedBy());
+        batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
+        batchJobDetails.setStatus("RUNNING");
+        return batchJobDetails;
     }
 
     public BatchProcessJob convertJsonToProcessJob(String processJsonString) throws JSONException, IOException {
@@ -153,9 +174,15 @@ public class BatchRestController extends OleNgControllerBase {
         return batchProcessJob;
     }
 
-    public BatchProcessJob getBatchProcessJobById(Long processId) {
+    public BatchScheduleJob convertJsonToScheduleJob(String scheduleJobJsonString) throws JSONException, IOException {
+        getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+        BatchScheduleJob batchScheduleJob = getObjectMapper().readValue(scheduleJobJsonString, BatchScheduleJob.class);
+        return batchScheduleJob;
+    }
+
+    public BatchProcessJob getBatchProcessJobById(Long jobId) {
         Map map = new HashedMap();
-        map.put(OleNGConstants.BATCH_PROCESS_ID, processId);
+        map.put(OleNGConstants.JOB_ID, jobId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
     }
 
@@ -168,5 +195,48 @@ public class BatchRestController extends OleNgControllerBase {
             return batchInvoiceImportProcessor;
         }
         return null;
+    }
+
+    private void saveUploadedFile(BatchProcessJob matchedBatchJob, MultipartFile multipartFile) throws IOException {
+        String directoryPath = getDirectoryPath(matchedBatchJob.getProfileType(), matchedBatchJob.getJobId());
+        File file = new File(directoryPath + multipartFile.getOriginalFilename());
+        FileUtils.writeStringToFile(file, IOUtils.toString(multipartFile.getBytes()));
+    }
+
+    private String getDirectoryPath(String profileType, long jobId) {
+        String batchFileLocation = null;
+        String fileSeparator = FileSystems.getDefault().getSeparator();
+        String stagingDirectory = ConfigContext.getCurrentContextConfig().getProperty("staging.directory");
+        batchFileLocation = stagingDirectory + fileSeparator + getJobDirectoryName(profileType);
+
+        File profileTypeDirectory = new File(batchFileLocation);
+        if (profileTypeDirectory.isDirectory()) {
+            batchFileLocation = batchFileLocation + fileSeparator + jobId;
+            File jobDirectory = new File(batchFileLocation);
+            if (jobDirectory.isDirectory()) {
+                batchFileLocation = batchFileLocation + fileSeparator;
+            } else {
+                jobDirectory.mkdir();
+                batchFileLocation = batchFileLocation + fileSeparator;
+            }
+        } else {
+            batchFileLocation = batchFileLocation + fileSeparator + jobId;
+            File jobDirectory = new File(batchFileLocation);
+            jobDirectory.mkdirs();
+            batchFileLocation = batchFileLocation + fileSeparator;
+        }
+        return batchFileLocation;
+    }
+
+    private String getJobDirectoryName(String profileType) {
+        String jobDirectoryName = null;
+        if (StringUtils.equalsIgnoreCase("Bib Import", profileType)) {
+            jobDirectoryName = "batchBibImport";
+        } else if (StringUtils.equalsIgnoreCase("Invoice Import", profileType)) {
+            jobDirectoryName = "batchInvoice";
+        } else if (StringUtils.equalsIgnoreCase("Order Record Import", profileType)) {
+            jobDirectoryName = "batchOrderRecord";
+        }
+        return jobDirectoryName;
     }
 }

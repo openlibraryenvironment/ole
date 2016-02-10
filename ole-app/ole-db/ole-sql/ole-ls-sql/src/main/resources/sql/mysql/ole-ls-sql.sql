@@ -6552,25 +6552,26 @@ drop table if exists OLE_NG_BAT_PRCS_JOB_T
 
 CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
 (
-      PROCESS_ID INTEGER(10)
-        , PROCESS_NAME VARCHAR(100)
-        , PROCESS_TYPE VARCHAR(40)
+      JOB_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , PROFILE_TYPE VARCHAR(40)
         , PRF_ID INTEGER(10)
         , JOB_TYPE VARCHAR(40)
         , CRON_EXP VARCHAR(100)
         , CREATED_BY VARCHAR(40)
         , CREATED_ON DATETIME
+        , NEXT_RUN_TIME DATETIME
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(PROCESS_ID)
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(JOB_ID)
 
 
 
 
 
     
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
 
@@ -6586,10 +6587,10 @@ drop table if exists OLE_NG_BAT_JOB_DETAILS_T
 
 CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
 (
-      JOB_ID INTEGER(10)
+      JOB_DETAIL_ID INTEGER(10)
         , JOB_NAME VARCHAR(100)
-        , PROCESS_ID INTEGER(10)
-        , PROCESS_TYPE VARCHAR(40)
+        , JOB_ID INTEGER(10)
+        , PROFILE_TYPE VARCHAR(40)
         , PROFILE_NAME VARCHAR(100)
         , CREATED_BY VARCHAR(40)
         , START_TIME DATETIME
@@ -6602,7 +6603,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_ID)
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_DETAIL_ID)
 
 
 
@@ -6611,7 +6612,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
     
                                                                                                                                                                                                                                                                                                                                                                 
                                     
-, INDEX OLE_NG_BAT_JOB_I (PROCESS_ID )
+, INDEX OLE_NG_BAT_JOB_I (JOB_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
