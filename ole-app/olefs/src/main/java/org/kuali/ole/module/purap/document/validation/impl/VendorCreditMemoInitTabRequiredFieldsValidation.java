@@ -50,6 +50,8 @@ public class VendorCreditMemoInitTabRequiredFieldsValidation extends GenericVali
         valid = valid && validateRequiredField(cmDocument, PurapPropertyConstants.CREDIT_MEMO_AMOUNT);
         boolean creditMemoDateExist = validateRequiredField(cmDocument, PurapPropertyConstants.CREDIT_MEMO_DATE);
 
+        // Commented Validation for Invoice Date JIRA OLE-6216
+/*
         if (creditMemoDateExist) {
             if (paymentRequestService.isInvoiceDateAfterToday(cmDocument.getCreditMemoDate())) {
                 String label = dataDictionaryService.getAttributeErrorLabel(VendorCreditMemoDocument.class, PurapPropertyConstants.CREDIT_MEMO_DATE);
@@ -57,6 +59,7 @@ public class VendorCreditMemoInitTabRequiredFieldsValidation extends GenericVali
                 valid = false;
             }
         }
+*/
 
         return valid;
 
