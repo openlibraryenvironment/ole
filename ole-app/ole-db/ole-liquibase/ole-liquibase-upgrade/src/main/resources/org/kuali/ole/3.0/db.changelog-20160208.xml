@@ -29,4 +29,10 @@
         </update>
     </changeSet>
 
+    <changeSet context="bootstrap" id="PUR_REQS_T_BILL_PHN_NBR_NULL" author="ole">
+        <dropNotNullConstraint columnDataType="VARCHAR(20)"
+                               columnName="BILL_PHN_NBR"
+                               tableName="PUR_REQS_T"/>
+    </changeSet>
+
 </databaseChangeLog>
