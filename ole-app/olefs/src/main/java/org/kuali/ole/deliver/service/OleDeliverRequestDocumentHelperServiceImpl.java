@@ -268,6 +268,15 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
     private OleDeliverRequestBo processRequestTypeByPickUpLocation(OleDeliverRequestBo oleDeliverRequestBo) {
+        if(oleDeliverRequestBo.getRequestTypeId()==null && oleDeliverRequestBo.getRequestTypeCode()!=null){
+            Map<String,String> criteriaMap = new HashMap<String,String>();
+            criteriaMap.put("requestTypeCode",oleDeliverRequestBo.getRequestTypeCode());
+            List<OleDeliverRequestType> oleDeliverRequestTypes = (List<OleDeliverRequestType>)getBusinessObjectService().findMatching(OleDeliverRequestType.class,criteriaMap);
+        if(oleDeliverRequestTypes.size()>0){
+            oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestTypes.get(0).getRequestTypeId());
+        }
+        }
+
         if (oleDeliverRequestBo.getRequestTypeId() != null) {
             if (oleDeliverRequestBo.getRequestTypeId().equals("3") && oleDeliverRequestBo.getPickUpLocationId() != null && !oleDeliverRequestBo.getPickUpLocationId().isEmpty()) {
                 oleDeliverRequestBo.setRequestTypeId("4");
