@@ -101,7 +101,7 @@
                             <bean id="create_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
                             <bean id="create_defaultPickupLocation" parent="Uif-InputField" p:propertyName="defaultPickupLocationId" p:label="Default Pickup Location">
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.deliver.keyvalue.PickupLocationKeyValueFinder"/>
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleCirculationDeskPickUpLocationKeyValues"/>
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
@@ -113,7 +113,7 @@
 
                             <bean id="create_defaultRequestTypeCode" parent="Uif-InputField" p:propertyName="defaultRequestTypeCode" p:label="Default Request Type">
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleCirculationDeskRequestTypeKeyValues"/>
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
