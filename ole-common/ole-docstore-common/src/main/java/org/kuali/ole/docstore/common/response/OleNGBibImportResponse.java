@@ -1,28 +1,59 @@
 package org.kuali.ole.docstore.common.response;
 
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.marc4j.marc.Record;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by SheikS on 1/11/2016.
  */
+@JsonAutoDetect(JsonMethod.FIELD)
 public class OleNGBibImportResponse {
 
+    @JsonProperty("bibImportProfileName")
+    private String bibImportProfileName;
+    @JsonProperty("matchedBibsCount")
     private int matchedBibsCount;
+    @JsonProperty("unmatchedBibsCount")
     private int unmatchedBibsCount;
+    @JsonProperty("multipleMatchedBibsCount")
     private int multipleMatchedBibsCount;
 
+    @JsonProperty("matchedHoldingsCount")
     private int matchedHoldingsCount;
+    @JsonProperty("unmatchedHoldingsCount")
     private int unmatchedHoldingsCount;
+    @JsonProperty("multipleMatchedHoldingsCount")
     private int multipleMatchedHoldingsCount;
 
+    @JsonProperty("matchedItemsCount")
     private int matchedItemsCount;
+    @JsonProperty("unmatchedItemsCount")
     private int unmatchedItemsCount;
+    @JsonProperty("multipleMatchedItemsCount")
     private int multipleMatchedItemsCount;
 
+    @JsonProperty("matchedEHoldingsCount")
     private int matchedEHoldingsCount;
+    @JsonProperty("unmatchedEHoldingsCount")
     private int unmatchedEHoldingsCount;
+    @JsonProperty("multipleMatchedEHoldingsCount")
     private int multipleMatchedEHoldingsCount;
 
+    @JsonIgnore
+    private List<Record> matchedRecords = new ArrayList<>();
+    @JsonIgnore
+    private List<Record> unmatchedRecords = new ArrayList<>();
+    @JsonIgnore
+    private List<Record> multipleMatchedRecords = new ArrayList<>();
+
+    @JsonProperty("bibResponses")
     private List<BibResponse> bibResponses;
 
     public List<BibResponse> getBibResponses() {
@@ -127,5 +158,37 @@ public class OleNGBibImportResponse {
 
     public void setMultipleMatchedEHoldingsCount(int multipleMatchedEHoldingsCount) {
         this.multipleMatchedEHoldingsCount = multipleMatchedEHoldingsCount;
+    }
+
+    public List<Record> getMatchedRecords() {
+        return matchedRecords;
+    }
+
+    public void setMatchedRecords(List<Record> matchedRecords) {
+        this.matchedRecords = matchedRecords;
+    }
+
+    public List<Record> getUnmatchedRecords() {
+        return unmatchedRecords;
+    }
+
+    public void setUnmatchedRecords(List<Record> unmatchedRecords) {
+        this.unmatchedRecords = unmatchedRecords;
+    }
+
+    public List<Record> getMultipleMatchedRecords() {
+        return multipleMatchedRecords;
+    }
+
+    public void setMultipleMatchedRecords(List<Record> multipleMatchedRecords) {
+        this.multipleMatchedRecords = multipleMatchedRecords;
+    }
+
+    public String getBibImportProfileName() {
+        return bibImportProfileName;
+    }
+
+    public void setBibImportProfileName(String bibImportProfileName) {
+        this.bibImportProfileName = bibImportProfileName;
     }
 }

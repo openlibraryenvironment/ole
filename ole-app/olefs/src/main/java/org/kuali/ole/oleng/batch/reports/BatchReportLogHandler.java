@@ -1,9 +1,11 @@
-package org.kuali.ole.spring.batch.processor;
+package org.kuali.ole.oleng.batch.reports;
 
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.kuali.ole.OleCamelContext;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,9 @@ public class BatchReportLogHandler {
     public static BatchReportLogHandler getInstance() {
         if (null == batchReportLogHandler) {
             batchReportLogHandler = new BatchReportLogHandler();
+            String fileName = "BibImportReport" + OleNGConstants.TIMESTAMP_FOR_CAMEL + ".txt";
             String endPoint1 = "seda:batchResponseQ";
-            String endPoint2 = "file:batchReports.txt";
+            String endPoint2 = "file:"+ ConfigContext.getCurrentContextConfig().getProperty("project.home") + "/reports?fileName=" + fileName;
             try {
                 OleCamelContext.getInstance().addRoutes(endPoint1, endPoint2, getProcessors());
                 if (null == sedaProducer) {
@@ -43,10 +46,10 @@ public class BatchReportLogHandler {
     public static List<Processor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
+            processors.add(new UnMatchedRecordsReportProcessor());
             processors.add(new MatchedRecordsReportProcessor());
-            //TODO: Add SumaryReportProcessor
-            //TODO: Add MatchedRecordsProcessor
-            //TODO: Add UnMatchedRecordsProcessor
+            processors.add(new MultipleMatchedRecordsReportProcessor());
+            processors.add(new SummaryReportProcessor());
         }
         return processors;
     }

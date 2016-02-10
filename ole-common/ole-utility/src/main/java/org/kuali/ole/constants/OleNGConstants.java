@@ -226,5 +226,6 @@ public class OleNGConstants {
 
     public static final String FORWARD_SLASH = "/";
 
+    public static final String TIMESTAMP_FOR_CAMEL = "-${date:now:yyyy-MMM-dd-hh-mm-ss-a}";
 
 }
