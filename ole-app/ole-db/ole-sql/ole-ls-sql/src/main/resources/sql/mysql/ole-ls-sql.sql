@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -1914,6 +1913,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
         , OPERATOR_ID VARCHAR(40)
+        , ITM_LOC VARCHAR(600)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
 
@@ -1922,7 +1922,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
