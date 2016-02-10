@@ -10649,7 +10649,7 @@
         <column name="VNDR_PMT_MTHD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_LINK_ID" size="40" type="VARCHAR"/>
         <column name="VNDR_CLM_INTRVL" size="40" type="VARCHAR"/>
-        <column name="NON_BILL_VND" size="1" type="VARCHAR"/>
+        <column default="Y" name="NON_BILL_VND" size="1" type="VARCHAR"/>
         <column name="GOKB_ID" type="INTEGER"/>
         <column name="GOKB_ORG_STATUS" size="30" type="VARCHAR"/>
         <column name="GOKB_LAST_UPDATED_DATE" type="DATE"/>

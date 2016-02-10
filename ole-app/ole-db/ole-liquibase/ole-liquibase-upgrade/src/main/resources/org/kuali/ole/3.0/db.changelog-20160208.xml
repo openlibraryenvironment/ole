@@ -23,12 +23,6 @@
         <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html','2012-03-22 00:00:00',1)</sql>
     </changeSet>
 
-    <changeSet context="bootstrap" id="PUR_VNDR_DTL_T_NONBILL" author="ole">
-        <update tableName="PUR_VNDR_DTL_T">
-            <column name="NON_BILL_VND" value="N" />
-        </update>
-    </changeSet>
-
     <changeSet context="bootstrap" id="PUR_REQS_T_BILL_PHN_NBR_NULL" author="ole">
         <dropNotNullConstraint columnDataType="VARCHAR(20)"
                                columnName="BILL_PHN_NBR"
