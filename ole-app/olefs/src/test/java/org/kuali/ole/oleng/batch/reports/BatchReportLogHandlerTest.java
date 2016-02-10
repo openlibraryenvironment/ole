@@ -8,7 +8,6 @@ import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.HoldingsResponse;
 import org.kuali.ole.docstore.common.response.ItemResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
-import org.kuali.ole.spring.batch.processor.BatchReportLogHandler;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.io.File;

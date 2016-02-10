@@ -12,6 +12,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.profile.model.*;
+import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -41,6 +42,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         int matchedBibsCount = 0;
         int unmatchedBibsCount = 0;
         int multipleMatchedBibsCount = 0;
+        List<Record> matchedRecords = new ArrayList<>();
+        List<Record> unmatchedRecords = new ArrayList<>();
+        List<Record> multipleMatchedRecords = new ArrayList<>();
         for (int index=0 ; index < records.size(); index++){
             Record marcRecord = records.get(index);
             JSONObject jsonObject = null;
@@ -53,6 +57,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     if (null == results || results.size() > 1) {
                         System.out.println("**** More than one record found for query : " + query);
                         multipleMatchedBibsCount = multipleMatchedBibsCount + results.size();
+                        multipleMatchedRecords.add(marcRecord);
                         continue;
                     }
 
@@ -61,14 +66,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
                         matchedBibsCount = matchedBibsCount + 1;
+                        matchedRecords.add(marcRecord);
                     } else {
                         jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
                         unmatchedBibsCount = unmatchedBibsCount + 1;
+                        unmatchedRecords.add(marcRecord);
                     }
                 }
             } else {
                 jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
                 unmatchedBibsCount = unmatchedBibsCount + 1;
+                unmatchedRecords.add(marcRecord);
             }
             jsonArray.put(jsonObject);
         }
@@ -80,6 +88,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 oleNGBibImportResponse.setMatchedBibsCount(matchedBibsCount);
                 oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedBibsCount);
                 oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedBibsCount);
+                oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
+                oleNGBibImportResponse.setMatchedRecords(matchedRecords);
+                oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
+                oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
                 generateBatchReport(oleNGBibImportResponse);
             } catch (IOException e) {
                 e.printStackTrace();
