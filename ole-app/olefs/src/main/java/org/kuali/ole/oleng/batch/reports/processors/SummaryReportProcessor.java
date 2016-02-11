@@ -1,4 +1,4 @@
-package org.kuali.ole.oleng.batch.reports;
+package org.kuali.ole.oleng.batch.reports.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;

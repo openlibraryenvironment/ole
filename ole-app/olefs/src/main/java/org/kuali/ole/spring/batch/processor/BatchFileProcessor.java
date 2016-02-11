@@ -9,8 +9,10 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.core.api.config.property.Config;
@@ -43,10 +45,12 @@ public abstract class BatchFileProcessor extends BatchUtil {
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
     public void processBatch(String  rawMarc, String profileId) {
+        BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
+        String responseData = "";
         try {
-            BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileId);
+            batchProcessProfile = fetchBatchProcessProfile(profileId);
             List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
-            String responseData = processRecords(records, batchProcessProfile);
+            responseData = processRecords(records, batchProcessProfile);
             String date = simpleDateFormat.format(new Date());
             String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
             String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
@@ -55,6 +59,15 @@ public abstract class BatchFileProcessor extends BatchUtil {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
+            batchProcessFailureResponse.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
+            batchProcessFailureResponse.setResponseData(responseData);
+            batchProcessFailureResponse.setFailureReason(e.getMessage());
+            batchProcessFailureResponse.setFailedRawMarcContent(rawMarc);
+            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
+            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse);
+            throw e;
         }
     }
 

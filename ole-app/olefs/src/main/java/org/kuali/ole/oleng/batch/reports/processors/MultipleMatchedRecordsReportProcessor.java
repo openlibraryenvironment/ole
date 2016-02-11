@@ -1,4 +1,4 @@
-package org.kuali.ole.oleng.batch.reports;
+package org.kuali.ole.oleng.batch.reports.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -15,16 +15,16 @@ import java.util.Date;
 /**
  * Created by angelind on 2/10/16.
  */
-public class UnMatchedRecordsReportProcessor implements Processor {
+public class MultipleMatchedRecordsReportProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
         OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse) exchange.getIn().getBody();
         String projectHome = ConfigContext.getCurrentContextConfig().getProperty("project.home");
         String date = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss-a").format(new Date());
-        if(CollectionUtils.isNotEmpty(oleNGBibImportResponse.getUnmatchedRecords())) {
-            String unmatchedMarcRawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(oleNGBibImportResponse.getUnmatchedRecords());
-            FileUtils.write(new File(projectHome, "reports/" + oleNGBibImportResponse.getBibImportProfileName() + "-UnMatched-" + date + ".mrc"), unmatchedMarcRawContent);
+        if(CollectionUtils.isNotEmpty(oleNGBibImportResponse.getMultipleMatchedRecords())) {
+            String multipleMatchedMarcRawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(oleNGBibImportResponse.getMultipleMatchedRecords());
+            FileUtils.write(new File(projectHome, "reports/" + oleNGBibImportResponse.getBibImportProfileName() + "-MultipleMatched-" + date + ".mrc"), multipleMatchedMarcRawContent);
         }
         exchange.getOut().setBody(oleNGBibImportResponse);
     }

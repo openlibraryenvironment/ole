@@ -39,9 +39,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
-        int matchedBibsCount = 0;
-        int unmatchedBibsCount = 0;
-        int multipleMatchedBibsCount = 0;
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
@@ -56,7 +53,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                     if (null == results || results.size() > 1) {
                         System.out.println("**** More than one record found for query : " + query);
-                        multipleMatchedBibsCount = multipleMatchedBibsCount + results.size();
                         multipleMatchedRecords.add(marcRecord);
                         continue;
                     }
@@ -65,17 +61,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
                         jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
-                        matchedBibsCount = matchedBibsCount + 1;
                         matchedRecords.add(marcRecord);
                     } else {
                         jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
-                        unmatchedBibsCount = unmatchedBibsCount + 1;
                         unmatchedRecords.add(marcRecord);
                     }
                 }
             } else {
                 jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
-                unmatchedBibsCount = unmatchedBibsCount + 1;
                 unmatchedRecords.add(marcRecord);
             }
             jsonArray.put(jsonObject);
@@ -85,16 +78,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             response = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
             try {
                 OleNGBibImportResponse oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
-                oleNGBibImportResponse.setMatchedBibsCount(matchedBibsCount);
-                oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedBibsCount);
-                oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedBibsCount);
+                oleNGBibImportResponse.setMatchedBibsCount(matchedRecords.size());
+                oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
+                oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
                 oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
                 oleNGBibImportResponse.setMatchedRecords(matchedRecords);
                 oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
                 oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
                 generateBatchReport(oleNGBibImportResponse);
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
