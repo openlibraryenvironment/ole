@@ -1500,7 +1500,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                                 styleClass="tinybutton" />
                 </c:when>
                 <c:when
-                        test="${amendmentEntry and itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null}">
+                        test="${amendmentEntry and itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount == 0 and itemLine.copyList[0].receiptStatus ne 'Received'}">
                     <html:image property="methodToCall.inactivateItem.line${ctr}"
                                 src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
                                 alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
@@ -1541,8 +1541,10 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                     <!-- <br>
                     <br> -->
                 </c:when>
+                <%--<c:when
+                        test="${amendmentEntry}">--%>
                 <c:when
-                        test="${amendmentEntry}">
+                        test="${amendmentEntry and itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount == 0 and itemLine.copyList[0].receiptStatus ne 'Received'}">
                     <html:image property="methodToCall.inactivateItem.line${ctr}"
                                 src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
                                 alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
