@@ -56,21 +56,21 @@ public class BatchRestController extends OleNgControllerBase {
                              @RequestParam("batchType") String batchType, HttpServletRequest request) throws IOException, JSONException {
         if (null != file && StringUtils.isNotBlank(profileName) && StringUtils.isNotBlank(batchType)) {
             String rawContent = IOUtils.toString(file.getBytes());
-            return processBatch(profileName, batchType, rawContent);
+            JSONObject response = processBatch(profileName, batchType, rawContent);
+            return response.toString();
         }
         return null;
     }
 
-    private String processBatch(String profileName, String batchType, String rawContent) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
+    private JSONObject processBatch(String profileName, String batchType, String rawContent) throws JSONException {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
         BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
-        batchProcessor.processBatch(rawContent, profileName);
+        JSONObject response = batchProcessor.processBatch(rawContent, profileName);
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
-        jsonObject.put("processTime",totalTime + "ms");
-        return jsonObject.toString();
+        response.put("processTime",totalTime + "ms");
+        return response;
     }
 
     @RequestMapping(value = "/submit/api", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
@@ -80,8 +80,8 @@ public class BatchRestController extends OleNgControllerBase {
         String rawContent = requestJson.getString("marcContent");
         String batchType = requestJson.getString("batchType");
         String profileName = requestJson.getString("profileName");
-        String batchResponse = processBatch(profileName, batchType, rawContent);
-        return batchResponse;
+        JSONObject response = processBatch(profileName, batchType, rawContent);
+        return response.toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType.APPLICATION_JSON})
@@ -109,7 +109,14 @@ public class BatchRestController extends OleNgControllerBase {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
             BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
             if (null != file) {
-                String fileContent = IOUtils.toString(file.getBytes());
+                String rawContent = IOUtils.toString(file.getBytes());
+                JSONObject response = processBatch(String.valueOf(matchedBatchJob.getBatchProfileId()), batchJobDetails.getProfileType(), rawContent);
+                if(response.has(OleNGConstants.STATUS) && response.getBoolean(OleNGConstants.STATUS)){
+                    batchJobDetails.setStatus(OleNGConstants.COMPLETED);
+                } else {
+                    batchJobDetails.setStatus(OleNGConstants.FAILED);
+                }
+                getBusinessObjectService().save(batchJobDetails);
             }
             getBusinessObjectService().save(batchJobDetails);
         } catch (Exception e) {
