@@ -459,8 +459,8 @@
 
                                  }
                                  });*/
-                                $http.post("/olefs/rest/ngTransferController/transfer", transfer)
-                                    .success(function (data) {
+                                doPostRequest(scope, $http, "/olefs/rest/ngTransferController/transfer", transfer, function(response) {
+                                        var data = response.data;
                                         rootScope.message = data.message;
                                         rootScope.updateMessage();
                                         return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
@@ -468,13 +468,10 @@
                                 //rootScope.toggleTreeTab();
                                 return false;
                             }else if(sourceNodeScope.$modelValue.docType == 'item' && destNodesScope.$nodeScope.$modelValue.docType == 'holdings'){
-                                $http.post("/olefs/rest/ngTransferController/transfer", transfer)
-                                    .success(function (data) {
+                                doPostRequest(scope, $http, "/olefs/rest/ngTransferController/transfer", transfer, function(response) {
+                                        var data = response.data;
                                         rootScope.message = data.message;
                                         rootScope.updateMessage();
-                                    })
-                                    .error(function(data){
-                                        console.log("error");
                                     });
                                 return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
                             }else{

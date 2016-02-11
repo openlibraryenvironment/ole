@@ -375,8 +375,8 @@ function searchConditions($scope, $http, $rootScope) {
                         $scope.total_count = data.response.numFound;
                         console.log($scope.total_count);*/
                         console.log($rootScope.baseUri + url + '&wt=json&rows=' + $scope.itemsPerPage);
-                        $http.get($rootScope.baseUri + url + '&wt=json&rows=' + $scope.itemsPerPage).
-                            success(function (data) {
+                        doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&rows=' + $scope.itemsPerPage, null, function(response) {
+                            var data = response.data;
                                 //console.log(data.response.docs);
                                 //$scope.totalRecords = data.response.numFound;
                                 $scope.total_count = data.response.numFound;
@@ -401,8 +401,8 @@ function searchConditions($scope, $http, $rootScope) {
             success(function (data) {
                 $scope.totalRecords = data.response.numFound;
                 $scope.total_count = data.response.numFound;*/
-                $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
-                    success(function (data) {
+                    doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start, null, function(response) {
+                    var data = response.data;
                         $rootScope.searchResults = data.response.docs;
                         $scope.searchResults = data.response.docs;
                         $rootScope.searched = false;
@@ -416,8 +416,8 @@ function searchConditions($scope, $http, $rootScope) {
         angular.forEach($scope.conditions, function (condition) {
             $scope.start = $scope.start - $scope.pageSize;
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
-                success(function (data) {
+            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start, null, function(response,$rootScope) {
+                var data = response.data;
                     //console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;
                     $rootScope.searched = false;
@@ -431,8 +431,8 @@ function searchConditions($scope, $http, $rootScope) {
         $scope.start = $scope.start + $scope.pageSize;
         angular.forEach($scope.conditions, function (condition) {
             var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
-                success(function (data) {
+            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start, null, function(response,$rootScope) {
+                var data = response.data;
                     //console.log(data.response.docs);
                     $rootScope.searchResults = data.response.docs;
                     $rootScope.searched = false;

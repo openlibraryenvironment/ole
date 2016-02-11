@@ -38,8 +38,8 @@
                 $scope.itemStart = $scope.itemStart - $scope.itemPageSize;
             }
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
-                success(function (data) {
+            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
+                var data = response.data;
                     console.log(data.response.docs);
                     angular.forEach(data.response.docs, function (itemResponse) {
                         var locationDispaly = "Item - " + itemResponse.id;
@@ -68,13 +68,13 @@
             //Item tree searchResult next
             var itemData = [];
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
-                success(function (data) {
+            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
+                var data = response.data;
                     var itemTotalRecords = data.response.numFound;
                     if($scope.itemStart + $scope.itemPageSize <= itemTotalRecords){
                         $scope.itemStart = $scope.itemStart + $scope.itemPageSize;
-                        $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
-                            success(function (data) {
+                        doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
+                            var data = response.data;
                                 console.log(data.response.docs);
                                 angular.forEach(data.response.docs, function (itemResponse) {
                                     var locationDisplay = "Item - " + itemResponse.id;
@@ -129,8 +129,8 @@ function buildItemData(holdingsResponse, itemData, $http, $scope) {
      }, "");*/
 
     var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsResponse.holdingsIdentifier + ')';
-    $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=0&rows=' + $scope.itemPageSize).
-        success(function (data) {
+    doGetRequest($scope, $http, $scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=0&rows=' + $scope.itemPageSize, null, function(response) {
+        var data = response.data;
             //console.log(data.response.docs);
             angular.forEach(data.response.docs, function (itemResponse) {
                 var locationDispaly = "Item - " + itemResponse.id;
@@ -152,8 +152,8 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
     angular.forEach(searchResult.holdingsIdentifier, function (holdingsId) {
         var itemData = [];
         var url = "id" + ":" + holdingsId;
-        $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,itemIdentifier,holdingsIdentifier,DocType').
-            success(function (data) {
+        doGetRequest($scope, $http, $scope.baseUri + url + '&wt=json&fl=Location_display,id,itemIdentifier,holdingsIdentifier,DocType', null, function(response) {
+            var data = response.data;
                 $scope.holdingsResults = data.response.docs;
                 var holdingsResponse = $scope.holdingsResults[0];
                 buildItemData(holdingsResponse, itemData, $http, $scope);

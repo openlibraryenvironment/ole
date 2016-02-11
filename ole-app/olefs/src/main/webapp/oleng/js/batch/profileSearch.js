@@ -35,8 +35,7 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
     $scope.deleteProfile = function (profileId,index) {
         var data = {};
         data["profileId"] = profileId;
-        $http.post(OLENG_CONSTANTS.PROFILE_DELETE, JSON.stringify(data))
-            .success(function (response) {
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_DELETE, JSON.stringify(data), function (response) {
                 $scope.profiles.splice(index, 1);
             });
     };
@@ -50,19 +49,13 @@ batchProfileSearchApp.service('searchProfile', ['$http', function ($http) {
         var data = {};
         data["profileName"] = profileName;
         data["profileType"] = profileType;
-        $http.post(uploadUrl, JSON.stringify(data), {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-            .success(function(response){
-                var profiles = JSON.stringify(response) ;
+        doPostRequest($scope, $http, uploadUrl, JSON.stringify(data), function(response){
+                var data = response.data;
+                var profiles = JSON.stringify(data) ;
                 var log = [];
-                angular.forEach(response, function(value, key) {
+                angular.forEach(data, function(value, key) {
                     $scope.profiles.push(value);
                 }, log);
-            })
-            .error(function(){
-                console.log("Failed");
             });
     }
 }]);

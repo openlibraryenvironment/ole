@@ -26,17 +26,12 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
         angular.element(document.getElementById('profileName'))[0].disabled = true;
-        $http.post(uploadUrl, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-            .success(function(response){
-                var totalTime = response.processTime;
+        doPostRequestWithMultiPartData($scope, $http, uploadUrl, fd, function(response){
+                var data = response.data;
+                var totalTime = data.processTime;
                 var report = "Job successfully completed.\nTotal time taken : " +totalTime;
                 $scope.batchProcessStatus = report;
-
-            })
-            .error(function(){
+            }, function(){
                 $scope.batchProcessStatus = "Job failed.";
             });
     }
@@ -59,7 +54,8 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
     };
 
     $scope.populationProfileNames = function() {
-        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchType}}).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchType}}, function(response) {
+            var data = response.data;
             $scope.profileNames = data;
         });
     }

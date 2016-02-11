@@ -76,7 +76,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.populateProfileNames = function() {
-        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchProcessCreateTab.profileType}}).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchProcessCreateTab.profileType}},function(response) {
+            var data = response.data;
             $scope.profileNames = data;
         });
     };
@@ -118,7 +119,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             "schedule": getBatchSchedule()
         };
 
-        $http.post(OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob).success(function (data) {
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (data) {
+            var data = response.data;
             $scope.batchProcessJob = data;
             $scope.initializeJobs();
         });
@@ -147,13 +149,15 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     }
 
     function getBatchProcessJobs() {
-        $http.get(OLENG_CONSTANTS.PROCESS_JOBS).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROCESS_JOBS, null, function(response) {
+            var data = response.data;
             $scope.batchProcessJobs = data;
         });
     }
 
     function getBatchJobs() {
-        $http.get(OLENG_CONSTANTS.BATCH_JOBS).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.BATCH_JOBS, null, function(response) {
+            var data = response.data;
             $scope.batchJobs = data;
         });
     }
@@ -184,10 +188,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         fd.append('jobId', $scope.jobId);
         fd.append('file', $scope.batchSchedule.scheduleJobFile);
         fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
-        $http.post(OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).success(function (data) {
+        doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {
+            var data = response.data;
             $scope.message = "Job Scheduled";
             $scope.batchSchedule.showModal = false;
             $scope.closeModal();
@@ -200,10 +202,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         var fd = new FormData();
         fd.append('jobId', $scope.jobId);
         fd.append('file', $scope.quickLaunch.selectedFile);
-        $http.post(OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).success(function (data) {
+        doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, function(response) {
+            var data = response.data;
             $scope.message = "Job Launched";
             $scope.quickLaunch.showModal = false;
             $scope.closeModal();
@@ -214,7 +214,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.destroyJob = function(jobId) {
-        $http.get(OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}, function(response) {
+            var data = response.data;
             $scope.message = "Job Destroyed";
         });
     };
