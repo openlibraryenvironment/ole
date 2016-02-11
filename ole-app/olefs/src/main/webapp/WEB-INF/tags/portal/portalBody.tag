@@ -65,6 +65,9 @@
             <c:when test='${selectedTab == "oleAdmin"}'>
                 <portal:oleAdminTab riceUrl="${riceUrl }" />
             </c:when>
+            <c:when test='${selectedTab == "oleNewBatch"}'>
+                <portal:oleNewBatchTab environment="${environment}" riceUrl="${riceUrl }"/>
+            </c:when>
             <%-- as backup go to the main menu index --%>
             <c:otherwise>
                 <portal:oleDeliverTab environment="${environment}" riceUrl="${riceUrl }"/>
