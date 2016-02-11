@@ -41,7 +41,7 @@ public class ItemBarcode_IT extends OLETestCaseBase {
         OleDeliverRequestBo deliverRequestBo = KRADServiceLocator.getBusinessObjectService().save(oleDeliverRequestBos);
 
         ItemBarcodeUpdateHandler itemBarcodeUpdateHandler = new ItemBarcodeUpdateHandler();
-        itemBarcodeUpdateHandler.updateItemBarcode(itemRecord.getBarCode(), "2000");
+        itemBarcodeUpdateHandler.updateItemBarcode(itemRecord.getBarCode(), "2000",itemRecord.getItemId());
 
 
         itemBarcodeMap.clear();

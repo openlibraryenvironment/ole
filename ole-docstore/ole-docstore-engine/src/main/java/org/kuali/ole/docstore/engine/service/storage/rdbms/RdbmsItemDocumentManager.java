@@ -175,13 +175,14 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
             String oldBarcode = oldItemRecord.getBarCode();
             String newBarcode = itemRecord.getBarCode();
-            if(StringUtils.isNotBlank(oldBarcode) && (!oldBarcode.equals(newBarcode))){
+            if(oldBarcode!=null && (!oldBarcode.equals(newBarcode))){
                 OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
                 String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
                 String url = olefsUrl + "/rest/oledsdata/item/update/barcode";
                 JSONObject request = new JSONObject();
                 request.put("oldBarcode", oldBarcode);
                 request.put("newBarcode", newBarcode);
+                request.put("itemId",oldItemRecord.getItemId());
                 oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
             }
         } catch (ClassNotFoundException e) {

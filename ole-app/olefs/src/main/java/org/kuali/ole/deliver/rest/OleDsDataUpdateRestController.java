@@ -26,8 +26,9 @@ public class OleDsDataUpdateRestController  {
         JSONObject jsonObject = new JSONObject(body);
         String oldBarcode = jsonObject.getString("oldBarcode");
         String newBarcode = jsonObject.getString("newBarcode");
+        String itemId = jsonObject.getString("itemId");
         ItemBarcodeUpdateHandler itemBarcodeUpdateHandler = new ItemBarcodeUpdateHandler();
-        itemBarcodeUpdateHandler.updateItemBarcode(oldBarcode,newBarcode);
+        itemBarcodeUpdateHandler.updateItemBarcode(oldBarcode,newBarcode,itemId);
         return responseString;
     }
 }
