@@ -561,9 +561,7 @@ public class BrowseServiceImpl implements BrowseService {
         BrowseParams browseParams = new BrowseParams();
         List<SearchCondition>  searchConditions = new ArrayList<>();
         String docType = callNumberBrowseParams.getDocTye();
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"id"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"LocalId_display"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"DocFormat"));
+        buildCommonResultFields(browseParams, docType);
         if(DocType.BIB.getCode().equals(callNumberBrowseParams.getDocTye())) {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("Title_sort","asc"));
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getTitle())) {
@@ -580,7 +578,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.setStartIndex(0);
         }
         else {
-            browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","asc"));
+            browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
 
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
@@ -589,28 +587,26 @@ public class BrowseServiceImpl implements BrowseService {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getCallNumberBrowseText())){
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "[" + callNumberBrowseParams.getCallNumberBrowseText() + " TO *]"), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", "[" + callNumberBrowseParams.getCallNumberBrowseText() + " TO *]"), "AND"));
             }
             else {
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "{ * TO *}"), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", "{ * TO *}"), "AND"));
             }
             if(StringUtils.isNotEmpty(docType)) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "DocType", docType), "AND"));
             }
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Location_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_sort"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"CallNumber_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+            buildResultFields(browseParams, docType);
             browseParams.setStartIndex(0);
         }
         browseParams.setPageSize(callNumberBrowseParams.getNumRows());
         browseParams.getSearchConditions().addAll(searchConditions);
         return browseParams;
+    }
+
+    private void buildCommonResultFields(BrowseParams browseParams, String docType) {
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"id"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"LocalId_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"DocFormat"));
     }
 
     protected BrowseParams totalBrowseParams(CallNumberBrowseParams callNumberBrowseParams) {
@@ -620,9 +616,7 @@ public class BrowseServiceImpl implements BrowseService {
         List<SearchCondition>  searchConditions = new ArrayList<>();
         String docType = callNumberBrowseParams.getDocTye();
 
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"id"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"LocalId_display"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"DocFormat"));
+        buildCommonResultFields(browseParams, docType);
 
         if(DocType.BIB.getCode().equals(callNumberBrowseParams.getDocTye())) {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("Title_sort","asc"));
@@ -635,23 +629,15 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Carrier_display"));
         }
         else {
-            browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","asc"));
+            browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
             }
-            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "{ * TO *}"), "AND"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Location_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_sort"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"CallNumber_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", "{ * TO *}"), "AND"));
+            buildResultFields(browseParams, docType);
         }
 
         if(StringUtils.isNotEmpty(docType)) {
@@ -670,38 +656,22 @@ public class BrowseServiceImpl implements BrowseService {
         List<SearchCondition>  searchConditions = new ArrayList<>();
         String docType = callNumberBrowseParams.getDocTye();
 
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"id"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"LocalId_display"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"DocFormat"));
+        buildCommonResultFields(browseParams, docType);
 
         if(DocType.BIB.getCode().equals(callNumberBrowseParams.getDocTye())) {
-            browseParams.getSortConditions().add(browseParams.buildSortCondition("Title_sort","asc"));
-            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "Title_sort", "{ * TO *}"), "AND"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
-            browseParams.setStartIndex(startIndex);
+            buildBibSearchResultFields(browseParams, searchConditions, docType);
 
         }
         else {
-            browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","asc"));
+            browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
             }
-            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", nextBrowseValue), "AND"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Location_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_sort"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"CallNumber_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", nextBrowseValue), "AND"));
+            buildResultFields(browseParams, docType);
             browseParams.setStartIndex(1);
 
         }
@@ -720,18 +690,10 @@ public class BrowseServiceImpl implements BrowseService {
         List<SearchCondition>  searchConditions = new ArrayList<>();
         String docType = callNumberBrowseParams.getDocTye();
 
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"id"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"LocalId_display"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"DocFormat"));
+        buildCommonResultFields(browseParams, docType);
 
         if(DocType.BIB.getCode().equals(callNumberBrowseParams.getDocTye())) {
-            browseParams.getSortConditions().add(browseParams.buildSortCondition("Title_sort","asc"));
-            searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "Title_sort", "{ * TO *}"), "AND"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
-            browseParams.setStartIndex(startIndex);
+            buildBibSearchResultFields(browseParams, searchConditions, docType);
         }
         else {
 
@@ -742,24 +704,16 @@ public class BrowseServiceImpl implements BrowseService {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
             }
             if(startIndex == 0) {
-                browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","asc"));
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "[* TO *]"), "AND"));
+                browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
+                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", "[* TO *]"), "AND"));
                 browseParams.setStartIndex(0);
             }
             else {
-                browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","desc"));
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", previousBrowseValue), "AND"));
+                browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","desc"));
+                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "CallNumber_sort", previousBrowseValue), "AND"));
                 browseParams.setStartIndex(1);
             }
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Location_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_sort"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"CallNumber_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+            buildResultFields(browseParams, docType);
         }
 
         if(StringUtils.isNotEmpty(docType)) {
@@ -770,38 +724,28 @@ public class BrowseServiceImpl implements BrowseService {
         browseParams.getSearchConditions().addAll(searchConditions);
         return browseParams;
     }
-   /* protected BrowseParams buildBrowseParams(String location, String classificationScheme, String callNumberBrowseText, String docType, int startIndex) {
-        BrowseParams browseParams = new BrowseParams();
-        browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort", "asc"));
-        List<SearchCondition> searchConditions = new ArrayList<>();
-        if (DocType.BIB.getCode().equals(docType)) {
 
-        } else {
-
-            if (StringUtils.isNotEmpty(location)) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "LocationLevel_search", location), "AND"));
-            }
-            if (StringUtils.isNotEmpty(classificationScheme)) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", classificationScheme), "AND"));
-            }
-            if (StringUtils.isNotEmpty(callNumberBrowseText)) {
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "{" + callNumberBrowseText + "* TO *}"), "AND"));
-            } else {
-                searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "ShelvingOrder_sort", "{ * TO *}"), "AND"));
-            }
-            if (StringUtils.isNotEmpty(docType)) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "DocType", docType), "AND"));
-            }
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType, "LocationLevel_search"));
-            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType, "ShelvingOrder_search"));
-        }
+    private void buildBibSearchResultFields(BrowseParams browseParams, List<SearchCondition> searchConditions, String docType) {
+        browseParams.getSortConditions().add(browseParams.buildSortCondition("Title_sort","asc"));
+        searchConditions.add(browseParams.buildSearchCondition("NONE", browseParams.buildSearchField(docType, "Title_sort", "{ * TO *}"), "AND"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
         browseParams.setStartIndex(startIndex);
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType, "id"));
-        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType, "LocalId_display"));
+    }
 
-        browseParams.getSearchConditions().addAll(searchConditions);
-        return browseParams;
-    }*/
+    private void buildResultFields(BrowseParams browseParams, String docType) {
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Location_search"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_search"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ShelvingOrder_sort"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"CallNumber_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
+        browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+    }
 
     protected CallNumberBrowseParams getBrowseParams(OLESearchForm oleSearchForm) {
         CallNumberBrowseParams callNumberBrowseParams = new CallNumberBrowseParams();
