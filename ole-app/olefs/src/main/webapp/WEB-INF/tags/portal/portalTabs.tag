@@ -102,6 +102,21 @@
                 </li>
             </c:if>
 
+            <%-- New Batch Tab  --%>
+            <c:if test='${selectedTab == "oleNewBatch"}'>
+                <li class="red">
+                    <a class="red" href="portal.do?selectedTab=oleNewBatch"
+                       title="New Batch">New Batch</a>
+                </li>
+            </c:if>
+            <c:if test='${selectedTab != "oleNewBatch"}'>
+                <li class="green">
+                    <a class="green"
+                       href="portal.do?selectedTab=oleNewBatch"
+                       title="New Batch">New Batch</a>
+                </li>
+            </c:if>
+
             <c:if test='${selectedTab == "Reports"}'>
                 <li class="red">
                     <a class="red" href="${reportsUrl}"
