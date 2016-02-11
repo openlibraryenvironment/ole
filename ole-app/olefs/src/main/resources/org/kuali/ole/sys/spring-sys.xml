@@ -368,7 +368,7 @@
 	</bean>
 
     <bean id="autoDisapproveJob" parent="autoDisapproveJob-parentBean"/>	
-	<bean id="autoDisapproveJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+	<bean id="autoDisapproveJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="autoDisapproveDocumentsStep" />
