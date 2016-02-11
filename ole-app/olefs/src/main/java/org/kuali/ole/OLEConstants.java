@@ -2758,6 +2758,8 @@ public class OLEConstants {
 
     public static final String INVALID_PHONE_NUMBER_FORMAT = "error.invalid.phoneNumber.format";
 
+    public static final String MARC_EDITOR_COPY_BIB = "MARC_EDITOR_COPY_BIB";
+
     public static List<String> getProtocolList() {
         List<String> protocolsList = new ArrayList<String>();
         protocolsList.add("http://");
