@@ -306,3 +306,4 @@ OLE10329,OLE10329,1,62,OLE-SELECT,Delete E-Resource Instance,Allows user to dele
 OLE10330,OLE10330,1,10,OLE-SYS,Initiate and Edit Fund Code,Authorizes the initiation and edit of Fund code Simple Maintenance documents.,Y
 OLE10500,OLE10500,1,15,OLE-SELECT,Save E-Resource Record,Allows user to Save the E-Resource record.,Y
 OLE10501,OLE10501,1,10,OLE-SELECT,Initiate and Edit Problem Type,Authorizes the initiation and edit of Problem type Simple Maintenance documents.,Y
+OLE10502,OLE10502,1,1,OLE-CAT,MARC_EDITOR_COPY_BIB,user to Copy a bibliographic record will be created,Y

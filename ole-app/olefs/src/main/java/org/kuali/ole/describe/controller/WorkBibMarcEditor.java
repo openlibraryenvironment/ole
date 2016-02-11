@@ -61,6 +61,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -1533,16 +1534,26 @@ public class WorkBibMarcEditor extends AbstractEditor implements
     public EditorForm copy(EditorForm editorForm) {
         editorForm.setDocId(null);
         editorForm.setBibId(null);
-
+        editorForm.setUpdatedBy(null);
+        editorForm.setUpdatedDate(null);
+        editorForm.setCreatedBy(null);
+        editorForm.setCreatedDate(null);
+        editorForm.setStaffOnlyFlagForBib(false);
+        editorForm.setStatusUpdatedBy(null);
+        editorForm.setStatusUpdatedOn(null);
+        editorForm.setNewDocument(true);
+        editorForm.setLeftTree(new Tree<DocumentTreeNode, String>());
+        editorForm.setBibTreeList(null);
+        editorForm.setTitle(null);
         WorkBibMarcForm workBibMarcForm = (WorkBibMarcForm) editorForm.getDocumentForm();
         workBibMarcForm.getMarcControlFields().setLocalId(null);
         workBibMarcForm.getMarcControlFields().setControlField001(null);
         workBibMarcForm.getMarcControlFields().setControlField003(null);
+        workBibMarcForm.getMarcControlFields().setControlField005(null);
         workBibMarcForm.setDocId(null);
+        workBibMarcForm.setBibTreeList(null);
         editorForm.setOleBibliographicRecordStatus(new OleBibliographicRecordStatus());
-
         eliminate9xxFields(workBibMarcForm);
-
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.MARC_EDITOR_BIB_COPY_MESSAGE);
         return editorForm;
     }

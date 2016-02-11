@@ -115,6 +115,11 @@ public class EditorController extends UifControllerBase {
         return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.INSTANCE_EDITOR_DELETE_EINSTANCE);
     }
 
+    private boolean canCopyBib(String principalId) {
+        PermissionService service = KimApiServiceLocator.getPermissionService();
+        return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.MARC_EDITOR_COPY_BIB);
+    }
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         UifFormBase uifFormBase = null;
@@ -138,12 +143,18 @@ public class EditorController extends UifControllerBase {
         String docCategory = request.getParameter("docCategory");
         String docType = request.getParameter("docType");
         String docFormat = request.getParameter("docFormat");
+
         ((EditorForm) form).setDocCategory(docCategory);
         ((EditorForm) form).setDocType(docType);
         ((EditorForm) form).setDocFormat(docFormat);
         DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
                 .getDocumentEditor(docCategory, docType, docFormat);
         editorForm = documentEditor.copy((EditorForm) form);
+
+        if(docType.equalsIgnoreCase(DocType.BIB.getCode())){
+            // Build or update left pane data (tree structure of documents)
+            getEditorFormDataHandler().buildLeftPaneData((EditorForm) form);
+        }
         modelAndView = getUIFModelAndView(editorForm);
         return modelAndView;
     }
@@ -375,6 +386,10 @@ public class EditorController extends UifControllerBase {
         }
         boolean canDeleteEInstance = canDeleteEInstance(GlobalVariables.getUserSession().getPrincipalId());
         ((EditorForm) form).setCanDeleteEInstance(canDeleteEInstance);
+
+
+        boolean canCopyBib = canCopyBib(GlobalVariables.getUserSession().getPrincipalId());
+        ((EditorForm) form).setCanCopyBib(canCopyBib);
 
         if (eResourceId != null) {
             ((EditorForm) form).seteResourceId(eResourceId);

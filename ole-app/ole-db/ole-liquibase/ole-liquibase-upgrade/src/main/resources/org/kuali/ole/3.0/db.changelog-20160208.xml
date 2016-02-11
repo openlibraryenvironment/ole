@@ -4,6 +4,46 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_UPDATE">
         <update tableName="OLE_CAT_SHVLG_SCHM_T">
