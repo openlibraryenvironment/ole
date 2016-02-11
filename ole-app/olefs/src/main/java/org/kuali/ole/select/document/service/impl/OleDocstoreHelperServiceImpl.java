@@ -1,10 +1,7 @@
 package org.kuali.ole.select.document.service.impl;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.cxf.helpers.IOUtils;
+import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
@@ -47,7 +44,10 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -77,6 +77,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
     boolean newCopyFlag = false;
     private HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
     private DocstoreUtil docstoreUtil=new DocstoreUtil();
+    private DataCarrierService dataCarrierService;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (docstoreClientLocator == null) {
@@ -213,7 +214,10 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                     } else {
                         Item item = new Item();
                         setItemDetails(item, oleCopy, singleItem, oleDonors, poNumber);
-                        org.kuali.ole.docstore.common.document.Item itemDocument = new org.kuali.ole.docstore.common.document.Item();
+                        org.kuali.ole.docstore.common.document.Item itemDocument = (org.kuali.ole.docstore.common.document.Item) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":item");
+                        if(null == itemDocument) {
+                            itemDocument = new org.kuali.ole.docstore.common.document.Item();
+                        }
                         itemDocument.setContent(new ItemOlemlRecordProcessor().toXML(item));
                         itemDocument.setCreatedBy(initiatorName);
                         itemDocument.setCategory(OLEConstants.ITEM_CATEGORY);
@@ -518,7 +522,18 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
      * @return Item
      */
     public Item setItemDetails(OleCopy oleCopy, String itemTypeDescription) {
-        Item item = new Item();
+        Item item = null;
+        org.kuali.ole.docstore.common.document.Item itemDocument = (org.kuali.ole.docstore.common.document.Item) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":item");
+        if(null != itemDocument) {
+            String content = itemDocument.getContent();
+            if(StringUtils.isNotBlank(content)) {
+                item = new ItemOlemlRecordProcessor().fromXML(content);
+            }
+        }
+
+        if(item == null) {
+            item = new Item();
+        }
         /*
          * Location itemLocation = new Location(); LocationLevel locationLevel = new LocationLevel(); String locationLevelCode =
          * OLEConstants.LOCATION_LEVEL_CODE_INSTITUTION + "/" + OLEConstants.LOCATION_LEVEL_CODE_LIBRARY; if (null !=
@@ -544,7 +559,17 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
      * @return OleHoldings
      */
     public OleHoldings setHoldingDetails(OleCopy copy) throws Exception{
-        OleHoldings oleHoldings = new OleHoldings();
+        OleHoldings oleHoldings = null;
+        Holdings pHoldings = (Holdings) getDataCarrierService().getData("reqItemId:" + copy.getReqItemId() + ":holdings");
+        if(null != pHoldings) {
+            String content = pHoldings.getContent();
+            if(StringUtils.isNotBlank(content)) {
+                oleHoldings = new HoldingOlemlRecordProcessor().fromXML(content);
+            }
+        }
+        if(null == oleHoldings) {
+            oleHoldings = new OleHoldings();
+        }
         org.kuali.ole.docstore.common.document.content.instance.Location holdingLocation = new org.kuali.ole.docstore.common.document.content.instance.Location();
         org.kuali.ole.docstore.common.document.content.instance.LocationLevel holdingLocationLevel = new org.kuali.ole.docstore.common.document.content.instance.LocationLevel();
         String holdingLocationLevelCode = getLocationLevelCode(copy);
@@ -1224,7 +1249,10 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
     public void createOleHoldingsTree(String poNumber, BibTree bibTree,List<OleCopy> copyList, String poLineItemId,List<OLELinkPurapDonor> oleDonors,List<OleCopy> oleCopyList,
                                         String itemTypeDescription,String itemStatusValue, OlePurchaseOrderItem singleItem, String initiatorName) throws Exception {
         OleCopy copy = oleCopyList.get(0);
-        Holdings pHoldings = new PHoldings();
+        Holdings pHoldings = (Holdings) getDataCarrierService().getData("reqItemId:" + copy.getReqItemId() + ":holdings");
+        if(null == pHoldings) {
+            pHoldings = new PHoldings();
+        }
         if (StringUtils.isNotBlank(copy.getInstanceId())) {
             pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(copy.getInstanceId());
         }
@@ -1250,7 +1278,10 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                 }
                 List<DonorInfo> donorInfoList = setDonorInfoToItem(oleDonors, new ArrayList<DonorInfo>());
                 item.setDonorInfo(donorInfoList);
-                org.kuali.ole.docstore.common.document.Item itemDocument = new org.kuali.ole.docstore.common.document.Item();
+                org.kuali.ole.docstore.common.document.Item itemDocument = (org.kuali.ole.docstore.common.document.Item) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":item");
+                if(null == itemDocument) {
+                    itemDocument = new org.kuali.ole.docstore.common.document.Item();
+                }
                 itemDocument.setContent(new ItemOlemlRecordProcessor().toXML(item));
                 itemDocument.setCreatedBy(initiatorName);
                 itemDocument.setCategory(OLEConstants.ITEM_CATEGORY);
@@ -1268,7 +1299,10 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         HoldingsTree holdingsTree = new HoldingsTree();
         if (StringUtils.isBlank(copy.getInstanceId())) {
             holdingsTree.getItems().addAll(itemList);
-            Holdings holdings = new PHoldings();
+            Holdings holdings = (Holdings) getDataCarrierService().getData("reqItemId:" + copy.getReqItemId() + ":holdings");
+            if(null == holdings) {
+                holdings = new PHoldings();
+            }
             holdings.setCategory(DocCategory.WORK.getCode());
             holdings.setType(org.kuali.ole.docstore.common.document.content.enums.DocType.HOLDINGS.getCode());
             holdings.setFormat(org.kuali.ole.docstore.common.document.content.enums.DocFormat.OLEML.getCode());
@@ -1332,6 +1366,13 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
             }
         }
         return false;
+    }
+
+    public DataCarrierService getDataCarrierService() {
+        if(dataCarrierService == null){
+            dataCarrierService = SpringContext.getBean(DataCarrierService.class);
+        }
+        return dataCarrierService;
     }
 
 }

@@ -14,36 +14,33 @@
                     <th>Cron Expression</th>
                     <th>Execution Count</th>
                     <th>Last Execution Status</th>
-                    <th style="width: 400px">Actions</th>
+                    <th style="width: 280px">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="batchProcessJob in batchProcessJobs">
-                    <td><span ng-bind="batchProcessJob.processId"></span></td>
-                    <td><span ng-bind="batchProcessJob.batchProcessName"></span></td>
-                    <td><span ng-bind="batchProcessJob.batchProcessType"></span></td>
+                    <td><span ng-bind="batchProcessJob.jobId"></span></td>
+                    <td><span ng-bind="batchProcessJob.jobName"></span></td>
+                    <td><span ng-bind="batchProcessJob.profileType"></span></td>
                     <td><span ng-bind="batchProcessJob.profileName"></span></td>
                     <td><span ng-bind="batchProcessJob.createdBy"></span></td>
                     <td><span ng-bind="batchProcessJob.createdOn"></span></td>
-                    <td><span ng-bind=""></span></td>
+                    <td><span ng-bind="batchProcessJob.nextRunTime"></span></td>
                     <td><span ng-bind="batchProcessJob.cronExpression"></span></td>
                     <td><span ng-bind="batchProcessJob.executionCount"></span></td>
                     <td><span ng-bind="batchProcessJob.lastExecutionStatus"></span></td>
                     <td>
-                        <button type="button" id="quickLaunch_{{$index}}" class="btn btn-warning btn-sm"
-                                name="quickLaunch_{{$index}}" ng-click="quickLaunchModal(batchProcessJob.processId)">Quick Launch
-                        </button>
-                        <button type="button" id="processLaunch_{{$index}}" class="btn btn-success btn-sm"
-                                name="processLaunch_{{$index}}" ng-click="launchJob(batchProcessJob.processId)">Launch
+                        <button type="button" id="quickLaunch_{{$index}}" class="btn btn-success btn-sm"
+                                name="quickLaunch_{{$index}}" ng-click="quickLaunchPopUp(batchProcessJob.jobId)">Quick Launch
                         </button>
                         <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processSchedule_{{$index}}" ng-click="" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
+                                name="processSchedule_{{$index}}" ng-click="schedulePopUp(batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
                         </button>
                         <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processReschedule_{{$index}}" ng-click="" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
+                                name="processReschedule_{{$index}}" ng-click="schedulePopUp(batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
                         </button>
                         <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
-                                name="processDestroy_{{$index}}" ng-click="destroyJob(batchProcessJob.processId)">Destroy
+                                name="processDestroy_{{$index}}" ng-click="destroyJob(batchProcessJob.jobId)">Destroy
                         </button>
                     </td>
                 </tr>
@@ -59,8 +56,24 @@
                     <label for="selectedFile">Upload File</label>
                     <input id="selectedFile" name="selectedFile" type="file" file-model="quickLaunch.selectedFile" placeholder="Upload File"/>
                     <div>
-                        <button id="submit" type="button" class="btn btn-primary pull-right" ng-click="submitQuickLaunch()">Submit</button>
+                        <button id="submit" type="button" class="btn btn-primary btn-sm pull-right" ng-click="submitQuickLaunchJob()">Submit</button>
                     </div>
+                </div>
+            </div>
+        </modal>
+    </div>
+
+    <div>
+        <modal title="Schedule Job" visible="batchSchedule.showModal">
+            <div class="form-group" style="height: 200px; width: inherit;">
+                <div>
+                    <label for="scheduleJobFile">Upload File</label>
+                    <input id="scheduleJobFile" name="scheduleJobFile" type="file" file-model="batchSchedule.scheduleJobFile" placeholder="Upload File"/>
+                </div>
+                <br/>
+                <div ng-include src="'batchScheduling/views/batchScheduleJob.html'"></div>
+                <div>
+                    <button id="scheduleJob" type="button" class="btn btn-primary btn-sm pull-right" ng-click="scheduleJob()">Schedule Job</button>
                 </div>
             </div>
         </modal>

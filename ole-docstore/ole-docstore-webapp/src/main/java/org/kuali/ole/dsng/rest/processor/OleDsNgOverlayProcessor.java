@@ -645,7 +645,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
         } else if (StringUtils.isBlank(addedOps)) {
             holdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, PHoldings.PRINT, dataMappings);
-        } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+        } else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY) || addedOps.equalsIgnoreCase(OleNGConstants.DISCARD)) {
             holdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, holdingsJSON, PHoldings.PRINT);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
                 addedOps.equalsIgnoreCase(OleNGConstants.KEEP_ALL_EXISTING_AND_ADD)) {

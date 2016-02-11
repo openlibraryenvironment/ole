@@ -17,16 +17,15 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class DonorCodeHandler extends ItemHandler {
-    private final String TYPE = "Donor Code";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.DONOR_CODE);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
-        String donorCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String donorCode = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.DONOR_CODE);
         List<String> parsedValues = parseCommaSeperatedValues(donorCode);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String donorCodeValue = iterator.next();
@@ -48,7 +47,7 @@ public class DonorCodeHandler extends ItemHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.DONOR_CODE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();

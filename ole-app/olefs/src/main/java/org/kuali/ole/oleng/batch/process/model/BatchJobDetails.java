@@ -13,17 +13,17 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchJobDetails extends PersistableBusinessObjectBase {
 
-    @JsonProperty(OleNGConstants.JOB_ID)
-    private long jobId;
+    @JsonProperty(OleNGConstants.JOB_DETAIL_ID)
+    private long jobDetailId;
 
     @JsonProperty(OleNGConstants.JOB_NAME)
     private String jobName;
 
-    @JsonProperty(OleNGConstants.PROCESS_ID)
-    private long batchProcessId;
+    @JsonProperty(OleNGConstants.JOB_ID)
+    private long jobId;
 
-    @JsonProperty(OleNGConstants.PROCESS_TYPE)
-    private String batchProcessType;
+    @JsonProperty(OleNGConstants.PROFILE_TYPE)
+    private String profileType;
 
     @JsonProperty(OleNGConstants.PROFILE_NAME)
     private String profileName;
@@ -71,20 +71,20 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
         this.jobName = jobName;
     }
 
-    public long getBatchProcessId() {
-        return batchProcessId;
+    public long getJobDetailId() {
+        return jobDetailId;
     }
 
-    public void setBatchProcessId(long batchProcessId) {
-        this.batchProcessId = batchProcessId;
+    public void setJobDetailId(long jobDetailId) {
+        this.jobDetailId = jobDetailId;
     }
 
-    public String getBatchProcessType() {
-        return batchProcessType;
+    public String getProfileType() {
+        return profileType;
     }
 
-    public void setBatchProcessType(String batchProcessType) {
-        this.batchProcessType = batchProcessType;
+    public void setProfileType(String profileType) {
+        this.profileType = profileType;
     }
 
     public String getProfileName() {

@@ -18,17 +18,16 @@ import java.util.List;
  */
 public class CallNumberTypeHandler extends HoldingsHandler {
 
-    private final String TYPE = "Call Number Type";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String callNumberTypeCode = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String callNumberTypeCode = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
         List<String> parsedValues = parseCommaSeperatedValues(callNumberTypeCode);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String callNumberTypeCodeValue = iterator.next();
@@ -42,7 +41,7 @@ public class CallNumberTypeHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberTypeCode = listFromJSONArray.get(0);

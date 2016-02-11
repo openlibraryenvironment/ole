@@ -58,7 +58,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    private BatchProcessProfile fetchBatchProcessProfile(String profileId) {
+    public BatchProcessProfile fetchBatchProcessProfile(String profileId) {
         BatchProcessProfile batchProcessProfile = null;
 
         Map parameterMap = new HashedMap();

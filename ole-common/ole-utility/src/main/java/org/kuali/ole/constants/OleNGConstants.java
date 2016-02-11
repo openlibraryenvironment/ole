@@ -79,6 +79,23 @@ public class OleNGConstants {
         public static final String ITEM_DESCRIPTION = "Item Description";
         public static final String REQUESTOR = "Requestor";
         public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
+
+        public static final String CALL_NUMBER = "Call Number";
+        public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
+        public static final String CALL_NUMBER_TYPE = "Call Number Type";
+        public static final String CHRONOLOGY = "Chronology";
+        public static final String COPY_NUMBER = "Copy Number";
+        public static final String DONOR_CODE = "Donor Code";
+        public static final String DONOR_NOTE = "Donor Note";
+        public static final String DONOR_PUBLIC_DISPLAY = "Donor Public Display";
+        public static final String ENUMERATION = "Enumeration";
+        public static final String ITEM_BARCODE = "Item Barcode";
+        public static final String STAFF_ONLY = "Staff Only";
+        public static final String ITEM_TYPE = "Item Type";
+        public static final String STATISTICAL_CODE = "Statistical Code";
+        public static final String VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
+        public static final String ACCESS_STATUS = "Access Status";
+        public static final String SUBSCRIPTION_STATUS = "Subscription Status";
     }
 
     public static final String TAG_001 = "001";
@@ -159,13 +176,13 @@ public class OleNGConstants {
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
 
-    public static final String PROCESS_ID = "processId";
+    public static final String JOB_ID = "jobId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";
     public static final String PROCESS_NAME = "batchProcessName";
     public static final String PROCESS_TYPE = "batchProcessType";
     public static final String JOB_TYPE = "jobType";
     public static final String CRON_EXPRESSION = "cronExpression";
-    public static final String JOB_ID = "jobId";
+    public static final String JOB_DETAIL_ID = "jobDetailId";
     public static final String JOB_NAME = "jobName";
     public static final String CREATED_BY = "createdBy";
     public static final String START_TIME = "startTime";
@@ -176,8 +193,17 @@ public class OleNGConstants {
     public static final String TOTAL_RECORDS_PROCESSED = "totalRecordsProcessed";
     public static final String JOB_STATUS = "status";
     public static final String CREATED_ON = "createdOn";
+    public static final String NEXT_RUN_TIME = "nextRunTime";
     public static final String EXECUTION_COUNT = "executionCount";
     public static final String LAST_EXECUTION_STATUS = "lastExecutionStatus";
+    public static final String SCHEDULE_OPTION = "scheduleOption";
+    public static final String SCHEDULE_TYPE = "scheduleType";
+    public static final String SCHEDULE_DATE = "scheduleDate";
+    public static final String SCHEDULE_TIME = "scheduleTime";
+    public static final String WEEK_DAY = "weekDay";
+    public static final String MONTH_DAY = "monthDay";
+    public static final String MONTH_FREQUENCY = "monthFrequency";
+    public static final String SCHEDULE = "schedule";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
