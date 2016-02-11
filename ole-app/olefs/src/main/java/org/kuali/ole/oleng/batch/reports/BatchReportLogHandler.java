@@ -5,6 +5,10 @@ import org.apache.camel.ProducerTemplate;
 import org.kuali.ole.OleCamelContext;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.oleng.batch.reports.processors.MatchedRecordsReportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.MultipleMatchedRecordsReportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.SummaryReportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.UnMatchedRecordsReportProcessor;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.ArrayList;
