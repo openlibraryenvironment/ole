@@ -60,7 +60,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 getQueryCriteriaString(criteria,"title")+
                 getResultSetLimit();
         if (LOG.isInfoEnabled()) {
-            LOG.info("receiving climbing query ----->"+query);
+            LOG.info("receiving claiming query ----->"+query);
         }
         return getSimpleJdbcTemplate().queryForList(query);
     }
