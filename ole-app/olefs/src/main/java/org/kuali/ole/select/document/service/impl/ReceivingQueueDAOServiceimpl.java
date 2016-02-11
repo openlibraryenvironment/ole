@@ -62,7 +62,6 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         if (LOG.isInfoEnabled()) {
             LOG.info("receiving climbing query ----->"+query);
         }
-        System.out.println("receiving climbing query ----->"+query);
         return getSimpleJdbcTemplate().queryForList(query);
     }
 
