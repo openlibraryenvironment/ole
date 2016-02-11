@@ -16,17 +16,16 @@ import java.util.List;
  */
 public class CopyNumberHandler extends ItemHandler {
 
-    private final String TYPE = "Copy Number";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.COPY_NUMBER);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String copyNumber = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String copyNumber = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.COPY_NUMBER);
         List<String> parsedValues = parseCommaSeperatedValues(copyNumber);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String copyNumberValue =  iterator.next();
@@ -39,7 +38,7 @@ public class CopyNumberHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.COPY_NUMBER);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String copyNumber = listFromJSONArray.get(0);

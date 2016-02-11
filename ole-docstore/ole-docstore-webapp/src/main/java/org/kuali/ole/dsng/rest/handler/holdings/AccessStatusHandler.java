@@ -16,17 +16,15 @@ import java.util.List;
  */
 public class AccessStatusHandler extends HoldingsHandler {
 
-    private final String TYPE = "Access Status";
-
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.ACCESS_STATUS);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String accessStatus = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String accessStatus = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ACCESS_STATUS);
         List<String> parsedValues = parseCommaSeperatedValues(accessStatus);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String accessStatusValue = iterator.next();
@@ -39,7 +37,7 @@ public class AccessStatusHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ACCESS_STATUS);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String accessStatus = listFromJSONArray.get(0);

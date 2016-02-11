@@ -1,6 +1,5 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
-import org.apache.commons.beanutils.converters.BooleanArrayConverter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
@@ -17,11 +16,9 @@ import java.util.List;
  */
 public class CallNumberPrefixHandler extends HoldingsHandler {
 
-    private final String TYPE = "Call Number Prefix";
-
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberPrefix = listFromJSONArray.get(0);
@@ -32,13 +29,13 @@ public class CallNumberPrefixHandler extends HoldingsHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String callNumberPrefix = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX);
         List<String> parsedValues = parseCommaSeperatedValues(callNumberPrefix);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String callNumberPrefixValue = iterator.next();

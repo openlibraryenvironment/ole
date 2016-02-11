@@ -15,17 +15,16 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class EnumerationHandler extends ItemHandler {
-    private final String TYPE = "Enumeration";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.ENUMERATION);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String enumeration = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String enumeration = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ENUMERATION);
         List<String> parsedValues = parseCommaSeperatedValues(enumeration);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String enumerationValue = iterator.next();
@@ -38,7 +37,7 @@ public class EnumerationHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ENUMERATION);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String enumeration = listFromJSONArray.get(0);

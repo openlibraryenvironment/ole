@@ -22,8 +22,8 @@ public class BatchRestController_IT  extends OLETestCaseBase{
         BatchRestController batchRestController = new BatchRestController();
 
         BatchProcessJob batchProcessJob = new BatchProcessJob();
-        batchProcessJob.setBatchProcessName("Process Name");
-        batchProcessJob.setBatchProcessType("Bib Import");
+        batchProcessJob.setJobName("Process Name");
+        batchProcessJob.setJobType("Bib Import");
         batchProcessJob.setBatchProfileId(101);
         batchProcessJob.setBatchProfileName("Test Profile Name");
 
@@ -34,8 +34,7 @@ public class BatchRestController_IT  extends OLETestCaseBase{
             String responseBatchJob = batchRestController.createBatchJobDetailsEntry(requestBody);
             BatchProcessJob savedBatchProcessJob = new ObjectMapper().readValue(responseBatchJob, BatchProcessJob.class);
             assertNotNull(savedBatchProcessJob);
-            assertTrue(savedBatchProcessJob.getBatchProcessId() != 0);
-            String response = batchRestController.launchJob(savedBatchProcessJob.getBatchProcessId());
+            assertTrue(savedBatchProcessJob.getJobId() != 0);
         } catch (IOException e) {
             e.printStackTrace();
         }

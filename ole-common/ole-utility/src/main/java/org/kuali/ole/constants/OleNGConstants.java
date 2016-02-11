@@ -79,6 +79,23 @@ public class OleNGConstants {
         public static final String ITEM_DESCRIPTION = "Item Description";
         public static final String REQUESTOR = "Requestor";
         public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
+
+        public static final String CALL_NUMBER = "Call Number";
+        public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
+        public static final String CALL_NUMBER_TYPE = "Call Number Type";
+        public static final String CHRONOLOGY = "Chronology";
+        public static final String COPY_NUMBER = "Copy Number";
+        public static final String DONOR_CODE = "Donor Code";
+        public static final String DONOR_NOTE = "Donor Note";
+        public static final String DONOR_PUBLIC_DISPLAY = "Donor Public Display";
+        public static final String ENUMERATION = "Enumeration";
+        public static final String ITEM_BARCODE = "Item Barcode";
+        public static final String STAFF_ONLY = "Staff Only";
+        public static final String ITEM_TYPE = "Item Type";
+        public static final String STATISTICAL_CODE = "Statistical Code";
+        public static final String VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
+        public static final String ACCESS_STATUS = "Access Status";
+        public static final String SUBSCRIPTION_STATUS = "Subscription Status";
     }
 
     public static final String TAG_001 = "001";

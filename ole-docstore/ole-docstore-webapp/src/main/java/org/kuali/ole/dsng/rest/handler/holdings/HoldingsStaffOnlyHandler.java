@@ -16,17 +16,15 @@ import java.util.List;
  */
 public class HoldingsStaffOnlyHandler extends HoldingsHandler {
 
-    private final String TYPE = "Staff Only";
-
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.STAFF_ONLY);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String staffOnly = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String staffOnly = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.STAFF_ONLY);
         List<String> parsedValues = parseCommaSeperatedValues(staffOnly);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String staffOnlyString = iterator.next();
@@ -40,7 +38,7 @@ public class HoldingsStaffOnlyHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.STAFF_ONLY);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String staffOnlyString = listFromJSONArray.get(0);

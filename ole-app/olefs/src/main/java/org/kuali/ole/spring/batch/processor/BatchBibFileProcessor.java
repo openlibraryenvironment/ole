@@ -236,7 +236,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return finalObject;
     }
 
-    private List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
+    public List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
         List<JSONObject> finalObjects = new ArrayList<>();
 
         for (int index = 0; index < dataMappingsPreTrans.size(); index++) {

@@ -6,10 +6,10 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.module.purap.PurapConstants;
-import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.service.OrderImportService;
@@ -72,6 +72,8 @@ public class POCallable implements Callable {
 
             oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
 
+            String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
+            oleOrderRecord.setBibImportProfileName(bibProfileName);
             oleOrderRecords.add(oleOrderRecord);
 
         }

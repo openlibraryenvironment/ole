@@ -17,17 +17,16 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class DonorPublicDisplayHandler extends ItemHandler {
-    private final String TYPE = "Donor Public Display";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(DONOR_PUBLIC_DISPLAY);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject,TYPE);
+        String donorPublicDisplay = getStringValueFromJsonObject(requestJsonObject,DONOR_PUBLIC_DISPLAY);
         List<String> parsedValues = parseCommaSeperatedValues(donorPublicDisplay);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String donorPublicDisplayValue = iterator.next();
@@ -48,7 +47,7 @@ public class DonorPublicDisplayHandler extends ItemHandler {
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, DONOR_PUBLIC_DISPLAY);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
