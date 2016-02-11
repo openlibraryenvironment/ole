@@ -204,6 +204,8 @@ public class OleNGConstants {
     public static final String MONTH_DAY = "monthDay";
     public static final String MONTH_FREQUENCY = "monthFrequency";
     public static final String SCHEDULE = "schedule";
+    public static final String COMPLETED = "COMPLETED";
+    public static final String FAILED = "FAILED";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";

@@ -4,23 +4,19 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +40,8 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private SolrRequestReponseHandler solrRequestReponseHandler;
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
-    public void processBatch(String  rawMarc, String profileId) {
+    public JSONObject processBatch(String  rawMarc, String profileId) {
+        JSONObject response = new JSONObject();
         BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
         String responseData = "";
         try {
@@ -55,13 +52,14 @@ public abstract class BatchFileProcessor extends BatchUtil {
             String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
             String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
             FileUtils.write(new File(fileName), responseData);
+            response.put(OleNGConstants.STATUS, true);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
-            batchProcessFailureResponse.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
+            batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
             batchProcessFailureResponse.setResponseData(responseData);
             batchProcessFailureResponse.setFailureReason(e.getMessage());
             batchProcessFailureResponse.setFailedRawMarcContent(rawMarc);
@@ -69,6 +67,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
             batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse);
             throw e;
         }
+        return response;
     }
 
     public BatchProcessProfile fetchBatchProcessProfile(String profileId) {

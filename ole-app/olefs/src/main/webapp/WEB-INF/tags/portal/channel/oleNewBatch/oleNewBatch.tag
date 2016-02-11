@@ -17,7 +17,6 @@
 
 <channel:portalChannelTop channelTitle="New Batch Process"/>
 <div class="body">
-    <portal:portalLink displayTitle="true" title="Batch Process" url="${ConfigProperties.application.url}/batchProcess.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile Create" url="${ConfigProperties.application.url}/batchProcessProfile.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile Search" url="${ConfigProperties.application.url}/oleng/view/batchProfileSearch.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Profile Import" url="${ConfigProperties.application.url}/oleng/view/batchProfileImport.html"/><br/>
