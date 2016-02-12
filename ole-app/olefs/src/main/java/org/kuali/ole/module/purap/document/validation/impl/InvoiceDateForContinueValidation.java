@@ -35,13 +35,6 @@ public class InvoiceDateForContinueValidation extends GenericValidation {
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(OLEPropertyConstants.DOCUMENT);
 
-        // invoice date validation
-        java.sql.Date invoiceDate = document.getInvoiceDate();
-        if (ObjectUtils.isNotNull(invoiceDate) && invoiceService.isInvoiceDateAfterToday(invoiceDate)) {
-            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
-            valid &= false;
-        }
-
         GlobalVariables.getMessageMap().clearErrorPath();
 
         return valid;
