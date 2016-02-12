@@ -76,7 +76,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.populateProfileNames = function() {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchProcessCreateTab.profileType}},function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {"batchType": $scope.batchProcessCreateTab.profileType},function(response) {
             var data = response.data;
             $scope.profileNames = data;
         });
@@ -220,7 +220,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     $scope.destroyJob = function(index,jobId) {
         var jobIdToDelete = Number(jobId);
-        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobIdToDelete}}, function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {"jobId": jobIdToDelete}, function(response) {
             var data = response.data;
             $scope.message = "Job Destroyed";
             $scope.batchProcessJobs.splice(index, 1);

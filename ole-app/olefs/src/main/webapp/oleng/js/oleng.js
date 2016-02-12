@@ -60,7 +60,14 @@ var doGetRequest = function($scope, $http, url, param, successCallback) {
     if(param === null || param === undefined) {
         $http.get(url, config).then(successCallback, errorCallback);
     } else {
-        $http.get(url, param, config).then(successCallback, errorCallback);
+        $http({
+            method: 'GET',
+            url: url,
+            params: param,
+            headers:  {
+                "userName" : user
+            }
+        }).then(successCallback,errorCallback);
     }
 };
 
@@ -105,5 +112,11 @@ var doPostRequestWithMultiPartData = function($scope, $http, url, param, success
 
 function getLoggedInUserName(){
     var userName = parent.$("div#login-info").text();
-    return userName.replace("    Logged in User:","").trim();
+    var user = userName.replace("    Logged in User:","").trim();
+    if(userName.contains("Impersonating User")) {
+        var index = userName.indexOf("Impersonating User:");
+        var impersonatingUser = userName.substring(index);
+        user = impersonatingUser.replace("Impersonating User:","").trim();
+    }
+    return user;
 }

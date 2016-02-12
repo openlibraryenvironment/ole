@@ -15,7 +15,7 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.showReport = function(fileName) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {params: {"fileName": fileName}},function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": fileName},function(response) {
             var data = response.data;
             $scope.batchReportViewer.fileName = fileName;
             $scope.batchReportViewer.reportContent = data.fileContent;
@@ -24,7 +24,7 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.downloadReport = function(fileName) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {params: {"fileName": fileName}},function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": fileName},function(response) {
             var data = response.data;
             var blob = new Blob([data.fileContent], {
                 type: "application/json;charset=utf-8"
