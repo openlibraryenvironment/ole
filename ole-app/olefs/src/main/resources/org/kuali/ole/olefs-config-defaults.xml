@@ -504,4 +504,7 @@
   <param name="batch.bib.import.done.directory">${staging.directory}/batch/bib/done</param>
   <param name="batch.bib.import.problem.directory">${staging.directory}/batch/bib/invoice/problem</param>
 
+  <param name="solr.core.name">bib</param>
+  <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
+
 </config>
