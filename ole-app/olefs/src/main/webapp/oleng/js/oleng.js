@@ -40,3 +40,68 @@ var BATCH_CONSTANTS = {
     ]
 
 };
+
+
+
+var doGetRequest = function($scope, $http, url, param, successCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        headers:  {
+            "userName" : user
+        }
+    };
+
+    var errorCallback = function(response) {
+        console.log(response);
+    };
+
+    if(param === null || param === undefined) {
+        $http.get(url, config).then(successCallback, errorCallback);
+    } else {
+        $http.get(url, param, config).then(successCallback, errorCallback);
+    }
+};
+
+var doPostRequest = function($scope, $http, url, param, successCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        headers:  {
+            "userName" : user
+        }
+    };
+
+    var errorCallback = function(response) {
+        console.log(response);
+    };
+    if(param === null || param === undefined) {
+        $http.post(url, config).then(successCallback, errorCallback);
+    } else {
+        $http.post(url, param, config).then(successCallback, errorCallback);
+    }
+};
+
+var doPostRequestWithMultiPartData = function($scope, $http, url, param, successCallback, errorCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        transformRequest: angular.identity,
+        headers:  {
+            "userName" : user,
+            "Content-Type": undefined
+        }
+    };
+    if(errorCallback === null || errorCallback === undefined) {
+        errorCallback = function(response) {
+            console.log(response);
+        };
+    }
+    if(param === null || param === undefined) {
+        $http.post(url, config).then(successCallback, errorCallback);
+    } else {
+        $http.post(url, param, config).then(successCallback, errorCallback);
+    }
+};
+
+function getLoggedInUserName(){
+    var userName = parent.$("div#login-info").text();
+    return userName.replace("    Logged in User:","").trim();
+}

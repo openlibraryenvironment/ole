@@ -18,7 +18,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.addOrOverlayPanel = [addOrOverlay];
             $scope.dataMappingsPanel = [dataMapping];
             $scope.dataTransformationsPanel = [dataTransformation];
-            $http.get(OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS).success(function (data) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_GLOBALLY_PROTECTED_FIELDS, null, function (response) {
+                var data = response.data;
                 $scope.fieldOperationsPanel = data;
                 $scope.fieldOperationsPanel.unshift(fieldOperation);
             });
@@ -678,15 +679,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
             "batchProfileDataTransformerList": $scope.dataTransformationsPanel
         };
-        var userName = parent.$("div#login-info").text();
-        var user = userName.replace("    Logged in User:","").trim();
-        var config = {headers:  {
-            "userName" : user
-        }
-        };
-
-        $http.post(OLENG_CONSTANTS.PROFILE_SUBMIT, profile,config)
-            .success(function (data) {
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_SUBMIT, profile, function (response) {
+                var data = response.data;
                 $scope.profile = data;
                 $scope.message = 'Document was successfully submitted.';
             });
@@ -703,8 +697,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             data["profileId"] = profileId;
             data["action"] = action;
             $scope.mainSectionPanel.batchProcessType = profileType;
-            $http.post(OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data))
-                .success(function (data) {
+            doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data), function (response) {
+                    var data = response.data;
                     $scope.profile = data;
                     $scope.mainSectionPanel.profileId = data.profileId;
                     $scope.mainSectionPanel.profileName = data.profileName;
