@@ -119,7 +119,12 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             "schedule": getBatchSchedule()
         };
 
-        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (data) {
+        angular.element(document.getElementById('submit'))[0].disabled = true;
+        angular.element(document.getElementById('jobType'))[0].disabled = true;
+        angular.element(document.getElementById('profileId'))[0].disabled = true;
+        angular.element(document.getElementById('profileType'))[0].disabled = true;
+        angular.element(document.getElementById('jobName'))[0].disabled = true;
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (response) {
             var data = response.data;
             $scope.batchProcessJob = data;
             $scope.initializeJobs();
@@ -213,10 +218,12 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.closeModal();
     };
 
-    $scope.destroyJob = function(jobId) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}, function(response) {
+    $scope.destroyJob = function(index,jobId) {
+        var jobIdToDelete = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobIdToDelete}}, function(response) {
             var data = response.data;
             $scope.message = "Job Destroyed";
+            $scope.batchProcessJobs.splice(index, 1);
         });
     };
 

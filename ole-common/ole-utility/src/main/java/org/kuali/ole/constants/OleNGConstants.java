@@ -186,7 +186,7 @@ public class OleNGConstants {
     public static final String JOB_NAME = "jobName";
     public static final String CREATED_BY = "createdBy";
     public static final String START_TIME = "startTime";
-    public static final String END_TIME = "startTime";
+    public static final String END_TIME = "endTime";
     public static final String PER_COMPLETED = "perCompleted";
     public static final String TIME_SPENT = "timeSpent";
     public static final String TOTAL_RECORDS = "totalRecords";
