@@ -175,7 +175,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
             String oldBarcode = oldItemRecord.getBarCode();
             String newBarcode = itemRecord.getBarCode();
-            if(oldBarcode!=null && (!oldBarcode.equals(newBarcode))){
+            if((oldBarcode!=null && (!oldBarcode.equals(newBarcode))) || (oldBarcode==null && newBarcode!=null)){
                 OleHttpRestClient oleHttpRestClient = new OleHttpRestClient();
                 String olefsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
                 String url = olefsUrl + "/rest/oledsdata/item/update/barcode";
