@@ -339,7 +339,8 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Loan screen: Sample Patron with one item checked out</alt>
+                                    <alt>Loan screen: Sample Patron Loaded with one item checked
+                                        out</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-20.png"
                                             width="100%"/>
@@ -367,7 +368,7 @@
                             at the top of the <emphasis role="bold">Items Checked Out This
                                 Session</emphasis> list.</para>
                         <para>To view all items a patron has checked out, click the <inlinemediaobject>
-                                <alt>Show All Items Currently Checked Out</alt>
+                                <alt>Checked Out Items</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
                                 </imageobject>
@@ -411,49 +412,6 @@
                         which has the same effect as manually ending a session. This can be locally
                         configured.</para>
                 </tip>
-            </section>
-            <section>
-                <title><anchor xml:id="_FastAdds"/>Fast Adds</title>
-                <para role="Normal">If an item does not have a barcode or cannot be found by a
-                    search, click <emphasis role="bold">Fast-Add item</emphasis> to create a brief
-                    record. This will open a simple record editor on top of the <emphasis
-                        role="bold">Loan</emphasis> window:</para>
-                <para role="Normal"/>
-                <para role="Normal">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Loan screen: Fast-Add Item pop-up</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-22.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
-                <para role="Normal"/>
-                <orderedlist numeration="arabic" spacing="normal">
-                    <listitem>
-                        <para role="List Paragraph">You must enter all fields that have asterisks
-                            (*) before their labels, these are required. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Click <emphasis role="bold"
-                            >Submit</emphasis>.</para>
-                        <para role="Normal">OLE will provide you with an error message if you forget
-                            to enter a value for required field. If the system accepts the data, the
-                            window closes and supplies the item barcode in the Item field of the
-                            Loan screen. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis> on
-                            your keyboard.</para>
-                    </listitem>
-                </orderedlist>
-                <para role="Normal">The Loan now proceeds. </para>
-                <note>
-                    <para>When submitting a fast-add, the loan may be completed automatically if the
-                        LOAN_WHILE_FASTADD parameter is set to true.</para>
-                </note>
             </section>
             <section>
                 <title>Options available from the Loan Screen</title>
@@ -810,20 +768,6 @@
                         xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
                     for technical documentation about circulation processes.</para>
             </note>
-            <para>** Helpful notes:</para>
-            <itemizedlist>
-                <listitem>
-                    <para>At this time the back button simply sends you back to the Deliver
-                        homescreen (not back to the last page you were on). It does the same thing
-                        as Cancel</para>
-                </listitem>
-                <listitem>
-                    <para>If you select the wrong request type, you will receive an error. The
-                        system will allow you to select a new request type without having to start
-                        over. The same applies with patron, simply delete patron name and barcode
-                        and select the magnifying glass lookup to search for another patron. </para>
-                </listitem>
-            </itemizedlist>
             <para role="Body Text">The Request Document allows staff operators to place patron
                 requests for library items. </para>
             <para role="Body Text">Request types include:</para>
@@ -2494,6 +2438,74 @@
                             Requests</link>.</para>
                 </note>
             </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_FastAdds"/>Fast Adds</title>
+            <para role="Normal"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Item Fast Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-231.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Fast-Add Item</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-232.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para>The Fast-Add Item screen can be accessed from two different locations: from the
+                Loan screen and from the Deliver menu.</para>
+            <para role="Normal">If an item does not have a barcode or cannot be found by a search,
+                click <emphasis role="bold">Fast-Add item</emphasis> to create a brief record. </para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Loan screen: Fast-Add Item pop-up</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-22.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">You must enter all fields that have asterisks (*)
+                        before their labels, these are required. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="Normal">OLE will provide you with an error message if you forget to
+                        enter a value for required field. If the system accepts the data, the window
+                        closes and supplies the item barcode in the Item field of the Loan screen.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis> on your
+                        keyboard.</para>
+                </listitem>
+            </orderedlist>
+            <para role="Normal">If the Fast-Add was created from the Loan screen, the loan now
+                proceeds. </para>
+            <note>
+                <para>When submitting a fast-add, the loan may be completed automatically if the
+                    LOAN_WHILE_FASTADD parameter is set to true.</para>
+            </note>
         </section>
     </section>
     <section>
@@ -4223,6 +4235,76 @@
                         </note>
                     </listitem>
                 </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title>Deliver Notices Search</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-199.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-206.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text">OLE offers a customized document search related to Notices. The
+                search screen contains the search fields that are unique to this type of
+                e-doc.</para>
+            <section>
+                <title>Lookup Help</title>
+                <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Most fields will be uppercased for search.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Dates should be specified as MM/dd/yyyy.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Some fields have magnifying glass button for a sub lookup on that
+                            field.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Wildcards allowed on strings are * and % match any number of
+                            characters, while using a ? will match any one character</para>
+                    </listitem>
+                    <listitem>
+                        <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or)
+                            to join multiple search criteria</para>
+                    </listitem>
+                    <listitem>
+                        <para>Range operators allowed on numerics and dates are
+                            &gt;,&lt;,&gt;=,&lt;=, or ..</para>
+                        <para> All operators except .. should be before date value. Operator ..
+                            should separate date values.</para>
+                    </listitem>
+                </itemizedlist>
+                <para><emphasis role="bold">Result Table:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Each result field has link on header for sorting. Click once to sort
+                            ascending, </para>
+                        <para> and click again to sort descending.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold">View Notice Content</emphasis> to view the
+                            notice as it is when sent to the patron.</para>
+                    </listitem>
+                </itemizedlist>
             </section>
         </section>
     </section>
@@ -6226,6 +6308,213 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para role="Normal"/>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_noticeConfiguration"/>Notice Configuration</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Notice Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-212.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Content Configuration Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-214.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Content Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-215.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal"/>
+            <para role="Normal"/>
+            <para role="Body Text">The Notice Content Configuration document has three specific
+                tabs: <emphasis role="bold">Add/Edit Notcie Content Configuration</emphasis>,
+                    <emphasis role="bold">Patron Field Label Mapping</emphasis>, and <emphasis
+                    role="bold">Item Field Label Mapping</emphasis> tabs which group related
+                attributes together. </para>
+            <section>
+                <title role="Heading 4circ">Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Notice Content Configuration Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-233.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Add/Edit Notice Content Configuration</title>
+                    <para role="Normal"/>
+                    <para role="Body Text">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Notice Content Configuration Document: Add/Edit Notice Content
+                                    Configuration tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-234.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Add/Edit Notice Content
+                            Configuration Tab Definitions</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Body</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Footer Body</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Subject Line</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Version</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Active Indicator</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Indicates whether this Notice
+                                            Content Configuration is active or inactive. Remove the
+                                            check mark to deactivate</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+            </section>
+            <section>
+                <title>Patron and Item Field Label Mapping</title>
+                <para role="Normal"/>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Notice Content Configuration Document: Patron and Item Field Label
+                                Mapping tabs</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-235.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title><anchor/>Notice Type Configuration</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Notice Type Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-236.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Type Configruation Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-237.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal"/>
+            <para role="Normal"/>
+            <section>
+                <title role="Heading 4circ">Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Request Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-238.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
                 <para role="Normal"/>
             </section>
         </section>
