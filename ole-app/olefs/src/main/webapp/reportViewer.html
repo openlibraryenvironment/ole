@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Batch Reports Viewer</title>
+    <script src="framework/jquery/js/jquery-1.11.3.js"></script>
+    <script src="framework/angular/js/angular.js"></script>
+    <script src="framework/angular/js/customDirectives.js"></script>
+    <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css">
+    <script src="framework/bootstrap/js/bootstrap.min.js"></script>
+    <script src="oleng/js/batch/batchReportViwer.js"></script>
+    <script src="oleng/js/oleng.js"></script>
+    <script src="framework/plugins/js/datatables.min.js"></script>
+    <script src="framework/angular/js/angular-datatables.min.js"></script>
+    <link rel="stylesheet" href="framework/plugins/css/datatables.min.css" type="text/css" />
+    <link rel="stylesheet" href="framework/plugins/css/font-awesome.min.css">
+    <script src="framework/angular/js/ui-bootstrap-tpls-0.14.3.js"></script>
+    <script src="framework/jquery/js/FileSaver.js"></script>
+</head>
+<body>
+<form name="batchReportViewerForm" ng-app="batchReportViewerApp" ng-controller="batchReportViewerController" data-ng-init="init()">
+    <div class="container col-lg-12">
+        <br/>
+        <h2 style="display:inline !important; font-weight: bold;">Batch Report Viewer</h2>
+        <br/><br/>
+    </div>
+    <div class="container col-lg-12">
+        <div>
+            <div class="form-group">
+                <table datatable="ng" class="table table-bordered row-border hover">
+                    <thead style="height: 20px">
+                    <tr>
+                        <th>S. No</th>
+                        <th>File Name</th>
+                        <th style="width: 280px">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="file in fileList">
+                        <td><span ng-bind="$index"></span></td>
+                        <td><span ng-bind="file.name"></span></td>
+
+                        <td>
+                            <a ng-click="showReport(file.name)" href="">Show</a> &nbsp;&nbsp;&nbsp;
+                            <a ng-click="downloadReport(file.name)" href="">Download</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <modal title="Report View" visible="batchReportViewer.showModal">
+                <div style="height: 400px">
+                    <div class="form-group">
+                        <font color="green"> File Name : {{batchReportViewer.fileName}}</font>
+                    </div>
+                    <div class="form-group" style="height: 200px; width: inherit;">
+                        <textarea type="text" class="form-control" style="height: 350px" id="reportContent" ng-model="batchReportViewer.reportContent" readonly></textarea>
+                    </div>
+                </div>
+            </modal>
+        </div>
+    </div>
+</form>
+</body>
+</html>

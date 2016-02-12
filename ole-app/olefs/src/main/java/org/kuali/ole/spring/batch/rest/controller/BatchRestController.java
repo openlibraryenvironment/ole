@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.drools.core.time.impl.CronExpression;
@@ -111,6 +112,8 @@ public class BatchRestController extends OleNgControllerBase {
             if (null != file) {
                 String rawContent = IOUtils.toString(file.getBytes());
                 JSONObject response = processBatch(String.valueOf(matchedBatchJob.getBatchProfileId()), batchJobDetails.getProfileType(), rawContent);
+                batchJobDetails.setTimeSpent(response.getString("processTime"));
+                batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
                 if(response.has(OleNGConstants.STATUS) && response.getBoolean(OleNGConstants.STATUS)){
                     batchJobDetails.setStatus(OleNGConstants.COMPLETED);
                 } else {
@@ -156,13 +159,59 @@ public class BatchRestController extends OleNgControllerBase {
         try {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
             if (null != matchedBatchJob) {
-                // Set Batch Process Job status to Destroyed
-                //getBusinessObjectService().save(matchedBatchJob);
+                getBusinessObjectService().delete(matchedBatchJob);
+                // Todo : Once scheduler come to picture, need to remove the job from quartz-scheduler also.
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return String.valueOf(jobId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "job/getReportsFiles", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getReportsFiles() {
+        JSONArray response = new JSONArray();
+        try {
+            String reportLocation = ConfigContext.getCurrentContextConfig().getProperty("project.home") + "/reports";
+            File reportDirectory = new File(reportLocation);
+            if(reportDirectory.exists() && reportDirectory.isDirectory()) {
+                File[] fileLists = reportDirectory.listFiles();
+                for(File file : fileLists) {
+                    if(file.isFile()) {
+                        JSONObject fileObject = new JSONObject();
+                        fileObject.put("id",file.getName());
+                        fileObject.put("name",file.getName());
+                        response.put(fileObject);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "job/getFileContent", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getFileContent(@RequestParam("fileName") String fileName) {
+        JSONObject response = new JSONObject();
+        try {
+            String reportLocation = ConfigContext.getCurrentContextConfig().getProperty("project.home") + "/reports";
+            File reportDirectory = new File(reportLocation);
+            if(reportDirectory.exists() && reportDirectory.isDirectory()) {
+                File file = new File(reportDirectory + File.separator + fileName);
+                if(file.exists() && file.isFile()) {
+                    String fileContent = FileUtils.readFileToString(file);
+                    response.put("fileContent",fileContent);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response.toString();
     }
 
     private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob) {
@@ -174,6 +223,7 @@ public class BatchRestController extends OleNgControllerBase {
         batchJobDetails.setCreatedBy(batchProcessJob.getCreatedBy());
         batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
         batchJobDetails.setStatus("RUNNING");
+        batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
         return batchJobDetails;
     }
 

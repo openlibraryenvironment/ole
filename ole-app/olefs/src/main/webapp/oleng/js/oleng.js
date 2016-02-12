@@ -28,7 +28,9 @@ var OLENG_CONSTANTS = {
     PROCESS_SCHEDULE : "rest/batch/job/schedule",
     PROCESS_JOBS : "rest/describe/getBatchProcessJobs",
     BATCH_JOBS : "rest/describe/getBatchJobs",
-    DESTROY_PROCESS : "rest/batch/job/destroy"
+    DESTROY_PROCESS : "rest/batch/job/destroy",
+    REPORT_FILES : "rest/batch/job/getReportsFiles",
+    GET_FILE_CONTENT : "rest/batch/job/getFileContent"
 
 };
 

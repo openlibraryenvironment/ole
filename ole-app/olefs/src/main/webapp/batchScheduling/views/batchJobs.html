@@ -40,7 +40,7 @@
                                 name="processReschedule_{{$index}}" ng-click="schedulePopUp(batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
                         </button>
                         <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
-                                name="processDestroy_{{$index}}" ng-click="destroyJob(batchProcessJob.jobId)">Destroy
+                                name="processDestroy_{{$index}}" ng-click="destroyJob($index, batchProcessJob.jobId)">Destroy
                         </button>
                     </td>
                 </tr>
