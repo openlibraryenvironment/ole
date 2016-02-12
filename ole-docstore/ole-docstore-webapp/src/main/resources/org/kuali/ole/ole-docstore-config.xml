@@ -62,6 +62,9 @@
 
     <param name="discovery.url">${ole.docstore.url.base}/bib</param>
 
+    <param name="solr.core.name">bib</param>
+    <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
+
 
 
 </config>
