@@ -50,8 +50,8 @@ public class MarcRecordUtil {
         dataField.setIndicator1(' ');
         dataField.setIndicator2(' ');
 
-        StringTokenizer stringTokenizer = new StringTokenizer(subFields,"$");
-        while(stringTokenizer.hasMoreTokens()) {
+        StringTokenizer stringTokenizer = new StringTokenizer(subFields, "$");
+        while (stringTokenizer.hasMoreTokens()) {
             String subField = stringTokenizer.nextToken();
             Subfield subfield = factory.newSubfield();
             subfield.setCode(subField.charAt(0));
@@ -83,19 +83,18 @@ public class MarcRecordUtil {
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
             StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while(stringTokenizer.hasMoreTokens()) {
+            while (stringTokenizer.hasMoreTokens()) {
                 String tag = stringTokenizer.nextToken();
-                List <Subfield> subFields = dataField.getSubfields(tag);
+                List<Subfield> subFields = dataField.getSubfields(tag);
                 for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                     Subfield subfield = subfieldIterator.next();
                     String data = subfield.getData();
-                    appendMarcRecordValuesToStrinBuilder(stringBuilder,data);
+                    appendMarcRecordValuesToStrinBuilder(stringBuilder, data);
                 }
             }
         }
         return stringBuilder.toString();
     }
-
 
 
     /*This method will get the field and tags and will return return the concadinated value
@@ -109,7 +108,7 @@ public class MarcRecordUtil {
         for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
             String fieldValue = iterator.next();
             stringBuilder.append(fieldValue);
-            if(iterator.hasNext()){
+            if (iterator.hasNext()) {
                 stringBuilder.append(" ");
             }
         }
@@ -130,14 +129,14 @@ public class MarcRecordUtil {
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
             if (doIndicatorsMatch(indicator1, indicator2, dataField)) {
-                    List <Subfield> subFields = dataField.getSubfields(subField);
-                    for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                        Subfield subfield = subfieldIterator.next();
-                        String data = subfield.getData();
-                        if (StringUtils.isNotBlank(data)) {
-                            values.add(data);
-                        }
+                List<Subfield> subFields = dataField.getSubfields(subField);
+                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                    Subfield subfield = subfieldIterator.next();
+                    String data = subfield.getData();
+                    if (StringUtils.isNotBlank(data)) {
+                        values.add(data);
                     }
+                }
             }
         }
         return values;
@@ -145,10 +144,10 @@ public class MarcRecordUtil {
 
     private boolean doIndicatorsMatch(String indicator1, String indicator2, DataField dataField) {
         boolean result = true;
-        if(StringUtils.isNotBlank(indicator1)){
+        if (StringUtils.isNotBlank(indicator1)) {
             result = dataField.getIndicator1() == indicator1.charAt(0);
-        } else if (StringUtils.isNotBlank(indicator2)){
-            result&= dataField.getIndicator2() == indicator2.charAt(0);
+        } else if (StringUtils.isNotBlank(indicator2)) {
+            result &= dataField.getIndicator2() == indicator2.charAt(0);
         }
         return result;
     }
@@ -159,22 +158,22 @@ public class MarcRecordUtil {
     *   fieldAndTag : 050 $a$b*/
     public String getDataFieldValue(Record marcRecord, String fieldAndTag) {
         String[] fieldAndTagArray = fieldAndTag.split("[' ']");
-        if(fieldAndTagArray.length > 1) {
+        if (fieldAndTagArray.length > 1) {
             String field = fieldAndTagArray[0];
             String tags = fieldAndTagArray[1];
-            return getDataFieldValue(marcRecord,field,tags);
+            return getDataFieldValue(marcRecord, field, tags);
         }
         return null;
     }
 
-    public void updateDataFieldValue(Record marcRecord, String field, String tags,String value) {
+    public void updateDataFieldValue(Record marcRecord, String field, String tags, String value) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
             StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while(stringTokenizer.hasMoreTokens()) {
+            while (stringTokenizer.hasMoreTokens()) {
                 String tag = stringTokenizer.nextToken();
-                List <Subfield> subFields = dataField.getSubfields(tag);
+                List<Subfield> subFields = dataField.getSubfields(tag);
                 for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                     Subfield subfield = subfieldIterator.next();
                     subfield.setData(value);
@@ -199,7 +198,7 @@ public class MarcRecordUtil {
 
     private void appendMarcRecordValuesToStrinBuilder(StringBuilder stringBuilder, String value) {
         if (StringUtils.isNotBlank(value)) {
-            if(stringBuilder.length() > 0 ) {
+            if (stringBuilder.length() > 0) {
                 stringBuilder.append(" ");
             }
             stringBuilder.append(value);
@@ -212,7 +211,7 @@ public class MarcRecordUtil {
         for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
             ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
             String data = controlField.getData();
-            data = data.replace(replaceFrom,replaceTo);
+            data = data.replace(replaceFrom, replaceTo);
             controlField.setData(data);
         }
     }
@@ -222,13 +221,13 @@ public class MarcRecordUtil {
         for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
             StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while(stringTokenizer.hasMoreTokens()) {
+            while (stringTokenizer.hasMoreTokens()) {
                 String tag = stringTokenizer.nextToken();
-                List <Subfield> subFields = dataField.getSubfields(tag);
+                List<Subfield> subFields = dataField.getSubfields(tag);
                 for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
                     Subfield subfield = subfieldIterator.next();
                     String data = subfield.getData();
-                    data = data.replace(replaceFrom,replaceTo);
+                    data = data.replace(replaceFrom, replaceTo);
                     subfield.setData(data);
                 }
             }
@@ -253,7 +252,7 @@ public class MarcRecordUtil {
 
     public boolean hasField(Record marcRecord, String field) {
         List<VariableField> variableFields = marcRecord.getVariableFields(field);
-        return (CollectionUtils.isNotEmpty(variableFields) ? true: false);
+        return (CollectionUtils.isNotEmpty(variableFields) ? true : false);
     }
 
     public List<Record> convertMarcXmlContentToMarcRecord(String marcRecord) {
@@ -265,7 +264,7 @@ public class MarcRecordUtil {
     }
 
     public MarcXMLConverter getMarcXMLConverter() {
-        if(null == marcXMLConverter) {
+        if (null == marcXMLConverter) {
             marcXMLConverter = new MarcXMLConverter();
         }
         return marcXMLConverter;
@@ -275,9 +274,34 @@ public class MarcRecordUtil {
         Integer numOccurances;
 
         List<VariableField> dataFields = marcRecord.getVariableFields(dataField);
-
-        numOccurances = dataFields.size();
+        List<VariableField> matchedDataFields = getMatchedDataFields(ind1, ind2, subField, dataFields);
+        numOccurances = matchedDataFields.size();
 
         return numOccurances;
+    }
+
+    public List<VariableField> getMatchedDataFields(String ind1, String ind2, String subField, List<VariableField> dataFields) {
+        List<VariableField> filteredDataFields = new ArrayList<>();
+
+        for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
+            boolean matchedDataField = true;
+            DataField field = (DataField) iterator.next();
+            if (StringUtils.isNotBlank(ind1)) {
+                matchedDataField &= ind1.charAt(0) == field.getIndicator1();
+            }
+            if (StringUtils.isNotBlank(ind2)) {
+                matchedDataField &= ind2.charAt(0) == field.getIndicator2();
+            }
+
+            char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
+            if (subFieldChar != ' ') {
+                Subfield subfield = field.getSubfield(subFieldChar);
+                matchedDataField &= null != subfield;
+            }
+            if (matchedDataField) {
+                filteredDataFields.add(field);
+            }
+        }
+        return filteredDataFields;
     }
 }
