@@ -762,27 +762,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<Record> records = new ArrayList<>();
         List<VariableField> dataFields = record.getVariableFields(dataFieldString);
 
-        List<VariableField> filteredDataFields = new ArrayList<>();
-        boolean matchedDataField = true;
-
-        for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-            DataField field = (DataField) iterator.next();
-            if (StringUtils.isNotBlank(ind1)) {
-                matchedDataField &= ind1.charAt(0) == field.getIndicator1();
-            }
-            if (StringUtils.isNotBlank(ind2)) {
-                matchedDataField &= ind2.charAt(0) == field.getIndicator2();
-            }
-
-            char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
-            if (subFieldChar != ' ') {
-                Subfield subfield = field.getSubfield(subFieldChar);
-                matchedDataField &= null != subfield;
-            }
-            if (matchedDataField) {
-                filteredDataFields.add(field);
-            }
-        }
+        List<VariableField> filteredDataFields = getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subField, dataFields);
 
 
         for (Iterator<VariableField> variableFieldIterator = filteredDataFields.iterator(); variableFieldIterator.hasNext(); ) {
