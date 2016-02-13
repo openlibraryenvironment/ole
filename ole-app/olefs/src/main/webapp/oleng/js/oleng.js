@@ -113,7 +113,8 @@ var doPostRequestWithMultiPartData = function($scope, $http, url, param, success
 function getLoggedInUserName(){
     var userName = parent.$("div#login-info").text();
     var user = userName.replace("    Logged in User:","").trim();
-    if(userName.contains("Impersonating User")) {
+    var strIndex = userName.indexOf('Impersonating User');
+    if(strIndex !== -1) {
         var index = userName.indexOf("Impersonating User:");
         var impersonatingUser = userName.substring(index);
         user = impersonatingUser.replace("Impersonating User:","").trim();
