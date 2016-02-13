@@ -242,6 +242,13 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                 }
             }
         }
+
+        //Removing the dummy holdings/item object from dataCarrierService.
+        for (Iterator<OleCopy> iterator = oleCopyList.iterator(); iterator.hasNext(); ) {
+            OleCopy oleCopy = iterator.next();
+            getDataCarrierService().removeData("reqItemId:" + oleCopy.getReqItemId() + ":holdings");
+            getDataCarrierService().removeData("reqItemId:" + oleCopy.getReqItemId() + ":item");
+        }
     }
 
     private void performDocstoreCRUDOperationFoROrderRecordImportMarcOnlyElectronic(List<OleCopy> oleCopyList,List<OLELinkPurapDonor> oleDonors, BibTree bibTree, String initiatorName) throws Exception {
