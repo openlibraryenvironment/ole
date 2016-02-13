@@ -42,7 +42,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
-        for (int index=0 ; index < records.size(); index++){
+        for (int index = 0; index < records.size(); index++) {
             Record marcRecord = records.get(index);
             JSONObject jsonObject = null;
 
@@ -183,17 +183,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private JSONArray getFieldOps(BatchProcessProfile batchProcessProfile) {
         JSONArray fieldOps = new JSONArray();
         List<BatchProfileFieldOperation> batchProfileFieldOperationList = batchProcessProfile.getBatchProfileFieldOperationList();
-        if(CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
             for (Iterator<BatchProfileFieldOperation> iterator = batchProfileFieldOperationList.iterator(); iterator.hasNext(); ) {
                 BatchProfileFieldOperation batchProfileFieldOperation = iterator.next();
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.DATA_FIELD,batchProfileFieldOperation.getDataField());
-                    jsonObject.put(OleNGConstants.IND1,batchProfileFieldOperation.getInd1());
-                    jsonObject.put(OleNGConstants.IND2,batchProfileFieldOperation.getInd2());
-                    jsonObject.put(OleNGConstants.SUBFIELD,batchProfileFieldOperation.getSubField());
-                    jsonObject.put(OleNGConstants.VALUE,batchProfileFieldOperation.getValue());
-                    jsonObject.put(OleNGConstants.IGNORE_GPF,batchProfileFieldOperation.getIgnoreGPF());
+                    jsonObject.put(OleNGConstants.DATA_FIELD, batchProfileFieldOperation.getDataField());
+                    jsonObject.put(OleNGConstants.IND1, batchProfileFieldOperation.getInd1());
+                    jsonObject.put(OleNGConstants.IND2, batchProfileFieldOperation.getInd2());
+                    jsonObject.put(OleNGConstants.SUBFIELD, batchProfileFieldOperation.getSubField());
+                    jsonObject.put(OleNGConstants.VALUE, batchProfileFieldOperation.getValue());
+                    jsonObject.put(OleNGConstants.IGNORE_GPF, batchProfileFieldOperation.getIgnoreGPF());
                     fieldOps.put(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -349,13 +349,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         try {
             String holdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.HOLDINGS);
-            addedOps.put(OleNGConstants.HOLDINGS,holdingsAddedOps);
+            addedOps.put(OleNGConstants.HOLDINGS, holdingsAddedOps);
 
             String itemAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.ITEM);
-            addedOps.put(OleNGConstants.ITEM,itemAddedOps);
+            addedOps.put(OleNGConstants.ITEM, itemAddedOps);
 
             String eholdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.EHOLDINGS);
-            addedOps.put(OleNGConstants.EHOLDINGS,eholdingsAddedOps);
+            addedOps.put(OleNGConstants.EHOLDINGS, eholdingsAddedOps);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -369,14 +369,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             String matchOption = batchProfileAddOrOverlay.getMatchOption();
-            if(matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+            if (matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String operation = batchProfileAddOrOverlay.getOperation();
-                if(operation.equalsIgnoreCase(OleNGConstants.ADD)) {
+                if (operation.equalsIgnoreCase(OleNGConstants.ADD)) {
                     addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                     String addOperation = batchProfileAddOrOverlay.getAddOperation();
-                    if(StringUtils.isNotBlank(addOperation)){
-                        switch (addOperation){
-                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
+                    if (StringUtils.isNotBlank(addOperation)) {
+                        switch (addOperation) {
+                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD: {
                                 addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                                 break;
                             }
@@ -402,7 +402,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                             }
                         }
                     }
-                } else if(operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+                } else if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                     addedOpsValue = OleNGConstants.OVERLAY;
                 } else {
                     addedOpsValue = OleNGConstants.DISCARD;
@@ -774,18 +774,16 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 matchedDataField &= ind2.charAt(0) == field.getIndicator2();
             }
 
-            if (null != subField) {
-                for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
-                    Subfield sf = variableFieldIterator.next();
-                    char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
-                    matchedDataField&= subFieldChar == sf.getCode();
-                }
+            char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
+            if (subFieldChar != ' ') {
+                Subfield subfield = field.getSubfield(subFieldChar);
+                matchedDataField &= null != subfield;
             }
             if (matchedDataField) {
                 filteredDataFields.add(field);
             }
-
         }
+
 
         for (Iterator<VariableField> variableFieldIterator = filteredDataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
