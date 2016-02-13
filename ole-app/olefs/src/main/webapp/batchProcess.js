@@ -54,7 +54,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
     };
 
     $scope.populationProfileNames = function() {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchType}}, function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {"batchType": $scope.batchType}, function(response) {
             var data = response.data;
             $scope.profileNames = data;
         });
