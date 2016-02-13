@@ -1,5 +1,6 @@
 package org.kuali.ole;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
 import org.junit.Test;
 
@@ -22,7 +23,8 @@ public class OleCamelContextTest {
         oleCamelContext.addRoutes("seda:q1", "file:" + filePath +"?fileName="+fileName1, new ArrayList<Processor>());
         oleCamelContext.addRoutes("seda:q2", "file:" + filePath +"?fileName="+fileName2,new ArrayList<Processor>());
 
-        assertTrue(oleCamelContext.getContext().getRoutes().size() == 2);
+        CamelContext context = oleCamelContext.getContext();
+        assertTrue(context.getRoutes().size() == 2);
 
     }
 
