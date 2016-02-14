@@ -88,6 +88,10 @@ public class OleInvoiceRecord {
 
     private boolean validDoc;
 
+    private List olePurchaseOrderItems;
+    private boolean link;
+    private String matchPointType;
+
     public String getVendorAlias() {
         return vendorAlias;
     }
@@ -559,5 +563,29 @@ public class OleInvoiceRecord {
 
     public void setSummaryTaxableAmount(String summaryTaxableAmount) {
         this.summaryTaxableAmount = summaryTaxableAmount;
+    }
+
+    public boolean isLink() {
+        return link;
+    }
+
+    public void setLink(boolean link) {
+        this.link = link;
+    }
+
+    public List getOlePurchaseOrderItems() {
+        return olePurchaseOrderItems;
+    }
+
+    public void setOlePurchaseOrderItems(List olePurchaseOrderItems) {
+        this.olePurchaseOrderItems = olePurchaseOrderItems;
+    }
+
+    public String getMatchPointType() {
+        return matchPointType;
+    }
+
+    public void setMatchPointType(String matchPointType) {
+        this.matchPointType = matchPointType;
     }
 }

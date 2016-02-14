@@ -10,11 +10,13 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.resolvers.invoiceimport.*;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
@@ -57,6 +59,20 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                     Record record = iterator.next();
                     OleInvoiceRecord oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(record,batchProcessProfile);
 
+                    //Match Point process start
+                    if(CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
+                        List<OlePurchaseOrderItem> olePurchaseOrderItems = processMatchpoint(record, batchProcessProfile,oleInvoiceRecord);
+                        if(CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
+                            // Todo : validate the purchaseOrder status if open or not (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN). If not open should be unlink
+                            oleInvoiceRecord.setOlePurchaseOrderItems(olePurchaseOrderItems);
+                            if(oleInvoiceRecord.getMatchPointType().equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
+                                oleInvoiceRecord.setLink((olePurchaseOrderItems.size() ==1 ? true : false));
+                            } else {
+                                oleInvoiceRecord.setLink(true);
+                            }
+                        }
+                    }
+
                     oleInvoiceRecord.setUnitPrice(oleInvoiceRecord.getListPrice());
 
                     String invoiceNumber = (oleInvoiceRecord.getInvoiceNumber() != null && !oleInvoiceRecord.getInvoiceNumber().isEmpty())
@@ -80,7 +96,8 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
                         if(null != oleInvoiceDocument.getDocumentNumber()) {
                             response.put(OleNGConstants.STATUS,OleNGConstants.SUCCESS);
-                            response.put(OleNGConstants.DOCUMENT_NUMBER,oleInvoiceDocument.getDocumentNumber());
+                            response.put("Invoice Doc Number",oleInvoiceDocument.getDocumentNumber());
+                            System.out.println(response.toString());
                             return response.toString();
                         }
                     } catch (Exception e) {
@@ -93,6 +110,68 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         }
         response.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
         return response.toString();
+    }
+
+    private List<OlePurchaseOrderItem> processMatchpoint(Record record, BatchProcessProfile batchProcessProfile, OleInvoiceRecord oleInvoiceRecord) {
+        Map<String, List<String>> criteriaMapForMatchPoint = getCriteriaMapForMatchPoint(record, batchProcessProfile.getBatchProfileMatchPointList());
+        for (Iterator<String> iterator = criteriaMapForMatchPoint.keySet().iterator(); iterator.hasNext(); ) {
+            String key = iterator.next();
+            Map dbCriteria = new HashMap();
+            String dbCriteriaKey = "";
+            if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
+                dbCriteriaKey = "vendorItemPoNumber";
+            } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.PO_NUMBER)) {
+                dbCriteriaKey = "purchaseOrder.purapDocumentIdentifier";
+            }
+
+            List<String> values = criteriaMapForMatchPoint.get(key);
+            for (Iterator<String> matchPointIterator = values.iterator(); matchPointIterator.hasNext(); ) {
+                String value = matchPointIterator.next();
+                if (StringUtils.isNotBlank(value)) {
+                    dbCriteria.put(dbCriteriaKey,value);
+                    List<OlePurchaseOrderItem> matching = (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, dbCriteria);
+                    if(CollectionUtils.isNotEmpty(matching)) {
+                        oleInvoiceRecord.setMatchPointType(key);
+                        return matching;
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+
+    private Map<String, List<String>> getCriteriaMapForMatchPoint(Record marcRecord, List<BatchProfileMatchPoint> batchProfileMatchPointList) {
+        Map criteriaMap = new HashMap();
+        for (Iterator<BatchProfileMatchPoint> iterator = batchProfileMatchPointList.iterator(); iterator.hasNext(); ) {
+            BatchProfileMatchPoint batchProfileMatchPoint = iterator.next();
+            criteriaMap.put(batchProfileMatchPoint.getMatchPointType(),getMatchPointValue(marcRecord, batchProfileMatchPoint));
+        }
+        return criteriaMap;
+    }
+
+    private List<String> getMatchPointValue(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
+        List<String> values = new ArrayList<>();
+        if(batchProfileMatchPoint.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
+            List<String> multiDataFieldValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, batchProfileMatchPoint.getDataField(), batchProfileMatchPoint.getInd1(),
+                    batchProfileMatchPoint.getInd2(), batchProfileMatchPoint.getSubField());
+            if(!batchProfileMatchPoint.isMultiValue()) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
+                    String next = iterator.next();
+                    stringBuilder.append(next);
+                    if(iterator.hasNext()){
+                        stringBuilder.append(",");
+                    }
+                }
+                values.add(stringBuilder.toString());
+            } else {
+                values.addAll(multiDataFieldValues);
+            }
+        } else {
+            values.add(batchProfileMatchPoint.getMatchPointValue());
+        }
+        return values;
     }
 
     @Override

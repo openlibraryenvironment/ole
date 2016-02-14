@@ -79,6 +79,7 @@ public class OleNGConstants {
         public static final String ITEM_DESCRIPTION = "Item Description";
         public static final String REQUESTOR = "Requestor";
         public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
+        public static final String PO_NUMBER = "Purchase Order Number";
 
         public static final String CALL_NUMBER = "Call Number";
         public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
