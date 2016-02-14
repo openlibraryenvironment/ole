@@ -552,7 +552,8 @@ var transformationOperations = [
 
 var invoiceFieldObject = {
     matchPoint : [
-        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'}
+        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
+        {id: 'purchaseOrderNumber', name: 'Purchase Order Number'}
     ],
     dataMapping : [
         {id: 'accountNumber', name: 'Account Number'},
