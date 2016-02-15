@@ -80,11 +80,6 @@ isValidFieldOperationRow = function (fieldOperationRow, index, $scope) {
         $scope.batchProfileForm['fieldOperationDataField_' + index].$invalid = true;
         isValid = false;
     }
-    if (isFieldEmpty(fieldOperationRow.subField)) {
-        $scope.batchProfileForm['fieldOperationSubField_' + index].$dirty = true;
-        $scope.batchProfileForm['fieldOperationSubField_' + index].$invalid = true;
-        isValid = false;
-    }
     return isValid;
 };
 
@@ -108,7 +103,7 @@ isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
         }
     }
     if (isFieldEmpty(dataTransformationRow.dataTransformationConstant)) {
-        if (dataTransformationRow.dataTransformationOperation == 'Delete Value' || dataTransformationRow.dataTransformationOperation == 'New' || dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix' || dataTransformationRow.dataTransformationOperation == 'Replace') {
+        if (dataTransformationRow.dataTransformationOperation == 'Delete Value' || dataTransformationRow.dataTransformationOperation == 'New' || dataTransformationRow.dataTransformationOperation == 'Replace') {
             $scope.batchProfileForm['dataTransformationConstant_' + index].$dirty = true;
             $scope.batchProfileForm['dataTransformationConstant_' + index].$invalid = true;
             isValid = false;
