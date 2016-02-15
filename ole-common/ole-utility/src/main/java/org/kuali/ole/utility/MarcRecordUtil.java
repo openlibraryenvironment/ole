@@ -274,13 +274,14 @@ public class MarcRecordUtil {
         Integer numOccurances;
 
         List<VariableField> dataFields = marcRecord.getVariableFields(dataField);
-        List<VariableField> matchedDataFields = getMatchedDataFields(ind1, ind2, subField, dataFields);
+        List<VariableField> matchedDataFields = getMatchedDataFields(ind1, ind2, subField, null, dataFields);
         numOccurances = matchedDataFields.size();
 
         return numOccurances;
     }
 
-    public List<VariableField> getMatchedDataFields(String ind1, String ind2, String subField, List<VariableField> dataFields) {
+    /*This method will filter the datafield based on criteria.*/
+    public List<VariableField> getMatchedDataFields(String ind1, String ind2, String subField, String value, List<VariableField> dataFields) {
         List<VariableField> filteredDataFields = new ArrayList<>();
 
         for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
@@ -297,6 +298,10 @@ public class MarcRecordUtil {
             if (subFieldChar != ' ') {
                 Subfield subfield = field.getSubfield(subFieldChar);
                 matchedDataField &= null != subfield;
+                if (matchedDataField && StringUtils.isNotBlank(value)) {
+                    String data = subfield.getData();
+                    matchedDataField &= data.equals(value);
+                }
             }
             if (matchedDataField) {
                 filteredDataFields.add(field);

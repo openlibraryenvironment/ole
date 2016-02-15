@@ -49,12 +49,12 @@ public class UpdateBibHandler extends BibHandler {
             if (requestJsonObject.has(OleNGConstants.ID)) {
                 String bibId = requestJsonObject.getString(OleNGConstants.ID);
                 BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
-                bibRecord.setStatusUpdatedBy(updatedBy);
+                bibRecord.setUpdatedBy(updatedBy);
                 bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
                 Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-                bibRecord.setStatusUpdatedDate(updatedDate);
+                bibRecord.setDateEntered(updatedDate);
 
                 String newContent = process001And003(newBibContent, bibId);
 
@@ -63,6 +63,12 @@ public class UpdateBibHandler extends BibHandler {
                 bibRecord.setContent(newContent);
                 exchange.add(OleNGConstants.BIB, bibRecord);
                 bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+
+                Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
+                if(null != statusUpdated && statusUpdated == Boolean.TRUE) {
+                    bibRecord.setStatusUpdatedBy(updatedBy);
+                    bibRecord.setStatusUpdatedDate(updatedDate);
+                }
 
                 processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
 
@@ -177,58 +183,9 @@ public class UpdateBibHandler extends BibHandler {
 
             if (null != ignoreGPF && ignoreGPF == Boolean.FALSE) {
                 List<VariableField> dataFields = record.getVariableFields(dataField);
-
-                if (CollectionUtils.isNotEmpty(dataFields)) {
-                    if(StringUtils.isBlank(ind1) && StringUtils.isBlank(ind2) && StringUtils.isBlank(subfield)){
-                        return dataFields;
-                    }
-
-                    List<VariableField> fieldsToReturn = new ArrayList<VariableField>();
-
-                    for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-                        DataField field = (DataField) iterator.next();
-                        boolean matched = isMatched(field, ind1, ind2, subfield, value);
-                        if(matched) {
-                            fieldsToReturn.add(field);
-                        }
-                    }
-
-                    if(CollectionUtils.isNotEmpty(fieldsToReturn)){
-                        return fieldsToReturn;
-                    }
-                }
+                return getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subfield, value, dataFields);
             }
         }
         return null;
-    }
-
-    private boolean isMatched( DataField field, String ind1, String ind2, String subfield, String value) {
-        boolean matchedDataField = true;
-        if (StringUtils.isNotBlank(ind1)) {
-            matchedDataField &= ind1.charAt(0) == field.getIndicator1();
-        }
-        if (matchedDataField && StringUtils.isNotBlank(ind2)) {
-            matchedDataField &= ind2.charAt(0) == field.getIndicator2();
-        }
-
-        if (matchedDataField && StringUtils.isNotBlank(subfield)) {
-            for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
-                Subfield sf = variableFieldIterator.next();
-                char subFieldChar = (StringUtils.isNotBlank(subfield) ? subfield.charAt(0) : ' ');
-                if(subFieldChar == sf.getCode()) {
-                    String data = sf.getData();
-                    if (StringUtils.isNotBlank(value)) {
-                        if(StringUtils.equals(data,value)){
-                            return true;
-                        }
-                    } else {
-                        return true;
-                    }
-                }
-            }
-        } else if(matchedDataField && StringUtils.isBlank(subfield)) {
-            return true;
-        }
-        return false;
     }
 }

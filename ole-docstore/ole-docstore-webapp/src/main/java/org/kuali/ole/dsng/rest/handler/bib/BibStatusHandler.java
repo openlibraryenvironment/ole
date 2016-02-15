@@ -35,6 +35,7 @@ public class BibStatusHandler extends BibHandler {
             String bibStatus = listFromJSONArray.get(0);
             BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
             bibRecord.setStatus(bibStatus);
+            exchange.add(OleNGConstants.BIB_STATUS_UPDATED,Boolean.TRUE);
             exchange.add(OleNGConstants.BIB_RECORD, bibRecord);
         }
     }
