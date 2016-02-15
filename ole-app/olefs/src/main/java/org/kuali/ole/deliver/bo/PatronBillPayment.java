@@ -488,7 +488,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     }
 
     public OlePatronDocument getOlePatron() {
-        if (null == olePatron) {
+        if (null == olePatron || StringUtils.isEmpty(olePatron.getOlePatronId())) {
             String patronId = getPatronId();
             if (StringUtils.isNotEmpty(patronId)) {
                 Map<String, String> parameterMap = new HashMap<>();

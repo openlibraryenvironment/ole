@@ -45,11 +45,13 @@
     <bean id="circPatronLink-HorizontalBoxSection-parent" parent="Uif-HorizontalBoxSection" p:render="@{patronDocument.barcode ne null}">
         <property name="items">
             <list>
-                <bean id="viewRequestRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=@{patronDocument.olePatronId}"  p:linkText="View Requests/Holds(@{patronDocument.requestedItemRecordsCount})"  p:target="_blank" >
+                <ref bean="circShowExistingLoans"/>
+                <ref bean="circHideExistingLoans"/>
+                <bean id="viewRequestRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=@{patronDocument.olePatronId}"  p:linkText="View Requests/Holds(@{patronDocument.requestedItemRecordsCount}) |"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
-                <bean id="viewBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{viewBillUrl + patronDocument.olePatronId}"  p:link.linkText="View Bill"  p:target="_blank" />
-                <bean id="createBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{createBillUrl + patronDocument.olePatronId}"  p:link.linkText="Create Bill"  p:target="_blank" />
+                <bean id="viewBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{viewBillUrl + patronDocument.olePatronId}"  p:link.linkText="View Bill |"  p:target="_blank" />
+                <bean id="createBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{createBillUrl + patronDocument.olePatronId}"  p:link.linkText="Create Bill |"  p:target="_blank" />
                 <bean id="TemporaryCirculationsRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=@{patronDocument.olePatronId}"  p:linkText="View Circulation History(@{patronDocument.tempCirculationHistoryCount})"  p:target="_blank" />
             </list>
         </property>
