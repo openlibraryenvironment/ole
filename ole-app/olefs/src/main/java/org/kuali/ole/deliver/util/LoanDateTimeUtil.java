@@ -27,6 +27,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private Boolean nonWorkingHoursCheck = false;
     private String period;
     private ParameterValueResolver parameterValueResolver;
+    private Date timeToCalculateFrom;
 
     public Date calculateDateTimeByPeriod(String loanPeriod, OleCirculationDesk oleCirculationDesk) {
         Date loanDueDate;
@@ -180,13 +181,13 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
                 period = stringTokenizer.nextToken();
 
                 if (period.equalsIgnoreCase("m")) {
-                    loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addMinutes(getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("h")) {
-                    loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addHours(getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("d")) {
-                    loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addDays(getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("w")) {
-                    loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addWeeks(getTimeToCalculateFrom(), Integer.parseInt(amount));
                 }
             }
         }
@@ -380,5 +381,16 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
     public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
         this.parameterValueResolver = parameterValueResolver;
+    }
+
+    public Date getTimeToCalculateFrom() {
+        if (timeToCalculateFrom == null) {
+            timeToCalculateFrom = new Date();
+        }
+        return timeToCalculateFrom;
+    }
+
+    public void setTimeToCalculateFrom(Date timeToCalculateFrom) {
+        this.timeToCalculateFrom = timeToCalculateFrom;
     }
 }
