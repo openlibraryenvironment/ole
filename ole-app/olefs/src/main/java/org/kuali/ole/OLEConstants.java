@@ -232,6 +232,8 @@ public class OLEConstants {
     public static final String ITM_CHECKIN_MSG = "Item is not loaned.";
     public static final String MARC_XML = "marc_xml";
     public static final String FINE_AMOUNT="fineAmount";
+    public static final String FINE_AMOUNT_FROM="fineAmountFrom";
+    public static final String FINE_AMOUNT_TO="fineAmountTo";
     public static final String CURR_CIR_DESK="CurrentCirculationDesk";
     public static final String ALL_CIR_DESK="AllCirculationDesk";
     public static final String PTRN_RQST_MSG_CURR_CIR_DESK="This patron has hold(s) waiting for pickup at this location.  Do you want to proceed?";
@@ -1884,7 +1886,9 @@ public class OLEConstants {
     public static final String DEFAULT_CALL_NUMBER_TYPE = "Other";
     public static final String DEFAULT_CALL_NUMBER = "X";
     public static final String FEE_TYPE_PAY_STATUS = "feeType.paymentStatus";
+    public static final String PAY_STATUS = "paymentStatus";
     public static final String PAY_STATUS_CODE = "paymentStatusCode";
+    public static final String PAY_STATUS_ID = "paymentStatusId";
     public static final String PAY_STATUS_OUTSTANDING_CODE = "PAY_OUTSTN";
     public static final String PAY_STATUS_PART_CODE = "PAY_PAR";
     public static final String PAY_STATUS_ERROR_CODE = "PAY_ERR";
@@ -1983,6 +1987,7 @@ public class OLEConstants {
     public static final String PTRN_ID = "patronId";
     public static final String PTRN_FN = "firstName";
     public static final String PTRN_LN = "lastName";
+    public static final String PTRN_TYPE_ID = "patronTypeId";
     public static final String ITM_BAR_DISP = "ItemBarcode_display:";
     public static final String NO_BILLS = "error.no.bills";
     public static final String NOT_REVIEWED = "error.not.reviewed";
@@ -3099,6 +3104,7 @@ public class OLEConstants {
     public static final class OleFeeType {
         public static final String FEE_TYPE_CODE_FIELD = "dataObject.feeTypeCode";
         public static final String FEE_TYPE_CODE = "feeTypeCode";
+        public static final String FEE_TYPE_ID = "feeTypeId";
         public static final String ERROR_FEE_TYPE_CODE = "error.duplicate.fee.type.code";
     }
     public static final class OleSourceBo {
