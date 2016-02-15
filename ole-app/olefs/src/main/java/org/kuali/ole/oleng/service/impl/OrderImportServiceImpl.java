@@ -44,28 +44,14 @@ public class OrderImportServiceImpl implements OrderImportService {
             Record marcRecord = records.get(0);
 
             BatchUtil batchUtil = new BatchUtil();
-            batchUtil.sortDataMappings(batchProfileDataMappingList);
-            Map<String, List<ValueByPriority>> valueByPriorityMap = new HashedMap();
-
-            for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
-                BatchProfileDataMapping batchProfileDataMapping = iterator.next();
-                String destinationField = batchProfileDataMapping.getField();
-                boolean multiValue = batchProfileDataMapping.isMultiValue();
-                List<String> fieldValues = batchUtil.getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
-
-                if (CollectionUtils.isNotEmpty(fieldValues)) {
-                    int priority = batchProfileDataMapping.getPriority();
-
-                    batchUtil.buildingValuesForDestinationBasedOnPriority(valueByPriorityMap, destinationField, multiValue, fieldValues, priority);
-                }
-            }
+            Map<String, List<ValueByPriority>> valueByPriorityMap = batchUtil.getvalueByPriorityMapForDataMapping(marcRecord, batchProfileDataMappingList);
 
             for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
                 String destinationField =  iterator.next();
                 for (Iterator<TxValueResolver> valueResolverIterator = getValueResolvers().iterator(); valueResolverIterator.hasNext(); ) {
                     TxValueResolver txValueResolver = valueResolverIterator.next();
                     if (txValueResolver.isInterested(destinationField)) {
-                        String destinationValue = getDestinationValue(valueByPriorityMap,destinationField);
+                        String destinationValue = batchUtil.getDestinationValue(valueByPriorityMap,destinationField);
                         txValueResolver.setAttributeValue(oleTxRecord, destinationValue);
                     }
                 }
@@ -74,19 +60,6 @@ public class OrderImportServiceImpl implements OrderImportService {
         return oleTxRecord;
     }
 
-    private String getDestinationValue(Map<String, List<ValueByPriority>> valueByPriorityMap, String fieldType) {
-
-        List<ValueByPriority> vals = valueByPriorityMap.get(fieldType);
-        for (Iterator<ValueByPriority> iterator1 = vals.iterator(); iterator1.hasNext(); ) {
-            ValueByPriority valueByPriority = iterator1.next();
-            List<String> values = valueByPriority.getValues();
-            if (CollectionUtils.isNotEmpty(values)) {
-                return values.get(0);
-            }
-        }
-
-        return null;
-    }
 
     public MarcRecordUtil getMarcRecordUtil() {
         if (null == marcRecordUtil) {

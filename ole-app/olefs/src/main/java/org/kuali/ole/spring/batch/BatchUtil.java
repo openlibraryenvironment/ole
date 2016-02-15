@@ -1,5 +1,6 @@
 package org.kuali.ole.spring.batch;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
@@ -51,6 +52,37 @@ public class BatchUtil extends OleNgUtil{
 
     public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
         this.marcRecordUtil = marcRecordUtil;
+    }
+
+    public Map<String, List<ValueByPriority>> getvalueByPriorityMapForDataMapping(Record marcRecord, List<BatchProfileDataMapping> batchProfileDataMappingList) {
+        sortDataMappings(batchProfileDataMappingList);
+        Map<String, List<ValueByPriority>> valueByPriorityMap = new HashMap<>();
+        for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
+            BatchProfileDataMapping batchProfileDataMapping = iterator.next();
+            String destinationField = batchProfileDataMapping.getField();
+            boolean multiValue = batchProfileDataMapping.isMultiValue();
+            List<String> fieldValues = getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
+
+            if (CollectionUtils.isNotEmpty(fieldValues)) {
+                int priority = batchProfileDataMapping.getPriority();
+
+                buildingValuesForDestinationBasedOnPriority(valueByPriorityMap, destinationField, multiValue, fieldValues, priority);
+            }
+        }
+        return valueByPriorityMap;
+    }
+
+    public String getDestinationValue(Map<String, List<ValueByPriority>> valueByPriorityMap, String fieldType) {
+        List<ValueByPriority> valueByPriorities = valueByPriorityMap.get(fieldType);
+        for (Iterator<ValueByPriority> iterator1 = valueByPriorities.iterator(); iterator1.hasNext(); ) {
+            ValueByPriority valueByPriority = iterator1.next();
+            List<String> values = valueByPriority.getValues();
+            if (CollectionUtils.isNotEmpty(values)) {
+                return values.get(0);
+            }
+        }
+
+        return null;
     }
 
     public void sortDataMappings(List<BatchProfileDataMapping> filteredDataMappings) {
