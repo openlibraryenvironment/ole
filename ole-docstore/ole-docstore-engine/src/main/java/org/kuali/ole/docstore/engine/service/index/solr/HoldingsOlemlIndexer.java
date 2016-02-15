@@ -254,21 +254,13 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             solrDocForHolding.addField(ADMIN_URL_DISPLAY, oleHoldings.getPlatform().getAdminUrl());
             solrDocForHolding.addField(ADMIN_URL_SEARCH, oleHoldings.getPlatform().getAdminUrl());
             solrDocForHolding.addField(PLATFORM_DISPLAY, oleHoldings.getPlatform().getPlatformName());
+            solrDocForHolding.addField(PLATFORM_SEARCH, oleHoldings.getPlatform().getPlatformName());
             solrDocForHolding.addField(ADMIN_USERNAME_DISPLAY, oleHoldings.getPlatform().getAdminUserName());
             solrDocForHolding.addField(ADMIN_USERNAME_SEARCH, oleHoldings.getPlatform().getAdminUserName());
             solrDocForHolding.addField(ADMIN_PASSWORD_DISPLAY, oleHoldings.getPlatform().getAdminPassword());
             solrDocForHolding.addField(ADMIN_PASSWORD_SEARCH, oleHoldings.getPlatform().getAdminPassword());
         }
-        /*if (oleHoldings.getHoldingsAccessInformation() != null) {
-            solrDocForHolding.addField(AUTHENTICATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
-            solrDocForHolding.addField(AUTHENTICATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
-            solrDocForHolding.addField(PROXIED_SEARCH, oleHoldings.getHoldingsAccessInformation().getProxiedResource());
-            solrDocForHolding.addField(PROXIED_DISPLAY, oleHoldings.getHoldingsAccessInformation().getProxiedResource());
-            solrDocForHolding.addField(NUMBER_OF_SIMULTANEOUS_USERS_SEARCH, oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
-            solrDocForHolding.addField(NUMBER_OF_SIMULTANEOUS_USERS_DISPLAY, oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
-            solrDocForHolding.addField(ACCESS_LOCATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
-            solrDocForHolding.addField(ACCESS_LOCATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
-        }*/
+
         solrDocForHolding.addField(PUBLIC_NOTE_DISPLAY, oleHoldings.getDonorPublicDisplay());
 
         if (oleHoldings.getLink() != null) {
