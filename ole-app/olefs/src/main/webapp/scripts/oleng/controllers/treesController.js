@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    app.controller('treesController', ['$scope', '$http' , '$rootScope', function ($scope, $http, $rootScope) {
+    app.controller('treesController', ['$scope', '$http' , '$rootScope', '$interval', function ($scope, $http, $rootScope) {
 
         $scope.itemPageSize = 5;
         $scope.itemStart = 0;
@@ -12,12 +12,14 @@
             scope.collapsed = !scope.collapsed;
         };
         $scope.copyToTree1 = function () {
+            $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
             $scope.tree1 = bibTree;
         };
 
         $scope.copyToTree2 = function () {
+            $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
             $scope.tree2 = bibTree;
@@ -27,8 +29,25 @@
             $scope.message = $rootScope.message;
         };
 
-        $scope.cancel = function () {
+        $rootScope.transfer = function (transfer) {
 
+            $http.post("/olefs/rest/ngTransferController/transfer", transfer)
+                .success(function (data) {
+                    $scope.message = data.message;
+                    //rootScope.updateMessage();
+                    //rebuildTree($scope, $http);
+                });
+
+        }
+
+        $rootScope.rebuildTree = function () {
+
+            $scope.$watch('message', function () {
+                console.log("watch");
+                if($scope.message!=''){
+                    rebuildTree($scope, $http);
+                }
+            }, true);
         }
 
         $scope.previous = function (holdingsIdentifier) {
@@ -38,11 +57,11 @@
                 $scope.itemStart = $scope.itemStart - $scope.itemPageSize;
             }
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
-            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
-                var data = response.data;
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
+                success(function (data) {
                     console.log(data.response.docs);
                     angular.forEach(data.response.docs, function (itemResponse) {
-                        var locationDispaly = "Item - " + itemResponse.id;
+                        var locationDispaly = "Item";
                         if (itemResponse.hasOwnProperty('Location_display')) {
                             locationDispaly = itemResponse.Location_display[0]
                         }
@@ -68,13 +87,13 @@
             //Item tree searchResult next
             var itemData = [];
             var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsIdentifier + ')';
-            doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
-                var data = response.data;
+            $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
+                success(function (data) {
                     var itemTotalRecords = data.response.numFound;
                     if($scope.itemStart + $scope.itemPageSize <= itemTotalRecords){
                         $scope.itemStart = $scope.itemStart + $scope.itemPageSize;
-                        doGetRequest($scope, $http, $rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize, null, function(response) {
-                            var data = response.data;
+                        $http.get($rootScope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=' + $scope.itemStart + "&rows=" + $scope.itemPageSize).
+                            success(function (data) {
                                 console.log(data.response.docs);
                                 angular.forEach(data.response.docs, function (itemResponse) {
                                     var locationDisplay = "Item - " + itemResponse.id;
@@ -128,34 +147,37 @@ function buildItemData(holdingsResponse, itemData, $http, $scope) {
      });
      }, "");*/
 
-    var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsResponse.holdingsIdentifier + ')';
-    doGetRequest($scope, $http, $scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=0&rows=' + $scope.itemPageSize, null, function(response) {
-        var data = response.data;
-            //console.log(data.response.docs);
+    var url = '(DocType:item)AND(holdingsIdentifier:' + holdingsResponse.holdingsIdentifier[0] + ')';
+    $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,DocType&start=0&rows=' + $scope.itemPageSize).
+        success(function (data) {
+            console.log(data.response.docs);
             angular.forEach(data.response.docs, function (itemResponse) {
-                var locationDispaly = "Item - " + itemResponse.id;
+                var locationDisplay = "Item - " + itemResponse.id;
                 if (itemResponse.hasOwnProperty('Location_display')) {
-                    locationDispaly = itemResponse.Location_display[0]
+                    locationDisplay = itemResponse.Location_display[0]
                 }
                 var item =
                 {
                     'id': itemResponse.id,
-                    'title': locationDispaly,
-                    "docType": itemResponse.DocType
+                    'title': locationDisplay,
+                    "docType": itemResponse.DocType,
+                    'holdingsId': holdingsResponse.holdingsIdentifier[0]
                 }
                 itemData.push(item);
             }, "");
         });
+    console.log(itemData);
 }
 
 function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
     angular.forEach(searchResult.holdingsIdentifier, function (holdingsId) {
         var itemData = [];
         var url = "id" + ":" + holdingsId;
-        doGetRequest($scope, $http, $scope.baseUri + url + '&wt=json&fl=Location_display,id,itemIdentifier,holdingsIdentifier,DocType', null, function(response) {
-            var data = response.data;
+        $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,itemIdentifier,holdingsIdentifier,bibIdentifier,DocType').
+            success(function (data) {
                 $scope.holdingsResults = data.response.docs;
                 var holdingsResponse = $scope.holdingsResults[0];
+                console.log(holdingsResponse.bibIdentifier[0]);
                 buildItemData(holdingsResponse, itemData, $http, $scope);
                 var locationDispaly = "Holdings";
 
@@ -167,6 +189,7 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
                     'id': holdingsResponse.id,
                     'title': locationDispaly,
                     "docType": holdingsResponse.DocType,
+                    'bibId' : holdingsResponse.bibIdentifier[0],
                     'nodes': itemData
                 }
                 holdingsData.push(holdings);
@@ -178,7 +201,6 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
 function buildBibData(bibTree, $http, $scope) {
     angular.forEach($scope.searchResults, function (searchResult) {
         if (searchResult.selected) {
-            searchResult.selected = false;
             var holdingsData = [];
             buildHoldingsData(searchResult, holdingsData, $http, $scope);
 
@@ -193,5 +215,87 @@ function buildBibData(bibTree, $http, $scope) {
     }, "");
 }
 
+function rebuildTree($scope, $http){
+    var bibTree1 = [];
+    //$scope.tree1;
+    angular.forEach($scope.tree1, function (bib) {
+        var holdingsData = [];
+        $http.get($scope.baseUri + '(id:'+bib.id + ')' + '&wt=json').
+            success(function (data) {
+                var bibResults = data.response.docs[0];
+                console.log(data.response.docs);
+                var holdingsIdentifiers = bibResults.holdingsIdentifier;
+                console.log(bibResults.id);
+                console.log(bibResults.DocType);
+                console.log(bibResults.Title_display);
+                rebuildHoldingsData(holdingsIdentifiers, holdingsData, $http, $scope)
+                var bibData = {
+                    'id': bibResults.id,
+                    "docType": bibResults.DocType,
+                    'title': bibResults.Title_display[0],
+                    'nodes': holdingsData
+                }
+                bibTree1.push(bibData);
+                $scope.tree1 = bibTree1;
+            });
+    },"");
+    $scope.tree1 = bibTree1;
+    console.log("rebuildTree1");
+    console.log(bibTree1);
+    var bibTree2 = [];
+    //$scope.tree2;
+    angular.forEach($scope.tree2, function (bib) {
+        var holdingsData = [];
+        $http.get($scope.baseUri + '(id:'+bib.id + ')' + '&wt=json').
+            success(function (data) {
+                var bibResults = data.response.docs[0];
+                console.log(data.response.docs);
+                var holdingsIdentifiers = bibResults.holdingsIdentifier;
+                console.log(bibResults.id);
+                console.log(bibResults.DocType);
+                console.log(bibResults.Title_display);
+                rebuildHoldingsData(holdingsIdentifiers, holdingsData, $http, $scope)
+                var bibData = {
+                    'id': bibResults.id,
+                    "docType": bibResults.DocType,
+                    'title': bibResults.Title_display[0],
+                    'nodes': holdingsData
+                }
+                bibTree2.push(bibData);
+                $scope.tree2 = bibTree2;
+            });
+    },"");
+    console.log("rebuildTree1");
+    console.log(bibTree2);
+}
+
+function rebuildHoldingsData(holdingsIdentifiers,holdingsData, $http, $scope) {
+    angular.forEach(holdingsIdentifiers, function (holdingsId) {
+        var itemData = [];
+        var url = "id:" + holdingsId;
+        $http.get($scope.baseUri + url + '&wt=json&fl=Location_display,id,itemIdentifier,holdingsIdentifier,DocType').
+            success(function (data) {
+                console.log(data.response.docs);
+                $scope.holdingsResults = data.response.docs;
+                var holdingsResponse = $scope.holdingsResults[0];
+                console.log(holdingsResponse);
+                buildItemData(holdingsResponse, itemData, $http, $scope);
+                var locationDisplay = "Holdings";
+
+                if (holdingsResponse.hasOwnProperty('Location_display')) {
+                    locationDisplay = holdingsResponse.Location_display[0]
+                }
+
+                var holdings = {
+                    'id': holdingsResponse.id,
+                    'title': locationDisplay,
+                    "docType": holdingsResponse.DocType,
+                    'nodes': itemData
+                }
+                holdingsData.push(holdings);
+
+            });
+    }, "");
+}
 
 
