@@ -465,9 +465,9 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      */
     public void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
         VendorDetail vendorDetail = null;
-        if (oleOrderRecord.getOleTxRecord().getVendorNumber() != null) {
+        if (StringUtils.isNotBlank(oleOrderRecord.getOleTxRecord().getVendorNumber())) {
              vendorDetail = getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());
-        }else if (oleOrderRecord.getOleTxRecord().getVendorAliasName()!=null){
+        }else if (StringUtils.isNotBlank(oleOrderRecord.getOleTxRecord().getVendorAliasName())){
             Map<String, String> vendorAliasMap = new HashMap<>();
             vendorAliasMap.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, oleOrderRecord.getOleTxRecord().getVendorAliasName());
             List<VendorAlias> vendorAliasList = (List) KRADServiceLocatorWeb.getLookupService().findCollectionBySearchHelper(VendorAlias.class, vendorAliasMap, true);

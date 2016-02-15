@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.resolvers;
 
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 
@@ -11,8 +12,8 @@ import java.util.List;
 public class CreateRequisitionAndPurchaseOrderHander extends OrderProcessHandler {
 
     @Override
-    public boolean isInterested(List<String> options, Boolean matchedRecords, Boolean unMatchedRecords) {
-        return (options.contains("12") && matchedRecords) || (options.contains("22") && unMatchedRecords);
+    public boolean isInterested(String type) {
+        return type.equalsIgnoreCase("Create Requisition and PO");
     }
 
     @Override
