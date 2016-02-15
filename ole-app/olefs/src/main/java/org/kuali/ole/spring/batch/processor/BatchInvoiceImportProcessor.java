@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -8,6 +9,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
@@ -209,16 +211,15 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         OleInvoiceRecord oleInvoiceRecord = new OleInvoiceRecord();
 
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
-        if(CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
-            for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
-                BatchProfileDataMapping batchProfileDataMapping = iterator.next();
-                String field = batchProfileDataMapping.getField();
-                for (Iterator<InvoiceRecordResolver> invoiceRecordResolverIterator = getInvoiceRecordResolvers().iterator(); invoiceRecordResolverIterator.hasNext(); ) {
-                    InvoiceRecordResolver invoiceRecordResolver = invoiceRecordResolverIterator.next();
-                    if(invoiceRecordResolver.isInterested(field)) {
-                        String value = getDestinationValue(marcRecord, batchProfileDataMapping);
-                        invoiceRecordResolver.setAttributeValue(oleInvoiceRecord,value);
-                    }
+        Map<String, List<ValueByPriority>> valueByPriorityMap = getvalueByPriorityMapForDataMapping(marcRecord, batchProfileDataMappingList);
+
+        for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
+            String destinationField = iterator.next();
+            for (Iterator<InvoiceRecordResolver> invoiceRecordResolverIterator = getInvoiceRecordResolvers().iterator(); invoiceRecordResolverIterator.hasNext(); ) {
+                InvoiceRecordResolver invoiceRecordResolver = invoiceRecordResolverIterator.next();
+                if(invoiceRecordResolver.isInterested(destinationField)) {
+                    String value = getDestinationValue(valueByPriorityMap, destinationField);
+                    invoiceRecordResolver.setAttributeValue(oleInvoiceRecord,value);
                 }
             }
         }
@@ -228,23 +229,6 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
         return oleInvoiceRecord;
 
-    }
-
-    private String getDestinationValue(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping) {
-        String destValue = null;
-        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
-            String dataField = batchProfileDataMapping.getDataField();
-            String subField = batchProfileDataMapping.getSubField();
-            if (getMarcRecordUtil().isControlField(dataField)) {
-                destValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
-            } else {
-                destValue = getMarcRecordUtil().getDataFieldValue(marcRecord, dataField, subField);
-            }
-        } else if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.CONSTANT)) {
-            destValue = batchProfileDataMapping.getConstant();
-        }
-
-        return destValue;
     }
 
     private void checkForForeignCurrency(OleInvoiceRecord oleInvoiceRecord){

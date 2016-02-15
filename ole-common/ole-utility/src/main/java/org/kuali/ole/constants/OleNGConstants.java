@@ -103,6 +103,7 @@ public class OleNGConstants {
     public static final String TAG_003 = "003";
     public static final String UPDATED_BY = "updatedBy";
     public static final String UPDATED_DATE = "updatedDate";
+    public static final String BIB_STATUS_UPDATED = "BIB_STATUS_UPDATED";
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
