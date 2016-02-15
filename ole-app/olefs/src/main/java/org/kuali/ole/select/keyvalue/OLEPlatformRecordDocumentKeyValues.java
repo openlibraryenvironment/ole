@@ -22,7 +22,7 @@ public class OLEPlatformRecordDocumentKeyValues extends KeyValuesBase {
         olePlatformRecordDocuments = KRADServiceLocator.getBusinessObjectService().findAll(OLEPlatformRecordDocument.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (OLEPlatformRecordDocument olePlatformRecordDocument : olePlatformRecordDocuments) {
-            keyValues.add(new ConcreteKeyValue(olePlatformRecordDocument.getOlePlatformId(), olePlatformRecordDocument.getName()));
+            keyValues.add(new ConcreteKeyValue(olePlatformRecordDocument.getName(), olePlatformRecordDocument.getName()));
         }
         return keyValues;
     }
