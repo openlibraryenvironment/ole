@@ -11,9 +11,17 @@
                 <ref bean="PatronBill-totalAmount"/>
                 <ref bean="PatronBill-patronId"/>
                 <ref bean="PatronBill-firstName"/>
+                <ref bean="PatronBill-middleName"/>
                 <ref bean="PatronBill-lastName"/>
                 <ref bean="PatronBill-proxyPatronId"/>
                 <ref bean="PatronBill-note"/>
+                <ref bean="PatronBill-patronBarcode"/>
+                <ref bean="PatronBill-patronTypeId"/>
+                <ref bean="PatronBill-feeTypeId"/>
+                <ref bean="PatronBill-itemBarcode"/>
+                <ref bean="PatronBill-paymentStatusId"/>
+                <ref bean="PatronBill-fineAmountFrom"/>
+                <ref bean="PatronBill-fineAmountTo"/>
             </list>
         </property>
         <property name="primaryKeys">
@@ -46,12 +54,12 @@
 
     <bean id="PatronBill-patronId" parent="PatronBill-patronId-parentBean"/>
     <bean id="PatronBill-patronId-parentBean" parent="AttributeDefinition" abstract="true" p:name="patronId"
-          p:forceUppercase="false" p:label="Patron ID" p:shortLabel="Patron ID" p:maxLength="40" p:required="true">
+          p:forceUppercase="false" p:label="Patron Id" p:shortLabel="Patron Id" p:maxLength="40" p:required="true">
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="20"/>
+            <bean parent="TextControlDefinition" p:size="30"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="Uif-TextControl" p:size="30"/>
         </property>
     </bean>
 
@@ -66,6 +74,16 @@
         </property>
     </bean>
 
+    <bean id="PatronBill-middleName" parent="PatronBill-middleName-parentBean"/>
+    <bean id="PatronBill-middleName-parentBean" parent="AttributeDefinition" abstract="true" p:name="middleName"
+          p:forceUppercase="false" p:label="Middle Name" p:shortLabel="Middle Name" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
 
     <bean id="PatronBill-lastName" parent="PatronBill-lastName-parentBean"/>
     <bean id="PatronBill-lastName-parentBean" parent="AttributeDefinition" abstract="true" p:name="lastName"
@@ -80,12 +98,12 @@
 
     <bean id="PatronBill-proxyPatronId" parent="PatronBill-proxyPatronId-parentBean"/>
     <bean id="PatronBill-proxyPatronId-parentBean" parent="AttributeDefinition" abstract="true" p:name="proxyPatronId"
-          p:forceUppercase="false" p:label="Proxy Patron ID" p:shortLabel="Proxy Patron ID" p:maxLength="40" p:required="false">
+          p:forceUppercase="false" p:label="Proxy Patron Id" p:shortLabel="Proxy Patron Id" p:maxLength="40" p:required="false">
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="20"/>
+            <bean parent="TextControlDefinition" p:size="30"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="Uif-TextControl" p:size="30"/>
         </property>
     </bean>
 
@@ -111,6 +129,89 @@
         </property>
     </bean>
 
+    <bean id="PatronBill-patronBarcode" parent="PatronBill-patronBarcode-parentBean"/>
+    <bean id="PatronBill-patronBarcode-parentBean" parent="AttributeDefinition" abstract="true" p:name="patronBarcode"
+          p:forceUppercase="false" p:label="Patron Barcode" p:shortLabel="Patron Barcode" p:maxLength="100" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-patronTypeId" parent="PatronBill-patronTypeId-parentBean"/>
+    <bean id="PatronBill-patronTypeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="patronTypeId"
+          p:forceUppercase="false" p:label="Patron Type" p:shortLabel="Patron Type" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-feeTypeId" parent="PatronBill-feeTypeId-parentBean"/>
+    <bean id="PatronBill-feeTypeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="feeTypeId"
+          p:forceUppercase="false" p:label="Fee Type" p:shortLabel="Fee Type" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-itemBarcode" parent="PatronBill-itemBarcode-parentBean"/>
+    <bean id="PatronBill-itemBarcode-parentBean" parent="AttributeDefinition" abstract="true" p:name="itemBarcode"
+          p:forceUppercase="false" p:label="Item Barcode" p:shortLabel="Item Barcode" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-paymentStatusId" parent="PatronBill-paymentStatusId-parentBean"/>
+    <bean id="PatronBill-paymentStatusId-parentBean" parent="AttributeDefinition" abstract="true" p:name="paymentStatusId"
+          p:forceUppercase="false" p:label="Payment Status" p:shortLabel="Payment Status" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-fineAmountFrom" parent="PatronBill-fineAmountFrom-parentBean"/>
+    <bean id="PatronBill-fineAmountFrom-parentBean" parent="AttributeDefinition" abstract="true" p:name="fineAmountFrom"
+          p:forceUppercase="false" p:label="Unpaid Fine Amount From" p:shortLabel="Unpaid Fine Amount From" p:maxLength="10" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-fineAmountTo" parent="PatronBill-fineAmountTo-parentBean"/>
+    <bean id="PatronBill-fineAmountTo-parentBean" parent="AttributeDefinition" abstract="true" p:name="fineAmountTo"
+          p:forceUppercase="false" p:label="Unpaid Fine Amount To" p:shortLabel="Unpaid Fine Amount To" p:maxLength="10" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+    </bean>
+
     <bean id="PatronBill-LookupView" parent="Uif-OLELookupView">
         <property name="headerText" value="Patron Bill Lookup" />
         <property name="help">
@@ -124,9 +225,48 @@
         <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OlePatronBillLookupableImpl"/>
         <property name="criteriaFields">
             <list>
-                <bean  id="lookUp_patronId" parent="Uif-LookupCriteriaInputField" p:propertyName="patronId" />
-                <bean  id="lookUp_firstName" parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" />
-                <bean  id="lookUp_lastName" parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" />
+                <bean id="lookUp_patronBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="patronBarcode"/>
+                <bean id="lookUp_firstName" parent="Uif-LookupCriteriaInputField" p:propertyName="firstName"/>
+                <bean id="lookUp_middleName" parent="Uif-LookupCriteriaInputField" p:propertyName="middleName"/>
+                <bean id="lookUp_lastName" parent="Uif-LookupCriteriaInputField" p:propertyName="lastName"/>
+                <bean id="lookUp_patronTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="patronTypeId" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleBorrowerKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleBorrowerType"
+                              p:fieldConversions="borrowerTypeId:patronTypeId"/>
+                    </property>
+                </bean>
+                <bean id="lookUp_patronId" parent="Uif-LookupCriteriaInputField" p:propertyName="patronId">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:patronId" p:lookupParameters="patronId:olePatronId"/>
+                    </property>
+                </bean>
+                <bean id="lookUp_feeTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="feeTypeId">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.FeeTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="lookUp_itemBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="itemBarcode"/>
+                <bean id="lookUp_paymentStatusId" parent="Uif-LookupCriteriaInputField" p:propertyName="paymentStatusId">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OlePaymentStatusKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="lookUp_fineAmountFrom" parent="Uif-LookupCriteriaInputField" p:propertyName="fineAmountFrom"/>
+                <bean id="lookUp_fineAmountTo" parent="Uif-LookupCriteriaInputField" p:propertyName="fineAmountTo"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -138,10 +278,11 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="viewBillNumber" p:label="Bill No"/>
                 <bean parent="Uif-DataField" p:propertyName="billDate" p:label="Bill date"/>
-                <bean parent="Uif-DataField" p:propertyName="patronId" p:label="Patron ID"/>
+                <bean parent="Uif-DataField" p:propertyName="patronId" p:label="Patron Id"/>
                 <bean parent="Uif-DataField" p:propertyName="firstName" p:label="First Name"/>
                 <bean parent="Uif-DataField" p:propertyName="lastName" p:label="Last Name"/>
                 <bean parent="Uif-DataField" p:propertyName="totalAmount" p:label="Total Amount"/>
+                <bean parent="Uif-DataField" p:propertyName="unPaidBalance" p:label="Unpaid Amount"/>
                 <bean parent="Uif-DataField" p:propertyName="note" p:label="Text Note"/>
                 <!--   <bean parent="Uif-DataField" p:propertyName="paymentStatusName" p:label="Payment Status"/>-->
             </list>
