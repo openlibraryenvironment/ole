@@ -47,7 +47,6 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) itemForValidation;
         GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ITEM_TAB_ERRORS);
-
         // Validations for quantity based item type
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             String uomCode = purItem.getItemUnitOfMeasureCode();
@@ -74,8 +73,10 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
         // MSU Contribution OLEMI-5041 DTT-3371 OLECNTRB-955
         if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator()
                 && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
-            valid = false;
+
+            valid = true;
             if(itemForValidation.getItemLineNumber() != null){
+            valid = false;
             String errorPrefix = OLEPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "["
                     + (itemForValidation.getItemLineNumber() - 1) + "]."
                     + PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
@@ -86,7 +87,6 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                     attributeLabel + " in " + purItem.getItemIdentifierString());
         }
         }
-
         return valid;
     }
 
