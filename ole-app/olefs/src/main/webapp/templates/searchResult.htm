@@ -17,7 +17,7 @@
 
 <div ng-hide="searched">
 
-    <div id="searchResultsSection" class="bs-component" ng-controller="searchController" >
+    <div id="searchResultsSection" class="bs-component">
         <!--<div align="right">
             <button class="btn-xs" ng-click="previous()"  style="margin-top: 20px; margin-bottom: 10px;" ng-show="showPrevious">previous</button>
             <button class="btn-xs" ng-click="next()"  style="margin-top: 20px; margin-bottom: 10px;" ng-show="showNext">next</button>
@@ -32,6 +32,16 @@
         <table class="table table-striped table-hover">
         <thead>
         </thead>
+        <div align="left" class="dataTables_length">
+            <label for="showEntry">Show</label>
+            <select name="showEntry" id="showEntry" ng-model="showEntry" ng-change="searchOnChange(showEntry)">
+                <option ng-selected="{{option.id == showEntry}}"
+                ng-repeat="option in showEntires" value="{{option.id}}">
+                {{option.name}}
+                </option>
+            </select>
+            <label for="showEntry">entries</label>
+        </div>
         <tr>
             <th></th>
             <th>Title</th>
@@ -40,13 +50,16 @@
         </tr>
         <tr dir-paginate="x in searchResults|itemsPerPage:itemsPerPage" total-items="total_count">
             <td><input type="checkbox" ng-model="x.selected"></td>
-            <td>{{ x.Title_display[0] }}</td>
+            <td><a target="_blank" href="ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType={{x.DocType}}&amp;docFormat={{x.DocFormat}}&amp;docId={{x.LocalId_search}}&amp;editable=true&amp;fromSearch=true">{{ x.Title_display[0] }}</a></td>
             <td>{{ x.Author_display[0]}}</td>
             <td>{{ x.Publisher_display[0]}}</td>
         </tr>
         <tfoot>
         </tfoot>
         </table>
+
+        <div class="dataTables_info"> {{showEntryInfo}} </div>
+
         <div class="text-right">
             <dir-pagination-controls max-size="8"
                                      direction-links="true"
