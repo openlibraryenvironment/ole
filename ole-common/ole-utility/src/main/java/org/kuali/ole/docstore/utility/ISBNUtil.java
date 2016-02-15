@@ -53,6 +53,9 @@ public class ISBNUtil {
             modifiedValue = modifiedValue.replace(parenthesesValue, "");
         }
         modifiedValue = modifiedValue.replaceAll("[-:\\s]", "");
+        if(modifiedValue.length() > 13 ){
+            modifiedValue = modifiedValue.substring(0,10);
+        }
         return modifiedValue;
     }
 
