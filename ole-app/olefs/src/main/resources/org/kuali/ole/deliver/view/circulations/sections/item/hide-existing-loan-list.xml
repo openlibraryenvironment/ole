@@ -23,8 +23,11 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="circHideExistingLoans"
-          parent="Uif-SecondaryActionButton"
-          p:methodToCall="hideExistingLoan"
-          p:actionLabel="Hide Checked Out Items"
-          p:render="@{proceedWithCheckout and showExistingLoan}" />
+          parent="Uif-LinkField"
+          p:linkText="Hide current Loans |" p:style="font-weight:bold;"
+          p:onClickScript="  e.preventDefault();
+    submitForm('hideExistingLoan',null,null,true,function(){
+
+    });"
+        p:render="@{proceedWithCheckout and showExistingLoan}" />
 </beans>
