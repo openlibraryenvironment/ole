@@ -16,8 +16,8 @@ import java.util.Map;
 public class CreateRequisitionOnlyHander extends OrderProcessHandler{
 
     @Override
-    public boolean isInterested(List<String> options, Boolean matchedRecords, Boolean unMatchedRecords) {
-        return (options.contains("11") && matchedRecords) || (options.contains("21") && unMatchedRecords);
+    public boolean isInterested(String type) {
+        return type.equalsIgnoreCase("Create Requisition Only");
     }
 
     @Override

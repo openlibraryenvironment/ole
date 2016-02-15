@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -73,12 +74,12 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                         if (null == results || results.size() > 1) {
                             System.out.println("**** More than one record found for query : " + query);
-                            return null;
+                            continue;
                         }
 
                         if (null != results && results.size() == 1) {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
-                            String bibId = (String) solrDocument.getFieldValue("LocalId_display");
+                            String bibId = (String) solrDocument.getFieldValue("id");
                             matchedRecords.put(bibId, marcRecord);
 
                         } else {
@@ -87,35 +88,42 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     }
                 }
 
-                OleNGBibImportResponse oleNGBibImportResponse = processBibImport(records, bibImportProfile);
+                OleNGBibImportResponse oleNGBibImportResponse = null;
+                if (CollectionUtils.isNotEmpty(unMatchedRecords)) {
+                    oleNGBibImportResponse = processBibImport(unMatchedRecords, bibImportProfile);
+                }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
-                List<String> options = getOptions(batchProfileAddOrOverlayList);
 
-                for (Iterator<OrderProcessHandler> batchProfileAddOrOverlayIterator = getOrderProcessHandlers().iterator(); batchProfileAddOrOverlayIterator.hasNext(); ) {
-                    OrderProcessHandler orderProcessHandler = batchProfileAddOrOverlayIterator.next();
-                    if (orderProcessHandler.isInterested(options, matchedRecords.size() > 0, unMatchedRecords.size() > 0)) {
-                        orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
-                        List<Record> values = new ArrayList<>();
-                        if(!matchedRecords.isEmpty()){
-                            values.addAll(matchedRecords.values());
-                        } else if(!unMatchedRecords.isEmpty()){
-                            values.addAll(unMatchedRecords);
-                        }
-
-                        Map<String, Record> buildUnMatchedRecordsWithBibId = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, matchedRecords);
-                        matchedRecords.putAll(buildUnMatchedRecordsWithBibId);
-                        try {
-                            List<Integer> purapIds = orderProcessHandler.processOrder(matchedRecords, batchProcessProfile, orderRequestHandler);
-                            jsonObject.put("status", "Success");
-                            jsonObject.put("requisitionIds", purapIds);
-                            System.out.println("Order Import Response : " + jsonObject.toString());
-                            return jsonObject.toString();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                List<Integer> purapIds = new ArrayList<>();
+                for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+                    BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+                    for (Iterator<OrderProcessHandler> batchProfileAddOrOverlayIterator = getOrderProcessHandlers().iterator(); batchProfileAddOrOverlayIterator.hasNext(); ) {
+                        OrderProcessHandler orderProcessHandler = batchProfileAddOrOverlayIterator.next();
+                        if (orderProcessHandler.isInterested(batchProfileAddOrOverlay.getAddOperation())) {
+                            orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
+                            Map<String, Record> recordsToProcess = new HashMap<>();
+                            if(batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
+                                recordsToProcess = matchedRecords;
+                            } else if(batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
+                                recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, matchedRecords);
+                            }
+                            try {
+                                if (recordsToProcess.size() > 0) {
+                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, orderRequestHandler));
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
                         }
                     }
                 }
+
+                jsonObject.put("status", "Success");
+                jsonObject.put("requisitionIds", purapIds);
+                System.out.println("Order Import Response : " + jsonObject.toString());
+                return jsonObject.toString();
 
             }
         } else {
@@ -130,19 +138,21 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
         Map<String, Record> map = new HashMap<>();
 
-        List<BibResponse> bibResponses = oleNGBibImportResponse.getBibResponses();
-        if(CollectionUtils.isNotEmpty(bibResponses)) {
-            for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
-                BibResponse bibResponse = iterator.next();
-                String bibId = bibResponse.getBibId();
-                if (!matchedRecords.containsKey(bibId)) {
-                    String bibIdWithoutPrefix = DocumentUniqueIDPrefix.getDocumentId(bibId);
-                    BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibIdWithoutPrefix);
-                    if(null != matchedBibRecord) {
-                        String content = matchedBibRecord.getContent();
-                        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
-                        if(CollectionUtils.isNotEmpty(records)) {
-                            map.put(bibId, records.get(0));
+        if (null != oleNGBibImportResponse) {
+            List<BibResponse> bibResponses = oleNGBibImportResponse.getBibResponses();
+            if(CollectionUtils.isNotEmpty(bibResponses)) {
+                for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
+                    BibResponse bibResponse = iterator.next();
+                    String bibId = bibResponse.getBibId();
+                    if (!matchedRecords.containsKey(bibId)) {
+                        String bibIdWithoutPrefix = DocumentUniqueIDPrefix.getDocumentId(bibId);
+                        BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibIdWithoutPrefix);
+                        if(null != matchedBibRecord) {
+                            String content = matchedBibRecord.getContent();
+                            List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
+                            if(CollectionUtils.isNotEmpty(records)) {
+                                map.put(bibId, records.get(0));
+                            }
                         }
                     }
                 }
