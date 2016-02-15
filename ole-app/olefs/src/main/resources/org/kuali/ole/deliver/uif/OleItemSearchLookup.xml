@@ -25,7 +25,6 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/deliver/loan/script/Item.js</value>
-
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -54,15 +53,23 @@
     <bean id="Item-Uif-DocumentPageFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean id="item_search_lookup" parent="Uif-PrimaryActionButton" p:methodToCall="search"
+               <ref bean="Item-Lookup-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Item-Lookup-Buttons" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
+        <property name="items">
+            <list>
+                <bean id="item_search_lookup" parent="Uif-SecondaryActionButton" p:methodToCall="search"
                       p:actionLabel="Search" p:successCallback="successMethod()"/>
-                <bean id="itemClear" parent="Uif-PrimaryActionButton" p:methodToCall="clearValues"
+                <bean id="itemClear" parent="Uif-SecondaryActionButton" p:methodToCall="clearValues"
                       p:actionLabel="Clear Values" p:successCallback="successMethod()"/>
-                <bean id="itemClose" parent="Uif-PrimaryActionButton" p:actionLabel="Close"
+                <bean id="itemClose" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel"
                       p:render="@{#form.renderedInLightBox}"
                       p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
-                <bean id="next_hidden_btn" parent="Uif-PrimaryActionButton" p:hidden="true"/>
-                <bean id="previous_hidden_btn" parent="Uif-PrimaryActionButton" p:hidden="true"/>
+                <bean id="next_hidden_btn" parent="Uif-SecondaryActionButton" p:hidden="true"/>
+                <bean id="previous_hidden_btn" parent="Uif-SecondaryActionButton" p:hidden="true"/>
             </list>
         </property>
     </bean>
@@ -137,6 +144,30 @@
         </property>
         <property name="resultsGroup">
             <bean parent="OleItemSearch-LookupView-ResultActions"/>
+        </property>
+        <property name="page">
+            <bean parent="oleItemLookup-Uif-LookupPage"/>
+        </property>
+    </bean>
+
+    <bean id="oleItemLookup-Uif-LookupPage" parent="oleItemLookup-Uif-LookupPage-parentBean"/>
+    <bean id="oleItemLookup-Uif-LookupPage-parentBean" abstract="true" parent="Uif-LookupPage">
+        <property name="header">
+            <ref bean="oleItemLookup-Uif-LookupPageHeader"/>
+        </property>
+    </bean>
+
+    <bean id="oleItemLookup-Uif-LookupPageHeader" parent="Uif-LookupPageHeader">
+        <property name="lowerGroup">
+            <bean parent="oleItemLookup-Uif-LookupPageHeaderGroup"/>
+        </property>
+    </bean>
+
+    <bean id="oleItemLookup-Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
+        <property name="items">
+            <list>
+                <ref bean="Item-Lookup-Buttons"/>
+            </list>
         </property>
     </bean>
 
