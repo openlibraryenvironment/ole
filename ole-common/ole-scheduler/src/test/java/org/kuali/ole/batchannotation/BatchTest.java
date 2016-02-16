@@ -1,8 +1,7 @@
-package org.kuali.ole.batch;
+package org.kuali.ole.batchannotation;
 
 import java.util.concurrent.ScheduledFuture;
 
-import org.junit.Test;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;

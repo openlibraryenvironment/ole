@@ -8,7 +8,7 @@ public class BatchJobSchedulerTest {
 
             // Schedule a job
             batchJobScheduler.scheduleJob("job1", "trigger1", "1", "Bib Import",
-                    "http://localhost:8080/olefs/rest/batch/upload", ("0/5 * * * * ?"));
+                    "http://localhost:8080/olefs/rest/batchannotation/upload", ("0/5 * * * * ?"));
 
             batchJobScheduler.startScheduler();
             Thread.sleep(10000);

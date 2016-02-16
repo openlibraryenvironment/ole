@@ -32,7 +32,7 @@ public class BatchJobLauncher {
 
     public void start() {
         try {
-            System.out.println("--- start batch job ---");
+            System.out.println("--- start batchannotation job ---");
 
             FileBody fileBody = new FileBody(new File(getClass().getResource("sample-marc").toURI()),
                     ContentType.APPLICATION_OCTET_STREAM, "sample-marc");

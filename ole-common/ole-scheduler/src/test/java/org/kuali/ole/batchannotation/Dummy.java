@@ -1,4 +1,4 @@
-package org.kuali.ole.batch;
+package org.kuali.ole.batchannotation;
 
 public class Dummy {
 

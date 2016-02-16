@@ -28,19 +28,19 @@ public class BatchJobScheduler {
     }
 
     /**
-     * Create a new batch job and register it in the scheduler
+     * Create a new batchannotation job and register it in the scheduler
      * 
      * @param jobName
      *            the name of the job
      * @param triggerName
      *            the name of its trigger
      * @param profileId
-     *            the ole batch profile id
+     *            the ole batchannotation profile id
      * @param batchType
-     *            the ole batch job type
+     *            the ole batchannotation job type
      * @param url
      *            the url of the rest controller to call, this is where the
-     *            actual batch job starts
+     *            actual batchannotation job starts
      * @param cronExpression
      *            the cron expression to specify when the job should run
      * @throws Exception
