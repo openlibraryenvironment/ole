@@ -63,9 +63,9 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public ItemReader<Dummy> reader() {
+    public ItemReader<Dummy> reader() throws Exception {
         FlatFileItemReader<Dummy> reader = new FlatFileItemReader<Dummy>();
-        reader.setResource(new ClassPathResource("dummies.csv"));
+        reader.setResource(new ClassPathResource("dummies.csv", getClass()));
         reader.setLineMapper(new DefaultLineMapper<Dummy>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames(new String[] {"property"});
