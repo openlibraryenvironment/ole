@@ -61,7 +61,9 @@ public abstract class OrderProcessHandler {
             Future future = iterator.next();
             try {
                 Integer purapIdentifier = (Integer) future.get();
-                poIds.add(purapIdentifier);
+                if (null != purapIdentifier) {
+                    poIds.add(purapIdentifier);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
