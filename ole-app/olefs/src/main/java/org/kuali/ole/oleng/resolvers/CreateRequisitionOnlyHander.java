@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.resolvers;
 
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
@@ -17,7 +18,7 @@ public class CreateRequisitionOnlyHander extends OrderProcessHandler{
 
     @Override
     public boolean isInterested(String type) {
-        return type.equalsIgnoreCase("Create Requisition Only");
+        return type.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY);
     }
 
     @Override
