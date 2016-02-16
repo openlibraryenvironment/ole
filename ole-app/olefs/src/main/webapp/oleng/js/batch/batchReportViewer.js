@@ -31,6 +31,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.showReport = function(fileName) {
+        $scope.reportContent = null;
+        $scope.batchReportViewer.showModal = false;
         document.getElementById('modalContentId').style.width = '950px';
         document.getElementById('modalContentId').style.height = '450px';
         document.getElementById('modalContentId').style.overflowX = 'auto';
@@ -40,7 +42,7 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
             var data = response.data;
             $scope.batchReportViewer.fileName = fileName;
             $scope.batchReportViewer.reportContent = data.fileContent;
-            if (fileName.indexOf('txt') != -1) {
+            if (fileName.indexOf('BibImportReport') != -1 && fileName.indexOf('txt') != -1) {
                 var fileContent = JSON.parse(data.fileContent);
                 populateReportFromContent(fileContent);
             }

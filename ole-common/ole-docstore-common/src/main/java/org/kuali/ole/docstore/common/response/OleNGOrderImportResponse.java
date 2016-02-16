@@ -8,9 +8,18 @@ import java.util.List;
  */
 public class OleNGOrderImportResponse {
 
+    private List<Integer> requisitionIds;
     private List<OrderResponse> reqOnlyResponses;
     private List<OrderResponse> reqAndPOResponses;
     private List<OrderResponse> noReqNorPOResponses;
+
+    public List<Integer> getRequisitionIds() {
+        return requisitionIds;
+    }
+
+    public void setRequisitionIds(List<Integer> requisitionIds) {
+        this.requisitionIds = requisitionIds;
+    }
 
     public List<OrderResponse> getReqOnlyResponses() {
         if(null == reqOnlyResponses) {

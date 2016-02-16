@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -21,6 +22,7 @@ import org.kuali.ole.oleng.resolvers.CreateRequisitionAndPurchaseOrderHander;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;
 import org.kuali.ole.oleng.resolvers.OrderProcessHandler;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
+import org.kuali.ole.utility.BibUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
+        List<Integer> purapIds = new ArrayList<>();
 
         Map<String, Record> matchedRecords = new HashMap();
         List<Record> unMatchedRecords = new ArrayList<>();
@@ -67,13 +70,14 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         List<OrderData> matchedOrderDatas = new ArrayList<OrderData>();
         List<OrderData> unmatchedOrderDatas = new ArrayList<OrderData>();
 
+        BibUtil bibUtil = new BibUtil();
         if (CollectionUtils.isNotEmpty(records)) {
 
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if (null != bibImportProfile) {
 
                 for (int index=0; index < records.size() ; index++) {
-                    Record marcRecord = records.get(0);
+                    Record marcRecord = records.get(index);
                     String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
                     if (StringUtils.isNotBlank(query)) {
                         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
@@ -83,6 +87,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             continue;
                         }
 
+                        Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
                         OrderData orderData = new OrderData();
                         if (null != results && results.size() == 1) {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
@@ -90,12 +95,12 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             matchedRecords.put(bibId, marcRecord);
                             orderData.setRecordNumber(String.valueOf(index + 1));
                             orderData.setSuccessfulMatchPoints(query);
-                            orderData.setTitle("Title need to figure out ");
+                            orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                             matchedOrderDatas.add(orderData);
                         } else {
                             unMatchedRecords.add(marcRecord);
                             orderData.setRecordNumber(String.valueOf(index + 1));
-                            orderData.setTitle("Title need to figure out ");
+                            orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                             unmatchedOrderDatas.add(orderData);
                         }
                     }
@@ -108,7 +113,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
 
-                List<Integer> purapIds = new ArrayList<>();
                 for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
                     BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
                     for (Iterator<OrderProcessHandler> batchProfileAddOrOverlayIterator = getOrderProcessHandlers().iterator(); batchProfileAddOrOverlayIterator.hasNext(); ) {
@@ -149,6 +153,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             response = jsonObject.toString();
         }
 
+        oleNGOrderImportResponse.setRequisitionIds(purapIds);
         BatchOrderImportReportLogHandler batchOrderImportReportLogHandler = BatchOrderImportReportLogHandler.getInstance();
         batchOrderImportReportLogHandler.logMessage(oleNGOrderImportResponse);
 

@@ -8,7 +8,6 @@ public class OrderData {
     private String recordNumber;
     private String title;
     private String successfulMatchPoints;
-    private String requisitionNumber;
 
     public String getRecordNumber() {
         return recordNumber;
@@ -32,13 +31,5 @@ public class OrderData {
 
     public void setSuccessfulMatchPoints(String successfulMatchPoints) {
         this.successfulMatchPoints = successfulMatchPoints;
-    }
-
-    public String getRequisitionNumber() {
-        return requisitionNumber;
-    }
-
-    public void setRequisitionNumber(String requisitionNumber) {
-        this.requisitionNumber = requisitionNumber;
     }
 }
