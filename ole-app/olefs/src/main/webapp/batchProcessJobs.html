@@ -27,6 +27,7 @@
         <br/>
         <h2 style="display:inline !important; font-weight: bold;">Batch Process Jobs</h2>
         <br/><br/>
+        <a href="#" class="pull-right" ng-show="selected==3" ng-click="enableAutoRefresh()">Enable Auto Refresh</a>
         <ul class="nav nav-tabs">
             <li ng-class="{'active' : selected==1}" ng-click="initializeCreateJob()"><a href="#">Create Job</a></li>
             <li ng-class="{'active' : selected==2}" ng-click="initializeJobs()"><a href="#">Jobs</a></li>
