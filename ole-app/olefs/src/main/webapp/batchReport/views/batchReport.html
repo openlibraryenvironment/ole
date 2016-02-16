@@ -1,0 +1,16 @@
+<div>
+    <div class="form-group">
+        <font color="green"> File Name : {{batchReportViewer.fileName}}</font>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('txt') == -1">
+        <textarea type="text" class="form-control" style="height: 350px" id="reportContent" ng-model="batchReportViewer.reportContent" readonly></textarea>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('txt') != -1">
+        <div ng-include="'batchReport/views/batchReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportBibSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportHoldingsSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportItemSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportEHoldingsSection.html'"></div>
+    </div>
+</div>
+
