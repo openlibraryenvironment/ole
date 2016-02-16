@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class BibResponse {
     private String bibId;
-    private int recordIndex;
     private String operation;
     private List<HoldingsResponse> holdingsResponses;
 
@@ -33,13 +32,5 @@ public class BibResponse {
 
     public void setHoldingsResponses(List<HoldingsResponse> holdingsResponses) {
         this.holdingsResponses = holdingsResponses;
-    }
-
-    public int getRecordIndex() {
-        return recordIndex;
-    }
-
-    public void setRecordIndex(int recordIndex) {
-        this.recordIndex = recordIndex;
     }
 }

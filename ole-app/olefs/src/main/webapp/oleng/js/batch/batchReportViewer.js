@@ -94,7 +94,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                 var bib = {
                     "bibId" : bibResponses[i]["bibId"],
                     "operation" : bibResponses[i]["operation"],
-                    "recordIndex" : bibResponses[i]["recordIndex"]
                 };
                 bibSectionContent.push(bib);
                 var holdingsResponses = bibResponses[i]["holdingsResponses"];
@@ -104,7 +103,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                             "holdingsId" : holdingsResponses[j]["holdingsId"],
                             "bibId" : bib.bibId,
                             "operation" : holdingsResponses[j]["operation"],
-                            "recordIndex" : holdingsResponses[j]["recordIndex"]
                         };
                         if (holdingsResponses[j]["holdingsType"] == 'print') {
                             holdingsSectionContent.push(holdings);
@@ -119,7 +117,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                                     "holdingsId" : holdings.holdingsId,
                                     "bibId" : bib.bibId,
                                     "operation" : itemResponses[k]["operation"],
-                                    "recordIndex" : itemResponses[k]["recordIndex"]
                                 };
                                 itemSectionContent.push(item);
                             }
