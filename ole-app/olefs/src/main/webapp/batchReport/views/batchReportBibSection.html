@@ -1,0 +1,37 @@
+<div class="panel-group" ng-model="reportBibSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="reportBibSectionPanel.collapsed = !reportBibSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !reportBibSectionPanel.collapsed, 'glyphicon-chevron-down': reportBibSectionPanel.collapsed}"></span>
+                    Bib Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <table datatable="ng" class="table table-bordered row-border hover">
+                        <thead style="height: 20px">
+                        <tr>
+                            <th>Bib Id</th>
+                            <th>Operation</th>
+                            <th>Record Index</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="reportBib in reportBibSectionPanel">
+                            <td><span ng-bind="reportBib.bibId"></span></td>
+                            <td><span ng-bind="reportBib.operation"></span></td>
+                            <td><span ng-bind="reportBib.recordIndex"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
