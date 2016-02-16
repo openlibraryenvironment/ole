@@ -382,10 +382,18 @@
                                  referencedTableName="OLE_NG_BAT_PRCS_JOB_T"/>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ITM_LOC">
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ITM">
         <addColumn tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="ITM_TITLE"   type="VARCHAR(600)"/>
+            <column name="ITM_AUTHOR"   type="VARCHAR(200)"/>
+            <column name="ITM_TYPE"   type="VARCHAR(100)"/>
+            <column name="ITM_CALL_NUM"   type="VARCHAR(100)"/>
+            <column name="ITM_COPY_NUM"   type="VARCHAR(20)"/>
+            <column name="ITM_ENUM"   type="VARCHAR(100)"/>
+            <column name="ITM_CHRON"   type="VARCHAR(100)"/>
             <column name="ITM_LOC"   type="VARCHAR(600)"/>
         </addColumn>
     </changeSet>
+
 
 </databaseChangeLog>
