@@ -29,7 +29,7 @@ var weekDays = [
 
 var monthDays = [];
 
-batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', function ($scope, $http) {
+batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
@@ -226,5 +226,9 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             $scope.batchProcessJobs.splice(index, 1);
         });
     };
+
+    $scope.enableAutoRefresh = function() {
+        $interval(function() {$scope.initializeExecutions()}, 5000);
+    }
 
 }]);
