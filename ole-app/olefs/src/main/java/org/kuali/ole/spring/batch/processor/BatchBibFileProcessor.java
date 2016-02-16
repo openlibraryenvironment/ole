@@ -11,6 +11,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
@@ -42,7 +43,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
-        for (int index=0 ; index < records.size(); index++){
+        for (int index = 0; index < records.size(); index++) {
             Record marcRecord = records.get(index);
             JSONObject jsonObject = null;
 
@@ -183,17 +184,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private JSONArray getFieldOps(BatchProcessProfile batchProcessProfile) {
         JSONArray fieldOps = new JSONArray();
         List<BatchProfileFieldOperation> batchProfileFieldOperationList = batchProcessProfile.getBatchProfileFieldOperationList();
-        if(CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
             for (Iterator<BatchProfileFieldOperation> iterator = batchProfileFieldOperationList.iterator(); iterator.hasNext(); ) {
                 BatchProfileFieldOperation batchProfileFieldOperation = iterator.next();
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.DATA_FIELD,batchProfileFieldOperation.getDataField());
-                    jsonObject.put(OleNGConstants.IND1,batchProfileFieldOperation.getInd1());
-                    jsonObject.put(OleNGConstants.IND2,batchProfileFieldOperation.getInd2());
-                    jsonObject.put(OleNGConstants.SUBFIELD,batchProfileFieldOperation.getSubField());
-                    jsonObject.put(OleNGConstants.VALUE,batchProfileFieldOperation.getValue());
-                    jsonObject.put(OleNGConstants.IGNORE_GPF,batchProfileFieldOperation.getIgnoreGPF());
+                    jsonObject.put(OleNGConstants.DATA_FIELD, batchProfileFieldOperation.getDataField());
+                    jsonObject.put(OleNGConstants.IND1, batchProfileFieldOperation.getInd1());
+                    jsonObject.put(OleNGConstants.IND2, batchProfileFieldOperation.getInd2());
+                    jsonObject.put(OleNGConstants.SUBFIELD, batchProfileFieldOperation.getSubField());
+                    jsonObject.put(OleNGConstants.VALUE, batchProfileFieldOperation.getValue());
+                    jsonObject.put(OleNGConstants.IGNORE_GPF, batchProfileFieldOperation.getIgnoreGPF());
                     fieldOps.put(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -349,13 +350,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         try {
             String holdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.HOLDINGS);
-            addedOps.put(OleNGConstants.HOLDINGS,holdingsAddedOps);
+            addedOps.put(OleNGConstants.HOLDINGS, holdingsAddedOps);
 
             String itemAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.ITEM);
-            addedOps.put(OleNGConstants.ITEM,itemAddedOps);
+            addedOps.put(OleNGConstants.ITEM, itemAddedOps);
 
             String eholdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.EHOLDINGS);
-            addedOps.put(OleNGConstants.EHOLDINGS,eholdingsAddedOps);
+            addedOps.put(OleNGConstants.EHOLDINGS, eholdingsAddedOps);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -369,14 +370,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             String matchOption = batchProfileAddOrOverlay.getMatchOption();
-            if(matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+            if (matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String operation = batchProfileAddOrOverlay.getOperation();
-                if(operation.equalsIgnoreCase(OleNGConstants.ADD)) {
+                if (operation.equalsIgnoreCase(OleNGConstants.ADD)) {
                     addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                     String addOperation = batchProfileAddOrOverlay.getAddOperation();
-                    if(StringUtils.isNotBlank(addOperation)){
-                        switch (addOperation){
-                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
+                    if (StringUtils.isNotBlank(addOperation)) {
+                        switch (addOperation) {
+                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD: {
                                 addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                                 break;
                             }
@@ -402,7 +403,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                             }
                         }
                     }
-                } else if(operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+                } else if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                     addedOpsValue = OleNGConstants.OVERLAY;
                 } else {
                     addedOpsValue = OleNGConstants.DISCARD;
@@ -498,86 +499,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return dataMappings;
     }
 
-    /**
-     * @param valueByPriorityMap
-     * @param destinationField
-     * @param multiValue
-     * @param fieldValues
-     * @param priority
-     * @return The valueByPriorityMap contains valueByPriority pojo for each destination field.
-     */
-    private Map<String, List<ValueByPriority>> buildingValuesForDestinationBasedOnPriority(Map<String, List<ValueByPriority>> valueByPriorityMap, String destinationField, boolean multiValue, List<String> fieldValues, int priority) {
-        List<ValueByPriority> valueByPriorities;
-
-        ValueByPriority valueByPriority = new ValueByPriority();
-        valueByPriority.setField(destinationField);
-        valueByPriority.setPriority(priority);
-        valueByPriority.setMultiValue(multiValue);
-
-        valueByPriority.setValues(fieldValues);
-
-        if (valueByPriorityMap.containsKey(destinationField)) {
-            valueByPriorities = valueByPriorityMap.get(destinationField);
-
-            if (valueByPriorities.contains(valueByPriority)) {
-                ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
-                List<String> values = existingValuePriority.getValues();
-                values.addAll(fieldValues);
-                StringBuilder stringBuilder = new StringBuilder();
-                if (!multiValue) {
-                    for (Iterator<String> iterator = values.iterator(); iterator.hasNext(); ) {
-                        String value = iterator.next();
-                        stringBuilder.append(value);
-                        if (iterator.hasNext()) {
-                            stringBuilder.append(" ");
-                        }
-                    }
-                    values.clear();
-                    values.add(stringBuilder.toString());
-                }
-            } else {
-                valueByPriorities.add(valueByPriority);
-            }
-        } else {
-            valueByPriorities = new ArrayList<>();
-            valueByPriorities.add(valueByPriority);
-        }
-        valueByPriorityMap.put(destinationField, valueByPriorities);
-
-        return valueByPriorityMap;
-    }
-
-    private List<String> getFieldValues(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping, boolean multiValue) {
-        List<String> marcValues = new ArrayList<>();
-        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
-            String marcValue;
-            String dataField = batchProfileDataMapping.getDataField();
-            if (StringUtils.isNotBlank(dataField)) {
-                if (getMarcRecordUtil().isControlField(dataField)) {
-                    marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
-                    marcValues.add(marcValue);
-                } else {
-                    String subField = batchProfileDataMapping.getSubField();
-                    if (multiValue) {
-                        marcValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
-                    } else {
-                        marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
-                        if (StringUtils.isNotBlank(marcValue)) {
-                            marcValues.add(marcValue);
-                        }
-                    }
-                }
-            }
-        } else {
-            String constantValue = batchProfileDataMapping.getConstant();
-            if (StringUtils.isNotBlank(constantValue)) {
-                marcValues.add(constantValue);
-            }
-        }
-        return marcValues;
-    }
-
-
     private List<BatchProfileDataMapping> filterDataMappingsByTransformationOption(List<BatchProfileDataMapping> batchProfileDataMappingList, String transformationOption) {
         List<BatchProfileDataMapping> batchProfileDataMappings = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
@@ -590,17 +511,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
         return batchProfileDataMappings;
     }
-
-    private void sortDataMappings(List<BatchProfileDataMapping> filteredDataMappings) {
-        Collections.sort(filteredDataMappings, new Comparator<BatchProfileDataMapping>() {
-            public int compare(BatchProfileDataMapping dataMapping1, BatchProfileDataMapping dataMapping2) {
-                int priorityForDataMapping1 = dataMapping1.getPriority();
-                int priorityForDataMapping2 = dataMapping2.getPriority();
-                return new Integer(priorityForDataMapping1).compareTo(new Integer(priorityForDataMapping2));
-            }
-        });
-    }
-
     public Map<String, String> getDataMappingMap(List<BatchProfileDataMapping> batchProfileDataMappingList) {
         Map<String, String> dataMappingMap = new HashMap<>();
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
@@ -685,73 +595,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
 
-    private class ValueByPriority {
-        private int priority;
-        private String field;
-        private boolean multiValue;
-        private List<String> values;
-
-        public int getPriority() {
-            return priority;
-        }
-
-        public void setPriority(int priority) {
-            this.priority = priority;
-        }
-
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public boolean isMultiValue() {
-            return multiValue;
-        }
-
-        public void setMultiValue(boolean multiValue) {
-            this.multiValue = multiValue;
-        }
-
-        public List<String> getValues() {
-            if (null == values) {
-                values = new ArrayList<>();
-            }
-            return values;
-        }
-
-        public void setValues(List<String> values) {
-            this.values = values;
-        }
-
-        public void addValues(String value) {
-            if (null != value) {
-                getValues().add(value);
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            ValueByPriority that = (ValueByPriority) o;
-
-            if (priority != that.priority) return false;
-            return field != null ? field.equals(that.field) : that.field == null;
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = priority;
-            result = 31 * result + (field != null ? field.hashCode() : 0);
-            return result;
-        }
-    }
-
     public List<Record> splitRecordByMultiValue(Record record, MarcDataField marcDataField) {
         String dataFieldString = marcDataField.getDataField();
         String ind1 = marcDataField.getInd1();
@@ -762,30 +605,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<Record> records = new ArrayList<>();
         List<VariableField> dataFields = record.getVariableFields(dataFieldString);
 
-        List<VariableField> filteredDataFields = new ArrayList<>();
-        boolean matchedDataField = true;
+        List<VariableField> filteredDataFields = getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subField, null, dataFields);
 
-        for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-            DataField field = (DataField) iterator.next();
-            if (StringUtils.isNotBlank(ind1)) {
-                matchedDataField &= ind1.charAt(0) == field.getIndicator1();
-            }
-            if (StringUtils.isNotBlank(ind2)) {
-                matchedDataField &= ind2.charAt(0) == field.getIndicator2();
-            }
-
-            if (null != subField) {
-                for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
-                    Subfield sf = variableFieldIterator.next();
-                    char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
-                    matchedDataField&= subFieldChar == sf.getCode();
-                }
-            }
-            if (matchedDataField) {
-                filteredDataFields.add(field);
-            }
-
-        }
 
         for (Iterator<VariableField> variableFieldIterator = filteredDataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();

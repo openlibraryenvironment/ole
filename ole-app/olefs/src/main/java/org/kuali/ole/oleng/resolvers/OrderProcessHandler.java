@@ -23,7 +23,7 @@ public abstract class OrderProcessHandler {
 
     private static final Logger LOG = Logger.getLogger(OrderProcessHandler.class);
 
-    public abstract boolean isInterested(List<String> options, Boolean matchedRecords, Boolean unMatchedRecords);
+    public abstract boolean isInterested(String type);
 
     public abstract CreateReqAndPOBaseServiceHandler getCreateReqOrPOServiceHandler();
 

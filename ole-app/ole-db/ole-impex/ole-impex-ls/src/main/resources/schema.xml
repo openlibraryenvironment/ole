@@ -976,6 +976,13 @@
         <column name="CHECK_OUT_DT_TIME" type="TIMESTAMP"/>
         <column name="CHECK_IN_DT_TIME" type="TIMESTAMP"/>
         <column name="OPERATOR_ID" size="40" type="VARCHAR"/>
+        <column name="ITM_TITLE"  size="600" type="VARCHAR"/>
+        <column name="ITM_AUTHOR"  size="200" type="VARCHAR"/>
+        <column name="ITM_TYPE"  size="100" type="VARCHAR"/>
+        <column name="ITM_CALL_NUM"  size="100" type="VARCHAR"/>
+        <column name="ITM_COPY_NUM"  size="20" type="VARCHAR"/>
+        <column name="ITM_ENUM"  size="100" type="VARCHAR"/>
+        <column name="ITM_CHRON"  size="100" type="VARCHAR"/>
         <column name="ITM_LOC"  size="600" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DLVR_PTRN_BILL_T" name="FEE_TYP_BILL_ID">
             <reference foreign="PTRN_BILL_ID" local="PTRN_BILL_ID"/>

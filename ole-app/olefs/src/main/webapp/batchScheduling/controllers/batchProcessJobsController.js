@@ -29,7 +29,7 @@ var weekDays = [
 
 var monthDays = [];
 
-batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', function ($scope, $http) {
+batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
@@ -76,7 +76,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.populateProfileNames = function() {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchProcessCreateTab.profileType}},function(response) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {"batchType": $scope.batchProcessCreateTab.profileType},function(response) {
             var data = response.data;
             $scope.profileNames = data;
         });
@@ -119,7 +119,12 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             "schedule": getBatchSchedule()
         };
 
-        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (data) {
+        angular.element(document.getElementById('submit'))[0].disabled = true;
+        angular.element(document.getElementById('jobType'))[0].disabled = true;
+        angular.element(document.getElementById('profileId'))[0].disabled = true;
+        angular.element(document.getElementById('profileType'))[0].disabled = true;
+        angular.element(document.getElementById('jobName'))[0].disabled = true;
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (response) {
             var data = response.data;
             $scope.batchProcessJob = data;
             $scope.initializeJobs();
@@ -213,11 +218,17 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.closeModal();
     };
 
-    $scope.destroyJob = function(jobId) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}, function(response) {
+    $scope.destroyJob = function(index,jobId) {
+        var jobIdToDelete = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {"jobId": jobIdToDelete}, function(response) {
             var data = response.data;
             $scope.message = "Job Destroyed";
+            $scope.batchProcessJobs.splice(index, 1);
         });
     };
+
+    $scope.enableAutoRefresh = function() {
+        $interval(function() {$scope.initializeExecutions()}, 5000);
+    }
 
 }]);

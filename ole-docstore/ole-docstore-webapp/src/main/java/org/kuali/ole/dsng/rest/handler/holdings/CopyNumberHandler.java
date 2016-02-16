@@ -18,13 +18,13 @@ public class CopyNumberHandler extends HoldingsHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(OleNGConstants.BatchProcess.CALL_NUMBER);
+        return operation.equals(OleNGConstants.BatchProcess.COPY_NUMBER);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-        String copyNumber = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER);
+        String copyNumber = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.COPY_NUMBER);
         List<String> parsedValues = parseCommaSeperatedValues(copyNumber);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String copyNumberValue = iterator.next();
@@ -37,7 +37,7 @@ public class CopyNumberHandler extends HoldingsHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.COPY_NUMBER);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String copyNumber = listFromJSONArray.get(0);

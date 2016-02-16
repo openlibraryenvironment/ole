@@ -133,4 +133,9 @@ public class OleSRUConstants {
     public static final String BOOLEAN_FIELD_FALSE_FORMAT = "BOOLEAN_FIELD_FALSE_FORMAT";
 
 
+
+    public static final String SRU_AVAILABLE_STATUSES = "SRU_AVAILABLE_STATUSES";
+    public static final String SRU_ON_HOLD_STATUSES = "SRU_ON_HOLD_STATUSES";
+
+
 }

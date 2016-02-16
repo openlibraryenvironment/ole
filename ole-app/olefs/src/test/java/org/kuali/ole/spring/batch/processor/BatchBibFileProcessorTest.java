@@ -930,9 +930,17 @@ public class BatchBibFileProcessorTest {
         dataField.setIndicator2('2');
 
         Subfield subfield = marcFactory.newSubfield();
-        subfield.setCode('a');
-        subfield.setData("Value for 856 a-1");
+        subfield.setCode('u');
+        subfield.setData("http://www.someurl.com");
         dataField.addSubfield(subfield);
+
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('y');
+        subfield1.setData("link text1");
+        dataField.addSubfield(subfield1);
+
+
 
         record.addVariableField(dataField);
 
@@ -941,10 +949,17 @@ public class BatchBibFileProcessorTest {
         dataField1.setIndicator1(' ');
         dataField1.setIndicator2('2');
 
-        Subfield subfield1 = marcFactory.newSubfield();
-        subfield1.setCode('a');
-        subfield1.setData("Value for 856 a-2");
-        dataField1.addSubfield(subfield1);
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('u');
+        subfield2.setData("http://www.someurl1.com");
+        dataField1.addSubfield(subfield2);
+
+        record.addVariableField(dataField1);
+
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('y');
+        subfield3.setData("link text2");
+        dataField1.addSubfield(subfield3);
 
         record.addVariableField(dataField1);
 
@@ -952,10 +967,67 @@ public class BatchBibFileProcessorTest {
         MarcDataField marcDataField = new MarcDataField();
         marcDataField.setDataField("856");
         marcDataField.setInd1("1");
+        marcDataField.setSubField("u");
         List<Record> records = batchBibFileProcessor.splitRecordByMultiValue(record, marcDataField);
         assertTrue(CollectionUtils.isNotEmpty(records));
         assertTrue(records.size() == 1);
     }
+
+
+    @Test
+    public void testSplitRecordsByTagFieldAndIndicators1() {
+
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        DataField dataField = marcFactory.newDataField();
+        dataField.setTag("856");
+        dataField.setIndicator1('1');
+        dataField.setIndicator2('2');
+
+        Subfield subfield = marcFactory.newSubfield();
+        subfield.setCode('u');
+        subfield.setData("http://www.someurl.com");
+        dataField.addSubfield(subfield);
+
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('y');
+        subfield1.setData("link text1");
+        dataField.addSubfield(subfield1);
+
+
+
+        record.addVariableField(dataField);
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("856");
+        dataField1.setIndicator1(' ');
+        dataField1.setIndicator2('2');
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('u');
+        subfield2.setData("http://www.someurl1.com");
+        dataField1.addSubfield(subfield2);
+
+        record.addVariableField(dataField1);
+
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('y');
+        subfield3.setData("link text2");
+        dataField1.addSubfield(subfield3);
+
+        record.addVariableField(dataField1);
+
+        BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
+        MarcDataField marcDataField = new MarcDataField();
+        marcDataField.setDataField("856");
+        marcDataField.setSubField("u");
+        List<Record> records = batchBibFileProcessor.splitRecordByMultiValue(record, marcDataField);
+        assertTrue(CollectionUtils.isNotEmpty(records));
+        assertTrue(records.size() == 3);
+    }
+
 
     @Test
     public void testActionOps() {

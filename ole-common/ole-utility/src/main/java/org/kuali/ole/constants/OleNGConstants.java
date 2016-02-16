@@ -79,6 +79,7 @@ public class OleNGConstants {
         public static final String ITEM_DESCRIPTION = "Item Description";
         public static final String REQUESTOR = "Requestor";
         public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
+        public static final String PO_NUMBER = "Purchase Order Number";
 
         public static final String CALL_NUMBER = "Call Number";
         public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
@@ -96,12 +97,16 @@ public class OleNGConstants {
         public static final String VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
         public static final String ACCESS_STATUS = "Access Status";
         public static final String SUBSCRIPTION_STATUS = "Subscription Status";
+        public static final String CREATE_REQ_PO = "Create Requisition and PO";
+        public static final String CREATE_REQ_ONLY = "Create Requisition Only";
+        public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
     }
 
     public static final String TAG_001 = "001";
     public static final String TAG_003 = "003";
     public static final String UPDATED_BY = "updatedBy";
     public static final String UPDATED_DATE = "updatedDate";
+    public static final String BIB_STATUS_UPDATED = "BIB_STATUS_UPDATED";
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
@@ -186,7 +191,7 @@ public class OleNGConstants {
     public static final String JOB_NAME = "jobName";
     public static final String CREATED_BY = "createdBy";
     public static final String START_TIME = "startTime";
-    public static final String END_TIME = "startTime";
+    public static final String END_TIME = "endTime";
     public static final String PER_COMPLETED = "perCompleted";
     public static final String TIME_SPENT = "timeSpent";
     public static final String TOTAL_RECORDS = "totalRecords";

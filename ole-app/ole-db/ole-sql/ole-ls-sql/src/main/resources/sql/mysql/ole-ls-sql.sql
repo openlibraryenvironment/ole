@@ -1913,6 +1913,13 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
         , OPERATOR_ID VARCHAR(40)
+        , ITM_TITLE VARCHAR(600)
+        , ITM_AUTHOR VARCHAR(200)
+        , ITM_TYPE VARCHAR(100)
+        , ITM_CALL_NUM VARCHAR(100)
+        , ITM_COPY_NUM VARCHAR(20)
+        , ITM_ENUM VARCHAR(100)
+        , ITM_CHRON VARCHAR(100)
         , ITM_LOC VARCHAR(600)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
@@ -1922,7 +1929,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
