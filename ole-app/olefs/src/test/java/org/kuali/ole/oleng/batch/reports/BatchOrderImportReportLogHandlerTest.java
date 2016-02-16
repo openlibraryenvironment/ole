@@ -22,7 +22,6 @@ public class BatchOrderImportReportLogHandlerTest extends OLETestCaseBase{
         orderData.setTitle("Test Title");
         orderData.setRecordNumber("1");
         orderData.setSuccessfulMatchPoints("Test MatchPoints");
-        orderData.setRequisitionNumber("1");
         orderResponse.addOrderData(orderData);
         oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
         BatchOrderImportReportLogHandler batchOrderImportReportLogHandler = BatchOrderImportReportLogHandler.getInstance();
