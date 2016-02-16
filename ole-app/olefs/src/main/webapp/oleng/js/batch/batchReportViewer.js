@@ -31,6 +31,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.showReport = function(fileName) {
+        $scope.reportContent = null;
+        $scope.batchReportViewer.showModal = false;
         document.getElementById('modalContentId').style.width = '950px';
         document.getElementById('modalContentId').style.height = '450px';
         document.getElementById('modalContentId').style.overflowX = 'auto';
@@ -40,7 +42,7 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
             var data = response.data;
             $scope.batchReportViewer.fileName = fileName;
             $scope.batchReportViewer.reportContent = data.fileContent;
-            if (fileName.indexOf('txt') != -1) {
+            if (fileName.indexOf('BibImportReport') != -1 && fileName.indexOf('txt') != -1) {
                 var fileContent = JSON.parse(data.fileContent);
                 populateReportFromContent(fileContent);
             }
@@ -94,7 +96,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                 var bib = {
                     "bibId" : bibResponses[i]["bibId"],
                     "operation" : bibResponses[i]["operation"],
-                    "recordIndex" : bibResponses[i]["recordIndex"]
                 };
                 bibSectionContent.push(bib);
                 var holdingsResponses = bibResponses[i]["holdingsResponses"];
@@ -104,7 +105,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                             "holdingsId" : holdingsResponses[j]["holdingsId"],
                             "bibId" : bib.bibId,
                             "operation" : holdingsResponses[j]["operation"],
-                            "recordIndex" : holdingsResponses[j]["recordIndex"]
                         };
                         if (holdingsResponses[j]["holdingsType"] == 'print') {
                             holdingsSectionContent.push(holdings);
@@ -119,7 +119,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                                     "holdingsId" : holdings.holdingsId,
                                     "bibId" : bib.bibId,
                                     "operation" : itemResponses[k]["operation"],
-                                    "recordIndex" : itemResponses[k]["recordIndex"]
                                 };
                                 itemSectionContent.push(item);
                             }

@@ -97,6 +97,9 @@ public class OleNGConstants {
         public static final String VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
         public static final String ACCESS_STATUS = "Access Status";
         public static final String SUBSCRIPTION_STATUS = "Subscription Status";
+        public static final String CREATE_REQ_PO = "Create Requisition and PO";
+        public static final String CREATE_REQ_ONLY = "Create Requisition Only";
+        public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
     }
 
     public static final String TAG_001 = "001";
