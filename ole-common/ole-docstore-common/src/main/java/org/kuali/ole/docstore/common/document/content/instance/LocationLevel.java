@@ -143,7 +143,7 @@ public class LocationLevel {
         List<OleLocation> oleLocation = (List<OleLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class, criteria);
 
         if (oleLocation.size() > 0){
-                return oleLocation.get(0).getLocationName();
+            return oleLocation.get(0).getLocationName();
         }
         return null;
     }

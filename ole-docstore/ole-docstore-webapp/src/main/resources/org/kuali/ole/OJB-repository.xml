@@ -617,6 +617,5 @@
             <foreignkey field-ref="levelId" target-field-ref="levelId"/>
         </reference-descriptor>
     </class-descriptor>
-    
 
 </descriptor-repository>
