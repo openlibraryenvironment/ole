@@ -13,7 +13,7 @@ public class CreateRequisitionAndPurchaseOrderHander extends OrderProcessHandler
 
     @Override
     public boolean isInterested(String type) {
-        return type.equalsIgnoreCase("Create Requisition and PO");
+        return type.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO);
     }
 
     @Override
