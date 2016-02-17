@@ -1,3 +1,4 @@
+
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -2658,7 +2659,7 @@ CREATE TABLE OLE_DLVR_RQST_HSTRY_REC_T
         , OLE_MACH_ID VARCHAR2(80)
         , ARCH_DT_TIME DATE NOT NULL
         , OLE_REQ_OUTCOME_STATUS VARCHAR2(80)
-        , CRTE_DT_TIME DATE NOT NULL
+        , CRTE_DT_TIME TIMESTAMP NOT NULL
         , OBJ_ID VARCHAR2(36) NOT NULL
         , VER_NBR NUMBER(8) NOT NULL
     
@@ -2703,7 +2704,7 @@ CREATE TABLE OLE_DLVR_RQST_T
         , RQST_EXPIR_DT_TIME DATE
         , RCAL_NTC_SNT_DT DATE
         , ONHLD_NTC_SNT_DT DATE
-        , CRTE_DT_TIME DATE
+        , CRTE_DT_TIME TIMESTAMP
         , MODI_DT_TIME DATE
         , CPY_FRMT VARCHAR2(40)
         , LOAN_TRAN_ID VARCHAR2(40)

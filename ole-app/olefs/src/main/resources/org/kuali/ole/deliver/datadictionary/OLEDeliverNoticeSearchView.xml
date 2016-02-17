@@ -112,7 +112,7 @@
         <property name="items">
             <list>
                 <bean id="searchResult-patronId" parent="Uif-DataField" p:propertyName="patronId"
-                      p:label="Patron Id"/>
+                      p:label="Patron Barcode"/>
                 <bean id="searchResult-noticeType" parent="Uif-DataField" p:propertyName="noticeType"
                       p:label="Notice Type"/>
                 <bean id="searchResult-sentDate" parent="Uif-DataField" p:propertyName="dateSentTo"

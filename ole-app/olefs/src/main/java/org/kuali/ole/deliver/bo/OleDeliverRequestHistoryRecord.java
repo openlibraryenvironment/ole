@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.bo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +24,7 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
     private String operatorId;
     private String machineId;
     private Date archiveDate;
-    private Date createDate;
+    private Timestamp createDate;
     private String requestStatus;
 	
     private String requestOutComeStatus;
@@ -116,11 +117,11 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
         this.archiveDate = archiveDate;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
     public String getRequestStatus() {

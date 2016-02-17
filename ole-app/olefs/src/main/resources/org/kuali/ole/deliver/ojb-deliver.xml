@@ -934,7 +934,7 @@
         <field-descriptor name="requestExpiryDate" column="RQST_EXPIR_DT_TIME" jdbc-type="DATE"/>
         <field-descriptor name="recallNoticeSentDate" column="RCAL_NTC_SNT_DT" jdbc-type="DATE"/>
         <field-descriptor name="onHoldNoticeSentDate" column="ONHLD_NTC_SNT_DT" jdbc-type="DATE"/>
-        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="modifiedDate" column="MODI_DT_TIME" jdbc-type="DATE"/>
         <field-descriptor name="holdExpirationDate"  column="HOLD_EXP_DATE" jdbc-type="DATE"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
@@ -1004,7 +1004,7 @@
         <field-descriptor name="operatorId" column="OLE_OPRT_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="machineId" column="OLE_MACH_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="archiveDate" column="ARCH_DT_TIME" jdbc-type="DATE"/>
-        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="requestOutComeStatus" column="OLE_REQ_OUTCOME_STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

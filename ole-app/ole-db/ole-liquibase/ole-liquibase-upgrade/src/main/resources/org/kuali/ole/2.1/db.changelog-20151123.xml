@@ -396,4 +396,22 @@
     </changeSet>
 
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_DLVR_RQST_T MODIFY CRTE_DT_TIME TIMESTAMP</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_DLVR_RQST_T MODIFY CRTE_DT_TIME TIMESTAMP</sql>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_DLVR_RQST_HSTRY_REC_T MODIFY CRTE_DT_TIME TIMESTAMP</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_DLVR_RQST_HSTRY_REC_T MODIFY CRTE_DT_TIME TIMESTAMP</sql>
+    </changeSet>
+
+
 </databaseChangeLog>
