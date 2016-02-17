@@ -7,91 +7,83 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="InTransit Items" id="66">
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant">Outgoing</value>
-            </simple-property-list>
-            <list-property name="selectionList">
-                <structure>
-                    <property name="value">Incoming</property>
-                    <property name="label">Incoming</property>
-                </structure>
-                <structure>
-                    <property name="value">Outgoing</property>
-                    <property name="label">Outgoing</property>
-                </structure>
-            </list-property>
-            <property name="paramType">simple</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="ItemType" id="65">
-            <text-property name="promptText">Item Type</text-property>
-            <property name="valueType">dynamic</property>
-            <property name="dataSetName">ItemType</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["Item Type"]</expression>
-            <expression name="labelExpr" type="javascript">dataSetRow["Item Type"]</expression>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">multi-value</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="Library" id="60">
-            <text-property name="helpText">Library Location</text-property>
-            <text-property name="promptText">Library Location</text-property>
-            <property name="valueType">dynamic</property>
-            <property name="dataSetName">Library</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["Library"]</expression>
-            <expression name="labelExpr" type="javascript">dataSetRow["Library"]</expression>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">multi-value</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">true</property>
-            <structure name="format">
-                <property name="category">></property>
-                <property name="pattern">></property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="From" id="62">
-            <text-property name="promptText">Item Returned Date From</text-property>
-            <property name="valueType">static</property>
-            <property name="dataType">date</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="To" id="63">
-            <text-property name="promptText">Item Returned Date To</text-property>
-            <property name="valueType">static</property>
-            <property name="dataType">date</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
+        <parameter-group name="Missing In Transit Report Params" id="134">
+            <text-property name="displayName">Missing In Transit - Report Params</text-property>
+            <parameters>
+                <scalar-parameter name="InTransit Items" id="66">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <property name="distinct">true</property>
+                    <simple-property-list name="defaultValue">
+                        <value type="constant">Outgoing</value>
+                    </simple-property-list>
+                    <list-property name="selectionList">
+                        <structure>
+                            <property name="value">Incoming</property>
+                            <property name="label">Incoming</property>
+                        </structure>
+                        <structure>
+                            <property name="value">Outgoing</property>
+                            <property name="label">Outgoing</property>
+                        </structure>
+                        <structure>
+                            <property name="value">Both Incoming and Outgoing</property>
+                            <property name="label">Both Incoming and Outgoing</property>
+                        </structure>
+                    </list-property>
+                    <property name="paramType">simple</property>
+                    <property name="controlType">list-box</property>
+                    <property name="mustMatch">true</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="Library" id="60">
+                    <text-property name="helpText">Library Location</text-property>
+                    <text-property name="promptText">Library Location</text-property>
+                    <property name="valueType">dynamic</property>
+                    <property name="dataSetName">Library</property>
+                    <expression name="valueExpr" type="javascript">dataSetRow["Library"]</expression>
+                    <expression name="labelExpr" type="javascript">dataSetRow["Library"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="distinct">true</property>
+                    <list-property name="selectionList"/>
+                    <property name="paramType">multi-value</property>
+                    <property name="controlType">list-box</property>
+                    <property name="mustMatch">true</property>
+                    <property name="fixedOrder">true</property>
+                    <structure name="format">
+                        <property name="category">></property>
+                        <property name="pattern">></property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="From" id="62">
+                    <text-property name="promptText">Item Returned Date From</text-property>
+                    <property name="valueType">static</property>
+                    <property name="dataType">date</property>
+                    <property name="distinct">true</property>
+                    <list-property name="selectionList"/>
+                    <property name="paramType">simple</property>
+                    <property name="controlType">text-box</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="To" id="63">
+                    <text-property name="promptText">Item Returned Date To</text-property>
+                    <property name="valueType">static</property>
+                    <property name="dataType">date</property>
+                    <property name="distinct">true</property>
+                    <list-property name="selectionList"/>
+                    <property name="paramType">simple</property>
+                    <property name="controlType">text-box</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
@@ -112,7 +104,7 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://localhost:3306</property>
+            <property name="odaURL">jdbc:mysql://192.168.40.18</property>
             <property name="odaUser">OLE</property>
             <encrypted-property name="odaPassword" encryptionID="base64">T0xF</encrypted-property>
         </oda-data-source>
@@ -138,16 +130,24 @@ if(dbVendor!=null){
 		this.queryText = this.queryText+" and (trunc(o1.ITEM_RETURNED_DT) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD'))";
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
 	    this.queryText = this.queryText+" and (item.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or hldg.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
-	    this.queryText = this.queryText+" and (o1.ITEM_RETURNED_DT between '"+params["From"].value+"' AND '"+params["To"].value+"')";
+	    this.queryText = this.queryText+" and (o1.ITEM_RETURNED_DT >= DATE('"+params["From"].value+"') AND o1.ITEM_RETURNED_DT < (DATE('"+params["To"].value+"') + INTERVAL 1 DAY))";	    
 	}
 }
-this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM IN ('"+params["ItemType"].value.join("','")+"')";
+
 if(params["InTransit Items"].value == "Incoming"){
-	    this.queryText = this.queryText+" and (o1.CIR_DESK_ROUTE_TO in (select ole_crcl_dsk_code from ole_crcl_dsk_t where ole_crcl_dsk_id in (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  ))";
+	    this.queryText = this.queryText+" and (o1.CIR_DESK_ROUTE_TO in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
 	    deliverReport.getItemAvailabilityStatus(this.queryText);
 }
-else{
-		this.queryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_LOAN_INTRANSIT_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (select ole_crcl_dsk_code from ole_crcl_dsk_t where ole_crcl_dsk_id in (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  ))";
+else if (params["InTransit Items"].value == "Outgoing") {
+		this.queryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_LOAN_INTRANSIT_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
+	    deliverReport.getItemAvailabilityStatus(this.queryText);
+}
+else {
+		incomingQueryText = this.queryText+" and (o1.CIR_DESK_ROUTE_TO in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
+		
+		outgoingQueryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_LOAN_INTRANSIT_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
+		
+		this.queryText = incomingQueryText + " union " + outgoingQueryText;
 	    deliverReport.getItemAvailabilityStatus(this.queryText);
 }]]></method>
             <property name="dataSource">Data Source</property>
@@ -160,6 +160,12 @@ else{
 	WHEN hldg.CALL_NUMBER IS NOT NULL AND hldg.CALL_NUMBER != ' ' THEN hldg.CALL_NUMBER
 	ELSE ' ' 
 	END as "CALL_NUMBER",
+	CASE WHEN item.CALL_NUMBER IS NOT NULL AND item.CALL_NUMBER != ' ' THEN item.SHELVING_ORDER 
+	WHEN hldg.CALL_NUMBER IS NOT NULL AND hldg.CALL_NUMBER != ' ' THEN hldg.SHELVING_ORDER 
+	ELSE ' ' 
+	END as "Shelving Order",
+	item.ENUMERATION as "Enumeration",
+	item.CHRONOLOGY as "Chronology",
 	CASE WHEN HLDG.LOCATION IS NOT NULL AND HLDG.LOCATION != ' ' THEN HLDG.LOCATION
 	WHEN ITEM.LOCATION IS NOT NULL AND ITEM.LOCATION != ' ' THEN ITEM.LOCATION
 	ELSE ' ' 
@@ -243,70 +249,6 @@ WHERE
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ItemType" id="64">
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">Item Type</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Item Type</text-property>
-                    <text-property name="heading">Item Type</text-property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">Item Type</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">Data Source</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">Item Type</property>
-                    <property name="nativeName">Item Type</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select ITM_TYP_NM as "Item Type"
-from
-OLE_CAT_ITM_TYP_T]]></xml-property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>2.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>Item Type</design:name>
-              <design:position>1</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>Item Type</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>Item Type</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-      <design:criteria/>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
-</model:DesignValues>]]></xml-property>
-        </oda-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
@@ -328,6 +270,146 @@ OLE_CAT_ITM_TYP_T]]></xml-property>
             <property name="textAlign">center</property>
             <text-property name="text">Missing In Transit</text-property>
         </label>
+        <table id="77">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">InTransit Items</property>
+                    <text-property name="displayName">InTransit Items</text-property>
+                    <expression name="expression" type="javascript">params["InTransit Items"].value</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Library</property>
+                    <text-property name="displayName">Library</text-property>
+                    <expression name="expression" type="javascript">params["Library"].value</expression>
+                    <property name="dataType">javaObject</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">From</property>
+                    <text-property name="displayName">From</text-property>
+                    <expression name="expression" type="javascript">params["From"].value</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">To</property>
+                    <text-property name="displayName">To</text-property>
+                    <expression name="expression" type="javascript">params["To"].value</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">From2</property>
+                    <text-property name="displayName">From</text-property>
+                    <expression name="expression" type="javascript">params["From"].value</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">To2</property>
+                    <text-property name="displayName">To</text-property>
+                    <expression name="expression" type="javascript">params["To"].value</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="98"/>
+            <column id="99"/>
+            <column id="100"/>
+            <column id="101"/>
+            <column id="129"/>
+            <column id="124"/>
+            <column id="119"/>
+            <column id="114"/>
+            <header>
+                <row id="78">
+                    <cell id="79"/>
+                    <cell id="80"/>
+                    <cell id="81"/>
+                    <cell id="82"/>
+                    <cell id="125"/>
+                    <cell id="120"/>
+                    <cell id="115"/>
+                    <cell id="110"/>
+                </row>
+            </header>
+            <detail>
+                <row id="83">
+                    <cell id="84">
+                        <property name="textAlign">right</property>
+                        <label id="102">
+                            <property name="textAlign">right</property>
+                            <structure name="toc"/>
+                            <text-property name="text">InTransit Items - </text-property>
+                        </label>
+                    </cell>
+                    <cell id="85">
+                        <data id="103">
+                            <property name="backgroundColor">yellow</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">InTransit Items</property>
+                        </data>
+                    </cell>
+                    <cell id="86">
+                        <label id="104">
+                            <property name="textAlign">right</property>
+                            <text-property name="text">Library - </text-property>
+                        </label>
+                    </cell>
+                    <cell id="87">
+                        <data id="105">
+                            <property name="backgroundColor">yellow</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">left</property>
+                            <structure name="toc"/>
+                            <property name="resultSetColumn">Library</property>
+                        </data>
+                    </cell>
+                    <cell id="126">
+                        <label id="130">
+                            <property name="textAlign">right</property>
+                            <text-property name="text">From - </text-property>
+                        </label>
+                    </cell>
+                    <cell id="121">
+                        <property name="backgroundColor">yellow</property>
+                        <data id="131">
+                            <property name="fontWeight">bold</property>
+                            <structure name="toc"/>
+                            <property name="resultSetColumn">From2</property>
+                        </data>
+                    </cell>
+                    <cell id="116">
+                        <label id="132">
+                            <property name="textAlign">right</property>
+                            <text-property name="text">To - </text-property>
+                        </label>
+                    </cell>
+                    <cell id="111">
+                        <data id="133">
+                            <property name="backgroundColor">yellow</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="resultSetColumn">To2</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="93">
+                    <cell id="94"/>
+                    <cell id="95"/>
+                    <cell id="96"/>
+                    <cell id="97"/>
+                    <cell id="128"/>
+                    <cell id="123"/>
+                    <cell id="118"/>
+                    <cell id="113"/>
+                </row>
+            </footer>
+        </table>
         <table id="6">
             <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">
@@ -381,10 +463,34 @@ OLE_CAT_ITM_TYP_T]]></xml-property>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">Enumeration</property>
+                    <text-property name="displayName">Enumeration</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Enumeration"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Chronology</property>
+                    <text-property name="displayName">Chronology</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Chronology"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Shelving Order</property>
+                    <text-property name="displayName">Shelving Order</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Shelving Order"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="45"/>
             <column id="46"/>
             <column id="47"/>
+            <column id="137"/>
+            <column id="140"/>
+            <column id="143"/>
             <column id="48"/>
             <column id="70">
                 <property name="repeat">1</property>
@@ -438,6 +544,48 @@ OLE_CAT_ITM_TYP_T]]></xml-property>
                             <property name="fontFamily">sans-serif</property>
                             <property name="width">45mm</property>
                             <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="135">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="144">
+                            <property name="fontFamily">sans-serif</property>
+                            <text-property name="text">Enumeration</text-property>
+                        </label>
+                    </cell>
+                    <cell id="138">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="145">
+                            <property name="fontFamily">sans-serif</property>
+                            <text-property name="text">Chronology</text-property>
+                        </label>
+                    </cell>
+                    <cell id="141">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="146">
+                            <property name="fontFamily">sans-serif</property>
+                            <text-property name="text">Shelving Order</text-property>
                         </label>
                     </cell>
                     <cell id="14">
@@ -567,6 +715,45 @@ OLE_CAT_ITM_TYP_T]]></xml-property>
                             <property name="textAlign">justify</property>
                             <property name="width">45mm</property>
                             <property name="resultSetColumn">CALL_NUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="136">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="147">
+                            <property name="resultSetColumn">Enumeration</property>
+                        </data>
+                    </cell>
+                    <cell id="139">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="148">
+                            <property name="resultSetColumn">Chronology</property>
+                        </data>
+                    </cell>
+                    <cell id="142">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="149">
+                            <property name="resultSetColumn">Shelving Order</property>
                         </data>
                     </cell>
                     <cell id="29">
