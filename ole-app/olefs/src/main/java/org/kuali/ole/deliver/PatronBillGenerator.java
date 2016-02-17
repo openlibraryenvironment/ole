@@ -33,6 +33,7 @@ public class PatronBillGenerator {
     private BusinessObjectService businessObjectService;
     private OlePatronHelperServiceImpl olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private PatronBillHelperService patronBillHelperService;
 
     public String generatePatronBillPayment(OleLoanDocument oleLoanDocument, String feeTypeName, Double fineAmount, Timestamp dueDate) throws  Exception {
         long begin = System.currentTimeMillis();
@@ -49,9 +50,8 @@ public class PatronBillGenerator {
         }
         feeType.setFeeAmount(new KualiDecimal(fineAmount));
         feeType.setItemBarcode(oleLoanDocument.getItemId());
-        feeType.setItemType(oleLoanDocument.getItemTypeName());
-        feeType.setItemTitle(oleLoanDocument.getTitle());
         feeType.setItemUuid(oleLoanDocument.getItemUuid());
+        getPatronBillHelperService().setFeeTypeInfo(feeType,oleLoanDocument.getItemUuid());
         feeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
@@ -154,5 +154,16 @@ public class PatronBillGenerator {
             circDeskLocationResolver = new CircDeskLocationResolver();
         }
         return circDeskLocationResolver;
+    }
+
+    public PatronBillHelperService getPatronBillHelperService() {
+        if(patronBillHelperService==null){
+            patronBillHelperService=new PatronBillHelperService();
+        }
+        return patronBillHelperService;
+    }
+
+    public void setPatronBillHelperService(PatronBillHelperService patronBillHelperService) {
+        this.patronBillHelperService = patronBillHelperService;
     }
 }
