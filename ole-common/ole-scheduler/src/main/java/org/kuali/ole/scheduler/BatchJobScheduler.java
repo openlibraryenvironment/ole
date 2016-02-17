@@ -9,13 +9,14 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.launch.JobLauncher;
 
 import static org.quartz.JobKey.*;
 import static org.quartz.TriggerKey.*;
 import static org.quartz.impl.matchers.GroupMatcher.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BatchJobScheduler {
@@ -28,29 +29,25 @@ public class BatchJobScheduler {
     }
 
     /**
-     * Create a new batch job and register it in the scheduler
-     * 
-     * @param jobName
-     *            the name of the job
-     * @param triggerName
-     *            the name of its trigger
-     * @param profileId
-     *            the ole batch profile id
-     * @param batchType
-     *            the ole batch job type
-     * @param url
-     *            the url of the rest controller to call, this is where the
-     *            actual batch job starts
-     * @param cronExpression
-     *            the cron expression to specify when the job should run
+     * Create a new Quartz job and register it in the scheduler.
+     * By using this method the batch job is triggered via a rest call.
+     * The url for this rest call has to be passed on to this method.
+     *
+     * @param jobName        the name of the Quartz Job
+     * @param triggerName    the name of its Quartz Trigger
+     * @param profileId      the ole batch profile id
+     * @param batchType      the ole batch job type
+     * @param url            the url of the rest controller to call, this is where the
+     *                       actual batch job starts
+     * @param cronExpression the cron expression to specify when the job should run
      * @throws Exception
      */
-    public void scheduleJob(String jobName, String triggerName, String profileId, String batchType, String url,
-            String cronExpression) throws Exception {
+    public void scheduleRestJob(String jobName, String triggerName, String profileId, String batchType, String url,
+                                String cronExpression) throws Exception {
         BatchJobLauncher batchJobLauncher = new BatchJobLauncher(profileId, batchType, url);
         MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
         jobDetail.setTargetObject(batchJobLauncher);
-        jobDetail.setTargetMethod("start");
+        jobDetail.setTargetMethod("startJobByRestCall");
         jobDetail.setName(jobName);
         jobDetail.setConcurrent(false);
         jobDetail.afterPropertiesSet();
@@ -63,10 +60,39 @@ public class BatchJobScheduler {
     }
 
     /**
+     * Create a new Quartz job and register it in the scheduler.
+     * By using this method the batch job gets executed directly as a Spring Batch Job.
+     * That Spring Batch Job has to be passed on to this method.
+     *
+     * @param job               the Spring Batch Job to be scheduled
+     * @param jobLauncher       the Spring Batch Job Launcher
+     * @param cronExpression    the cron expression to specify when the job should run
+     * @param quartzJobName     the name of the Quartz Job
+     * @param quartzTriggerName the name of its Quartz Trigger
+     * @throws Exception
+     */
+    public void scheduleSpringBatchJob(Job job, JobLauncher jobLauncher, String cronExpression,
+                                       String quartzJobName, String quartzTriggerName) throws Exception {
+        MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
+        BatchJobLauncher batchJobLauncher = new BatchJobLauncher();
+        jobDetail.setTargetObject(batchJobLauncher);
+        jobDetail.setTargetMethod("startSpringBatchJob");
+        jobDetail.setArguments(new Object[]{job, jobLauncher});
+        jobDetail.setName(quartzJobName);
+        jobDetail.setConcurrent(false);
+        jobDetail.afterPropertiesSet();
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity(quartzTriggerName)
+                .startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+                .build();
+        scheduler.scheduleJob(jobDetail.getObject(), trigger);
+    }
+
+    /**
      * Delete a job from the scheduler, will not be executed or listed anymore
-     * 
-     * @param jobName
-     *            the job to be removed
+     *
+     * @param jobName the job to be removed
      * @throws SchedulerException
      */
     public void deleteJob(String jobName) throws SchedulerException {
@@ -75,13 +101,10 @@ public class BatchJobScheduler {
 
     /**
      * Change scheduling for a given job with a given trigger.
-     * 
-     * @param jobName
-     *            the job to be rescheduled
-     * @param triggerName
-     *            the name of the new trigger
-     * @param cronExpression
-     *            the cron expression to specify when the job should run
+     *
+     * @param jobName        the job to be rescheduled
+     * @param triggerName    the name of the new trigger
+     * @param cronExpression the cron expression to specify when the job should run
      * @throws SchedulerException
      */
     public void rescheduleJob(String jobName, String triggerName, String cronExpression) throws SchedulerException {
@@ -96,7 +119,7 @@ public class BatchJobScheduler {
 
     /**
      * List all existing jobs
-     * 
+     *
      * @return a list of all job names
      * @throws SchedulerException
      */
@@ -112,9 +135,8 @@ public class BatchJobScheduler {
 
     /**
      * List all triggers for one given job
-     * 
-     * @param jobName
-     *            the job you want to find the triggers for
+     *
+     * @param jobName the job you want to find the triggers for
      * @return
      * @throws SchedulerException
      */
@@ -129,7 +151,7 @@ public class BatchJobScheduler {
 
     /**
      * Start scheduler with all scheduled jobs.
-     * 
+     *
      * @throws SchedulerException
      */
     public void startScheduler() throws SchedulerException {
@@ -138,7 +160,7 @@ public class BatchJobScheduler {
 
     /**
      * Stop scheduler. No job will be executed.
-     * 
+     *
      * @throws SchedulerException
      */
     public void stopScheduler() throws SchedulerException {

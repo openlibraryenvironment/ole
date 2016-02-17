@@ -7,7 +7,7 @@ public class BatchJobSchedulerTest {
             BatchJobScheduler batchJobScheduler = new BatchJobScheduler();
 
             // Schedule a job
-            batchJobScheduler.scheduleJob("job1", "trigger1", "1", "Bib Import",
+            batchJobScheduler.scheduleRestJob("job1", "trigger1", "1", "Bib Import",
                     "http://localhost:8080/olefs/rest/batch/upload", ("0/5 * * * * ?"));
 
             batchJobScheduler.startScheduler();
