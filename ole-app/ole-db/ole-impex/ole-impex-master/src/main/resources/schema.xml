@@ -12073,7 +12073,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OLE_POBA_ID" size="10" type="DECIMAL"/>
-        <column name="UPLD_FILE_NM" size="60" type="VARCHAR"/>
+        <column name="UPLD_FILE_NM" size="120" type="VARCHAR"/>
         <column name="UPLD_TYPE" size="40" type="VARCHAR"/>
         <column name="POBA_START_DT"  type="DATE"/>
         <column name="POBA_START_TM"  size="40" type="VARCHAR"/>
