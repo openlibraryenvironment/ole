@@ -1,3 +1,5 @@
+                                $scope.searchResults = data.response.docs;
+                                $rootScope.searched = true;
 var app = angular.module("transferApp", ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap', 'ui.tree', 'angularUtils.directives.dirPagination']);
 
 app.controller('searchController', ['$scope', '$http', '$rootScope', searchConditions]);
@@ -6,7 +8,7 @@ function searchConditions($scope, $http, $rootScope) {
     $scope.total_count;
     $scope.itemsPerPage = 10;
     $rootScope.baseUri = '/oledocstore/bib/select?q='
-    $rootScope.searched = true;
+    $rootScope.searched = false;
     $scope.showEntryInfo;
     //$scope.rows = 10;
     $scope.start = 0;
@@ -221,6 +223,11 @@ function searchConditions($scope, $http, $rootScope) {
     };
 
     $scope.search = function () {
+        $scope.start = 0;
+        $scope.itemsPerPage = 10;
+        $scope.total_count;
+        $rootScope.searchResults;
+        $scope.searchResults;
         buildSearchConditionsWithJoin();
         searchSolrForResults();
     };
@@ -407,7 +414,7 @@ function searchConditions($scope, $http, $rootScope) {
             success(function (data) {
                 $rootScope.searchResults = data.response.docs;
                 $scope.searchResults = data.response.docs;
-                $rootScope.searched = false;
+                $rootScope.searched = true;
                 var displayedItems;
                 if(parseInt($scope.start + $scope.itemsPerPage) < $scope.total_count){
                     displayedItems = parseInt($scope.start + $scope.itemsPerPage);
