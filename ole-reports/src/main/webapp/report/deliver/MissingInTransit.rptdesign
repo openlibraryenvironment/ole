@@ -130,7 +130,7 @@ if(dbVendor!=null){
 		this.queryText = this.queryText+" and (trunc(o1.ITEM_RETURNED_DT) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD'))";
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
 	    this.queryText = this.queryText+" and (item.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or hldg.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
-	    this.queryText = this.queryText+" and (o1.ITEM_RETURNED_DT >= DATE('"+params["From"].value+"') AND o1.ITEM_RETURNED_DT < (DATE('"+params["To"].value+"') + INTERVAL 1 DAY))";	    
+	    this.queryText = this.queryText+" and (o1.ITEM_RETURNED_DT >= DATE('"+params["From"].value+"') AND o1.ITEM_RETURNED_DT < (DATE('"+params["To"].value+"') + INTERVAL 1 DAY))";
 	}
 }
 
@@ -139,13 +139,13 @@ if(params["InTransit Items"].value == "Incoming"){
 	    deliverReport.getItemAvailabilityStatus(this.queryText);
 }
 else if (params["InTransit Items"].value == "Outgoing") {
-		this.queryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_LOAN_INTRANSIT_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
+		this.queryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_RETURN_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
 	    deliverReport.getItemAvailabilityStatus(this.queryText);
 }
 else {
 		incomingQueryText = this.queryText+" and (o1.CIR_DESK_ROUTE_TO in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
 		
-		outgoingQueryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_LOAN_INTRANSIT_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
+		outgoingQueryText = this.queryText+" and o1.ITEM_RETURNED_DT = (SELECT max(o2.ITEM_RETURNED_DT) FROM OLE_RETURN_HISTORY_T o2 WHERE o2.item_uuid = o1.item_uuid  and o2.CIR_DESK_LOC in (SELECT OLE_CRCL_DSK_CODE FROM OLE_CRCL_DSK_T WHERE OLE_CRCL_DSK_ID IN (SELECT OLE_CRCL_DSK_ID FROM OLE_CRCL_DSK_LOCN_T WHERE OLE_CRCL_DSK_LOCN IN (select locn_id from ole_locn_t where locn_cd in ('"+params["Library"].value.join("','")+"'))  )))";
 		
 		this.queryText = incomingQueryText + " union " + outgoingQueryText;
 	    deliverReport.getItemAvailabilityStatus(this.queryText);
@@ -178,7 +178,7 @@ FROM
 	OLE_DS_ITEM_T ITEM,
 	OLE_DS_HOLDINGS_T hldg,
         OLE_CAT_ITM_TYP_T OCIT,
-	OLE_LOAN_INTRANSIT_HISTORY_T o1,
+	OLE_RETURN_HISTORY_T o1,
         OLE_DS_BIB_INFO_T BIB
 WHERE 
 	ITEM.ITEM_STATUS_ID IN (SELECT ITEM_AVAIL_STAT_ID FROM OLE_DLVR_ITEM_AVAIL_STAT_T WHERE ITEM_AVAIL_STAT_CD IN ('INTRANSIT', 'INTRANSIT-PER-STAFF-REQUEST', 'INTRANSIT-FOR-HOLD', 'INTRANSIT-FOR-LOAN')) AND
