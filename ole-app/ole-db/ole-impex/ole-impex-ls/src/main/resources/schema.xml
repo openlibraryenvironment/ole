@@ -1078,7 +1078,7 @@
         <column name="OLE_MACH_ID" size="80" type="VARCHAR"/>
         <column name="ARCH_DT_TIME" required="true" type="DATE"/>
         <column name="OLE_REQ_OUTCOME_STATUS" size="80" type="VARCHAR"/>
-        <column name="CRTE_DT_TIME" required="true" type="DATE"/>
+        <column name="CRTE_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>
@@ -1098,7 +1098,7 @@
         <column name="RQST_EXPIR_DT_TIME" type="DATE"/>
         <column name="RCAL_NTC_SNT_DT" type="DATE"/>
         <column name="ONHLD_NTC_SNT_DT" type="DATE"/>
-        <column name="CRTE_DT_TIME" type="DATE"/>
+        <column name="CRTE_DT_TIME" type="TIMESTAMP"/>
         <column name="MODI_DT_TIME" type="DATE"/>
         <column name="CPY_FRMT" size="40" type="VARCHAR"/>
         <column name="LOAN_TRAN_ID" size="40" type="VARCHAR"/>

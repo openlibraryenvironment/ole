@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
@@ -77,8 +78,8 @@ public class OleDeliverRequestDefinition extends AbstractDataTransferObject impl
     private final String patronName;
 
     @XmlElement(name = Elements.CREATE_DATE, required = false)
-    @XmlJavaTypeAdapter(value = DateAdapter.class, type = Date.class)
-    private final Date createDate;
+    @XmlJavaTypeAdapter(value = DateAdapter.class, type = Timestamp.class)
+    private final Timestamp createDate;
 
     @XmlElement(name = Elements.BORR_QUEUE_POS, required = false)
     private final Integer borrowerQueuePosition;
@@ -205,7 +206,7 @@ public class OleDeliverRequestDefinition extends AbstractDataTransferObject impl
     }
 
     @Override
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return this.createDate;
     }
 
@@ -235,7 +236,7 @@ public class OleDeliverRequestDefinition extends AbstractDataTransferObject impl
         private String itemId;
         private String requestId;
         private Integer borrowerQueuePosition;
-        private Date createDate;
+        private Timestamp createDate;
         private OleDeliverRequestTypeDefinition.Builder oleDeliverRequestType;
 
 
@@ -367,7 +368,7 @@ public class OleDeliverRequestDefinition extends AbstractDataTransferObject impl
             this.borrowerQueuePosition = borrowerQueuePosition;
         }
 
-        public void setCreateDate(Date createDate) {
+        public void setCreateDate(Timestamp createDate) {
             this.createDate = createDate;
         }
 
@@ -388,7 +389,7 @@ public class OleDeliverRequestDefinition extends AbstractDataTransferObject impl
         }
 
         @Override
-        public Date getCreateDate() {
+        public Timestamp getCreateDate() {
             return this.createDate;
         }
 
