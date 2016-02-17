@@ -56,7 +56,7 @@
         <!--<bean id="circGoToReturn" parent="Uif-SecondaryActionButton" p:actionLabel="Go to Return" p:methodToCall="goToReturn">
             <property name="cssClasses" value="uif-linkField"/>
         </bean>-->
-        <bean id="circGoToReturn" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="#" p:onClickScript="submitForm('goToReturn',null,null,null,null);" p:linkText="Go to Return" p:target="_self" />
+        <bean id="circGoToReturn" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Create&amp;channelUrl=@{urlBase}/ole-kr-krad/checkincontroller?viewId=checkinView&amp;methodToCall=start&amp;methodToCall=refresh" p:linkText="Go to Return" p:target="_blank" />
     </list>
 </property>
 </bean>
