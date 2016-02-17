@@ -39,7 +39,7 @@
 
 
 
-<div class="row" ng-controller="treesController" ng-hide="searched">
+<div class="row" ng-controller="treesController" ng-show="searched">
     <div align="center">
         <button class="btn btn-primary btn-sm" ng-click="copyToTree1()">Copy to Tree1</button>
         <button class="btn btn-primary btn-sm" ng-click="copyToTree2()">Copy to Tree2</button>
@@ -47,7 +47,7 @@
 
     <div class="col-sm-6">
         <h3>Tree 1</h3>
-        <span class="messageClass" ng-bind="message" ng-show="message!=null"/>
+        <span class="messageClass" ng-bind="message" ng-show="message!='' "/>
 
         <div ui-tree id="tree1-root">
             <ol ui-tree-nodes="" ng-model="tree1">
