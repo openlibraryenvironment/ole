@@ -516,9 +516,10 @@ public class OleRequisitionAction extends RequisitionAction {
                 for (VendorTransmissionFormatDetail iter : vendorTransmissionFormat) {
                     if (iter.isVendorPreferredTransmissionFormat()) {
                         if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat() != null) {
-                            if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_EDI) ||
-                                    iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_PDF)) {
+                            if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_EDI)) {
                                 document.setPurchaseOrderTransmissionMethodCode(OleSelectConstant.METHOD_OF_PO_TRANSMISSION_NOPR);
+                            } else if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_PDF)) {
+                                document.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.PRINT);
                             } else {
                                 document.setPurchaseOrderTransmissionMethodCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE));
                             }
