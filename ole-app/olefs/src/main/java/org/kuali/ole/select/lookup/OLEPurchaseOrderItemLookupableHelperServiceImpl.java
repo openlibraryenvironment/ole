@@ -1,17 +1,20 @@
 package org.kuali.ole.select.lookup;
 
 
-import org.hsqldb.lib.StringUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OleLookupableImpl;
+import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
-import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.rice.krad.web.form.LookupForm;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OLEPurchaseOrderItemLookupableHelperServiceImpl extends OleLookupableImpl {
 
@@ -19,21 +22,27 @@ public class OLEPurchaseOrderItemLookupableHelperServiceImpl extends OleLookupab
         Map<String, String> criteria = new HashMap<String, String>();
         List<OLEPurchaseOrderItemSearch> searchResults = new ArrayList<OLEPurchaseOrderItemSearch>();
         List<OlePurchaseOrderItem> purchaseOrderItems = new ArrayList<OlePurchaseOrderItem>();
-        if(searchCriteria.get("vendorDetailAssignedIdentifier")!=null && !searchCriteria.get("vendorDetailAssignedIdentifier").isEmpty()){
-            criteria.put("purchaseOrder.vendorDetailAssignedIdentifier",searchCriteria.get("vendorDetailAssignedIdentifier"));
+
+        if (StringUtils.isNotBlank(searchCriteria.get("vendorDetailAssignedIdentifier"))) {
+            criteria.put("vendorDetailAssignedIdentifier", searchCriteria.get("vendorDetailAssignedIdentifier"));
         }
-        if(searchCriteria.get("vendorHeaderGeneratedIdentifier")!=null && !searchCriteria.get("vendorHeaderGeneratedIdentifier").isEmpty()){
-            criteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier",searchCriteria.get("vendorHeaderGeneratedIdentifier"));
+        if (StringUtils.isNotBlank(searchCriteria.get("vendorHeaderGeneratedIdentifier"))) {
+            criteria.put("vendorHeaderGeneratedIdentifier", searchCriteria.get("vendorHeaderGeneratedIdentifier"));
         }
-        if (StringUtil.isEmpty(searchCriteria.get("purapDocumentIdentifier"))) {
-            purchaseOrderItems = (List<OlePurchaseOrderItem>)getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, criteria);
+        if (StringUtils.isNotBlank(searchCriteria.get("purapDocumentIdentifier")) && isNumber(searchCriteria.get("purapDocumentIdentifier"))) {
+            criteria.put("purapDocumentIdentifier", searchCriteria.get("purapDocumentIdentifier"));
         }
-        else if(isNumber(searchCriteria.get("purapDocumentIdentifier"))){
-            if(searchCriteria.get("purapDocumentIdentifier")!=null && !searchCriteria.get("purapDocumentIdentifier").isEmpty()){
-                criteria.put("purchaseOrder.purapDocumentIdentifier",searchCriteria.get("purapDocumentIdentifier"));
+
+        List<OlePurchaseOrderDocument> purchaseOrderDocuments = (List<OlePurchaseOrderDocument>) getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, criteria);
+        if (CollectionUtils.isNotEmpty(purchaseOrderDocuments)) {
+            for (OlePurchaseOrderDocument olePurchaseOrderDocument : purchaseOrderDocuments) {
+                if (olePurchaseOrderDocument.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
+                    List<OlePurchaseOrderItem> olePurchaseOrderItems = olePurchaseOrderDocument.getItemsActiveOnly();
+                    purchaseOrderItems.addAll(olePurchaseOrderItems);
+                }
             }
-            purchaseOrderItems = (List<OlePurchaseOrderItem>)getBusinessObjectService().findMatching(OlePurchaseOrderItem.class,criteria);
         }
+
         OLEPurchaseOrderItemSearch poItemSearch;
         for (OlePurchaseOrderItem poItem : purchaseOrderItems) {
             if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
