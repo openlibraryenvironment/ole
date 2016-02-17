@@ -32,8 +32,10 @@ public class StepsProcessor {
             for (Iterator<BatchProfileDataTransformer> iterator = handlersToProcess.keySet().iterator(); iterator.hasNext(); ) {
                 BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
                 StepHandler stepHandler = handlersToProcess.get(batchProfileDataTransformer);
-                stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
-                stepHandler.processSteps(marcRecord);
+                if (null != stepHandler) {
+                    stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
+                    stepHandler.processSteps(marcRecord);
+                }
             }
 
             handlersToProcess.clear();

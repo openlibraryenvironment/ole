@@ -25,10 +25,12 @@ public class PrependHandler extends StepHandler {
         String destinationSubField = getBatchProfileDataTransformer().getDestSubField();
 
         String value = null;
-        if(getMarcRecordUtil().isControlField(sourceField)) {
-            value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
-        } else {
-            value = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord,sourceField,ind1,ind2,subField);
+        if (StringUtils.isNotBlank(sourceField)) {
+            if(getMarcRecordUtil().isControlField(sourceField)) {
+                value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
+            } else {
+                value = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord,sourceField,ind1,ind2,subField);
+            }
         }
 
         if(StringUtils.isBlank(value)){
