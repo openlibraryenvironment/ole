@@ -220,7 +220,8 @@ public class BatchRestController extends OleNgControllerBase {
         batchJobDetails.setJobName(batchProcessJob.getJobName());
         batchJobDetails.setProfileType(batchProcessJob.getProfileType());
         batchJobDetails.setProfileName(batchProcessJob.getBatchProfileName());
-        batchJobDetails.setCreatedBy(batchProcessJob.getCreatedBy());
+        String loginUser = GlobalVariables.getUserSession().getPrincipalName();
+        batchJobDetails.setCreatedBy(loginUser); // Job initiated by
         batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
         batchJobDetails.setStatus("RUNNING");
         batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));

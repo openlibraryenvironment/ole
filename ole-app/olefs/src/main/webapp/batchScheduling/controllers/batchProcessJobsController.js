@@ -29,7 +29,7 @@ var weekDays = [
 
 var monthDays = [];
 
-batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', function ($scope, $http) {
+batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', 'DTOptionsBuilder', function ($scope, $http, $interval, DTOptionsBuilder) {
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
@@ -46,6 +46,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     $scope.init = function() {
         $scope.initializeJobs();
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('aaSorting', [[0, 'desc']]);
     };
 
     $scope.initializeCreateJob = function() {
@@ -226,5 +227,13 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             $scope.batchProcessJobs.splice(index, 1);
         });
     };
+
+    $scope.enableAutoRefresh = function() {
+        $interval(function() {
+            if ($scope.selected == 3) {
+                $scope.initializeExecutions()
+            }
+        }, 5000);
+    }
 
 }]);
