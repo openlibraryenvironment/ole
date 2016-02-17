@@ -2,6 +2,7 @@ package org.kuali.ole.spring.batch.handlers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.util.StringUtil;
 import org.marc4j.marc.Record;
 
 /**
@@ -14,20 +15,22 @@ public class ReplaceStepHandler extends StepHandler {
         */
     @Override
     public void processSteps(Record marcRecord) {
-        String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
 
-        String sourceFieldStringArray[] = sourceFieldString.split(OleNGConstants.SPACE_SPLIT);
-        String sourceField = sourceFieldStringArray[0];
+        String sourceField = getBatchProfileDataTransformer().getDataField();
+        String ind1 = getBatchProfileDataTransformer().getInd1();
+        String ind2 = getBatchProfileDataTransformer().getInd2();
+        String subField = getBatchProfileDataTransformer().getSubField();
 
         String constantField = getBatchProfileDataTransformer().getConstant();
         if (StringUtils.isBlank(constantField)) {
             constantField = "";
         }
-        if (getMarcRecordUtil().isControlField(sourceField)) {
-            getMarcRecordUtil().updateControlFieldValue(marcRecord, sourceField, constantField);
-        } else {
-            String sourceSubField = (sourceFieldStringArray.length > 1 ? sourceFieldStringArray[1] : "");
-            getMarcRecordUtil().updateDataFieldValue(marcRecord, sourceField, sourceSubField, constantField);
+        if (StringUtils.isNotBlank(sourceField)) {
+            if (getMarcRecordUtil().isControlField(sourceField)) {
+                getMarcRecordUtil().updateControlFieldValue(marcRecord, sourceField, constantField);
+            } else {
+                getMarcRecordUtil().updateDataFieldValue(marcRecord, sourceField, ind1, ind2, subField, constantField);
+            }
         }
     }
 

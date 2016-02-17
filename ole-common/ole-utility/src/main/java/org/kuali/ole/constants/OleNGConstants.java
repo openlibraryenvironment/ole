@@ -152,10 +152,13 @@ public class OleNGConstants {
     public static final String MDF_ = "mdf_";
     public static final String CONTROL_FIELD_ = "controlfield_";
     public static final String BIB_QUERY_BEGIN = "((DocType:bibliographic) AND (";
-    public static final String NEW = "New";
-    public static final String DELETE_TAG = "Delete Tag";
-    public static final String DELETE_VALUE = "Delete Value";
-    public static final String MOVE = "Move";
+    public static final String ADD_FIELD = "Add Field";
+    public static final String ADD_SUBFIELD = "Add Subfield";
+    public static final String DELETE_FIELD = "Delete Field";
+    public static final String DELETE_SUBFIELD = "Delete Subfield";
+    public static final String REMOVE_VALUE = "Remove Value";
+    public static final String COPY_PASTE = "Copy and Paste";
+    public static final String CUT_PASTE = "Cut and Paste";
     public static final String PREPEND_WITH_PREFIX = "Prepend with Prefix";
     public static final String REPLACE = "Replace";
     public static final String SPACE_SPLIT = "[' ']";

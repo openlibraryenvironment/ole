@@ -85,9 +85,9 @@ isValidFieldOperationRow = function (fieldOperationRow, index, $scope) {
 
 isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
     var isValid = true;
-    if (isFieldEmpty(dataTransformationRow.dataTransformationSourceField)) {
-        $scope.batchProfileForm['dataTransformationSourceField_' + index].$dirty = true;
-        $scope.batchProfileForm['dataTransformationSourceField_' + index].$invalid = true;
+    if (isFieldEmpty(dataTransformationRow.dataField)) {
+        $scope.batchProfileForm['dataTransformationSourceDataField_' + index].$dirty = true;
+        $scope.batchProfileForm['dataTransformationSourceDataField_' + index].$invalid = true;
         isValid = false;
     }
     if (isFieldEmpty(dataTransformationRow.dataTransformationOperation)) {
@@ -95,10 +95,10 @@ isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
         $scope.batchProfileForm['dataTransformationOperation_' + index].$invalid = true;
         isValid = false;
     }
-    if (isFieldEmpty(dataTransformationRow.dataTransformationDestinationField)) {
+    if (isFieldEmpty(dataTransformationRow.destDataField)) {
         if (dataTransformationRow.dataTransformationOperation == 'Move' || dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix' || dataTransformationRow.dataTransformationOperation == 'Replace') {
-            $scope.batchProfileForm['dataTransformationDestinationField_' + index].$dirty = true;
-            $scope.batchProfileForm['dataTransformationDestinationField_' + index].$invalid = true;
+            $scope.batchProfileForm['dataTransformationDestDataField_' + index].$dirty = true;
+            $scope.batchProfileForm['dataTransformationDestDataField_' + index].$invalid = true;
             isValid = false;
         }
     }
@@ -109,6 +109,7 @@ isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
             isValid = false;
         }
     }
+    console.log(isValid);
     return isValid;
 };
 
@@ -138,12 +139,12 @@ makeDataMappingValid = function ($scope) {
 };
 
 makeDataTransformationValid = function ($scope) {
-    $scope.batchProfileForm['dataTransformationSourceField_0'].$dirty = false;
-    $scope.batchProfileForm['dataTransformationSourceField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationSourceDataField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationSourceDataField_0'].$invalid = false;
     $scope.batchProfileForm['dataTransformationOperation_0'].$dirty = false;
     $scope.batchProfileForm['dataTransformationOperation_0'].$invalid = false;
-    $scope.batchProfileForm['dataTransformationDestinationField_0'].$dirty = false;
-    $scope.batchProfileForm['dataTransformationDestinationField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationDestDataField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationDestDataField_0'].$invalid = false;
     $scope.batchProfileForm['dataTransformationConstant_0'].$dirty = false;
     $scope.batchProfileForm['dataTransformationConstant_0'].$invalid = false;
 };

@@ -542,12 +542,15 @@ var transferOptions = [
 ];
 
 var transformationOperations = [
-    {id: 'new', name: 'New'},
-    {id: 'deleteTag', name: 'Delete Tag'},
-    {id: 'deleteValue', name: 'Delete Value'},
-    {id: 'replace', name: 'Replace'},
-    {id: 'move', name: 'Move'},
-    {id: 'prepend', name: 'Prepend with Prefix'}
+    {id: 'deleteField', name: 'Delete Field'},
+    {id: 'deleteSubfield', name: 'Delete SubField'},
+    {id: 'removeValue', name: 'Remove Value'},
+    {id: 'copyPaste', name: 'Copy and Paste'},
+    {id: 'cutPaste', name: 'Cut and Paste'},
+    {id: 'addField', name: 'Add Field'},
+    {id: 'addSubfield', name: 'Add Subfield'},
+    {id: 'prepend', name: 'Prepend with Prefix'},
+    {id: 'replace', name: 'Replace'}
 ];
 
 var invoiceFieldObject = {
