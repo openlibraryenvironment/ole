@@ -14,14 +14,15 @@
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
                 <p style="color:red" ng-show="batchProfileForm['dataTransformationSourceDataField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationSourceDataField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Source Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationSourceSubField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationSourceSubField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Source Subfield is required</p>
                 <p style="color:red" ng-show="batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Operation is required</p>
                 <p style="color:red" ng-show="batchProfileForm['dataTransformationDestDataField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationDestDataField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationDestSubField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationDestSubField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Subfield is required</p>
                 <p style="color:red" ng-show="batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Value is required</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
                         <th>Doc Type</th>
-                        <!--<th>Action Type</th>-->
                         <th>Data/Control Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
