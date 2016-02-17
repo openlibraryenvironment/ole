@@ -15,14 +15,23 @@
             $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
-            $scope.tree1 = bibTree;
+            //$scope.$watch('bibTree', function () {
+                if(bibTree.length > 0){
+                    $scope.tree1 = bibTree;
+                }
+            //},true);
+
         };
 
         $scope.copyToTree2 = function () {
             $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
-            $scope.tree2 = bibTree;
+            //$scope.$watch('bibTree', function () {
+                if(bibTree.length > 0){
+                    $scope.tree2 = bibTree;
+                }
+            //},true);
         };
 
         $rootScope.updateMessage = function () {

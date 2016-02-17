@@ -55,7 +55,7 @@ public class NgTransferController {
             e.printStackTrace();
             if(e.getErrorMessage().equalsIgnoreCase(DocstoreResources.HOLDINGS_BIND_WITH_MULTIPLE_BIB)){
                 requestObject.put("message", DocstoreConstants.TRANSFER_BOUND_WITH_ERROR_MESSAGE);
-                requestObject.toString();
+                return requestObject.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
