@@ -17,14 +17,20 @@ public class BatchProfileDataTransformer extends MarcDataField {
     @JsonProperty("dataTransformationActionType")
     private String actionType;
 
-    @JsonProperty("dataTransformationSourceField")
-    private String sourceField;
-
     @JsonProperty("dataTransformationOperation")
     private String operation;
 
-    @JsonProperty("dataTransformationDestinationField")
-    private String destinationField;
+    @JsonProperty("destinationDataField")
+    private String destDataField;
+
+    @JsonProperty("destinationInd1")
+    private String destInd1;
+
+    @JsonProperty("destinationInd2")
+    private String destInd2;
+
+    @JsonProperty("destinationSubField")
+    private String destSubField;
 
     @JsonProperty("dataTransformationConstant")
     private String constant;
@@ -42,7 +48,7 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public String getDataType() {
         return dataType;
-    }
+}
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
@@ -54,30 +60,6 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public void setActionType(String actionType) {
         this.actionType = actionType;
-    }
-
-    public String getSourceField() {
-        return sourceField;
-    }
-
-    public void setSourceField(String sourceField) {
-        this.sourceField = sourceField;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public String getDestinationField() {
-        return destinationField;
-    }
-
-    public void setDestinationField(String destinationField) {
-        this.destinationField = destinationField;
     }
 
     public String getConstant() {
@@ -94,5 +76,46 @@ public class BatchProfileDataTransformer extends MarcDataField {
 
     public void setStep(Integer step) {
         this.step = step;
+    }
+
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getDestDataField() {
+        return destDataField;
+    }
+
+    public void setDestDataField(String destDataField) {
+        this.destDataField = destDataField;
+    }
+
+    public String getDestInd1() {
+        return destInd1;
+    }
+
+    public void setDestInd1(String destInd1) {
+        this.destInd1 = destInd1;
+    }
+
+    public String getDestInd2() {
+        return destInd2;
+    }
+
+    public void setDestInd2(String destInd2) {
+        this.destInd2 = destInd2;
+    }
+
+    public String getDestSubField() {
+        return destSubField;
+    }
+
+    public void setDestSubField(String destSubField) {
+        this.destSubField = destSubField;
     }
 }

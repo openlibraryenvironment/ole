@@ -365,9 +365,15 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.dataTransformationsPanel.push(dataTransformationRow);
         $scope.dataTransformationsPanel[0].dataTransformationDocType = 'Bib Marc';
         $scope.dataTransformationsPanel[0].dataTransformationActionType = 'All';
-        $scope.dataTransformationsPanel[0].dataTransformationSourceField = null;
+        $scope.dataTransformationsPanel[0].dataField = null;
+        $scope.dataTransformationsPanel[0].ind1 = null;
+        $scope.dataTransformationsPanel[0].ind2 = null;
+        $scope.dataTransformationsPanel[0].sufField = null;
         $scope.dataTransformationsPanel[0].dataTransformationOperation = null;
-        $scope.dataTransformationsPanel[0].dataTransformationDestinationField = null;
+        $scope.dataTransformationsPanel[0].destDataField = null;
+        $scope.dataTransformationsPanel[0].destInd1 = null;
+        $scope.dataTransformationsPanel[0].destInd2 = null;
+        $scope.dataTransformationsPanel[0].destSubField = null;
         $scope.dataTransformationsPanel[0].dataTransformationConstant = null;
         $scope.dataTransformationsPanel[0].dataTransformationStep = 1;
     };
@@ -499,9 +505,15 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         var dataTransformationNewRow = {
             dataTransformationDocType: $scope.dataTransformationsPanel[index].dataTransformationDocType,
             dataTransformationActionType: $scope.dataTransformationsPanel[index].dataTransformationActionType,
-            dataTransformationSourceField: $scope.dataTransformationsPanel[index].dataTransformationSourceField,
+            dataField: $scope.dataTransformationsPanel[index].dataField,
+            ind1: $scope.dataTransformationsPanel[index].ind1,
+            ind2: $scope.dataTransformationsPanel[index].ind2,
+            subField: $scope.dataTransformationsPanel[index].subField,
             dataTransformationOperation: $scope.dataTransformationsPanel[index].dataTransformationOperation,
-            dataTransformationDestinationField: $scope.dataTransformationsPanel[index].dataTransformationDestinationField,
+            destDataField: $scope.dataTransformationsPanel[index].destDataField,
+            destInd1: $scope.dataTransformationsPanel[index].destInd1,
+            destInd2: $scope.dataTransformationsPanel[index].destInd2,
+            destSubField: $scope.dataTransformationsPanel[index].destSubField,
             dataTransformationConstant: $scope.dataTransformationsPanel[index].dataTransformationConstant,
             dataTransformationStep: $scope.dataTransformationsPanel[index].dataTransformationStep,
             isAddLine: true,
@@ -548,17 +560,29 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         dataTransformation.dataTransformationAction = 'Add';
         dataTransformation.dataTransformationField = null;
         dataTransformation.dataTransformationFieldValue = null;
-        dataTransformation.dataTransformationSourceField = null;
+        dataTransformation.dataField = null;
+        dataTransformation.ind1 = null;
+        dataTransformation.ind2 = null;
+        dataTransformation.subField = null;
         dataTransformation.dataTransformationOperation = null;
-        dataTransformation.dataTransformationDestinationField = null;
+        dataTransformation.destDataField = null;
+        dataTransformation.destInd1 = null;
+        dataTransformation.destInd2 = null;
+        dataTransformation.destSubField = null;
     };
 
     $scope.setDefaultsAction = function (dataTransformation) {
         dataTransformation.dataTransformationField = null;
         dataTransformation.dataTransformationFieldValue = null;
-        dataTransformation.dataTransformationSourceField = null;
+        dataTransformation.dataField = null;
+        dataTransformation.ind1 = null;
+        dataTransformation.ind2 = null;
+        dataTransformation.subField = null;
         dataTransformation.dataTransformationOperation = null;
-        dataTransformation.dataTransformationDestinationField = null;
+        dataTransformation.destDataField = null;
+        dataTransformation.destInd1 = null;
+        dataTransformation.destInd2 = null;
+        dataTransformation.destSubField = null;
     };
 
     $scope.setDefaultsAddOrOverlay = function (batchProcessType, addOrOverlay) {
