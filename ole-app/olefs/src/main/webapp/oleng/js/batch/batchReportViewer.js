@@ -17,7 +17,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.showReport = function(fileName) {
-        resetSectionForNextModal();
+        $scope.reportContent = null;
+        $scope.batchReportViewer.showModal = false;
         document.getElementById('modalContentId').style.width = '950px';
         document.getElementById('modalContentId').style.height = '450px';
         document.getElementById('modalContentId').style.overflowX = 'auto';
@@ -229,16 +230,6 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
             "recordNumber" : reqResponse["recordNumber"]
         };
         return requisition;
-    }
-
-    function resetSectionForNextModal() {
-        $scope.reportContent = null;
-        $scope.batchReportViewer.showModal = false;
-        $scope.reportMainSectionPanel = [];
-        $scope.reportBibSectionPanel = [];
-        $scope.reportHoldingsSectionPanel = [];
-        $scope.reportItemSectionPanel = [];
-        $scope.reportEHoldingsSectionPanel = [];
     }
 
 }]);
