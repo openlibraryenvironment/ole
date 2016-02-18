@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="existingLoanItemListSection-HorizontalBoxSection" p:disclosure.defaultOpen="true" p:onClickScript="toggleExistingLoanSection()" parent="Uif-VerticalBoxSection" p:render="@{existingLoanList ne null and existingLoanList.size() > 0 and showExistingLoan}" p:style="width:1300px;padding-top: 15px;">
+    <bean id="existingLoanItemListSection-HorizontalBoxSection" p:disclosure.defaultOpen="true"  parent="Uif-VerticalBoxSection" p:render="@{existingLoanList ne null and existingLoanList.size() > 0 and showExistingLoan}" p:style="width:1300px;margin-left:auto; margin-right:0;padding-top: 15px;">
         <property name="headerText" value="&lt;a&gt;All Items Currently Checked Out&lt;/a&gt;"/>
         <property name="items">
             <list>
