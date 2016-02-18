@@ -894,6 +894,7 @@
         <field-descriptor name="oleRequestId" column="OLE_RQST_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="repaymentFeePatronBillId" column="REPMNT_FEE_PTRN_BILL_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="checkInDate"  column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="overrideCheckInDateTime"  column="CHECK_IN_DT_TIME_OVR_RD" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="checkInOperatorId" column="CHECK_IN_OPTR_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="checkInMachineId" column="CHECK_IN_MACH_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
