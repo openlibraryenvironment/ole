@@ -35,6 +35,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                     populateBibImportReportFromContent(fileContent);
                 } else if (fileName.indexOf('OrderImport') != -1) {
                     populateOrderImportReportFromContent(fileContent);
+                } else if (fileName.indexOf('Invoice') != -1) {
+                    populateInvoiceImportReportFromContent(fileContent);
                 }
             }
             $scope.batchReportViewer.showModal = true;
@@ -86,6 +88,10 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
         $scope.reportReqSectionPanel.collapsed = false;
         $scope.reportReqAndPoSectionPanel.collapsed = false;
         $scope.reportNeitherReqNorPoSectionPanel.collapsed = false;
+
+        $scope.reportInvoiceSectionActivePanel = [0];
+        $scope.reportInvoiceSectionPanel = [];
+        $scope.reportInvoiceSectionPanel.collapsed = false;
     }
 
     function populateBibImportReportFromContent(fileContent) {
@@ -129,52 +135,13 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
 
 
     function populateOrderImportReportFromContent(fileContent) {
-        var reqOnlySectionContent = [];
-        var reqAndPoSectionContent = [];
-        var neitherReqNorPoSectionContent = [];
+        $scope.reportReqSectionPanel = getReqOnlySectionContent(fileContent);
+        $scope.reportReqAndPoSectionPanel = getReqAndPoSectionContent(fileContent);
+        $scope.reportNeitherReqNorPoSectionPanel = getNeitherReqNorPoSectionContent(fileContent);
+    }
 
-        var reqOnlyResponses = fileContent["reqOnlyResponses"];
-        if (reqOnlyResponses != null && reqOnlyResponses != undefined) {
-            for (var i = 0; i < reqOnlyResponses.length; i++) {
-                var reqOnlyOrderDatas = reqOnlyResponses[i]["orderDatas"];
-                if (reqOnlyOrderDatas != null && reqOnlyOrderDatas != undefined) {
-                    for (var j = 0; j < reqOnlyOrderDatas.length; j++) {
-                        var requisition = getReqFromResponse(reqOnlyOrderDatas[j]);
-                        reqOnlySectionContent.push(requisition);
-                    }
-                }
-            }
-        }
-
-        var reqAndPOResponses = fileContent["reqAndPOResponses"];
-        if (reqAndPOResponses != null && reqAndPOResponses != undefined) {
-            for (var k = 0; k < reqAndPOResponses.length; k++) {
-                var reqAndPOOrderDatas = reqAndPOResponses[k]["orderDatas"];
-                if (reqAndPOOrderDatas != null && reqAndPOOrderDatas != undefined) {
-                    for (var l = 0; l < reqAndPOOrderDatas.length; l++) {
-                        var requisitionAndPo = getReqFromResponse(reqAndPOOrderDatas[l]);
-                        reqAndPoSectionContent.push(requisitionAndPo);
-                    }
-                }
-            }
-        }
-
-        var neitherReqNorPoResponses = fileContent["noReqNorPOResponses"];
-        if (neitherReqNorPoResponses != null && neitherReqNorPoResponses != undefined) {
-            for (var m = 0; m < neitherReqNorPoResponses.length; m++) {
-                var neitherReqNorPoOrderDatas = neitherReqNorPoResponses[m]["orderDatas"];
-                if (neitherReqNorPoOrderDatas != null && neitherReqNorPoOrderDatas != undefined) {
-                    for (var n = 0; n < neitherReqNorPoOrderDatas.length; n++) {
-                        var neitherReqNorPo = getReqFromResponse(neitherReqNorPoOrderDatas[n]);
-                        neitherReqNorPoSectionContent.push(neitherReqNorPo);
-                    }
-                }
-            }
-        }
-
-        $scope.reportReqSectionPanel = reqOnlySectionContent;
-        $scope.reportReqAndPoSectionPanel = reqAndPoSectionContent;
-        $scope.reportNeitherReqNorPoSectionPanel = neitherReqNorPoSectionContent;
+    function populateInvoiceImportReportFromContent(fileContent) {
+        $scope.reportInvoiceSectionPanel = getInvoiceSectionContent(fileContent);
     }
 
     function getMainSectionContent(fileContent) {
@@ -223,6 +190,57 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
         return item;
     }
 
+    function getReqOnlySectionContent(fileContent) {
+        var reqOnlySectionContent = [];
+        var reqOnlyResponses = fileContent["reqOnlyResponses"];
+        if (reqOnlyResponses != null && reqOnlyResponses != undefined) {
+            for (var i = 0; i < reqOnlyResponses.length; i++) {
+                var reqOnlyOrderDatas = reqOnlyResponses[i]["orderDatas"];
+                if (reqOnlyOrderDatas != null && reqOnlyOrderDatas != undefined) {
+                    for (var j = 0; j < reqOnlyOrderDatas.length; j++) {
+                        var requisition = getReqFromResponse(reqOnlyOrderDatas[j]);
+                        reqOnlySectionContent.push(requisition);
+                    }
+                }
+            }
+        }
+        return reqOnlySectionContent;
+    }
+
+    function getReqAndPoSectionContent(fileContent) {
+        var reqAndPoSectionContent = [];
+        var reqAndPOResponses = fileContent["reqAndPOResponses"];
+        if (reqAndPOResponses != null && reqAndPOResponses != undefined) {
+            for (var k = 0; k < reqAndPOResponses.length; k++) {
+                var reqAndPOOrderDatas = reqAndPOResponses[k]["orderDatas"];
+                if (reqAndPOOrderDatas != null && reqAndPOOrderDatas != undefined) {
+                    for (var l = 0; l < reqAndPOOrderDatas.length; l++) {
+                        var requisitionAndPo = getReqFromResponse(reqAndPOOrderDatas[l]);
+                        reqAndPoSectionContent.push(requisitionAndPo);
+                    }
+                }
+            }
+        }
+        return reqAndPoSectionContent;
+    }
+
+    function getNeitherReqNorPoSectionContent(fileContent) {
+        var neitherReqNorPoSectionContent = [];
+        var neitherReqNorPoResponses = fileContent["noReqNorPOResponses"];
+        if (neitherReqNorPoResponses != null && neitherReqNorPoResponses != undefined) {
+            for (var m = 0; m < neitherReqNorPoResponses.length; m++) {
+                var neitherReqNorPoOrderDatas = neitherReqNorPoResponses[m]["orderDatas"];
+                if (neitherReqNorPoOrderDatas != null && neitherReqNorPoOrderDatas != undefined) {
+                    for (var n = 0; n < neitherReqNorPoOrderDatas.length; n++) {
+                        var neitherReqNorPo = getReqFromResponse(neitherReqNorPoOrderDatas[n]);
+                        neitherReqNorPoSectionContent.push(neitherReqNorPo);
+                    }
+                }
+            }
+        }
+        return neitherReqNorPoSectionContent;
+    }
+
     function getReqFromResponse(reqResponse) {
         var requisition = {
             "title" : reqResponse["title"],
@@ -230,6 +248,27 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
             "recordNumber" : reqResponse["recordNumber"]
         };
         return requisition;
+    }
+
+    function getInvoiceSectionContent(fileContent) {
+        var invoiceSectionContent = [];
+        var invoiceResponses = fileContent["invoiceResponses"];
+        if (invoiceResponses != null && invoiceResponses != undefined) {
+            for (var p = 0; p < invoiceResponses.length; p++) {
+                var invoice = getInvoiceFromResponse(invoiceResponses[p]);
+                invoiceSectionContent.push(invoice);
+            }
+        }
+        return invoiceSectionContent;
+    }
+
+    function getInvoiceFromResponse(invoiceResponse) {
+        var invoice = {
+            "documentNumber" : invoiceResponse["documentNumber"],
+            "noOfRecordUnlinked" : invoiceResponse["noOfRecordUnlinked"],
+            "noOfRecordLinked" : invoiceResponse["noOfRecordLinked"]
+        };
+        return invoice;
     }
 
 }]);
