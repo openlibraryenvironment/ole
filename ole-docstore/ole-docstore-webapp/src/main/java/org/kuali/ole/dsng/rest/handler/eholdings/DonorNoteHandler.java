@@ -70,6 +70,7 @@ public class DonorNoteHandler extends HoldingsHandler {
                     oleHoldingsDonorRecord.setDonorNote(donorNote);
                     oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
                     oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                    donorList.add(oleHoldingsDonorRecord);
                 }
                 holdingRecord.setDonorList(donorList);
             }

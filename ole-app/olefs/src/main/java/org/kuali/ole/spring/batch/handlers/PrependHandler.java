@@ -11,52 +11,41 @@ import java.util.StringTokenizer;
  */
 public class PrependHandler extends StepHandler {
 
-    /*Eg of source field -  001 or 050 $a$b$c or any thing.
-     Eg of destination field - 035 $a$b,040 $c$b or anything.
-        */
     @Override
     public void processSteps(Record marcRecord) {
-        String sourceFieldString = getBatchProfileDataTransformer().getSourceField();
 
-        String sourceFieldStringArray[] = sourceFieldString.split(OleNGConstants.SPACE_SPLIT);
+        String sourceField = getBatchProfileDataTransformer().getDataField();
+        String ind1 = getBatchProfileDataTransformer().getInd1();
+        String ind2 = getBatchProfileDataTransformer().getInd2();
+        String subField = getBatchProfileDataTransformer().getSubField();
 
-        String sourceField = sourceFieldStringArray[0];
+        String destinationField = getBatchProfileDataTransformer().getDestDataField();
+        String destinationInd1 = getBatchProfileDataTransformer().getDestInd1();
+        String destinationInd2 = getBatchProfileDataTransformer().getDestInd2();
+        String destinationSubField = getBatchProfileDataTransformer().getDestSubField();
 
         String value = null;
-        if(getMarcRecordUtil().isControlField(sourceField)) {
-            value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
-        } else {
-            String sourceSubField = (sourceFieldStringArray.length > 1 ?  sourceFieldStringArray[1] : "");
-            value = getMarcRecordUtil().getDataFieldValue(marcRecord,sourceField,sourceSubField);
+        if (StringUtils.isNotBlank(sourceField)) {
+            if(getMarcRecordUtil().isControlField(sourceField)) {
+                value = getMarcRecordUtil().getControlFieldValue(marcRecord, sourceField);
+            } else {
+                value = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord,sourceField,ind1,ind2,subField);
+            }
         }
-        if(StringUtils.isBlank(value)) {
+
+        if(StringUtils.isBlank(value)){
             value = getBatchProfileDataTransformer().getConstant();
         }
 
-        String destinationFieldString = getBatchProfileDataTransformer().getDestinationField();
-        StringTokenizer destinationFieldTokenizer = new StringTokenizer(destinationFieldString,",");
-
         if (StringUtils.isNotBlank(value)) {
-            while(destinationFieldTokenizer.hasMoreTokens()){
-                String destination = destinationFieldTokenizer.nextToken();
-                String destinationArray[] = destination.split(OleNGConstants.SPACE_SPLIT);
-                String destinationField = destinationArray[0];
-                String destinationSubField = (destinationArray.length > 1 ?  destinationArray[1] : "");
-
-                if (!getMarcRecordUtil().isControlField(destinationField)) {
-                    StringTokenizer stringTokenizer = new StringTokenizer(destinationSubField, "$");
-                    while(stringTokenizer.hasMoreTokens()) {
-                        String tag = stringTokenizer.nextToken();
-                        String dataFieldValue = getMarcRecordUtil().getDataFieldValue(marcRecord, destinationField, tag);
-                        dataFieldValue = "(" + value + ")" + dataFieldValue;
-                        getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,tag,dataFieldValue);
-                    }
-                } else {
-                    String dataFieldValue = getMarcRecordUtil().getControlFieldValue(marcRecord, destinationField);
-                    dataFieldValue = "(" + value + ")" + dataFieldValue;
-                    getMarcRecordUtil().updateControlFieldValue(marcRecord,destinationField, dataFieldValue);
-                }
-
+            if (!getMarcRecordUtil().isControlField(destinationField) && StringUtils.isNotBlank(destinationSubField)) {
+                String dataFieldValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, destinationField, destinationInd1, destinationInd2, destinationSubField);
+                dataFieldValue = "(" + value + ")" + dataFieldValue;
+                getMarcRecordUtil().updateDataFieldValue(marcRecord,destinationField,destinationInd1, destinationInd2, destinationSubField,dataFieldValue);
+            } else if(getMarcRecordUtil().isControlField(destinationField)){
+                String dataFieldValue = getMarcRecordUtil().getControlFieldValue(marcRecord, destinationField);
+                dataFieldValue = "(" + value + ")" + dataFieldValue;
+                getMarcRecordUtil().updateControlFieldValue(marcRecord,destinationField, dataFieldValue);
             }
         }
     }

@@ -18,6 +18,7 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.reports.BatchOrderImportReportLogHandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
+import org.kuali.ole.oleng.resolvers.CreateNeitherReqNorPOHandler;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionAndPurchaseOrderHander;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;
 import org.kuali.ole.oleng.resolvers.OrderProcessHandler;
@@ -75,7 +76,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if (null != bibImportProfile) {
-
+                List<Record> recordToProcessBibImport = new ArrayList<>();
                 for (int index=0; index < records.size() ; index++) {
                     Record marcRecord = records.get(index);
                     String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
@@ -89,26 +90,27 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                         Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
                         OrderData orderData = new OrderData();
+                        orderData.setRecordNumber(String.valueOf(index + 1));
+                        orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                         if (null != results && results.size() == 1) {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
                             String bibId = (String) solrDocument.getFieldValue("id");
                             matchedRecords.put(bibId, marcRecord);
-                            orderData.setRecordNumber(String.valueOf(index + 1));
                             orderData.setSuccessfulMatchPoints(query);
-                            orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                             matchedOrderDatas.add(orderData);
                         } else {
                             unMatchedRecords.add(marcRecord);
-                            orderData.setRecordNumber(String.valueOf(index + 1));
-                            orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                             unmatchedOrderDatas.add(orderData);
                         }
                     }
                 }
 
+                recordToProcessBibImport.addAll(matchedRecords.values());
+                recordToProcessBibImport.addAll(unMatchedRecords);
+
                 OleNGBibImportResponse oleNGBibImportResponse = null;
-                if (CollectionUtils.isNotEmpty(unMatchedRecords)) {
-                    oleNGBibImportResponse = processBibImport(unMatchedRecords, bibImportProfile);
+                if (CollectionUtils.isNotEmpty(recordToProcessBibImport)) {
+                    oleNGBibImportResponse = processBibImport(recordToProcessBibImport, bibImportProfile);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -161,15 +163,17 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     }
 
     private void prepareResponse(String processType, List<OrderData> orderDatas, OleNGOrderImportResponse oleNGOrderImportResponse) {
-        OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setProcessType(processType);
-        orderResponse.setOrderDatas(orderDatas);
-        if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
-            oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
-        } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
-            oleNGOrderImportResponse.addReqOnlyResponse(orderResponse);
-        } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
-            oleNGOrderImportResponse.addNoReqNorPOResponse(orderResponse);
+        if (CollectionUtils.isNotEmpty(orderDatas)) {
+            OrderResponse orderResponse = new OrderResponse();
+            orderResponse.setProcessType(processType);
+            orderResponse.setOrderDatas(orderDatas);
+            if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
+                oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
+            } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
+                oleNGOrderImportResponse.addReqOnlyResponse(orderResponse);
+            } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
+                oleNGOrderImportResponse.addNoReqNorPOResponse(orderResponse);
+            }
         }
     }
 
@@ -205,6 +209,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             orderProcessHandlers = new ArrayList<>();
             orderProcessHandlers.add(new CreateRequisitionAndPurchaseOrderHander());
             orderProcessHandlers.add(new CreateRequisitionOnlyHander());
+            orderProcessHandlers.add(new CreateNeitherReqNorPOHandler());
         }
 
         return orderProcessHandlers;

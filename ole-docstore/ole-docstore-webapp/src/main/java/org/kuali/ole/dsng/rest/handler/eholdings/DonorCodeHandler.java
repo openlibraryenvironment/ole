@@ -71,6 +71,7 @@ public class DonorCodeHandler extends HoldingsHandler {
                     oleHoldingsDonorRecord.setDonorCode(donorCode);
                     oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
                     oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                    donorList.add(oleHoldingsDonorRecord);
                 }
                 holdingRecord.setDonorList(donorList);
             }

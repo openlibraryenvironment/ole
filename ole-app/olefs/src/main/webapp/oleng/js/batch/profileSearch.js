@@ -2,10 +2,11 @@
  * Created by SheikS on 12/16/2015.
  */
 
-var batchProfileSearchApp = angular.module('batchProfileSearchApp', ['ngLoadingSpinner','datatables']);
+var batchProfileSearchApp = angular.module('batchProfileSearchApp', ['ngLoadingSpinner', 'datatables', 'customDirectives', 'ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap']);
 
-batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile','$http', function($scope,searchProfile,$http){
+batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','searchProfile','$http', function($scope,searchProfile,$http) {
 
+    initializeProfilePanels();
     $scope.profiles = [];
     $scope.profileTypes = BATCH_CONSTANTS.PROFILE_TYPES;
 
@@ -18,7 +19,34 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
     };
 
     $scope.showModal = false;
-    $scope.profileInquiry = function(profileId){
+    $scope.profileInquiry = function(profileId) {
+        initializeProfilePanels();
+        document.getElementById('modalContentId').style.width = '1250px';
+        document.getElementById('modalContentId').style.height = '500px';
+        document.getElementById('modalContentId').style.overflowX = 'auto';
+        document.getElementById('modalContentId').style.overflowY = 'auto';
+        document.getElementById('modalContentId').style.left = '-320px';
+        document.getElementById('modalContentId').style.top = '80px';
+        for (var i = 0; i < $scope.profiles.length; i++) {
+            if (profileId == $scope.profiles[i].profileId) {
+                var profile = JSON.parse($scope.profiles[i].content);
+                $scope.mainSectionPanel.profileId = profile.profileId;
+                $scope.mainSectionPanel.profileName = profile.profileName;
+                $scope.mainSectionPanel.profileDescription = profile.description;
+                $scope.mainSectionPanel.batchProcessType = profile.batchProcessType;
+                $scope.mainSectionPanel.bibImportProfileForOrderImport = profile.bibImportProfileForOrderImport;
+                $scope.mainSectionPanel.requisitionForTitlesOption = profile.requisitionForTitlesOption;
+                $scope.mainSectionPanel.marcOnly = profile.marcOnly;
+                $scope.matchPointsPanel = profile.batchProfileMatchPointList;
+                $scope.addOrOverlayPanel = profile.batchProfileAddOrOverlayList;
+                $scope.fieldOperationsPanel = profile.batchProfileFieldOperationList;
+                $scope.dataMappingsPanel = profile.batchProfileDataMappingList;
+                $scope.dataTransformationsPanel = profile.batchProfileDataTransformerList;
+                $scope.submitted = true;
+                $scope.inquiry = true;
+                break;
+            }
+        }
         $scope.showModal = !$scope.showModal;
     };
     $scope.closeModal = function(){
@@ -40,9 +68,28 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
             });
     };
 
+    function initializeProfilePanels() {
+        $scope.mainSectionActivePanel = [0];
+        $scope.matchPointsActivePanel = [];
+        $scope.addOrOverlayActivePanel = [];
+        $scope.fieldOperationsActivePanel = [];
+        $scope.dataMappingsActivePanel = [];
+        $scope.dataTransformationsActivePanel = [];
+        $scope.mainSectionPanel = [];
+        $scope.matchPointsPanel = [];
+        $scope.addOrOverlayPanel = [];
+        $scope.fieldOperationsPanel = [];
+        $scope.dataMappingsPanel = [];
+        $scope.dataTransformationsPanel = [];
+        $scope.mainSectionPanel.collapsed = false;
+        $scope.matchPointsPanel.collapsed = false;
+        $scope.addOrOverlayPanel.collapsed = false;
+        $scope.fieldOperationsPanel.collapsed = false;
+        $scope.dataMappingsPanel.collapsed = false;
+        $scope.dataTransformationsPanel.collapsed = false;
+    }
+
 }]);
-
-
 
 batchProfileSearchApp.service('searchProfile', ['$http', function ($http) {
     this.searchProfile = function($scope,profileName,profileType, uploadUrl){
@@ -59,45 +106,3 @@ batchProfileSearchApp.service('searchProfile', ['$http', function ($http) {
             });
     }
 }]);
-
-batchProfileSearchApp.directive('modal', function () {
-    return {
-        template: '<div class="modal fade">' +
-        '<div class="modal-dialog">' +
-        '<div class="modal-content">' +
-        '<div class="modal-header">' +
-        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">&times;</button>' +
-        '<h4 class="modal-title">{{ title }}</h4>' +
-        '</div>' +
-        '<div class="modal-body" ng-transclude></div>' +
-        '</div>' +
-        '</div>' +
-        '</div>',
-        restrict: 'E',
-        transclude: true,
-        replace:true,
-        scope:true,
-        link: function postLink(scope, element, attrs) {
-            scope.title = attrs.title;
-
-            scope.$watch(attrs.visible, function(value){
-                if(value == true)
-                    $(element).modal('show');
-                else
-                    $(element).modal('hide');
-            });
-
-            $(element).on('shown.bs.modal', function(){
-                scope.$apply(function(){
-                    scope.$parent[attrs.visible] = true;
-                });
-            });
-
-            $(element).on('hidden.bs.modal', function(){
-                scope.$apply(function(){
-                    scope.$parent[attrs.visible] = false;
-                });
-            });
-        }
-    };
-});

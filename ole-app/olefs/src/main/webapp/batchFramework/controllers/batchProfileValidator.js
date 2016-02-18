@@ -85,30 +85,48 @@ isValidFieldOperationRow = function (fieldOperationRow, index, $scope) {
 
 isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
     var isValid = true;
-    if (isFieldEmpty(dataTransformationRow.dataTransformationSourceField)) {
-        $scope.batchProfileForm['dataTransformationSourceField_' + index].$dirty = true;
-        $scope.batchProfileForm['dataTransformationSourceField_' + index].$invalid = true;
-        isValid = false;
-    }
+
     if (isFieldEmpty(dataTransformationRow.dataTransformationOperation)) {
         $scope.batchProfileForm['dataTransformationOperation_' + index].$dirty = true;
         $scope.batchProfileForm['dataTransformationOperation_' + index].$invalid = true;
+        return false;
+    }
+    if (isFieldEmpty(dataTransformationRow.dataField)) {
+        $scope.batchProfileForm['dataTransformationSourceDataField_' + index].$dirty = true;
+        $scope.batchProfileForm['dataTransformationSourceDataField_' + index].$invalid = true;
         isValid = false;
     }
-    if (isFieldEmpty(dataTransformationRow.dataTransformationDestinationField)) {
-        if (dataTransformationRow.dataTransformationOperation == 'Move' || dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix' || dataTransformationRow.dataTransformationOperation == 'Replace') {
-            $scope.batchProfileForm['dataTransformationDestinationField_' + index].$dirty = true;
-            $scope.batchProfileForm['dataTransformationDestinationField_' + index].$invalid = true;
+    if (isFieldEmpty(dataTransformationRow.destDataField)) {
+        if (dataTransformationRow.dataTransformationOperation == 'Add Field' ||
+            dataTransformationRow.dataTransformationOperation == 'Add Subfield' ||
+            dataTransformationRow.dataTransformationOperation == 'Copy and Paste' ||
+            dataTransformationRow.dataTransformationOperation == 'Cut and Paste' ||
+            dataTransformationRow.dataTransformationOperation == 'Prepend with Prefix') {
+            $scope.batchProfileForm['dataTransformationDestDataField_' + index].$dirty = true;
+            $scope.batchProfileForm['dataTransformationDestDataField_' + index].$invalid = true;
             isValid = false;
         }
     }
     if (isFieldEmpty(dataTransformationRow.dataTransformationConstant)) {
-        if (dataTransformationRow.dataTransformationOperation == 'Delete Value' || dataTransformationRow.dataTransformationOperation == 'New' || dataTransformationRow.dataTransformationOperation == 'Replace') {
+        if (dataTransformationRow.dataTransformationOperation == 'Remove Value') {
             $scope.batchProfileForm['dataTransformationConstant_' + index].$dirty = true;
             $scope.batchProfileForm['dataTransformationConstant_' + index].$invalid = true;
             isValid = false;
         }
     }
+
+    if (isFieldEmpty(dataTransformationRow.destSubField) && dataTransformationRow.dataTransformationOperation == 'Add Subfield') {
+        $scope.batchProfileForm['dataTransformationDestSubField_' + index].$dirty = true;
+        $scope.batchProfileForm['dataTransformationDestSubField_' + index].$invalid = true;
+        isValid = false;
+    }
+
+    if (isFieldEmpty(dataTransformationRow.subField) && dataTransformationRow.dataTransformationOperation == 'Delete SubField') {
+        $scope.batchProfileForm['dataTransformationSourceSubField_' + index].$dirty = true;
+        $scope.batchProfileForm['dataTransformationSourceSubField_' + index].$invalid = true;
+        isValid = false;
+    }
+    console.log(isValid);
     return isValid;
 };
 
@@ -138,12 +156,12 @@ makeDataMappingValid = function ($scope) {
 };
 
 makeDataTransformationValid = function ($scope) {
-    $scope.batchProfileForm['dataTransformationSourceField_0'].$dirty = false;
-    $scope.batchProfileForm['dataTransformationSourceField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationSourceDataField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationSourceDataField_0'].$invalid = false;
     $scope.batchProfileForm['dataTransformationOperation_0'].$dirty = false;
     $scope.batchProfileForm['dataTransformationOperation_0'].$invalid = false;
-    $scope.batchProfileForm['dataTransformationDestinationField_0'].$dirty = false;
-    $scope.batchProfileForm['dataTransformationDestinationField_0'].$invalid = false;
+    $scope.batchProfileForm['dataTransformationDestDataField_0'].$dirty = false;
+    $scope.batchProfileForm['dataTransformationDestDataField_0'].$invalid = false;
     $scope.batchProfileForm['dataTransformationConstant_0'].$dirty = false;
     $scope.batchProfileForm['dataTransformationConstant_0'].$invalid = false;
 };

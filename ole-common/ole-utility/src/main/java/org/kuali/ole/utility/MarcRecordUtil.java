@@ -8,6 +8,7 @@ import org.marc4j.MarcWriter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
+import org.springframework.util.ObjectUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.StringTokenizer;
 public class MarcRecordUtil {
 
     private MarcXMLConverter marcXMLConverter;
+
+    private MarcFactory marcFactory;
 
     public String getControlFieldValue(Record marcRecord, String field) {
         List<VariableField> variableFields = marcRecord.getVariableFields(field);
@@ -43,22 +46,43 @@ public class MarcRecordUtil {
     * Eg:
     *   field : 050
     *   subFields  : $a$b*/
-    public void addDataField(Record marcRecord, String field, String subFields, String value) {
+    public void addDataField(Record marcRecord, String field, String ind1, String ind2,String subField, String value) {
+        char indicator1 = (StringUtils.isNotBlank(ind1) ? ind1.charAt(0) : ' ');
+        char indicator2 = (StringUtils.isNotBlank(ind2) ? ind2.charAt(0) : ' ');
         MarcFactory factory = MarcFactory.newInstance();
         DataField dataField = factory.newDataField();
         dataField.setTag(field);
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
+        dataField.setIndicator1(indicator1);
+        dataField.setIndicator2(indicator2);
 
-        StringTokenizer stringTokenizer = new StringTokenizer(subFields, "$");
-        while (stringTokenizer.hasMoreTokens()) {
-            String subField = stringTokenizer.nextToken();
+        if (StringUtils.isNotBlank(subField)) {
             Subfield subfield = factory.newSubfield();
             subfield.setCode(subField.charAt(0));
             subfield.setData(value);
             dataField.addSubfield(subfield);
         }
+
         addVariableFieldToRecord(marcRecord, dataField);
+    }
+
+
+
+    /*This method will get the field, subFields and value.  It will add variable field to record
+    * Eg:
+    *   field : 050
+    *   subFields  : $a$b*/
+    public void addSubField(Record marcRecord, String field, String ind1, String ind2,String subField, String value) {
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
+        List<VariableField> matchedDataFields = getMatchedDataFields(indicator1, indicator2, null, null, dataFields);
+        for (Iterator<VariableField> iterator = matchedDataFields.iterator(); iterator.hasNext(); ) {
+            DataField dataField = (DataField) iterator.next();
+            Subfield sf = getMarcFactory().newSubfield();
+            sf.setCode(subField.charAt(0));
+            sf.setData(value);
+            dataField.addSubfield(sf);
+        }
     }
 
     /*This method will get the field, subFields and value.  It will add variable field to record
@@ -97,22 +121,14 @@ public class MarcRecordUtil {
     }
 
 
-    /*This method will get the field and tags and will return return the concadinated value
-    * Eg:
-    *   field : 050
-    *   tags  : ind1|ind2|$a$b*/
     public String getDataFieldValueWithIndicators(Record marcRecord, String field, String ind1, String ind2, String subField) {
-        StringBuilder stringBuilder = new StringBuilder();
 
         List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, field, ind1, ind2, subField);
-        for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
-            String fieldValue = iterator.next();
-            stringBuilder.append(fieldValue);
-            if (iterator.hasNext()) {
-                stringBuilder.append(" ");
-            }
+
+        if(CollectionUtils.isNotEmpty(multiDataFieldValues)) {
+            return multiDataFieldValues.get(0);
         }
-        return stringBuilder.toString();
+        return "";
     }
 
 
@@ -166,18 +182,18 @@ public class MarcRecordUtil {
         return null;
     }
 
-    public void updateDataFieldValue(Record marcRecord, String field, String tags, String value) {
+    public void updateDataFieldValue(Record marcRecord, String field, String ind1, String ind2, String subField, String value) {
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+        List<VariableField> filterDataFields = getMatchedDataFields(indicator1, indicator2, subField, null, dataFields);
+
+        for (Iterator<VariableField> variableFieldIterator = filterDataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while (stringTokenizer.hasMoreTokens()) {
-                String tag = stringTokenizer.nextToken();
-                List<Subfield> subFields = dataField.getSubfields(tag);
-                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                    Subfield subfield = subfieldIterator.next();
-                    subfield.setData(value);
-                }
+            List<Subfield> subFields = dataField.getSubfields(subField);
+            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                Subfield subfield = subfieldIterator.next();
+                subfield.setData(value);
             }
         }
     }
@@ -192,6 +208,23 @@ public class MarcRecordUtil {
             for (Iterator<VariableField> iterator = variableFields.iterator(); iterator.hasNext(); ) {
                 VariableField variableField = iterator.next();
                 marcRecord.removeVariableField(variableField);
+            }
+        }
+    }
+
+    public void removeSubField(Record marcRecord, String field, String ind1, String ind2, String subfield) {
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
+        List<VariableField> dataFields = marcRecord.getVariableFields(field);
+        List<VariableField> filterDataFields = getMatchedDataFields(indicator1, indicator2, subfield, null, dataFields);
+        if (CollectionUtils.isNotEmpty(filterDataFields)) {
+            for (Iterator<VariableField> iterator = filterDataFields.iterator(); iterator.hasNext(); ) {
+                DataField dataField = (DataField) iterator.next();
+                List<Subfield> subfields = dataField.getSubfields(subfield);
+                for (Iterator<Subfield> subfieldIterator = subfields.iterator(); subfieldIterator.hasNext(); ) {
+                    Subfield sf = subfieldIterator.next();
+                    dataField.removeSubfield(sf);
+                }
             }
         }
     }
@@ -216,22 +249,21 @@ public class MarcRecordUtil {
         }
     }
 
-    public void replaceContentInDataField(Record marcRecord, String field, String tags, String replaceFrom, String replaceTo) {
+    public void replaceContentInDataField(Record marcRecord, String field, String ind1, String ind2, String subField, String replaceFrom, String replaceTo) {
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
-            DataField dataField = (DataField) variableFieldIterator.next();
-            StringTokenizer stringTokenizer = new StringTokenizer(tags, "$");
-            while (stringTokenizer.hasMoreTokens()) {
-                String tag = stringTokenizer.nextToken();
-                List<Subfield> subFields = dataField.getSubfields(tag);
-                for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                    Subfield subfield = subfieldIterator.next();
-                    String data = subfield.getData();
-                    data = data.replace(replaceFrom, replaceTo);
-                    subfield.setData(data);
-                }
-            }
 
+        List<VariableField> matchedDataFields = getMatchedDataFields(indicator1, indicator2, subField, null, dataFields);
+        for (Iterator<VariableField> iterator = matchedDataFields.iterator(); iterator.hasNext(); ) {
+            DataField dataField = (DataField) iterator.next();
+            List<Subfield> subFields = dataField.getSubfields(subField);
+            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
+                Subfield sf = subfieldIterator.next();
+                String data = sf.getData();
+                data = data.replace(replaceFrom, replaceTo);
+                sf.setData(data);
+            }
         }
     }
 
@@ -252,7 +284,7 @@ public class MarcRecordUtil {
 
     public boolean hasField(Record marcRecord, String field) {
         List<VariableField> variableFields = marcRecord.getVariableFields(field);
-        return (CollectionUtils.isNotEmpty(variableFields) ? true : false);
+        return CollectionUtils.isNotEmpty(variableFields);
     }
 
     public List<Record> convertMarcXmlContentToMarcRecord(String marcRecord) {
@@ -309,4 +341,59 @@ public class MarcRecordUtil {
         }
         return filteredDataFields;
     }
+
+    public MarcFactory getMarcFactory() {
+        if(null == marcFactory) {
+            marcFactory = MarcFactory.newInstance();
+        }
+        return marcFactory;
+    }
+
+    public void setMarcFactory(MarcFactory marcFactory) {
+        this.marcFactory = marcFactory;
+    }
+
+    public void renameControlField(Record marcRecord, String sourceField, String destinationField) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(sourceField);
+        for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
+            ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
+            controlField.setTag(destinationField);
+        }
+    }
+
+    public void renameDataField(Record marcRecord, String sourceField, String destinationField) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(sourceField);
+        for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            dataField.setTag(destinationField);
+        }
+    }
+
+    public void copyControlField(Record marcRecord, String sourceField, String destinationField) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(sourceField);
+        for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
+            ControlFieldImpl controlField = (ControlFieldImpl) variableFieldIterator.next();
+            ControlField newField = getMarcFactory().newControlField();
+            newField.setTag(destinationField);
+            newField.setData(controlField.getData());
+            marcRecord.addVariableField(newField);
+        }
+    }
+
+    public void copyDataField(Record marcRecord, String sourceField, String destinationField) {
+        List<VariableField> variableFields = marcRecord.getVariableFields(sourceField);
+        for (Iterator<VariableField> variableFieldIterator = variableFields.iterator(); variableFieldIterator.hasNext(); ) {
+            DataField dataField = (DataField) variableFieldIterator.next();
+            DataField newField = getMarcFactory().newDataField();
+            newField.setTag(destinationField);
+            newField.setIndicator1(dataField.getIndicator1());
+            newField.setIndicator2(dataField.getIndicator2());
+            for (Iterator<Subfield> iterator = dataField.getSubfields().iterator(); iterator.hasNext(); ) {
+                Subfield subfield = iterator.next();
+                newField.addSubfield(subfield);
+                marcRecord.addVariableField(newField);
+            }
+        }
+    }
+
 }

@@ -15,14 +15,23 @@
             $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
-            $scope.tree1 = bibTree;
+            //$scope.$watch('bibTree', function () {
+                if(bibTree.length > 0){
+                    $scope.tree1 = bibTree;
+                }
+            //},true);
+
         };
 
         $scope.copyToTree2 = function () {
             $scope.message = '';
             var bibTree = [];
             buildBibData(bibTree, $http, $scope);
-            $scope.tree2 = bibTree;
+            //$scope.$watch('bibTree', function () {
+                if(bibTree.length > 0){
+                    $scope.tree2 = bibTree;
+                }
+            //},true);
         };
 
         $rootScope.updateMessage = function () {
@@ -201,6 +210,7 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
 function buildBibData(bibTree, $http, $scope) {
     angular.forEach($scope.searchResults, function (searchResult) {
         if (searchResult.selected) {
+            searchResult.selected = false;
             var holdingsData = [];
             buildHoldingsData(searchResult, holdingsData, $http, $scope);
 

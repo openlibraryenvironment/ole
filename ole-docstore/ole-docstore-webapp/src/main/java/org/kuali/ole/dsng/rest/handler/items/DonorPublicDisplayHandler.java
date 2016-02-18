@@ -66,6 +66,7 @@ public class DonorPublicDisplayHandler extends ItemHandler {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
                     oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                    donorList.add(oleItemDonorRecord);
                 }
                 itemRecord.setDonorList(donorList);
             }

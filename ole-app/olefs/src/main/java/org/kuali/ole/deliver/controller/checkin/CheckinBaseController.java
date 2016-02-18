@@ -32,6 +32,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -241,6 +242,12 @@ public abstract class CheckinBaseController extends CircUtilController {
             loanDocument.setItemFineRate(itemFineRate);
 
             try {
+                Timestamp checkinDate = processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm));
+                loanDocument.setCheckInDate(checkinDate);
+                long currentTime = System.currentTimeMillis();
+                    if(checkinDate.getTime()+(60*1000)<currentTime){
+                    loanDocument.setOverrideCheckInTime(true);
+                }
                 updateLoanDocument(loanDocument, oleItemSearch, itemRecord);
                 saveMissingPieceNote(oleForm);
                 saveClaimsReturnedNote(oleForm);
@@ -248,7 +255,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 oleItemRecordForCirc.setItemRecord((ItemRecord)getDroolsExchange(oleForm).getContext().get("itemRecord"));
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
-                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm),getCustomDueDateTime(oleForm)), loanDocument.getLoanDueDate());
+                generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, checkinDate, loanDocument.getLoanDueDate());
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
             }
@@ -782,8 +789,16 @@ public abstract class CheckinBaseController extends CircUtilController {
             List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
             if(circulationHistoryRecords.size()>0){
             OleCirculationHistory oleCirculationHistory =  circulationHistoryRecords.get(0);
+            if(GlobalVariables.getUserSession()!=null && GlobalVariables.getUserSession().getPrincipalId()!=null){
+                oleCirculationHistory.setCheckInOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+            }
+            if(oleLoanDocument.isOverrideCheckInTime()){
+              oleCirculationHistory.setCheckInDate(new Timestamp(System.currentTimeMillis()));
+              oleCirculationHistory.setOverrideCheckInDateTime(oleLoanDocument.getCheckInDate());
+             }else{
             oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
-            oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
+            }
+                oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
             oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
             oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
             oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());

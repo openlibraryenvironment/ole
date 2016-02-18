@@ -1413,6 +1413,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             RequestNoticesExecutor noticesExecutor = new RecallNoticesExecutor(requestMap);
             OleLoanDocument oleLoanDocument = getLoanDocument(oleDeliverRequestBo.getItemId());
             if (oleLoanDocument!=null){
+                oleDeliverRequestBo.setLoanTransactionRecordNumber(oleLoanDocument.getLoanId());
                 OlePatronDocument olePatron = oleLoanDocument.getOlePatron();
                 try {
                     EntityTypeContactInfoBo entityTypeContactInfoBo = olePatron.getEntity()
@@ -2308,7 +2309,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             OleDeliverRequestBo oleDeliverRequestBo = null;
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
-            oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+            oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
             oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);
@@ -2712,7 +2713,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             OleDeliverRequestBo oleDeliverRequestBo = null;
             oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
-            oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+            oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
             oleDeliverRequestBo.setRequestNote(requestNote);
             oleDeliverRequestBo.setBibId(bibId);

@@ -29,7 +29,7 @@ var weekDays = [
 
 var monthDays = [];
 
-batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
+batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', 'DTOptionsBuilder', function ($scope, $http, $interval, DTOptionsBuilder) {
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
@@ -46,6 +46,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     $scope.init = function() {
         $scope.initializeJobs();
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('aaSorting', [[0, 'desc']]);
     };
 
     $scope.initializeCreateJob = function() {
@@ -168,12 +169,14 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     }
 
     $scope.quickLaunchPopUp = function (jobId) {
+        document.getElementById('modalContentId').style.width = '550px';
         $scope.jobId = jobId;
         $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
     };
 
     $scope.schedulePopUp = function (jobId) {
         clearScheduleValues();
+        document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
         $scope.jobId = jobId;
         $scope.batchSchedule.showModal = !$scope.batchSchedule.showModal;
     };
@@ -228,7 +231,11 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.enableAutoRefresh = function() {
-        $interval(function() {$scope.initializeExecutions()}, 5000);
+        $interval(function() {
+            if ($scope.selected == 3) {
+                $scope.initializeExecutions()
+            }
+        }, 5000);
     }
 
 }]);

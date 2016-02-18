@@ -71,6 +71,7 @@ public class DonorPublicDisplayHandler extends HoldingsHandler {
                     oleHoldingsDonorRecord.setDonorPublicDisplay(donorPublicDisplay);
                     oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
                     oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                    donorList.add(oleHoldingsDonorRecord);
                 }
                 holdingRecord.setDonorList(donorList);
             }
