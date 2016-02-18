@@ -150,6 +150,10 @@ public class FineDateTimeUtil {
                         String[] closeTimes = closeTime.split(":");
                         int closeTimeInMin = Integer.parseInt(closeTimes[0]) * 60 + Integer.parseInt(closeTimes[1]);
 
+                        if (openTimeInMin > closeTimeInMin) {
+                            closeTimeInMin = closeTimeInMin + (24 * 60);
+                        }
+
                         int checkInDateInMin = checkInDate.getHours() * 60 + checkInDate.getMinutes();
                         int dueDateInMin = dueDateTime.getHours() * 60 + dueDateTime.getMinutes();
 
