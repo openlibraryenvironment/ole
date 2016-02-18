@@ -66,6 +66,7 @@ public class DonorCodeHandler extends ItemHandler {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorCode(donorCode);
                     oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                    donorList.add(oleItemDonorRecord);
                 }
                 itemRecord.setDonorList(donorList);
             }
