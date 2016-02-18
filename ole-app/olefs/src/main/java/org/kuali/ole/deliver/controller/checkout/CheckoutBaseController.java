@@ -489,17 +489,6 @@ public abstract class CheckoutBaseController extends CircUtilController {
             oleCirculationHistory.setTemporaryItemTypeId(itemRecord.getTempItemTypeId());
             oleCirculationHistory.setProxyPatronId(currentLoanDocument.getProxyPatronId());
             oleCirculationHistory.setOperatorCreateId(currentLoanDocument.getLoanOperatorId());
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Timestamp checkInDate = new Timestamp(System.currentTimeMillis());
-            try{
-                Date date = dateFormat.parse("1/1/1000");
-                long time = date.getTime();
-                checkInDate=new Timestamp(time);
-            }catch(Exception e){
-                LOG.info("Exception occured while setting the checkin date for circulation history record for the item with item Barcode : "+oleCirculationHistory.getItemId()+" Loan Id : "+oleCirculationHistory.getLoanId());
-                LOG.error(e,e);
-            }
-            oleCirculationHistory.setCheckInDate(checkInDate);
             getBusinessObjectService().save(oleCirculationHistory);
         }
     }

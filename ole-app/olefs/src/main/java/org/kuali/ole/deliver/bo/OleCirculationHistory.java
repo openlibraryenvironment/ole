@@ -52,6 +52,7 @@ public class OleCirculationHistory extends PersistableBusinessObjectBase {
     private String holdingsLocation;
     private String itemTypeId;
     private String temporaryItemTypeId;
+    private Timestamp overrideCheckInDateTime;
 
     public String getItemUuid() {
         return itemUuid;
@@ -363,5 +364,13 @@ public class OleCirculationHistory extends PersistableBusinessObjectBase {
 
     public void setTemporaryItemTypeId(String temporaryItemTypeId) {
         this.temporaryItemTypeId = temporaryItemTypeId;
+    }
+
+    public Timestamp getOverrideCheckInDateTime() {
+        return overrideCheckInDateTime;
+    }
+
+    public void setOverrideCheckInDateTime(Timestamp overrideCheckInDateTime) {
+        this.overrideCheckInDateTime = overrideCheckInDateTime;
     }
 }
