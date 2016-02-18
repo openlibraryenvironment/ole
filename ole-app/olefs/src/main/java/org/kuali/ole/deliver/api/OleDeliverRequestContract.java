@@ -4,6 +4,7 @@ import org.kuali.rice.core.api.mo.common.Identifiable;
 import org.kuali.rice.core.api.mo.common.Versioned;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,7 +37,7 @@ public interface OleDeliverRequestContract extends Versioned, Identifiable {
 
     public String getPatronName();
 
-    public Date getCreateDate();
+    public Timestamp getCreateDate();
 
     public String getVolumeNumber();
 

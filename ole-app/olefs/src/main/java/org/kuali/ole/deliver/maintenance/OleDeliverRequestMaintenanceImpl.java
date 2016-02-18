@@ -19,6 +19,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
         oleDeliverRequestBo.setRequestCreator(OLEConstants.OleDeliverRequest.REQUESTER_PATRON);
         oleDeliverRequestBo.setOperatorCreateId(GlobalVariables.getUserSession().getPrincipalId());
         oleDeliverRequestBo.setOperatorCreateName(GlobalVariables.getUserSession().getPrincipalName());
-        oleDeliverRequestBo.setCreateDate(new Date(System.currentTimeMillis()));
+        oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
         processDefaultRequestTypeAndPickupLocation(oleDeliverRequestBo);
     }
 
@@ -82,7 +83,7 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
         super.processAfterCopy(document, requestParameters);
         document.getDocumentHeader().setDocumentDescription(OLEConstants.COPY_REQUEST_DOC);
         OleDeliverRequestBo oleDeliverRequestBo = (OleDeliverRequestBo) document.getNewMaintainableObject().getDataObject();
-        oleDeliverRequestBo.setCreateDate(new Date(System.currentTimeMillis()));
+        oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
     }
 
     /**
