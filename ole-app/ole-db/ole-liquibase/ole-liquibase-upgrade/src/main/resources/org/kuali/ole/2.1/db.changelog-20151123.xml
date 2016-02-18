@@ -414,4 +414,20 @@
     </changeSet>
 
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T2">
+        <addColumn
+                tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="CHECK_IN_DT_TIME_OVR_RD"  type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T2_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_DLVR_CIRC_RECORD MODIFY CHECK_IN_DT_TIME TIMESTAMP NULL</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T2_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_DLVR_CIRC_RECORD MODIFY CHECK_IN_DT_TIME TIMESTAMP NULL</sql>
+    </changeSet>
+
 </databaseChangeLog>

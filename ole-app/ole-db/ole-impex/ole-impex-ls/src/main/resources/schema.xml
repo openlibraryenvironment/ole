@@ -839,7 +839,8 @@
         <column name="OVERDUE_NOTICE_DATE" type="DATE"/>
         <column name="OLE_RQST_ID" size="40" type="VARCHAR"/>
         <column name="REPMNT_FEE_PTRN_BILL_ID" size="40" type="VARCHAR"/>
-        <column name="CHECK_IN_DT_TIME" required="true" type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME" type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME_OVR_RD" type="TIMESTAMP"/>
         <column name="CHECK_IN_OPTR_ID" size="40" type="VARCHAR"/>
         <column name="CHECK_IN_MACH_ID" size="100" type="VARCHAR"/>
         <column name="ITEM_TYP_ID" size="100" type="VARCHAR"/>
