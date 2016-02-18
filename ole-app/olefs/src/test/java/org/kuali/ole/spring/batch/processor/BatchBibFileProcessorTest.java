@@ -870,13 +870,53 @@ public class BatchBibFileProcessorTest {
         assertEquals(valueOf025$a, "Value for 025 a");
         System.out.println(valueOf025$a);
 
-        String valueOf035$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "035", null, "2", "a" );
-        assertTrue(StringUtils.isBlank(valueOf035$a));
-        System.out.println(valueOf035$a);
-
         String valueOf050$b = marcRecordUtil.getDataFieldValueWithIndicators(record, "050", "1", "2", "b");
         assertEquals(valueOf050$b, "Value for 050 b");
         System.out.println(valueOf050$b);
+    }
+
+    @Test
+    public void getDataFieldValueWithIndicatorAndMultipleSubFieldTest() {
+        MarcRecordUtil marcRecordUtil = new MarcRecordUtil();
+        MarcFactory marcFactory = MarcFactory.newInstance();
+        Record record = marcFactory.newRecord();
+
+        DataField dataField1 = marcFactory.newDataField();
+        dataField1.setTag("035");
+        dataField1.setIndicator1('1');
+        dataField1.setIndicator2('2');
+
+        Subfield subfield1 = marcFactory.newSubfield();
+        subfield1.setCode('a');
+        subfield1.setData("035 a-1");
+        dataField1.addSubfield(subfield1);
+
+        Subfield subfield2 = marcFactory.newSubfield();
+        subfield2.setCode('a');
+        subfield2.setData("035 a-2");
+        dataField1.addSubfield(subfield2);
+
+        record.addVariableField(dataField1);
+
+        DataField dataField2 = marcFactory.newDataField();
+        dataField2.setTag("035");
+        dataField2.setIndicator1('1');
+        dataField2.setIndicator2('2');
+
+        Subfield subfield3 = marcFactory.newSubfield();
+        subfield3.setCode('a');
+        subfield3.setData("035 a-3");
+        dataField2.addSubfield(subfield3);
+        Subfield subfield4 = marcFactory.newSubfield();
+        subfield4.setCode('b');
+        subfield4.setData("035 b-1");
+        dataField2.addSubfield(subfield4);
+
+        record.addVariableField(dataField2);
+
+        String valueOf035$a = marcRecordUtil.getDataFieldValueWithIndicators(record, "035", "1", "2", "a" );
+        assertEquals(valueOf035$a,"035 a-1");
+        System.out.println(valueOf035$a);
     }
 
     @Test

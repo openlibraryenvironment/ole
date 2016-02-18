@@ -47,14 +47,13 @@ public class LocationUtil extends OleDsHelperUtil {
 
     public Map<String,String> buildLocationMap(JSONObject requestJsonObject) {
         Map<String,String> locationMap = new TreeMap<String, String>();
-        OleLocation oleLocation = null;
+
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_1)) {
             JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_1);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                oleLocation = getLocationByCode(value);
-                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+                addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_2)) {
@@ -62,8 +61,7 @@ public class LocationUtil extends OleDsHelperUtil {
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                oleLocation = getLocationByCode(value);
-                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+                addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_3)) {
@@ -71,8 +69,7 @@ public class LocationUtil extends OleDsHelperUtil {
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                oleLocation = getLocationByCode(value);
-                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+                addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_4)) {
@@ -80,8 +77,7 @@ public class LocationUtil extends OleDsHelperUtil {
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                oleLocation = getLocationByCode(value);
-                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+                addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(Handler.LOCATION_LEVEL_5)) {
@@ -89,8 +85,7 @@ public class LocationUtil extends OleDsHelperUtil {
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                oleLocation = getLocationByCode(value);
-                locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+                addLocationToMap(value,locationMap);
             }
         }
         return locationMap;
@@ -113,6 +108,13 @@ public class LocationUtil extends OleDsHelperUtil {
             stringBuilder.append(FORWARD_SLASH).append(location);
         } else {
             stringBuilder.append(location);
+        }
+    }
+
+    public void addLocationToMap(String locationCode, Map<String,String> locationMap) {
+        OleLocation oleLocation = getLocationByCode(locationCode);
+        if(null != oleLocation) {
+            locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
         }
     }
 }

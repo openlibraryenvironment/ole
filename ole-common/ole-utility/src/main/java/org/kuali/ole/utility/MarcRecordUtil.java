@@ -73,7 +73,9 @@ public class MarcRecordUtil {
     *   subFields  : $a$b*/
     public void addSubField(Record marcRecord, String field, String ind1, String ind2,String subField, String value) {
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        List<VariableField> matchedDataFields = getMatchedDataFields(ind1, ind2, null, null, dataFields);
+        String indicator1 = (StringUtils.isNotBlank(ind1) ? String.valueOf(ind1.charAt(0)) : " ");
+        String indicator2 = (StringUtils.isNotBlank(ind2) ? String.valueOf(ind2.charAt(0)) : " ");
+        List<VariableField> matchedDataFields = getMatchedDataFields(indicator1, indicator2, null, null, dataFields);
         for (Iterator<VariableField> iterator = matchedDataFields.iterator(); iterator.hasNext(); ) {
             DataField dataField = (DataField) iterator.next();
             Subfield sf = getMarcFactory().newSubfield();
@@ -119,22 +121,14 @@ public class MarcRecordUtil {
     }
 
 
-    /*This method will get the field and tags and will return return the concadinated value
-    * Eg:
-    *   field : 050
-    *   tags  : ind1|ind2|$a$b*/
     public String getDataFieldValueWithIndicators(Record marcRecord, String field, String ind1, String ind2, String subField) {
-        StringBuilder stringBuilder = new StringBuilder();
 
         List<String> multiDataFieldValues = getMultiDataFieldValues(marcRecord, field, ind1, ind2, subField);
-        for (Iterator<String> iterator = multiDataFieldValues.iterator(); iterator.hasNext(); ) {
-            String fieldValue = iterator.next();
-            stringBuilder.append(fieldValue);
-            if (iterator.hasNext()) {
-                stringBuilder.append(" ");
-            }
+
+        if(CollectionUtils.isNotEmpty(multiDataFieldValues)) {
+            return multiDataFieldValues.get(0);
         }
-        return stringBuilder.toString();
+        return "";
     }
 
 
