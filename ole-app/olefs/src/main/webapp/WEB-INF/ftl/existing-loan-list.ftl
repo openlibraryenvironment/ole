@@ -25,7 +25,7 @@
             <th>Pending Requests</th>
             <th>Send Notices</th>
         </thead>
-        <tbody>
+        <tbody  onclick="toggleExistingLoanSection()" >
             <#list manager.searchLines as line>
             <tr class="odd">
                 <td><@existing_loan_checkbox_control line 'checkNo' container "" /></td>
