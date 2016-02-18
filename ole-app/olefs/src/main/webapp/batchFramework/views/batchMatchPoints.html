@@ -156,7 +156,8 @@
                         <td>
                             <input class="form-control" type="checkbox" name="matchPointIsMultiValue_{{$index}}"
                                    id="matchPointIsMultiValue_{{$index}}"
-                                   ng-model="matchPoint.isMultiValue" style="height: 20px;">
+                                   ng-hide="inquiry" ng-model="matchPoint.isMultiValue" style="height: 20px;">
+                            <span ng-show="inquiry" ng-bind="matchPoint.isMultiValue"></span>
                         </td>
                         <td>
                             <input class="form-control" id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"
