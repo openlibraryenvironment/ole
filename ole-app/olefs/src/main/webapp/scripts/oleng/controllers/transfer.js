@@ -5,7 +5,8 @@ function searchConditions($scope, $http, $rootScope) {
     //$scope.pageno = 1;
     $scope.total_count;
     $scope.itemsPerPage = 10;
-    $rootScope.baseUri = '/oledocstore/bib/select?q='
+    $rootScope.solrUri = '/bib/select?q='
+    $rootScope.baseUri;
     $rootScope.searched = false;
     $scope.showEntryInfo;
     //$scope.rows = 10;
@@ -24,6 +25,18 @@ function searchConditions($scope, $http, $rootScope) {
     var searchResult = {
         collapsed: false
     };
+
+    $scope.init = function () {
+        getUri();
+    };
+
+    function getUri(){
+        $http.get("rest/ngTransferController/url")
+            .success(function (data) {
+                console.log(data.docstoreUrl)
+                $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
+            });
+    }
 
     $scope.showEntry = '10';
     $scope.showEntires = [

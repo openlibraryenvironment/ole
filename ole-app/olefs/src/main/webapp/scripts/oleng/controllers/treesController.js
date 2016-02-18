@@ -210,6 +210,7 @@ function buildHoldingsData(searchResult, holdingsData, $http, $scope) {
 function buildBibData(bibTree, $http, $scope) {
     angular.forEach($scope.searchResults, function (searchResult) {
         if (searchResult.selected) {
+            searchResult.selected = false;
             var holdingsData = [];
             buildHoldingsData(searchResult, holdingsData, $http, $scope);
 
