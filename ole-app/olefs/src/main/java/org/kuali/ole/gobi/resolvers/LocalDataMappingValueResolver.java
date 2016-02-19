@@ -1,13 +1,14 @@
 package org.kuali.ole.gobi.resolvers;
 
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
+import org.kuali.ole.oleng.resolvers.*;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LocalDataMappingValueResolver extends TxValuResolver {
-    List<TxValuResolver> valueResolvers;
+public abstract class LocalDataMappingValueResolver extends TxValueResolver {
+    List<TxValueResolver> valueResolvers;
 
     protected String sourceFieldName;
     protected String destFieldName;
@@ -22,7 +23,7 @@ public abstract class LocalDataMappingValueResolver extends TxValuResolver {
     }
 
 
-    public List<TxValuResolver> getTxValuResolverList() {
+    public List<TxValueResolver> getTxValueResolverList() {
         if (null == valueResolvers) {
             valueResolvers = new ArrayList<>();
             valueResolvers.add(new AssignToUserValueResolver());
@@ -63,7 +64,7 @@ public abstract class LocalDataMappingValueResolver extends TxValuResolver {
         return valueResolvers;
     }
 
-    public void setTxValuResolverList(List<TxValuResolver> txValuResolverList) {
+    public void setTxValueResolverList(List<TxValueResolver> txValuResolverList) {
         this.valueResolvers = txValuResolverList;
     }
 

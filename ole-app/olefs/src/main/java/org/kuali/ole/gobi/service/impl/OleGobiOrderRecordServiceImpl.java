@@ -12,6 +12,7 @@ import org.kuali.ole.gobi.dao.BibDAO;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
 import org.kuali.ole.gobi.resolvers.*;
 import org.kuali.ole.gobi.resolvers.localdata.*;
+import org.kuali.ole.oleng.resolvers.*;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.service.impl.OleOrderRecordServiceImpl;
@@ -24,7 +25,7 @@ public abstract class OleGobiOrderRecordServiceImpl extends OleOrderRecordServic
     private PurchaseOrder order;
     private List<OleOrderRecord> oleOrderRecords;
     private OleTxRecord oleTxRecord;
-    private List<TxValuResolver> valueResolvers;
+    private List<TxValueResolver> valueResolvers;
     private List<LocalDataMappingValueResolver> localDataMappingValueResolvers;
     private Map<String, VendorCustomerNumber> vendorSubAccountMap;
 
@@ -133,8 +134,8 @@ public abstract class OleGobiOrderRecordServiceImpl extends OleOrderRecordServic
             attributeValue = oleBatchProcessProfileConstantsBo.getAttributeValue();
 
 
-            for (Iterator<TxValuResolver> iterator = getValueResolvers().iterator(); iterator.hasNext(); ) {
-                TxValuResolver txValuResolver = iterator.next();
+            for (Iterator<TxValueResolver> iterator = getValueResolvers().iterator(); iterator.hasNext(); ) {
+                TxValueResolver txValuResolver = iterator.next();
                 if (txValuResolver.isInterested(attributeName)) {
                     if (failureRecords.containsKey(attributeName)) {
                         failureRecords.remove(attributeName);
@@ -160,7 +161,7 @@ public abstract class OleGobiOrderRecordServiceImpl extends OleOrderRecordServic
         return oleTxRecords;
     }
 
-    public void setValueResolvers(List<TxValuResolver> valueResolvers) {
+    public void setValueResolvers(List<TxValueResolver> valueResolvers) {
         this.valueResolvers = valueResolvers;
     }
 
@@ -287,7 +288,7 @@ public abstract class OleGobiOrderRecordServiceImpl extends OleOrderRecordServic
 
     protected abstract void preProcess();
 
-    public List<TxValuResolver> getValueResolvers() {
+    public List<TxValueResolver> getValueResolvers() {
         if (null == valueResolvers) {
             valueResolvers = new ArrayList<>();
             valueResolvers.add(new AssignToUserValueResolver());

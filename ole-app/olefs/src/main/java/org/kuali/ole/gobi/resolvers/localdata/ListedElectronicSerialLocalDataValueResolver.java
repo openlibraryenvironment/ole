@@ -3,7 +3,7 @@ package org.kuali.ole.gobi.resolvers.localdata;
 import org.kuali.ole.gobi.GobiConstants;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
 import org.kuali.ole.gobi.resolvers.LocalDataMappingValueResolver;
-import org.kuali.ole.gobi.resolvers.TxValuResolver;
+import org.kuali.ole.oleng.resolvers.TxValueResolver;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.Iterator;
@@ -30,8 +30,8 @@ public class ListedElectronicSerialLocalDataValueResolver extends LocalDataMappi
 
     @Override
     public void setAttributeValue(OleTxRecord oleTxRecord, String attributeValue) {
-        for (Iterator<TxValuResolver> iterator = getTxValuResolverList().iterator(); iterator.hasNext(); ) {
-            TxValuResolver txValuResolver = iterator.next();
+        for (Iterator<TxValueResolver> iterator = getTxValueResolverList().iterator(); iterator.hasNext(); ) {
+            TxValueResolver txValuResolver = iterator.next();
             if (txValuResolver.isInterested(getDestFieldName())) {
                 String localValue = getAttributeValue();
                 if (null != localValue) {

@@ -1,6 +1,7 @@
 package org.kuali.ole.gobi.resolvers;
 
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.oleng.resolvers.TxValueResolver;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Created by pvsubrah on 12/18/15.
  */
-public class MiscellaneousNoteValueResolver extends TxValuResolver {
+public class MiscellaneousNoteValueResolver extends TxValueResolver {
     @Override
     public boolean isInterested(String attributeName) {
         return OLEConstants.OLEBatchProcess.MISC_NOTE.equals(attributeName);
