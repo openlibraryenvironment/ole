@@ -534,5 +534,17 @@ This file contains custom application specific web.xml content.
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <display-name>SchedulerInitializer</display-name>
+        <servlet-name>SchedulerInitializer</servlet-name>
+        <servlet-class>org.kuali.ole.scheduler.SchedulerInitializer</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SchedulerInitializer</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
+
 </web-app>
 
