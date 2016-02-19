@@ -12,7 +12,7 @@ import org.kuali.ole.gobi.dao.BibDAO;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
 import org.kuali.ole.gobi.resolvers.*;
 import org.kuali.ole.gobi.resolvers.localdata.*;
-import org.kuali.ole.oleng.resolvers.*;
+import org.kuali.ole.oleng.resolvers.orderimport.*;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.service.impl.OleOrderRecordServiceImpl;

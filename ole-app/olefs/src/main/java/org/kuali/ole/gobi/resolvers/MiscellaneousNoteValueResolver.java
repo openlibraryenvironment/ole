@@ -1,7 +1,7 @@
 package org.kuali.ole.gobi.resolvers;
 
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.oleng.resolvers.TxValueResolver;
+import org.kuali.ole.oleng.resolvers.orderimport.TxValueResolver;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;

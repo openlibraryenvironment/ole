@@ -3,7 +3,7 @@ package org.kuali.ole.gobi.resolvers.localdata;
 import org.kuali.ole.gobi.GobiConstants;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
 import org.kuali.ole.gobi.resolvers.LocalDataMappingValueResolver;
-import org.kuali.ole.oleng.resolvers.TxValueResolver;
+import org.kuali.ole.oleng.resolvers.orderimport.TxValueResolver;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.Iterator;

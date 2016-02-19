@@ -1,8 +1,7 @@
 package org.kuali.ole.gobi.resolvers;
 
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
-import org.kuali.ole.oleng.resolvers.*;
-import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.oleng.resolvers.orderimport.*;
 
 import java.util.ArrayList;
 import java.util.List;
