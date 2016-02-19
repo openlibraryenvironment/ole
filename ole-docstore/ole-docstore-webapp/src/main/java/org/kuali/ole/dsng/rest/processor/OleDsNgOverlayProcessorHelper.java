@@ -74,6 +74,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());
+            itemMetaDataHandlers.add(new NoOfPiecesHandler());
             itemMetaDataHandlers.add(new ItemLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());

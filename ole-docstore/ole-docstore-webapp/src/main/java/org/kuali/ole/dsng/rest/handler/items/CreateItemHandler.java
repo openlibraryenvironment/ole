@@ -101,6 +101,7 @@ public class CreateItemHandler extends Handler {
             metaDataHandlers.add(new ItemBarcodeHandler());
             metaDataHandlers.add(new ItemStatusHandler());
             metaDataHandlers.add(new ItemTypeHandler());
+            metaDataHandlers.add(new NoOfPiecesHandler());
             metaDataHandlers.add(new ItemLocationHandler());
             metaDataHandlers.add(new StatisticalSearchCodeHandler());
             metaDataHandlers.add(new VendorLineItemIdHandler());

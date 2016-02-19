@@ -109,6 +109,7 @@ public class UpdateItemHandler extends Handler {
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());
+            itemMetaDataHandlers.add(new NoOfPiecesHandler());
             itemMetaDataHandlers.add(new ItemLocationHandler());
             itemMetaDataHandlers.add(new ItemHoldingLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());

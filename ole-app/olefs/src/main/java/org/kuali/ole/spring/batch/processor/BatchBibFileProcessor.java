@@ -463,6 +463,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private void addMatchPointToDataMapping(Record marcRecord, JSONObject dataMapping, BatchProcessProfile batchProcessProfile, String docType) {
         try {
+            JSONObject matchpointForDataMapping = new JSONObject();
             JSONObject matchPoints = getMatchPointProcessor().prepareMatchPointsForDocType(marcRecord, batchProcessProfile.getBatchProfileMatchPointList(), docType);
             for (Iterator iterator = matchPoints.keys(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
@@ -473,8 +474,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     String value = matchPointValueTockenize.nextToken();
                     valueArray.put(value);
                 }
-                dataMapping.put(key, valueArray);
+                matchpointForDataMapping.put(key, valueArray);
             }
+            dataMapping.put(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING,matchpointForDataMapping);
         } catch (JSONException e) {
             e.printStackTrace();
         }

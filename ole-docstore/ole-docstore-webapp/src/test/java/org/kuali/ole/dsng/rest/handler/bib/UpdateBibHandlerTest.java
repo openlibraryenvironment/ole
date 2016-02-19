@@ -244,7 +244,7 @@ public class UpdateBibHandlerTest {
 
         UpdateBibHandler updateBibHandler = new UpdateBibHandler();
         List<VariableField> dataFieldBasedOnFieldOps = updateBibHandler.getDataFieldBasedOnFieldOps(marcRecordToMarcContent, value1);
-        assertNull(dataFieldBasedOnFieldOps);
+        assertTrue(CollectionUtils.isEmpty(dataFieldBasedOnFieldOps));
         System.out.println(dataFieldBasedOnFieldOps);
 
     }
@@ -299,7 +299,7 @@ public class UpdateBibHandlerTest {
 
         UpdateBibHandler updateBibHandler = new UpdateBibHandler();
         List<VariableField> dataFieldBasedOnFieldOps = updateBibHandler.getDataFieldBasedOnFieldOps(marcRecordToMarcContent, value1);
-        assertNull(dataFieldBasedOnFieldOps);
+        assertTrue(CollectionUtils.isEmpty(dataFieldBasedOnFieldOps));
         System.out.println(dataFieldBasedOnFieldOps);
 
     }
@@ -465,7 +465,7 @@ public class UpdateBibHandlerTest {
 
         UpdateBibHandler updateBibHandler = new UpdateBibHandler();
         List<VariableField> dataFieldBasedOnFieldOps = updateBibHandler.getDataFieldBasedOnFieldOps(marcRecordToMarcContent, value1);
-        assertNull(dataFieldBasedOnFieldOps);
+        assertTrue(CollectionUtils.isEmpty(dataFieldBasedOnFieldOps));
         System.out.println(dataFieldBasedOnFieldOps);
     }
 

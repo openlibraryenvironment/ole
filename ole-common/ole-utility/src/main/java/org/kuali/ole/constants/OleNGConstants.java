@@ -91,6 +91,7 @@ public class OleNGConstants {
         public static final String DONOR_PUBLIC_DISPLAY = "Donor Public Display";
         public static final String ENUMERATION = "Enumeration";
         public static final String ITEM_BARCODE = "Item Barcode";
+        public static final String NO_OF_PIECES = "Number of Pieces";
         public static final String STAFF_ONLY = "Staff Only";
         public static final String ITEM_TYPE = "Item Type";
         public static final String STATISTICAL_CODE = "Statistical Code";
@@ -110,6 +111,7 @@ public class OleNGConstants {
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String MATCHPOINT_FOR_DATAMAPPING = "matchpointForDataMapping";
     public static final String ADDED_OPS = "addedOps";
     public static final String ACTION_OPS = "actionOps";
     public static final String FIELD_OPS = "fieldOps";
