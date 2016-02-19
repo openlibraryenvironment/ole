@@ -976,6 +976,7 @@
         <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME_OVR_RD" type="TIMESTAMP"/>
         <column name="OPERATOR_ID" size="40" type="VARCHAR"/>
         <column name="ITM_TITLE"  size="600" type="VARCHAR"/>
         <column name="ITM_AUTHOR"  size="200" type="VARCHAR"/>

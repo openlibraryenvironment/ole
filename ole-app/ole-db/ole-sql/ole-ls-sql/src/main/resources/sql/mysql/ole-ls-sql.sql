@@ -1688,15 +1688,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 
@@ -1913,6 +1913,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , DUE_DT_TIME DATETIME
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
+        , CHECK_IN_DT_TIME_OVR_RD DATETIME
         , OPERATOR_ID VARCHAR(40)
         , ITM_TITLE VARCHAR(600)
         , ITM_AUTHOR VARCHAR(200)
