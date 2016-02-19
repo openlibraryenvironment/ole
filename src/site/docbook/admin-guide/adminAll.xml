@@ -757,11 +757,10 @@
                         </mediaobject>
                     </screenshot>
                 </para>
-                <para>When creating a new Batch Process Profile, the only unique tab is the
-                        <emphasis role="bold">Main Section</emphasis>. However, depending on the
-                        <emphasis role="bold">Batch Process Type</emphasis> that is selected,
-                    different tabs are available for adding or modifying information for the
-                    profile.</para>
+                <para>When creating a new Batch Process Profile, the <emphasis role="bold">Main
+                        Section</emphasis> is standard. Depending on the <emphasis role="bold">Batch
+                        Process Type</emphasis> that is selected, different tabs are available for
+                    adding or modifying information for the profile.</para>
                 <section>
                     <title>Main Section tab</title>
                     <para>The <emphasis role="bold">Main Section</emphasis> tab contains basic
@@ -920,7 +919,7 @@
                             processes required by Rice. The three tables must be formatted in a very
                             specific way. Each implementer, being unique in their previous systems,
                             will have to work to create their own CSV or XML files to import. For
-                            additional information about the University of Chigago's experience with
+                            additional information about the University of Chicago's experience with
                             the loader for 1.5, see <link
                                 xlink:href="https://jira.kuali.org/browse/OLE-5642">OLE-5642</link>.
                             If you have additional questions, please email <link
@@ -2002,7 +2001,7 @@
                             >OLE Demonstration Library - OLE 1.5 Demos</link>. The demonstration
                         presents the setup of several different bib import profiles and the batch
                         processing of .mrc files to import records using the created profiles into
-                        OLE. Additionally, to see the step by step functionality of the Bib Import
+                        OLE. Additionally, to see the step-by-step functionality of the Bib Import
                         profile, see the Google Document: <link
                             xlink:href="https://docs.google.com/a/kuali.org/spreadsheets/d/1ZZbUSuACkpRF9BNne4ZCOd6IdrRfI5uKpRCqpyatpu4/edit#gid=1698959993"
                             >Spec - Batch Import</link></para>
@@ -2107,9 +2106,9 @@
                         </para>
                         <tip>
                             <para>The Process Holdings and Items section does not mention
-                                e-holdings. When loading records which will have e-holdings, the
-                                term “holdings” can be applied to holdings and e-holdings. Process
-                                Items does not apply at all to e-holdings. </para>
+                                e-holdings. When loading records that will have e-holdings, the term
+                                “holdings” can be applied to holdings and e-holdings. Process Items
+                                does not apply at all to e-holdings. </para>
                         </tip>
                         <note>
                             <para>Matching and overlaying on existing records with multiple

@@ -240,7 +240,7 @@ public class OLENCIPAcceptItemUtil {
         OleDeliverRequestBo oleDeliverRequestBo = null;
         oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
         try {
-            oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+            oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel("Item Level");
 
             oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());

@@ -169,12 +169,14 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     }
 
     $scope.quickLaunchPopUp = function (jobId) {
+        document.getElementById('modalContentId').style.width = '550px';
         $scope.jobId = jobId;
         $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
     };
 
     $scope.schedulePopUp = function (jobId) {
         clearScheduleValues();
+        document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
         $scope.jobId = jobId;
         $scope.batchSchedule.showModal = !$scope.batchSchedule.showModal;
     };

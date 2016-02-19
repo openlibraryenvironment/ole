@@ -17,5 +17,8 @@
         <div ng-include="'batchReport/views/batchReportReqAndPoSection.html'"></div>
         <div ng-include="'batchReport/views/batchReportNeitherReqNorPoSection.html'"></div>
     </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('Invoice') != -1">
+        <div ng-include="'batchReport/views/batchReportInvoiceSection.html'"></div>
+    </div>
 </div>
 

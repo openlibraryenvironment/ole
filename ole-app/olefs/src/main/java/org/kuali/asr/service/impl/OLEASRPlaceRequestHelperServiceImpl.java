@@ -1194,7 +1194,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     oleNoticeBo.setExpiredOnHoldDate(date);
                     String maxNumOfDays = oleDeliverRequestBoList.get(i).getOlePickUpLocation().getOnHoldDays() != null ? oleDeliverRequestBoList.get(i).getOlePickUpLocation().getOnHoldDays() : loanProcessor.getParameter(OLEConstants.MAX_NO_OF_DAYS_ON_HOLD);
                     Integer maxNumberOfDaysOnHold = new Integer(maxNumOfDays);
-                    oleNoticeBo.setOnHoldDueDate(dateAdd(oleDeliverRequestBoList.get(i).getCreateDate(), maxNumberOfDaysOnHold));
+                    oleNoticeBo.setOnHoldDueDate(dateAdd(new java.sql.Date(oleDeliverRequestBoList.get(i).getCreateDate().getTime()), maxNumberOfDaysOnHold));
                     String noticeContent = getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.ONHOLD_BODY);
                     oleNoticeBo.setNoticeSpecificContent(noticeContent);
                     noticesList.add(oleNoticeBo);
@@ -2094,7 +2094,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
 
     public String placeRequest(String patronId, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier) {
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
-        oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+        oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
         OlePatronDocument olePatronDocument = null;
         Map<String, String> patronMap = new HashMap<String, String>();
         patronMap.put("olePatronId", patronId);
