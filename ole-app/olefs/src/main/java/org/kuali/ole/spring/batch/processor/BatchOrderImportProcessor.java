@@ -77,9 +77,18 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if (null != bibImportProfile) {
                 List<Record> recordToProcessBibImport = new ArrayList<>();
-                for (int index=0; index < records.size() ; index++) {
+                for (int index = 0; index < records.size(); index++) {
+
                     Record marcRecord = records.get(index);
+
+                    Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
+                    OrderData orderData = new OrderData();
+                    orderData.setRecordNumber(String.valueOf(index + 1));
+                    orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
+
                     String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+
+
                     if (StringUtils.isNotBlank(query)) {
                         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                         if (null == results || results.size() > 1) {
@@ -88,10 +97,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             continue;
                         }
 
-                        Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
-                        OrderData orderData = new OrderData();
-                        orderData.setRecordNumber(String.valueOf(index + 1));
-                        orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
                         if (null != results && results.size() == 1) {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
                             String bibId = (String) solrDocument.getFieldValue("id");
@@ -102,6 +107,9 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             unMatchedRecords.add(marcRecord);
                             unmatchedOrderDatas.add(orderData);
                         }
+                    } else {
+                        unMatchedRecords.add(marcRecord);
+                        unmatchedOrderDatas.add(orderData);
                     }
                 }
 
@@ -123,10 +131,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
                             Map<String, Record> recordsToProcess = new HashMap<>();
                             List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
-                            if(batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
+                            if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
                                 recordsToProcess = matchedRecords;
                                 orderDatasToReport = matchedOrderDatas;
-                            } else if(batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
+                            } else if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
                                 recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, matchedRecords);
                                 orderDatasToReport = unmatchedOrderDatas;
                             }
@@ -167,11 +175,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             OrderResponse orderResponse = new OrderResponse();
             orderResponse.setProcessType(processType);
             orderResponse.setOrderDatas(orderDatas);
-            if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
+            if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
                 oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
-            } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
+            } else if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
                 oleNGOrderImportResponse.addReqOnlyResponse(orderResponse);
-            } else if(processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
+            } else if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
                 oleNGOrderImportResponse.addNoReqNorPOResponse(orderResponse);
             }
         }
@@ -183,17 +191,17 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
         if (null != oleNGBibImportResponse) {
             List<BibResponse> bibResponses = oleNGBibImportResponse.getBibResponses();
-            if(CollectionUtils.isNotEmpty(bibResponses)) {
+            if (CollectionUtils.isNotEmpty(bibResponses)) {
                 for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
                     BibResponse bibResponse = iterator.next();
                     String bibId = bibResponse.getBibId();
                     if (!matchedRecords.containsKey(bibId)) {
                         String bibIdWithoutPrefix = DocumentUniqueIDPrefix.getDocumentId(bibId);
                         BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibIdWithoutPrefix);
-                        if(null != matchedBibRecord) {
+                        if (null != matchedBibRecord) {
                             String content = matchedBibRecord.getContent();
                             List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
-                            if(CollectionUtils.isNotEmpty(records)) {
+                            if (CollectionUtils.isNotEmpty(records)) {
                                 map.put(bibId, records.get(0));
                             }
                         }
