@@ -759,7 +759,7 @@
                                             </property>
                                         </bean>
                                         <bean id="OleItemCount" parent="Uif-InputField" p:propertyName="count"
-                                              p:label="Count" p:labelPlacement="LEFT">
+                                              p:label="Loan Count" p:labelPlacement="LEFT">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl"/>
                                             </property>
