@@ -531,8 +531,20 @@ This file contains custom application specific web.xml content.
     </servlet>
     <servlet-mapping>
         <servlet-name>oleLoaderServlet</servlet-name>
+        <url-pattern>/loaderApi/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>api</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+
 
 </web-app>
 
