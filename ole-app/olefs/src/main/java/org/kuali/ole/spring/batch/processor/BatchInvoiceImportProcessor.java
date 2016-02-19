@@ -88,6 +88,8 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                     oleinvoiceRecordMap.put(invoiceNumber, oleInvoiceRecords);
                 }
 
+                List<String> invoiceDocumentNumbers = new ArrayList<>();
+
                 for (Iterator<String> iterator = oleinvoiceRecordMap.keySet().iterator(); iterator.hasNext(); ) {
                     String invoiceNumber = iterator.next();
                     List oleInvoiceRecords = oleinvoiceRecordMap.get(invoiceNumber);
@@ -96,16 +98,19 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
                         oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument, oleInvoiceRecords);
                         oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
-                        if(null != oleInvoiceDocument.getDocumentNumber()) {
-                            response.put(OleNGConstants.STATUS,OleNGConstants.SUCCESS);
-                            response.put("Invoice Doc Number",oleInvoiceDocument.getDocumentNumber());
-                            System.out.println(response.toString());
-                            return response.toString();
+                        String documentNumber = oleInvoiceDocument.getDocumentNumber();
+                        if(null != documentNumber) {
+                            invoiceDocumentNumbers.add(documentNumber);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+
+                response.put(OleNGConstants.STATUS,OleNGConstants.SUCCESS);
+                response.put("Invoice Doc Numbers", invoiceDocumentNumbers);
+                System.out.println(response.toString());
+                return response.toString();
 
 
             }
