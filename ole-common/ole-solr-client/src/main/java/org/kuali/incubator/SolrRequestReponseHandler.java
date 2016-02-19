@@ -60,6 +60,39 @@ public class SolrRequestReponseHandler {
         return hitsOnPage;
     }
 
+    public List retrieveResultsForNotice(String queryString) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+
+        try {
+            QueryResponse qr = server.query(query);
+            int numFound = (int)qr.getResults().getNumFound();
+            query.setRows(Integer.valueOf(numFound));
+            qr = server.query(query);
+            SolrDocumentList sdl = qr.getResults();
+
+
+            for (SolrDocument d : sdl) {
+                HashMap<String, Object> values = new HashMap<String, Object>();
+
+                for (Iterator<Map.Entry<String, Object>> i = d.iterator(); i.hasNext(); ) {
+                    Map.Entry<String, Object> e2 = i.next();
+
+                    values.put(e2.getKey(), e2.getValue());
+                }
+
+                hitsOnPage.add(values);
+            }
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return hitsOnPage;
+    }
+
     private HttpSolrServer getHttpSolrServer() {
         if (null == server) {
             try {

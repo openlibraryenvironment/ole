@@ -14,9 +14,15 @@
                             <ref bean="deliverNoticeSearchPanel"/>
                             <ref bean="deliverNoticeSearchButtons"/>
                             <ref bean="deliverNoticeSearchResults"/>
+                            <ref bean="deliverNoticeSearchCriteria"/>
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/request/scripts/noticesSearch.js</value>
             </list>
         </property>
         <property name="formClass" value="org.kuali.ole.deliver.form.OLEDeliverNoticeSearchForm"/>
@@ -132,4 +138,12 @@
         </property>
     </bean>
 
+
+    <bean id="deliverNoticeSearchCriteria" parent="Uif-HorizontalBoxSection" p:style="text-align:center;">
+    <property name="items">
+        <list>
+        <bean id="pageSize" parent="Uif-DataField" p:propertyName="pageSize" p:hidden="true"/>
+        </list>
+    </property>
+    </bean>
 </beans>
