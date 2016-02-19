@@ -25,6 +25,7 @@
     <oleMaintenanceChannel:olePatronAdmin/>
     <oleMaintenanceChannel:oleVendorAdmin/>
     <oleMaintenanceChannel:oleLookup/>
+    <oleMaintenanceChannel:gobi/>
 </td>
 <td class="content" valign="top">
     <oleMaintenanceChannel:oleElectronicResourcesAdmin/>

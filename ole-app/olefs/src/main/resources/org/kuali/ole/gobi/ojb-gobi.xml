@@ -1,0 +1,49 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="org.kuali.ole.gobi.bo.GobiSubAccountDeliveryAddressDocument" table="GOBI_ADDR_MAPR_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GOBI_ADDR_MAPR_S"/>
+        <field-descriptor name="subAccount" column="SUB_ACCOUNT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="buildingCode" column="BUILDING_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="roomNumber" column="ROOM_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+</descriptor-repository>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

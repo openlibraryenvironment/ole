@@ -1,0 +1,56 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="GOBI_ADDR_MAPR_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="GOBI_ADDR_MAPR_T">
+            <column name="ID"   type="INTEGER"/>
+            <column name="SUB_ACCOUNT"   type="VARCHAR(100)" />
+            <column name="BUILDING_CODE"   type="VARCHAR(100)"/>
+            <column name="ROOM_NUMBER"   type="VARCHAR(100)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GOBI_ADDR_MAPR_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="GOBI_ADDR_MAPR_T_PK"
+                       schemaName="ole"
+                       tableName="GOBI_ADDR_MAPR_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GOBI_ADDR_MAPR_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="GOBI_ADDR_MAPR_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GOBI_ADDR_MAPR_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="GOBI_ADDR_MAPR_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="GOBI_ADDR_MAPR_S_PK"
+                       schemaName="ole"
+                       tableName="GOBI_ADDR_MAPR_S"/>
+
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          tableName="GOBI_ADDR_MAPR_S"/>
+    </changeSet>
+
+</databaseChangeLog>

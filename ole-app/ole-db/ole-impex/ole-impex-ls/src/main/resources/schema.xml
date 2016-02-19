@@ -3415,6 +3415,15 @@
     <view name="OLE_GOKB_V"
           viewdefinition="SELECT TIPP.GOKB_TIPP_ID,TIPP.TIPP_STATUS,TITLE.GOKB_TITLE_ID,TITLE.TITLE_NAME,TITLE.PUBLSHR_ID,TITLE.TI_ISSN_ONLINE,TITLE.TI_ISSN_PRNT,TITLE.TI_ISSN_L,TITLE.MEDIUM,PACKAGE.GOKB_PKG_ID,PACKAGE.PKG_STATUS,PACKAGE.PKG_NAME,PLATFORM.GOKB_PLTFRM_ID,PLATFORM.PLTFRM_NAME,PLATFORM.PLTFRM_STATUS,PLATFORM.SOFTWARE_PLTFRM,ORG.GOKB_ORG_ID,ORG.ORG_NAME FROM  OLE_GOKB_TIPP_T TIPP, OLE_GOKB_PLTFRM_T PLATFORM, OLE_GOKB_ORG_T ORG, OLE_GOKB_TITLE_T TITLE, OLE_GOKB_PKG_T PACKAGE WHERE TIPP.GOKB_PLTFRM_ID=PLATFORM.GOKB_PLTFRM_ID AND TIPP.GOKB_PKG_ID=PACKAGE.GOKB_PKG_ID AND TIPP.GOKB_TITLE_ID=TITLE.GOKB_TITLE_ID AND PLATFORM.PLTFRM_PRVDR_ID=ORG.GOKB_ORG_ID"/>
 
+    <table name="GOBI_ADDR_MAPR_T">
+        <column name="ID" primaryKey="true" type="INTEGER"/>
+        <column name="SUB_ACCOUNT" size="100" type="VARCHAR"/>
+        <column name="BUILDING_CODE" size="100" type="VARCHAR"/>
+        <column name="ROOM_NUMBER" size="100" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+    </table>
+
     <view name="OLE_PTRN_ENTITY_V" viewdefinition="(SELECT
     P.OLE_PTRN_ID,
     P.BARCODE AS PTRN_BRCD,
@@ -3754,6 +3763,7 @@
     <sequence name="OLE_DRL_RULE_S" nextval="1"/>
     <sequence name="OLE_DRL_FINE_LIMITS_S" nextval="1"/>
     <sequence name="OLE_NOTICE_TYPE_CONFIG_S" nextval="7"/>
+    <sequence name="GOBI_ADDR_MAPR_S" nextval="1"/>
     <sequence name="OLE_NOTC_FIELD_LABEL_MAPNG_S" nextval="1"/>
     <sequence name="OLE_NOTC_CNTNT_CONFIG_S" nextval="1"/>
     <sequence name="OLE_DLVR_PHONE_S" nextval="1"/>

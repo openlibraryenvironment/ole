@@ -293,28 +293,7 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
                     ybpNumberList.add(ybpNumber);
                 }
             }
-           /* for (int j = 0; j < ybpNumberList.size(); j++) {
-                String ybp = ybpNumberList.get(j);
-                List<LineItemOrder> ediLineItemOrder = ediOrder.getLineItemOrder();
-                for (LineItemOrder lineItemOrder : ediLineItemOrder) {
-                    BuyerReferenceInformation buyerReferenceInformation = lineItemOrder.getBuyerReferenceInformation().get(0);
-                    BuyerLineItemReference buyerLineItemReference = buyerReferenceInformation.getBuyerLineItemReference().get(0);
-                    String orderLineNumber = buyerLineItemReference.getOrderLineNumber();
-                    if (ybp.equals(orderLineNumber)) {
-                        //  System.out.println("lineItemOrder:::::" + lineItemOrder);
-                        lineItemOrderList.add(lineItemOrder);
 
-                    }
-                }
-
-            }
-            if (lineItemOrderList.size() > 0) {
-                ediOrder.getLineItemOrder().clear();
-                ediOrder.setLineItemOrder(lineItemOrderList);
-                ediOrderList.add(ediOrder);
-                ediOrders.setOrders(ediOrderList);
-                ediXML = transcationalRecordGenerator.toXml(ediOrders);
-            }   */
             if (bibliographicRecordList.size() > 0) {
                 bibliographicRecords.setRecords(bibliographicRecordList);
                 bibXML = bibMarcRecordProcessor.generateXML(bibliographicRecordList);

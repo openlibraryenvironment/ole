@@ -827,6 +827,7 @@ public class OLEConstants {
         public static final String PERCENT = "percent";
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
+        public static final String SINGLE_COPY_NUMBER = "singleCopyNumber";
         public static final String VENDOR_NUMBER = "vendorNumber";
         public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
@@ -1038,6 +1039,8 @@ public class OLEConstants {
         public static final String E_HOLDINGS_PUBLISHER = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $j";
         public static final String E_HOLDINGS_IMPRINT = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $k";
 
+        public static final String REQUISITION_SOURCE = "requisitionSource";
+        public static final String ITEM_PRICE_SOURCE = "itemPriceSource";
     }
 
     public static final class OlePatron {
