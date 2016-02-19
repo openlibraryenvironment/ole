@@ -181,6 +181,11 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     oleNGBibImportResponse.setMultipleMatchedEHoldingsCount(oleNGBibImportResponse.getMultipleMatchedEHoldingsCount() + multipleMatchedEHoldings);
                 }
 
+                Integer multipleMatchedItems = (Integer) exchange.get("multipleMatchedItems");
+                if (null != multipleMatchedItems) {
+                    oleNGBibImportResponse.setMultipleMatchedItemsCount(oleNGBibImportResponse.getMultipleMatchedItemsCount() + multipleMatchedItems);
+                }
+
                 bibResponses.add(bibResponse);
             }
 
@@ -541,6 +546,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         JSONArray clonedDataMappings = getClonedDataMappingsJSONArray(itemJSON);
         JSONObject matchPoints = null;
         HashMap map = null;
+
+        Map<String, Map<String, List<ItemRecordAndDataMapping>>> matchedItemsRecordByMatchPoint = new HashMap<String, Map<String, List<ItemRecordAndDataMapping>>>();
         try {
             matchPoints = itemJSON.getJSONObject(OleNGConstants.MATCH_POINT);
             map = getObjectMapper().readValue(matchPoints.toString(), new TypeReference<Map<String, String>>() {
@@ -562,7 +569,26 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                                     String matchedValue = (String) exchange.get(OleNGConstants.MATCHED_VALUE);
                                     JSONObject filterdDataMapping = findDataMappingByValue(clonedDataMappings, key, matchedValue);
                                     itemRecordAndDataMapping.setDataMapping(filterdDataMapping);
-                                    itemRecordAndDataMappings.add(itemRecordAndDataMapping);
+
+                                    if(matchedItemsRecordByMatchPoint.containsKey(key)) {
+                                        Map<String, List<ItemRecordAndDataMapping>> matchPointValueAndItems = matchedItemsRecordByMatchPoint.get(key);
+                                        if (!matchPointValueAndItems.containsKey(matchedValue)) {
+                                            ArrayList matchedItemsForValue = new ArrayList();
+                                            matchedItemsForValue.add(itemRecordAndDataMapping);
+                                            matchPointValueAndItems.put(matchedValue, matchedItemsForValue);
+                                        } else {
+                                            List<ItemRecordAndDataMapping> itemRecordAndDataMappings1 = matchPointValueAndItems.get(matchedValue);
+                                            itemRecordAndDataMappings1.add(itemRecordAndDataMapping);
+                                        }
+                                    } else {
+                                        Map<String, List<ItemRecordAndDataMapping>> matchPointValueAndItems = new HashMap<String, List<ItemRecordAndDataMapping>>();
+                                        ArrayList matchedItemsForValue = new ArrayList();
+                                        matchedItemsForValue.add(itemRecordAndDataMapping);
+                                        matchPointValueAndItems.put(matchedValue, matchedItemsForValue);
+                                        matchedItemsRecordByMatchPoint.put(key, matchPointValueAndItems);
+                                    }
+
+
                                     exchange.remove(OleNGConstants.MATCHED_ITEM);
                                     exchange.remove(OleNGConstants.MATCHED_VALUE);
                                 }
@@ -579,6 +605,25 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        for (Iterator<String> itemRecordIterator = matchedItemsRecordByMatchPoint.keySet().iterator(); itemRecordIterator.hasNext(); ) {
+            String key = itemRecordIterator.next();
+            Map<String, List<ItemRecordAndDataMapping>> matchPointValueAndItems = matchedItemsRecordByMatchPoint.get(key);
+            for (Iterator<String> iterator = matchPointValueAndItems.keySet().iterator(); iterator.hasNext(); ) {
+                String valueKey = iterator.next();
+                if (matchPointValueAndItems.get(valueKey).size() == 1) {
+                    itemRecordAndDataMappings.add(matchPointValueAndItems.get(valueKey).get(0));
+                } else {
+                    Integer multipleMatchedItems = (Integer) exchange.get("multipleMatchedItems");
+                    if (null != multipleMatchedItems) {
+                        multipleMatchedItems = multipleMatchedItems + matchPointValueAndItems.size();
+                    } else {
+                        multipleMatchedItems = matchPointValueAndItems.size();
+                    }
+                    exchange.add("multipleMatchedItems", multipleMatchedItems);
+                }
+            }
         }
 
         JSONArray unAssignedDataMappings = filterUnAssignedDataMappings(clonedDataMappings);
@@ -779,9 +824,9 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
         JSONArray clonedDataMapping = getClonedDataMappingsJSONArray(holdingsJSON);
 
+        Map<String, Map<String, List<HoldingsRecordAndDataMapping>>> matchedHoldingsByMatchPoint = new HashMap<String, Map<String, List<HoldingsRecordAndDataMapping>>>();
 
         for (Iterator<HoldingsRecord> iterator = holdingsForBib.iterator(); iterator.hasNext(); ) {
-            Map<String, List<HoldingsRecordAndDataMapping>> matchedHoldingsByMatchPoint = new HashMap<String, List<HoldingsRecordAndDataMapping>>();
             HoldingsRecord holdingsRecord = iterator.next();
             if (holdingsRecord.getHoldingsType().equals(docType)) {
 
@@ -811,13 +856,22 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                                     JSONObject filterdDataMapping = findDataMappingByValue(clonedDataMapping, key, matchedValue);
                                     holdingsRecordAndDataMapping.setDataMapping(filterdDataMapping);
 
-                                    if (!matchedHoldingsByMatchPoint.containsKey(key)) {
+                                    if(matchedHoldingsByMatchPoint.containsKey(key)) {
+                                        Map<String, List<HoldingsRecordAndDataMapping>> matchPointValueAndHoldings = matchedHoldingsByMatchPoint.get(key);
+                                        if (!matchPointValueAndHoldings.containsKey(matchedValue)) {
+                                            ArrayList matchedHoldingsForKey = new ArrayList();
+                                            matchedHoldingsForKey.add(holdingsRecordAndDataMapping);
+                                            matchPointValueAndHoldings.put(matchedValue, matchedHoldingsForKey);
+                                        } else {
+                                            List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings1 = matchPointValueAndHoldings.get(matchedValue);
+                                            holdingsRecordAndDataMappings1.add(holdingsRecordAndDataMapping);
+                                        }
+                                    } else {
+                                        Map<String, List<HoldingsRecordAndDataMapping>> matchPointValueAndHoldings = new HashMap<String, List<HoldingsRecordAndDataMapping>>();
                                         ArrayList matchedHoldingsForKey = new ArrayList();
                                         matchedHoldingsForKey.add(holdingsRecordAndDataMapping);
-                                        matchedHoldingsByMatchPoint.put(key, matchedHoldingsForKey);
-                                    } else {
-                                        List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings1 = matchedHoldingsByMatchPoint.get(key);
-                                        holdingsRecordAndDataMappings1.add(holdingsRecordAndDataMapping);
+                                        matchPointValueAndHoldings.put(matchedValue, matchedHoldingsForKey);
+                                        matchedHoldingsByMatchPoint.put(key, matchPointValueAndHoldings);
                                     }
 
                                     exchange.remove(OleNGConstants.MATCHED_HOLDINGS);
@@ -830,32 +884,36 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
 
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
+        }
 
-
-            for (Iterator<String> holdingsRecordIterator = matchedHoldingsByMatchPoint.keySet().iterator(); holdingsRecordIterator.hasNext(); ) {
-                String key = holdingsRecordIterator.next();
-                if (matchedHoldingsByMatchPoint.get(key).size() == 1) {
-                    holdingsRecordAndDataMappings.add(matchedHoldingsByMatchPoint.get(key).get(0));
+        for (Iterator<String> holdingsRecordIterator = matchedHoldingsByMatchPoint.keySet().iterator(); holdingsRecordIterator.hasNext(); ) {
+            String key = holdingsRecordIterator.next();
+            Map<String, List<HoldingsRecordAndDataMapping>> matchPointValueAndHoldings = matchedHoldingsByMatchPoint.get(key);
+            for (Iterator<String> iterator = matchPointValueAndHoldings.keySet().iterator(); iterator.hasNext(); ) {
+                String valueKey = iterator.next();
+                if (matchPointValueAndHoldings.get(valueKey).size() == 1) {
+                    holdingsRecordAndDataMappings.add(matchPointValueAndHoldings.get(valueKey).get(0));
                 } else {
                     if (docType.equalsIgnoreCase(PHoldings.PRINT)) {
                         Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
                         if (null != multipleMatchedHoldings) {
-                            multipleMatchedHoldings = multipleMatchedHoldings + matchedHoldingsByMatchPoint.size();
+                            multipleMatchedHoldings = multipleMatchedHoldings + matchPointValueAndHoldings.size();
                         } else {
-                            multipleMatchedHoldings = matchedHoldingsByMatchPoint.size();
+                            multipleMatchedHoldings = matchPointValueAndHoldings.size();
                         }
                         exchange.add("multipleMatchedHoldings", multipleMatchedHoldings);
                     } else if (docType.equalsIgnoreCase(EHoldings.ELECTRONIC)) {
                         Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
                         if (null != multipleMatchedEHoldings) {
-                            multipleMatchedEHoldings = multipleMatchedEHoldings + matchedHoldingsByMatchPoint.size();
+                            multipleMatchedEHoldings = multipleMatchedEHoldings + matchPointValueAndHoldings.size();
                         } else {
-                            multipleMatchedEHoldings = matchedHoldingsByMatchPoint.size();
+                            multipleMatchedEHoldings = matchPointValueAndHoldings.size();
                         }
                         exchange.add("multipleMatchedEHoldings", multipleMatchedEHoldings);
                     }
                 }
             }
+
         }
 
         JSONArray unAssignedDataMappings = filterUnAssignedDataMappings(clonedDataMapping);
@@ -988,7 +1046,10 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
                     String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
 
-                    numOccurances.put(docType, getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField));
+                    Integer count = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
+                    if(count != null && count > 0) {
+                        numOccurances.put(docType, count);
+                    }
                 }
 
             } catch (JSONException e) {
@@ -1060,13 +1121,16 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 JSONObject dataMapping = null;
                 try {
                     dataMapping = dataMappings.getJSONObject(index);
-                    if (dataMapping.has(type)) {
-                        JSONArray dataMappingValues = dataMapping.getJSONArray(type);
-                        for (int innerIndex = 0; innerIndex < dataMappingValues.length(); innerIndex++) {
-                            String dataMappingValue = dataMappingValues.getString(innerIndex);
-                            if (dataMappingValue.equalsIgnoreCase(value)) {
-                                dataMapping.put("assigned", Boolean.TRUE);
-                                return dataMapping;
+                    if (dataMapping.has(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING)) {
+                        JSONObject matchpointForDataMapping = dataMapping.getJSONObject(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING);
+                        if (matchpointForDataMapping.has(type)) {
+                            JSONArray dataMappingValues = matchpointForDataMapping.getJSONArray(type);
+                            for (int innerIndex = 0; innerIndex < dataMappingValues.length(); innerIndex++) {
+                                String dataMappingValue = dataMappingValues.getString(innerIndex);
+                                if (dataMappingValue.equalsIgnoreCase(value)) {
+                                    dataMapping.put("assigned", Boolean.TRUE);
+                                    return dataMapping;
+                                }
                             }
                         }
                     }

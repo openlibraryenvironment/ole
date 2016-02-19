@@ -162,7 +162,8 @@ public class MarcRecordUtil {
         boolean result = true;
         if (StringUtils.isNotBlank(indicator1)) {
             result = dataField.getIndicator1() == indicator1.charAt(0);
-        } else if (StringUtils.isNotBlank(indicator2)) {
+        }
+        if (StringUtils.isNotBlank(indicator2)) {
             result &= dataField.getIndicator2() == indicator2.charAt(0);
         }
         return result;
