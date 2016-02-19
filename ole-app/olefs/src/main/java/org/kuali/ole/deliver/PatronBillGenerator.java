@@ -52,11 +52,18 @@ public class PatronBillGenerator {
         feeType.setItemBarcode(oleLoanDocument.getItemId());
         feeType.setItemUuid(oleLoanDocument.getItemUuid());
         getPatronBillHelperService().setFeeTypeInfo(feeType,oleLoanDocument.getItemUuid());
+
         feeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
         feeType.setDueDate(dueDate);
-        feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
+        if(oleLoanDocument.isOverrideCheckInTime()){
+            feeType.setOverrideCheckInDate(oleLoanDocument.getCheckInDate());
+            feeType.setCheckInDate(new Timestamp(System.currentTimeMillis()));
+        }else{
+            feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
+        }
+
         feeType.setCheckOutDate(oleLoanDocument.getCreateDate());
         List<FeeType> feeTypes = new ArrayList<FeeType>();
         feeTypes.add(feeType);
