@@ -1382,23 +1382,25 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Map map = new HashMap();
         map.put("itemId", itemId);
         List<LocationsCheckinCountRecord> locationsCheckinCountRecordList = (List<LocationsCheckinCountRecord>) getBusinessObjectService().findMatching(LocationsCheckinCountRecord.class, map);
-        if (locationsCheckinCountRecordList != null && locationsCheckinCountRecordList.size() > 0) {
-            LocationsCheckinCountRecord locationsCheckinCountRecord = locationsCheckinCountRecordList.get(0);
-            CheckInLocation checkInLocation = checkInLocationList.get(0);
-            locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
-            locationsCheckinCountRecord.setLocationName(checkInLocation.getName());
-            locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
-            getBusinessObjectService().save(locationsCheckinCountRecord);
-        } else {
-
-            CheckInLocation checkInLocation = checkInLocationList.get(0);
+        CheckInLocation checkInLocation = checkInLocationList.get(0);
+        boolean isLocationPresent = false;
+        if(CollectionUtils.isNotEmpty(locationsCheckinCountRecordList)) {
+            for(LocationsCheckinCountRecord locationsCheckinCountRecord : locationsCheckinCountRecordList) {
+                if(locationsCheckinCountRecord.getLocationName().equals(checkInLocation.getName())) {
+                    isLocationPresent = true;
+                    locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
+                    locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
+                    getBusinessObjectService().save(locationsCheckinCountRecord);
+                }
+            }
+        }
+        if(!isLocationPresent) {
             LocationsCheckinCountRecord locationsCheckinCountRecord = new LocationsCheckinCountRecord();
             locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
             locationsCheckinCountRecord.setLocationName(checkInLocation.getName());
             locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
             locationsCheckinCountRecord.setItemId(itemId);
             getBusinessObjectService().save(locationsCheckinCountRecord);
-
         }
 
     }
