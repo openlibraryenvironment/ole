@@ -16,7 +16,7 @@ public class DynamicRouteBuilder extends RouteBuilder {
     private final String to;
     private final List<Processor> processorList;
 
-    DynamicRouteBuilder(CamelContext context, String from, String to, List<Processor> processorList) {
+    public DynamicRouteBuilder(CamelContext context, String from, String to, List<Processor> processorList) {
         super(context);
         this.from = from;
         this.to = to;
@@ -25,7 +25,7 @@ public class DynamicRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        RouteDefinition routeDefinition = from(from);
+        RouteDefinition routeDefinition = from(from).routeId(from);
 
         for (Iterator<Processor> iterator = processorList.iterator(); iterator.hasNext(); ) {
             Processor processor = iterator.next();

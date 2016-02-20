@@ -30,6 +30,7 @@ var OLENG_CONSTANTS = {
     BATCH_JOBS : "rest/describe/getBatchJobs",
     DESTROY_PROCESS : "rest/batch/job/destroy",
     REPORT_FILES : "rest/batch/job/getReportsFiles",
+    SPECIFIC_REPORT_FILES : "rest/batch/job/getSpecificReportsFiles",
     GET_FILE_CONTENT : "rest/batch/job/getFileContent"
 
 };
@@ -43,6 +44,17 @@ var BATCH_CONSTANTS = {
 
 };
 
+
+
+var getUrlVars = function () {
+    var vars = {}, hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
 
 
 var doGetRequest = function($scope, $http, url, param, successCallback) {

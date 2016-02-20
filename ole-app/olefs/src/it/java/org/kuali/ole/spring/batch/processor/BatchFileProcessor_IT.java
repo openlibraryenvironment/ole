@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
         String rawMarc = FileUtils.readFileToString(file);
-        batchFileProcessor.processBatch(rawMarc,profileName);
+        String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
+        batchFileProcessor.processBatch(rawMarc,profileName,reportDirectory);
     }
 
     @Test
@@ -263,7 +265,8 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
 
         MockSolrRequestReponseHandler mockSolrRequestReponseHandler = new MockSolrRequestReponseHandler();
         mockBatchBibFileProcessor.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        String response = mockBatchBibFileProcessor.processRecords(records, batchProcessProfile);
+        String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
+        String response = mockBatchBibFileProcessor.processRecords(records, batchProcessProfile,reportDirectory);
         assertTrue(StringUtils.isNotBlank(response));
         System.out.println(response);
     }

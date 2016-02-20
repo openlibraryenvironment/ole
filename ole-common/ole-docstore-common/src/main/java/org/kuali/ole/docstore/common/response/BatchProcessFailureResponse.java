@@ -23,6 +23,9 @@ public class BatchProcessFailureResponse {
     @JsonIgnore
     private String failedRawMarcContent;
 
+    @JsonIgnore
+    private String directoryName;
+
     public String getBatchProcessProfileName() {
         return batchProcessProfileName;
     }
@@ -53,5 +56,13 @@ public class BatchProcessFailureResponse {
 
     public void setFailedRawMarcContent(String failedRawMarcContent) {
         this.failedRawMarcContent = failedRawMarcContent;
+    }
+
+    public String getDirectoryName() {
+        return directoryName;
+    }
+
+    public void setDirectoryName(String directoryName) {
+        this.directoryName = directoryName;
     }
 }

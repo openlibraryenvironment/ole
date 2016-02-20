@@ -15,7 +15,7 @@ import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
-import org.kuali.ole.oleng.batch.reports.BatchOrderImportReportLogHandler;
+import org.kuali.ole.oleng.batch.reports.OrderImportReportLogHandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.oleng.resolvers.CreateNeitherReqNorPOHandler;
@@ -58,7 +58,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private HashMap operationIndMap;
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
@@ -110,7 +110,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (CollectionUtils.isNotEmpty(recordToProcessBibImport)) {
-                    oleNGBibImportResponse = processBibImport(recordToProcessBibImport, bibImportProfile);
+                    oleNGBibImportResponse = processBibImport(recordToProcessBibImport, bibImportProfile, reportDirectoryName);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -156,8 +156,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
 
         oleNGOrderImportResponse.setRequisitionIds(purapIds);
-        BatchOrderImportReportLogHandler batchOrderImportReportLogHandler = BatchOrderImportReportLogHandler.getInstance();
-        batchOrderImportReportLogHandler.logMessage(oleNGOrderImportResponse);
+        OrderImportReportLogHandler orderImportReportLogHandler = new OrderImportReportLogHandler(reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
+        orderImportReportLogHandler.logMessage(oleNGOrderImportResponse);
 
         return response;
     }
@@ -231,10 +231,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(List<Record> records, BatchProcessProfile bibImportProfile) {
+    private OleNGBibImportResponse processBibImport(List<Record> records, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            String response = batchBibFileProcessor.processRecords(records, bibImportProfile);
+            String response = batchBibFileProcessor.processRecords(records, bibImportProfile, reportDirectoryName);
             oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
         } catch (Exception e) {
             e.printStackTrace();
