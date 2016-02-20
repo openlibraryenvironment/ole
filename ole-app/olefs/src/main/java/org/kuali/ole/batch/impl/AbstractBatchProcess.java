@@ -379,6 +379,11 @@ public abstract class AbstractBatchProcess implements OLEBatchProcess {
         getOLEBatchProcessDataHelper().createBatchFailureFile(failureRecordData, processDef.getBatchProcessType(), job.getJobId() + "_FailureRecord" + "_" + fileName, job.getJobId());
     }
 
+    public OLEBatchProcessDefinitionDocument getProcessDef() {
+        return processDef;
+    }
 
-
+    public void setProcessDef(OLEBatchProcessDefinitionDocument processDef) {
+        this.processDef = processDef;
+    }
 }

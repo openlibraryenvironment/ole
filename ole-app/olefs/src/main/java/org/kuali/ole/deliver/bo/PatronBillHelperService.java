@@ -5,9 +5,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
-import org.kuali.ole.docstore.common.document.content.instance.Item;
-import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
+import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 
@@ -208,11 +206,11 @@ public class PatronBillHelperService {
             Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
             OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
             if(itemContent!=null && itemContent.getLocation()!=null && itemContent.getLocation().getLocationLevel()!=null) {
-                location = itemContent.getLocation().getLocationLevel().getName()+"-"+itemContent.getLocation().getLocationLevel().getLocationLevel().getName();
+                location = item.getLocationName();
             }
             if(location==null){
                 if(oleHoldings!=null && oleHoldings.getLocation()!=null && oleHoldings.getLocation().getLocationLevel()!=null) {
-                    location = oleHoldings.getLocation().getLocationLevel().getName()+"-"+oleHoldings.getLocation().getLocationLevel().getLocationLevel().getName();
+                    location = item.getHolding().getLocationName();
                 }
             }
             feeType.setItemCallNumber(getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));

@@ -54,6 +54,7 @@ public class FeeType extends PersistableBusinessObjectBase {
     private Date checkOutDate;
     private Timestamp checkInDate;
     private Timestamp lastTransactionDate;
+    private Timestamp overrideCheckInDate;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -367,5 +368,13 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setItemOwnLocation(String itemOwnLocation) {
         this.itemOwnLocation = itemOwnLocation;
+    }
+
+    public Timestamp getOverrideCheckInDate() {
+        return overrideCheckInDate;
+    }
+
+    public void setOverrideCheckInDate(Timestamp overrideCheckInDate) {
+        this.overrideCheckInDate = overrideCheckInDate;
     }
 }

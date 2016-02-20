@@ -392,6 +392,7 @@
             <column name="ITM_ENUM"   type="VARCHAR(100)"/>
             <column name="ITM_CHRON"   type="VARCHAR(100)"/>
             <column name="ITM_LOC"   type="VARCHAR(600)"/>
+            <column name="CHECK_IN_DT_TIME_OVR_RD"  type="TIMESTAMP"/>
         </addColumn>
     </changeSet>
 

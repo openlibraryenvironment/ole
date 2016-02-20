@@ -1,0 +1,70 @@
+<PurchaseOrder>
+  <CustomerDetail>
+    <BaseAccount>5095</BaseAccount>
+    <SubAccount>509560</SubAccount>
+  </CustomerDetail>
+  <Order>
+    <UnlistedPrintMonograph>
+      <collection>
+        <record>
+          <leader>00000nYm a2200000u  4500</leader>
+          <controlfield tag="001">99962601590</controlfield>
+          <controlfield tag="003">NhCcYBP</controlfield>
+          <controlfield tag="005">20151006085058.0</controlfield>
+          <controlfield tag="008">151006t20152015xx ||||||||||||||   und d</controlfield>
+          <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9781231231231</subfield>
+            <subfield code="c">2000</subfield>
+          </datafield>
+          <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Aliweh, Khalid</subfield>
+          </datafield>
+          <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">This is an Unlisted print title</subfield>
+          </datafield>
+          <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">5</subfield>
+          </datafield>
+          <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Contoocook, NH</subfield>
+            <subfield code="b">YBP publishing</subfield>
+            <subfield code="c">2015</subfield>
+          </datafield>
+        </record>
+      </collection>
+      <OrderDetail>
+        <BatchPONumber />
+        <ItemPONumber>test PO</ItemPONumber>
+        <FundCode>afr</FundCode>
+        <MappedFundCode />
+        <OrderNotes>This a test note to ybp</OrderNotes>
+        <OtherLocalId />
+        <Location>Test Bookplate</Location>
+        <Quantity>2</Quantity>
+        <YBPOrderKey>99962601590</YBPOrderKey>
+        <OrderPlaced>2015-10-06T08:50:41</OrderPlaced>
+        <Initials>KH</Initials>
+        <ListPrice>
+          <Amount>2000</Amount>
+          <Currency>GBP</Currency>
+        </ListPrice>
+        <LocalData>
+          <Description>LocalData1</Description>
+          <Value>Test Location</Value>
+        </LocalData>
+        <LocalData>
+          <Description>LocalData2</Description>
+          <Value>Test Proc Instruction</Value>
+        </LocalData>
+        <LocalData>
+          <Description>LocalData3</Description>
+          <Value>Test Local Data 3</Value>
+        </LocalData>
+        <LocalData>
+          <Description>LocalData4</Description>
+          <Value>Test Local Data 4</Value>
+        </LocalData>
+      </OrderDetail>
+    </UnlistedPrintMonograph>
+  </Order>
+</PurchaseOrder>

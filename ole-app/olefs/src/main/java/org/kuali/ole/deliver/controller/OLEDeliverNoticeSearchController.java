@@ -53,8 +53,8 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
             return getUIFModelAndView(oleDeliverNoticeSearchForm);
         }
         String solrQuery = buildSolrQuery(filterFields);
-        List results = new SolrRequestReponseHandler().retriveResults(solrQuery);
-
+        List results = new SolrRequestReponseHandler().retrieveResultsForNotice(solrQuery);
+        oleDeliverNoticeSearchForm.setTotalRecCount(results.size());
         List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResults = buildSearchResults(results);
         if (CollectionUtils.isEmpty(oleDeliverNoticeSearchResults)){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.NO_RECORD_FOUND);

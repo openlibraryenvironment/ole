@@ -1,0 +1,41 @@
+<PurchaseOrder>
+    <CustomerDetail>
+        <BaseAccount>5095</BaseAccount>
+        <SubAccount>509581</SubAccount>
+    </CustomerDetail>
+    <Order>
+        <UnlistedPrintSerial>
+            <collection>
+                <record>
+                    <leader>00000nYs a2200000u  4500</leader>
+                    <controlfield tag="001">99962601592</controlfield>
+                    <controlfield tag="003">NhCcYBP</controlfield>
+                    <controlfield tag="005">20151006092540.0</controlfield>
+                    <controlfield tag="008">151006nuuuuuuuuxx ||||||||||||||   und d</controlfield>
+                    <datafield tag="020" ind1=" " ind2=" ">
+                        <subfield code="a">978123123123</subfield>
+                        <subfield code="c">0</subfield>
+                    </datafield>
+                    <datafield tag="245" ind1="0" ind2="0">
+                        <subfield code="a">Unlisted Print series title</subfield>
+                    </datafield>
+                    <datafield tag="260" ind1=" " ind2=" ">
+                        <subfield code="b">YBP Publication</subfield>
+                    </datafield>
+                </record>
+            </collection>
+            <OrderDetail>
+                <BatchPONumber />
+                <ItemPONumber>Test PO</ItemPONumber>
+                <FundCode>Test Fund</FundCode>
+                <MappedFundCode />
+                <OrderNotes>Test Note to Ybp|3|ISSN: </OrderNotes>
+                <Quantity>1</Quantity>
+                <YBPOrderKey>99962601592</YBPOrderKey>
+                <OrderPlaced>2015-10-06T09:25:30</OrderPlaced>
+                <Initials>KH</Initials>
+                <StartWithVolume>3</StartWithVolume>
+            </OrderDetail>
+        </UnlistedPrintSerial>
+    </Order>
+</PurchaseOrder>

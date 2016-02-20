@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="GobiSubAccountDeliveryAddressMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean id="WorkflowPropertyGroup" parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="GobiSubAccountDeliveryAddressMaintenanceDocument-MaintenanceView" parent="Uif-OleMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.gobi.bo.GobiSubAccountDeliveryAddressDocument"/>
+        <property name="headerText" value="Gobi Sub-Account Address Mapper"/>
+        <property name="items">
+            <list merge="true">
+                <bean  parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Gobi Sub-Account Address Mapper"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_gobi_subAccount" parent="Uif-InputField" p:propertyName="subAccount" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_gobi_buildingCode" parent="Uif-InputField" p:propertyName="buildingCode"
+                                  p:onChangeScript="submitForm('refresh', null, null, null, null);">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.sys.businessobject.options.BuildingValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                            </bean>
+                            <bean id="create_gobi_roomNumber" parent="Uif-InputField" p:propertyName="roomNumber">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.gobi.valueFinder.RoomNumberValueFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="page.footer">
+            <ref bean="GobiSubAccountDeliveryAddressDocument-FooterSection"/>
+        </property>
+        <property name="page">
+            <bean parent="Uif-GobiSubAccountDeliveryAddressDocument-MaintenancePage"/>
+        </property>
+    </bean>
+    <bean id="GobiSubAccountDeliveryAddressMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.gobi.bo.GobiSubAccountDeliveryAddressDocument"/>
+        <property name="documentTypeName" value="GOBI_SUB_ACC_ADDR_MPR"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--View Customization-->
+
+    <bean id="Uif-GobiSubAccountDeliveryAddressDocument-MaintenancePage" abstract="true"
+          parent="Uif-GobiSubAccountDeliveryAddressDocument-MaintenancePage-parentBean"/>
+    <bean id="Uif-GobiSubAccountDeliveryAddressDocument-MaintenancePage-parentBean"
+          parent="Uif-GobiSubAccountDeliveryAddressDocument-DocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-GobiSubAccountDeliveryAddressDocument-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GobiSubAccountDeliveryAddressDocument-FooterSection" parent="Uif-DocumentPageFooter">
+        <property name="items">
+            <list>
+                <bean id="GobiSubAccountDeliveryAddressDocument-submitAction" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                      p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and maintenanceAction ne 'Cancel'}"/>
+                <bean id="GobiSubAccountDeliveryAddressDocument-cancleAction" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Cancel'} "/>
+            </list>
+        </property>
+    </bean>
+</beans>

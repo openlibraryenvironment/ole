@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This document is confidential and proprietary to YBP Library Services. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+   <xs:include schemaLocation="MARC21slim.xsd"/>
+	<xs:annotation>
+      <xs:documentation>YBP Library Services Purchase Order API XSD</xs:documentation>
+   </xs:annotation>
+   <xs:simpleType name="BaseAccount">
+      <xs:annotation>
+         <xs:documentation>This number identifies the library in the YBP Systems</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1000"/>
+         <xs:maxInclusive value="99999"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="SubAccount">
+      <xs:annotation>
+         <xs:documentation>This number identifies one of the library's relationships with YBP</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="100001"/>
+         <xs:maxInclusive value="9999999"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ISBN">
+      <xs:annotation>
+         <xs:documentation>Industry Standard Book Number in 13 digit (EAN) format.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:length value="13"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="OCLCControlNumber">
+      <xs:annotation>
+         <xs:documentation>OCLC Control Number</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="17"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Title">
+      <xs:annotation>
+         <xs:documentation>This is the title YBP has on file for this item.  If the item is unlisted, then this is the title provided by the customer at order time.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="200"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Author">
+      <xs:annotation>
+         <xs:documentation>The author of the item if one is available.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="125"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EditionStatement">
+      <xs:annotation>
+         <xs:documentation>Edition Statement</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Publisher">
+      <xs:annotation>
+         <xs:documentation>The publisher of this item.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PlaceOfPublication">
+      <xs:annotation>
+         <xs:documentation>The city name of the place of publication.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ISSN">
+      <xs:annotation>
+         <xs:documentation>If this is a series item, the ISSN of the series if it is available.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="8"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="SeriesStatement">
+      <xs:annotation>
+         <xs:documentation>The series statement of the item.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="YearOfPublication">
+      <xs:annotation>
+         <xs:documentation>The year the item was published.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:integer">
+         <xs:minInclusive value="1000"/>
+         <xs:totalDigits value="4"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="BatchPONumber">
+      <xs:annotation>
+         <xs:documentation>This is the purchase order assigned to a batch of orders</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="16"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ItemPONumber">
+      <xs:annotation>
+         <xs:documentation>This is the purchase order for this individual item.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="16"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="FundCode">
+      <xs:annotation>
+         <xs:documentation>The Fund Code assigned to this item in GOBI.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="MappedFundCode">
+      <xs:annotation>
+         <xs:documentation>Longer Fund Code if the customer is mapping to larger fund codes.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="OrderNotes">
+      <xs:annotation>
+         <xs:documentation>This is a notes field used to provide communications with YBP on the handling of this order.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="OtherLocalId">
+      <xs:annotation>
+         <xs:documentation>Other Local Order Identifier</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Location">
+      <xs:annotation>
+         <xs:documentation>This is sometimes used as the shelving location or library identifier by the customer.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Currency">
+      <xs:annotation>
+         <xs:documentation>ISO 4217 Currency Code</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="3"/>
+         <xs:maxLength value="3"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LD-Description">
+      <xs:annotation>
+         <xs:documentation>Description of the local data being provided.  Displays in GOBI as the label for this field.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LD-Value">
+      <xs:annotation>
+         <xs:documentation>The Local Data Value provided by the customer. Limited to 80 characters, but the customer can restrict this to a shorter length in GOBI.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="80"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Vendor-PO-Code">
+      <xs:annotation>
+         <xs:documentation>Five character vendor purchase option code.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="2"/>
+         <xs:maxLength value="5"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PO-Code">
+      <xs:annotation>
+         <xs:documentation>Two character purchase option code.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="2"/>
+         <xs:maxLength value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PO-Description">
+      <xs:annotation>
+         <xs:documentation>Text description of the purchase option.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PO-VendorCode">
+      <xs:annotation>
+         <xs:documentation>Purchase Option Vendor Code.  Usually a 3 character value unique for each eBook vendor YBP works with.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="StartWithVolume">
+      <xs:annotation>
+         <xs:documentation>When the order is a standing order for series this is an instruction to YBP as to which volume of the series to start with.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="0"/>
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="PurchaseOrder">
+      <xs:annotation>
+         <xs:documentation>This is the purchase order object that would be provided in the post</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="CustomerDetail" minOccurs="1" maxOccurs="1">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="BaseAccount" type="BaseAccount" minOccurs="1" maxOccurs="1"/>
+                     <xs:element name="SubAccount" type="SubAccount" minOccurs="1" maxOccurs="1"/>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Order" minOccurs="1" maxOccurs="1">
+               <xs:complexType>
+                  <xs:choice>
+                     <xs:element name="ListedElectronicMonograph">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+								</xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OtherLocalId" type="OtherLocalId" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Location" type="Location" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="ListPrice" minOccurs="1" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Currency" type="Currency" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="LocalData" minOccurs="0" maxOccurs="unbounded">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Description" type="LD-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Value" type="LD-Value" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="PurchaseOption" minOccurs="1" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="VendorPOCode" type="Vendor-PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Code" type="PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Description" type="PO-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="VendorCode" type="PO-VendorCode" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="ListedElectronicSerial">
+                        <xs:complexType>
+                           <xs:sequence>
+                            <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+								</xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="ListPrice" minOccurs="1" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Currency" type="Currency" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="PurchaseOption" minOccurs="1" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="VendorPOCode" type="Vendor-PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Code" type="PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Description" type="PO-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="VendorCode" type="PO-VendorCode" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <!-- UnlistedElectronic not currently available from GOBI. -->
+                     <xs:element name="UnlistedElectronicMonograph">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+							  </xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OtherLocalId" type="OtherLocalId" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Location" type="Location" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="ListPrice" minOccurs="0" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Currency" type="Currency" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="LocalData" minOccurs="0" maxOccurs="unbounded">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Description" type="LD-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Value" type="LD-Value" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="PurchaseOption" minOccurs="0" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="VendorPOCode" type="Vendor-PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Code" type="PO-Code" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Description" type="PO-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="VendorCode" type="PO-VendorCode" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="ListedPrintMonograph">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+							  </xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OtherLocalId" type="OtherLocalId" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Location" type="Location" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="ListPrice" minOccurs="1" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Currency" type="Currency" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="LocalData" minOccurs="0" maxOccurs="unbounded">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Description" type="LD-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Value" type="LD-Value" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="ListedPrintSerial">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+							  </xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="StartWithVolume" type="StartWithVolume" minOccurs="0" maxOccurs="1"/>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="UnlistedPrintMonograph">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+							  </xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OtherLocalId" type="OtherLocalId" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Location" type="Location" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="ListPrice" minOccurs="0" maxOccurs="1">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Currency" type="Currency" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="LocalData" minOccurs="0" maxOccurs="unbounded">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="Description" type="LD-Description" minOccurs="1" maxOccurs="1"/>
+                                                <xs:element name="Value" type="LD-Value" minOccurs="1" maxOccurs="1"/>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="UnlistedPrintSerial">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element ref="collection">
+								  <xs:annotation>
+								    <xs:documentation>This is the MARC record object container.</xs:documentation>
+								  </xs:annotation>
+							  </xs:element>
+                              <xs:element name="OrderDetail" minOccurs="1" maxOccurs="1">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="BatchPONumber" type="BatchPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="ItemPONumber" type="ItemPONumber" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="FundCode" type="FundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="MappedFundCode" type="MappedFundCode" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="OrderNotes" type="OrderNotes" minOccurs="0" maxOccurs="1"/>
+                                       <xs:element name="Quantity" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="YBPOrderKey" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="OrderPlaced" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                                       <xs:element name="StartWithVolume" type="StartWithVolume" minOccurs="0" maxOccurs="1"/>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:choice>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>
