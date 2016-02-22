@@ -6,6 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.InvoiceAccount;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
@@ -14,7 +15,6 @@ import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
-import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
@@ -295,8 +295,10 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
 
     private List<OleInvoiceItem> createInvoiceItems(List<OlePurchaseOrderItem> olePurchaseOrderItems, OleInvoiceRecord invoiceRecord) throws Exception {
         List<OleInvoiceItem> oleInvoiceItems = new ArrayList<>();
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        Integer postingYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
         if(CollectionUtils.isEmpty(olePurchaseOrderItems) || !invoiceRecord.isLink()) {
-            oleInvoiceItems.add(invoiceItemForUnlink(invoiceRecord));
+            oleInvoiceItems.add(invoiceItemForUnlink(invoiceRecord,postingYear));
         } else {
             for (OlePurchaseOrderItem poItem : olePurchaseOrderItems) {
                 if (poItem.getItemTypeCode().equalsIgnoreCase("ITEM")) {
@@ -347,7 +349,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                         }
                     }
                     oleInvoiceItem.setSourceAccountingLines(accountingLine);
-                    oleInvoiceItem.setPostingYear(poItem.getPurchaseOrder().getPostingYear());
+                    oleInvoiceItem.setPostingYear(postingYear);
                     oleInvoiceItems.add(oleInvoiceItem);
                 }
             }
@@ -355,7 +357,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         return oleInvoiceItems;
     }
 
-    public OleInvoiceItem invoiceItemForUnlink(OleInvoiceRecord invoiceRecord) {
+    public OleInvoiceItem invoiceItemForUnlink(OleInvoiceRecord invoiceRecord,Integer postingYear) {
         OleInvoiceItem oleInvoiceItem = createNewInvoiceItem(invoiceRecord);
         oleInvoiceItem.setItemTypeCode("ITEM");
         //oleInvoiceItem.setItemType(poItem.getItemType()); // Todo: Need to set
@@ -365,6 +367,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         oleInvoiceItem.setItemDiscount(invoiceRecord.getLineItemAdditionalCharge() != null ? new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge()) : null);
         oleInvoiceItem.setItemDiscountType(invoiceRecord.getDiscountType());
         oleInvoiceItem.setItemUnitPrice(new BigDecimal(invoiceRecord.getUnitPrice()));
+        oleInvoiceItem.setPostingYear(postingYear);
         // oleInvoiceItem.setItemTitleId(poItem.getItemTitleId()); // Todo: Need to set
         if (CollectionUtils.isNotEmpty(invoiceRecord.getItemNote())) {
             oleInvoiceItem.setNotes(invoiceRecord.getItemNote());

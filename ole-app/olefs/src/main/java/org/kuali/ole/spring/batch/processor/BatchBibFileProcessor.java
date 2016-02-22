@@ -11,7 +11,6 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
-import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
@@ -95,8 +94,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) throws Exception {
         oleNGBibImportResponse.setDirectoryName(reportDirectoryName);
-        BibImportReportLogHandler bibImportReportLogHandler = new BibImportReportLogHandler(reportDirectoryName, profileName);
-        bibImportReportLogHandler.logMessage(oleNGBibImportResponse);
+        BibImportReportLogHandler bibImportReportLogHandler = BibImportReportLogHandler.getInstance();
+        bibImportReportLogHandler.logMessage(oleNGBibImportResponse,reportDirectoryName);
     }
 
     private String getOperationInd(String operation) {

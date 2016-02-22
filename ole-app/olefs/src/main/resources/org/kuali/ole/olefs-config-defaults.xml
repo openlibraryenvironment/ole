@@ -496,6 +496,6 @@
   <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
 
 
-  <param name="camel.report.directory">${project.home}/reports</param>
+  <param name="report.directory">${project.home}/reports</param>
 
 </config>

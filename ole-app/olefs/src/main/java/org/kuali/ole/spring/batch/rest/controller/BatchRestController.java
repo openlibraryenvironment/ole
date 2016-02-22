@@ -114,9 +114,10 @@ public class BatchRestController extends OleNgControllerBase {
     @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        BatchJobDetails batchJobDetails = null;
         try {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
-            BatchJobDetails batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
+            batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
             getBusinessObjectService().save(batchJobDetails);
             if (null != file) {
                 String rawContent = IOUtils.toString(file.getBytes());
@@ -130,9 +131,12 @@ public class BatchRestController extends OleNgControllerBase {
                     batchJobDetails.setStatus(OleNGConstants.FAILED);
                 }
             }
-            getBusinessObjectService().save(batchJobDetails);
         } catch (Exception e) {
             e.printStackTrace();
+            batchJobDetails.setStatus(OleNGConstants.FAILED);
+        }
+        if(null != batchJobDetails) {
+            getBusinessObjectService().save(batchJobDetails);
         }
         return "";
     }

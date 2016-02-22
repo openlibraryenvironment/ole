@@ -122,8 +122,8 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                 try {
                     String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
                     System.out.println("Invoice Import Response : " + successResponse);
-                    InvoiceImportLoghandler invoiceImportLoghandler = new InvoiceImportLoghandler(reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
-                    invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse);
+                    InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
+                    invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse,reportDirectoryName);
                     return successResponse;
                 } catch (IOException e) {
                     e.printStackTrace();

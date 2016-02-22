@@ -164,8 +164,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
 
         oleNGOrderImportResponse.setRequisitionIds(purapIds);
-        OrderImportReportLogHandler orderImportReportLogHandler = new OrderImportReportLogHandler(reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
-        orderImportReportLogHandler.logMessage(oleNGOrderImportResponse);
+        OrderImportReportLogHandler orderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
+        orderImportReportLogHandler.logMessage(oleNGOrderImportResponse,reportDirectoryName);
 
         return response;
     }

@@ -1,19 +1,14 @@
 package org.kuali.ole.oleng.batch.reports.processors;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 
 /**
  * Created by angelind on 2/10/16.
  */
-public class SummaryReportProcessor implements Processor {
+public class SummaryReportProcessor extends OleNGReportProcessor {
 
-    @Override
-    public void process(Exchange exchange) throws Exception {
-        OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse) exchange.getIn().getBody();
-        String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGBibImportResponse);
-        exchange.getOut().setBody(message);
+    public void process(Object object, String directoryToWrite) throws Exception {
+        String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
+        logMessage(directoryToWrite,  "BibImport","txt", message);
     }
 }

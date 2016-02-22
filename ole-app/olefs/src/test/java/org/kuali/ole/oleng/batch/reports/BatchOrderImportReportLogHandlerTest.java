@@ -1,13 +1,14 @@
 package org.kuali.ole.oleng.batch.reports;
 
-import org.apache.camel.Processor;
 import org.junit.Test;
-import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGOrderImportResponse;
 import org.kuali.ole.docstore.common.response.OrderData;
 import org.kuali.ole.docstore.common.response.OrderResponse;
+import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,19 +29,19 @@ public class BatchOrderImportReportLogHandlerTest{
         orderData.setSuccessfulMatchPoints("Test MatchPoints");
         orderResponse.addOrderData(orderData);
         oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
-        OrderImportReportLogHandler batchOrderImportReportLogHandler = new MockOrderImportReportLogHandler("4","OrderImport");
-        batchOrderImportReportLogHandler.logMessage(oleNGOrderImportResponse);
+        List<OleNGReportProcessor> processors = new ArrayList<>();
+        processors.add(new MultipleBatchOrderImportProcessor());
+        OrderImportReportLogHandler batchOrderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
+        batchOrderImportReportLogHandler.setProcessors(processors);
+        batchOrderImportReportLogHandler.logMessage(oleNGOrderImportResponse,"4");
     }
 
-    public class MockOrderImportReportLogHandler extends OrderImportReportLogHandler {
 
-        public MockOrderImportReportLogHandler(String directoryName, String profileName) {
-            super(directoryName, profileName);
-        }
 
+    public class MultipleBatchOrderImportProcessor extends BatchOrderImportProcessor {
         @Override
         public String getReportDirectoryPath() {
-            String tempLocation = System.getProperty("java.io.tmpdir");
+            String tempLocation = System.getProperty("java.io.tmpdir") + File.separator + "reports";
             System.out.println("Temp dir : " + tempLocation);
             return tempLocation;
         }

@@ -1,7 +1,7 @@
 package org.kuali.ole.oleng.batch.reports;
 
-import org.apache.camel.Processor;
-import org.kuali.ole.oleng.batch.reports.processors.*;
+import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,23 @@ import java.util.List;
 /**
  * Created by SheikS on 2/18/2016.
  */
-public class OrderImportReportLogHandler extends ReportLogHandler {
+public class OrderImportReportLogHandler  extends ReportLogHandler{
+    public static OrderImportReportLogHandler orderImportReportLogHandler;
 
-    public OrderImportReportLogHandler(String directoryName, String profileName) {
-        initiateHander(directoryName,profileName,"OrderImport");
+    private OrderImportReportLogHandler() {
+    }
+    public static OrderImportReportLogHandler getInstance(){
+        if(null == orderImportReportLogHandler) {
+            orderImportReportLogHandler = new OrderImportReportLogHandler();
+        }
+        return orderImportReportLogHandler;
     }
 
     /**
      *
      * The order of adding the processors matters.
      */
-    @Override
-    public List<Processor> getProcessors() {
+    public List<OleNGReportProcessor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
             processors.add(new BatchOrderImportProcessor());

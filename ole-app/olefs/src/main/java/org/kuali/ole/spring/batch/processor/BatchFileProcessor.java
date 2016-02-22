@@ -63,11 +63,11 @@ public abstract class BatchFileProcessor extends BatchUtil {
             BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
             batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
             batchProcessFailureResponse.setResponseData(responseData);
-            batchProcessFailureResponse.setFailureReason(e.getMessage());
+            batchProcessFailureResponse.setFailureReason(e.toString());
             batchProcessFailureResponse.setFailedRawMarcContent(rawMarc);
             batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
-            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = new BatchBibFailureReportLogHandler(reportDirectoryName, profileId);;
-            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse);
+            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();;
+            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse,reportDirectoryName);
             throw e;
         }
         return response;

@@ -1,10 +1,6 @@
 package org.kuali.ole.oleng.batch.reports;
 
-import org.apache.camel.Processor;
-import org.kuali.ole.oleng.batch.reports.processors.MatchedRecordsReportProcessor;
-import org.kuali.ole.oleng.batch.reports.processors.MultipleMatchedRecordsReportProcessor;
-import org.kuali.ole.oleng.batch.reports.processors.SummaryReportProcessor;
-import org.kuali.ole.oleng.batch.reports.processors.UnMatchedRecordsReportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +8,22 @@ import java.util.List;
 /**
  * Created by SheikS on 2/18/2016.
  */
-public class BibImportReportLogHandler extends ReportLogHandler {
+public class BibImportReportLogHandler extends ReportLogHandler{
+    public static BibImportReportLogHandler bibImportReportLogHandler;
 
-    public BibImportReportLogHandler(String directoryName, String profileName) {
-        initiateHander(directoryName,profileName,"BibImport");
+    private BibImportReportLogHandler() {
     }
-
+    public static BibImportReportLogHandler getInstance(){
+        if(null == bibImportReportLogHandler) {
+            bibImportReportLogHandler = new BibImportReportLogHandler();
+        }
+        return bibImportReportLogHandler;
+    }
     /**
      *
      * The order of adding the processors matters.
      */
-    @Override
-    public List<Processor> getProcessors() {
+    public List<OleNGReportProcessor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
             processors.add(new UnMatchedRecordsReportProcessor());
@@ -33,4 +33,5 @@ public class BibImportReportLogHandler extends ReportLogHandler {
         }
         return processors;
     }
+
 }

@@ -1,7 +1,7 @@
 package org.kuali.ole.oleng.batch.reports;
 
-import org.apache.camel.Processor;
 import org.kuali.ole.oleng.batch.reports.processors.InvoiceImportReportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,22 @@ import java.util.List;
 /**
  * Created by SheikS on 2/18/2016.
  */
-public class InvoiceImportLoghandler extends ReportLogHandler {
+public class InvoiceImportLoghandler  extends ReportLogHandler{
+    public static InvoiceImportLoghandler invoiceImportLoghandler;
 
-    public InvoiceImportLoghandler(String directoryName, String profileName) {
-        initiateHander(directoryName,profileName,"InvoiceImport");
+    private InvoiceImportLoghandler() {
     }
-
+    public static InvoiceImportLoghandler getInstance(){
+        if(null == invoiceImportLoghandler) {
+            invoiceImportLoghandler = new InvoiceImportLoghandler();
+        }
+        return invoiceImportLoghandler;
+    }
     /**
      *
      * The order of adding the processors matters.
      */
-    @Override
-    public List<Processor> getProcessors() {
+    public List<OleNGReportProcessor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
             processors.add(new InvoiceImportReportProcessor());

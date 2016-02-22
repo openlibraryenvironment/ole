@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.constants.OleNGConstants;
 import org.marc4j.marc.Record;
 
-import java.util.StringTokenizer;
-
 /**
  * Created by pvsubrah on 12/21/15.
  */
@@ -37,7 +35,7 @@ public class PrependHandler extends StepHandler {
             value = getBatchProfileDataTransformer().getConstant();
         }
 
-        if (StringUtils.isNotBlank(value)) {
+        if (StringUtils.isNotBlank(value) && StringUtils.isNotBlank(destinationField)) {
             if (!getMarcRecordUtil().isControlField(destinationField) && StringUtils.isNotBlank(destinationSubField)) {
                 String dataFieldValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, destinationField, destinationInd1, destinationInd2, destinationSubField);
                 dataFieldValue = "(" + value + ")" + dataFieldValue;
