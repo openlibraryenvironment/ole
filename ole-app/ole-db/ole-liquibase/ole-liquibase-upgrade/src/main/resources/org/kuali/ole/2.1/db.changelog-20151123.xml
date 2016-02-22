@@ -431,4 +431,13 @@
         <sql>ALTER TABLE OLE_DLVR_CIRC_RECORD MODIFY CHECK_IN_DT_TIME TIMESTAMP NULL</sql>
     </changeSet>
 
+
+    <changeSet author="ole" id="PUR_PO_ITM_TI6">
+        <createIndex
+                indexName="PUR_PO_ITM_TI6"
+                tableName="PUR_PO_ITM_T">
+            <column name="OLE_VNDR_IT_ID" type="VARCHAR(100)"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>
