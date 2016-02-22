@@ -10,13 +10,23 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     $scope.batchReportViewer = {};
     $scope.batchReportViewer.reportContent = {};
     $scope.initializeReportList = function() {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.REPORT_FILES, null ,function(response) {
-            var data = response.data;
-            $scope.fileList = data;
-        });
+        var urlVars = getUrlVars();
+        var jobDetailsId = urlVars['jobDetailsId'];
+        if(jobDetailsId !== null && jobDetailsId !== undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.SPECIFIC_REPORT_FILES, {"jobDetailsId": jobDetailsId}, function(response) {
+                var data = response.data;
+                $scope.fileList = data;
+            });
+        } else {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.REPORT_FILES, null, function(response) {
+                var data = response.data;
+                $scope.fileList = data;
+            });
+        }
+
     };
 
-    $scope.showReport = function(fileName) {
+    $scope.showReport = function(file) {
         $scope.reportContent = null;
         $scope.batchReportViewer.showModal = false;
         document.getElementById('modalContentId').style.width = '950px';
@@ -24,7 +34,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
         document.getElementById('modalContentId').style.overflowX = 'auto';
         document.getElementById('modalContentId').style.overflowY = 'auto';
         document.getElementById('modalContentId').style.left = '-150px';
-        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": fileName},function(response) {
+        var fileName = file.name;
+        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": fileName,"parent": file.parent},function(response) {
             var data = response.data;
             $scope.batchReportViewer.fileName = fileName;
             $scope.batchReportViewer.reportContent = data.fileContent;
@@ -43,13 +54,13 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
         });
     };
 
-    $scope.downloadReport = function(fileName) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": fileName},function(response) {
+    $scope.downloadReport = function(file) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": file.name,"parent": file.parent},function(response) {
             var data = response.data;
             var blob = new Blob([data.fileContent], {
                 type: "application/json;charset=utf-8"
             });
-            saveAs(blob, fileName);
+            saveAs(blob, file.name);
         });
     };
 

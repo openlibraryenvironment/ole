@@ -1,18 +1,20 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.InvoiceResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.batch.reports.InvoiceImportLoghandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.resolvers.invoiceimport.*;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
@@ -48,12 +50,13 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     private List<InvoiceRecordResolver> invoiceRecordResolvers;
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONObject response = new JSONObject();
+        OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
         if(CollectionUtils.isNotEmpty(records)) {
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if(null != bibImportProfile) {
-                OleNGBibImportResponse oleNGBibImportResponse = processBibImport(records, bibImportProfile);
+                OleNGBibImportResponse oleNGBibImportResponse = processBibImport(records, bibImportProfile, reportDirectoryName);
 
                 Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = new TreeMap<>();
 
@@ -88,11 +91,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                     oleinvoiceRecordMap.put(invoiceNumber, oleInvoiceRecords);
                 }
 
-                List<String> invoiceDocumentNumbers = new ArrayList<>();
 
                 for (Iterator<String> iterator = oleinvoiceRecordMap.keySet().iterator(); iterator.hasNext(); ) {
                     String invoiceNumber = iterator.next();
-                    List oleInvoiceRecords = oleinvoiceRecordMap.get(invoiceNumber);
+                    List<OleInvoiceRecord> oleInvoiceRecords = oleinvoiceRecordMap.get(invoiceNumber);
 
                     try {
                         OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
@@ -100,19 +102,32 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
                         String documentNumber = oleInvoiceDocument.getDocumentNumber();
                         if(null != documentNumber) {
-                            invoiceDocumentNumbers.add(documentNumber);
+                            InvoiceResponse invoiceResponse = new InvoiceResponse();
+                            invoiceResponse.setDocumentNumber(documentNumber);
+                            for (Iterator<OleInvoiceRecord> oleInvoiceRecordIterator = oleInvoiceRecords.iterator(); oleInvoiceRecordIterator.hasNext(); ) {
+                                OleInvoiceRecord invoiceRecord = oleInvoiceRecordIterator.next();
+                                if(invoiceRecord.isLink()) {
+                                    invoiceResponse.addLinkCount();
+                                } else {
+                                    invoiceResponse.addUnLinkCount();
+                                }
+                            }
+                            oleNGInvoiceImportResponse.getInvoiceResponses().add(invoiceResponse);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
 
-                response.put(OleNGConstants.STATUS,OleNGConstants.SUCCESS);
-                response.put("Invoice Doc Numbers", invoiceDocumentNumbers);
-                System.out.println(response.toString());
-                return response.toString();
-
-
+                try {
+                    String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
+                    System.out.println("Invoice Import Response : " + successResponse);
+                    InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
+                    invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse,reportDirectoryName);
+                    return successResponse;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         response.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
@@ -201,10 +216,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(List<Record> records, BatchProcessProfile bibImportProfile) {
+    private OleNGBibImportResponse processBibImport(List<Record> records, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            String response = batchBibFileProcessor.processRecords(records, bibImportProfile);
+            String response = batchBibFileProcessor.processRecords(records, bibImportProfile,reportDirectoryName);
             oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
         } catch (Exception e) {
             e.printStackTrace();

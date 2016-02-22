@@ -3,12 +3,12 @@ package org.kuali.ole.oleng.batch.reports.processors;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * Created by angelind on 2/11/16.
+ * Created by SheikS on 2/18/2016.
  */
-public class FailureSummaryReportProcessor extends OleNGReportProcessor {
+public class InvoiceImportReportProcessor extends OleNGReportProcessor {
 
     public void process(Object object, String directoryToWrite) throws Exception {
         String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
-        logMessage(directoryToWrite, "FailureReport","mrc", message);
+        logMessage(directoryToWrite, "InvoiceImport","txt", message);
     }
 }

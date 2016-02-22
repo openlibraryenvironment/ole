@@ -9174,6 +9174,9 @@
         <index name="PUR_PO_ITM_TI5">
             <index-column name="OLE_RQSTR_TYP_ID"/>
         </index>
+        <index name="PUR_PO_ITM_TI6">
+            <index-column name="OLE_VNDR_IT_ID"/>
+        </index>
     </table>
     <table name="PUR_PO_ITM_USE_TAX_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>

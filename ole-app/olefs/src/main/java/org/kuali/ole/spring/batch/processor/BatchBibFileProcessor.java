@@ -13,17 +13,15 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
-import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
+import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,7 +35,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
+    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         List<Record> matchedRecords = new ArrayList<>();
@@ -86,7 +84,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 oleNGBibImportResponse.setMatchedRecords(matchedRecords);
                 oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
                 oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
-                generateBatchReport(oleNGBibImportResponse);
+                generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -94,9 +92,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return response;
     }
 
-    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse) throws Exception {
-        BatchReportLogHandler batchReportLogHandler = BatchReportLogHandler.getInstance();
-        batchReportLogHandler.logMessage(oleNGBibImportResponse);
+    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) throws Exception {
+        oleNGBibImportResponse.setDirectoryName(reportDirectoryName);
+        BibImportReportLogHandler bibImportReportLogHandler = BibImportReportLogHandler.getInstance();
+        bibImportReportLogHandler.logMessage(oleNGBibImportResponse,reportDirectoryName);
     }
 
     private String getOperationInd(String operation) {
