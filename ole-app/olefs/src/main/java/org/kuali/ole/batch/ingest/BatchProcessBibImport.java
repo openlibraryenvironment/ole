@@ -313,11 +313,18 @@ public class BatchProcessBibImport extends AbstractBatchProcess {
     public List<OrderBibMarcRecord> processBatchOrder(List<OrderBibMarcRecord> orderBibMarcRecords) throws Exception {
         bibImportStatistics.setTotalCount(orderBibMarcRecords.size());
         BatchBibImportHelper batchBibImportHelper = new BatchBibImportHelper();
-        OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = batchBibImportHelper.processOrderBatch(orderBibMarcRecords, oleBatchProcessProfileBo, bibImportStatistics,user);
+        OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = batchBibImportHelper.processOrderBatch(orderBibMarcRecords, oleBatchProcessProfileBo, bibImportStatistics,processDef.getUser());
         List<OrderBibMarcRecord> orderBibMarcRecordList = getBatchProcessBibImportService().saveOderBatch(orderBibMarcRecords, oleBatchBibImportDataObjects, bibImportStatistics);
         createMismatchedFiles();
         bibImportStatistics.addSuccessRecord(bibImportStatistics.getTotalCount() - bibImportStatistics.getMismatchRecordList().size());
         return orderBibMarcRecordList;
     }
 
+    public void setBibImportStatistics(OLEBatchBibImportStatistics bibImportStatistics) {
+        this.bibImportStatistics = bibImportStatistics;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 }

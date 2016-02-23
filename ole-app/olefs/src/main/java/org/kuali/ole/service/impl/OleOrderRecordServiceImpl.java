@@ -91,7 +91,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
     private Map<String,String> fundDetails = new HashMap<String,String>();
     private List<String> failureRecords = new ArrayList<>();
 
-    private LookupService getLookupService() {
+    public LookupService getLookupService() {
         return KRADServiceLocatorWeb.getLookupService();
     }
     //DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
@@ -156,6 +156,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleOrderRecord.setOriginalRecord(bibMarcRecord);
         OleTxRecord oleTxRecord = new OleTxRecord();
+        oleTxRecord.setBibId(bibId);
         oleTxRecord.setItemType(OLEConstants.ITEM_TYP);
         Map<String,String> failureMsges = new HashMap<>();
         failureMsges = mapDataFieldsToTxnRecord(oleTxRecord, bibMarcRecord,recordPosition, job);
@@ -175,7 +176,9 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                 failureRecords.clear();
             }
         }
-        oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+        if (null == oleTxRecord.getRequisitionSource()) {
+            oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+        }
         if(oleTxRecord.getOrderType() == null){
             oleTxRecord.setOrderType(OLEConstants.ORDER_TYPE_VALUE);
         }
@@ -327,7 +330,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return oleTxRecord;
     }
 
-    private Map<String,String> mapDataFieldsToTxnRecord(OleTxRecord oleTxRecord, BibMarcRecord bibMarcRecord,int recordPosition, OLEBatchProcessJobDetailsBo job) {
+    protected Map<String,String> mapDataFieldsToTxnRecord(OleTxRecord oleTxRecord, BibMarcRecord bibMarcRecord,int recordPosition, OLEBatchProcessJobDetailsBo job) {
         Map<String,String> mappingFailures = new HashMap<String,String>();
         LOG.debug("----Inside mapDataFieldsToTxnRecord()------------------------------");
         String destinationField = null;
@@ -1021,7 +1024,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         }
     }
 
-    private String setDataMappingValues(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList,int dataMapCount,BibMarcRecord bibMarcRecord,String dataField,String tagField){
+    public String setDataMappingValues(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList,int dataMapCount,BibMarcRecord bibMarcRecord,String dataField,String tagField){
         String subFieldValue = getSubFieldValueFor(bibMarcRecord, dataField, tagField);
         if (StringUtils.isBlank(subFieldValue)) {
             OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount);
@@ -1037,7 +1040,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return subFieldValue;
     }
 
-    private String setDataMappingValuesForDonorAndNotesSection(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList, int dataMapCount, BibMarcRecord bibMarcRecord, String dataField, String tagField) {
+    public String setDataMappingValuesForDonorAndNotesSection(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList, int dataMapCount, BibMarcRecord bibMarcRecord, String dataField, String tagField) {
         String subFieldValue = getSubFieldValueFor(bibMarcRecord, dataField, tagField);
         if (StringUtils.isBlank(subFieldValue)) {
             OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount);
@@ -1125,7 +1128,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
      * This method sets the value for OLE transaction record by getting the value from Constant and default section of profile.
      * @param oleTxRecord
      */
-    private Map<String,String> setDefaultAndConstantValuesToTxnRecord(OleTxRecord oleTxRecord, Map<String,String> failureRecords, OLEBatchProcessJobDetailsBo job) {
+    protected Map<String,String> setDefaultAndConstantValuesToTxnRecord(OleTxRecord oleTxRecord, Map<String,String> failureRecords, OLEBatchProcessJobDetailsBo job) {
         if (failureRecords == null) {
             failureRecords = new HashMap<String,String>();
         }
@@ -1920,4 +1923,11 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return oleTxRecordList;
     }
 
+    public List<String> getFailureRecords() {
+        return failureRecords;
+    }
+
+    public void setFailureRecords(List<String> failureRecords) {
+        this.failureRecords = failureRecords;
+    }
 }

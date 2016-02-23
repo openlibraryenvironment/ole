@@ -22,6 +22,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
  end
@@ -41,6 +42,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);
@@ -106,6 +108,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-LOAN");
+$i.updateCheckinCount();
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.AUTO_CHECKOUT, true);
 $d.setRuleMatched(true);

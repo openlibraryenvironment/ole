@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
@@ -19,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -75,7 +77,8 @@ public class BatchBibFileProcessorTest {
         records.add(mockRecord);
 
         BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
-        String processedRecords = batchBibFileProcessor.processRecords(records, mockBatchProcesProfile);
+        String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
+        String processedRecords = batchBibFileProcessor.processRecords(records, mockBatchProcesProfile, reportDirectory);
         assertNotNull(processedRecords);
     }
 

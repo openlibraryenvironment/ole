@@ -36,7 +36,7 @@
                     <td><span ng-bind="batchJob.totalRecords"></span></td>
                     <td><span ng-bind="batchJob.totalRecordsProcessed"></span></td>
                     <td><span ng-bind="batchJob.status"></span></td>
-                    <td><a href="reportViewer.html"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
+                    <td><a href="reportViewer.html?jobDetailsId={{batchJob.jobDetailId}}"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
                     <td>
                         <button id="batchJobStart" name="batchJobStart" class="btn btn-info btn-xs" ng-click=""
                                 ng-show="batchJob.status == 'PAUSED'"

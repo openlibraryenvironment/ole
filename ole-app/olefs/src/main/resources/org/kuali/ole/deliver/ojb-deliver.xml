@@ -1418,6 +1418,7 @@
         <field-descriptor name="dueDate" column="DUE_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="checkOutDate" column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="checkInDate" column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="overrideCheckInDate" column="CHECK_IN_DT_TIME_OVR_RD" jdbc-type="TIMESTAMP" />
         <field-descriptor name="itemTitle" column="ITM_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="itemAuthor" column="ITM_AUTHOR" jdbc-type="VARCHAR" />
         <field-descriptor name="itemType" column="ITM_TYPE" jdbc-type="VARCHAR" />

@@ -52,6 +52,8 @@ public class OleNGBibImportResponse {
     private List<Record> unmatchedRecords = new ArrayList<>();
     @JsonIgnore
     private List<Record> multipleMatchedRecords = new ArrayList<>();
+    @JsonIgnore
+    private String directoryName;
 
     @JsonProperty("bibResponses")
     private List<BibResponse> bibResponses;
@@ -190,5 +192,13 @@ public class OleNGBibImportResponse {
 
     public void setBibImportProfileName(String bibImportProfileName) {
         this.bibImportProfileName = bibImportProfileName;
+    }
+
+    public String getDirectoryName() {
+        return directoryName;
+    }
+
+    public void setDirectoryName(String directoryName) {
+        this.directoryName = directoryName;
     }
 }

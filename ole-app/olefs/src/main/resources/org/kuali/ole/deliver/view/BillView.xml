@@ -247,6 +247,8 @@
                 <bean id="detailed_Item_View_itemCheckOutDate" parent="Uif-DataField" p:label="Check-Out Date" p:width="10%" p:propertyName="checkOutDate"/>
                 <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
                 <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
+                <bean id="detailed_Item_View_itemCheckInOverrideDate" parent="Uif-DataField" p:label="Check-In Override Date" p:width="10%" p:propertyName="overrideCheckInDate"/>
+
               </list>
         </property>
         <property name="renderLineActions" value="false"/>
