@@ -285,9 +285,9 @@
                                 verified” will appear.</para>
                         </note>
                         <tip>
-                            <para role="Normal"> Clicking on the <emphasis role="bold"
-                                    >Return</emphasis> button will take you to the return screen,
-                                allowing you to check-in materials.</para>
+                            <para role="Normal"> Clicking <emphasis role="bold">Go to
+                                    Return</emphasis> will take you to the return screen, allowing
+                                you to check-in materials.</para>
                         </tip>
                         <para role="Normal">
                             <screenshot>
@@ -313,7 +313,7 @@
                         <para role="Normal">If there is a block on the patron or some other problem,
                             then an error message will appear. You may need to access the patron
                             record to address the error or, in some cases an override is permitted
-                            for you to continue.  </para>
+                            for you to continue. </para>
                         <para role="Normal">Click the Patron name to access the patron's
                             record.</para>
                         <note>
@@ -367,12 +367,8 @@
                                 role="bold">Enter</emphasis>. Each new item checked-out will appear
                             at the top of the <emphasis role="bold">Items Checked Out This
                                 Session</emphasis> list.</para>
-                        <para>To view all items a patron has checked out, click the <inlinemediaobject>
-                                <alt>Checked Out Items</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
-                                </imageobject>
-                            </inlinemediaobject> button.</para>
+                        <para>To view all items a patron has checked out, click<emphasis role="bold"
+                                >View Current Loans</emphasis>.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -415,8 +411,8 @@
             </section>
             <section>
                 <title>Options available from the Loan Screen</title>
-                <para>You will notice that there are a row of buttons available at the top of the
-                    Loan Screen. These are explained below</para>
+                <para>You will notice that there are a row of buttons available at the top and
+                    bottom of the Loan Screen. These are explained below</para>
                 <para role="Normal"/>
                 <para role="Normal">
                     <screenshot>
@@ -432,15 +428,13 @@
                 </para>
                 <para/>
                 <section>
-                    <title>Close and Clear Patron</title>
-                    <para>If you change circulation desks for a loan and then want to switch back to
-                        your default location, click <inlinemediaobject>
-                            <alt>Close</alt>
+                    <title>Cancel and Clear Patron</title>
+                    <para>Click <inlinemediaobject>
+                            <alt>Cancel</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-39.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-96.png"/>
                             </imageobject>
-                        </inlinemediaobject>. You will not exit the Loan screen but default settings
-                        will be restored.</para>
+                        </inlinemediaobject> to return to the previous menu screen.</para>
                     <para>If you need to clear a patron to loan items to a new patron, click <inlinemediaobject>
                             <alt>Clear Patron</alt>
                             <imageobject>
@@ -450,14 +444,14 @@
                 </section>
                 <section>
                     <title><anchor xml:id="_Renew"/>Renew and Modify Due Dates/Times</title>
-                    <para role="Normal">From the top of the loan screen, you can renew items or
-                        modify due dates/times.</para>
+                    <para role="Normal">From the top or bottom of the loan screen, you can renew
+                        items or modify due dates/times.</para>
                     <para role="Normal"/>
                     <para role="Normal">
                         <screenshot>
                             <mediaobject>
-                                <alt>Loan screen: Click Alter Due Date, third button from the
-                                    left.</alt>
+                                <alt>Loan screen: Renew and Alter Due Dates are first two buttons
+                                    after a patron is displayed</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-23.png"
                                         width="100%"/>
@@ -469,9 +463,10 @@
                     <orderedlist>
                         <listitem>
                             <para role="List Paragraph"><emphasis role="bold">To renew</emphasis>,
-                                select line items from the Current Session Item list or the Items
-                                Currently Checked Out list. You can also click the Select All button
-                                for either or both lists. </para>
+                                select line items from the <emphasis role="bold">Current Session
+                                    Item</emphasis> list or the <emphasis role="bold">All Items
+                                    Currently Checked Out</emphasis> list. You can also click the
+                                "Select All" button for either or both lists. </para>
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
@@ -485,8 +480,8 @@
                     </orderedlist>
                     <tip>
                         <para role="Normal">Alternatively, enter the item barcode in the item field
-                            as though loaning the item and press Enter. The item will be renewed for
-                            the patron.</para>
+                            as though loaning the item and press <emphasis role="bold"
+                                >Enter</emphasis>. The item will be renewed for the patron.</para>
                     </tip>
                     <orderedlist>
                         <listitem>
@@ -530,9 +525,9 @@
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
-                                    <alt>Update</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-28.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                         </listitem>
@@ -559,7 +554,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-29.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type any notes to record specific
@@ -570,8 +566,7 @@
                                     <mediaobject>
                                         <alt>Loan screen: Claim Return Note Pop-up</alt>
                                         <imageobject>
-                                            <imagedata fileref="../images/DeliverNoTitlePage-30.png"
-                                                width="100%"/>
+                                            <imagedata fileref="../images/DeliverNoTitlePage-30.png"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -579,9 +574,9 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                             <para role="Normal">The claims return note and date will appear in the
@@ -606,7 +601,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-43.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type how many pieces are missing from the
@@ -618,8 +614,7 @@
                                     <mediaobject>
                                         <alt>Loan screen: Missing Piece Pop-up</alt>
                                         <imageobject>
-                                            <imagedata fileref="../images/DeliverNoTitlePage-47.png"
-                                                width="100%"/>
+                                            <imagedata fileref="../images/DeliverNoTitlePage-47.png"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -627,11 +622,11 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
-                                </inlinemediaobject>.</para>
+                                </inlinemediaobject> (you may need to scroll down).</para>
                             <para role="Normal">The missing piece count, note, and date will appear
                                 in the item record and when the item is requested to circulate
                                 again.</para>
@@ -655,7 +650,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-50.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type a notes to record specific
@@ -666,8 +662,7 @@
                                     <mediaobject>
                                         <alt>Loan screen: Damaged Note Pop-up</alt>
                                         <imageobject>
-                                            <imagedata fileref="../images/DeliverNoTitlePage-51.png"
-                                                width="100%"/>
+                                            <imagedata fileref="../images/DeliverNoTitlePage-51.png"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -675,21 +670,13 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                             <para role="Normal">The note and date will appear in the item record and
                                 when the item is requested to circulate again.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Click <inlinemediaobject>
-                                    <alt>Remove Damaged Flag</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-54.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> to remove the damage flag.</para>
                         </listitem>
                     </orderedlist>
                 </section>
@@ -824,19 +811,20 @@
                 appropriately. </para>
             <section>
                 <title role="Heading 4circ">Process Overview</title>
-                <para role="Normal">To request new items, staff will find <emphasis role="bold"
-                        >Create New</emphasis> to the very right in the <emphasis role="bold"
-                        >Request</emphasis> Lookup.</para>
                 <orderedlist numeration="arabic" spacing="normal">
                     <listitem>
-                        <para role="List Paragraph">Click <emphasis role="bold">Create
-                                New</emphasis> in the upper right side of the interface.</para>
+                        <para role="List Paragraph">To request new items, click <inlinemediaobject>
+                                <alt>Create New</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-239.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>From the Request Lookup, click Create New in the top right
-                                        corner</alt>
+                                    <alt>From the Request Lookup, click Create New at the top or
+                                        bottom of the search</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-61.png"
                                             width="100%"/>
@@ -883,7 +871,9 @@
                                 <imageobject>
                                     <imagedata fileref="../images/Lookup2.png"/>
                                 </imageobject>
-                            </inlinemediaobject>.</para>
+                            </inlinemediaobject>.  Alternatively, you may enter the Item Id.  After
+                            entering one of these number, the system will fill in the rest of the
+                            item information.</para>
                         <para role="Normal">Different Request Types call for different information.
                             Once selected, the interface will change slightly depending on what you
                             select. </para>
@@ -947,7 +937,7 @@
                                                   <imagedata fileref="../images/Lookup2.png"/>
                                                   </imageobject>
                                                 </inlinemediaobject> and OLE will automatically fill
-                                                all Patron infotmation.</para>
+                                                all Patron information.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -964,8 +954,8 @@
                                             <para role="Table Cells">Item Barcode</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Required. The barcode of the
-                                                item. Search from the lookup <inlinemediaobject>
+                                            <para role="Table Cells">The barcode of the item. Search
+                                                from the lookup <inlinemediaobject>
                                                   <imageobject>
                                                   <imagedata fileref="../images/Lookup2.png"/>
                                                   </imageobject>
@@ -981,6 +971,18 @@
                                             <para role="Table Cells">The title of the requested
                                                 item. This will be filled automatically when you
                                                 lookup the item barcode.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Item Id</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The unique Id for the item. The
+                                                Item Id can be used as an alternative to the item
+                                                barcode when placing the request.  This allows
+                                                requests to be placed on items that have not yet had
+                                                barcodes assigned to them, for example.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1021,6 +1023,17 @@
                                             <para role="Table Cells">The copy number of the
                                                 requested item. This will be filled automatically
                                                 when you lookup the item barcode.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Request Level</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The type of request being
+                                                placed - item or title level.  OLE will
+                                                auto-generate this field upon submission of the
+                                                request.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1194,7 +1207,7 @@
                         <para role="List Paragraph">Click <inlinemediaobject>
                                 <alt>Submit</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-69.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                     </listitem>
@@ -1211,7 +1224,7 @@
                                 >Request Lookup</emphasis> screen and click <inlinemediaobject>
                                 <alt>Search</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-70.png"/>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-164.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                         <note>
@@ -1245,7 +1258,7 @@
                         <para role="Normal (Web)">When you have made your changes, click <inlinemediaobject>
                                 <alt>Submit</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/admin-303.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                         <para role="Normal (Web)"/>
@@ -1307,10 +1320,6 @@
                         <para role="Normal">When a request for a patron is completed (i.e., the item
                             is checked out to the patron), the request information is removed from
                             active requests and archived. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="Normal">Requests can only be placed at the item level.
-                            Title-level requests will be a future OLE enhancement. </para>
                     </listitem>
                     <listitem>
                         <para role="Body Text">Not all requests are allowed for any item at any
@@ -2350,7 +2359,7 @@
                                 <para> Request Level </para>
                                 <note>
                                     <para>Title Level requests are still in development for a future
-                                        release.  See <link
+                                        release. See <link
                                             xlink:href="https://jira.kuali.org/browse/OLE-7804"
                                             >OLE-7804</link>.</para>
                                 </note>
@@ -2363,7 +2372,7 @@
                                     if item is available on-shelf) </para>
                                 <note>
                                     <para>“Copy” and “Page” functionality is still in development
-                                        for a future release.  See <link
+                                        for a future release. See <link
                                             xlink:href="https://jira.kuali.org/browse/OLE-7458"
                                             >OLE-7458</link>.</para>
                                 </note>
@@ -3308,6 +3317,20 @@
                             </mediaobject>
                         </screenshot>
                     </para>
+                    <section>
+                        <title>Viewing and Modifying Sent Notices</title>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Patron Document: Loaned Record table</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-124.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
                 </section>
                 <section>
                     <title>Proxy Patron and Proxy For Tabs</title>
@@ -3871,21 +3894,7 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para>Click the bill number of the bill you wish to view. A popup box will appear
-                    with some information about the bill. Click <emphasis role="bold"
-                        >details</emphasis> to view more information including item and transaction
-                    information and notes.</para>
-                <para role="Body Text">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Patron Inquiry Pop-up from the Patron Bill Inquiry Screen</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-84.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
+                <para>Click edit, copy, or delete to modify the patron bill.</para>
             </section>
             <section>
                 <title>Create a Patron Bill Manually</title>
@@ -4199,7 +4208,7 @@
                             country code is "US" and for the UK, it is "GB", and so on.</para>
                         <note>
                             <para>For a full list of country codes, see the Appendix of the <link
-                                xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
+                                    xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
                                     >Implementation Guide</link>.</para>
                         </note>
                     </listitem>
