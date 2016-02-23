@@ -117,6 +117,12 @@ public class CheckoutPatronController extends CheckoutItemController {
                                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         DroolsExchange droolsExchange = new DroolsExchange();
+        String isSelfCheckout = request.getParameter("isSelfCheckout");
+        if(StringUtils.isNotBlank(isSelfCheckout)) {
+            if(circForm.getPatronDocument() != null) {
+                circForm.getPatronDocument().setCheckoutForSelf(Boolean.valueOf(isSelfCheckout));
+            }
+        }
         droolsExchange.addToContext("circForm", circForm);
         DroolsResponse droolsResponse = getPatronLookupCircUIController().processPatronSearchPostProxyHandling(droolsExchange);
         if(null != droolsResponse && StringUtils.isNotEmpty(droolsResponse.retrieveErrorMessage())){
@@ -171,7 +177,7 @@ public class CheckoutPatronController extends CheckoutItemController {
 
     private void setProceedWithCheckoutFlag(CircForm circForm) {
         OlePatronDocument patronDocumentForItemValidation = getCheckoutUIController(circForm.getFormKey()).getPatronDocumentForItemValidation(circForm);
-        if (GlobalVariables.getUserSession() != null) {
+        if (GlobalVariables.getUserSession() != null && null != patronDocumentForItemValidation) {
             patronDocumentForItemValidation.setPatronRecordURL(getOlePatronRecordUtil().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), patronDocumentForItemValidation.getOlePatronId()));
         }
         circForm.getDroolsExchange().addToContext("circForm", circForm);
