@@ -121,7 +121,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed = identifyPatron(oleForm);
         OlePatronDocument patronDocument = getPatronDocument(patronForWhomLoanIsBeingProcessed);
         OlePatronDocument scanedPatron = getCircForm(oleForm).getPatronDocument();
-        if(!StringUtils.equals(scanedPatron.getOlePatronId(),patronDocument.getOlePatronId())){
+        if(null != patronDocument && null != scanedPatron && !StringUtils.equals(scanedPatron.getOlePatronId(),patronDocument.getOlePatronId())){
             patronDocument.setSelectedProxyForPatron(scanedPatron);
         }
         return patronDocument;
