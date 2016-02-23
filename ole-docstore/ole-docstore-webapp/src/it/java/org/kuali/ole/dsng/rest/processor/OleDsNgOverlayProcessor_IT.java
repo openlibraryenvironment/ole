@@ -105,7 +105,7 @@ public class OleDsNgOverlayProcessor_IT extends DocstoreTestCaseBase {
 
         JSONObject holdingsDta = new JSONObject();
         JSONObject matchpointsForHoldings = new JSONObject();
-        matchpointsForHoldings.put(Handler.LOCATION_LEVEL_1, "UC");
+        matchpointsForHoldings.put(OleNGConstants.BatchProcess.LOCATION_LEVEL_1, "UC");
         holdingsDta.put(OleNGConstants.MATCH_POINT, matchpointsForHoldings);
         JSONArray dataMappingsForHoldings = new JSONArray();
         JSONArray callNumbers = new JSONArray();
@@ -190,7 +190,7 @@ public class OleDsNgOverlayProcessor_IT extends DocstoreTestCaseBase {
 
         JSONObject eholdingsDta = new JSONObject();
         JSONObject matchpointsForEHoldings = new JSONObject();
-        matchpointsForEHoldings.put(Handler.LOCATION_LEVEL_1, "UC");
+        matchpointsForEHoldings.put(OleNGConstants.BatchProcess.LOCATION_LEVEL_1, "UC");
         eholdingsDta.put(OleNGConstants.MATCH_POINT, matchpointsForEHoldings);
         JSONArray dataMappingsForEHoldings = new JSONArray();
         JSONArray callNumbers = new JSONArray();

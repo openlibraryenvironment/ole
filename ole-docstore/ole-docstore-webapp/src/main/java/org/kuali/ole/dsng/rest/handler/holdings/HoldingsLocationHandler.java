@@ -24,21 +24,21 @@ public class HoldingsLocationHandler extends HoldingsHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        boolean locationLevel1Match = operation.equals(LOCATION_LEVEL_1);
-        boolean locationLevel2Match = operation.equals(LOCATION_LEVEL_2);
-        boolean locationLevel3Match = operation.equals(LOCATION_LEVEL_3);
-        boolean locationLevel4Match = operation.equals(LOCATION_LEVEL_4);
-        boolean locationLevel5Match = operation.equals(LOCATION_LEVEL_5);
+        boolean locationLevel1Match = operation.equals(OleNGConstants.BatchProcess.LOCATION_LEVEL_1);
+        boolean locationLevel2Match = operation.equals(OleNGConstants.BatchProcess.LOCATION_LEVEL_2);
+        boolean locationLevel3Match = operation.equals(OleNGConstants.BatchProcess.LOCATION_LEVEL_3);
+        boolean locationLevel4Match = operation.equals(OleNGConstants.BatchProcess.LOCATION_LEVEL_4);
+        boolean locationLevel5Match = operation.equals(OleNGConstants.BatchProcess.LOCATION_LEVEL_5);
         if(locationLevel1Match) {
-            locationLevel = LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.LOCATION_LEVEL_1;
         } else if(locationLevel2Match) {
-            locationLevel = LOCATION_LEVEL_2;
+            locationLevel = OleNGConstants.BatchProcess.LOCATION_LEVEL_2;
         } else if(locationLevel3Match) {
-            locationLevel = LOCATION_LEVEL_3;
+            locationLevel = OleNGConstants.BatchProcess.LOCATION_LEVEL_3;
         } else if(locationLevel4Match) {
-            locationLevel = LOCATION_LEVEL_4;
+            locationLevel = OleNGConstants.BatchProcess.LOCATION_LEVEL_4;
         } else if(locationLevel5Match) {
-            locationLevel = LOCATION_LEVEL_5;
+            locationLevel = OleNGConstants.BatchProcess.LOCATION_LEVEL_5;
         }
         return  (locationLevel1Match || locationLevel2Match || locationLevel3Match ||
                 locationLevel4Match || locationLevel5Match);

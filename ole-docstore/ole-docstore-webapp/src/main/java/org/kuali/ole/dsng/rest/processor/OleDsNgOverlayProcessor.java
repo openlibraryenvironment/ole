@@ -73,7 +73,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                 BibRecord bibRecord = prepareBib(bibJSONDataObject);
 
-                updateOperationForBibResponse(bibResponse, bibRecord);
+                updateOperationForBibResponse(bibResponse, bibRecord, operationsList);
 
                 exchange.add(OleNGConstants.BIB, bibRecord);
 
@@ -95,9 +95,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
                     holdingsForUpdateOrCreate.addAll(updateHoldingsRecordAndDataMappings);
                 }
-                if (operationsList.contains("132") || operationsList.contains("131") || operationsList.contains("231")) {
-                    prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
-                }
+                prepareItemsRecord(holdingsForUpdateOrCreate, bibJSONDataObject, exchange);
 
                 List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
                 List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
@@ -113,7 +111,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                 processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
-                buildBibResponses(bibResponse, exchange);
+                buildBibResponses(bibResponse, exchange, operationsList);
 
                 if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
                     for (Iterator<HoldingsRecordAndDataMapping> iterator = createHoldingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
@@ -208,20 +206,24 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         return response;
     }
 
-    private void updateOperationForBibResponse(BibResponse bibResponse, BibRecord bibRecord) {
+    private void updateOperationForBibResponse(BibResponse bibResponse, BibRecord bibRecord, List options) {
         if (StringUtils.isNotBlank(bibRecord.getBibId())) {
-            bibResponse.setOperation(OleNGConstants.UPDATED);
+            if(options.contains("112")){
+                bibResponse.setOperation(OleNGConstants.UPDATED);
+            } else {
+                bibResponse.setOperation(OleNGConstants.DISCARDED);
+            }
         } else {
             bibResponse.setOperation(OleNGConstants.CREATED);
         }
     }
 
-    public void buildBibResponses(BibResponse bibResponse, Exchange exchange) {
-        buildHoldingResponses(bibResponse, exchange);
-        buildEHoldingResponses(bibResponse, exchange);
+    public void buildBibResponses(BibResponse bibResponse, Exchange exchange, List<String> options) {
+        buildHoldingResponses(bibResponse, exchange, options);
+        buildEHoldingResponses(bibResponse, exchange, options);
     }
 
-    public void buildEHoldingResponses(BibResponse bibResponse, Exchange exchange) {
+    public void buildEHoldingResponses(BibResponse bibResponse, Exchange exchange, List<String> options) {
         List<HoldingsRecordAndDataMapping> createEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
         List<HoldingsRecordAndDataMapping> updateEHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
         List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
@@ -238,12 +240,16 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
         }
         if (CollectionUtils.isNotEmpty(updateEHoldingsRecordAndDataMappings)) {
+            String status = OleNGConstants.DISCARDED;
+            if (options.contains("142")) {
+                status = OleNGConstants.UPDATED;
+            }
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateEHoldingsRecordAndDataMappings) {
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                 if (StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
                     holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
-                    holdingsResponse.setOperation(OleNGConstants.UPDATED);
+                    holdingsResponse.setOperation(status);
                     holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
                     holdingsResponses.add(holdingsResponse);
                 }
@@ -258,7 +264,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         }
     }
 
-    public void buildHoldingResponses(BibResponse bibResponse, Exchange exchange) {
+    public void buildHoldingResponses(BibResponse bibResponse, Exchange exchange, List<String> options) {
         List<HoldingsRecordAndDataMapping> createHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_CREATE);
         List<HoldingsRecordAndDataMapping> updateHoldingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
         List<HoldingsResponse> holdingsResponses = new ArrayList<HoldingsResponse>();
@@ -270,21 +276,25 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(OleNGConstants.CREATED);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
-                    buildItemResponse(holdingsResponse, exchange, holdingsRecord);
+                    buildItemResponse(holdingsResponse, exchange, holdingsRecord, options);
                     holdingsResponses.add(holdingsResponse);
                 }
             }
         }
 
         if (CollectionUtils.isNotEmpty(updateHoldingsRecordAndDataMappings)) {
+            String status = OleNGConstants.DISCARDED;
+            if (options.contains("122")) {
+                status = OleNGConstants.UPDATED;
+            }
             for (HoldingsRecordAndDataMapping holdingsRecordAndDataMapping : updateHoldingsRecordAndDataMappings) {
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                 if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
                     holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
-                    holdingsResponse.setOperation(OleNGConstants.UPDATED);
+                    holdingsResponse.setOperation(status);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
-                    buildItemResponse(holdingsResponse, exchange, holdingsRecord);
+                    buildItemResponse(holdingsResponse, exchange, holdingsRecord, options);
                     holdingsResponses.add(holdingsResponse);
                 }
             }
@@ -298,7 +308,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         }
     }
 
-    public void buildItemResponse(HoldingsResponse holdingsResponse, Exchange exchange, HoldingsRecord holdingsRecord) {
+    public void buildItemResponse(HoldingsResponse holdingsResponse, Exchange exchange, HoldingsRecord holdingsRecord, List<String> options) {
         List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
         List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
         List<ItemResponse> itemResponses = new ArrayList<ItemResponse>();
@@ -315,12 +325,16 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         }
         if (!(OleNGConstants.CREATED.equalsIgnoreCase(holdingsResponse.getOperation()))) {
             if (CollectionUtils.isNotEmpty(updateItemRecordAndDataMappings)) {
+                String status = OleNGConstants.DISCARDED;
+                if (options.contains("122")) {
+                    status = OleNGConstants.UPDATED;
+                }
                 for (ItemRecordAndDataMapping itemRecordAndDataMapping : updateItemRecordAndDataMappings) {
                     ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
                     if (holdingsRecord.getHoldingsId().equals(itemRecord.getHoldingsId())) {
                         ItemResponse itemResponse = new ItemResponse();
                         itemResponse.setItemId(itemRecord.getItemId());
-                        itemResponse.setOperation(OleNGConstants.UPDATED);
+                        itemResponse.setOperation(status);
                         itemResponses.add(itemResponse);
                     }
                 }
@@ -492,7 +506,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
                     itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
                 }
-            }else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+            }else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY) || addedOps.equalsIgnoreCase(OleNGConstants.DISCARD)) {
                 List<ItemRecordAndDataMapping> preparedItemAndDataMappings = determineItemsAndDataMappingByMatchPoints(holdingsRecord, exchange, itemJSON);
                 if (CollectionUtils.isNotEmpty(preparedItemAndDataMappings)) {
                     itemRecordAndDataMappings.addAll(preparedItemAndDataMappings);
@@ -787,7 +801,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
         } else if (StringUtils.isBlank(addedOps)) {
             eholdingsRecordAndDataMappings  = createHoldingAndDataMapping(bibRecord, EHoldings.ELECTRONIC, dataMappings);
-        }  else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+        }  else if (addedOps.equalsIgnoreCase(OleNGConstants.OVERLAY) || addedOps.equalsIgnoreCase(OleNGConstants.DISCARD)) {
             eholdingsRecordAndDataMappings = determineHoldingsAndDataMappingsByMatchPoints(bibRecord, exchange, eholdingsJSON, EHoldings.ELECTRONIC);
         } else if (addedOps.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD) ||
                 addedOps.equalsIgnoreCase(OleNGConstants.KEEP_ALL_EXISTING_AND_ADD)) {

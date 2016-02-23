@@ -103,6 +103,19 @@ public class OleNGConstants {
         public static final String CREATE_REQ_PO = "Create Requisition and PO";
         public static final String CREATE_REQ_ONLY = "Create Requisition Only";
         public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
+
+
+        public final static String LOCATION_LEVEL_1 = "Location Level1";
+        public final static String LOCATION_LEVEL_2 = "Location Level2";
+        public final static String LOCATION_LEVEL_3 = "Location Level3";
+        public final static String LOCATION_LEVEL_4 = "Location Level4";
+        public final static String LOCATION_LEVEL_5 = "Location Level5";
+
+        public final static String HOLDINGS_LOCATION_LEVEL_1 = "Holdings Location Level1";
+        public final static String HOLDINGS_LOCATION_LEVEL_2 = "Holdings Location Level2";
+        public final static String HOLDINGS_LOCATION_LEVEL_3 = "Holdings Location Level3";
+        public final static String HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
+        public final static String HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
     }
 
     public static final String TAG_001 = "001";
@@ -262,6 +275,7 @@ public class OleNGConstants {
 
     public final static String CREATED = "Created";
     public final static String UPDATED = "Updated";
+    public final static String DISCARDED = "Discarded";
     public final static String INDEX = "index";
 
     public static final String FORWARD_SLASH = "/";

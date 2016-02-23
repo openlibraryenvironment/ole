@@ -38,29 +38,32 @@ public class CreateBibHandler extends BibHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         String newBibContent = null;
         try {
-            newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
-            String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-            String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
             BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
 
-            bibRecord.setContent(newBibContent);
-            bibRecord.setCreatedBy(createdBy);
-            bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
+            if (StringUtils.isBlank(bibRecord.getBibId())) {
+                newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+                String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+                String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
-            Timestamp createdDate = getDateTimeStamp(createdDateString);
+                bibRecord.setContent(newBibContent);
+                bibRecord.setCreatedBy(createdBy);
+                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-            bibRecord.setDateCreated(createdDate);
-            BibRecord createdBibRecord = getBibDAO().save(bibRecord);
+                Timestamp createdDate = getDateTimeStamp(createdDateString);
 
-            String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
-            bibRecord.setContent(modifiedcontent);
+                bibRecord.setDateCreated(createdDate);
+                BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
-            setDataMappingValues(bibRecord, requestJsonObject, exchange);
+                String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
+                bibRecord.setContent(modifiedcontent);
 
-            getBibDAO().save(bibRecord);
-            
-            saveBibInfoRecord(bibRecord,true);
+                setDataMappingValues(bibRecord, requestJsonObject, exchange);
+
+                getBibDAO().save(bibRecord);
+
+                saveBibInfoRecord(bibRecord,true);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
