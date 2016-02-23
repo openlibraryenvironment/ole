@@ -14,6 +14,7 @@ import org.kuali.ole.dsng.rest.Exchange;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class OleDsNgOverlayProcessorTest {
         itemRecordAndDataMappingList.add(itemRecordAndDataMapping);
         exchange.add(OleNGConstants.HOLDINGS_FOR_CREATE, holdingsRecordAndDataMappingList);
         exchange.add(OleNGConstants.ITEMS_FOR_CREATE, itemRecordAndDataMappingList);
-        oleDsNgOverlayProcessor.buildBibResponses(bibResponse, exchange);
+        oleDsNgOverlayProcessor.buildBibResponses(bibResponse, exchange, Collections.singletonList("211"));
         bibResponses.add(bibResponse);
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         oleNGBibImportResponse.setBibResponses(bibResponses);

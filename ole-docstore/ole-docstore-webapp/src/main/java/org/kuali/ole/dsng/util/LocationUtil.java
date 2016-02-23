@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
@@ -48,40 +49,40 @@ public class LocationUtil extends OleDsHelperUtil {
     public Map<String,String> buildLocationMap(JSONObject requestJsonObject) {
         Map<String,String> locationMap = new TreeMap<String, String>();
 
-        if(requestJsonObject.has(Handler.LOCATION_LEVEL_1)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_1);
+        if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_1)) {
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_1);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
-        if(requestJsonObject.has(Handler.LOCATION_LEVEL_2)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_2);
+        if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_2)) {
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_2);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
-        if(requestJsonObject.has(Handler.LOCATION_LEVEL_3)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_3);
+        if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_3)) {
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_3);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
-        if(requestJsonObject.has(Handler.LOCATION_LEVEL_4)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_4);
+        if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_4)) {
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_4);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
-        if(requestJsonObject.has(Handler.LOCATION_LEVEL_5)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, Handler.LOCATION_LEVEL_5);
+        if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_5)) {
+            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_5);
             List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);

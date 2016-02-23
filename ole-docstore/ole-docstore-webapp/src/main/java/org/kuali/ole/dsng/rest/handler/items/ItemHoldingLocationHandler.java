@@ -23,21 +23,21 @@ public class ItemHoldingLocationHandler extends ItemHandler {
 
     @Override
     public Boolean isInterested(String operation) {
-        boolean locationLevel1Match = operation.equals(HOLDINGS_LOCATION_LEVEL_1);
-        boolean locationLevel2Match = operation.equals(HOLDINGS_LOCATION_LEVEL_2);
-        boolean locationLevel3Match = operation.equals(HOLDINGS_LOCATION_LEVEL_3);
-        boolean locationLevel4Match = operation.equals(HOLDINGS_LOCATION_LEVEL_4);
-        boolean locationLevel5Match = operation.equals(HOLDINGS_LOCATION_LEVEL_5);
+        boolean locationLevel1Match = operation.equals(OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1);
+        boolean locationLevel2Match = operation.equals(OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_2);
+        boolean locationLevel3Match = operation.equals(OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_3);
+        boolean locationLevel4Match = operation.equals(OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_4);
+        boolean locationLevel5Match = operation.equals(OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_5);
         if(locationLevel1Match) {
-            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1;
         } else if(locationLevel2Match) {
-            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1;
         } else if(locationLevel3Match) {
-            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1;
         } else if(locationLevel4Match) {
-            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1;
         } else if(locationLevel5Match) {
-            locationLevel = HOLDINGS_LOCATION_LEVEL_1;
+            locationLevel = OleNGConstants.BatchProcess.HOLDINGS_LOCATION_LEVEL_1;
         }
         return  (locationLevel1Match || locationLevel2Match || locationLevel3Match ||
                 locationLevel4Match || locationLevel5Match);
