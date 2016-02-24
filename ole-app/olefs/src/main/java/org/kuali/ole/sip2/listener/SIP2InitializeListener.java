@@ -14,11 +14,11 @@ public class SIP2InitializeListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        OLESIP2HelperService.startOLESip2Server();
+        //OLESIP2HelperService.startOLESip2Server();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        OLESIP2HelperService.stopOLESip2Server();
+        //OLESIP2HelperService.stopOLESip2Server();
     }
 }

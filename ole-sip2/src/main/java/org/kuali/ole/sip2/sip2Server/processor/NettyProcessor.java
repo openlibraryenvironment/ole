@@ -33,7 +33,7 @@ public abstract class NettyProcessor {
     public abstract String getResponseForServiceTurnedOff(String requestData);
 
     public String postRequest(String requestData, String context, String serverURL) {
-        LOG.info("Entry NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
+        LOG.info("Entry SIP2NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
         String url = serverURL + circRestURL + context;
         LOG.info("URL  : " + url);
         String response = "";
@@ -42,8 +42,8 @@ public abstract class NettyProcessor {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-        LOG.info("NettyServerHandler.sendRequestToOle SIP2 Package :" + response);
-        LOG.info("Exit NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
+        LOG.info("SIP2NettyServerHandler.sendRequestToOle SIP2 Package :" + response);
+        LOG.info("Exit SIP2NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
         return response;
     }
 
