@@ -128,6 +128,7 @@
 
     <bean id="callNumberMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.docstore.engine.service.storage.rdbms.dao.CallNumberMigrationDao"/>
 
+    <bean id="rebuildIndexDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.docstore.engine.service.storage.rdbms.dao.RebuildIndexDao"/>
     <!-- beans below here are extended by KFS beans, and so the "parent" relationship does not work and they must be redefined -->
 
     <bean id="dbPlatform" class="org.kuali.rice.core.BeanHolder">
