@@ -478,7 +478,7 @@
     <param name="sip2.port">21711</param>
     <param name="sip2.startOnLoad">false</param>
     <param name="sip2.url">${application.url}</param>
-    
+
     <!-- This parameter is used to set solr max page size for the batch job 'updateStatusIntoAvailableAfterReShelvingJob' -->
     <param name="solr.max.page.size.for.update.item.status.job">100000</param>
 
@@ -498,4 +498,7 @@
 
   <param name="report.directory">${project.home}/reports</param>
 
+    <!-- Config for OCLC -->
+    <param name="oclc.port">10001</param>
+    <param name="oclc.url">${application.url}</param>
 </config>

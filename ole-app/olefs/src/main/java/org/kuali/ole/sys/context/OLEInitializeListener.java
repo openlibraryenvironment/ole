@@ -17,23 +17,27 @@ package org.kuali.ole.sys.context;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.servlet.ServletContextEvent;
 
-import org.kuali.ole.CopyRunOncePropertiesFileBean;
 import org.kuali.ole.deliver.defaultload.*;
-import org.kuali.ole.deliver.drools.DroolsEngine;
 import org.kuali.ole.deliver.drools.DroolsKieEngine;
-import org.kuali.ole.ingest.LoadDefaultIngestProfileBean;
+import org.kuali.ole.oclc.OCLCNettyServerHandler;
 import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
 import org.kuali.ole.select.document.service.OLEPurchaseOrderBatchService;
+import org.kuali.ole.service.NettyHandler;
+import org.kuali.ole.service.NettyServer;
+import org.kuali.ole.sip2.sip2Server.SIP2NettyServerHandler;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 import org.kuali.rice.krad.dao.DocumentDao;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class OLEInitializeListener extends KualiInitializeListener {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OLEInitializeListener.class);
@@ -76,6 +80,34 @@ public class OLEInitializeListener extends KualiInitializeListener {
 
         //This initializes the drools engine;
         DroolsKieEngine.getInstance().initKnowledgeBase();
+        initializeNettyServerHandlers();
+
+    }
+
+    public void  initializeNettyServerHandlers() {
+        Map<Integer, NettyHandler> nettyHandlerMap = new HashMap<>();
+        boolean onLoadStartup = ConfigContext.getCurrentContextConfig().getBooleanProperty("sip2.startOnLoad");
+        if (onLoadStartup) {
+            String sip2PortNo = ConfigContext.getCurrentContextConfig().getProperty("sip2.port");
+            String sip2ServerUrl = ConfigContext.getCurrentContextConfig().getProperty("sip2.url");
+            nettyHandlerMap.put(Integer.valueOf(sip2PortNo), new SIP2NettyServerHandler(sip2ServerUrl));
+        }
+
+        String oclcPortNo = ConfigContext.getCurrentContextConfig().getProperty("oclc.port");
+        String oclcServerUrl = ConfigContext.getCurrentContextConfig().getProperty("oclc.url");
+        nettyHandlerMap.put(Integer.valueOf(oclcPortNo), new OCLCNettyServerHandler(oclcServerUrl));
+
+        startNettyServers(nettyHandlerMap);
+    }
+
+    public void startNettyServers(Map<Integer, NettyHandler> nettyHandlerMap) {
+        for (Iterator<Integer> iterator = nettyHandlerMap.keySet().iterator(); iterator.hasNext(); ) {
+            Integer port = iterator.next();
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(new NettyServer(port, nettyHandlerMap.get(port)));
+            System.out.println(" **************** NETTY SERVER STARTED_SUCCESSFULLY ************************ ");
+            LOG.info(" **************** NETTY SERVER STARTED_SUCCESSFULLY ************************ ");
+        }
     }
 
     private void copyDefaultRuleFiles() {

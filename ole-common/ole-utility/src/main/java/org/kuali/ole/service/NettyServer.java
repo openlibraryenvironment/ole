@@ -1,19 +1,16 @@
-package org.kuali.ole.sip2.service;
+package org.kuali.ole.service;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.log4j.Logger;
-import org.kuali.ole.sip2.sip2Server.NettyServerHandler;
 
 /**
  * Created by chenchulakshmig on 8/27/15.
  */
+
 public class NettyServer implements Runnable {
 
     protected int serverPort = 7052;
@@ -25,13 +22,14 @@ public class NettyServer implements Runnable {
     EventLoopGroup bossGroup = new NioEventLoopGroup();
     EventLoopGroup workerGroup = new NioEventLoopGroup();
     ChannelFuture f = null;
+    private NettyHandler nettyHandler;
 
     public NettyServer() {
     }
 
-    public NettyServer(int port, String serverUrl) {
-        this.serverPort = port;
-        this.serverUrl = serverUrl;
+    public NettyServer(Integer portNo, NettyHandler nettyHandler) {
+        this.serverPort = portNo;
+        this.nettyHandler = nettyHandler;
     }
 
     public void run() {
@@ -47,15 +45,13 @@ public class NettyServer implements Runnable {
                             @Override
                             public void initChannel(SocketChannel ch)
                                     throws Exception {
-
-                                ch.pipeline().addLast(new NettyServerHandler(serverUrl));
+                                ch.pipeline().addLast(nettyHandler);
                             }
                         }).option(ChannelOption.SO_BACKLOG, 128)
                         .childOption(ChannelOption.SO_KEEPALIVE, true);
-                f = b.bind(serverPort).sync();
-                LOG.info("Server started and is ready for client connections....");
-                this.message = "Socket server started Successfully";
-                f.channel().closeFuture().sync();
+                Channel serverChannel = b.bind(serverPort).sync().channel();
+                serverChannel.closeFuture().sync();
+                System.out.println(" ***************** Server started ************************* ");
             } catch (Exception e) {
                 e.printStackTrace();
                 this.message = "Error starting server" + e;

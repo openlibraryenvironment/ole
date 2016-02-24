@@ -4,10 +4,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.service.NettyHandler;
 import org.kuali.ole.sip2.sip2Server.processor.*;
 
 import java.io.FileNotFoundException;
@@ -19,9 +19,9 @@ import java.util.*;
 /**
  * Created by chenchulakshmig on 8/27/15.
  */
-public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+public class SIP2NettyServerHandler extends NettyHandler {
 
-    private final static Logger LOG = Logger.getLogger(NettyServerHandler.class.getName());
+    private final static Logger LOG = Logger.getLogger(SIP2NettyServerHandler.class.getName());
 
     private String clientIP;
 
@@ -34,11 +34,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     String propertiesFileName = "sip2-config.properties";
     InputStream inputStream;
 
-    public NettyServerHandler() {
+    public SIP2NettyServerHandler() {
         // TODO Auto-generated constructor stub
     }
 
-    public NettyServerHandler(String serverURL) {
+    public SIP2NettyServerHandler(String serverURL) {
         inputStream = getClass().getClassLoader().getResourceAsStream("sip2-config.properties");
 
         try {
@@ -75,26 +75,25 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object message) throws Exception {
-
-        LOG.info("Entry NettyServerHandler.channelRead(channelHandlerContext, message)");
+        LOG.info("Entry SIP2NettyServerHandler.channelRead(channelHandlerContext, message)");
         ByteBuf byteBuf = (ByteBuf) message;
         String requestMessage = "";
         ChannelFuture channelFuture = null;
         String response = "";
 
         try {
-            LOG.info("NettyServerHandler.channelRead    " + requestMessage);
+            LOG.info("SIP2NettyServerHandler.channelRead    " + requestMessage);
             requestMessage = byteBuf.toString(CharsetUtil.UTF_8);
-            LOG.info("After-CharsetUtil.UTF_8 NettyServerHandler.channelRead    " + requestMessage);
+            LOG.info("After-CharsetUtil.UTF_8 SIP2NettyServerHandler.channelRead    " + requestMessage);
 
             if (requestMessage != null && !requestMessage.equalsIgnoreCase("")) {
 
                 response = this.processRequest(requestMessage);
-                LOG.info("NettyServerHandler.channelRead SIP2 Package :" + response);
+                LOG.info("SIP2NettyServerHandler.channelRead SIP2 Package :" + response);
             }
 
-            LOG.info("NettyServerHandler.channelRead Client IP Address : " + clientIP);
-            LOG.info("NettyServerHandler.channelRead Response Message : " + response);
+            LOG.info("SIP2NettyServerHandler.channelRead Client IP Address : " + clientIP);
+            LOG.info("SIP2NettyServerHandler.channelRead Response Message : " + response);
 
             if (response != null) {
 
@@ -118,7 +117,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             byteBuf.release();
         }
 
-        LOG.info("Exit NettyServerHandler.channelRead(channelHandlerContext, message)");
+        LOG.info("Exit SIP2NettyServerHandler.channelRead(channelHandlerContext, message)");
     }
 
 
@@ -151,20 +150,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext channelHandlerContext) {
-        LOG.info("Entry NettyServerHandler.channelReadComplete(channelHandlerContext)");
+        LOG.info("Entry SIP2NettyServerHandler.channelReadComplete(channelHandlerContext)");
         channelHandlerContext.flush();
-        LOG.info("Exit NettyServerHandler.channelReadComplete(channelHandlerContext)");
+        LOG.info("Exit SIP2NettyServerHandler.channelReadComplete(channelHandlerContext)");
     }
 
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
-        LOG.info("Entry NettyServerHandler.exceptionCaught(channelHandlerContext, cause)");
+        LOG.info("Entry SIP2NettyServerHandler.exceptionCaught(channelHandlerContext, cause)");
         // TODO Auto-generated method stub
         //super.exceptionCaught(ctx, cause);
         LOG.error("Client (" + clientIP + ") disconnected from server.");
-        LOG.info("Exit NettyServerHandler.exceptionCaught(channelHandlerContext, cause)");
+        LOG.info("Exit SIP2NettyServerHandler.exceptionCaught(channelHandlerContext, cause)");
     }
 
 
