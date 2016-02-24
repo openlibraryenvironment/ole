@@ -1,20 +1,27 @@
 package org.kuali.ole.web;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.dao.CallNumberMigrationDao;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.dao.RebuildIndexDao;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.process.RebuildIndexesHandler;
 import org.kuali.ole.logger.DocStoreLogger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +34,8 @@ public class RebuildIndexServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     DocStoreLogger docStoreLogger = new DocStoreLogger(getClass().getName());
-
+    // location to store file uploaded
+    private static final String UPLOAD_DIRECTORY = "reindex";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -35,7 +43,7 @@ public class RebuildIndexServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        String reindexResult ="";
         try {
 
             String docCategory = DocCategory.WORK.getCode();
@@ -90,15 +98,22 @@ public class RebuildIndexServlet extends HttpServlet {
             } else if (action.equalsIgnoreCase("shelfKey")) {
                 CallNumberMigrationDao callNumberMigration = (CallNumberMigrationDao) org.kuali.ole.dsng.service.SpringContext.getBean("callNumberMigrationDao");
                 callNumberMigration.init();
-            } else {
+            } else if (action.equalsIgnoreCase("fromFile")) {
+                reindexResult =uploadFile(req,rebuildIndexesHandler);
+            }
+             else {
                 String result = "Invalid action :" + action;
                 outputMessage(resp, result);
             }
         } catch (Exception e) {
             docStoreLogger.log("Error during rebuilding of the indexes from documentstore", e);
         }
-
-
+        if (ServletFileUpload.isMultipartContent(req)) {
+            req.setAttribute("reindexResult",reindexResult);
+            req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+        }else{
+            req.setAttribute("reindexResult","");
+        }
     }
 
     private void outputMessage(HttpServletResponse resp, String s) throws IOException {
@@ -106,5 +121,39 @@ public class RebuildIndexServlet extends HttpServlet {
         out.println(s);
         out.flush();
         out.close();
+    }
+
+
+
+    public String uploadFile(HttpServletRequest req, RebuildIndexesHandler rebuildIndexesHandler) throws Exception {
+        String filePath =null;
+        if (ServletFileUpload.isMultipartContent(req)) {
+            String uploadPath = ConfigContext.getCurrentContextConfig().getProperty("staging.directory")
+                    + File.separator + UPLOAD_DIRECTORY;
+
+            // creates the directory if it does not exist
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            List<FileItem> formItems = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
+            if (formItems != null && formItems.size() > 0) {
+                // iterates over form's fields
+                for (FileItem item : formItems) {
+                    // processes only fields that are not form fields
+                    if (!item.isFormField()) {
+                        String fileName = new File(item.getName()).getName();
+                        filePath = uploadPath + File.separator + fileName;
+                        File storeFile = new File(filePath);
+                        // saves the file on disk
+                        item.write(storeFile);
+                    }
+                }
+            }
+        }
+
+        RebuildIndexDao rebuildIndexDao = (RebuildIndexDao) org.kuali.ole.dsng.service.SpringContext.getBean("rebuildIndexDao");
+        return rebuildIndexesHandler.reindexFromFile(filePath,rebuildIndexDao);
     }
 }
