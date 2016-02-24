@@ -818,7 +818,7 @@
                                           p:onChangeScript="noOfUser(this.id)"/>
                                 </property>
                             </bean>
-                            <bean id="OleEinstance_localPersistentLink" parent="Uif-HorizontalFieldGroup" p:label="Persistent Link">
+                            <bean id="OleEinstance_localPersistentLink" parent="Uif-HorizontalFieldGroup" p:label="Local Persistent Link">
                                 <property name="items">
                                     <list>
                                         <bean id="OleEinstance-localPersistentLink" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
