@@ -383,7 +383,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         if (null == currentLoanDocument.getCirculationPolicyId()) {
             droolsResponse.addErrorMessage("No Circulation Policy found that matches the patron/item combination. Please select a due date manually!");
             droolsResponse.addErrorMessageCode(DroolsConstants.CUSTOM_DUE_DATE_REQUIRED_FLAG);
-            currentLoanDocument.setCirculationPolicyId("No Circ Policy Found");
+            currentLoanDocument.setCirculationPolicyId(OLEConstants.NO_CIRC_POLICY_FOUND);
             noticeInfo.setNoticeType(DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG);
             return droolsResponse;
         }

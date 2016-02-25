@@ -59,7 +59,7 @@ public class CircUtilController extends RuleExecutor {
             oleNoticeTypeConfiguration = oleNoticeTypeConfigurations.get(0);
             NoticeInfo noticeInfo = new NoticeInfo();
             noticeInfo.setNoticeType(oleNoticeTypeConfiguration.getNoticeType());
-
+            itemRecord.setDueDateTime(currentLoanDocument.getLoanDueDate());
             ArrayList<Object> facts = new ArrayList<>();
             facts.add(noticeInfo);
             facts.add(itemRecord);
