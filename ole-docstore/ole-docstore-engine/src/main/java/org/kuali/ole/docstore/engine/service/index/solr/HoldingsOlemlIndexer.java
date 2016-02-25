@@ -986,6 +986,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             String accessLocation = holdingsAccessInformation.getAccessLocation();
             String accessPassword = holdingsAccessInformation.getAccessPassword();
             String accessUsername = holdingsAccessInformation.getAccessUsername();
+            String materialsSpecified = holdingsAccessInformation.getMaterialsSpecified();
+            String firstIndicator = holdingsAccessInformation.getFirstIndicator();
+            String secondIndicator = holdingsAccessInformation.getSecondIndicator();
             String authenticationType = holdingsAccessInformation.getAuthenticationType();
             String numberOfSimultaneousUser = holdingsAccessInformation.getNumberOfSimultaneousUser();
             String proxiedResource = holdingsAccessInformation.getProxiedResource();
@@ -995,6 +998,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             appendData(sb, authenticationType);
             appendData(sb, numberOfSimultaneousUser);
             appendData(sb, proxiedResource);
+            appendData(sb, materialsSpecified);
+            appendData(sb, firstIndicator);
+            appendData(sb, secondIndicator);
         }
 
         for (Link link : oleHoldings.getLink()) {

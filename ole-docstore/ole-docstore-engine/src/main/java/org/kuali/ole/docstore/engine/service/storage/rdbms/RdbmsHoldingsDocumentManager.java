@@ -106,6 +106,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             holdingsRecord.setAuthenticationTypeId(authenticationTypeRecord.getAuthenticationTypeId());
             holdingsRecord.setAccessPassword(oleHoldings.getHoldingsAccessInformation().getAccessPassword());
             holdingsRecord.setAccessUserName(oleHoldings.getHoldingsAccessInformation().getAccessUsername());
+            holdingsRecord.setMaterialsSpecified(oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified());
+            holdingsRecord.setFirstIndicator(oleHoldings.getHoldingsAccessInformation().getFirstIndicator());
+            holdingsRecord.setSecondIndicator(oleHoldings.getHoldingsAccessInformation().getSecondIndicator());
+
             if (oleHoldings.getHoldingsAccessInformation() != null && StringUtils.isNotEmpty(oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser())) {
                 holdingsRecord.setNumberSimultaneousUsers(oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
             }
@@ -1141,6 +1145,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         HoldingsAccessInformation accessInformation = new HoldingsAccessInformation();
         accessInformation.setAccessPassword(holdingsRecord.getAccessPassword());
         accessInformation.setAccessUsername(holdingsRecord.getAccessUserName());
+        accessInformation.setMaterialsSpecified(holdingsRecord.getMaterialsSpecified());
+        accessInformation.setFirstIndicator(holdingsRecord.getFirstIndicator());
+        accessInformation.setSecondIndicator(holdingsRecord.getSecondIndicator());
 
         if (holdingsRecord.getHoldingsAccessLocations() != null && holdingsRecord.getHoldingsAccessLocations().size() > 0) {
             accessInformation.setAccessLocation(holdingsRecord.getHoldingsAccessLocations().get(0).getAccessLocation().getCode());
