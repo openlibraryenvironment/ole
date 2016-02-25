@@ -55,6 +55,12 @@ public class FeeType extends PersistableBusinessObjectBase {
     private Timestamp checkInDate;
     private Timestamp lastTransactionDate;
     private Timestamp overrideCheckInDate;
+    private KualiDecimal creditIssued = new KualiDecimal(0);
+    private KualiDecimal creditRemaining = new KualiDecimal(0);
+    private String creditNote;
+    private String transferNote;
+    private String refundNote;
+    private String cancelCreditNote;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -362,6 +368,30 @@ public class FeeType extends PersistableBusinessObjectBase {
         this.viewBillNumber = viewBillNumber;
     }
 
+    public KualiDecimal getCreditIssued() {
+        return creditIssued;
+    }
+
+    public void setCreditIssued(KualiDecimal creditIssued) {
+        this.creditIssued = creditIssued;
+    }
+
+    public KualiDecimal getCreditRemaining() {
+        return creditRemaining;
+    }
+
+    public void setCreditRemaining(KualiDecimal creditRemaining) {
+        this.creditRemaining = creditRemaining;
+    }
+
+    public String getCreditNote() {
+        return creditNote;
+    }
+
+    public void setCreditNote(String creditNote) {
+        this.creditNote = creditNote;
+    }
+
     public String getItemOwnLocation() {
         return itemOwnLocation;
     }
@@ -376,5 +406,29 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setOverrideCheckInDate(Timestamp overrideCheckInDate) {
         this.overrideCheckInDate = overrideCheckInDate;
+    }
+
+    public String getTransferNote() {
+        return transferNote;
+    }
+
+    public void setTransferNote(String transferNote) {
+        this.transferNote = transferNote;
+    }
+
+    public String getRefundNote() {
+        return refundNote;
+    }
+
+    public void setRefundNote(String refundNote) {
+        this.refundNote = refundNote;
+    }
+
+    public String getCancelCreditNote() {
+        return cancelCreditNote;
+    }
+
+    public void setCancelCreditNote(String cancelCreditNote) {
+        this.cancelCreditNote = cancelCreditNote;
     }
 }

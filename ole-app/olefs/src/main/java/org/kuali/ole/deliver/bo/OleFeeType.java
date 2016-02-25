@@ -9,6 +9,25 @@ public class OleFeeType extends PersistableBusinessObjectBase {
     private String feeTypeId;
     private String feeTypeCode;
     private String feeTypeName;
+    private String circulationDeskId;
+    private OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
+
+
+    public OleCirculationDesk getOleCirculationDesk() {
+        return oleCirculationDesk;
+    }
+
+    public void setOleCirculationDesk(OleCirculationDesk oleCirculationDesk) {
+        this.oleCirculationDesk = oleCirculationDesk;
+    }
+
+    public String getCirculationDeskId() {
+        return circulationDeskId;
+    }
+
+    public void setCirculationDeskId(String circulationDeskId) {
+        this.circulationDeskId = circulationDeskId;
+    }
 
     public String getFeeTypeId() {
         return feeTypeId;
