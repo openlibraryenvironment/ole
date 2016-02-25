@@ -1737,7 +1737,8 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
                 if (addresses != null && addresses
                         .size() > 0) {
                     for (int address = 0; address < addresses.size(); address++) {
-                        addressCriteria.put("id", addresses.get(address).getId());
+                        addressCriteria.put(OLEConstants.OlePatron.ENTITY_ADDRESS_ID, addresses.get(address).getId());
+                        addressCriteria.put(OLEConstants.OlePatron.PATRON_ID, this.olePatronId);
                         List<OleAddressBo> oleAddressBos = (List<OleAddressBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleAddressBo.class, addressCriteria);
                         if (oleAddressBos != null && oleAddressBos.size() > 0 && addresses.get(address).isDefaultValue() && oleAddressBos.get(0).isAddressVerified()) {
                             return true;
