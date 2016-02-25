@@ -56,6 +56,10 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
     private String adminPassword;
     private String accessUserName;
     private String accessPassword;
+    protected String materialsSpecified;
+    protected String firstIndicator;
+    protected String secondIndicator;
+
     @AuditField
     private String subscriptionStatus;
     private Timestamp currentSubscriptionStartDate;
@@ -583,5 +587,29 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
 
     public void setDonorList(List<OLEHoldingsDonorRecord> donorList) {
         this.donorList = donorList;
+    }
+
+    public String getMaterialsSpecified() {
+        return materialsSpecified;
+    }
+
+    public void setMaterialsSpecified(String materialsSpecified) {
+        this.materialsSpecified = materialsSpecified;
+    }
+
+    public String getFirstIndicator() {
+        return firstIndicator;
+    }
+
+    public void setFirstIndicator(String firstIndicator) {
+        this.firstIndicator = firstIndicator;
+    }
+
+    public String getSecondIndicator() {
+        return secondIndicator;
+    }
+
+    public void setSecondIndicator(String secondIndicator) {
+        this.secondIndicator = secondIndicator;
     }
 }

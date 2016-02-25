@@ -641,19 +641,6 @@
                                   p:label="Order Format"/>
                             <bean id="OleEinstance-fundCode" parent="Uif-DataField"
                                   p:propertyName="documentForm.extendedEHoldingFields.fundCode" p:label="Fund Code"/>
-                            <!--<bean parent="Uif-InputField"
-                                  p:propertyName="documentForm.selectedEHoldings.donorPublicDisplay"
-                                  p:label="Donor Public Display">
-                                <property name="control">
-                                    <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.donorNote"
-                                  p:label="Donor Note">
-                                <property name="control">
-                                    <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
-                                </property>
-                            </bean>-->
                         </list>
                     </property>
                 </bean>
@@ -801,15 +788,6 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-<!--
-                            <bean id="OleEinstance_linkURL_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.link.url"
-                                  p:label="Link">
-                                <property name="control">
-                                    <bean id="oleEinstance_linkURL_len_id" parent="Uif-TextAreaControl"
-                                          p:maxLength="400" p:rows="1" p:cols="20"/>
-                                </property>
-                            </bean>
--->
                             <bean id="OleEinstance-numberOfSimultaneousUser" parent="Uif-InputField"
                                   p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.numberOfSimultaneousUser"
                                   p:label="No. of Simultaneous User">
@@ -841,31 +819,6 @@
                                     <bean parent="Uif-MultiSelectControl" p:size="3" p:onKeyPressScript="accessLocation(this.id)" p:onClickScript="accessLocation(this.id)"/>
                                 </property>
                             </bean>
-<!--
-                            <bean id="OleEinstance_linkText_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.link.text"
-                                  p:label="Link Text">
-                                <property name="control">
-                                    <bean id="oleEinstance_linkText_len_id" parent="Uif-TextAreaControl"
-                                          p:maxLength="400" p:rows="1" p:cols="20"/>
-                                </property>
-                            </bean>
-
-                            <bean id="OleEinstance-adminUserName" parent="Uif-InputField"
-                                  p:propertyName="documentForm.selectedEHoldings.platform.adminUserName"
-                                  p:label="Admin Username">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
-                                </property>
-                            </bean>
-                             <bean id="OleEinstance-adminPassword" parent="Uif-InputField"
-                                  p:propertyName="documentForm.selectedEHoldings.platform.adminPassword"
-                                  p:label="Admin Password">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
-                                </property>
-                            </bean>
-                              <ref bean="adminURI_EInstance"/>
-                            -->
                             <bean id="OleEinstance-authenticationType" parent="Uif-InputField"
                                   p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.authenticationType"
                                   p:label="Authentication Type">
@@ -899,6 +852,31 @@
                                     <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
                                 </property>
                             </bean>
+
+                            <bean id="OleEinstance-materialsSpecified" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.materialsSpecified"
+                                  p:label="Materials Specified">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="OleEinstance-firstIndicator" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.firstIndicator"
+                                  p:label="First Indicator">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3" p:maxLength="10"/>
+                                </property>
+                            </bean>
+
+                            <bean id="OleEinstance-secondIndicator" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.secondIndicator"
+                                  p:label="Second Indicator">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3" p:maxLength="10"/>
+                                </property>
+                            </bean>
+
 
 
 
@@ -944,7 +922,6 @@
                         <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
                     </property>
                 </bean>
-                <!--<bean id="eInstanceClickableLink" parent="Uif-ActionLink" p:actionScript="eInstanceClickableLink('@{#index}');" p:actionLabel="Test Link"/>-->
                 <bean id="OleEinstance-linkText" parent="Uif-InputField" p:propertyName="text"
                       p:label="Link Text" p:render="@{editable eq 'true'}">
                     <property name="control">
@@ -955,39 +932,6 @@
                 <bean id="eInstanceClickableLink-readOnly" p:render="@{editable eq 'false'}" parent="Uif-LinkField"  p:label="Url" p:href="@{#line.url}" p:linkText="@{#line.url}" p:target="_blank"/>
                 <bean id="OleEinstance-linkText-readOnly" p:render="@{editable eq 'false'}" parent="Uif-DataField" p:propertyName="text"
                       p:label="Link Text"/>
-
-                <!--<bean id="OleEinstance-linkURL-Group" parent="Uif-HorizontalFieldGroup" p:style="width:70%" p:render="@{editable eq 'true'}">
-                    <property name="items">
-                        <list>
-                            <bean id="OleEinstance-linkURL-editable" parent="Uif-InputField" p:propertyName="url"
-                                  p:label="URL">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="UrlPatternConstraint" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
-                                </property>
-                            </bean>
-                            <bean id="eInstanceClickableLink-editable" parent="Uif-ActionLink" p:actionScript="eInstanceClickableLink('@{#index}');" p:actionLabel="Test Link"/>
-                            <bean id="OleEinstance-linkText-editable" parent="Uif-InputField" p:propertyName="text"
-                                  p:label="Link Text">
-                                <property name="control">
-                                    <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
-                                </property>
-                            </bean>
-
-                        </list>
-                    </property>
-                </bean>-->
-               <!-- <bean id="OleAccessInformationGroup_EInstance_readOnly" parent="Uif-HorizontalFieldGroup" p:style="width:70%"  p:label="Access Information" p:render="@{editable eq 'false'}">
-                    <property name="items">
-                        <list>
-                            <bean id="eInstanceClickableLink-readOnly" parent="Uif-LinkField"  p:label="Url" p:href="@{#line.url}" p:linkText="@{#line.url}" p:target="_blank"/>
-                            <bean id="OleEinstance-linkText-readOnly" parent="Uif-DataField" p:propertyName="text"
-                                  p:label="Link Text"/>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
         <property name="lineActions">

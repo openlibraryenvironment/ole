@@ -77,4 +77,13 @@
         <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar2(120)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_ADD">
+        <addColumn
+                tableName="OLE_DS_HOLDINGS_T">
+            <column name="MATERIALS_SPECIFIED"   type="VARCHAR(100)"/>
+            <column name="FIRST_INDICATOR"   type="VARCHAR(20)"/>
+            <column name="SECOND_INDICATOR"   type="VARCHAR(20)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
