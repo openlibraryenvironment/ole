@@ -9,6 +9,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.ids.BibId;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
@@ -69,6 +70,10 @@ public class POCallable implements Callable {
             oleBibRecord.setBibUUID(bibId);
             oleBibRecord.setBib(bib);
             oleOrderRecord.setOleBibRecord(oleBibRecord);
+
+            BibId bibTree = new BibId();
+            bibTree.setId(bibId);
+            oleOrderRecord.setBibTree(bibTree);
 
             oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
 

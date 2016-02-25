@@ -65,7 +65,7 @@ public class BatchRestController extends OleNgControllerBase {
         return null;
     }
 
-    private JSONObject processBatch(String profileName, String batchType, String rawContent, BatchJobDetails batchJobDetails) throws JSONException {
+    private JSONObject processBatch(String profileId, String batchType, String rawContent, BatchJobDetails batchJobDetails) throws JSONException {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
         BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
@@ -73,7 +73,7 @@ public class BatchRestController extends OleNgControllerBase {
         long jobDetailsId = batchJobDetails.getJobDetailId();
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
-        JSONObject response = batchProcessor.processBatch(rawContent, profileName,reportDirectory);
+        JSONObject response = batchProcessor.processBatch(rawContent, profileId,reportDirectory);
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
         response.put("processTime",totalTime + "ms");
@@ -86,10 +86,10 @@ public class BatchRestController extends OleNgControllerBase {
         JSONObject requestJson = new JSONObject(requestBody);
         String rawContent = requestJson.getString("marcContent");
         String batchType = requestJson.getString("batchType");
-        String profileName = requestJson.getString("profileName");
+        String profileId = requestJson.getString("profileId");
         BatchJobDetails batchJobDetails = new BatchJobDetails();
-        batchJobDetails.setProfileName(profileName);
-        JSONObject response = processBatch(profileName, batchType, rawContent, batchJobDetails);
+        batchJobDetails.setProfileName(profileId);
+        JSONObject response = processBatch(profileId, batchType, rawContent, batchJobDetails);
         return response.toString();
     }
 

@@ -147,6 +147,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
             holdingHandlers = new ArrayList<Handler>();
             holdingHandlers.add(new CreateHoldingsHanlder());
             holdingHandlers.add(new UpdateHoldingsHandler());
+            holdingHandlers.add(new DiscardHoldingsHandler());
         }
         return holdingHandlers;
     }

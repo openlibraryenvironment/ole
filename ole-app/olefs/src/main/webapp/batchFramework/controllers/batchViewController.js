@@ -185,7 +185,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel[0].ind2 = null;
         $scope.addOrOverlayPanel[0].subField = null;
         $scope.addOrOverlayPanel[0].linkField = null;
-
+        $scope.addOrOverlayPanel[0].operations = bibMatchOperations;
     };
 
     $scope.addOrOverlayCopyRow = function (index) {
@@ -598,8 +598,26 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         addOrOverlay.subfield = null;
         addOrOverlay.value = null;
         addOrOverlay.linkField = null;
-
+        populateAddOrOverlayOperations(batchProcessType, addOrOverlay);
     };
+
+    function populateAddOrOverlayOperations(batchProcessType, addOrOverlay) {
+        if (batchProcessType == 'Bib Import') {
+            if (addOrOverlay.matchOption == 'If Match Found') {
+                if (addOrOverlay.addOrOverlayDocType == 'Bibliographic') {
+                    addOrOverlay.operations = bibMatchOperations;
+                } else if (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') {
+                    addOrOverlay.operations = operations;
+                }
+            } else if (addOrOverlay.matchOption == 'If Match Not Found') {
+                if (addOrOverlay.addOrOverlayDocType == 'Bibliographic') {
+                    addOrOverlay.operations = bibDoNotMatchOperations;
+                } else if (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') {
+                    addOrOverlay.operations = doNotMatchOperations;
+                }
+            }
+        }
+    }
 
     function getAddOperationWithMultipleOptions(batchProcessType, addOrOverlay) {
         if (batchProcessType == 'Bib Import' && (addOrOverlay.matchOption == 'If Match Found' || addOrOverlay.matchOption == 'If Match Not Found')

@@ -151,6 +151,7 @@ public class OleNGConstants {
     public static final String POST_MARC_TRANSFORMATION = "Post Marc Transformation";
     public static final String ADD = "Add";
     public static final String OVERLAY = "Overlay";
+    public static final String DELETE_ALL = "Delete All";
     public static final String DISCARD = "Discard";
     public static final String IF_MATCH_FOUND = "If Match Found";
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";

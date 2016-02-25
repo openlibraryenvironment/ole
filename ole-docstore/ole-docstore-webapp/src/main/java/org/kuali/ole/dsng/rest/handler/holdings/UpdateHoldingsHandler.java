@@ -15,6 +15,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.dsng.util.HoldingsUtil;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -79,7 +80,7 @@ public class UpdateHoldingsHandler extends Handler {
                         processOverlay(exchange, holdingsRecord, dataMappingByValue);
                         holdingsRecords.add(holdingsRecord);
 
-                        processIfDeleteAllExistOpsFound(holdingsRecord,requestJsonObject);
+                        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,requestJsonObject);
 
                     }
                 }
@@ -116,45 +117,5 @@ public class UpdateHoldingsHandler extends Handler {
 
 
 
-    public void processIfDeleteAllExistOpsFound(HoldingsRecord holdingsRecord, JSONObject requestJsonObject) {
-        ArrayList<ItemRecord> holdingsListToDelete = getListOfItemsToDelete(holdingsRecord, requestJsonObject);
 
-        if (CollectionUtils.isNotEmpty(holdingsListToDelete)) {
-
-            getBusinessObjectService().delete(holdingsListToDelete);
-
-            StringBuilder itemIdsString = new StringBuilder();
-            for (Iterator<ItemRecord> iterator = holdingsListToDelete.iterator(); iterator.hasNext(); ) {
-                ItemRecord itemRecord = iterator.next();
-                String itemId = itemRecord.getItemId();
-                itemIdsString.append(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemId);
-                if(iterator.hasNext()) {
-                    itemIdsString.append(" OR ");
-                }
-            }
-            if(StringUtils.isNotBlank(itemIdsString.toString())) {
-                String deleteQuery = "id:(" + itemIdsString + ")";
-                getSolrRequestReponseHandler().deleteFromSolr(deleteQuery);
-            }
-        }
-    }
-
-    private ArrayList<ItemRecord> getListOfItemsToDelete(HoldingsRecord holdingsRecord, JSONObject requestJsonObject) {
-        ArrayList<ItemRecord> itemListToDelete = new ArrayList<ItemRecord>();
-        String addedOpsValue = getAddedOpsValue(requestJsonObject, OleNGConstants.ITEM);
-        if(StringUtils.isNotBlank(addedOpsValue) && addedOpsValue.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD)) {
-            List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
-            if (CollectionUtils.isNotEmpty(itemRecords)) {
-                itemListToDelete.addAll(itemRecords);
-            }
-            holdingsRecord.setItemRecords(new ArrayList<ItemRecord>());
-        }
-        return itemListToDelete;
-    }
-
-
-    private String getAddedOpsValue(JSONObject jsonObject, String docType) {
-        JSONObject addedOps = getJSONObjectFromJSONObject(jsonObject, OleNGConstants.ADDED_OPS);
-        return getStringValueFromJsonObject(addedOps,docType);
-    }
 }
