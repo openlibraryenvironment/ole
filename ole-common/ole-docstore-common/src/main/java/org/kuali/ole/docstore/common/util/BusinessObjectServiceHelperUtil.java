@@ -15,4 +15,8 @@ public class BusinessObjectServiceHelperUtil {
         }
         return businessObjectService;
     }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

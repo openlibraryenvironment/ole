@@ -464,10 +464,17 @@ var matchOptions = [
     {id: 'matchNotFound', name: 'If Match Not Found'}
 ];
 
-var operations = [
+var bibMatchOperations = [
     {id: 'add', name: 'Add'},
     {id: 'overlay', name: 'Overlay'},
     {id: 'discard', name: 'Discard'}
+];
+
+var operations = [
+    {id: 'add', name: 'Add'},
+    {id: 'overlay', name: 'Overlay'},
+    {id: 'discard', name: 'Discard'},
+    {id: 'deleteAll', name: 'Delete All'}
 ];
 
 var addOrOverlayFields = [
@@ -676,7 +683,7 @@ var addOrOverlay = {
     matchOption: 'If Match Found',
     addOrOverlayDocTypes: addOrOverlayDocumentTypes,
     addOrOverlayDocType: 'Bibliographic',
-    operations: operations,
+    operations: bibMatchOperations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
     linkFields: dataMappingObject.destinationFieldsForBibMarcHoldings,

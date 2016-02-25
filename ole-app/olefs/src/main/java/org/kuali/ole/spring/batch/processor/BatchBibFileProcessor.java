@@ -404,6 +404,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     }
                 } else if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                     addedOpsValue = OleNGConstants.OVERLAY;
+                } else if (operation.equalsIgnoreCase(OleNGConstants.DELETE_ALL)) {
+                    addedOpsValue = OleNGConstants.DELETE_ALL;
                 } else {
                     addedOpsValue = OleNGConstants.DISCARD;
                 }

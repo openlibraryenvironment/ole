@@ -36,7 +36,7 @@
                             <select class="form-control" name="addOrOverlayMatchOption_{{$index}}"
                                     id="addOrOverlayMatchOption_{{$index}}"
                                     ng-model="addOrOverlay.matchOption" ng-hide="addOrOverlay.isAddLine"
-                                    ng-change="setDefaultsAddOrOverlay(addOrOverlay)" style="height: 30px; width: 200px;">
+                                    ng-change="setDefaultsAddOrOverlay(mainSectionPanel.batchProcessType, addOrOverlay)" style="height: 30px; width: 200px;">
                                 <option ng-selected="{{option.name == addOrOverlay.matchOption}}"
                                         ng-repeat="option in addOrOverlay.matchOptions" value="{{option.name}}">
                                     {{option.name}}
@@ -48,7 +48,7 @@
                             <select class="form-control" name="addOrOverlayDocumentType_{{$index}}"
                                     id="addOrOverlayDocumentType_{{$index}}" style="height: 30px; width: 150px;"
                                     ng-model="addOrOverlay.addOrOverlayDocType" ng-hide="addOrOverlay.isAddLine"
-                                    ng-change="setDefaultsAddOrOverlay(mainSectionPanel.batchProcessType,addOrOverlay)">
+                                    ng-change="setDefaultsAddOrOverlay(mainSectionPanel.batchProcessType, addOrOverlay)">
                                 <option ng-selected="{{option.name == addOrOverlay.addOrOverlayDocType}}"
                                         ng-repeat="option in addOrOverlay.addOrOverlayDocTypes" value="{{option.name}}">
                                     {{option.name}}
@@ -103,29 +103,9 @@
                                     style="height: 30px; width: 80px;"
                                     ng-model="addOrOverlay.operation"
                                     ng-change="populateActionDropDownValues(mainSectionPanel.batchProcessType,addOrOverlay)"
-                                    ng-hide="addOrOverlay.isAddLine || (addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Bibliographic' || addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings'))">
+                                    ng-hide="addOrOverlay.isAddLine">
                                 <option ng-selected="{{option.name == addOrOverlay.operation}}"
                                         ng-repeat="option in addOrOverlay.operations" value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select class="form-control" name="bibAddOrOverlayOperation_{{$index}}" id="bibAddOrOverlayOperation_{{$index}}"
-                                    style="height: 30px; width: 80px;"
-                                    ng-model="addOrOverlay.operation"
-                                    ng-show="addOrOverlay.matchOption == 'If Match Not Found' && addOrOverlay.addOrOverlayDocType == 'Bibliographic' && !addOrOverlay.isAddLine">
-                                <option ng-selected="{{option.name == addOrOverlay.operation}}"
-                                        ng-repeat="option in addOrOverlay.bibDoNotMatchOperations"
-                                        value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
-                            </select>
-                            <select class="form-control" name="doNotMatchAddOrOverlayOperation_{{$index}}" style="height: 30px; width: 80px;"
-                                    id="doNotMatchAddOrOverlayOperation_{{$index}}"
-                                    ng-model="addOrOverlay.operation"
-                                    ng-change="populateActionDropDownValues(mainSectionPanel.batchProcessType,addOrOverlay)"
-                                    ng-show="addOrOverlay.matchOption == 'If Match Not Found' && (addOrOverlay.addOrOverlayDocType == 'Holdings' || addOrOverlay.addOrOverlayDocType == 'Item' || addOrOverlay.addOrOverlayDocType == 'EHoldings') && !addOrOverlay.isAddLine">
-                                <option ng-selected="{{option.name == addOrOverlay.operation}}"
-                                        ng-repeat="option in addOrOverlay.doNotMatchOperations" value="{{option.name}}">
                                     {{option.name}}
                                 </option>
                             </select>
