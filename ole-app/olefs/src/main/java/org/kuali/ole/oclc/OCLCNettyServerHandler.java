@@ -6,8 +6,19 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.service.NettyHandler;
+import org.kuali.ole.utility.OleHttpRestClient;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by angelind on 2/23/16.
@@ -17,6 +28,7 @@ public class OCLCNettyServerHandler extends NettyHandler {
 
     private final static Logger LOG = Logger.getLogger(OCLCNettyServerHandler.class.getName());
     private String serverUrl;
+    private BusinessObjectService businessObjectService;
 
     public OCLCNettyServerHandler(String serverUrl) {
         this.serverUrl = serverUrl;
@@ -36,8 +48,17 @@ public class OCLCNettyServerHandler extends NettyHandler {
             LOG.info("After-CharsetUtil.UTF_8 OCLCNettyServerHandler.channelRead    " + requestMessage);
 
             if (requestMessage != null && !requestMessage.equalsIgnoreCase("")) {
-                //TODO : Need to do process
-                response = "This is the response from OCLC Server\r";
+
+                String profileId = getBatchProfileId("OCLC", "Bib Import");
+                JSONObject requestObject = new JSONObject();
+                requestObject.put("marcContent",requestMessage);
+                requestObject.put("profileId",profileId);
+                requestObject.put("batchType","Bib Import");
+
+                response = new OleHttpRestClient().sendPostRequest(this.serverUrl + "/rest/batch/submit/api", requestObject.toString(),"json");
+
+                response = response + "\r";
+
                 LOG.info("OCLCNettyServerHandler.channelRead Response Message : " + response);
             }
 
@@ -61,8 +82,28 @@ public class OCLCNettyServerHandler extends NettyHandler {
         LOG.info("Exit from OCLCNettyServer");
     }
 
+    private String getBatchProfileId(String profileName, String profileType) {
+        Map parameterMap = new HashedMap();
+        parameterMap.put(OleNGConstants.BATCH_PROCESS_PROFILE_NAME, profileName);
+        parameterMap.put(OleNGConstants.BATCH_PROCESS_PROFILE_TYPE, profileType);
+        List<BatchProcessProfile> matching = (List<BatchProcessProfile>) getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
+        if (CollectionUtils.isNotEmpty(matching)) {
+            BatchProcessProfile batchProcessProfile = matching.get(0);
+            return String.valueOf(batchProcessProfile.getBatchProcessProfileId());
+        }
+        return null;
+    }
+
     @Override
     public void channelReadComplete(ChannelHandlerContext channelHandlerContext) throws Exception {
         channelHandlerContext.flush();
+    }
+
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
     }
 }
