@@ -813,11 +813,19 @@
         <field-descriptor name="replyToEmail" column="REPLY_TO_EMAIL" jdbc-type="VARCHAR"/>
         <field-descriptor name="defaultRequestTypeId" column="DFLT_RQST_TYP_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="defaultPickupLocationId" column="DFLT_PICK_UP_LOCN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fromEmailAddress" column="FROM_EMAIL" jdbc-type="VARCHAR"/>
         <collection-descriptor name="oleCirculationDeskLocations" element-class-ref="org.kuali.ole.deliver.bo.OleCirculationDeskLocation"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="circulationDeskId"/>
         </collection-descriptor>
+
+        <collection-descriptor name="oleCirculationDeskFeeTypeList" element-class-ref="org.kuali.ole.deliver.bo.OleCirculationDeskFeeType"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="circulationDeskId"/>
+        </collection-descriptor>
+
         <reference-descriptor name="oleCalendarGroup" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarGroup"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="calendarGroupId" target-field-ref="id"/>
@@ -844,6 +852,23 @@
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="circulationDeskId"/>
         </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationDeskFeeType" table="OLE_CRCL_DSK_FEE_TYPE_T">
+        <field-descriptor name="circulationDeskFeeTypeId" column="OLE_CRCL_DSK_FEE_TYPE_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true" autoincrement="true"
+                          sequence-name="OLE_CRCL_DSK_FEE_TYPE_S" />
+        <field-descriptor name="circulationDeskId" column="OLE_CRCL_DSK_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="feeTypeId" column="FEE_TYP_ID" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="oleFeeType" class-ref="org.kuali.ole.deliver.bo.OleFeeType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="feeTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleCirculationDesk" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="circulationDeskId"/>
+        </reference-descriptor>
+
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationDeskDetail" table="ole_circ_dsk_dtl_t">
@@ -1385,6 +1410,8 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="reviewed" column="BILL_REVIEWED" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="creditIssued" column="CRDT_ISSUED" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="creditRemaining" column="CRDT_REMAINING" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <collection-descriptor name="feeType" element-class-ref="org.kuali.ole.deliver.bo.FeeType"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
@@ -1427,6 +1454,12 @@
         <field-descriptor name="itemEnumeration" column="ITM_ENUM" jdbc-type="VARCHAR" />
         <field-descriptor name="itemChronology" column="ITM_CHRON" jdbc-type="VARCHAR" />
         <field-descriptor name="itemOwnLocation" column="ITM_LOC" jdbc-type="VARCHAR" />
+        <field-descriptor name="creditIssued" column="CRDT_ISSUED" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="creditRemaining" column="CRDT_REMAINING" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="creditNote" column="PAY_CREDIT_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="transferNote" column="PAY_TRANSFER_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="refundNote" column="PAY_REFUND_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="cancelCreditNote" column="PAY_CAN_CRDT_NOTE" jdbc-type="VARCHAR" />
         <reference-descriptor name="patronBillPayment" class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="billNumber"/>
