@@ -234,6 +234,7 @@ function searchConditions($scope, $http, $rootScope) {
     };
 
     $scope.search = function () {
+        console.log("search");
         $scope.start = 0;
         $scope.itemsPerPage = 10;
         $scope.total_count;
@@ -241,8 +242,18 @@ function searchConditions($scope, $http, $rootScope) {
         $scope.searchResults;
         buildSearchConditionsWithJoin();
         searchSolrForResults();
+        buildResults();
     };
 
+    function buildResults(){
+        console.log($scope.documentType);
+        $http.get("rest/ngTransferController/buildResults", {params:{'sourceDocType': $scope.documentType}}).success(function (data) {
+            console.log(JSON.stringify(data));
+            $scope.displayFields = data;
+            //var display = JSON.parse(data);
+            //$scope.displayFields = display;
+        });
+    }
     function buildSearchConditions(){
         $scope.searchQuery = "(DocType:" + $scope.documentType + ') AND (';
         var queryCondition = new String();
@@ -404,6 +415,7 @@ function searchConditions($scope, $http, $rootScope) {
                             success(function (data) {
                                 //console.log(data.response.docs);
                                 //$scope.totalRecords = data.response.numFound;
+                                console.log(data.response);
                                 $scope.total_count = data.response.numFound;
                                 $rootScope.searchResults = data.response.docs;
                                 $scope.searchResults = data.response.docs;
