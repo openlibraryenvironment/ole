@@ -158,9 +158,45 @@ public class OLEEncumberedReportController extends UifControllerBase {
             }
             oleDonorList.add(oleDonor);
         }
+
+        if (StringUtils.isEmpty(oleEncumberedReportForm.getDonorCode())) {
+            List<OLEDonor> oleDonorsList =  (List<OLEDonor>) KRADServiceLocator.getBusinessObjectService().findAll(OLEDonor.class);
+            List<OLEDonor> donorsListWithNoPo = new ArrayList<OLEDonor>();
+            boolean donorAvailable=false;
+            for(OLEDonor oLEDonor :oleDonorsList) {
+                for(OLEDonor donor: oleDonorList) {
+                    if(oLEDonor.getDonorCode().equals(donor.getDonorCode())) {
+                        donorAvailable=true;
+                        break;
+                    }
+                }
+                if(!donorAvailable) {
+                    donorsListWithNoPo.add(oLEDonor);
+                }
+                else {
+                    donorAvailable=false;
+                }
+            }
+            for(OLEDonor donorWithNoPo : donorsListWithNoPo) {
+                donorWithNoPo.setDonorAmount(donorWithNoPo.getDonorAmount() != null ? donorWithNoPo.getDonorAmount() : KualiDecimal.ZERO);
+                donorWithNoPo.setEncumberedAmount(new KualiDecimal(0));
+                donorWithNoPo.setExpensedAmount(new KualiDecimal(0));
+                oleDonorList.add(donorWithNoPo);
+            }
+        }
         if (oleDonorList.size() == 0) {
-            oleEncumberedReportForm.setEncumberedReportDocumentList(null);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.NO_RECORD_FOUND);
+            OLEDonor oleDonor = new OLEDonor();
+            oleDonor.setDonorCode((String) oleEncumberedReportForm.getDonorCode());
+            Map map = new HashMap();
+            map.put(OLEConstants.DONOR_CODE, oleDonor.getDonorCode());
+            OLEDonor donor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
+            donor.setDonorAmount(donor.getDonorAmount() != null ? donor.getDonorAmount() : KualiDecimal.ZERO);
+            donor.setEncumberedAmount(new KualiDecimal(0));
+            donor.setExpensedAmount(new KualiDecimal(0));
+            oleDonorList.add(donor);
+            oleEncumberedReportForm.setEncumberedReportDocumentList(oleDonorList);
+          //  oleEncumberedReportForm.setEncumberedReportDocumentList(null);
+          //  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.NO_RECORD_FOUND);
         } else {
             oleEncumberedReportForm.setEncumberedReportDocumentList(oleDonorList);
         }
