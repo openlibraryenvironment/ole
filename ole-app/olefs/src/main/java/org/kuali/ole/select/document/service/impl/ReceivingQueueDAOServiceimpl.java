@@ -49,6 +49,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 "AND PO.PO_ID NOT IN (SELECT PO_ID FROM PUR_RCVNG_LN_T RCV,KREW_DOC_HDR_T RDHR WHERE RCV.PO_ID=PO.PO_ID AND RCV.FDOC_NBR=RDHR.DOC_HDR_ID AND RDHR.DOC_HDR_STAT_CD NOT IN ('E','X','F')) " +
                 "AND POITM.ITM_TYP_CD='ITEM' " +
                 "AND PO.PO_CUR_IND='Y' " +
+                "AND POITM.ITM_ACTV_IND='Y' " +
                 getQueryCriteriaString(criteria,"bibIds")+
                 getQueryCriteriaString(criteria,"purchaseOrderNumber")+
                 getQueryCriteriaString(criteria,"purchaseOrderStatus")+
