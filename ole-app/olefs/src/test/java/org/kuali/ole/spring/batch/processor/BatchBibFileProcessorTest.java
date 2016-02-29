@@ -76,9 +76,11 @@ public class BatchBibFileProcessorTest {
         List<Record> records = new ArrayList<>();
         records.add(mockRecord);
 
+        String rawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(records);
+
         BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
         String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
-        String processedRecords = batchBibFileProcessor.processRecords(records, mockBatchProcesProfile, reportDirectory);
+        String processedRecords = batchBibFileProcessor.processRecords(rawContent, records, OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory);
         assertNotNull(processedRecords);
     }
 

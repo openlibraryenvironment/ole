@@ -32,8 +32,11 @@ public class InvoiceResponse {
         this.noOfRecordUnlinked = noOfRecordUnlinked;
     }
 
-    public void addLinkCount() {
-        noOfRecordLinked++;
+    public void addLinkCount(int count) {
+        if(count == 0) {
+            count = 1;
+        }
+        noOfRecordLinked = noOfRecordLinked + count;
     }
 
     public void addUnLinkCount() {

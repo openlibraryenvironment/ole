@@ -58,7 +58,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private HashMap operationIndMap;
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent ,List<Record> records, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
@@ -118,7 +118,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (CollectionUtils.isNotEmpty(recordToProcessBibImport)) {
-                    oleNGBibImportResponse = processBibImport(recordToProcessBibImport, bibImportProfile, reportDirectoryName);
+                    oleNGBibImportResponse = processBibImport(rawContent, recordToProcessBibImport, fileType,  bibImportProfile, reportDirectoryName);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -239,10 +239,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(List<Record> records, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
+    private OleNGBibImportResponse processBibImport(String rawContent ,List<Record> records,String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            String response = batchBibFileProcessor.processRecords(records, bibImportProfile, reportDirectoryName);
+            String response = batchBibFileProcessor.processRecords(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
             oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
         } catch (Exception e) {
             e.printStackTrace();

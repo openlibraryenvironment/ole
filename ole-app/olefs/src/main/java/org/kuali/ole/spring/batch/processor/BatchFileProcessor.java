@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +43,17 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private SolrRequestReponseHandler solrRequestReponseHandler;
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
-    public JSONObject processBatch(String  rawMarc, String profileId, String reportDirectoryName) {
+    public JSONObject processBatch(String rawContent ,String fileType, String profileId, String reportDirectoryName) {
         JSONObject response = new JSONObject();
         BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
         String responseData = "";
         try {
             batchProcessProfile = fetchBatchProcessProfile(profileId);
-            List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
-            responseData = processRecords(records, batchProcessProfile, reportDirectoryName);
+            List<Record> records = new ArrayList<>();
+            if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
+                records = getMarcXMLConverter().convertRawMarchToMarc(rawContent);
+            }
+            responseData = processRecords(rawContent, records, fileType, batchProcessProfile, reportDirectoryName);
             String date = simpleDateFormat.format(new Date());
             String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
             String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
@@ -64,7 +68,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
             batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
             batchProcessFailureResponse.setResponseData(responseData);
             batchProcessFailureResponse.setFailureReason(e.toString());
-            batchProcessFailureResponse.setFailedRawMarcContent(rawMarc);
+            batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
             batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
             BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();;
             batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse,reportDirectoryName);
@@ -91,7 +95,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         return batchProcessProfile;
     }
 
-    public abstract String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException;
+    public abstract String processRecords(String rawContent, List<Record> records,String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException;
     public abstract String getReportingFilePath();
 
     public String getUpdatedUserName() {

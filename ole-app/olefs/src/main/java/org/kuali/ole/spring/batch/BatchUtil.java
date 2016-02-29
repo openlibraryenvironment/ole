@@ -54,19 +54,21 @@ public class BatchUtil extends OleNgUtil{
         this.marcRecordUtil = marcRecordUtil;
     }
 
-    public Map<String, List<ValueByPriority>> getvalueByPriorityMapForDataMapping(Record marcRecord, List<BatchProfileDataMapping> batchProfileDataMappingList) {
+    public Map<String, List<ValueByPriority>> getvalueByPriorityMapForDataMapping(Record marcRecord, List<BatchProfileDataMapping> batchProfileDataMappingList, List<String> mappingTypes) {
         sortDataMappings(batchProfileDataMappingList);
         Map<String, List<ValueByPriority>> valueByPriorityMap = new HashMap<>();
         for (Iterator<BatchProfileDataMapping> iterator = batchProfileDataMappingList.iterator(); iterator.hasNext(); ) {
             BatchProfileDataMapping batchProfileDataMapping = iterator.next();
-            String destinationField = batchProfileDataMapping.getField();
-            boolean multiValue = batchProfileDataMapping.isMultiValue();
-            List<String> fieldValues = getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
+            if (mappingTypes.contains(batchProfileDataMapping.getDataType())) {
+                String destinationField = batchProfileDataMapping.getField();
+                boolean multiValue = batchProfileDataMapping.isMultiValue();
+                List<String> fieldValues = getFieldValues(marcRecord, batchProfileDataMapping, multiValue);
 
-            if (CollectionUtils.isNotEmpty(fieldValues)) {
-                int priority = batchProfileDataMapping.getPriority();
+                if (CollectionUtils.isNotEmpty(fieldValues)) {
+                    int priority = batchProfileDataMapping.getPriority();
 
-                buildingValuesForDestinationBasedOnPriority(valueByPriorityMap, destinationField, multiValue, fieldValues, priority);
+                    buildingValuesForDestinationBasedOnPriority(valueByPriorityMap, destinationField, multiValue, fieldValues, priority);
+                }
             }
         }
         return valueByPriorityMap;

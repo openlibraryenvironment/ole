@@ -35,7 +35,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent ,List<Record> records, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         List<Record> matchedRecords = new ArrayList<>();
