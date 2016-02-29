@@ -1,5 +1,6 @@
 package org.kuali.ole.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -574,6 +575,9 @@ public class OleInvoiceRecord {
     }
 
     public List getOlePurchaseOrderItems() {
+        if(null == olePurchaseOrderItems) {
+            olePurchaseOrderItems = new ArrayList();
+        }
         return olePurchaseOrderItems;
     }
 

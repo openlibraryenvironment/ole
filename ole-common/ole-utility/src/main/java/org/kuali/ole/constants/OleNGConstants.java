@@ -278,6 +278,9 @@ public class OleNGConstants {
     public final static String UPDATED = "Updated";
     public final static String DISCARDED = "Discarded";
     public final static String INDEX = "index";
+    public final static String MARC = "mrc";
+    public final static String EDI = "edi";
+    public final static String INV = "inv";
 
     public static final String FORWARD_SLASH = "/";
 

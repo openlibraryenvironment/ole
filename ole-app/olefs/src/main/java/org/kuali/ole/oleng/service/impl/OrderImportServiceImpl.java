@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -41,7 +42,10 @@ public class OrderImportServiceImpl implements OrderImportService {
             Record marcRecord = records.get(0);
 
             BatchUtil batchUtil = new BatchUtil();
-            Map<String, List<ValueByPriority>> valueByPriorityMap = batchUtil.getvalueByPriorityMapForDataMapping(marcRecord, batchProfileDataMappingList);
+            ArrayList<String> datamappingTypes = new ArrayList<>();
+            datamappingTypes.add(OleNGConstants.CONSTANT);
+            datamappingTypes.add(OleNGConstants.BIB_MARC);
+            Map<String, List<ValueByPriority>> valueByPriorityMap = batchUtil.getvalueByPriorityMapForDataMapping(marcRecord, batchProfileDataMappingList, datamappingTypes);
 
             for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
                 String destinationField =  iterator.next();
