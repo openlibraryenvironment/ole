@@ -652,6 +652,8 @@
                 <bean id="result-createDate" parent="Uif-DataField" p:propertyName="createDate" />
                 <bean id="result-expirationDate" parent="Uif-DataField" p:propertyName="requestExpiryDate"/>
                 <bean id="result-pickUpLocation" parent="Uif-DataField" p:propertyName="pickUpLocationCode"/>
+                <bean id="result-recallDueDate" parent="Uif-DataField" p:label="Recall Due Date" p:propertyName="recallDueDate"/>
+                <bean id="result-inTransitDate" parent="Uif-DataField" p:label="InTransit Date" p:propertyName="inTransitDate"/>
                 <bean id="result-onHoldExpirationDate" parent="Uif-DataField" p:propertyName="holdExpirationDate"/>
                 <bean id="result-requestNote" parent="Uif-DataField" p:propertyName="requestNote"/>
             </list>

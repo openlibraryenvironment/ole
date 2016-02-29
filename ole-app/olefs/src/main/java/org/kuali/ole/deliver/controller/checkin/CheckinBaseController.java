@@ -771,16 +771,6 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
 
-    private OleLoanDocument getLoanDocument(String itemBarcode) {
-        HashMap<String, Object> criteriaMap = new HashMap<>();
-        criteriaMap.put("itemId", itemBarcode);
-        List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, criteriaMap);
-        if (!CollectionUtils.isEmpty(oleLoanDocuments)) {
-            return oleLoanDocuments.get(0);
-        }
-        return null;
-    }
-
     private void createCirculationHistoryAndTemporaryHistoryRecords(OleLoanDocument oleLoanDocument, OleItemSearch oleItemSearch, ItemRecord itemRecord) throws Exception {
         try {
             OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();

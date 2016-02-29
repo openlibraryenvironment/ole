@@ -3,7 +3,9 @@ package org.kuali.ole.deliver.controller;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.form.OlePatronRequestedRecordsForm;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
@@ -89,6 +91,19 @@ public class OlePatronRequestedRecordsController extends UifControllerBase {
             olePatronRequestedRecordsForm.setOlePatronDocument(olePatronDocument);
             OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
             List<OleDeliverRequestBo> oleDeliverRequestBos = oleDeliverRequestDocumentHelperService.getRequestedItems(patronId);
+            for(OleDeliverRequestBo deliverRequestBo : oleDeliverRequestBos){
+                if(deliverRequestBo.getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL)){
+                    CircUtilController circUtilController = new CircUtilController();
+                    OleLoanDocument oleLoanDocument = circUtilController.getLoanDocument(deliverRequestBo.getItemId());
+                    if(oleLoanDocument != null)
+                       deliverRequestBo.setRecallDueDate(oleLoanDocument.getLoanDueDate());
+                }
+                if(deliverRequestBo.getItemStatus().contains(OLEConstants.OleDeliverRequest.INTRANSIT)){
+                    CircUtilController circUtilController = new CircUtilController();
+                    org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord itemRecord = circUtilController.getItemRecordByBarcode(deliverRequestBo.getItemId());
+                    deliverRequestBo.setInTransitDate(itemRecord.getEffectiveDate());
+                }
+            }
             olePatronRequestedRecordsForm.setRequestBos(oleDeliverRequestBos);
         } else {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_NOT_FOUND);

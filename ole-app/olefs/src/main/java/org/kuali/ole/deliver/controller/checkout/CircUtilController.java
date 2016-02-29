@@ -551,4 +551,14 @@ public class CircUtilController extends RuleExecutor {
         return itemFineRate;
     }
 
+    public OleLoanDocument getLoanDocument(String itemBarcode) {
+        HashMap<String, Object> criteriaMap = new HashMap<>();
+        criteriaMap.put("itemId", itemBarcode);
+        List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, criteriaMap);
+        if (!CollectionUtils.isEmpty(oleLoanDocuments)) {
+            return oleLoanDocuments.get(0);
+        }
+        return null;
+    }
+
 }
