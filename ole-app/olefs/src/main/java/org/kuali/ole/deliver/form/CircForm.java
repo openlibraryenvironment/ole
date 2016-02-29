@@ -106,6 +106,9 @@ public class CircForm extends OLEForm {
     private String viewBillUrl;
     private String createBillUrl;
 
+    private Date loanDueDateToAllEntries;
+    private String loanTimeToAllEntries;
+
     public String getPageSize() {
         return pageSize;
     }
@@ -553,5 +556,21 @@ public class CircForm extends OLEForm {
 
     public void setCreateBillUrl(String createBillUrl) {
         this.createBillUrl = createBillUrl;
+    }
+
+    public Date getLoanDueDateToAllEntries() {
+        return loanDueDateToAllEntries;
+    }
+
+    public void setLoanDueDateToAllEntries(Date loanDueDateToAllEntries) {
+        this.loanDueDateToAllEntries = loanDueDateToAllEntries;
+    }
+
+    public String getLoanTimeToAllEntries() {
+        return loanTimeToAllEntries;
+    }
+
+    public void setLoanTimeToAllEntries(String loanTimeToAllEntries) {
+        this.loanTimeToAllEntries = loanTimeToAllEntries;
     }
 }
