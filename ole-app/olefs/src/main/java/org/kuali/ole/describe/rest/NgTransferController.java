@@ -1,21 +1,23 @@
 package org.kuali.ole.describe.rest;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.describe.bo.SearchResultDisplayFields;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,7 +71,6 @@ public class NgTransferController {
             e.printStackTrace();
         }
         requestObject.put("message", DocstoreConstants.TRANSFER_SUCCESS_MESSAGE);
-        requestObject.toString();
         return requestObject.toString();
     }
 
@@ -80,6 +81,27 @@ public class NgTransferController {
         JSONObject object = new JSONObject();;
         object.put("docstoreUrl", ConfigContext.getCurrentContextConfig().getProperty("ole.docstore.url.base"));
         return object.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/buildResults", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String buildResults(@RequestParam("sourceDocType") String sourceDocType) throws JSONException {
+
+        JSONObject requestObject = new JSONObject();
+        DocumentSearchConfig documentSearchConfig = DocumentSearchConfig.getDocumentSearchConfig().reloadDocumentConfig();
+        SearchResultDisplayFields searchResultDisplayFields = new SearchResultDisplayFields();
+        searchResultDisplayFields.buildSearchResultDisplayFields(documentSearchConfig.getDocTypeConfigs(),sourceDocType);
+        //requestObject.put
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(searchResultDisplayFields);
+            System.out.print(json);
+            return json.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return requestObject.toString();
     }
 
     private String checkHoldingsTransferable(String holdingsId) throws Exception {
@@ -111,4 +133,6 @@ public class NgTransferController {
         }
         return message.toString();
     }
+
+
 }
