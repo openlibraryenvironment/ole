@@ -49,6 +49,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
 
                 if (StringUtils.isNotBlank(query)) {
+                    query = query.replace("\\", "\\\\");
                     List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                     if (null == results || results.size() > 1) {
                         System.out.println("**** More than one record found for query : " + query);

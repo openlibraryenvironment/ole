@@ -90,6 +90,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
 
                     if (StringUtils.isNotBlank(query)) {
+                        query = query.replace("\\", "\\\\");
                         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                         if (null == results || results.size() > 1) {
                             System.out.println("**** More than one record found for query : " + query);
