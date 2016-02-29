@@ -471,12 +471,12 @@ public class EditorController extends UifControllerBase {
     private void setClaimsAndDamagedPatronBarcode(Item item) {
         if(CollectionUtils.isNotEmpty(item.getItemClaimsReturnedRecords())){
             for(int index=0 ; index < item.getItemClaimsReturnedRecords().size() ; index++){
-                if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId().isEmpty()){
+                if(StringUtils.isNotBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId()) && StringUtils.isBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode())){
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId());
                     if(olePatronDocument != null){
                         item.getItemClaimsReturnedRecords().get(index).setClaimsReturnedPatronBarcode(olePatronDocument.getBarcode());
                     }
-                } else if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode().isEmpty()) {
+                } else if(StringUtils.isNotBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode()) && StringUtils.isBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId())) {
                     Map criteria = new HashMap();
                     criteria.put("barcode",item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
@@ -499,12 +499,12 @@ public class EditorController extends UifControllerBase {
         }
         if(CollectionUtils.isNotEmpty(item.getItemDamagedRecords())){
             for(int index=0 ; index < item.getItemDamagedRecords().size() ; index++){
-                if(item.getItemDamagedRecords().get(index).getDamagedPatronId() != null && !item.getItemDamagedRecords().get(index).getDamagedPatronId().isEmpty()){
+                if(StringUtils.isNotBlank(item.getItemDamagedRecords().get(index).getDamagedPatronId()) && StringUtils.isBlank(item.getItemDamagedRecords().get(index).getPatronBarcode())){
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemDamagedRecords().get(index).getDamagedPatronId());
                     if(olePatronDocument != null){
                         item.getItemDamagedRecords().get(index).setPatronBarcode(olePatronDocument.getBarcode());
                     }
-                } else if(item.getItemDamagedRecords().get(index).getPatronBarcode() != null && !item.getItemDamagedRecords().get(index).getPatronBarcode().isEmpty()) {
+                } else if(StringUtils.isNotBlank(item.getItemDamagedRecords().get(index).getPatronBarcode()) && StringUtils.isBlank(item.getItemDamagedRecords().get(index).getDamagedPatronId())) {
                     Map criteria = new HashMap();
                     criteria.put("barcode",item.getItemDamagedRecords().get(index).getPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
@@ -530,27 +530,27 @@ public class EditorController extends UifControllerBase {
     public void setMissingPieceItemRecord (Item item){
         if(item.getMissingPieceItemRecordList() != null && !item.getMissingPieceItemRecordList().isEmpty()){
             for(int index=0 ; index < item.getMissingPieceItemRecordList().size() ; index++){
-                if(item.getMissingPieceItemRecordList().get(index).getPatronId() != null && !item.getMissingPieceItemRecordList().get(index).getPatronId().isEmpty()){
+                if (StringUtils.isNotBlank(item.getMissingPieceItemRecordList().get(index).getPatronId()) && StringUtils.isBlank(item.getMissingPieceItemRecordList().get(index).getPatronBarcode())) {
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getMissingPieceItemRecordList().get(index).getPatronId());
                     if(olePatronDocument != null ){
                         item.getMissingPieceItemRecordList().get(index).setPatronBarcode(olePatronDocument.getBarcode());
                     }
-                }else if(item.getMissingPieceItemRecordList().get(index).getPatronBarcode() != null && !item.getMissingPieceItemRecordList().get(index).getPatronBarcode().isEmpty()){
+                } else if (StringUtils.isNotBlank(item.getMissingPieceItemRecordList().get(index).getPatronBarcode()) && StringUtils.isBlank(item.getMissingPieceItemRecordList().get(index).getPatronId())) {
                     Map map = new HashMap();
                     map.put("barcode" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class ,map );
-                    if(!CollectionUtils.isEmpty(olePatronDocumentList)){
+                    if (CollectionUtils.isNotEmpty(olePatronDocumentList)) {
                         for(OlePatronDocument olePatronDocument : olePatronDocumentList){
                             item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronDocument.getOlePatronId());
                         }
-                    }
-                }else{
-                    Map criteria1 = new HashMap();
-                    criteria1.put("invalidOrLostBarcodeNumber" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
-                    List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class , criteria1);
-                    if(olePatronLostBarcodeList != null && olePatronLostBarcodeList.size()>0){
-                        for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList){
-                            item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronLostBarcode.getOlePatronId());
+                    } else {
+                        Map criteria1 = new HashMap();
+                        criteria1.put("invalidOrLostBarcodeNumber" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
+                        List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class , criteria1);
+                        if(olePatronLostBarcodeList != null && olePatronLostBarcodeList.size()>0){
+                            for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList){
+                                item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronLostBarcode.getOlePatronId());
+                            }
                         }
                     }
                 }

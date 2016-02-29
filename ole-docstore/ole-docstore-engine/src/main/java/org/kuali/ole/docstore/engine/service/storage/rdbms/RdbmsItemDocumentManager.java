@@ -328,8 +328,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             for(ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemClaimsReturnedRecords){
                 org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord claimsReturnedRecord = new org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord();
                 if (itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate() != null) {
-                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date claimsReturnedDate = null;
                     try {
                         claimsReturnedDate = format2.parse(itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate().toString());
@@ -353,8 +353,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             for(ItemDamagedRecord itemDamagedRecord : itemDamagedRecords){
                 org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord damagedRecord = new org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord();
                 if(itemDamagedRecord.getDamagedItemDate() != null){
-                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date itemDamagedDate = null;
                     try{
                         itemDamagedDate = format2.parse(itemDamagedRecord.getDamagedItemDate().toString());
@@ -451,8 +451,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         if (itemRecord.getClaimsReturnedFlagCreateDate() != null) {
             //try {
-            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date claimReturnCreateDate = null;
             try {
                 claimReturnCreateDate = format2.parse(itemRecord.getClaimsReturnedFlagCreateDate().toString());
@@ -554,8 +554,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             item.setMissingPiecesCount(null);
         }
         if (itemRecord.getMissingPieceEffectiveDate() != null) {
-            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date effectiveDate = null;
             try {
                 effectiveDate = format2.parse(itemRecord.getMissingPieceEffectiveDate().toString());
