@@ -38,6 +38,13 @@ function printSlip(content){
     printWindow.print();
 }
 
+function assignDueDateAndTimeToAll(){
+    var divLength= jq('#alterDueDateDialog tbody tr').length;
+    for(var count=0;count<divLength;count++){
+        jq('#alterDueDate-dueDate_line'+count+'_control').val(jq('#alterDueDate-assignDueDateToAll_control').val());
+        jq('#alterDueDate-time_line'+count+'_control').val(jq('#alterDueDate-assignTimeToAll_control').val());
+    }
+}
 
 function alterDueDate(){
     var alterDueDateObjects = [];
