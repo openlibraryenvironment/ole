@@ -218,12 +218,12 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 }
             }
         } else {
-            editorForm.setHoldingLocalIdentifier("");
-            editorForm.setHoldingUpdatedBy("");
-            editorForm.setHoldingUpdatedDate("");
-            editorForm.setStaffOnlyFlagForHoldings(false);
-            editorForm.setHoldingCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
-            editorForm.setHoldingCreatedDate(dateStr);
+                editorForm.setHoldingLocalIdentifier("");
+                editorForm.setHoldingUpdatedBy("");
+                editorForm.setHoldingUpdatedDate("");
+                setStaffOnly(editorForm);
+                editorForm.setHoldingCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
+                editorForm.setHoldingCreatedDate(dateStr);
             boolean hasPermission = canCreateInstance(GlobalVariables.getUserSession().getPrincipalId());
             if (hasPermission) {
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "holdings.record.new.load.message");

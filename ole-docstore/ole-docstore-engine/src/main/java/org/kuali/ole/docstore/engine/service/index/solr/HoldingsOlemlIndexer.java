@@ -459,6 +459,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
         String bibId = (String) bibs;
         SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
         Collection<Object> bibValues = solrBibDocument.getFieldValues(URI_SEARCH);
+        setStaffOnly(solrInputDocuments, solrInputDocument, bibId, solrBibDocument);
         Object holdigsValue = solrInputDocument.getFieldValue(URI_SEARCH);
         if (bibValues != null) {
             for (Object bibValue : bibValues) {
@@ -466,6 +467,39 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
                     solrBibDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
                 }
             }
+        }
+
+    }
+
+    private void setStaffOnly(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, String bibId, SolrDocument solrBibDocument) {
+        boolean allStaffOnly = true;
+        Collection<Object> holdingsIdentifier=solrBibDocument.getFieldValues("holdingsIdentifier");
+        if (holdingsIdentifier.size() == 1) {
+            solrBibDocument.setField("staffOnlyFlag", solrInputDocument.getFieldValue("staffOnlyFlag"));
+            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+            allStaffOnly = false;
+        } else if (holdingsIdentifier.size() > 1) {
+            String currentHoldingsIdentifier = (String) solrInputDocument.getFieldValue("holdingsIdentifier");
+            boolean currentStaffOnly = (boolean) solrInputDocument.getFieldValue("staffOnlyFlag");
+            for (Object holdingsIdObj : holdingsIdentifier) {
+                String holdingsId = (String) holdingsIdObj;
+                SolrDocument solrHoldingsDocument = getSolrDocumentByUUID(bibId);
+                if (currentHoldingsIdentifier.equalsIgnoreCase(holdingsId)) {
+                    if (!currentStaffOnly) {
+                        allStaffOnly = false;
+                    }
+                } else {
+                    if (!Boolean.parseBoolean((String) solrHoldingsDocument.getFieldValue("staffOnlyFlag"))) {
+                        allStaffOnly = false;
+                    }
+                }
+
+            }
+        }
+
+        if (allStaffOnly) {
+            solrBibDocument.setField("staffOnlyFlag", solrInputDocument.getFieldValue("staffOnlyFlag"));
+            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
         }
     }
 

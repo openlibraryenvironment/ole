@@ -165,6 +165,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             docstoreException.addErrorParams("itemId", itemDocument.getId());
             throw docstoreException;
         }
+
+
+        setStaffOnly(itemDocument, itemRecord);
+
+
         ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
         org.kuali.ole.docstore.common.document.content.instance.Item item = itemOlemlRecordProcessor.fromXML(itemDocument.getContent());
         itemRecord.setUpdatedBy(itemDocument.getUpdatedBy());
@@ -197,6 +202,45 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setStaffOnly(Item itemDocument, ItemRecord itemRecord) {
+        Map parentCriteria1Item = new HashMap();
+        parentCriteria1Item.put("holdingsId", itemRecord.getHoldingsId());
+        List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, parentCriteria1Item);
+        if(itemRecords.size() == 1){
+            HoldingsRecord holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, parentCriteria1Item);
+            holdingsRecord.setStaffOnlyFlag(itemDocument.isStaffOnly());
+            getBusinessObjectService().save(holdingsRecord);
+            Map parentCriteriaBib = new HashMap();
+            parentCriteriaBib.put("bibId", holdingsRecord.getBibId());
+            List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord.class, parentCriteriaBib);
+            if(holdingsRecords.size() == 1){
+                BibRecord bibRecord = getBusinessObjectService().findByPrimaryKey(BibRecord.class, parentCriteriaBib);
+                bibRecord.setStaffOnlyFlag(itemDocument.isStaffOnly());
+                getBusinessObjectService().save(bibRecord);
+            }
+
+        }else if(itemRecords.size() > 1){
+            boolean allStaffOnly = true;
+            for(ItemRecord itemRecord1:itemRecords ){
+                if (itemRecord1.getItemId().equalsIgnoreCase(DocumentUniqueIDPrefix.getDocumentId(itemDocument.getId()))){
+                    if(!itemDocument.isStaffOnly()){
+                        allStaffOnly=itemRecord1.getStaffOnlyFlag();
+                    }
+                }else{
+                    if(!itemRecord1.getStaffOnlyFlag()){
+                        allStaffOnly=itemRecord1.getStaffOnlyFlag();
+                    }
+                }
+
+            }
+            if(allStaffOnly){
+                HoldingsRecord holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, parentCriteria1Item);
+                holdingsRecord.setStaffOnlyFlag(itemDocument.isStaffOnly());
+                getBusinessObjectService().save(holdingsRecord);
+            }
         }
     }
 
