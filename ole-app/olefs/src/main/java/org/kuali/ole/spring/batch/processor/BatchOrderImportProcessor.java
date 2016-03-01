@@ -244,7 +244,9 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
             String response = batchBibFileProcessor.processRecords(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
-            oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
