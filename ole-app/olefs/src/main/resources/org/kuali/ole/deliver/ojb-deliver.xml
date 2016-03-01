@@ -1492,7 +1492,7 @@
         <field-descriptor name="transactionNumber" column="TRNS_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="transactionNote" column="TRNS_NOTE" jdbc-type="VARCHAR" />
         <field-descriptor name="paymentMode" column="TRNS_MODE" jdbc-type="VARCHAR" />
-
+        <field-descriptor name="note" column="NOTE" jdbc-type="VARCHAR" />
         <reference-descriptor name="feeType" class-ref="org.kuali.ole.deliver.bo.FeeType"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="lineItemId" target-field-ref="id"/>

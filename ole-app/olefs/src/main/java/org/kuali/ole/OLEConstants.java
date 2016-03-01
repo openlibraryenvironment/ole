@@ -3794,4 +3794,5 @@ public class OLEConstants {
     public static final String PAY_FULLY_PAID_CRDT ="PAY_FULLY_PAID_CRDT";
     public static final String PAY_PAR_PAID_CRDT ="PAY_FULLY_PAID_CRDT";
     public static final String PAY_REFUNDED_ISSUED ="Refund Issued";
+    public static final String PAY_APPL_CRDT = "Applied Credit";
 }

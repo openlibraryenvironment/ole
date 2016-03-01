@@ -472,6 +472,7 @@ public class PatronBillHelperService {
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                            oleItemLevelBillPayment.setNote(forgiveErrorNote);
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                             currentSessionTransactions.add(oleItemLevelBillPayment);
                             feeType.setBalFeeAmount(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE);
@@ -504,6 +505,7 @@ public class PatronBillHelperService {
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                            oleItemLevelBillPayment.setNote(forgiveErrorNote);
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                             currentSessionTransactions.add(oleItemLevelBillPayment);
                             feeType.setBalFeeAmount(updatedFeeAmount);
@@ -583,6 +585,11 @@ public class PatronBillHelperService {
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                            if(StringUtils.isNotEmpty(forgiveErrorNote)) {
+                                oleItemLevelBillPayment.setNote(forgiveErrorNote);
+                            } else if(StringUtils.isNotEmpty(transferNote)) {
+                                oleItemLevelBillPayment.setNote(transferNote);
+                            }
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                             currentSessionTransactions.add(oleItemLevelBillPayment);
                             patronFeeType.setBalFeeAmount(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE);
@@ -616,6 +623,7 @@ public class PatronBillHelperService {
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                            oleItemLevelBillPayment.setNote(forgiveErrorNote);
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                             currentSessionTransactions.add(oleItemLevelBillPayment);
                             patronFeeType.setBalFeeAmount(updatedFeeAmount);
@@ -688,6 +696,7 @@ public class PatronBillHelperService {
                     oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                     oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                     oleItemLevelBillPayment.setCreatedUser(operatorId);
+                    oleItemLevelBillPayment.setNote(cancellationNote);
                     oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                     currentSessionTransactions.add(oleItemLevelBillPayment);
                     feeType.setBalFeeAmount(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE);
@@ -735,6 +744,7 @@ public class PatronBillHelperService {
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                         oleItemLevelBillPayment.setAmount(patronFeeType.getBalFeeAmount());
+                        oleItemLevelBillPayment.setNote(cancellationNote);
                         BigDecimal billValue=patronFeeType.getBalFeeAmount().bigDecimalValue();
                         if(billValue==null){
                             billValue=OLEConstants.BIGDECIMAL_DEF_VALUE;
@@ -882,6 +892,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(patronFeeType.getPaidAmount().negated());
+                        oleItemLevelBillPayment.setNote(creditNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         patronFeeType.setCreditNote(creditNote);
@@ -907,6 +918,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(remainingPaymentAmount.negated());
+                        oleItemLevelBillPayment.setNote(creditNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         patronFeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -962,6 +974,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setAmount(feeType.getPaidAmount().negated());
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                        oleItemLevelBillPayment.setNote(creditNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -984,6 +997,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(remainingPaymentAmount.negated());
+                        oleItemLevelBillPayment.setNote(creditNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -1034,6 +1048,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(patronFeeType.getPaidAmount().negated());
+                        oleItemLevelBillPayment.setNote(transferNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         patronFeeType.setTransferNote(transferNote);
@@ -1059,6 +1074,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(remainingPaymentAmount.negated());
+                        oleItemLevelBillPayment.setNote(transferNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         patronFeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -1113,6 +1129,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setAmount(feeType.getPaidAmount().negated());
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        oleItemLevelBillPayment.setNote(transferNote);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
                         feeType.setTransferNote(transferNote);
@@ -1136,6 +1153,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                         oleItemLevelBillPayment.setAmount(remainingPaymentAmount.negated());
+                        oleItemLevelBillPayment.setNote(transferNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -1352,8 +1370,6 @@ public class PatronBillHelperService {
                         PatronBillPayment patronBillPayment = getBusinessObjectService().findByPrimaryKey(PatronBillPayment.class, map);
                             if (refundAmount.compareTo(patronFeeType.getBalFeeAmount()) >= 0) {
                                 unPaidAmount = patronBillPayment.getUnPaidBalance().subtract(patronFeeType.getBalFeeAmount());
-                                String note = CurrencyFormatter.getSymbolForCurrencyPattern()+patronFeeType.getBalFeeAmount()+" is paid through "+paymentMethod+" from bill no :"+billnumbers;
-                                patronFeeType.setGeneralNote(note);
                                 refundAmount = refundAmount.subtract(patronFeeType.getBalFeeAmount());
                                 refundedAmount = refundedAmount.add(patronFeeType.getBalFeeAmount());
                                 OlePaymentStatus olePaymentStatus = getPaymentStatus(OLEConstants.PAY_FULLY_PAID_CRDT);
@@ -1378,8 +1394,6 @@ public class PatronBillHelperService {
                             } else {
                                 unPaidAmount = patronBillPayment.getUnPaidBalance().subtract(refundAmount);
                                 KualiDecimal updatedFeeAmount = patronFeeType.getBalFeeAmount().subtract(refundAmount);
-                                String note = CurrencyFormatter.getSymbolForCurrencyPattern()+refundAmount+" is paid through "+paymentMethod+" from bill no :"+billnumbers;
-                                patronFeeType.setGeneralNote(note);
                                 KualiDecimal transAmount = refundAmount;
                                 refundAmount = refundAmount.subtract(patronFeeType.getBalFeeAmount());
                                 refundedAmount = refundedAmount.add(patronFeeType.getBalFeeAmount());
@@ -1430,9 +1444,7 @@ public class PatronBillHelperService {
             for (FeeType patronFeeType : patronFeeTypes) {
                 if (feeType.isActiveItem() && patronFeeType.getId().equalsIgnoreCase(feeType.getId())) {
                     if (creditRefunded.isGreaterEqual(patronFeeType.getCreditRemaining().negated())) {
-                        KualiDecimal transAmount = patronFeeType.getCreditRemaining();
-                        String note = CurrencyFormatter.getSymbolForCurrencyPattern()+(patronFeeType.getCreditRemaining().negated()).toString()+" was paid to outstanding bills";
-                        patronFeeType.setGeneralNote(note);
+                        KualiDecimal transAmount = patronFeeType.getCreditRemaining().negated();
                         sumOfCreditRemaining = sumOfCreditRemaining.add(patronFeeType.getCreditRemaining().negated());
                         creditRefunded = creditRefunded.subtract(patronFeeType.getCreditRemaining().negated());
                         patronFeeType.setCreditRemaining(KualiDecimal.ZERO);
@@ -1441,39 +1453,47 @@ public class PatronBillHelperService {
                         patronFeeType.setOlePaymentStatus(olePaymentStatus);
                         patronFeeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
                         patronFeeType.setRefundNote(refundNote);
+                        List<OleItemLevelBillPayment> paidTransactions = getPaidOutstandingBillTransaction(currentSessionTransactions);
                         List<OleItemLevelBillPayment> oleItemLevelBillPayments = patronFeeType.getItemLevelBillPaymentList() != null && patronFeeType.getItemLevelBillPaymentList().size() > 0
                                 ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
-                        OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
-                        oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                        oleItemLevelBillPayment.setAmount(transAmount.compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) < 0 ? transAmount : transAmount);
-                        oleItemLevelBillPayment.setCreatedUser(operatorId);
-                        oleItemLevelBillPayment.setTransactionNote(transactionNote);
-                        oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
-                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
-                        oleItemLevelBillPayments.add(oleItemLevelBillPayment);
-                        currentSessionTransactions.add(oleItemLevelBillPayment);
+                        for(int i=0;i<paidTransactions.size();i++) {
+                            OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                            oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                            //oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
+                            oleItemLevelBillPayment.setAmount(transAmount);
+                            oleItemLevelBillPayment.setCreatedUser(operatorId);
+                            oleItemLevelBillPayment.setTransactionNote(transactionNote);
+                            oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
+                            oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
+                            oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        }
+
+                        //currentSessionTransactions.add(oleItemLevelBillPayment);
                     } else if(creditRefunded.isGreaterThan(KualiDecimal.ZERO)){
+                        KualiDecimal transactionAmount = creditRefunded;
                         sumOfCreditRemaining = sumOfCreditRemaining.add(patronFeeType.getCreditRemaining().negated());
-                        String note = CurrencyFormatter.getSymbolForCurrencyPattern()+creditRefunded.toString()+" was paid to outstanding bills";
                         patronFeeType.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
-                        patronFeeType.setGeneralNote(note);
                         patronBillPayment.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
                         creditRefunded = KualiDecimal.ZERO;
                         OlePaymentStatus olePaymentStatus = getPaymentStatus(OLEConstants.PAY_PAR_REFUNDED);
                         patronFeeType.setOlePaymentStatus(olePaymentStatus);
                         patronFeeType.setRefundNote(refundNote);
                         patronFeeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
+                        List<OleItemLevelBillPayment> paidTransactions = getPaidOutstandingBillTransaction(currentSessionTransactions);
                         List<OleItemLevelBillPayment> oleItemLevelBillPayments = patronFeeType.getItemLevelBillPaymentList() != null && patronFeeType.getItemLevelBillPaymentList().size() > 0
                                 ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
-                        OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
-                        oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                        oleItemLevelBillPayment.setAmount(creditRefunded.compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) < 0 ? creditRefunded : creditRefunded);
-                        oleItemLevelBillPayment.setCreatedUser(operatorId);
-                        oleItemLevelBillPayment.setTransactionNote(transactionNote);
-                        oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
-                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
-                        oleItemLevelBillPayments.add(oleItemLevelBillPayment);
-                        currentSessionTransactions.add(oleItemLevelBillPayment);
+                        for(int i=0;i<paidTransactions.size();i++) {
+                            OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                            oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                            oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
+                            //oleItemLevelBillPayment.setAmount(transactionAmount);
+                            oleItemLevelBillPayment.setCreatedUser(operatorId);
+                            oleItemLevelBillPayment.setTransactionNote(transactionNote);
+                            oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
+                            oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
+                            oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        }
+                        //currentSessionTransactions.add(oleItemLevelBillPayment);
                     }
                     saveFlag = true;
                 }
@@ -1492,6 +1512,15 @@ public class PatronBillHelperService {
     }
 
 
+    public List<OleItemLevelBillPayment> getPaidOutstandingBillTransaction( List<OleItemLevelBillPayment>  oleItemLevelBillPaymentList) {
+        List<OleItemLevelBillPayment> paidTransactions = new ArrayList<OleItemLevelBillPayment>();
+        for(OleItemLevelBillPayment oleItemLevelBillPayment : oleItemLevelBillPaymentList) {
+            if(oleItemLevelBillPayment.getPaymentMode().equalsIgnoreCase(OLEConstants.PAY_APPL_CRDT)) {
+                paidTransactions.add(oleItemLevelBillPayment);
+            }
+        }
+        return paidTransactions;
+    }
 
 
     public void refundToPatron(KualiDecimal refundedAmount,List<FeeType> feeTypes,String transactionNote,String transactionNumber,List<OleItemLevelBillPayment> currentSessionTransactions,String refundNote) {
@@ -1508,8 +1537,6 @@ public class PatronBillHelperService {
                 if (feeType.isActiveItem() && patronFeeType.getId().equalsIgnoreCase(feeType.getId())) {
                     if (creditRefunded.isGreaterEqual(patronFeeType.getCreditRemaining().negated())) {
                         KualiDecimal transAmount = patronFeeType.getCreditRemaining();
-                        String note = CurrencyFormatter.getSymbolForCurrencyPattern()+transAmount.negated().toString()+ " refunded to patron";
-                        patronFeeType.setGeneralNote(note);
                         creditRefunded = creditRefunded.subtract(patronFeeType.getCreditRemaining().negated());
                         patronFeeType.setCreditRemaining(KualiDecimal.ZERO);
                         patronBillPayment.setCreditRemaining(KualiDecimal.ZERO);
@@ -1526,11 +1553,10 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_ISSUED);
+                        oleItemLevelBillPayment.setNote(refundNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                     } else if(creditRefunded.isGreaterThan(KualiDecimal.ZERO)){
-                        String note = CurrencyFormatter.getSymbolForCurrencyPattern()+creditRefunded+ " refunded to patron";
-                        patronFeeType.setGeneralNote(note);
                         patronFeeType.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
                         patronBillPayment.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
                         creditRefunded = KualiDecimal.ZERO;
@@ -1547,6 +1573,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_ISSUED);
+                        oleItemLevelBillPayment.setNote(refundNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                     }
@@ -1649,6 +1676,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setAmount(feeType.getPaidAmount().negated());
+                        oleItemLevelBillPayment.setNote(cancelCreditNote);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_CRDT_CANCELLED);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
@@ -1672,6 +1700,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_CRDT_CANCELLED);
                         oleItemLevelBillPayment.setAmount(amountCancelled.negated());
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        oleItemLevelBillPayment.setNote(cancelCreditNote);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
                         feeType.setCancelCreditNote(cancelCreditNote);
@@ -1721,6 +1750,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_CRDT_CANCELLED);
+                        oleItemLevelBillPayment.setNote(cancelNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                     } else if(amountCancelled.isGreaterThan(KualiDecimal.ZERO)){
@@ -1740,6 +1770,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_CRDT_CANCELLED);
+                        oleItemLevelBillPayment.setNote(cancelNote);
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                     }
