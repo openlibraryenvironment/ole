@@ -2575,11 +2575,6 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 try {
                     requestId = ":" + OLEConstants.OleDeliverRequest.REQUEST_ID + ":" + oleDeliverRequestBo.getRequestId();
 
-                    if (!oleDeliverRequestBo.getRequestTypeId().equals("8")) {
-                        oleDeliverRequestBo = updateLoanDocument(oleDeliverRequestBo);
-                        oleDeliverRequestBo.setOlePatron(null);
-                        oleDeliverRequestBo.setOleProxyPatron(null);
-                    }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Request Raised Succesfully" + requestId);
                     }
@@ -2904,11 +2899,6 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 try {
                     requestId = ":" + OLEConstants.OleDeliverRequest.REQUEST_ID + ":" + oleDeliverRequestBo.getRequestId();
 
-                    if (!oleDeliverRequestBo.getRequestTypeId().equals("8")) {
-                        oleDeliverRequestBo = updateLoanDocument(oleDeliverRequestBo);
-                        oleDeliverRequestBo.setOlePatron(null);
-                        oleDeliverRequestBo.setOleProxyPatron(null);
-                    }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Request Raised Succesfully" + requestId);
                     }
@@ -4538,6 +4528,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @return
      */
     private OleDeliverRequestBo processRequestAfterRuleEvaluation(OleDeliverRequestBo oleDeliverRequestBo,DroolsResponse droolsResponse,NoticeInfo noticeInfo,boolean backGroundLoan,boolean override){
+        OleLoanDocument oleLoanDocument =null;
         if (droolsResponse.isRuleMatched() ) {
             droolsResponse.setErrorMessage(null);
             OleDroolsHoldResponseBo oleDroolsHoldResponseBo = generateOleDroolsHoldResponseBo(droolsResponse, null);
@@ -4546,8 +4537,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Timestamp requestExpirationDate = calculateXDatesBasedOnCalendar(getCalendarGroup(oleDeliverRequestBo.getItemLocation()), String.valueOf(oleDroolsHoldResponseBo.getRequestExpirationDay()), null, true);
                 oleDeliverRequestBo.setRequestExpiryDate(new java.sql.Date(requestExpirationDate.getTime()));
             }
+
             if (oleDeliverRequestBo.getRequestTypeId() != null && ((oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2")) && (!isRecallRequestExist("1", oleDeliverRequestBo.getItemId()) && !isRecallRequestExist("2", oleDeliverRequestBo.getItemId())) || backGroundLoan)) {
-                updateLoanDocument(oleDeliverRequestBo,noticeInfo,oleDroolsHoldResponseBo.getMinimumLoanPeriod(), oleDroolsHoldResponseBo.getRecallLoanPeriod());
+               oleLoanDocument = updateLoanDocument(oleDeliverRequestBo,noticeInfo,oleDroolsHoldResponseBo.getMinimumLoanPeriod(), oleDroolsHoldResponseBo.getRecallLoanPeriod());
+            }
+            if (oleLoanDocument != null) {
+                oleDeliverRequestBo.setLoanTransactionRecordNumber(oleLoanDocument.getLoanId());
+                if(oleLoanDocument.getOleRequestId()==null){
+                    oleLoanDocument.setOleRequestId(oleDeliverRequestBo.getRequestId());
+                }
+                getBusinessObjectService().save(oleLoanDocument);
             }
             oleDeliverRequestBo.setRecallNoticeContentConfigName(oleDroolsHoldResponseBo.getRecallNoticeContentConfigName());
             oleDeliverRequestBo.setRequestExpirationNoticeContentConfigName(oleDroolsHoldResponseBo.getRequestExpirationNoticeContentConfigName());
@@ -4688,11 +4687,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param minimumLoanPeriod
      * @param recallLoanPeriod
      */
-    private void updateLoanDocument(OleDeliverRequestBo oleDeliverRequestBo, NoticeInfo noticeInfo,String minimumLoanPeriod, String recallLoanPeriod) {
+    private OleLoanDocument updateLoanDocument(OleDeliverRequestBo oleDeliverRequestBo, NoticeInfo noticeInfo,String minimumLoanPeriod, String recallLoanPeriod) {
         Timestamp dueDate = null;
-        if (oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2")) {
             OleLoanDocument oleLoanDocument = getLoanDocument(oleDeliverRequestBo.getItemId());
-            if (oleLoanDocument != null ) {
+            if (oleLoanDocument != null && (oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2"))) {
                 if (oleLoanDocument.getCirculationLocationId() != null) {
                     Map<String, String> circDeskCriteriaMap = new HashMap<String, String>();
                     circDeskCriteriaMap.put("circulationDeskId", oleLoanDocument.getCirculationLocationId());
@@ -4727,13 +4725,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 LOG.info("Exception occured while updating the item . " + e.getMessage());
                             }
                         }
-                        getBusinessObjectService().save(oleLoanDocument);
+
                     }
                 }
 
             }
+return oleLoanDocument;
 
-        }
     }
 
 
