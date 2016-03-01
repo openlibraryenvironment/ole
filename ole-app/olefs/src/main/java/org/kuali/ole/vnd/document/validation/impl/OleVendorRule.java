@@ -3,6 +3,7 @@ package org.kuali.ole.vnd.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.OleRequisitionDocument;
+import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.vnd.VendorKeyConstants;
 import org.kuali.ole.vnd.VendorPropertyConstants;
 import org.kuali.ole.vnd.businessobject.*;
@@ -50,12 +51,20 @@ public class OleVendorRule extends VendorRule {
                 valid &= false;
             }
         }
-        for(VendorTransmissionFormatDetail vendorTransmissionFormatDetail : vendorTransmissionFormatDetailList) {
+        int activePreferredCount = 0;
+        for (VendorTransmissionFormatDetail vendorTransmissionFormatDetail : vendorTransmissionFormatDetailList) {
             if (formatId.contains(vendorTransmissionFormatDetail.getVendorTransmissionFormatId())) {
                 putFieldError(VendorPropertyConstants.VENDOR_TRANSMISSION_FORMAT, VendorKeyConstants.OLE_VENDOR_DUPLICATE_TRANS_FORMAT);
                 valid &= false;
             }
             formatId.add(vendorTransmissionFormatDetail.getVendorTransmissionFormatId());
+            if (vendorTransmissionFormatDetail.isVendorPreferredTransmissionFormat() && vendorTransmissionFormatDetail.isActive()) {
+                activePreferredCount = activePreferredCount + 1;
+            }
+        }
+        if (activePreferredCount > 1) {
+            putFieldError(VendorPropertyConstants.VENDOR_TRANSMISSION_FORMAT, OLEKeyConstants.ERROR_DUPLICATE_PREFERRED_FORMAT, "preferred transmission format");
+            valid &= false;
         }
         HashMap vendor = new HashMap();
         if (!vendorDetail.isActiveIndicator()) {

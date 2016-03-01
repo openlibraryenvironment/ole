@@ -872,11 +872,13 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
         }
         // To set PurchaseOrderTransmissionMethod depend on vendor transmission format
         if (document.getVendorDetail() != null) {
+            boolean activePreferredFound = false;
             if (document.getVendorDetail().getVendorTransmissionFormat().size() > 0) {
                 List<VendorTransmissionFormatDetail> vendorTransmissionFormat = document.getVendorDetail().getVendorTransmissionFormat();
                 for (VendorTransmissionFormatDetail iter : vendorTransmissionFormat) {
-                    if (iter.isVendorPreferredTransmissionFormat()) {
+                    if (iter.isVendorPreferredTransmissionFormat() && iter.isActive()) {
                         if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat() != null) {
+                            activePreferredFound = true;
                             if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_EDI)) {
                                 document.setPurchaseOrderTransmissionMethodCode(OleSelectConstant.METHOD_OF_PO_TRANSMISSION_NOPR);
                             } else if (iter.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OleSelectConstant.VENDOR_TRANSMISSION_FORMAT_PDF)) {
@@ -887,7 +889,8 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                         }
                     }
                 }
-            } else {
+            }
+            if (!activePreferredFound){
                 document.setPurchaseOrderTransmissionMethodCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE));
             }
             if ( (!currencyTypeIndicator) && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
