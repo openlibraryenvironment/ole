@@ -269,7 +269,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     }
                 }
                 this.addItemInformation(editorForm);
-                editorForm.setStaffOnlyFlagForItem(false);
+                setStaffOnly(editorForm);
                 editorForm.setItemCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
                 editorForm.setItemCreatedDate(dateStr);
                 editorForm.setItemUpdatedBy(null);

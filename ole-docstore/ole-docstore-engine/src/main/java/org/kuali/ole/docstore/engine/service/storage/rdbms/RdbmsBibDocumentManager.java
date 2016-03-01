@@ -91,7 +91,24 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
             docstoreException.addErrorParams("bibId", bib.getId());
             throw docstoreException;
         }
+        Map parentCriteriaForItem = new HashMap();
+
         updateAdditionalAttributes(bib, bibRecord);
+        if(!bibRecord.getStaffOnlyFlag().toString().equalsIgnoreCase(String.valueOf(bib.isStaffOnly()))){
+            List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord.class, parentCriteria);
+            for(HoldingsRecord holdingsRecord:holdingsRecords){
+                parentCriteriaForItem.put("holdingsId", holdingsRecord.getHoldingsId());
+                holdingsRecord.setStaffOnlyFlag(bib.isStaffOnly());
+                List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, parentCriteriaForItem);
+                  for(ItemRecord itemRecord:itemRecords){
+                      itemRecord.setStaffOnlyFlag(bib.isStaffOnly());
+                  }
+                getBusinessObjectService().save(itemRecords);
+            }
+            getBusinessObjectService().save(holdingsRecords);
+
+          }
+
         if (bibRecord != null) {
             bibRecord.setContent(bib.getContent());
             bibRecord.setFassAddFlag(bib.isFastAdd());

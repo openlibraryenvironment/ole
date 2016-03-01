@@ -234,6 +234,7 @@ public class WorkEInstanceOlemlEditor
                 getOleEResourceSearchService().getAcquisitionInfoFromPOAndInvoice(docId, workEInstanceOlemlForm);
             } else {
                 OleHoldings eHoldings = new OleHoldings();
+                setStaffOnly(editorForm);
                 eHoldings.setStatusDate(new Date(System.currentTimeMillis()).toString());
                 eHoldings.setEResourceId(editorForm.geteResourceId());
                 //getOleEResourceSearchService().getAccessLocationFromEInstance(eHoldings, workEInstanceOlemlForm);

@@ -436,7 +436,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             docstoreException.addErrorParams("holdingsId", holdings.getId());
             throw docstoreException;
         }
-
+        setStaffOnly(holdings, holdingsRecord);
         holdingsRecord.setUpdatedBy(holdings.getUpdatedBy());
         holdingsRecord.setUpdatedDate(createdDate());
         String content = holdings.getContent();
@@ -486,6 +486,46 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setStaffOnly(Holdings holdings, HoldingsRecord holdingsRecord) {
+        if(!holdingsRecord.getStaffOnlyFlag().toString().equalsIgnoreCase(String.valueOf(holdings.isStaffOnly()))){
+            Map parentCriteria = new HashMap();
+            parentCriteria.put("bibId", holdingsRecord.getBibId());
+            boolean allStaffOnly = true;
+            List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord.class, parentCriteria);
+            if(holdingsRecords.size() == 1){
+                BibRecord bibRecord = getBusinessObjectService().findByPrimaryKey(BibRecord.class, parentCriteria);
+                bibRecord.setStaffOnlyFlag(holdings.isStaffOnly());
+                getBusinessObjectService().save(bibRecord);
+            }else if(holdingsRecords.size() > 1){
+                for(HoldingsRecord holdingsRecord1:holdingsRecords ){
+                    if (holdingsRecord1.getHoldingsId().equalsIgnoreCase(DocumentUniqueIDPrefix.getDocumentId(holdings.getId()))){
+                         if(!holdings.isStaffOnly()){
+                             allStaffOnly=holdingsRecord1.getStaffOnlyFlag();
+                         }
+                    }else{
+                        if(!holdingsRecord1.getStaffOnlyFlag()){
+                            allStaffOnly=holdingsRecord1.getStaffOnlyFlag();
+                        }
+                    }
+
+                }
+                if(allStaffOnly){
+                    BibRecord bibRecord = getBusinessObjectService().findByPrimaryKey(BibRecord.class, parentCriteria);
+                    bibRecord.setStaffOnlyFlag(holdings.isStaffOnly());
+                    getBusinessObjectService().save(bibRecord);
+                }
+            }
+            Map parentCriteriaForItem = new HashMap();
+            parentCriteriaForItem.put("holdingsId", holdingsRecord.getHoldingsId());
+            holdingsRecord.setStaffOnlyFlag(holdings.isStaffOnly());
+            List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, parentCriteriaForItem);
+            for(ItemRecord itemRecord:itemRecords){
+                itemRecord.setStaffOnlyFlag(holdings.isStaffOnly());
+            }
+            getBusinessObjectService().save(itemRecords);
         }
     }
 
