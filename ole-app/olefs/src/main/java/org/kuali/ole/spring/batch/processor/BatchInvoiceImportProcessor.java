@@ -60,57 +60,56 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         JSONObject response = new JSONObject();
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
 
-        BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
-        if (null != bibImportProfile) {
-
-            Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
-            if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
-                if (CollectionUtils.isNotEmpty(records)) {
+        Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
+        if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
+            if (CollectionUtils.isNotEmpty(records)) {
+                BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
+                if (null != bibImportProfile) {
                     OleNGBibImportResponse oleNGBibImportResponse = processBibImport(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
                     oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(records, batchProcessProfile);
                 }
-            } else if (fileType.equalsIgnoreCase(OleNGConstants.INV) || fileType.equalsIgnoreCase(OleNGConstants.EDI)) {
-                oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile);
             }
+        } else if (fileType.equalsIgnoreCase(OleNGConstants.INV) || fileType.equalsIgnoreCase(OleNGConstants.EDI)) {
+            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile);
+        }
 
 
-            for (Iterator<String> iterator = oleinvoiceRecordMap.keySet().iterator(); iterator.hasNext(); ) {
-                String invoiceNumber = iterator.next();
-                List<OleInvoiceRecord> oleInvoiceRecords = oleinvoiceRecordMap.get(invoiceNumber);
-
-                try {
-                    OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
-                    oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument, oleInvoiceRecords);
-                    oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
-                    String documentNumber = oleInvoiceDocument.getDocumentNumber();
-                    if (null != documentNumber) {
-                        InvoiceResponse invoiceResponse = new InvoiceResponse();
-                        invoiceResponse.setDocumentNumber(documentNumber);
-                        for (Iterator<OleInvoiceRecord> oleInvoiceRecordIterator = oleInvoiceRecords.iterator(); oleInvoiceRecordIterator.hasNext(); ) {
-                            OleInvoiceRecord invoiceRecord = oleInvoiceRecordIterator.next();
-                            int lineItemsCount = invoiceRecord.getOlePurchaseOrderItems().size();
-                            if (invoiceRecord.isLink()) {
-                                invoiceResponse.addLinkCount(lineItemsCount);
-                            } else {
-                                invoiceResponse.addUnLinkCount();
-                            }
-                        }
-                        oleNGInvoiceImportResponse.getInvoiceResponses().add(invoiceResponse);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        for (Iterator<String> iterator = oleinvoiceRecordMap.keySet().iterator(); iterator.hasNext(); ) {
+            String invoiceNumber = iterator.next();
+            List<OleInvoiceRecord> oleInvoiceRecords = oleinvoiceRecordMap.get(invoiceNumber);
 
             try {
-                String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
-                //System.out.println("Invoice Import Response : " + successResponse);
-                InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
-                invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
-                return successResponse;
-            } catch (IOException e) {
+                OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
+                oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument, oleInvoiceRecords);
+                oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
+                String documentNumber = oleInvoiceDocument.getDocumentNumber();
+                if (null != documentNumber) {
+                    InvoiceResponse invoiceResponse = new InvoiceResponse();
+                    invoiceResponse.setDocumentNumber(documentNumber);
+                    for (Iterator<OleInvoiceRecord> oleInvoiceRecordIterator = oleInvoiceRecords.iterator(); oleInvoiceRecordIterator.hasNext(); ) {
+                        OleInvoiceRecord invoiceRecord = oleInvoiceRecordIterator.next();
+                        int lineItemsCount = invoiceRecord.getOlePurchaseOrderItems().size();
+                        if (invoiceRecord.isLink()) {
+                            invoiceResponse.addLinkCount(lineItemsCount);
+                        } else {
+                            invoiceResponse.addUnLinkCount();
+                        }
+                    }
+                    oleNGInvoiceImportResponse.getInvoiceResponses().add(invoiceResponse);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        try {
+            String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
+            //System.out.println("Invoice Import Response : " + successResponse);
+            InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
+            invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
+            return successResponse;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         response.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
