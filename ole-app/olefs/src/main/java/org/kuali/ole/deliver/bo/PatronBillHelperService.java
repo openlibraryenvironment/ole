@@ -349,9 +349,9 @@ public class PatronBillHelperService {
             Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
             OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
             if(itemContent!=null && itemContent.getLocation()!=null && itemContent.getLocation().getLocationLevel()!=null) {
-                location = item.getLocationName();
+                location = item.getLocation();
             }
-            if(location==null){
+            if(StringUtils.isBlank(location)){
                 if(oleHoldings!=null && oleHoldings.getLocation()!=null && oleHoldings.getLocation().getLocationLevel()!=null) {
                     location = item.getHolding().getLocationName();
                 }
