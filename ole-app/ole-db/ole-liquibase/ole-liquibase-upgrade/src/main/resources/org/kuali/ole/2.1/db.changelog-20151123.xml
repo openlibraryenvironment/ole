@@ -661,5 +661,13 @@
         <sql>INSERT INTO OLE_PMT_MTHD_T (OLE_PMT_MTHD_ID, PMT_MTHD, PMT_MTHD_DESC, VER_NBR, OBJ_ID,ROW_ACT_IND) VALUES (OLE_PMT_MTHD_T_SEQ.NEXTVAL, 'Refund Issued', 'Refund Issued','1', 'AXG56E36-8OHJ-7SD8-8952-4253408098K9', 'Y')</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_PAY_T_ID">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_PAY_T ">
+            <column name="NOTE" type="varchar(500)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

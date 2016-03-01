@@ -1030,6 +1030,7 @@
         <column name="TRNS_NUMBER" size="40" type="VARCHAR"/>
         <column name="TRNS_NOTE" size="500" type="VARCHAR"/>
         <column name="TRNS_MODE" size="40" type="VARCHAR"/>
+        <column name="NOTE" size="500" type="VARCHAR"/>
         <foreign-key foreignTable="ole_dlvr_ptrn_bill_fee_typ_t" name="BILL_PAY_ID">
             <reference foreign="ID" local="ITM_LINE_ID"/>
         </foreign-key>

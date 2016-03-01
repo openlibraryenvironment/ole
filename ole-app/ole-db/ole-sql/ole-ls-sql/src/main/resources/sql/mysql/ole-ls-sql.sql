@@ -1994,6 +1994,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
         , TRNS_NUMBER VARCHAR(40)
         , TRNS_NOTE VARCHAR(500)
         , TRNS_MODE VARCHAR(40)
+        , NOTE VARCHAR(500)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_PAY_TP1 PRIMARY KEY(ID)
 
@@ -2002,7 +2003,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
 
 
     
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX BILL_PAY_ID (ITM_LINE_ID )
 

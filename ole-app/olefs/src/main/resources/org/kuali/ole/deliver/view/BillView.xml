@@ -216,7 +216,7 @@
                 <property name="items">
                     <list>
                         <ref bean="detailed_Item_View-BillSection"/>
-                        <ref bean="detailed_Note_View-BillSection"/>
+                        <!--<ref bean="detailed_Note_View-BillSection"/>-->
                         <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
                     </list>
                 </property>
@@ -266,7 +266,7 @@
                 <property name="items">
                     <list>
                         <ref bean="detailed_Item_View-BillSection"/>
-                        <ref bean="detailed_Note_View-BillSection"/>
+                        <!--<ref bean="detailed_Note_View-BillSection"/>-->
                         <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
                     </list>
                 </property>
@@ -377,6 +377,7 @@
                 <bean id="trnsId" parent="Uif-DataField" p:propertyName="paymentId" p:label="Transaction Id" p:width="6%" />
                 <bean id="tranDate" parent="Uif-DataField" p:propertyName="paymentDate" p:label="Transaction Date" p:width="10%" />
                 <bean id="tranCreatedBy" parent="Uif-DataField" p:propertyName="createdUser" p:label="Operator Id" p:width="10%" />
+                <bean id="userNote" parent="Uif-DataField" p:propertyName="note" p:label="Note" p:width="10%" />
                 <bean id="trnAmt" parent="Uif-DataField" p:propertyName="amount" p:label="Amount paid by user" p:width="5%"/>
                 <bean id="tranNumber" parent="Uif-DataField" p:propertyName="transactionNumber" p:label="Transaction Number" p:width="25%"/>
                 <bean id="trnsNote" parent="Uif-DataField" p:propertyName="transactionNote" p:label="Transaction Note" p:width="30%"/>
