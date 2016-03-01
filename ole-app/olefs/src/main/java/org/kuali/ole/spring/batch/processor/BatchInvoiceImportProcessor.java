@@ -10,6 +10,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.InvoiceResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
+import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
@@ -26,6 +27,7 @@ import org.kuali.ole.pojo.edi.LineItemOrder;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OleInvoiceDocument;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,13 +157,20 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         oleInvoiceRecord = getOleNGInvoiceRecordBuilderUtil().build(lineItemOrder, invOrder);
                         oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(null, batchProcessProfile, oleInvoiceRecord, datamappingTypes);
                         Map dbCriteria = new HashMap();
+                        List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<>();
                         if (StringUtils.isNotBlank(oleInvoiceRecord.getVendorItemIdentifier())) {
                             dbCriteria.put("vendorItemPoNumber", oleInvoiceRecord.getVendorItemIdentifier());
                             oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER);
-                        } else if (null != oleInvoiceRecord.getPurchaseOrderNumber() && oleInvoiceRecord.getPurchaseOrderNumber() != 0) {
-                            dbCriteria.put("purchaseOrder.purapDocumentIdentifier", oleInvoiceRecord.getPurchaseOrderNumber());
+                            olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
                         }
-                        List<OlePurchaseOrderItem> olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
+
+                        if (CollectionUtils.isEmpty(olePurchaseOrderItems) && null != oleInvoiceRecord.getPurchaseOrderNumber()
+                                &&oleInvoiceRecord.getPurchaseOrderNumber() != 0) {
+                            dbCriteria.clear();
+                            oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.PO_NUMBER);
+                            dbCriteria.put("purchaseOrder.purapDocumentIdentifier", oleInvoiceRecord.getPurchaseOrderNumber());
+                            olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
+                        }
                         setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems);
 
                         addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
@@ -177,7 +186,6 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
     private void setLinkedOrUnlinked(OleInvoiceRecord oleInvoiceRecord, List<OlePurchaseOrderItem> olePurchaseOrderItems) {
         if (CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
-            // Todo : validate the purchaseOrder status if open or not (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN). If not open should be unlink
             oleInvoiceRecord.setOlePurchaseOrderItems(olePurchaseOrderItems);
             if (oleInvoiceRecord.getMatchPointType().equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
                 oleInvoiceRecord.setLink((olePurchaseOrderItems.size() == 1 ? true : false));
@@ -185,6 +193,42 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                 oleInvoiceRecord.setLink(true);
             }
         }
+    }
+
+    private List<OlePurchaseOrderItem> filterOpenDocuments(List<OlePurchaseOrderItem> olePurchaseOrderItems) {
+        List<OlePurchaseOrderItem> filteredItems = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
+            Map<String, Boolean> poStatus = new HashMap<>();
+            for (Iterator<OlePurchaseOrderItem> iterator = olePurchaseOrderItems.iterator(); iterator.hasNext(); ) {
+                OlePurchaseOrderItem olePurchaseOrderItem = iterator.next();
+                if(olePurchaseOrderItem.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                    String documentNumber = olePurchaseOrderItem.getPurchaseOrder().getDocumentNumber();
+                    if(!poStatus.containsKey(documentNumber)) {
+                        boolean documentOpen = isDocumentOpen(olePurchaseOrderItem.getPurapDocument().getDocumentNumber());
+                        poStatus.put(documentNumber,documentOpen);
+                    }
+                    Boolean status = poStatus.get(documentNumber);
+                    if(null != status && status.equals(Boolean.TRUE)) {
+                        filteredItems.add(olePurchaseOrderItem);
+                    }
+                }
+            }
+        }
+        return filteredItems;
+    }
+
+    private boolean isDocumentOpen(String documentNumber) {
+        Map purchaseOrderDocNumberMap = new HashMap();
+        purchaseOrderDocNumberMap.put("documentNumber", documentNumber);
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = (List<OlePurchaseOrderDocument>) getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, purchaseOrderDocNumberMap);
+        if(CollectionUtils.isNotEmpty(olePurchaseOrderDocumentList)) {
+            String applicationDocumentStatus = olePurchaseOrderDocumentList.get(0).getApplicationDocumentStatus();
+            if(StringUtils.isNotBlank(applicationDocumentStatus) &&
+                    applicationDocumentStatus.equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addInvoiceRecordToMap(Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap, OleInvoiceRecord oleInvoiceRecord) {
@@ -231,7 +275,8 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     }
 
     private List<OlePurchaseOrderItem> getPurchaseOrderItemsByCriteria(Map dbCriteria) {
-        return (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, dbCriteria);
+        List<OlePurchaseOrderItem> matching = (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, dbCriteria);
+        return filterOpenDocuments(matching);
     }
 
     private Map<String, List<String>> getCriteriaMapForMatchPoint(Record marcRecord, List<BatchProfileMatchPoint> batchProfileMatchPointList) {
@@ -291,7 +336,9 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
             String response = batchBibFileProcessor.processRecords(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
-            oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
