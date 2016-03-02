@@ -1344,7 +1344,7 @@
                     </property>
                 </bean>
                 <bean id="addressValidFrom" parent="OlePatron-InputField"
-                      p:propertyName="oleAddressBo.addressValidFrom" p:label="Valid From">
+                      p:propertyName="oleAddressBo.addressValidFrom" p:label="Begin Date">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="15"/>
                     </property>
@@ -1362,7 +1362,7 @@
                     </property>
                 </bean>
                 <bean id="addressValidTo" parent="OlePatron-InputField"
-                      p:propertyName="oleAddressBo.addressValidTo" p:label="Valid To">
+                      p:propertyName="oleAddressBo.addressValidTo" p:label="End Date">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="15"/>
                     </property>

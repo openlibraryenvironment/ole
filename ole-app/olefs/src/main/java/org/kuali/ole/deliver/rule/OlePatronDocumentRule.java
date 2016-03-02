@@ -341,12 +341,12 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
         Map<Date,Date> map=new HashMap<>();
         for (int i = 0; i < addressBoList.size(); i++) {
             oleEntityAddressBo = addressBoList.get(i);
-            if (oleEntityAddressBo.getEntityAddressBo().isDefaultValue()) {
+/*            if (oleEntityAddressBo.getEntityAddressBo().isDefaultValue()) {
                 if (oleEntityAddressBo.getOleAddressBo().getAddressValidFrom() != null || oleEntityAddressBo.getOleAddressBo().getAddressValidTo() != null) {
                     GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_DEFAULT_DATE);
                     flag= false;
                 }
-            }
+            }*/
             if(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom()!=null && oleEntityAddressBo.getOleAddressBo().getAddressValidTo()!=null && oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())>0){
                 GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_VALID_ADDRESS_TO_DATE);
                 flag= false;
