@@ -5,12 +5,10 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -18,7 +16,10 @@ import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/26/2015.
@@ -103,8 +104,6 @@ public class UpdateItemHandler extends Handler {
             itemMetaDataHandlers.add(new ChronologyHandler());
             itemMetaDataHandlers.add(new CopyNumberHandler());
             itemMetaDataHandlers.add(new DonorCodeHandler());
-            itemMetaDataHandlers.add(new DonorNoteHandler());
-            itemMetaDataHandlers.add(new DonorPublicDisplayHandler());
             itemMetaDataHandlers.add(new EnumerationHandler());
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
