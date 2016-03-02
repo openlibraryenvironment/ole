@@ -1,0 +1,7 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+OLE10503,OLE10503,1,62,OLE-PTRN,Perforn Debit Transfer,The posted amount will be transferred from the bill amount or refund from the bill amount.,Y
+OLE10504,OLE10504,1,62,OLE-PTRN,Perform credit Payment,The posted amount will be credited from the bill amount or refund from the bill amount.,Y
+OLE10505,OLE10505,1,62,OLE-PTRN,Perform refund,The posted amount will be transferred from the bill amount or refund from the bill amount.,Y
+OLE10506,OLE10506,1,62,OLE-PTRN,Perform accept fine,The posted amount will be credited from the bill amount or refund from the bill amount.,Y
+OLE10507,OLE10507,1,62,OLE-PTRN,Perform Credit Transfer,The posted amount will be credited from the bill amount or refund from the bill amount.,Y
+

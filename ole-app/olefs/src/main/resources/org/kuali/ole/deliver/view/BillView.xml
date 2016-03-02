@@ -35,6 +35,7 @@
                             <ref bean="patronDetailList"/>
                             <ref bean="BillSection" />
                             <ref bean="DetailBillSection"/>
+                            <ref bean="ClosedBillSection"/>
                             <ref bean="billView_payment_transaction_Details"/>
                             <ref bean="BillFooter" />
                             <ref bean="printFormKey" />
@@ -43,6 +44,8 @@
                             <ref bean="billpayment_patronId"/>
                             <ref bean="billpayment_doubleSubmit"/>
                             <ref bean="billpayment_userAmount"/>
+                            <ref bean="billpayment_paidAmount"/>
+                            <ref bean="billpayment_creditRemainingAmount"/>
                         </list>
                     </property>
                 </bean>
@@ -53,6 +56,15 @@
                 <bean id="forgiveNoteDialog" parent="ForgiveNoteSection"/>
                 <bean id="errorNoteDialog" parent="ErrorNoteSection"/>
                 <bean id="cancelNoteDialog" parent="CancelNoteSection"/>
+                <bean id="creditNoteDialog" parent="CreditNoteSection"/>
+                <bean id="transferDebitNoteDialog" parent="TransferDebitNoteSection"/>
+                <bean id="transferCreditNoteDialog" parent="TransferCreditNoteSection"/>
+                <bean id="refundNoteDialog" parent="RefundNoteSection"/>
+                <bean id="cancelCreditNoteDialog" parent="CancelCreditNoteSection"/>
+                <bean id="refundConfirmationDialog" parent="refundConfirmation"/>
+                <bean id="refundRecordConfirmationDialog" parent="refundRecordConfirmation"/>
+                <bean id="patronMailingAddressDialog" parent="patronMailingAddress"/>
+
             </list>
         </property>
         <property name="footer">
@@ -100,11 +112,12 @@
                 <bean id="patron_details_patronLastName" parent="Uif-DataField" p:propertyName="olePatronDocument.lastName" p:label="Last Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="patron_details_patronType" parent="Uif-DataField" p:propertyName="olePatronDocument.borrowerType" p:label="Borrower Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="patron_details_grandOutStandingBal" parent="Uif-DataField" p:propertyName="grandTotal" p:label="Grand Total" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="creditRemaining_section" parent="Uif-DataField" p:propertyName="totalCreditRemaining" p:label="Grand Total Credit Remaining" p:labelPlacement="TOP"  p:cssClasses="creditRemainingFont" />
             </list>
         </property>
     </bean>
 
-    <bean id="BillSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="BillSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Bills" />
         <property name="items">
             <list>
@@ -114,7 +127,7 @@
         </property>
     </bean>
 
-    <bean id="BillView-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:1325px">
+    <bean id="BillView-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:1325px"  p:disclosure.defaultOpen="false">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.PatronBillPayment"/>
         <property name="propertyName" value="patronBillPaymentList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -131,7 +144,7 @@
             <list>
                 <bean id="selectBill" parent="Uif-InputField" p:label="Select Bill" p:width="2%" p:propertyName="selectBill">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''}" />
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},@{#line?.paidAmount},@{#line?.creditRemaining},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''}" />
                     </property>
                 </bean>
                 <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="viewBillNumber"/>
@@ -139,6 +152,8 @@
                 <bean id="totalFeeAmount" parent="Uif-DataField" p:label="Total Fee Amount" p:width="10%" p:propertyName="totalAmount"/>
                 <bean id="totalPaidAmount" parent="Uif-DataField" p:label="Total Paid Amount" p:width="10%" p:propertyName="paidAmount"/>
                 <bean id="totalBillAmount" parent="Uif-DataField" p:label="Total OutStanding Amount" p:width="10%" p:propertyName="unPaidBalance"/>
+                <bean id="selectBill_creditIssued" parent="Uif-DataField" p:label="Credit Issued" p:width="10%" p:propertyName="creditIssued" p:cssClasses="creditFont"/>
+                <bean id="selectBill_creditRemaining" parent="Uif-DataField" p:label="Credit Remaining" p:width="10%" p:propertyName="creditRemaining" p:cssClasses="creditFont"/>
                 <bean id="BillSection_note" parent="Uif-DataField" p:label="Text Note" p:width="10%" p:propertyName="note"/>
                 <bean id="BillSection_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="10%" p:propertyName="lastTransactionDate"/>
                 <bean id="BillView_Pay_Note" parent="Uif-DataField" p:label="Last Transaction Information" p:propertyName="freeTextNote"/>
@@ -166,7 +181,7 @@
     </bean>
 
     <bean id="DetailBillSection" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="headerText" value="Bills in Detail" />
+        <property name="headerText" value="Open Bills in Detail" />
         <property name="items">
             <list>
                 <ref bean="DetailedView-BillSection"/>
@@ -175,9 +190,19 @@
         </property>
     </bean>
 
+    <bean id="ClosedBillSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Closed Bills in Detail" />
+        <property name="items">
+            <list>
+                <ref bean="DetailedView-ClosedBillSection"/>
+                <ref bean="DetailedBillView-Footer"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="DetailedView-BillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
-        <property name="propertyName" value="feeTypes"/>
+        <property name="propertyName" value="openFeeTypes"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="useServerPaging" value="true"/>
@@ -191,7 +216,7 @@
                 <property name="items">
                     <list>
                         <ref bean="detailed_Item_View-BillSection"/>
-                        <ref bean="detailed_Note_View-BillSection"/>
+                        <!--<ref bean="detailed_Note_View-BillSection"/>-->
                         <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
                     </list>
                 </property>
@@ -203,24 +228,77 @@
             <list>
                 <bean id="active_item" parent="Uif-InputField" p:label="Select Item" p:width="3%" p:propertyName="activeItem" >
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
                     </property>
                 </bean>
-                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="viewBillNumber"/>
+                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="7%" p:propertyName="viewBillNumber"/>
                 <bean id="billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
-                <bean id="DetailBillSection_feeSource" parent="Uif-DataField" p:width="10%" p:label="Initiator" p:propertyName="feeSource"/>
+                <bean id="DetailBillSection_feeSource" parent="Uif-DataField" p:width="8%" p:label="Initiator" p:propertyName="feeSource"/>
                 <bean id="itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
                 <bean id="feeTypeName" parent="Uif-DataField" p:label="Fee Type" p:width="8%" p:propertyName="feeTypeName"/>
                 <bean id="feeAmount" parent="Uif-DataField" p:label="Fee Amount" p:width="5%" p:propertyName="feeAmount"/>
                 <bean id="paidAmount" parent="Uif-DataField" p:label="Paid Amount" p:width="5%" p:propertyName="paidAmount"/>
                 <bean id="balFeeAmount" parent="Uif-DataField" p:label="OutStanding Amount" p:width="5%" p:propertyName="balFeeAmount"/>
                 <bean id="paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
-                <bean id="Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="10%" p:propertyName="lastTransactionDate"/>
-                <bean id="DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="20%" p:propertyName="generalNote"/>
+                <bean id="creditIssued" parent="Uif-DataField" p:label="Credit Issued" p:width="5%" p:propertyName="creditIssued" p:cssClasses="creditFont"/>
+                <bean id="creditRemaining" parent="Uif-DataField" p:label="Credit Remaining" p:width="5%" p:propertyName="creditRemaining" p:cssClasses="creditFont"/>
+                <bean id="Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="8%" p:propertyName="lastTransactionDate"/>
+                <bean id="DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="10%" p:propertyName="generalNote"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
     </bean>
+
+
+    <bean id="DetailedView-ClosedBillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="closedFeeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="useServerPaging" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="true"/>
+            </map>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="detailed_Item_View-BillSection"/>
+                        <!--<ref bean="detailed_Note_View-BillSection"/>-->
+                        <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="closedBill_active_item" parent="Uif-InputField" p:label="Select Item" p:width="3%" p:propertyName="activeItem" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
+                    </property>
+                </bean>
+                <bean id="closedBill_billNumber" parent="Uif-DataField" p:label="Bill No" p:width="7%" p:propertyName="viewBillNumber"/>
+                <bean id="closedBill_billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
+                <bean id="closedBill_DetailBillSection_feeSource" parent="Uif-DataField" p:width="8%" p:label="Initiator" p:propertyName="feeSource"/>
+                <bean id="closedBill_itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+                <bean id="closedBill_feeTypeName" parent="Uif-DataField" p:label="Fee Type" p:width="8%" p:propertyName="feeTypeName"/>
+                <bean id="closedBill_feeAmount" parent="Uif-DataField" p:label="Fee Amount" p:width="5%" p:propertyName="feeAmount"/>
+                <bean id="closedBill_paidAmount" parent="Uif-DataField" p:label="Paid Amount" p:width="5%" p:propertyName="paidAmount"/>
+                <bean id="closedBill_balFeeAmount" parent="Uif-DataField" p:label="OutStanding Amount" p:width="5%" p:propertyName="balFeeAmount"/>
+                <bean id="closedBill_paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
+                <bean id="closedBill_creditIssued" parent="Uif-DataField" p:label="Credit Issued" p:width="5%" p:propertyName="creditIssued" p:cssClasses="creditFont"/>
+                <bean id="closedBill_creditRemaining" parent="Uif-DataField" p:label="Credit Remaining" p:width="5%" p:propertyName="creditRemaining" p:cssClasses="creditFont"/>
+                <bean id="closedBill_Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="8%" p:propertyName="lastTransactionDate"/>
+                <bean id="closedBill_DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="10%" p:propertyName="generalNote"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
 
 
     <bean id="detailed_Item_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px" p:disclosure.defaultOpen="false">
@@ -269,6 +347,10 @@
                 <bean id="detailed_Note_View_cancelNote" parent="Uif-DataField" p:label="Cancel Note" p:width="25%" p:propertyName="cancellationNote"/>
                 <bean id="detailed_Note_View_forgiveNote" parent="Uif-DataField" p:label="Forgive Note" p:width="25%" p:propertyName="forgiveNote"/>
                 <bean id="detailed_Note_View_errorNote" parent="Uif-DataField" p:label="Error Note" p:width="25%" p:propertyName="errorNote"/>
+                <bean id="detailed_Note_View_creditNote" parent="Uif-DataField" p:label="Credit Note" p:width="25%" p:propertyName="creditNote"/>
+                <bean id="detailed_Note_View_transferNote" parent="Uif-DataField" p:label="Transfer Note" p:width="25%" p:propertyName="transferNote"/>
+                <bean id="detailed_Note_View_refundNote" parent="Uif-DataField" p:label="Refund Note" p:width="25%" p:propertyName="refundNote"/>
+                <bean id="detailed_Note_View_cancelCreditNote" parent="Uif-DataField" p:label="Cancel Credit Note" p:width="25%" p:propertyName="cancelCreditNote"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -295,6 +377,7 @@
                 <bean id="trnsId" parent="Uif-DataField" p:propertyName="paymentId" p:label="Transaction Id" p:width="6%" />
                 <bean id="tranDate" parent="Uif-DataField" p:propertyName="paymentDate" p:label="Transaction Date" p:width="10%" />
                 <bean id="tranCreatedBy" parent="Uif-DataField" p:propertyName="createdUser" p:label="Operator Id" p:width="10%" />
+                <bean id="userNote" parent="Uif-DataField" p:propertyName="note" p:label="Note" p:width="10%" />
                 <bean id="trnAmt" parent="Uif-DataField" p:propertyName="amount" p:label="Amount paid by user" p:width="5%"/>
                 <bean id="tranNumber" parent="Uif-DataField" p:propertyName="transactionNumber" p:label="Transaction Number" p:width="25%"/>
                 <bean id="trnsNote" parent="Uif-DataField" p:propertyName="transactionNote" p:label="Transaction Note" p:width="30%"/>
@@ -335,7 +418,19 @@
 
                 <bean id="billView_paymentDetails_paidAmount" parent="Uif-InputField" p:propertyName="paymentAmount"  p:label="Pay Amount" p:required="true" p:style="float:left;margin-left:2em">
                     <property name="control">
-                        <bean id="name" parent="Uif-TextControl" p:style="width:100px" />
+                        <bean id="paidAmount_name" parent="Uif-TextControl" p:style="width:100px" />
+                    </property>
+                </bean>
+
+                <bean id="billView_paymentDetails_amountPaid" parent="Uif-InputField" p:propertyName="paidAmount"  p:label="Paid Amount" p:required="false" p:style="float:left;margin-left:2em"  p:cssClasses="creditRemainingFont">
+                    <property name="control">
+                        <bean id="amountPaid_name" parent="Uif-TextControl" p:style="width:100px" p:cssClasses="creditRemainingFont" />
+                    </property>
+                </bean>
+
+                <bean id="billView_paymentDetails_transferAmount" parent="Uif-InputField" p:propertyName="transferAmount"  p:label="Credit Remaining Amount" p:required="false" p:style="float:left;margin-left:2em">
+                    <property name="control">
+                        <bean id="transferAmount_name" parent="Uif-TextControl" p:style="width:100px" />
                     </property>
                 </bean>
             </list>
@@ -367,6 +462,11 @@
                 <bean id="Accept_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Accept" p:style="float:left;margin-left:2em" p:actionEvent="accept"  p:componentSecurity.performActionAuthz="true"/>
                 <bean id="Forgive_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Forgive" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('forgiveNoteDialog');" p:actionEvent="payment" p:componentSecurity.performActionAuthz="true"/>
                 <bean id="Print_Button" parent="Uif-SecondaryActionButton" p:methodToCall="printBillPayment" p:actionLabel="Print" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="printPatronBill()"/>
+                <bean id="credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('creditNoteDialog');"  p:actionEvent="credit" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Debit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Debit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferDebitNoteDialog');"  p:actionEvent="debitTransfer" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferCreditNoteDialog');"  p:actionEvent="creditTransfer" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Refund_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Refund" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('refundNoteDialog');"  p:actionEvent="refund" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_cancelCredit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelCreditNoteDialog');" />
                 <bean id="Cancel_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelNoteDialog');" />
                 <bean id="Error_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Error" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('errorNoteDialog');"/>
                 <bean id="Close_Button" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="closePatronBillWindow()"/>
@@ -443,6 +543,111 @@
             </list>
         </property>
     </bean>
+    <bean id="CreditNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="creditNote" parent="Uif-InputField" p:label="Credit Note" p:propertyName="creditNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okCreditBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeCreditNote();"/>
+                            <bean id ="hdnOKCreditBtn" parent="Uif-SecondaryActionButton" p:methodToCall="credit" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferDebitNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="transferDebitNote" parent="Uif-InputField" p:label="Transfer Debit Note" p:propertyName="transferDebitNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okDebitBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeTransferDebitNote();"/>
+                            <bean id ="hdnOKTransferDebitBtn" parent="Uif-SecondaryActionButton" p:methodToCall="transferDebit" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferCreditNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="transferCreditNote" parent="Uif-InputField" p:label="Transfer Credit Note" p:propertyName="transferCreditNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okTransferCreditBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeTransferCreditNote();"/>
+                            <bean id ="hdnOKTransferCreditBtn" parent="Uif-SecondaryActionButton" p:methodToCall="transferCredit" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RefundNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="refundNote" parent="Uif-InputField" p:label="Refund Note" p:propertyName="refundNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okRefundBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeRefundNote();"/>
+                            <bean id ="hdnOKRefundBtn" parent="Uif-SecondaryActionButton" p:methodToCall="refund" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="CancelCreditNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="cancelCreditNote" parent="Uif-InputField" p:label="Cancel Credit Note" p:propertyName="cancelCreditNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okCancelCreditBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closecancelCreditNote();"/>
+                            <bean id ="hdnOKcreditCancelBtn" parent="Uif-SecondaryActionButton" p:methodToCall="refund" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <bean id="printFormKey" parent="Uif-InputField" p:propertyName="formKey">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -473,4 +678,17 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
+    <bean id="billpayment_paidAmount" parent="Uif-InputField" p:propertyName="userPaidAmount">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="billpayment_creditRemainingAmount" parent="Uif-InputField" p:propertyName="creditRemainingAmt">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+
+
 </beans>

@@ -3,7 +3,9 @@ package org.kuali.ole.deliver.controller;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
+import org.kuali.ole.deliver.bo.OleCirculationDeskFeeType;
 import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
+import org.kuali.ole.deliver.bo.OleFeeType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -139,6 +141,57 @@ public class OleCirculationDeskMaintenanceController extends MaintenanceDocument
         view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
         return getUIFModelAndView(form);
     }
+
+    @RequestMapping(params = "methodToCall=addCirculationFeeType")
+    public ModelAndView addCirculationFeeType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+
+        OleCirculationDesk oleCirculationDesk = (OleCirculationDesk) document.getNewMaintainableObject().getDataObject();
+
+        List<OleCirculationDeskFeeType> oleFeeTypeList = oleCirculationDesk.getOleCirculationDeskFeeTypeList();
+        oleCirculationDesk.setErrorMessage(null);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
+        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
+
+        Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
+        OleCirculationDeskFeeType oleFeeType = (OleCirculationDeskFeeType) eventObject;
+        String feeTypeCode = oleFeeType.getFeeTypeCode();
+        String feeTypeId = oleFeeType.getFeeTypeId();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("feeTypeCode",feeTypeCode);
+        List<OleFeeType> oleFeeTypes = (List<OleFeeType>)KRADServiceLocator.getBusinessObjectService().findMatching(OleFeeType.class,map);
+        if (oleFeeTypes.size() == 0) {
+            GlobalVariables.getMessageMap().putErrorForSectionId("OleCirculationDesk-FeeType", OLEConstants.OleCirculationDesk.OLE_INVALID_FEE_TYPE);
+            return getUIFModelAndView(form);
+        }
+        OleFeeType oleFeeType1 = null;
+        if(oleFeeTypes.size()>0){
+            oleFeeType1 = oleFeeTypes.get(0);
+            oleFeeType.setFeeTypeCode(oleFeeType1.getFeeTypeCode());
+            oleFeeType.setFeeTypeId(oleFeeType1.getFeeTypeId());
+            oleFeeType.setOleCirculationDesk(oleCirculationDesk);
+        }
+
+        for (OleCirculationDeskFeeType oleCirculationDeskFeeType : oleFeeTypeList) {
+            if (oleCirculationDeskFeeType.getFeeTypeCode().equalsIgnoreCase(oleFeeType.getFeeTypeCode())) {
+                oleFeeType.setFeeTypeCode(null);
+
+
+                GlobalVariables.getMessageMap().putErrorForSectionId("OleCirculationDesk-Locations", OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION_DUPLICATE_ERROR);
+                return getUIFModelAndView(form);
+            }
+        }
+
+
+
+        View view = form.getPostedView();
+        view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=addPickupCirculationLine")
     public ModelAndView addPickupCirculationLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {

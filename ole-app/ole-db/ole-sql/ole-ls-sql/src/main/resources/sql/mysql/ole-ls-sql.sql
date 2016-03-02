@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -1205,6 +1206,37 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
 
 
 # -----------------------------------------------------------------------
+# OLE_CRCL_DSK_FEE_TYPE_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_CRCL_DSK_FEE_TYPE_T
+/
+
+CREATE TABLE OLE_CRCL_DSK_FEE_TYPE_T
+(
+      OLE_CRCL_DSK_FEE_TYPE_ID VARCHAR(40) default '0'
+        , OLE_CRCL_DSK_ID VARCHAR(40) NOT NULL
+        , FEE_TYP_ID VARCHAR(40) NOT NULL
+    
+    , CONSTRAINT OLE_CRCL_DSK_FEE_TYPE_TP1 PRIMARY KEY(OLE_CRCL_DSK_FEE_TYPE_ID)
+
+
+
+
+
+    
+                                                                                                                                                    
+                                    
+, INDEX OLE_CRCL_FEE_TYPE_I (FEE_TYP_ID )
+    
+                                                                                                                                                    
+                                    
+, INDEX OLE_CRCL_DSK_I (OLE_CRCL_DSK_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_CRCL_DSK_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_CRCL_DSK_T
@@ -1232,6 +1264,7 @@ CREATE TABLE OLE_CRCL_DSK_T
         , SHOW_ONHOLD_ITM VARCHAR(50) default 'CurrentCirculationDesk'
         , DFLT_RQST_TYP_ID VARCHAR(40)
         , DFLT_PICK_UP_LOCN_ID VARCHAR(40)
+        , FROM_EMAIL VARCHAR(100)
     
     , CONSTRAINT OLE_CRCL_DSK_TP1 PRIMARY KEY(OLE_CRCL_DSK_ID)
 
@@ -1923,6 +1956,12 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , ITM_ENUM VARCHAR(100)
         , ITM_CHRON VARCHAR(100)
         , ITM_LOC VARCHAR(600)
+        , CRDT_ISSUED DECIMAL(10,4)
+        , CRDT_REMAINING DECIMAL(10,4)
+        , PAY_CREDIT_NOTE VARCHAR(500)
+        , PAY_TRANSFER_NOTE VARCHAR(500)
+        , PAY_REFUND_NOTE VARCHAR(500)
+        , PAY_CAN_CRDT_NOTE VARCHAR(500)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
 
@@ -1931,7 +1970,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -1955,6 +1994,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
         , TRNS_NUMBER VARCHAR(40)
         , TRNS_NOTE VARCHAR(500)
         , TRNS_MODE VARCHAR(40)
+        , NOTE VARCHAR(500)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_PAY_TP1 PRIMARY KEY(ID)
 
@@ -1963,7 +2003,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
 
 
     
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX BILL_PAY_ID (ITM_LINE_ID )
 
@@ -1997,6 +2037,8 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , PAY_NOTE VARCHAR(500)
         , NOTE VARCHAR(500)
         , BILL_REVIEWED VARCHAR(1)
+        , CRDT_ISSUED DECIMAL(10,4)
+        , CRDT_REMAINING DECIMAL(10,4)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_TP1 PRIMARY KEY(PTRN_BILL_ID)
 
@@ -2005,7 +2047,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_DLVR_PTRN_BILL_TI1 (OLE_PTRN_ID )
 
@@ -2818,27 +2860,27 @@ CREATE TABLE OLE_E_RES_REC_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK6 (PCKG_SCP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK7 (REQ_PRTY_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK8 (PCKG_TYP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK9 (STAT_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_E_RES_REC_FK10 (PYMT_TYP_ID )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_E_RES_REC_FK11 (STAT_SRCH_CD_ID )
 
@@ -7123,6 +7165,20 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_CRCL_DSK_LOCN_S auto_increment = 24
+/
+
+# -----------------------------------------------------------------------
+# OLE_CRCL_DSK_FEE_TYPE_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_CRCL_DSK_FEE_TYPE_S
+/
+
+CREATE TABLE OLE_CRCL_DSK_FEE_TYPE_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_CRCL_DSK_FEE_TYPE_S auto_increment = 24
 /
 
 # -----------------------------------------------------------------------

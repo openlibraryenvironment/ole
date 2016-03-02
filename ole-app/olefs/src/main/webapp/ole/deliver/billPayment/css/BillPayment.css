@@ -16,3 +16,11 @@ div.blockUI{
     text-align: right;
     width: 50%;
 }
+
+.creditFont{
+    color: green;
+}
+
+.creditRemainingFont{
+    color: green;
+}
