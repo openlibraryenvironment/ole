@@ -27,6 +27,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private List<OleCirculationDeskLocation> oleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private List<OleCirculationDeskLocation> oleCirculationDeskLocationList = new ArrayList<OleCirculationDeskLocation>();
     private List<OleCirculationDeskLocation> olePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+    private List<OleCirculationDeskFeeType> oleCirculationDeskFeeTypeList = new ArrayList<OleCirculationDeskFeeType>();
     private List<OleCirculationDeskLocation> deleteoleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private List<OleCirculationDeskLocation> deleteOlePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private String locationId;
@@ -46,6 +47,16 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private String defaultPickupLocationId;
     private String defaultPickupLocationCode;
     private OleCirculationDesk defaultPickupLocation;
+    private String fromEmailAddress;
+
+
+    public List<OleCirculationDeskFeeType> getOleCirculationDeskFeeTypeList() {
+        return oleCirculationDeskFeeTypeList;
+    }
+
+    public void setOleCirculationDeskFeeTypeList(List<OleCirculationDeskFeeType> oleCirculationDeskFeeTypeList) {
+        this.oleCirculationDeskFeeTypeList = oleCirculationDeskFeeTypeList;
+    }
 
     public String getErrorMessage() {
         return errorMessage;
@@ -292,6 +303,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
         List<Collection<PersistableBusinessObject>> collectionList = new ArrayList<>();
         collectionList.add((Collection)getOleCirculationDeskLocations());
         collectionList.add((Collection)getDeleteOlePickupCirculationDeskLocations());
+        collectionList.add((Collection)getOleCirculationDeskFeeTypeList());
         return collectionList;
     }
 
@@ -379,5 +391,13 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setDefaultPickupLocation(OleCirculationDesk defaultPickupLocation) {
         this.defaultPickupLocation = defaultPickupLocation;
+    }
+
+    public String getFromEmailAddress() {
+        return fromEmailAddress;
+    }
+
+    public void setFromEmailAddress(String fromEmailAddress) {
+        this.fromEmailAddress = fromEmailAddress;
     }
 }

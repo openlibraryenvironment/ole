@@ -1,3 +1,4 @@
+
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -1541,6 +1542,45 @@ CREATE INDEX OLE_CRCL_LOCN_FK
 
 
 -----------------------------------------------------------------------------
+-- OLE_CRCL_DSK_FEE_TYPE_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_CRCL_DSK_FEE_TYPE_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_CRCL_DSK_FEE_TYPE_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_CRCL_DSK_FEE_TYPE_T
+(
+      OLE_CRCL_DSK_FEE_TYPE_ID VARCHAR2(40) default '0'
+        , OLE_CRCL_DSK_ID VARCHAR2(40) NOT NULL
+        , FEE_TYP_ID VARCHAR2(40) NOT NULL
+    
+
+)
+/
+
+ALTER TABLE OLE_CRCL_DSK_FEE_TYPE_T
+    ADD CONSTRAINT OLE_CRCL_DSK_FEE_TYPE_TP1
+PRIMARY KEY (OLE_CRCL_DSK_FEE_TYPE_ID)
+/
+
+
+CREATE INDEX OLE_CRCL_FEE_TYPE_I 
+  ON OLE_CRCL_DSK_FEE_TYPE_T 
+  (FEE_TYP_ID)
+/
+CREATE INDEX OLE_CRCL_DSK_I 
+  ON OLE_CRCL_DSK_FEE_TYPE_T 
+  (OLE_CRCL_DSK_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
 -- OLE_CRCL_DSK_T
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -1572,6 +1612,7 @@ CREATE TABLE OLE_CRCL_DSK_T
         , SHOW_ONHOLD_ITM VARCHAR2(50) default 'CurrentCirculationDesk'
         , DFLT_RQST_TYP_ID VARCHAR2(40)
         , DFLT_PICK_UP_LOCN_ID VARCHAR2(40)
+        , FROM_EMAIL VARCHAR2(100)
     
 
 )
@@ -2423,6 +2464,12 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , ITM_ENUM VARCHAR2(100)
         , ITM_CHRON VARCHAR2(100)
         , ITM_LOC VARCHAR2(600)
+        , CRDT_ISSUED NUMBER(10,4)
+        , CRDT_REMAINING NUMBER(10,4)
+        , PAY_CREDIT_NOTE VARCHAR2(500)
+        , PAY_TRANSFER_NOTE VARCHAR2(500)
+        , PAY_REFUND_NOTE VARCHAR2(500)
+        , PAY_CAN_CRDT_NOTE VARCHAR2(500)
     
 
 )
@@ -2463,6 +2510,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
         , TRNS_NUMBER VARCHAR2(40)
         , TRNS_NOTE VARCHAR2(500)
         , TRNS_MODE VARCHAR2(40)
+        , NOTE VARCHAR2(500)
     
 
 )
@@ -2513,6 +2561,8 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , PAY_NOTE VARCHAR2(500)
         , NOTE VARCHAR2(500)
         , BILL_REVIEWED VARCHAR2(1)
+        , CRDT_ISSUED NUMBER(10,4)
+        , CRDT_REMAINING NUMBER(10,4)
     
 
 )
@@ -8560,6 +8610,16 @@ END;
 /
 
 CREATE SEQUENCE OLE_CRCL_DSK_LOCN_S INCREMENT BY 1 START WITH 24 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_CRCL_DSK_FEE_TYPE_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_CRCL_DSK_FEE_TYPE_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_CRCL_DSK_FEE_TYPE_S INCREMENT BY 1 START WITH 24 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 DECLARE temp NUMBER;

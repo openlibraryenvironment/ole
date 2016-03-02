@@ -223,6 +223,165 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
+        <dropUniqueConstraint uniqueColumns="OLE_PTRN_ID,PTRN_Q_POS,ITM_ID"
+                              constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                              tableName="OLE_DLVR_RQST_T"/>
+
+        <addUniqueConstraint columnNames="OLE_PTRN_ID,PTRN_Q_POS,ITEM_UUID"
+                             constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                             tableName="OLE_DLVR_RQST_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_T">
+        <createTable tableName="OLE_NG_BAT_PRF_T">
+            <column name="PRF_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="PRF_NM"   type="VARCHAR(40)"/>
+            <column name="PRF_TYP"   type="VARCHAR(40)"/>
+            <column name="CONTENT"   type="BLOB"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_NG_BAT_PRF_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_S" dbms="mysql">
+        <createTable tableName="OLE_NG_BAT_PRF_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_NG_BAT_PRF_S"/>
+    </changeSet>
+
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_T">
+        <createTable tableName="OLE_NG_BAT_PRCS_JOB_T">
+            <column name="JOB_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_NAME"   type="VARCHAR(100)"/>
+            <column name="PROFILE_TYPE"   type="VARCHAR(40)"/>
+            <column name="PRF_ID"   type="INTEGER(10)"/>
+            <column name="JOB_TYPE"   type="VARCHAR(40)"/>
+            <column name="CRON_EXP"   type="VARCHAR(100)"/>
+            <column name="CREATED_BY"   type="VARCHAR(40)"/>
+            <column name="CREATED_ON"   type="TIMESTAMP"/>
+            <column name="NEXT_RUN_TIME"   type="TIMESTAMP"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_NG_BAT_PRCS_JOB_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_S" dbms="mysql">
+        <createTable tableName="OLE_NG_BAT_PRCS_JOB_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_NG_BAT_PRCS_JOB_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_T">
+        <createTable tableName="OLE_NG_BAT_JOB_DETAILS_T">
+            <column name="JOB_DETAIL_ID"   type="INTEGER(10)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_NAME"   type="VARCHAR(100)"/>
+            <column name="JOB_ID"   type="INTEGER(10)"/>
+            <column name="PROFILE_TYPE"   type="VARCHAR(40)"/>
+            <column name="PROFILE_NAME"   type="VARCHAR(100)"/>
+            <column name="CREATED_BY"   type="VARCHAR(40)"/>
+            <column name="START_TIME"   type="TIMESTAMP"/>
+            <column name="END_TIME"   type="TIMESTAMP"/>
+            <column name="PER_COMPLETED"   type="VARCHAR(40)"/>
+            <column name="TIME_SPENT"   type="VARCHAR(40)"/>
+            <column name="TOTAL_RECORDS"   type="VARCHAR(40)"/>
+            <column name="TOTAL_RECORDS_PRCSD"   type="VARCHAR(40)"/>
+            <column name="STATUS"   type="VARCHAR(40)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_S" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_NG_BAT_JOB_DETAILS_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_S" dbms="mysql">
+        <createTable tableName="OLE_NG_BAT_JOB_DETAILS_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_NG_BAT_JOB_DETAILS_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRF_ID_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="PRF_ID"
+                                 baseTableName="OLE_NG_BAT_PRCS_JOB_T"
+                                 constraintName="OLE_NG_BAT_PRF_ID_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="PRF_ID"
+                                 referencedTableName="OLE_NG_BAT_PRF_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_ID_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="JOB_ID"
+                                 baseTableName="OLE_NG_BAT_JOB_DETAILS_T"
+                                 constraintName="OLE_NG_BAT_PRCS_ID_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="JOB_ID"
+                                 referencedTableName="OLE_NG_BAT_PRCS_JOB_T"/>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ITM">
         <addColumn tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
             <column name="ITM_TITLE"   type="VARCHAR(600)"/>
@@ -267,4 +426,244 @@
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_T2_ORACLE" dbms="oracle">
         <sql>ALTER TABLE OLE_DLVR_CIRC_RECORD MODIFY CHECK_IN_DT_TIME TIMESTAMP NULL</sql>
     </changeSet>
+
+
+    <changeSet author="ole" id="PUR_PO_ITM_TI6">
+        <createIndex
+                indexName="PUR_PO_ITM_TI6"
+                tableName="PUR_PO_ITM_T">
+            <column name="OLE_VNDR_IT_ID" type="VARCHAR(100)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T ">
+            <column name="CRDT_ISSUED" type="decimal"/>
+            <column name="CRDT_REMAINING" type="decimal"/>
+            <column name="PAY_CREDIT_NOTE" type="varchar(500)"/>
+            <column name="PAY_TRANSFER_NOTE" type="varchar(500)"/>
+            <column name="PAY_REFUND_NOTE" type="varchar(500)"/>
+            <column name="PAY_CAN_CRDT_NOTE" type="varchar(500)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_T ">
+            <column name="CRDT_ISSUED" type="decimal"/>
+            <column name="CRDT_REMAINING" type="decimal"/>
+
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/2.1/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/2.1/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_ATTR_DATA_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="org/kuali/ole/2.1/data/ole_krim_perm_attr_data_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_ATTR_DATA_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_ATTR_DATA_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="org/kuali/ole/2.1/data/ole_krim_perm_attr_data_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_ATTR_DATA_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/2.1/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/2.1/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_FEE_TYPE_T">
+        <createTable tableName="OLE_CRCL_DSK_FEE_TYPE_T">
+            <column name="OLE_CRCL_DSK_FEE_TYPE_ID" type="VARCHAR(40)"/>
+            <column name="OLE_CRCL_DSK_ID" type="VARCHAR(40)"/>
+            <column name="FEE_TYP_ID" type="VARCHAR(40)"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole"  id="OLE_CRCL_DSK_FEE_TYP_PK">
+        <addPrimaryKey columnNames="OLE_CRCL_DSK_FEE_TYPE_ID"
+                       constraintName="OLE_CRCL_DSK_FEE_TYP_PK"
+                       tableName="OLE_CRCL_DSK_FEE_TYPE_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_FEE_TYP_FK">
+        <addForeignKeyConstraint baseColumnNames="FEE_TYP_ID"
+                                 baseTableName="OLE_CRCL_DSK_FEE_TYPE_T"
+                                 constraintName="OLE_CRCL_DSK_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="FEE_TYP_ID"
+                                 referencedTableName="OLE_DLVR_PTRN_FEE_TYPE_T"/>
+        <addForeignKeyConstraint baseColumnNames="OLE_CRCL_DSK_ID"
+                                 baseTableName="OLE_CRCL_DSK_FEE_TYPE_T"
+                                 constraintName="OLE_CRCL_FEE_TYPE_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="OLE_CRCL_DSK_ID"
+                                 referencedTableName="OLE_CRCL_DSK_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole"  id="OLE_CRCL_FEE_TYP_INDEX">
+        <createIndex indexName="OLE_CRCL_FEE_TYPE_I"
+                     tableName="OLE_CRCL_DSK_FEE_TYPE_T">
+            <column name="FEE_TYP_ID" type="VARCHAR(40)"/>
+        </createIndex>
+        <createIndex indexName="OLE_CRCL_DSK_I"
+                     tableName="OLE_CRCL_DSK_FEE_TYPE_T">
+            <column name="OLE_CRCL_DSK_ID" type="VARCHAR(40)"/>
+        </createIndex>
+
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_FEE_TYPE_S" dbms="oracle">
+        <createSequence incrementBy="1"
+                        ordered="true"
+                        sequenceName="OLE_CRCL_DSK_FEE_TYPE_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_FEE_TYPE_S" dbms="mysql">
+        <createTable tableName="OLE_CRCL_DSK_FEE_TYPE_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_FEE_TYPE_S_PK" dbms="mysql">
+        <addPrimaryKey columnNames="ID"
+                       constraintName="OLE_CRCL_DSK_FEE_TYPE_S_PK"
+                       tableName="OLE_CRCL_DSK_FEE_TYPE_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_FEE_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          startWith="1"
+                          tableName="OLE_CRCL_DSK_FEE_TYPE_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_T_INSERT">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="FROM_EMAIL" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_ID_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_FEE_FULLY_TRANSFERED', 'Fee Fully Transfered', '2c3def30-95sa-4c4e-8d75-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_FEE_PARTIALLY_TRANSFERED', 'Fee Partially Transfered', '9k7def30-95sa-4c4e-9j53-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_FULL_CRDT_ISSUED', 'Full credit issued', '56jdef30-95ws-4c4e-7r75-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_PAR_CRDT_ISSUED', 'Partial credit issued', '985def30-95op-4c4e-8d75-5e17cf970689', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_CRDT_FULLY_TRANSFERED', 'Credit fully transfered', '3v4def30-95sa-4c4e-8d75-8y75cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_CRDT_PAR_TRANSFERED', 'Credit partially transfered', '9j56ef30-95rt-4c4e-8d75-9e98cf970857', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_FULLY_PAID_CRDT', 'Fully paid with credit', '8k62ef30-95ta-4d4e-9j75-5e17cf978952', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_PAR_PAID_CRDT', 'Partially paid with credit', '4d389f30-95sa-5e4e-8d89-5e17cf976532', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_FULLY_REFUNDED', 'Fully Refunded', '8t689f30-95sa-7d4f-8d89-5e17cf976589', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_PAR_REFUNDED', 'Partially Refunded', '9k789f30-86nw-7d4f-8d89-9e17cf976599', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_CRDT_FULLY_CANCELLED', 'Credit Fully Cancelled', '8s789f30-86nw-8d4f-8d89-7j17cf97589', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_CRDT_PAR_CANCELLED', 'Credit Partially Cancelled', '9j889f30-96nw-5d4f-8d89-7j17cf97519', '1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_ID_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_FEE_FULLY_TRANSFERED', 'Fee Fully Transfered', '2c3def30-95sa-4c4e-8d75-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_FEE_PARTIALLY_TRANSFERED', 'Fee Partially Transfered', '9k7def30-95sa-4c4e-9j53-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_FULL_CRDT_ISSUED', 'Full credit issued', '56jdef30-95ws-4c4e-7r75-5e17cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_PAR_CRDT_ISSUED', 'Partial credit issued', '985def30-95op-4c4e-8d75-5e17cf970689', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_CRDT_FULLY_TRANSFERED', 'Credit fully transfered', '3v4def30-95sa-4c4e-8d75-8y75cf970677', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_CRDT_PAR_TRANSFERED', 'Credit partially transfered', '9j56ef30-95rt-4c4e-8d75-9e98cf970857', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_FULLY_PAID_CRDT', 'Fully paid with credit', '8k62ef30-95ta-4d4e-9j75-5e17cf978952', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_PAR_PAID_CRDT', 'Partially paid with credit', '4d389f30-95sa-5e4e-8d89-5e17cf976532', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_FULLY_REFUNDED', 'Fully Refunded', '8t689f30-95sa-7d4f-8d89-5e17cf976589', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_PAR_REFUNDED', 'Partially Refunded', '9k789f30-86nw-7d4f-8d89-9e17cf976599', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_CRDT_FULLY_CANCELLED', 'Credit Fully Cancelled', '8s789f30-86nw-8d4f-8d89-7j17cf97589', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_CRDT_PAR_CANCELLED', 'Credit Partially Cancelled', '9j889f30-96nw-5d4f-8d89-7j17cf97519', '1')</sql>
+ </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PMT_MTHD_T_ID_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_PMT_MTHD_T_SEQ values ()</sql>
+        <sql>INSERT INTO OLE_PMT_MTHD_T (OLE_PMT_MTHD_ID, PMT_MTHD, PMT_MTHD_DESC, VER_NBR, OBJ_ID,ROW_ACT_IND) VALUES (last_insert_id(), 'Transferred', 'Transferred','1', 'BJV56E36-7GHJ-HJ-5689-56234080958E', 'Y')</sql>
+        <sql>INSERT INTO OLE_PMT_MTHD_T_SEQ values ()</sql>
+        <sql>INSERT INTO OLE_PMT_MTHD_T (OLE_PMT_MTHD_ID, PMT_MTHD, PMT_MTHD_DESC, VER_NBR, OBJ_ID,ROW_ACT_IND) VALUES (last_insert_id(), 'Refund Issued', 'Refund Issued','1', 'AXG56E36-8OHJ-7SD8-8952-4253408098K9', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PMT_MTHD_T_ID_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_PMT_MTHD_T (OLE_PMT_MTHD_ID, PMT_MTHD, PMT_MTHD_DESC, VER_NBR, OBJ_ID,ROW_ACT_IND) VALUES (OLE_PMT_MTHD_T_SEQ.NEXTVAL, 'Transferred', 'Transferred','1', 'BJV56E36-7GHJ-HJ-5689-56234080958E', 'Y')</sql>
+        <sql>INSERT INTO OLE_PMT_MTHD_T (OLE_PMT_MTHD_ID, PMT_MTHD, PMT_MTHD_DESC, VER_NBR, OBJ_ID,ROW_ACT_IND) VALUES (OLE_PMT_MTHD_T_SEQ.NEXTVAL, 'Refund Issued', 'Refund Issued','1', 'AXG56E36-8OHJ-7SD8-8952-4253408098K9', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_PAY_T_ID">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_PAY_T ">
+            <column name="NOTE" type="varchar(500)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

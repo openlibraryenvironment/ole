@@ -546,4 +546,12 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return results;
     }
 
+    public List<FeeType> getFeeTypeDocument(Criteria criteria) {
+        QueryByCriteria query = QueryFactory.newQuery(FeeType.class, criteria);
+        List<FeeType> results = (List<FeeType>)getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+
+    }
+
+
 }
