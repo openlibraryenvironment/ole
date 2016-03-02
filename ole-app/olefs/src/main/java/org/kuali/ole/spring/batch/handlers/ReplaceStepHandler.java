@@ -25,7 +25,7 @@ public class ReplaceStepHandler extends StepHandler {
         if (StringUtils.isBlank(constantField)) {
             constantField = "";
         }
-        if (StringUtils.isNotBlank(constantField) && StringUtils.isNotBlank(sourceField)) {
+        if (StringUtils.isNotBlank(sourceField)) {
             if (getMarcRecordUtil().isControlField(sourceField)) {
                 getMarcRecordUtil().updateControlFieldValue(marcRecord, sourceField, constantField);
             } else {
