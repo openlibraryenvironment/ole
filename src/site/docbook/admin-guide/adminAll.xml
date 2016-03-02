@@ -282,7 +282,7 @@
                                         >Choose File</emphasis> depending on your browser) to search
                                     for the file from your local machine.<tip>
                                         <para>All EDI Invoice loads require the file extension to be
-                                            .edi.  If it is not, the workaround is to rename the
+                                            .edi. If it is not, the workaround is to rename the
                                             file.</para>
                                     </tip></para>
                                 <para>
@@ -1274,9 +1274,9 @@
                         <title>Invoice Import for multiple funds</title>
                         <para>To create a profile capable of importing invoices for multifunded
                             purchase orders, do not include the account number in the Data Mapping
-                            or Constant and Default Values tabs of the profile.  This way, the
+                            or Constant and Default Values tabs of the profile. This way, the
                             created invoice document will carry over the accounting string from the
-                            purchase order.  If the accounting data is mapped on the Invoice Import
+                            purchase order. If the accounting data is mapped on the Invoice Import
                             profile, then the correct accounting information will be superseded with
                             erroneous data.</para>
                         <note>
@@ -2510,26 +2510,25 @@
                                 each URL will trigger the creation of a new e-holdings.</para>
                             <itemizedlist>
                                 <listitem>
-                                    <para>Data located within the same field as the URL
-                                        will be mapped specifically with that URL to an e-holdings.
-                                        For example, if you map 856 $u to URL and 856 $y to Link
-                                        Text, each 856 in the bib record will create a new
-                                        e-holdings, with unique values for the URL and Link Text
-                                        field.</para>
+                                    <para>Data located within the same field as the URL will be
+                                        mapped specifically with that URL to an e-holdings. For
+                                        example, if you map 856 $u to URL and 856 $y to Link Text,
+                                        each 856 in the bib record will create a new e-holdings,
+                                        with unique values for the URL and Link Text field.</para>
                                 </listitem>
                                 <listitem>
-                                    <para>Data located outside of the same field as the
-                                        URL will be mapped only once to all created e-holdings. For
-                                        example, if you map the 856 $u to URL and the 050 $a$b to
-                                        Call Number, each 856 in the bib records will create a new
-                                        e-holdings, with unique values for the URL, but the same
-                                        value for the Call Number, coming from the first instance of
-                                        the 050 $a$b</para>
+                                    <para>Data located outside of the same field as the URL will be
+                                        mapped only once to all created e-holdings. For example, if
+                                        you map the 856 $u to URL and the 050 $a$b to Call Number,
+                                        each 856 in the bib records will create a new e-holdings,
+                                        with unique values for the URL, but the same value for the
+                                        Call Number, coming from the first instance of the 050
+                                        $a$b</para>
                                 </listitem>
                                 <listitem>
-                                    <para>Mapping to the E-Resource Name and Platform will
-                                        create links to those different records, respectively. If
-                                        the E-Resource Name and Platform are different for each
+                                    <para>Mapping to the E-Resource Name and Platform will create
+                                        links to those different records, respectively. If the
+                                        E-Resource Name and Platform are different for each
                                         e-holdings created, place that information into the same
                                         source field as the URL (e.g., if the 956 $u is mapped to
                                         URL, you could map the E-Resource Name from the 956 $a and
@@ -8807,7 +8806,7 @@
             <para role="Body Text">Only members of the KR-SYS Technical Administrator or OLE-SYS
                 Manager role can create or edit Parameter documents.</para>
             <note>
-                <para>In 2.0, OLE's project team continues to working on reviewing and documenting
+                <para>OLE's project team continues to working on reviewing and documenting
                     parameters. For this work in progress see the <link
                         xlink:href="https://docs.google.com/spreadsheets/d/1mzL1BvtpG9_CtA_sT6R1TiVszmLvaawuk3zg9Uvl4NU/edit#gid=67356612"
                         >parameters Google Document</link>.</para>
@@ -11286,14 +11285,15 @@
         <section>
             <title>Menu Access to KIM Functions</title>
             <para role="Body Text">In OLE, most KIM documents are available from the <emphasis
-                    role="bold">Admin</emphasis> menu tab in the <emphasis role="bold">Identity</emphasis> menu group, there are also maintenance documents for these
+                    role="bold">Admin</emphasis> menu tab in the <emphasis role="bold"
+                    >Identity</emphasis> menu group, there are also maintenance documents for these
                 items available from the <emphasis role="bold">Maintenance</emphasis> menu.
                 Additionally, the <link linkend="_D2HTopic_116">Routing &amp; Identity Management
                     Document Type Hierarchy</link> is available in the <emphasis role="bold"
                     >Configuration</emphasis> menu group in the <emphasis role="bold"
                     >Workflow</emphasis> submenu group. The Routing &amp; Identity Management
                 Document Type Hierarchy is a special view that combines KIM data with OLE Document
-                Type Hierarchy.  This tool is helpful to see what permissions and responsibilities
+                Type Hierarchy. This tool is helpful to see what permissions and responsibilities
                 are assigned to a particular document and can also find the routing sequence of the
                 document.</para>
         </section>
@@ -11310,11 +11310,11 @@
                 important for schools that will ultimately be implementing two or more Kuali
                 systems. KIM is a part of Kuali RICE, underpinning software that all Kuali
                 applications use. </para>
-            <para>Kuali applications will communicate with KIM to determine what
-                permissions a user has. KIM will also define workflow responsibilities. </para>
-            <para>In OLE, you do not assign permissions directly to staff. Instead,
-                permissions and responsibilities are assigned to roles. People, or groups of people,
-                are attached to the role.</para>
+            <para>Kuali applications will communicate with KIM to determine what permissions a user
+                has. KIM will also define workflow responsibilities. </para>
+            <para>In OLE, you do not assign permissions directly to staff. Instead, permissions and
+                responsibilities are assigned to roles. People, or groups of people, are attached to
+                the role.</para>
             <para> Your institution may choose to assign permissions and responsibilities
                 differently or even create its own roles to fit business processes. It is important
                 to note that because OLE is built upon KFS and Rice, we have inherited roles from
@@ -11337,11 +11337,11 @@
                     number on an enroute financial document. Permissions are associated with a
                     Role.</para>
                 <para><emphasis role="bold">Responsibilities</emphasis>: These are workflow-related
-                    actions OLE needs roles to perform.  These can be approvals, acknowledgements,
-                    or FYI reviews.  When a Fiscal Officer approves a financial processing document
-                    or a Chart Manager approves a Chart of Accounts maintenance document, the user
-                    is acting on a request that has been generated by a responsibility specified in
-                    KIM.  A role can have any number of responsibilities (including none) associated
+                    actions OLE needs roles to perform. These can be approvals, acknowledgements, or
+                    FYI reviews. When a Fiscal Officer approves a financial processing document or a
+                    Chart Manager approves a Chart of Accounts maintenance document, the user is
+                    acting on a request that has been generated by a responsibility specified in
+                    KIM. A role can have any number of responsibilities (including none) associated
                     with it.</para>
                 <para><emphasis role="bold">Person</emphasis>: The identified individual who needs
                     to be authorized to take some action. A Person in KIM can be assigned one or
@@ -11365,7 +11365,7 @@
                     identified on an Account. You do not need to assign users to derived roles. </para>
                 <para><emphasis role="bold">Group</emphasis>: Groups provide another important tool
                     in KIM; they are simply a way to associate multiple persons with a role. Groups
-                    don’t have any special inherent permission.  Groups are an optional feature that
+                    don’t have any special inherent permission. Groups are an optional feature that
                     allows you to associate persons, roles or other groups with each other for the
                     purpose of making role assignments. For example, if you want to assign the same
                     role to three users, you could create a group, assign the three users to it, and
@@ -11389,8 +11389,8 @@
                     and responsibilities as they relate to specific OLE documents.</para>
                 <section>
                     <title>Users in OLE</title>
-                    <para>Users of OLE, library staff, are identified on the KIM Person document. The
-                        Person document is found on the Admin tab. This document identifies the
+                    <para>Users of OLE, library staff, are identified on the KIM Person document.
+                        The Person document is found on the Admin tab. This document identifies the
                         person by a Principal ID and assigns that person to any number of
                         roles.</para>
                     <para>The initial ingestion of multiple users is covered within the <link
@@ -11649,7 +11649,7 @@
                                         <imageobject>
                                             <imagedata fileref="../images/Lookup.png"/>
                                         </imageobject>
-                                    </inlinemediaobject>).  Click <emphasis role="bold"
+                                    </inlinemediaobject>). Click <emphasis role="bold"
                                         >Submit</emphasis> to route for approval.</para>
                                 <para role="Illustration">
                                     <screenshot>
@@ -11956,7 +11956,7 @@
                                 </listitem>
                                 <listitem>
                                     <para>KIM (Admin Menu > Identity Admin > Role</para>
-                                    <para>Search for role "OLE28".  Click on <emphasis role="bold"
+                                    <para>Search for role "OLE28". Click on <emphasis role="bold"
                                             >Accounting Reviewer</emphasis> to open the Role
                                         Document Inquiry screen.</para>
                                     <para role="Illustration">
@@ -12007,7 +12007,7 @@
             <title> Permissions, Responsibilities, and Roles Planning</title>
             <para>As you prepare for installation at your own institution, these are the steps you
                 can take to determine how to organize and assign permissions and responsibilities to
-                roles.  In this example, we will look at the Deliver module.</para>
+                roles. In this example, we will look at the Deliver module.</para>
             <orderedlist>
                 <listitem>
                     <para>Identify the e-Documents, parents and grandparents (Hierarchical
@@ -12046,7 +12046,7 @@
                     </itemizedlist>
                     <para>* Note: while Loan, Request Re-order, and Return are not typical
                         e-documents but rather interfaces, they do still require roles and
-                        permissions and so are listed here.  Deliver Notices is also on the Deliver
+                        permissions and so are listed here. Deliver Notices is also on the Deliver
                         tab, however it does not have permissions associated with it. </para>
                     <para><emphasis role="bold">Parent for Deliver</emphasis></para>
                     <para>The only Parent for Deliver Documents is "Rice Document"</para>
@@ -12334,7 +12334,7 @@
                         differ from Permissions in that they are defining the workflow actions
                         required by a role as opposed to authorizing something in the application
                         itself. Responsibilities also contain details to explain where and when the
-                        responsibility should be made.  See <link linkend="_responsibility"
+                        responsibility should be made. See <link linkend="_responsibility"
                             >Responsibility</link> to learn how to create new and modify existing
                         responsibilities.</para>
                 </listitem>
@@ -12352,10 +12352,7 @@
                             <para>Nest roles so that roles with additional permissions inherit
                                 permissions from more restrictive roles.</para>
                             <note>
-                                <para>Currently, OLE follows option 1, although cleanup of roles and
-                                    permissions is scheduled for a future release (see <link
-                                        xlink:href="https://jira.kuali.org/browse/OLE-7246"
-                                        >OLE-7246</link>). </para>
+                                <para>Currently, OLE follows option 1. </para>
                             </note>
                         </listitem>
                     </orderedlist>
@@ -13036,8 +13033,8 @@
                                                   <para>Patron has a general block</para>
                                                   </listitem>
                                                   <listitem>
-                                                  <para>Patron has max # of checked out  times
-                                                  marked 'claimed returned'</para>
+                                                  <para>Patron has max # of checked out times marked
+                                                  'claimed returned'</para>
                                                   </listitem>
                                                   <listitem>
                                                   <para>Patron has max amount of overdue
@@ -13198,12 +13195,12 @@
                                         </itemizedlist></para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para>  Because the role Super Circulation Supervisor is
-                                        assigned to the Circulation Supervisor role above and
-                                        Circulation Supervisor is assigned to Circulation Desk
-                                        Attendant II and Circulation Desk Attendant II is assigned
-                                        to Circulation Desk Attendant I, only the permissions unique
-                                        to Circulation Supervisor need to be listed. </para>
+                                    <para> Because the role Super Circulation Supervisor is assigned
+                                        to the Circulation Supervisor role above and Circulation
+                                        Supervisor is assigned to Circulation Desk Attendant II and
+                                        Circulation Desk Attendant II is assigned to Circulation
+                                        Desk Attendant I, only the permissions unique to Circulation
+                                        Supervisor need to be listed. </para>
                                     <para role="Table Cells">Permissions assigned:<itemizedlist>
                                             <listitem>
                                                 <para>Create/update circulation desk</para>
@@ -15391,14 +15388,13 @@
             <section>
                 <title>Process Overview</title>
                 <para>To give an example of assigning people to different roles, let's look at the
-                    Purchasing Processor role.   Adding assignees to this role and all other
+                    Purchasing Processor role. Adding assignees to this role and all other
                     non-derived roles is done the same way in KIM. Different roles will have
                     different qualifiers depending on what should route to this role. This
                     information is usually determined based on information contained in the
                     document. For example, a user’s campus code. </para>
                 <para>In this example, Derick Cobb has been hired by the Library to handle purchases
-                    for the Kokomo campus.  He needs to be assigned to the Purchasing Processor
-                    role. </para>
+                    for the Kokomo campus. He needs to be assigned to the Purchasing Processor role. </para>
                 <para> There are two ways to add assignees to a role - you can use the <link
                         linkend="_role">Role</link> Document and add the person and their qualifiers
                     or you can use the Person Document and add the Role and Qualifiers to the Person
@@ -15412,7 +15408,7 @@
                                 Lookup.</para>
                         </listitem>
                         <listitem>
-                            <para>Search for "ole-dcobb" (Principal Name).  Click <emphasis
+                            <para>Search for "ole-dcobb" (Principal Name). Click <emphasis
                                     role="bold">edit</emphasis> to open the Person Document.</para>
                             <para role="Illustration">
                                 <screenshot>
@@ -15456,7 +15452,7 @@
                         </listitem>
                         <listitem>
                             <para>Once you click <emphasis role="bold">add</emphasis> the role will
-                                appear at the bottom of the list of roles.  Add the qualifier
+                                appear at the bottom of the list of roles. Add the qualifier
                                     <emphasis role="bold">Campus Code</emphasis> to the role and
                                 click <emphasis role="bold">add</emphasis>.</para>
                             <para role="Illustration">
@@ -15484,7 +15480,7 @@
                                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
                                         />
                                     </imageobject>
-                                </inlinemediaobject>.  This document does not route.</para>
+                                </inlinemediaobject>. This document does not route.</para>
                             <note>
                                 <para>In OLE 2.0 after clicking <emphasis role="bold"
                                         >Submit</emphasis> and receiving the system response
@@ -17078,7 +17074,7 @@
             <section>
                 <title><anchor xml:id="_roleAssignment"/>Process Overview</title>
                 <para>To give an example of assigning people to different roles, let's look at the
-                    Purchasing Processor role.   Adding assignees to this role and all other
+                    Purchasing Processor role. Adding assignees to this role and all other
                     non-derived roles is done the same way in KIM. Different roles will have
                     different qualifiers depending on what should route to this role. This
                     information is usually determined based on information contained in the
@@ -17099,7 +17095,7 @@
                                 Lookup.</para>
                         </listitem>
                         <listitem>
-                            <para>Search for "Purchasing Processor" (Role Name).  Click <emphasis
+                            <para>Search for "Purchasing Processor" (Role Name). Click <emphasis
                                     role="bold">edit</emphasis> to open the Role Document.</para>
                             <para role="Illustration">
                                 <screenshot>
@@ -17153,7 +17149,7 @@
                                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
                                         />
                                     </imageobject>
-                                </inlinemediaobject>.  This document does not route.</para>
+                                </inlinemediaobject>. This document does not route.</para>
                         </listitem>
                     </orderedlist>
                 </section>
@@ -19167,7 +19163,7 @@
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
         <para role="Body Text">The Drools submenu group provides access to the Circulation Policy
-            Ingester, additional links may be available in the 2.0 release. </para>
+            Ingester. </para>
         <note>
             <para role="Normal">Please click <link
                     xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf">here</link>
@@ -19201,7 +19197,7 @@
                 created with Drools.</para>
             <note>
                 <para> The process of creating a Circulation Policies requires technical assistance.
-                    OLE does not provide an interface for creating policies in 1.6.2.</para>
+                    OLE does not provide an interface for creating policies in this release.</para>
             </note>
             <para role="Illustration">
                 <screenshot>

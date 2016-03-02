@@ -285,9 +285,9 @@
                                 verified” will appear.</para>
                         </note>
                         <tip>
-                            <para role="Normal"> Clicking on the <emphasis role="bold"
-                                    >Return</emphasis> button will take you to the return screen,
-                                allowing you to check-in materials.</para>
+                            <para role="Normal"> Clicking <emphasis role="bold">Go to
+                                    Return</emphasis> will take you to the return screen, allowing
+                                you to check-in materials.</para>
                         </tip>
                         <para role="Normal">
                             <screenshot>
@@ -313,7 +313,7 @@
                         <para role="Normal">If there is a block on the patron or some other problem,
                             then an error message will appear. You may need to access the patron
                             record to address the error or, in some cases an override is permitted
-                            for you to continue.  </para>
+                            for you to continue. </para>
                         <para role="Normal">Click the Patron name to access the patron's
                             record.</para>
                         <note>
@@ -367,12 +367,8 @@
                                 role="bold">Enter</emphasis>. Each new item checked-out will appear
                             at the top of the <emphasis role="bold">Items Checked Out This
                                 Session</emphasis> list.</para>
-                        <para>To view all items a patron has checked out, click the <inlinemediaobject>
-                                <alt>Checked Out Items</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
-                                </imageobject>
-                            </inlinemediaobject> button.</para>
+                        <para>To view all items a patron has checked out, click<emphasis role="bold"
+                                >View Current Loans</emphasis>.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -414,56 +410,9 @@
                 </tip>
             </section>
             <section>
-                <title><anchor xml:id="_FastAdds"/>Fast Adds</title>
-                <para role="Normal">If an item does not have a barcode or cannot be found by a
-                    search, click <emphasis role="bold">Fast-Add item</emphasis> to create a brief
-                    record. This will open a simple record editor on top of the <emphasis
-                        role="bold">Loan</emphasis> window:</para>
-                <para role="Normal"/>
-                <para role="Normal">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Loan screen: Fast-Add Item pop-up</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-22.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
-                <para role="Normal"/>
-                <orderedlist numeration="arabic" spacing="normal">
-                    <listitem>
-                        <para role="List Paragraph">You must enter all fields that have asterisks
-                            (*) before their labels, these are required. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Click <inlinemediaobject>
-                                <alt>Submit</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
-                                </imageobject>
-                            </inlinemediaobject>.</para>
-                        <para role="Normal">OLE will provide you with an error message if you forget
-                            to enter a value for required field. If the system accepts the data, the
-                            window closes and supplies the item barcode in the Item field of the
-                            Loan screen. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis> on
-                            your keyboard.</para>
-                    </listitem>
-                </orderedlist>
-                <para role="Normal">The Loan now proceeds. </para>
-                <note>
-                    <para>When submitting a fast-add, the loan may be completed automatically if the
-                        LOAN_WHILE_FASTADD parameter is set to true.</para>
-                </note>
-            </section>
-            <section>
                 <title>Options available from the Loan Screen</title>
-                <para>You will notice that there are a row of buttons available at the top of the
-                    Loan Screen. These are explained below</para>
+                <para>You will notice that there are a row of buttons available at the top and
+                    bottom of the Loan Screen. These are explained below</para>
                 <para role="Normal"/>
                 <para role="Normal">
                     <screenshot>
@@ -479,15 +428,13 @@
                 </para>
                 <para/>
                 <section>
-                    <title>Close and Clear Patron</title>
-                    <para>If you change circulation desks for a loan and then want to switch back to
-                        your default location, click <inlinemediaobject>
-                            <alt>Close</alt>
+                    <title>Cancel and Clear Patron</title>
+                    <para>Click <inlinemediaobject>
+                            <alt>Cancel</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-39.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-96.png"/>
                             </imageobject>
-                        </inlinemediaobject>. You will not exit the Loan screen but default settings
-                        will be restored.</para>
+                        </inlinemediaobject> to return to the previous menu screen.</para>
                     <para>If you need to clear a patron to loan items to a new patron, click <inlinemediaobject>
                             <alt>Clear Patron</alt>
                             <imageobject>
@@ -497,14 +444,14 @@
                 </section>
                 <section>
                     <title><anchor xml:id="_Renew"/>Renew and Modify Due Dates/Times</title>
-                    <para role="Normal">From the top of the loan screen, you can renew items or
-                        modify due dates/times.</para>
+                    <para role="Normal">From the top or bottom of the loan screen, you can renew
+                        items or modify due dates/times.</para>
                     <para role="Normal"/>
                     <para role="Normal">
                         <screenshot>
                             <mediaobject>
-                                <alt>Loan screen: Click Alter Due Date, third button from the
-                                    left.</alt>
+                                <alt>Loan screen: Renew and Alter Due Dates are first two buttons
+                                    after a patron is displayed</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-23.png"
                                         width="100%"/>
@@ -516,9 +463,10 @@
                     <orderedlist>
                         <listitem>
                             <para role="List Paragraph"><emphasis role="bold">To renew</emphasis>,
-                                select line items from the Current Session Item list or the Items
-                                Currently Checked Out list. You can also click the Select All button
-                                for either or both lists. </para>
+                                select line items from the <emphasis role="bold">Current Session
+                                    Item</emphasis> list or the <emphasis role="bold">All Items
+                                    Currently Checked Out</emphasis> list. You can also click the
+                                "Select All" button for either or both lists. </para>
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
@@ -532,8 +480,8 @@
                     </orderedlist>
                     <tip>
                         <para role="Normal">Alternatively, enter the item barcode in the item field
-                            as though loaning the item and press Enter. The item will be renewed for
-                            the patron.</para>
+                            as though loaning the item and press <emphasis role="bold"
+                                >Enter</emphasis>. The item will be renewed for the patron.</para>
                     </tip>
                     <orderedlist>
                         <listitem>
@@ -577,9 +525,9 @@
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
-                                    <alt>Update</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-28.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                         </listitem>
@@ -606,7 +554,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-29.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type any notes to record specific
@@ -618,7 +567,7 @@
                                         <alt>Loan screen: Claim Return Note Pop-up</alt>
                                         <imageobject>
                                             <imagedata fileref="../images/DeliverNoTitlePage-30.png"
-                                                width="100%"/>
+                                            />
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -626,9 +575,9 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                             <para role="Normal">The claims return note and date will appear in the
@@ -653,7 +602,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-43.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type how many pieces are missing from the
@@ -666,7 +616,7 @@
                                         <alt>Loan screen: Missing Piece Pop-up</alt>
                                         <imageobject>
                                             <imagedata fileref="../images/DeliverNoTitlePage-47.png"
-                                                width="100%"/>
+                                            />
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -674,11 +624,11 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
-                                </inlinemediaobject>.</para>
+                                </inlinemediaobject> (you may need to scroll down).</para>
                             <para role="Normal">The missing piece count, note, and date will appear
                                 in the item record and when the item is requested to circulate
                                 again.</para>
@@ -702,7 +652,8 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-50.png"/>
                                     </imageobject>
-                                </inlinemediaobject> from the top row of buttons available.</para>
+                                </inlinemediaobject> from the top or bottom row of buttons
+                                available.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Type a notes to record specific
@@ -714,7 +665,7 @@
                                         <alt>Loan screen: Damaged Note Pop-up</alt>
                                         <imageobject>
                                             <imagedata fileref="../images/DeliverNoTitlePage-51.png"
-                                                width="100%"/>
+                                            />
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -722,21 +673,13 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Save</alt>
+                                    <alt>Submit</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                     </imageobject>
                                 </inlinemediaobject>.</para>
                             <para role="Normal">The note and date will appear in the item record and
                                 when the item is requested to circulate again.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Click <inlinemediaobject>
-                                    <alt>Remove Damaged Flag</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-54.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> to remove the damage flag.</para>
                         </listitem>
                     </orderedlist>
                 </section>
@@ -787,7 +730,7 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_Request"/>Request Search</title>
+            <title><anchor xml:id="_create_New_Request"/>Create New Request</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Deliver</alt>
                     <imageobject>
@@ -799,14 +742,14 @@
                         <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
                     </imageobject>
                 </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
-                        <alt>Request Search</alt>
+                        <alt>Create New Request</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-59.png"/>
+                            <imagedata fileref="../images/DeliverNoTitlePage-54.png"/>
                         </imageobject>
                     </inlinemediaobject>&gt; <inlinemediaobject>
-                        <alt>Request Lookup</alt>
+                        <alt>Request</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-60.png"/>
+                            <imagedata fileref="../images/DeliverNoTitlePage-84.png"/>
                         </imageobject>
                     </inlinemediaobject>
                 </emphasis></para>
@@ -871,37 +814,15 @@
                 appropriately. </para>
             <section>
                 <title role="Heading 4circ">Process Overview</title>
-                <para role="Normal">To request new items, staff will find <emphasis role="bold"
-                        >Create New</emphasis> to the very right in the <emphasis role="bold"
-                        >Request</emphasis> Lookup.</para>
                 <orderedlist numeration="arabic" spacing="normal">
-                    <listitem>
-                        <para role="List Paragraph">Click <emphasis role="bold">Create
-                                New</emphasis> in the upper right side of the interface.</para>
-                        <para role="Normal"/>
-                        <para role="Normal">
-                            <screenshot>
-                                <mediaobject>
-                                    <alt>From the Request Lookup, click Create New in the top right
-                                        corner</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-61.png"
-                                            width="100%"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </screenshot>
-                        </para>
-                        <para role="Normal"/>
-                        <para role="Normal">The <emphasis role="bold">Request</emphasis> window will
-                            appear. </para>
-                    </listitem>
                     <listitem>
                         <para role="List Paragraph">Select the <emphasis role="bold">User
                                 Type</emphasis> from the drop down menu.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Select the <emphasis role="bold">Request
-                                Type</emphasis> from the drop down.</para>
+                                Type</emphasis> from the drop down.  Once the Request Type is
+                            chosen, additional fields will display.  See below.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Enter the <emphasis role="bold">Patron
@@ -930,7 +851,9 @@
                                 <imageobject>
                                     <imagedata fileref="../images/Lookup2.png"/>
                                 </imageobject>
-                            </inlinemediaobject>.</para>
+                            </inlinemediaobject>. Alternatively, you may enter the Item Id. After
+                            entering one of these number, the system will fill in the rest of the
+                            item information.</para>
                         <para role="Normal">Different Request Types call for different information.
                             Once selected, the interface will change slightly depending on what you
                             select. </para>
@@ -994,7 +917,7 @@
                                                   <imagedata fileref="../images/Lookup2.png"/>
                                                   </imageobject>
                                                 </inlinemediaobject> and OLE will automatically fill
-                                                all Patron infotmation.</para>
+                                                all Patron information.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1011,8 +934,8 @@
                                             <para role="Table Cells">Item Barcode</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Required. The barcode of the
-                                                item. Search from the lookup <inlinemediaobject>
+                                            <para role="Table Cells">The barcode of the item. Search
+                                                from the lookup <inlinemediaobject>
                                                   <imageobject>
                                                   <imagedata fileref="../images/Lookup2.png"/>
                                                   </imageobject>
@@ -1028,6 +951,18 @@
                                             <para role="Table Cells">The title of the requested
                                                 item. This will be filled automatically when you
                                                 lookup the item barcode.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Item Id</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The unique Id for the item. The
+                                                Item Id can be used as an alternative to the item
+                                                barcode when placing the request. This allows
+                                                requests to be placed on items that have not yet had
+                                                barcodes assigned to them, for example.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1068,6 +1003,16 @@
                                             <para role="Table Cells">The copy number of the
                                                 requested item. This will be filled automatically
                                                 when you lookup the item barcode.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Request Level</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The type of request being
+                                                placed - item or title level. OLE will auto-generate
+                                                this field upon submission of the request.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1241,11 +1186,152 @@
                         <para role="List Paragraph">Click <inlinemediaobject>
                                 <alt>Submit</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-69.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                     </listitem>
                 </orderedlist>
+            </section>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para role="Normal">When a request for a patron is completed (i.e., the item
+                            is checked out to the patron), the request information is removed from
+                            active requests and archived. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Body Text">Not all requests are allowed for any item at any
+                            time. E.g., you cannot place a page request for an item currently
+                            loaned. In that situation, the operator would place a recall or hold
+                            request depending on the requester’s preference.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_Request"/>Request Search</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Request Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-59.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Request Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-60.png"/>
+                        </imageobject>
+                    </inlinemediaobject>
+                </emphasis></para>
+            <para>The Request Search allows you to search for requests that exist within OLE.  You
+                may also create new requests by clicking <inlinemediaobject>
+                    <alt>Create New</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-239.png"/>
+                    </imageobject>
+                </inlinemediaobject>.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>From the Request Lookup, click Create New at the top or bottom of the
+                            search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-61.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <note>
+                <para>For information about creating requests, see <link
+                        linkend="_create_New_Request">Create New Request</link></para>
+            </note>
+            <section>
+                <title>Lookup Help</title>
+                <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Most fields will be uppercased for search.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Dates should be specified as MM/dd/yyyy.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Some fields have magnifying glass button for a sub lookup on that
+                            field.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Wildcards allowed on strings are * and % match any number of
+                            characters, while using a ? will match any one character</para>
+                    </listitem>
+                    <listitem>
+                        <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or)
+                            to join multiple search criteria</para>
+                    </listitem>
+                    <listitem>
+                        <para>Range operators allowed on numerics and dates are
+                            &gt;,&lt;,&gt;=,&lt;=, or ..</para>
+                        <para> All operators except .. should be before date value. Operator ..
+                            should separate date values.</para>
+                    </listitem>
+                </itemizedlist>
+                <para><emphasis role="bold">Result Table:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Each result field has link on header for sorting. Click once to sort
+                            ascending, </para>
+                        <para> and click again to sort descending.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Some row fields have links to inquiry. The inquiry will be presented
+                            in a new window. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the return value link to select a row and return the key value
+                            to the previous page.</para>
+                        <para> Select 'return with no value' or click the cancel button if you wish
+                            to return without returning a value.</para>
+                    </listitem>
+                </itemizedlist>
+                <para><emphasis role="bold">Maintenance Links:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>The 'create new' link on the upper left corner of the lookup screen
+                            will </para>
+                        <para> go to a maintenance document for creating a new record for this
+                            lookup type.</para>
+                    </listitem>
+                    <listitem>
+                        <para>For each result row the action column displays edit and copy links.
+                            The 'edit' link </para>
+                        <para> will go to a maintenance document for editing the current record. The
+                            'copy' link </para>
+                        <para> will go to a new maintenance document but copy over attributes over
+                            the current record.</para>
+                    </listitem>
+                </itemizedlist>
+                <para><emphasis role="bold">Export Functionality:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>At the end of each result set, there are links for exporting the data
+                            to a different format.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click 'csv' to export the data as a comma delimited file,
+                            'spreadsheet' to export the data as a spreadsheet,</para>
+                        <para> or 'xml' to export the data as xml.</para>
+                    </listitem>
+                </itemizedlist>
             </section>
             <section>
                 <title><anchor xml:id="_ModifyingOrCancelingRequests"/>Modifying or Canceling
@@ -1258,7 +1344,7 @@
                                 >Request Lookup</emphasis> screen and click <inlinemediaobject>
                                 <alt>Search</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-70.png"/>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-164.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                         <note>
@@ -1292,7 +1378,7 @@
                         <para role="Normal (Web)">When you have made your changes, click <inlinemediaobject>
                                 <alt>Submit</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/admin-303.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
                         <para role="Normal (Web)"/>
@@ -1354,10 +1440,6 @@
                         <para role="Normal">When a request for a patron is completed (i.e., the item
                             is checked out to the patron), the request information is removed from
                             active requests and archived. </para>
-                    </listitem>
-                    <listitem>
-                        <para role="Normal">Requests can only be placed at the item level.
-                            Title-level requests will be a future OLE enhancement. </para>
                     </listitem>
                     <listitem>
                         <para role="Body Text">Not all requests are allowed for any item at any
@@ -1566,8 +1648,8 @@
                         </imageobject>
                     </inlinemediaobject> to return the date/time to the default.</para>
                 <tip>
-                    <para role="Normal"> Clicking on the green <emphasis role="bold">Loan</emphasis>
-                        button will take you to the Loan menu, allowing you to check-out
+                    <para role="Normal"> Clicking on the <emphasis role="bold">Go to Loan</emphasis>
+                        hyperlink will take you to the Loan menu, allowing you to check-out
                         materials.</para>
                 </tip>
                 <para role="Normal">To check-in items, staff will find the <emphasis role="bold"
@@ -1798,24 +1880,12 @@
                                             Workbench session for that author.</para>
                                     </listitem>
                                     <listitem>
-                                        <para>Click the Additional Copies tab to access the holdings
-                                            and item records. Clicking on the <emphasis role="bold"
-                                                >Details</emphasis> link will open the Item record
-                                            offering the Place Request option.</para>
-                                        <screenshot>
-                                            <mediaobject>
-                                                <alt>Deliver Item Search with single record:
-                                                  Additional Copies tab</alt>
-                                                <imageobject>
-                                                  <imagedata
-                                                  fileref="../images/DeliverNoTitlePage-137.png"
-                                                  width="100%"/>
-                                                </imageobject>
-                                            </mediaobject>
-                                        </screenshot>
+                                        <para>Click the <emphasis role="bold">ID Numbers</emphasis>
+                                            tab to access the holdings and item records. </para>
                                     </listitem>
                                     <listitem>
-                                        <para> Click <inlinemediaobject>
+                                        <para> From the <emphasis role="bold">Request</emphasis>
+                                            tab, click <inlinemediaobject>
                                                 <alt>Place Request</alt>
                                                 <imageobject>
                                                   <imagedata
@@ -1916,8 +1986,13 @@
                                     Item Location (if different from Holdings Location), Item Type,
                                     Item Barcode (if any), Enum/Chron (if any), Volume (if any), a
                                     link to Place Request (see separate section on this topic), and
-                                    a link to view item requests (if any) or the <emphasis
-                                        role="bold">Place Request</emphasis> button.</para>
+                                    a link to view item requests (if any) or the <inlinemediaobject>
+                                        <alt>Place Request</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DeliverNoTitlePage-138.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject> button.</para>
                                 <screenshot>
                                     <mediaobject>
                                         <alt>Deliver Item Search with multiple results: Clicking
@@ -1960,8 +2035,9 @@
                         </orderedlist>
                     </listitem>
                     <listitem>
-                        <para>Click on the <emphasis role="bold">Item ID</emphasis> in the third
-                            level to open the Item record. This record is described below.</para>
+                        <para>Click on the <emphasis role="bold">Item Barcode</emphasis> in the
+                            third level to open the Item record. This record is described
+                            below.</para>
                     </listitem>
                 </itemizedlist>
                 <section>
@@ -2022,10 +2098,8 @@
                             the Proxy Patron Name and the Proxy Patron Barcode. If item has been
                             renewed, the Borrower tab will contain the Original Charge Date and
                             Original Due Date and Renewal History.</para>
-                        <para>It the item is not checked out to a patron, the Borrower tab will be
-                            empty; if the item was not circulated by proxy, the proxy section will
-                            not appear; if item has not been renewed, the renewal history table will
-                            not appear.</para>
+                        <para>It the item is not checked out to a patron, the Borrower tab will not
+                            expand.</para>
                         <screenshot>
                             <mediaobject>
                                 <alt>Item Record: Borrower Tab</alt>
@@ -2078,17 +2152,16 @@
                         </para>
                     </section>
                     <section>
-                        <title>Item Flags tabs</title>
-                        <para>The Item Flags shows the Item Flag details already included in the
-                            item record in the Item and Holdings records, including notes. Item Flag
-                            types are Claims Returned, Damaged, and Missing Pieces. </para>
+                        <title>Claims Returned, Damaged, and Missing Piece Item tabs</title>
+                        <para>The Claims Returned, Damaged, and Missing Piece Item tabs show details
+                            already included in the item record. These check boxes, or flags, are
+                            display only. To mark an item as Claimed Returned, Damaged, or Missing
+                            Pieces, operators must do so from the loan screen. </para>
                         <para>
                             <note>
-                                <para>These flags are display only. To mark an item as Claimed
-                                    Returned, Damaged, or Missing Pieces, operators must do so from
-                                    the loan screen. See <link linkend="_claimsReturn">Claims
-                                        Return</link>, <link linkend="_damaged">Damaged</link>, or
-                                        <link linkend="_missingPiece">Missing Piece</link> sections
+                                <para>See <link linkend="_claimsReturn">Claims Return</link>, <link
+                                        linkend="_damaged">Damaged</link>, or <link
+                                        linkend="_missingPiece">Missing Piece</link> sections
                                     available under <link linkend="_Loan">Loan</link> in this
                                     chapter.</para>
                             </note>
@@ -2096,7 +2169,8 @@
                         <para>
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Item Record: Item Flags Tabs</alt>
+                                    <alt>Item Record: Claims Returned, Damaged, and Missing Piece
+                                        Item tabs</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-152.png"
                                             width="100%"/>
@@ -2397,7 +2471,7 @@
                                 <para> Request Level </para>
                                 <note>
                                     <para>Title Level requests are still in development for a future
-                                        release.  See <link
+                                        release. See <link
                                             xlink:href="https://jira.kuali.org/browse/OLE-7804"
                                             >OLE-7804</link>.</para>
                                 </note>
@@ -2410,9 +2484,9 @@
                                     if item is available on-shelf) </para>
                                 <note>
                                     <para>“Copy” and “Page” functionality is still in development
-                                        for a future release.  See <link
-                                            xlink:href="https://jira.kuali.org/browse/OLE-7458"
-                                            >OLE-7458</link>.</para>
+                                        for a future release. See <link
+                                            xlink:href="https://jira.kuali.org/browse/OLE-4160"
+                                            >OLE-4160</link>.</para>
                                 </note>
                             </listitem>
                             <listitem>
@@ -2485,6 +2559,74 @@
                             Requests</link>.</para>
                 </note>
             </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_FastAdds"/>Fast Adds</title>
+            <para role="Normal"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Item Fast Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-231.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Fast-Add Item</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-232.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para>The Fast-Add Item screen can be accessed from two different locations: from the
+                Loan screen and from the Deliver menu.</para>
+            <para role="Normal">If an item does not have a barcode or cannot be found by a search,
+                click <emphasis role="bold">Fast-Add item</emphasis> to create a brief record. </para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Loan screen: Fast-Add Item pop-up</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-22.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">You must enter all fields that have asterisks (*)
+                        before their labels, these are required. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="Normal">OLE will provide you with an error message if you forget to
+                        enter a value for required field. If the system accepts the data, the window
+                        closes and supplies the item barcode in the Item field of the Loan screen.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis> on your
+                        keyboard.</para>
+                </listitem>
+            </orderedlist>
+            <para role="Normal">If the Fast-Add was created from the Loan screen, the loan now
+                proceeds. </para>
+            <note>
+                <para>When submitting a fast-add, the loan may be completed automatically if the
+                    LOAN_WHILE_FASTADD parameter is set to true.</para>
+            </note>
         </section>
     </section>
     <section>
@@ -3287,6 +3429,20 @@
                             </mediaobject>
                         </screenshot>
                     </para>
+                    <section>
+                        <title>Viewing and Modifying Sent Notices</title>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Patron Document: Loaned Record table</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-124.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
                 </section>
                 <section>
                     <title>Proxy Patron and Proxy For Tabs</title>
@@ -3622,167 +3778,6 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_DeliverNotices"/>Deliver Notices</title>
-            <para role="Body Text"><inlinemediaobject>
-                    <alt>Deliver</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                <emphasis role="bold">&gt; <inlinemediaobject>
-                        <alt>Patron</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
-                        <alt>Deliver Notices</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-209.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>Deliver Notices</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-210.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para role="Normal">The Deliver Notices allow users to download pdf versions of Recall,
-                On hold, or Overdue notices. The notices will include Patron information and
-                Title/Item information. Pdfs may be printed and sent or emailed to patrons. All
-                notices sent to patrons are sent from an email address that is listed under
-                DELIVER_NOTICE_FROM_ADDRESS unless specified on the circulation desk.</para>
-            <para role="Body Text">Deliver Notices include:</para>
-            <para>Hold Notices</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Recall Notice - A notice to inform a patron that another user requests an
-                        item currently on loan to the patron and their loan time has been shortened.
-                        Notices are triggered by the creation of the request. The content of the
-                        Recall Notice can be modified by the RECALL_BODY parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>On Hold Notice - A notice to inform a patron that an item they had
-                        requested is available for pickup. Notices are generated by the
-                        generateOnHoldNoticeJob after the item has been checked-in. Notices are
-                        generated only for the request types defined by the
-                        ON_HOLD_NOTICE_REQUEST_TYPE parameter. The content of the On Hold Notice can
-                        be modified by the ONHOLD_BODY parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>On Hold Courtesy Notice - A notice to inform a patron that their hold has
-                        expired. Notices are generated by the generateHoldCourtesyNoticeJob and are
-                        triggered by the <emphasis role="bold">On-Hold Days</emphasis> value
-                        assigned on each circulation desk. The content of the On Hold Courtesy
-                        Notice can be modified by the EXP_HOLD_NOTICE_CONTENT parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>Expired Request Notice - A notice to inform a patron that their request
-                        has expired without being fulfilled. Notices are generated by the
-                        generateRequestExpirationNoticeJob and is triggered by the <emphasis
-                            role="bold">Request Expiration Days</emphasis> field assigned on each
-                        circulation desk but can be overridden when the request is created.
-                        Alternatively if the library chooses NOT to establish a default expiration
-                        for requests on the Circulation Desk maintenance document, it may choose to
-                        set the <emphasis role="bold">requestExpirationDay</emphasis> in the Circ
-                        Policy. The content of the Expired Request Notice can be modified by the
-                        EXP_REQ_BODY parameter.</para>
-                    <note>
-                        <para>For information about Circulation Desks and the Request Expiration
-                            Days, see <link linkend="_Circulation_Desk_1">Circulation
-                            Desk</link>.</para>
-                    </note>
-                </listitem>
-                <listitem>
-                    <para>Cancelled Request Notice - A notice to inform a patron that their request
-                        has been cancelled. (Manually cancelled by staff.) Notices are generated
-                        when the request is cancelled or if a staff member marks the item as claimed
-                        returned. The content of the Cancelled Request Notice can be modified by the
-                        CANCELLATION_BODY parameter.</para>
-                </listitem>
-            </itemizedlist>
-            <para>Return Notices</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Courtesy Notice - A notice to inform a patron that their library material
-                        is about to become due. Notices are generated by the
-                        generateCourtesyNoticesJob. The number of days before the due date that the
-                        Courtesy Notice is sent out is set by local circulation policies, otherwise
-                        the amount of days will be set by the OLE-DLVR COURTESY_NOTICE_INTER
-                        parameter. COURTESY_NOTICE_TO_DATE is used to set the scheduled notice date
-                        before which courtesy notices will be generated. For example, if the
-                        COURTESY_NOTICE_TO_DATE is set to 05/05/2015 (requires mm/dd/yyyy format),
-                        any courtesy notices scheduled for 5/4/2015 or before will be generated. The
-                        content of the Courtesy Notice can be modified by the
-                        COURTESY_NOTICE_CONTENT parameter.</para>
-                    <note>
-                        <para>To configure the jobs for Courtesy Notice, Overdue Notice, and
-                            Replacement Bill, NOTICE_THREAD_POOL_SIZE specifies the number of
-                            parallel threads to be used in generating notices. This is meant to
-                            speed up notice generation.</para>
-                    </note>
-                </listitem>
-                <listitem>
-                    <para>Missing Pieces Notice – A notice to inform a patron that their recently
-                        returned material is missing one or more pieces. Notices are generated upon
-                        the return of the item when the staff person indicates a piece(s) is
-                        missing. Missing Pieces Notices are not sent to patrons but appear during
-                        circulation.</para>
-                </listitem>
-                <listitem>
-                    <para>Overdue Notice - A notice to inform a patron that their library material
-                        is overdue. Notices are generated by the generateOverdueNoticesJob. After
-                        Overdue Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
-                        parameter defined in local circulation policies), the generateLostNoticesJob
-                        will generate a replacement bill and update the item status as ‘Lost’.
-                        OVERDUE_NOTICE_TO_DATE is used to set the scheduled notice date before which
-                        overdue notices will be generated. For example, if the
-                        OVERDUE_NOTICE_TO_DATE is set to 05/05/2015, any overdue notices scheduled
-                        for 5/4/2015 or before will be generated. The content of the Overdue Notice
-                        can be modified by the OVERDUE_NOTICE_CONTENT parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>Fine Notice – A notice to inform a patron of fines accrued by an overdue
-                        item. Notices are generated upon the return of the overdue item. Fine
-                        Notices are sent to the patron when generated, alternatively they can be
-                        viewed and printed from the Patron Bill screen.</para>
-                </listitem>
-                <listitem>
-                    <para>Replacement Bill – A notice to inform a patron that the overdue item is
-                        now considered lost. Notices are generated when the item status is updated
-                        to ‘Lost’ by the generateLostNoticesJob. LOST_NOTICE_TO_DATE is used to set
-                        the scheduled notice date before which replacement bills will be generated.
-                        For example, if the LOST_NOTICE_TO_DATE is set to 05/05/2015, any
-                        replacement bills scheduled for 5/4/2015 or before will be generated.</para>
-                </listitem>
-            </itemizedlist>
-            <note>
-                <para role="Normal">The <link
-                        xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled Jobs
-                        Technical Documentation</link> includes additional details about the Deliver
-                    Notices jobs.</para>
-            </note>
-            <para>On the bottom of some of the notice types, Recalls for one, a link to "My Account"
-                will display. This should be modified to your institution's "My Account" patron
-                service. This link location is set by the parameter MY_ACCOUNT_URL. (OLE-DLVR is the
-                Namespace Code). </para>
-            <para>Deliver Notices can also be accessed from the <emphasis role="bold"
-                    >Admin</emphasis> tab, below the <emphasis role="bold">Batch
-                    Processes</emphasis> sub menu, under the link <emphasis role="bold">Deliver
-                    Batch Job</emphasis>.</para>
-            <para role="Normal"/>
-            <para role="Normal">
-                <screenshot>
-                    <mediaobject>
-                        <alt>Deliver Notices Screen with Sample Data</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-33.png" width="100%"/>
-                        </imageobject>
-                    </mediaobject>
-                </screenshot>
-            </para>
-            <para role="Normal"/>
-            <para/>
-        </section>
-        <section>
             <title><anchor xml:id="_Patron_Bill_Payment"/>Edit Patron Bill </title>
             <para role="Body Text">
                 <inlinemediaobject>
@@ -3850,21 +3845,7 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para>Click the bill number of the bill you wish to view. A popup box will appear
-                    with some information about the bill. Click <emphasis role="bold"
-                        >details</emphasis> to view more information including item and transaction
-                    information and notes.</para>
-                <para role="Body Text">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Patron Inquiry Pop-up from the Patron Bill Inquiry Screen</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-84.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
+                <para>Click edit, copy, or delete to modify the patron bill.</para>
             </section>
             <section>
                 <title>Create a Patron Bill Manually</title>
@@ -4178,7 +4159,7 @@
                             country code is "US" and for the UK, it is "GB", and so on.</para>
                         <note>
                             <para>For a full list of country codes, see the Appendix of the <link
-                                xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
+                                    xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
                                     >Implementation Guide</link>.</para>
                         </note>
                     </listitem>
@@ -4214,6 +4195,200 @@
                         </note>
                     </listitem>
                 </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_DeliverNotices"/>Deliver Notices Search</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-199.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-206.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal">The Deliver Notices allow users to download pdf versions of Recall,
+                On hold, or Overdue notices. The notices will include Patron information and
+                Title/Item information. Pdfs may be printed and sent or emailed to patrons. All
+                notices sent to patrons are sent from an email address that is listed under
+                DELIVER_NOTICE_FROM_ADDRESS unless specified on the circulation desk.</para>
+            <para role="Body Text">Deliver Notices include:</para>
+            <para>Hold Notices</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Recall Notice - A notice to inform a patron that another user requests an
+                        item currently on loan to the patron and their loan time has been shortened.
+                        Notices are triggered by the creation of the request. The content of the
+                        Recall Notice can be modified by the RECALL_BODY parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>On Hold Notice - A notice to inform a patron that an item they had
+                        requested is available for pickup. Notices are generated by the
+                        generateOnHoldNoticeJob after the item has been checked-in. Notices are
+                        generated only for the request types defined by the
+                        ON_HOLD_NOTICE_REQUEST_TYPE parameter. The content of the On Hold Notice can
+                        be modified by the Notice Configuration maintenance document or the
+                        ONHOLD_BODY parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>On Hold Courtesy Notice - A notice to inform a patron that their hold has
+                        expired. Notices are generated by the generateHoldCourtesyNoticeJob and are
+                        triggered by the <emphasis role="bold">On-Hold Days</emphasis> value
+                        assigned on each circulation desk. The content of the On Hold Courtesy
+                        Notice can be modified by the Notice Configuration maintenance document or
+                        the EXP_HOLD_NOTICE_CONTENT parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>Expired Request Notice - A notice to inform a patron that their request
+                        has expired without being fulfilled. Notices are generated by the
+                        generateRequestExpirationNoticeJob and is triggered by the <emphasis
+                            role="bold">Request Expiration Days</emphasis> field assigned on each
+                        circulation desk but can be overridden when the request is created.
+                        Alternatively if the library chooses NOT to establish a default expiration
+                        for requests on the Circulation Desk maintenance document, it may choose to
+                        set the <emphasis role="bold">requestExpirationDay</emphasis> in the Circ
+                        Policy. The content of the Expired Request Notice can be modified by the
+                        Notice Configuration maintenance document or the EXP_REQ_BODY
+                        parameter.</para>
+                    <note>
+                        <para>For information about Circulation Desks and the Request Expiration
+                            Days, see <link linkend="_Circulation_Desk_1">Circulation
+                            Desk</link>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Cancelled Request Notice - A notice to inform a patron that their request
+                        has been cancelled. (Manually cancelled by staff.) Notices are generated
+                        when the request is cancelled or if a staff member marks the item as claimed
+                        returned. The content of the Cancelled Request Notice can be modified by the
+                        Notice Configuration maintenance document or the CANCELLATION_BODY
+                        parameter.</para>
+                </listitem>
+            </itemizedlist>
+            <para>Return Notices</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Courtesy Notice - A notice to inform a patron that their library material
+                        is about to become due. Notices are generated by the
+                        generateCourtesyNoticesJob. The number of days before the due date that the
+                        Courtesy Notice is sent out is set by local circulation policies, otherwise
+                        the amount of days will be set by the OLE-DLVR COURTESY_NOTICE_INTER
+                        parameter. COURTESY_NOTICE_TO_DATE is used to set the scheduled notice date
+                        before which courtesy notices will be generated. For example, if the
+                        COURTESY_NOTICE_TO_DATE is set to 05/05/2015 (requires mm/dd/yyyy format),
+                        any courtesy notices scheduled for 5/4/2015 or before will be generated. The
+                        content of the Courtesy Notice can be modified by the Notice Configuration
+                        maintenance document or the COURTESY_NOTICE_CONTENT parameter.</para>
+                    <note>
+                        <para>To configure the jobs for Courtesy Notice, Overdue Notice, and
+                            Replacement Bill, NOTICE_THREAD_POOL_SIZE specifies the number of
+                            parallel threads to be used in generating notices. This is meant to
+                            speed up notice generation.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Missing Pieces Notice – A notice to inform a patron that their recently
+                        returned material is missing one or more pieces. Notices are generated upon
+                        the return of the item when the staff person indicates a piece(s) is
+                        missing. Missing Pieces Notices are not sent to patrons but appear during
+                        circulation.</para>
+                </listitem>
+                <listitem>
+                    <para>Overdue Notice - A notice to inform a patron that their library material
+                        is overdue. Notices are generated by the generateOverdueNoticesJob. After
+                        Overdue Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
+                        parameter defined in local circulation policies), the generateLostNoticesJob
+                        will generate a replacement bill and update the item status as ‘Lost’.
+                        OVERDUE_NOTICE_TO_DATE is used to set the scheduled notice date before which
+                        overdue notices will be generated. For example, if the
+                        OVERDUE_NOTICE_TO_DATE is set to 05/05/2015, any overdue notices scheduled
+                        for 5/4/2015 or before will be generated. The content of the Overdue Notice
+                        can be modified by the Notice Configuration maintenance document or the
+                        OVERDUE_NOTICE_CONTENT parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>Fine Notice – A notice to inform a patron of fines accrued by an overdue
+                        item. Notices are generated upon the return of the overdue item. Fine
+                        Notices are sent to the patron when generated, alternatively they can be
+                        viewed and printed from the Patron Bill screen.</para>
+                </listitem>
+                <listitem>
+                    <para>Replacement Bill – A notice to inform a patron that the overdue item is
+                        now considered lost. Notices are generated when the item status is updated
+                        to ‘Lost’ by the generateLostNoticesJob. LOST_NOTICE_TO_DATE is used to set
+                        the scheduled notice date before which replacement bills will be generated.
+                        For example, if the LOST_NOTICE_TO_DATE is set to 05/05/2015, any
+                        replacement bills scheduled for 5/4/2015 or before will be generated.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para role="Normal">The <link
+                        xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled Jobs
+                        Technical Documentation</link> includes additional details about the Deliver
+                    Notices jobs.</para>
+            </note>
+            <para>On the bottom of some of the notice types, Recalls for one, a link to "My Account"
+                will display. This should be modified to your institution's "My Account" patron
+                service. This link location is set by the parameter MY_ACCOUNT_URL. (OLE-DLVR is the
+                Namespace Code). </para>
+            <para role="Body Text">OLE offers a customized document search related to Notices. The
+                search screen contains the search fields that are unique to this type of
+                e-doc.</para>
+            <section>
+                <title>Lookup Help</title>
+                <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Most fields will be uppercased for search.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Dates should be specified as MM/dd/yyyy.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Some fields have magnifying glass button for a sub lookup on that
+                            field.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Wildcards allowed on strings are * and % match any number of
+                            characters, while using a ? will match any one character</para>
+                    </listitem>
+                    <listitem>
+                        <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or)
+                            to join multiple search criteria</para>
+                    </listitem>
+                    <listitem>
+                        <para>Range operators allowed on numerics and dates are
+                            &gt;,&lt;,&gt;=,&lt;=, or ..</para>
+                        <para> All operators except .. should be before date value. Operator ..
+                            should separate date values.</para>
+                    </listitem>
+                </itemizedlist>
+                <para><emphasis role="bold">Result Table:</emphasis></para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Each result field has link on header for sorting. Click once to sort
+                            ascending, </para>
+                        <para> and click again to sort descending.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold">View Notice Content</emphasis> to view the
+                            notice as it is when sent to the patron.</para>
+                    </listitem>
+                </itemizedlist>
             </section>
         </section>
     </section>
@@ -6217,6 +6392,213 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para role="Normal"/>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_noticeConfiguration"/>Notice Configuration</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Notice Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-212.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Content Configuration Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-214.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Content Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-215.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal"/>
+            <para role="Normal"/>
+            <para role="Body Text">The Notice Content Configuration document has three specific
+                tabs: <emphasis role="bold">Add/Edit Notcie Content Configuration</emphasis>,
+                    <emphasis role="bold">Patron Field Label Mapping</emphasis>, and <emphasis
+                    role="bold">Item Field Label Mapping</emphasis> tabs which group related
+                attributes together. </para>
+            <section>
+                <title role="Heading 4circ">Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Notice Content Configuration Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-233.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Add/Edit Notice Content Configuration</title>
+                    <para role="Normal"/>
+                    <para role="Body Text">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Notice Content Configuration Document: Add/Edit Notice Content
+                                    Configuration tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-234.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Add/Edit Notice Content
+                            Configuration Tab Definitions</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Body</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Footer Body</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Notice Subject Line</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Version</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Active Indicator</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Indicates whether this Notice
+                                            Content Configuration is active or inactive. Remove the
+                                            check mark to deactivate</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+            </section>
+            <section>
+                <title>Patron and Item Field Label Mapping</title>
+                <para role="Normal"/>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Notice Content Configuration Document: Patron and Item Field Label
+                                Mapping tabs</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-235.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title><anchor/>Notice Type Configuration</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Notice Type Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-236.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Notice Type Configruation Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-237.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal"/>
+            <para role="Normal"/>
+            <section>
+                <title role="Heading 4circ">Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Request Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-238.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
                 <para role="Normal"/>
             </section>
         </section>
