@@ -215,7 +215,8 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
         criteria.addEqualTo(PurapPropertyConstants.APP_DOC_STAT, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
-        criteria.addGreaterThan(PurapPropertyConstants.TOTAL_AMOUNT, new KualiDecimal(0));
+        criteria.addGreaterOrEqualThan(PurapPropertyConstants.TOTAL_AMOUNT, new KualiDecimal(0));
+        criteria.addGreaterThan(PurapPropertyConstants.INVOICED_QTY, new KualiDecimal(0));
         String dbVendor = getProperty("db.vendor");
         if (dbVendor.equals("mysql")) {
             if (poCloseFromDate != null) {
