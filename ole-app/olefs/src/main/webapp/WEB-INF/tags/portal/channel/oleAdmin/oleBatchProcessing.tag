@@ -45,8 +45,6 @@
                        url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleBatchJobBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Semaphore File Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=semaphoreInputFileTypeError" /><br/>
 
-    <portal:portalLink displayTitle="true" title="Deliver Batch Job"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/oleDeliverNoticeController?viewId=OLEDeliverNoticeView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Schedule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /><br/>
     <portal:portalLink displayTitle="true" title="Special Batch File Upload" url="batchFileUpload" /><br/>
     <portal:portalLink displayTitle="true" title="Compute Loan Overdue Notice Dates"
