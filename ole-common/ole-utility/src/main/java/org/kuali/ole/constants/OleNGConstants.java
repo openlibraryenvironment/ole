@@ -287,5 +287,7 @@ public class OleNGConstants {
     public static final String TIMESTAMP_FOR_CAMEL = "-${date:now:yyyy-MMM-dd-hh-mm-ss-a}";
     public static final String QUICK_LAUNCH = "QuickLaunch-";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss-a");
+    public static final String UTF_8 = "UTF-8";
+    public static final String UTF_8_XML_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 }

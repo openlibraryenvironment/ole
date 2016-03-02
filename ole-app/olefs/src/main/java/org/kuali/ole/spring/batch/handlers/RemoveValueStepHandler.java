@@ -22,10 +22,12 @@ public class RemoveValueStepHandler extends StepHandler {
             StringTokenizer stringTokenizer = new StringTokenizer(constant, ",");
             while(stringTokenizer.hasMoreTokens()) {
                 String value = stringTokenizer.nextToken();
-                if(getMarcRecordUtil().isControlField(sourceField)) {
-                    getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, value, "");
-                } else {
-                    getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, ind1,ind2, subField, value, "");
+                if (StringUtils.isNotBlank(value)) {
+                    if(getMarcRecordUtil().isControlField(sourceField)) {
+                        getMarcRecordUtil().replaceContentInControlField(marcRecord, sourceField, value, "");
+                    } else {
+                        getMarcRecordUtil().replaceContentInDataField(marcRecord, sourceField, ind1,ind2, subField, value, "");
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ package org.kuali.ole.converter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.*;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.pojo.bib.BibliographicRecord;
 import org.marc4j.*;
 import org.marc4j.marc.Record;
@@ -78,6 +79,7 @@ public class MarcXMLConverter {
     }
 
     public List<Record> convertMarcXmlToRecord(String marcXml) {
+        marcXml = convertToUTF8(marcXml);
         List<Record> records = new ArrayList<>();
         MarcReader reader = new MarcXmlReader(IOUtils.toInputStream(marcXml));
         while (reader.hasNext()) {
@@ -86,6 +88,22 @@ public class MarcXMLConverter {
         }
 
         return records;
+    }
+
+    private String convertToUTF8(String marcXml) {
+        if(!marcXml.contains(OleNGConstants.UTF_8_XML_TAG)) {
+            marcXml = OleNGConstants.UTF_8_XML_TAG + marcXml;
+            InputStreamReader inputStreamReader = new InputStreamReader(IOUtils.toInputStream(marcXml));
+            String currentEncoding = inputStreamReader.getEncoding();
+            try {
+                String data = new String(marcXml.getBytes() , currentEncoding);
+                byte[] destinationBytes = data.getBytes(currentEncoding);
+                marcXml = new String(destinationBytes, OleNGConstants.UTF_8);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return marcXml;
     }
 
     public String convertMarcRecordToRawMarcContent(Record record) {
