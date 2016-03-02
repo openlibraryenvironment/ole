@@ -180,7 +180,15 @@ public class OLEPurchaseOrderBatchController extends TransactionalDocumentContro
         }
         olePurchaseOrderBatchDocument.setUploadFileName(olePurchaseOrderBatchDocument.getDocumentNumber()+"_"+olePurchaseOrderBatchDocument.getIngestedFile().getOriginalFilename());
         if (olePurchaseOrderBatchDocument.getType().equals(OLEConstants.OLEPurchaseOrderBulkAmendment.IMMEDIATE)) {
-            getOlePurchaseOrderBatchService().readFile(olePurchaseOrderBatchDocument, userSession, null);
+            KSBThreadPool threadPool = KSBServiceLocator.getThreadPool();
+            try {
+                File file = new File(System.getProperty("java.io.tmpdir") + "/" + olePurchaseOrderBatchDocument.getIngestedFile().getOriginalFilename());
+                olePurchaseOrderBatchDocument.getIngestedFile().transferTo(file);
+                threadPool.submit(new POBACallable(olePurchaseOrderBatchDocument, userSession, file));
+            }
+             catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             try {
                 String jobId = olePurchaseOrderBatchDocument.getDocumentNumber();
@@ -217,7 +225,15 @@ public class OLEPurchaseOrderBatchController extends TransactionalDocumentContro
         olePurchaseOrderBatchDocument.getDocumentHeader().setDocumentDescription(OLEConstants.OLEPurchaseOrderBulkAmendment.DOC_DESC);
         GlobalVariables.setUserSession(new UserSession(olePurchaseOrderBatchDocument.getPrincipalName()));
         if(olePurchaseOrderBatchDocument.getType().equals(OLEConstants.OLEPurchaseOrderBulkAmendment.IMMEDIATE)) {
-            getOlePurchaseOrderBatchService().readFile(olePurchaseOrderBatchDocument, userSession, null);
+            KSBThreadPool threadPool = KSBServiceLocator.getThreadPool();
+            try {
+                File file = new File(System.getProperty("java.io.tmpdir") + "/" + olePurchaseOrderBatchDocument.getIngestedFile().getOriginalFilename());
+                olePurchaseOrderBatchDocument.getIngestedFile().transferTo(file);
+                threadPool.submit(new POBACallable(olePurchaseOrderBatchDocument, userSession, file));
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             try {
                 String date = new SimpleDateFormat(OLEConstants.OLEPurchaseOrderBulkAmendment.FORMAT).format(olePurchaseOrderBatchDocument.getBatchStartDate());

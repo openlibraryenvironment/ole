@@ -255,6 +255,7 @@ public class PurapPropertyConstants {
 
     public static final String DOC_HDR_ID = "doc_hdr_id";
     public static final String APP_DOC_STAT = "appDocStatus";
+    public static final String INVOICED_QTY = "invoicedQuantity";
 
 }
 
