@@ -151,7 +151,7 @@
             </list>
         </property>
     </bean>-->
-    <bean id="OleCirculationDesk-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+    <bean id="OleCirculationDesk-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="3" p:disclosure.defaultOpen="true">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
         <property name="headerText" value="Location" />
 
@@ -176,6 +176,18 @@
                                 </map>
                             </property>
                         </bean>
+                    </property>
+                </bean>
+                <bean id="locationPopup" parent="Uif-InputField" p:propertyName="locationPopup" p:label="Pop-up Message on Return" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean id="locationPopupMessage" parent="Uif-InputField" p:propertyName="locationPopupMsg"
+                      p:label="Text for Pop-up Message">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="1" p:cols="100"/>
                     </property>
                 </bean>
             </list>

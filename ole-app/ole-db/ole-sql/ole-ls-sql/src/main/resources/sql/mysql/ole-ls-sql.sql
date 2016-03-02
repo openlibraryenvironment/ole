@@ -1185,6 +1185,8 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
         , OLE_CRCL_DSK_ID VARCHAR(40) NOT NULL
         , OLE_CRCL_DSK_LOCN VARCHAR(40) NOT NULL
         , OLE_CRCL_PICKUP_DSK_LOCN VARCHAR(40)
+        , LOCN_POPUP VARCHAR(1) default 'N'
+        , LOCN_POPUP_MSG VARCHAR(4000)
     
     , CONSTRAINT OLE_CRCL_DSK_LOCN_TP1 PRIMARY KEY(OLE_CRCL_DSK_LOCN_ID)
 
@@ -1193,11 +1195,11 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
 
 
     
-                                                                                                                                                                        
+                                                                                                                                                                                                                
                                     
 , INDEX OLE_CRCL_DSK_LOCN_constr (OLE_CRCL_DSK_LOCN )
     
-                                                                                                                                                                        
+                                                                                                                                                                                                                
                                     
 , INDEX OLE_CRCL_LOCN_FK (OLE_CRCL_DSK_ID )
 

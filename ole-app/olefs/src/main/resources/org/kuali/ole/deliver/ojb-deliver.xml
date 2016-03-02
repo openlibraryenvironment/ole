@@ -844,6 +844,8 @@
         <field-descriptor name="circulationDeskId" column="OLE_CRCL_DSK_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="circulationDeskLocation" column="OLE_CRCL_DSK_LOCN" jdbc-type="VARCHAR"/>
         <field-descriptor name="circulationPickUpDeskLocation" column="OLE_CRCL_PICKUP_DSK_LOCN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="locationPopup" column="LOCN_POPUP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="locationPopupMsg" column="LOCN_POPUP_MSG" jdbc-type="VARCHAR"/>
         <reference-descriptor name="location" class-ref="org.kuali.ole.describe.bo.OleLocation"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="circulationDeskLocation"/>
