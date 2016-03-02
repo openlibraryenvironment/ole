@@ -74,7 +74,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Purchasing/Accounts Payable Document #"/>
     <property name="shortLabel" value="PURAP Doc #"/>
-    <property name="maxLength" value="8"/>
+    <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <ref bean="NumericValidation" />
     </property>

@@ -95,6 +95,7 @@ public class SearchResultDisplayFields {
     private boolean dueDateTime = false;
     private boolean holdingsLocation = false;
     private boolean holdingsCallNumber = false;
+    private String documentType;
 
     public SearchResultDisplayFields() {
     }
@@ -699,7 +700,16 @@ public class SearchResultDisplayFields {
         this.dueDateTime = dueDateTime;
     }
 
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
     public void buildSearchResultDisplayFields(List<DocTypeConfig> docTypeConfigs, String docType) {
+        setDocumentType(docType);
         for (DocTypeConfig docTypeConfig : docTypeConfigs) {
             if (docTypeConfig.getName().equals(docType)) {
                 for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigList()) {
@@ -963,5 +973,86 @@ public class SearchResultDisplayFields {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "SearchResultDisplayFields{" +
+                "localId=" + localId +
+                ", title=" + title +
+                ", journalTitle=" + journalTitle +
+                ", author=" + author +
+                ", publisher=" + publisher +
+                ", isbn=" + isbn +
+                ", issn=" + issn +
+                ", subject=" + subject +
+                ", publicationPlace=" + publicationPlace +
+                ", edition=" + edition +
+                ", format=" + format +
+                ", formGenre=" + formGenre +
+                ", language=" + language +
+                ", description=" + description +
+                ", publicationDate=" + publicationDate +
+                ", resourceType=" + resourceType +
+                ", carrier=" + carrier +
+                ", location=" + location +
+                ", callNumber=" + callNumber +
+                ", callNumberPrefix=" + callNumberPrefix +
+                ", classificationPart=" + classificationPart +
+                ", shelvingOrder=" + shelvingOrder +
+                ", shelvingOrderCode=" + shelvingOrderCode +
+                ", shelvingSchemeCode=" + shelvingSchemeCode +
+                ", shelvingSchemeValue=" + shelvingSchemeValue +
+                ", uri=" + uri +
+                ", receiptStatus=" + receiptStatus +
+                ", copyNumber=" + copyNumber +
+                ", copyNumberLabel=" + copyNumberLabel +
+                ", itemPart=" + itemPart +
+                ", locationLevel=" + locationLevel +
+                ", locationLevelName=" + locationLevelName +
+                ", itemIdentifier=" + itemIdentifier +
+                ", vendorLineItemIdentifier=" + vendorLineItemIdentifier +
+                ", barcode=" + barcode +
+                ", barcodeArsl=" + barcodeArsl +
+                ", volumeNumber=" + volumeNumber +
+                ", volumeNumberLabel=" + volumeNumberLabel +
+                ", enumeration=" + enumeration +
+                ", chronology=" + chronology +
+                ", itemStatus=" + itemStatus +
+                ", itemTypeCodeValue=" + itemTypeCodeValue +
+                ", itemTypeFullValue=" + itemTypeFullValue +
+                ", accessStatus=" + accessStatus +
+                ", platform=" + platform +
+                ", imprint=" + imprint +
+                ", statisticalCode=" + statisticalCode +
+                ", holdingsNote=" + holdingsNote +
+                ", coverageDate=" + coverageDate +
+                ", perpetualAccess=" + perpetualAccess +
+                ", publicNote=" + publicNote +
+                ", url=" + url +
+                ", numberOfSimultaneousUses=" + numberOfSimultaneousUses +
+                ", persistLink=" + persistLink +
+                ", accessLocation=" + accessLocation +
+                ", adminUserName=" + adminUserName +
+                ", accessUserName=" + accessUserName +
+                ", accessPassword=" + accessPassword +
+                ", adminUrl=" + adminUrl +
+                ", authentication=" + authentication +
+                ", proxied=" + proxied +
+                ", ill=" + ill +
+                ", subscription=" + subscription +
+                ", linkText=" + linkText +
+                ", adminPassword=" + adminPassword +
+                ", donorPublic=" + donorPublic +
+                ", donorNote=" + donorNote +
+                ", donorCode=" + donorCode +
+                ", extentOfOwnershipNoteType=" + extentOfOwnershipNoteType +
+                ", extentOfOwnershipNoteValue=" + extentOfOwnershipNoteValue +
+                ", extentOfOwnershipType=" + extentOfOwnershipType +
+                ", itemType=" + itemType +
+                ", dueDateTime=" + dueDateTime +
+                ", holdingsLocation=" + holdingsLocation +
+                ", holdingsCallNumber=" + holdingsCallNumber +
+                '}';
     }
 }

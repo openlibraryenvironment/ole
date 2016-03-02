@@ -60,6 +60,7 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         }
         if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_NOTICE)){
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getRecallNoticeContentConfigName());
+            oleDeliverNotice.setLoanId(oleDeliverRequestBo.getLoanTransactionRecordNumber());
         }
         else if (noticeType.equalsIgnoreCase(OLEConstants.REQUEST_EXPIRATION_NOTICE)){
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getRequestExpirationNoticeContentConfigName());

@@ -209,7 +209,7 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             if (deliverRequestHistoryRecordList != null && deliverRequestHistoryRecordList.size() > 0) {
                 singleItemResultDisplayRow.setRequestTypeCode(deliverRequestHistoryRecordList.get(0).getDeliverRequestTypeCode());
                 singleItemResultDisplayRow.setPickUpLocationCode(deliverRequestHistoryRecordList.get(0).getPickUpLocationCode());
-                singleItemResultDisplayRow.setFinalStatus("Filed");
+                singleItemResultDisplayRow.setFinalStatus("Filled");
                 singleItemResultDisplayRow.setFinalStatusDate(deliverRequestHistoryRecordList.get(0).getArchiveDate());
             }
         }
@@ -233,7 +233,9 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = (List<ItemClaimsReturnedRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(ItemClaimsReturnedRecord.class,map);
             if(CollectionUtils.isNotEmpty(itemClaimsReturnedRecords)) {
                 for(int index=0 ; index < itemClaimsReturnedRecords.size() ; index++){
-                    if(itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId() != null && !itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId().isEmpty()){
+                    if(StringUtils.isNotBlank(itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId()) && StringUtils.isNotBlank(itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronBarcode())){
+                        itemClaimsReturnedRecords.get(index).setClaimsReturnedPatronUrl(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId()));
+                    } else if(itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId() != null && !itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId().isEmpty()){
                         OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, itemClaimsReturnedRecords.get(index).getClaimsReturnedPatronId());
                         if(olePatronDocument != null){
                             itemClaimsReturnedRecords.get(index).setClaimsReturnedPatronBarcode(olePatronDocument.getBarcode());
@@ -271,7 +273,9 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             List<ItemDamagedRecord> itemDamagedRecords = (List<ItemDamagedRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(ItemDamagedRecord.class,map);
             if(CollectionUtils.isNotEmpty(itemDamagedRecords)){
                 for(int index=0 ; index < itemDamagedRecords.size() ; index++){
-                    if(itemDamagedRecords.get(index).getDamagedPatronId() != null && !itemDamagedRecords.get(index).getDamagedPatronId().isEmpty()){
+                    if(StringUtils.isNotBlank(itemDamagedRecords.get(index).getDamagedPatronId()) && StringUtils.isNotBlank(itemDamagedRecords.get(index).getPatronBarcode())){
+                        itemDamagedRecords.get(index).setDamagedPatronUrl(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), itemDamagedRecords.get(index).getDamagedPatronId()));
+                    } else if(itemDamagedRecords.get(index).getDamagedPatronId() != null && !itemDamagedRecords.get(index).getDamagedPatronId().isEmpty()){
                         OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,itemDamagedRecords.get(index).getDamagedPatronId());
                         if(olePatronDocument != null){
                             itemDamagedRecords.get(index).setPatronBarcode(olePatronDocument.getBarcode());
@@ -310,7 +314,9 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordHistories = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>)KRADServiceLocator.getBusinessObjectService().findMatching(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map);
             if(CollectionUtils.isNotEmpty(missingPieceItemRecordHistories)){
                 for(int index=0 ; index < missingPieceItemRecordHistories.size() ; index++){
-                    if(missingPieceItemRecordHistories.get(index).getPatronId() != null && !missingPieceItemRecordHistories.get(index).getPatronId().isEmpty()){
+                    if(StringUtils.isNotBlank(missingPieceItemRecordHistories.get(index).getPatronId()) && StringUtils.isNotBlank(missingPieceItemRecordHistories.get(index).getPatronBarcode())) {
+                        missingPieceItemRecordHistories.get(index).setPatronURL(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), missingPieceItemRecordHistories.get(index).getPatronId()));
+                    } else if(missingPieceItemRecordHistories.get(index).getPatronId() != null && !missingPieceItemRecordHistories.get(index).getPatronId().isEmpty()){
                         OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,missingPieceItemRecordHistories.get(index).getPatronId());
                         if(olePatronDocument != null){
                             missingPieceItemRecordHistories.get(index).setPatronBarcode(olePatronDocument.getBarcode());
@@ -322,7 +328,7 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
                         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class ,criteria );
                         if(olePatronDocumentList != null && olePatronDocumentList.size()>0){
                             for(OlePatronDocument olePatronDocument : olePatronDocumentList){
-                                missingPieceItemRecordHistories.get(index).setPatronURL(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), missingPieceItemRecordHistories.get(index).getPatronId()));
+                                missingPieceItemRecordHistories.get(index).setPatronURL(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
                             }
                         }else{
                             Map criteria1 = new HashMap();

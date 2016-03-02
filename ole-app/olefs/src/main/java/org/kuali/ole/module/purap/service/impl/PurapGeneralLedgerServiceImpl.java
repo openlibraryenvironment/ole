@@ -1148,6 +1148,42 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         Map encumbranceAccountMap = new HashMap();
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(preq.getPurchaseOrderIdentifier());
 
+        List<PurchaseOrderItem> poItemList = (List<PurchaseOrderItem>) po.getItems();
+        for(PurchaseOrderItem poItem : poItemList) {
+            if(!poItem.getItemType().getItemTypeCode().equals(OLEConstants.ITEM)) {
+                if(poItem.getItemOutstandingEncumberedAmount().isGreaterThan(new KualiDecimal(0))) {
+                    String logItmNbr = "Item # " + poItem.getItemLineNumber();
+                    Collections.sort((List) poItem.getSourceAccountingLines());
+
+                    // make the list of accounts for the disencumbrance entry
+                    PurchaseOrderAccount lastAccount = null;
+                    KualiDecimal accountTotal = ZERO;
+                    for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext(); ) {
+                        PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
+                        if (!account.isEmpty()) {
+                            KualiDecimal encumbranceAmount = null;
+                            SourceAccountingLine acctString = account.generateSourceAccountingLine();
+                               // fully paid; remove remaining encumbrance
+                                encumbranceAmount = account.getItemAccountOutstandingEncumbranceAmount();
+                                account.setItemAccountOutstandingEncumbranceAmount(ZERO);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " " + acctString + " = " + encumbranceAmount);
+                            }
+                            if (ObjectUtils.isNull(encumbranceAccountMap.get(acctString))) {
+                                encumbranceAccountMap.put(acctString, encumbranceAmount);
+                            } else {
+                                KualiDecimal amt = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                                encumbranceAccountMap.put(acctString, amt.add(encumbranceAmount));
+                            }
+
+                        }
+                    }
+                    poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                    poItem.setItemOutstandingEncumberedAmount(ZERO);
+                }
+            }
+        }
+
         // Get each item one by one
         for (Iterator items = preq.getItems().iterator(); items.hasNext(); ) {
             PaymentRequestItem preqItem = (PaymentRequestItem) items.next();

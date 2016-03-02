@@ -370,4 +370,20 @@ public class AbstractEditor implements DocumentEditor {
 
         return parameter!=null?parameter.getValue():null;
     }
+
+    public void setStaffOnly(EditorForm editorForm) {
+        List<BibTree> bibTreeList = editorForm.getBibTreeList();
+        if (bibTreeList != null) {
+            for (BibTree bibTree : bibTreeList) {
+                Bib bib = bibTree.getBib();
+                if (bib != null) {
+                    if (bib.isStaffOnly()) {
+                        editorForm.setStaffOnlyFlagForBib(bib.isStaffOnly());
+                        editorForm.setStaffOnlyFlagForHoldings(bib.isStaffOnly());
+                        editorForm.setStaffOnlyFlagForItem(bib.isStaffOnly());
+                    }
+                }
+            }
+        }
+    }
 }

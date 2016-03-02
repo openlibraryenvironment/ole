@@ -630,6 +630,9 @@
         <field-descriptor name="numberSimultaneousUsers" column="NUMBER_SIMULT_USERS" jdbc-type="VARCHAR"/>
         <field-descriptor name="accessUserName" column="ACCESS_USERNAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="accessPassword" column="ACCESS_PASSWORD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="materialsSpecified" column="MATERIALS_SPECIFIED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="firstIndicator" column="FIRST_INDICATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="secondIndicator" column="SECOND_INDICATOR" jdbc-type="VARCHAR"/>
         <field-descriptor name="statusDate" column="ACCESS_STATUS_DATE_UPDATED" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="eResourceId" column="E_RESOURCE_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="gokbIdentifier" column="GOKB_IDENTIFIER" jdbc-type="INTEGER"/>

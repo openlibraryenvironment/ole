@@ -219,6 +219,34 @@ public class EInstanceMappingHelper {
                     } else {
                         generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
                     }
+                }
+                else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_MATIRIAL_SPECIFIED)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_FIRST_INDICATOR)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_SECOND_INICATOR)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {

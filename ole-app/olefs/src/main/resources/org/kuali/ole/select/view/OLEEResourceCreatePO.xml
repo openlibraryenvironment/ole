@@ -108,7 +108,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
-                <bean parent="Uif-DataField" p:label="Estimated Price" p:propertyName="price"/>
+                <bean parent="Uif-InputField" p:label="Estimated Price" p:propertyName="price">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField"
                       p:propertyName="vendorId" p:label="Vendor">
                     <property name="control">

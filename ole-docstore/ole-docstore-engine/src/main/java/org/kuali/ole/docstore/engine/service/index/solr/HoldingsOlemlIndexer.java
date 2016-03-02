@@ -254,21 +254,13 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             solrDocForHolding.addField(ADMIN_URL_DISPLAY, oleHoldings.getPlatform().getAdminUrl());
             solrDocForHolding.addField(ADMIN_URL_SEARCH, oleHoldings.getPlatform().getAdminUrl());
             solrDocForHolding.addField(PLATFORM_DISPLAY, oleHoldings.getPlatform().getPlatformName());
+            solrDocForHolding.addField(PLATFORM_SEARCH, oleHoldings.getPlatform().getPlatformName());
             solrDocForHolding.addField(ADMIN_USERNAME_DISPLAY, oleHoldings.getPlatform().getAdminUserName());
             solrDocForHolding.addField(ADMIN_USERNAME_SEARCH, oleHoldings.getPlatform().getAdminUserName());
             solrDocForHolding.addField(ADMIN_PASSWORD_DISPLAY, oleHoldings.getPlatform().getAdminPassword());
             solrDocForHolding.addField(ADMIN_PASSWORD_SEARCH, oleHoldings.getPlatform().getAdminPassword());
         }
-        /*if (oleHoldings.getHoldingsAccessInformation() != null) {
-            solrDocForHolding.addField(AUTHENTICATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
-            solrDocForHolding.addField(AUTHENTICATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
-            solrDocForHolding.addField(PROXIED_SEARCH, oleHoldings.getHoldingsAccessInformation().getProxiedResource());
-            solrDocForHolding.addField(PROXIED_DISPLAY, oleHoldings.getHoldingsAccessInformation().getProxiedResource());
-            solrDocForHolding.addField(NUMBER_OF_SIMULTANEOUS_USERS_SEARCH, oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
-            solrDocForHolding.addField(NUMBER_OF_SIMULTANEOUS_USERS_DISPLAY, oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
-            solrDocForHolding.addField(ACCESS_LOCATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
-            solrDocForHolding.addField(ACCESS_LOCATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
-        }*/
+
         solrDocForHolding.addField(PUBLIC_NOTE_DISPLAY, oleHoldings.getDonorPublicDisplay());
 
         if (oleHoldings.getLink() != null) {
@@ -467,6 +459,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
         String bibId = (String) bibs;
         SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
         Collection<Object> bibValues = solrBibDocument.getFieldValues(URI_SEARCH);
+        setStaffOnly(solrInputDocuments, solrInputDocument, bibId, solrBibDocument);
         Object holdigsValue = solrInputDocument.getFieldValue(URI_SEARCH);
         if (bibValues != null) {
             for (Object bibValue : bibValues) {
@@ -474,6 +467,39 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
                     solrBibDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
                 }
             }
+        }
+
+    }
+
+    private void setStaffOnly(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, String bibId, SolrDocument solrBibDocument) {
+        boolean allStaffOnly = true;
+        Collection<Object> holdingsIdentifier=solrBibDocument.getFieldValues("holdingsIdentifier");
+        if (holdingsIdentifier.size() == 1) {
+            solrBibDocument.setField("staffOnlyFlag", solrInputDocument.getFieldValue("staffOnlyFlag"));
+            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+            allStaffOnly = false;
+        } else if (holdingsIdentifier.size() > 1) {
+            String currentHoldingsIdentifier = (String) solrInputDocument.getFieldValue("holdingsIdentifier");
+            boolean currentStaffOnly = (boolean) solrInputDocument.getFieldValue("staffOnlyFlag");
+            for (Object holdingsIdObj : holdingsIdentifier) {
+                String holdingsId = (String) holdingsIdObj;
+                SolrDocument solrHoldingsDocument = getSolrDocumentByUUID(bibId);
+                if (currentHoldingsIdentifier.equalsIgnoreCase(holdingsId)) {
+                    if (!currentStaffOnly) {
+                        allStaffOnly = false;
+                    }
+                } else {
+                    if (!Boolean.parseBoolean((String) solrHoldingsDocument.getFieldValue("staffOnlyFlag"))) {
+                        allStaffOnly = false;
+                    }
+                }
+
+            }
+        }
+
+        if (allStaffOnly) {
+            solrBibDocument.setField("staffOnlyFlag", solrInputDocument.getFieldValue("staffOnlyFlag"));
+            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
         }
     }
 
@@ -650,7 +676,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
         }
 
         //Add the holdings ids being transfered to the bib, along with the existing holdings ids
-        holdingsIdsList.addAll(holdingsIds);
+        if(!holdingsIdsList.contains(holdingsIds.get(0))){
+            holdingsIdsList.addAll(holdingsIds);
+        }
         Map holdingsIdsMap = new HashMap();
         holdingsIdsMap.put(AtomicUpdateConstants.SET, holdingsIdsList);
         destBibInputSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
@@ -664,8 +692,8 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             String itemIdentifier = (String) itemField;
             itemIdsList.add(itemIdentifier);
         } else if(itemField instanceof List) {
-            List<String> holdingsIdentifierList = (List<String>) itemField;
-            itemIdsList.addAll(holdingsIdentifierList);
+            List<String> itemIdentifierList = (List<String>) itemField;
+            itemIdsList.addAll(itemIdentifierList);
         }
 
         //Get item ids from the holdings being transfered and add to destination bib document, along with the existing item ids.
@@ -674,10 +702,16 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             Object object = solrDocument.get(ITEM_IDENTIFIER);
             if (object instanceof String) {
                 String itemIdentifier = (String) object;
-                itemIdsList.add(itemIdentifier);
+                if(!itemIdsList.contains(itemIdentifier)){
+                    itemIdsList.add(itemIdentifier);
+                }
             } else if (object instanceof List) {
                 List<String> itemIdentifierList = (List<String>) object;
-                itemIdsList.addAll(itemIdentifierList);
+                for(String id:itemIdentifierList){
+                    if(!itemIdsList.contains(id)){
+                        itemIdsList.add(id);
+                    }
+                }
             }
         }
         Map<String, List<String>> itemIdsMap = new HashMap<>();
@@ -986,6 +1020,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             String accessLocation = holdingsAccessInformation.getAccessLocation();
             String accessPassword = holdingsAccessInformation.getAccessPassword();
             String accessUsername = holdingsAccessInformation.getAccessUsername();
+            String materialsSpecified = holdingsAccessInformation.getMaterialsSpecified();
+            String firstIndicator = holdingsAccessInformation.getFirstIndicator();
+            String secondIndicator = holdingsAccessInformation.getSecondIndicator();
             String authenticationType = holdingsAccessInformation.getAuthenticationType();
             String numberOfSimultaneousUser = holdingsAccessInformation.getNumberOfSimultaneousUser();
             String proxiedResource = holdingsAccessInformation.getProxiedResource();
@@ -995,6 +1032,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             appendData(sb, authenticationType);
             appendData(sb, numberOfSimultaneousUser);
             appendData(sb, proxiedResource);
+            appendData(sb, materialsSpecified);
+            appendData(sb, firstIndicator);
+            appendData(sb, secondIndicator);
         }
 
         for (Link link : oleHoldings.getLink()) {

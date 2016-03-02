@@ -28,6 +28,8 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
     private KualiDecimal totalEncumbrance;
     private KualiDecimal totalAmount;
     private Date purchaseOrderCreateTimestamp;
+    private KualiDecimal invoicedQuantity;
+    private String appDocStatus;
 
     public Date getPurchaseOrderCreateTimestamp() {
         return purchaseOrderCreateTimestamp;
@@ -53,4 +55,15 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
         this.totalAmount = totalAmount;
     }
 
+    public String getAppDocStatus() {
+        return appDocStatus;
+    }
+
+    public KualiDecimal getInvoicedQuantity() {
+        return invoicedQuantity;
+    }
+
+    public void setInvoicedQuantity(KualiDecimal invoicedQuantity) {
+        this.invoicedQuantity = invoicedQuantity;
+    }
 }

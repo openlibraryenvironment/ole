@@ -338,7 +338,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         if (versionNumber == null) {
             // don't allow newly added item to be inactivatable.
             return false;
-        } else if (versionNumber != null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+        } /*else if (versionNumber != null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+            return true;
+        }*/
+        else if (versionNumber != null && itemActiveIndicator) {
             return true;
         }
         return false;

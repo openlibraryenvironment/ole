@@ -25,10 +25,10 @@
     <bean id="checkin-section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="checkIn-EndSessionButton"/>
+                <ref bean="checkinButtonDetailsSection"/>
                 <ref bean="checkinDetailsSection"/>
                 <ref bean="checkInList-HorizontalBoxSection"/>
-                <ref bean="checkIn-EndSessionButton"/>
+                <ref bean="checkinButtonDetailsSection"/>
             </list>
         </property>
     </bean>
@@ -42,6 +42,14 @@
         </property>
     </bean>
 
+    <bean id="checkinButtonDetailsSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="checkIn-EndSessionButton"/>
+                <bean id="circGoToLoan" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Loan&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/circcontroller?viewId=circView&amp;methodToCall=start" p:linkText="Go to Loan" p:target="_blank" />
+            </list>
+        </property>
+    </bean>
     <bean id="checkIn-EndSessionButton" parent="checkIn-EndSessionButton-parentBean"/>
     <bean id="checkIn-EndSessionButton-parentBean" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:27em;width:10%" p:methodToCall="clearSession" p:actionLabel="End Session" />
 

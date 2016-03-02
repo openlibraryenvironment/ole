@@ -1,0 +1,126 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_UPDATE">
+        <update tableName="OLE_CAT_SHVLG_SCHM_T">
+            <column name="SHVLG_SCHM_CD" value="EIGHT"/>
+            <column name="SHVLG_SCHM_ID" value="10"/>
+            <where>SHVLG_SCHM_ID = 8</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_INSERT" dbms="oracle">
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7df','Y','SIX',8,'Shelved separately','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',TO_DATE( '20120322000000', 'YYYYMMDDHH24MISS' ),1)</sql>
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',TO_DATE( '20120322000000', 'YYYYMMDDHH24MISS' ),1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_SHVLG_SCHM_T_INSERT1" dbms="mysql">
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7df','Y','SIX',8,'Shelved separately','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html','2012-03-22 00:00:00',1)</sql>
+        <sql>INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR) VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html','2012-03-22 00:00:00',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="PUR_REQS_T_BILL_PHN_NBR_NULL" author="ole">
+        <dropNotNullConstraint columnDataType="VARCHAR(20)"
+                               columnName="BILL_PHN_NBR"
+                               tableName="PUR_REQS_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALERT_OLE_PUR_POBA_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar(120)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALERT_OLE_PUR_POBA_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar2(120)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_ADD">
+        <addColumn
+                tableName="OLE_DS_HOLDINGS_T">
+            <column name="MATERIALS_SPECIFIED"   type="VARCHAR(100)"/>
+            <column name="FIRST_INDICATOR"   type="VARCHAR(20)"/>
+            <column name="SECOND_INDICATOR"   type="VARCHAR(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PUR_PO_ITM_TOT_ENC_V_ALTER" >
+        <createView viewName="PUR_PO_ITM_TOT_ENC_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
+            (SELECT A.FDOC_NBR AS FDOC_NBR,
+            SUM(A.ITM_OSTND_ENC_AMT) AS TOTAL_ENCUMBRANCE,
+            SUM(A.ITM_INV_TOT_QTY) AS INVOICED_QUANTITY
+            FROM PUR_PO_ITM_T A group by A.FDOC_NBR)
+        </createView>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PUR_PO_V_ALTER" >
+        <createView viewName="PUR_PO_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
+            (SELECT P.AP_PUR_DOC_LNK_ID,
+            P.PO_ID,
+            P.PO_CUR_IND,
+            P.FDOC_NBR,
+            P.OBJ_ID,
+            D.APP_DOC_STAT,
+            P.RECUR_PMT_TYP_CD,
+            P.PO_VNDR_CHC_CD,
+            P.PO_END_DT,
+            E.TOTAL_ENCUMBRANCE,
+            SUMMATION.TOTAL_AMOUNT,
+            P.PO_CRTE_DT AS PO_CRTE_DT,
+            E.INVOICED_QUANTITY AS INVOICED_QUANTITY
+            FROM
+            PUR_PO_T P,
+            KREW_DOC_HDR_T D,
+            PUR_PO_ITM_TOT_ENC_V E,
+            PUR_PO_ITM_TOT_AMT_V SUMMATION
+            WHERE
+            P.FDOC_NBR = E.FDOC_NBR
+            AND
+            P.FDOC_NBR=D.DOC_HDR_ID
+            AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>

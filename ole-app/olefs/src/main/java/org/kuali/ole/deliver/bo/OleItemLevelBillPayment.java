@@ -24,6 +24,7 @@ public class OleItemLevelBillPayment extends PersistableBusinessObjectBase {
     private String paymentMode;
     private String transactionNumber;
     private String transactionNote;
+    private String note;
     private FeeType feeType = new FeeType();
 
     /**
@@ -118,5 +119,12 @@ public class OleItemLevelBillPayment extends PersistableBusinessObjectBase {
 
     public void setTransactionNote(String transactionNote) {
         this.transactionNote = transactionNote;
+    }
+
+    public String getNote() {
+        return note;
+    }
+    public void setNote(String note) {
+        this.note = note;
     }
 }

@@ -3709,6 +3709,7 @@
         <field-descriptor name="purapDocumentIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
         <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
+        <field-descriptor name="appDocStatus" column="APP_DOC_STAT"  jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="recurringPaymentTypeCode" column="RECUR_PMT_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
@@ -3716,6 +3717,7 @@
         <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="DATE"/>
         <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="invoicedQuantity" column="INVOICED_QUANTITY" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.module.purap.businessobject.PurchaseOrderQuoteLanguage" table="PUR_PO_QT_LANG_T">

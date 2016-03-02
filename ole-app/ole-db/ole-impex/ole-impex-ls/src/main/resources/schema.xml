@@ -586,6 +586,26 @@
         </index>
     </table>
 
+    <table name="OLE_CRCL_DSK_FEE_TYPE_T">
+        <column default="0" name="OLE_CRCL_DSK_FEE_TYPE_ID"
+            primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="OLE_CRCL_DSK_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="FEE_TYP_ID" required="true" size="40" type="VARCHAR"/>
+
+        <foreign-key foreignTable="OLE_CRCL_DSK_T" name="OLE_CRCL_DSK_FK">
+            <reference foreign="OLE_CRCL_DSK_ID" local="OLE_CRCL_DSK_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="ole_dlvr_ptrn_fee_type_t" name="OLE_CRCL_FEE_TYPE_FK">
+            <reference foreign="FEE_TYP_ID" local="FEE_TYP_ID"/>
+        </foreign-key>
+        <index name="OLE_CRCL_FEE_TYPE_I">
+            <index-column name="FEE_TYP_ID"/>
+        </index>
+        <index name="OLE_CRCL_DSK_I">
+            <index-column name="OLE_CRCL_DSK_ID"/>
+        </index>
+    </table>
+
     <table name="OLE_CRCL_DSK_T">
         <column name="OLE_CRCL_DSK_CODE" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_PUB_NAME" required="true" size="100" type="VARCHAR"/>
@@ -608,6 +628,7 @@
         <column name="SHOW_ONHOLD_ITM" size="50" type="VARCHAR" default="CurrentCirculationDesk"/>
         <column name="DFLT_RQST_TYP_ID" size="40" type="VARCHAR"/>
         <column name="DFLT_PICK_UP_LOCN_ID" size="40" type="VARCHAR"/>
+        <column name="FROM_EMAIL" size="100" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DATAFIELD_T">
@@ -839,9 +860,12 @@
         <column name="OVERDUE_NOTICE_DATE" type="DATE"/>
         <column name="OLE_RQST_ID" size="40" type="VARCHAR"/>
         <column name="REPMNT_FEE_PTRN_BILL_ID" size="40" type="VARCHAR"/>
-        <column name="CHECK_IN_DT_TIME" required="true" type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME" type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME_OVR_RD" type="TIMESTAMP"/>
         <column name="CHECK_IN_OPTR_ID" size="40" type="VARCHAR"/>
         <column name="CHECK_IN_MACH_ID" size="100" type="VARCHAR"/>
+        <column name="ITEM_TYP_ID" size="100" type="VARCHAR"/>
+        <column name="TEMP_ITEM_TYP_ID" size="100" type="VARCHAR"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="fk_OLE_DLVR_CIRC_RECORD_FK2">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
@@ -973,7 +997,22 @@
         <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
+        <column name="CHECK_IN_DT_TIME_OVR_RD" type="TIMESTAMP"/>
         <column name="OPERATOR_ID" size="40" type="VARCHAR"/>
+        <column name="ITM_TITLE"  size="600" type="VARCHAR"/>
+        <column name="ITM_AUTHOR"  size="200" type="VARCHAR"/>
+        <column name="ITM_TYPE"  size="100" type="VARCHAR"/>
+        <column name="ITM_CALL_NUM"  size="100" type="VARCHAR"/>
+        <column name="ITM_COPY_NUM"  size="20" type="VARCHAR"/>
+        <column name="ITM_ENUM"  size="100" type="VARCHAR"/>
+        <column name="ITM_CHRON"  size="100" type="VARCHAR"/>
+        <column name="ITM_LOC"  size="600" type="VARCHAR"/>
+        <column name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
+        <column name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
+        <column name="PAY_CREDIT_NOTE" size="500" type="VARCHAR"/>
+        <column name="PAY_TRANSFER_NOTE" size="500" type="VARCHAR"/>
+        <column name="PAY_REFUND_NOTE" size="500" type="VARCHAR"/>
+        <column name="PAY_CAN_CRDT_NOTE" size="500" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DLVR_PTRN_BILL_T" name="FEE_TYP_BILL_ID">
             <reference foreign="PTRN_BILL_ID" local="PTRN_BILL_ID"/>
         </foreign-key>
@@ -991,6 +1030,7 @@
         <column name="TRNS_NUMBER"  size="40" type="VARCHAR"/>
         <column name="TRNS_NOTE"  size="500" type="VARCHAR"/>
         <column name="TRNS_MODE"  size="40" type="VARCHAR"/>
+        <column name="NOTE" size="500" type="VARCHAR"/>
         <foreign-key foreignTable="ole_dlvr_ptrn_bill_fee_typ_t" name="BILL_PAY_ID">
             <reference foreign="ID" local="ITM_LINE_ID"/>
         </foreign-key>
@@ -1018,6 +1058,8 @@
         <column name="PAY_NOTE" size="500" type="VARCHAR"/>
         <column name="NOTE" size="500" type="VARCHAR"/>
         <column name="BILL_REVIEWED" size="1" type="VARCHAR"/>
+        <column name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
+        <column name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
         <index name="OLE_DLVR_PTRN_BILL_TI1">
             <index-column name="OLE_PTRN_ID"/>
         </index>
@@ -1068,7 +1110,7 @@
         <column name="OLE_MACH_ID" size="80" type="VARCHAR"/>
         <column name="ARCH_DT_TIME" required="true" type="DATE"/>
 	<column name="OLE_REQ_OUTCOME_STATUS" size="80" type="VARCHAR"/>
-        <column name="CRTE_DT_TIME" required="true" type="DATE"/>
+        <column name="CRTE_DT_TIME" required="true" type="TIMESTAMP"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>
@@ -1088,7 +1130,7 @@
         <column name="RQST_EXPIR_DT_TIME" type="DATE"/>
         <column name="RCAL_NTC_SNT_DT" type="DATE"/>
         <column name="ONHLD_NTC_SNT_DT" type="DATE"/>
-        <column name="CRTE_DT_TIME" type="DATE"/>
+        <column name="CRTE_DT_TIME" type="TIMESTAMP"/>
         <column name="MODI_DT_TIME" type="DATE"/>
         <column name="CPY_FRMT" size="40" type="VARCHAR"/>
         <column name="LOAN_TRAN_ID" size="40" type="VARCHAR"/>
@@ -3538,6 +3580,7 @@
     <sequence name="OLE_CONT_TYPS_S" nextval="1"/>
     <sequence name="OLE_CONT_TYP_S" nextval="1"/>
     <sequence name="OLE_CRCL_DSK_LOCN_S" nextval="24"/>
+    <sequence name="OLE_CRCL_DSK_FEE_TYPE_S" nextval="24"/>
     <sequence name="OLE_CRCL_DSK_S" nextval="12"/>
     <sequence name="OLE_DATAFIELD_ID_S" nextval="1"/>
     <sequence name="OLE_DESC_EXT_DATASRC_S" nextval="1"/>

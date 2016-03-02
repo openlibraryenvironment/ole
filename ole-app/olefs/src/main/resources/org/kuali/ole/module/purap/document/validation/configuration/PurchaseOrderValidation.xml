@@ -69,9 +69,11 @@
 				
 				<bean parent="Purchasing-processReceivingValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  	
-				
-			    <!-- Route Document Event, check item type against account tax policy -->
+				</bean>
+                <bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+                <!-- Route Document Event, check item type against account tax policy -->
   				<bean parent="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" scope="prototype" />
 									
    				<!--MSU Contribution OLEMI-8582 DTT-330 OLECNTRB-943 -->

@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_CODE_T
 # -----------------------------------------------------------------------
@@ -465,6 +466,9 @@ CREATE TABLE OLE_DS_HOLDINGS_T
         , ADMIN_PASSWORD VARCHAR(100)
         , ACCESS_USERNAME VARCHAR(100)
         , ACCESS_PASSWORD VARCHAR(100)
+        , MATERIALS_SPECIFIED VARCHAR(100)
+        , FIRST_INDICATOR VARCHAR(20)
+        , SECOND_INDICATOR VARCHAR(20)
         , CREATED_BY VARCHAR(40)
         , DATE_CREATED DATETIME
         , UPDATED_BY VARCHAR(40)

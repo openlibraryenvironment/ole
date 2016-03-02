@@ -26,10 +26,8 @@
 <bean id="circGeneralButtons-HorizontalBoxSection-parentBean" p:style="height:43px" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
 <property name="items">
     <list>
-        <bean id="circGoToReturn" parent="Uif-SecondaryActionButton" p:actionLabel="Return" p:methodToCall="goToReturn"/>
-        <ref bean="circFastAddItem"/>
-        <ref bean="circShowExistingLoans"/>
-        <ref bean="circHideExistingLoans"/>
+
+        <!--<ref bean="circHideExistingLoans"/>-->
         <bean id="circRenewItemButton" parent="Uif-SecondaryActionButton" p:methodToCall="renew" p:actionLabel="Renew"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
               p:ajaxSubmit="true"  p:successCallback="jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');"/>
         <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
@@ -43,15 +41,22 @@
         <bean id="circDamagedItemButton" parent="Uif-SecondaryActionButton" p:actionLabel="Damaged"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
               p:actionScript="submitForm('openDamagedItemDialog',null,null,true,function(){
                             });" />
-        <bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"
+        <!--<bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Cancel"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"
               p:successCallback="jq('#barcodeFieldSection_control').focus();
               if(parent.jq !== undefined){
                  parent.jq.fancybox.close();
               }
-              "/>
+              "/>-->
         <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
               p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
-        <bean id="circGoToHome" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="returnToHub"/>
+        <bean id="circGoToHome" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="close" p:ajaxSubmit="true"
+              p:successCallback="submitForm('returnToHub',null,null,true,function(){
+                            });
+              "/>
+        <!--<bean id="circGoToReturn" parent="Uif-SecondaryActionButton" p:actionLabel="Go to Return" p:methodToCall="goToReturn">
+            <property name="cssClasses" value="uif-linkField"/>
+        </bean>-->
+        <bean id="circGoToReturn" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Create&amp;channelUrl=@{urlBase}/ole-kr-krad/checkincontroller?viewId=checkinView&amp;methodToCall=start&amp;methodToCall=refresh" p:linkText="Go to Return" p:target="_blank" />
     </list>
 </property>
 </bean>

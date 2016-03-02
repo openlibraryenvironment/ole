@@ -113,25 +113,33 @@
 
 
     <div id="section-reindex">
+
+
+        <div >
+            <form name="reindexFromFile" method="POST"  action="rebuildIndex?action=fromFile" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td><h3>Rebuild Solr Indexes</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Bib IDs from File :</td>
+                        <td><input type="file" name="file"/></td>
+                        <td><input type="submit" value="upload and reindex" /></td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
         <form name="rebuildIndex" method="POST">
             <a id="userGuideLink"
                href=" https://wiki.kuali.org/display/OLE/User+Guide+-+OLE+Document+Store#UserGuide-OLEDocumentStore-2.9Rebuildindexes%28Adminfunction%29|toolbar=0,menubar=0,width=1000,height=1000,scrollbars=1">
                 <img align="right" src="images/user-guide.jpg" title="User Guide"/> </a>
             <table>
                 <tr>
-                    <td><h3>Rebuild Solr Indexes</h3></td>
-                </tr>
-                <tr>
                     <td>
                         Index all, bibs, holdings and items
                     </td>
                     <td>
-                 <!--       <select Name="indexType" id="indexType">
-                            <option value="ALL">All</option>
-                            <option value="Bib">Bib</option>
-                            <option value="Holdings">Holdings</option>
-                            <option value="Item">Item</option>
-                        </select> -->
                     </td>
                 </tr>
                 <tr>
@@ -177,7 +185,7 @@
             <table>
                 <tr>
                     <td>
-                        <textarea id="reindexResult" rows="20" cols="130" readonly="true"></textarea>
+                        <textarea id="reindexResult" rows="20" cols="130" readonly="true"> <%=request.getAttribute("reindexResult")%></textarea>
                     </td>
                 </tr>
                 <tr>

@@ -679,7 +679,11 @@ public class OleAcquisitionsSearchDocument extends TransactionalDocumentBase {
                     attr=attr.toUpperCase();
                 }
                 if (StringUtils.isNotEmpty(attr) && StringUtils.isNotEmpty(attrValue)) {
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition("AND",searchParams.buildSearchField(OleSelectConstant.DOCSTORE_TYPE_BIB,attr,attrValue),"AND"));
+                    if (attrValue.contains("-")) {
+                        searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase",searchParams.buildSearchField(OleSelectConstant.DOCSTORE_TYPE_BIB,attr,attrValue),"AND"));
+                    } else {
+                        searchParams.getSearchConditions().add(searchParams.buildSearchCondition("AND",searchParams.buildSearchField(OleSelectConstant.DOCSTORE_TYPE_BIB,attr,attrValue),"AND"));
+                    }
                     searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(OleSelectConstant.DOCSTORE_TYPE_BIB,"id"));
                 }
             }

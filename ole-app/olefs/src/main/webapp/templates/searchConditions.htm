@@ -1,42 +1,69 @@
 <div id="searchConditions">
-    Search Conditions:
+
     <div ng-repeat="condition in conditions">
+
         <label for="searchText_{{$index}}"> Search For: </label>
         <input type="text" ng-model="condition.value" id="searchText_{{$index}}"/>
         <select name="searchScope" id="searchScope_{{$index}}" ng-model="condition.searchScope">
-            <option ng-repeat="option in searchScopes" value="{{option.id}}">
+            <option ng-repeat="option in searchScopes" value="{{option.id}}" ng-selected="{{option.id == condition.searchScope}}">
                 {{option.name}}
             </option>
         </select>
 
         <label for="docType _{{$index}}"> In Doc Type: </label>
         <select name="docType _{{$index}}" id="docType _{{$index}}" ng-model="condition.inDocumentType">
-            <option ng-repeat="option in inDoctypes" value="{{option.id}}" ng-selected="$first">
+            <option ng-repeat="option in inDoctypes" value="{{option.id}}" ng-selected="{{option.id == condition.inDocumentType}}">
                 {{option.name}}
             </option>
         </select>
 
         <label for="inField _{{$index}}"> In Field: </label>
-        <select name="inField _{{$index}}" id="inField _{{$index}}" ng-model="condition.inField">
-            <option ng-repeat="option in inFields" value="{{option.id}}">
+        <select name="inField _{{$index}}" id="inField _{{$index}}" ng-model="condition.inField" ng-show="condition.inDocumentType == 'bibliographic' ">
+            <option ng-repeat="option in inFields" value="{{option.id}}" ng-selected="{{option.id == condition.inField}}">
                 {{option.name}}
             </option>
         </select>
 
+        <select name="inFieldHoldings _{{$index}}" id="inFieldHoldings _{{$index}}" ng-model="condition.inField" ng-show="condition.inDocumentType == 'holdings' ">
+            <option ng-repeat="option in inFields_Holdings" value="{{option.id}}" ng-selected="{{option.id == condition.inField}}">
+                {{option.name}}
+            </option>
+        </select>
+
+        <select name="inFieldEHoldings _{{$index}}" id="inFieldEHoldings _{{$index}}" ng-model="condition.inField" ng-show="condition.inDocumentType == 'eHoldings' ">
+            <option ng-repeat="option in inFields_EHoldings" value="{{option.id}}" ng-selected="{{option.id == condition.inField}}">
+                {{option.name}}
+            </option>
+        </select>
+
+        <select name="inFieldItem _{{$index}}" id="inFieldItem _{{$index}}" ng-model="condition.inField" ng-show="condition.inDocumentType == 'item' ">
+            <option ng-repeat="option in inFields_Item" value="{{option.id}}" ng-selected="{{option.id == condition.inField}}">
+                {{option.name}}
+            </option>
+        </select>
+
+        <select name="operator _{{$index}}" ng-model="condition.operator">
+            <option ng-repeat="option in operators" value="{{option.id}}" ng-selected="{{option.id == condition.operator}}">
+                {{option.name}}
+            </option>
+        </select>
+
+<!--
         <label>
-            <input type="radio" ng-model="condition.operator" value="AND">
+            <input type="radio" ng-model="condition.operator" ng-value="AND" ng-checked="{{condition.operator = AND}}">
             AND
         </label>
 
         <label>
-            <input type="radio" ng-model="condition.operator" ng-value="OR">
+            <input type="radio" ng-model="condition.operator" value="OR" ng-checked="{{condition.operator = OR}}">
             OR
         </label>
 
         <label>
-            <input type="radio" ng-model="condition.operator" value="NOT">
+            <input type="radio" ng-model="condition.operator" value="NOT" ng-checked="{{condition.operator = NOT}}">
             NOT
         </label>
+-->
         <button ng-click="addCondition(condition)">add</button>
 
         <button ng-click="removeCondition(condition)" aria-label="Remove">Remove</button>

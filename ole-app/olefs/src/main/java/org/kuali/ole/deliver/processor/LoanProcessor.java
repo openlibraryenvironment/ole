@@ -3866,8 +3866,8 @@ public class LoanProcessor extends PatronBillResolver {
                         claimsReturnedRecord.setItemId(loanObject.getItemUuid());
                     } else {
                         if (claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate() != null && !claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString().isEmpty()) {
-                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date claimsReturnedDate = null;
                             try {
                                 claimsReturnedDate = format2.parse(claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString());
@@ -3927,8 +3927,8 @@ public class LoanProcessor extends PatronBillResolver {
                         damagedRecord.setItemId(oleLoanDocument.getItemUuid());
                     } else {
                         if (itemDamagedRecordList.get(index).getDamagedItemDate() != null && !itemDamagedRecordList.get(index).getDamagedItemDate().toString().isEmpty()) {
-                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date itemDamagedDate = null;
                             try {
                                 itemDamagedDate = format2.parse(itemDamagedRecordList.get(index).getDamagedItemDate().toString());

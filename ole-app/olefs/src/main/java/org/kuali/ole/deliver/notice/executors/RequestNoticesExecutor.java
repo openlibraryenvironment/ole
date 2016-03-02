@@ -21,6 +21,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     private static final Logger LOG = Logger.getLogger(RequestNoticesExecutor.class);
     protected List<OLEDeliverNotice> deliverNotices;
     protected String noticeContentConfigName;
+    protected String operatorId;
     protected List<OLEDeliverNotice> filteredDeliverNotices = new ArrayList<OLEDeliverNotice>();
     protected RequestEmailContentFormatter requestEmailContentFormatter;
     protected List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
@@ -37,6 +38,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     public RequestNoticesExecutor(Map requestMap) {
         this.deliverNotices = (List<OLEDeliverNotice>) requestMap.get(OLEConstants.DELIVER_NOTICES);
         this.noticeContentConfigName = (String) requestMap.get(OLEConstants.NOTICE_CONTENT_CONFIG_NAME);
+        this.operatorId = (String) requestMap.get(OLEConstants.OPTR_ID);
     }
 
     public abstract RequestEmailContentFormatter getRequestEmailContentFormatter();
@@ -150,8 +152,6 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
             System.out.println(mailContent);
 
             sendMail(mailContent);
-
-            deleteNotices(filteredDeliverNotices);
 
             saveOLEDeliverNoticeHistory(filteredDeliverNotices, mailContent);
 

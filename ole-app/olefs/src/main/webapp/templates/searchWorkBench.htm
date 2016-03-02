@@ -1,27 +1,71 @@
 <div>
-    <div ng-controller="searchController">
-        <form name="searchForm">
-            <div align="left">
-                <label for="DocumentType"> Document Type: </label>
-                <select name="DocumentType" id="DocumentType" ng-model="documentType">
-                    <option ng-repeat="option in documentTypes track by option.id" value="{{option.id}}"
-                            ng-selected="$first">{{option.name}}
-                    </option>
-                </select>
-                <label for="searchType">Select Records By: </label>
+    <div ng-controller="searchController" data-ng-init="init()">
+        <!--<form name="searchForm">-->
+        <div align="left">
+            <label for="DocumentType"> Document Type: </label>
+            <select name="DocumentType" id="DocumentType" ng-model="documentType">
+                <!--<option ng-repeat="option in documentTypes track by option.id" value="{{option.id}}"
+                        ng-selected="$first">{{option.name}}
+                </option>-->
+                <option ng-selected="{{option.id == documentType}}"
+                        ng-repeat="option in documentTypes"  value="{{option.id}}">
+                    {{option.name}}
+                </option>
+            </select>
+
+               <!-- <label for="searchType">Select Records By: </label>
                 <select name="searchType" id="searchType" ng-model="documentTypes.searchType">
                     <option ng-repeat="option in searchTypes" value="{{option.id}}" ng-selected="$first">{{option.name}}
                     </option>
-                </select>
+                </select>-->
+        </div>
+        <br>
+        <div class="panel-group" ng-model="searchConditionActivePanel" data-allow-multiple="true" role="tablist"
+             aria-multiselectable="true" bs-collapse>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a bs-collapse-toggle href="#" ng-click="searchConditionPanel.collapsed = !searchConditionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': searchConditionPanel.collapsed, 'glyphicon-chevron-down': !searchConditionPanel.collapsed}"></span>
+                            Search Conditions:
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <div ng-include="'templates/searchConditions.htm'"></div>
+                </div>
             </div>
-            <div ng-include="'templates/searchConditions.htm'"></div>
-            <div align="center">
-                <button class="btn btn-primary btn-sm" ng-click="search()" style="margin-top: 20px;">Search</button>
+        </div>
+        <div align="center">
+            <button class="btn btn-primary btn-sm" ng-click="search()" style="margin-top: 20px;">Search</button>
+            <button class="btn btn-primary btn-sm" ng-click="clear()" style="margin-top: 20px;">Clear</button>
+            <button class="btn btn-primary btn-sm" ng-click="cancel()" style="margin-top: 20px;">Cancel</button>
+        </div>
+        <br/>
+        <div class="panel-group" ng-model="searchResultActivePanel" data-allow-multiple="true" role="tablist"
+        aria-multiselectable="true" bs-collapse>
+            <div class="panel panel-default" ng-show="searched">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                    <a bs-collapse-toggle href="#" ng-click="searchResultPanel.collapsed = !searchResultPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': searchResultPanel.collapsed, 'glyphicon-chevron-down': !searchResultPanel.collapsed}"></span>
+                                Search Results:
+                            </a>
+                        </h4>
+                </div>
+                <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                    <div class="panel-body">
+                        <div ng-include="'templates/searchResult.htm'"></div>
+                    </div>
+                </div>
             </div>
-            <br/>
-            <div ng-include="'templates/searhResult.htm'"></div>
-            <br/>
-        </form>
+        </div>
+    </div>
+    <br/>
+    <!--</form>-->
     </div>
 </div>
 

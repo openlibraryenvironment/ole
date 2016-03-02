@@ -8,3 +8,6 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-DLVR","Deliver","REGULAR_PRINTER_FONT_SIZE","OLE7051","1","CONFG","10","This parameter value is used for configuring the font size for regular printer.","A","OLE"
 "OLE-DLVR","Deliver","FINE_CALC_WHILE_RENEW","OLE7052","1","CONFG","false","This parameter value is used for configuring the system to calculate overdue fines while renew an item.","A","OLE"
 "OLE-DESC","Describe","CALL_NUMBER_MIGRATION_CHUNK_SIZE","OLEDEC7047","1","CONFG","1000","To define call number migration Chunk Size","A","OLE"
+"OLE-SELECT","Select","AUTO_CLOSE_PO_THREAD_POOL_SIZE","OLE7053","1","CONFG","5","To define the size of thread for auto close PO executor class","A","OLE"
+"OLE-DESC","Describe","SRU_AVAILABLE_STATUSES","OLEDEC7055","1","CONFG","AVAILABLE","To define the items statuses to which the sru response should responds as AVAILABLE item.You can provide multiple values with ';' as separator","A","OLE"
+"OLE-DESC","Describe","SRU_ON_HOLD_STATUSES","OLEDEC7056","1","CONFG","ONHOLD","To define the items statuses to which the sru response should responds as ONHOLD item.You can provide multiple values with ';' as separator","A","OLE"

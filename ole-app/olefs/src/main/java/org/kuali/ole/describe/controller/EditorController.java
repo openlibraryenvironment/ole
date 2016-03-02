@@ -115,6 +115,11 @@ public class EditorController extends UifControllerBase {
         return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.INSTANCE_EDITOR_DELETE_EINSTANCE);
     }
 
+    private boolean canCopyBib(String principalId) {
+        PermissionService service = KimApiServiceLocator.getPermissionService();
+        return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.MARC_EDITOR_COPY_BIB);
+    }
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         UifFormBase uifFormBase = null;
@@ -138,12 +143,18 @@ public class EditorController extends UifControllerBase {
         String docCategory = request.getParameter("docCategory");
         String docType = request.getParameter("docType");
         String docFormat = request.getParameter("docFormat");
+
         ((EditorForm) form).setDocCategory(docCategory);
         ((EditorForm) form).setDocType(docType);
         ((EditorForm) form).setDocFormat(docFormat);
         DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
                 .getDocumentEditor(docCategory, docType, docFormat);
         editorForm = documentEditor.copy((EditorForm) form);
+
+        if(docType.equalsIgnoreCase(DocType.BIB.getCode())){
+            // Build or update left pane data (tree structure of documents)
+            getEditorFormDataHandler().buildLeftPaneData((EditorForm) form);
+        }
         modelAndView = getUIFModelAndView(editorForm);
         return modelAndView;
     }
@@ -376,6 +387,10 @@ public class EditorController extends UifControllerBase {
         boolean canDeleteEInstance = canDeleteEInstance(GlobalVariables.getUserSession().getPrincipalId());
         ((EditorForm) form).setCanDeleteEInstance(canDeleteEInstance);
 
+
+        boolean canCopyBib = canCopyBib(GlobalVariables.getUserSession().getPrincipalId());
+        ((EditorForm) form).setCanCopyBib(canCopyBib);
+
         if (eResourceId != null) {
             ((EditorForm) form).seteResourceId(eResourceId);
         }
@@ -456,12 +471,12 @@ public class EditorController extends UifControllerBase {
     private void setClaimsAndDamagedPatronBarcode(Item item) {
         if(CollectionUtils.isNotEmpty(item.getItemClaimsReturnedRecords())){
             for(int index=0 ; index < item.getItemClaimsReturnedRecords().size() ; index++){
-                if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId().isEmpty()){
+                if(StringUtils.isNotBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId()) && StringUtils.isBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode())){
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId());
                     if(olePatronDocument != null){
                         item.getItemClaimsReturnedRecords().get(index).setClaimsReturnedPatronBarcode(olePatronDocument.getBarcode());
                     }
-                } else if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode().isEmpty()) {
+                } else if(StringUtils.isNotBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode()) && StringUtils.isBlank(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId())) {
                     Map criteria = new HashMap();
                     criteria.put("barcode",item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
@@ -484,12 +499,12 @@ public class EditorController extends UifControllerBase {
         }
         if(CollectionUtils.isNotEmpty(item.getItemDamagedRecords())){
             for(int index=0 ; index < item.getItemDamagedRecords().size() ; index++){
-                if(item.getItemDamagedRecords().get(index).getDamagedPatronId() != null && !item.getItemDamagedRecords().get(index).getDamagedPatronId().isEmpty()){
+                if(StringUtils.isNotBlank(item.getItemDamagedRecords().get(index).getDamagedPatronId()) && StringUtils.isBlank(item.getItemDamagedRecords().get(index).getPatronBarcode())){
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemDamagedRecords().get(index).getDamagedPatronId());
                     if(olePatronDocument != null){
                         item.getItemDamagedRecords().get(index).setPatronBarcode(olePatronDocument.getBarcode());
                     }
-                } else if(item.getItemDamagedRecords().get(index).getPatronBarcode() != null && !item.getItemDamagedRecords().get(index).getPatronBarcode().isEmpty()) {
+                } else if(StringUtils.isNotBlank(item.getItemDamagedRecords().get(index).getPatronBarcode()) && StringUtils.isBlank(item.getItemDamagedRecords().get(index).getDamagedPatronId())) {
                     Map criteria = new HashMap();
                     criteria.put("barcode",item.getItemDamagedRecords().get(index).getPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
@@ -515,27 +530,27 @@ public class EditorController extends UifControllerBase {
     public void setMissingPieceItemRecord (Item item){
         if(item.getMissingPieceItemRecordList() != null && !item.getMissingPieceItemRecordList().isEmpty()){
             for(int index=0 ; index < item.getMissingPieceItemRecordList().size() ; index++){
-                if(item.getMissingPieceItemRecordList().get(index).getPatronId() != null && !item.getMissingPieceItemRecordList().get(index).getPatronId().isEmpty()){
+                if (StringUtils.isNotBlank(item.getMissingPieceItemRecordList().get(index).getPatronId()) && StringUtils.isBlank(item.getMissingPieceItemRecordList().get(index).getPatronBarcode())) {
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getMissingPieceItemRecordList().get(index).getPatronId());
                     if(olePatronDocument != null ){
                         item.getMissingPieceItemRecordList().get(index).setPatronBarcode(olePatronDocument.getBarcode());
                     }
-                }else if(item.getMissingPieceItemRecordList().get(index).getPatronBarcode() != null && !item.getMissingPieceItemRecordList().get(index).getPatronBarcode().isEmpty()){
+                } else if (StringUtils.isNotBlank(item.getMissingPieceItemRecordList().get(index).getPatronBarcode()) && StringUtils.isBlank(item.getMissingPieceItemRecordList().get(index).getPatronId())) {
                     Map map = new HashMap();
                     map.put("barcode" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
                     List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class ,map );
-                    if(!CollectionUtils.isEmpty(olePatronDocumentList)){
+                    if (CollectionUtils.isNotEmpty(olePatronDocumentList)) {
                         for(OlePatronDocument olePatronDocument : olePatronDocumentList){
                             item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronDocument.getOlePatronId());
                         }
-                    }
-                }else{
-                    Map criteria1 = new HashMap();
-                    criteria1.put("invalidOrLostBarcodeNumber" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
-                    List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class , criteria1);
-                    if(olePatronLostBarcodeList != null && olePatronLostBarcodeList.size()>0){
-                        for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList){
-                            item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronLostBarcode.getOlePatronId());
+                    } else {
+                        Map criteria1 = new HashMap();
+                        criteria1.put("invalidOrLostBarcodeNumber" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
+                        List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class , criteria1);
+                        if(olePatronLostBarcodeList != null && olePatronLostBarcodeList.size()>0){
+                            for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList){
+                                item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronLostBarcode.getOlePatronId());
+                            }
                         }
                     }
                 }

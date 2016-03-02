@@ -973,12 +973,11 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             fixedParameters.put("vendorName", Arrays.asList(vendorName));
         }
         try {
-            String criteriaDate = null;
             if (ObjectUtils.isNotNull(this.beginDate)) {
-                queryCriteriaMap.put("poCreateFromDate",getFormattedDateForQuery(this.beginDate));
+                queryCriteriaMap.put("poCreateFromDate",getFormattedDateForQuery(this.beginDate,false));
             }
             if (ObjectUtils.isNotNull(this.endDate)) {
-                queryCriteriaMap.put("poCreateToDate",getFormattedDateForQuery(this.endDate));
+                queryCriteriaMap.put("poCreateToDate",getFormattedDateForQuery(this.endDate,true));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1018,15 +1017,17 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         }
         return null;
     }
-    private String getFormattedDateForQuery(String dateString){
+    private String getFormattedDateForQuery(String dateString,boolean toDate){
         SimpleDateFormat simpleDateFormat = null;
         String outputDate = null;
         try {
             String inputDateFormat = "MM/dd/yyyy";
             simpleDateFormat = new SimpleDateFormat(inputDateFormat);
             Date inputDate=simpleDateFormat.parse(dateString);
-            inputDate=DateUtils.addDays(inputDate,1);//Incremented date, in sql if the input date is alone passed it will fetch the record till the previous day,
-            // so one day needs to be added inorder to bring the records till input date
+            if(toDate){
+                inputDate=DateUtils.addDays(inputDate,1);//Incremented date, in sql if the input todate is passed it will fetch the record till the previous day,
+                // so one day needs to be added inorder to bring the records till input todate
+            }
             String outputDateFormat = "yyyy-MM-dd";
             simpleDateFormat = new SimpleDateFormat(outputDateFormat);
             outputDate = simpleDateFormat.format(inputDate);

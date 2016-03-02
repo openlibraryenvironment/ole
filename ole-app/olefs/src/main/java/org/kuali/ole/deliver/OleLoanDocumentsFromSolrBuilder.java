@@ -195,7 +195,7 @@ public class OleLoanDocumentsFromSolrBuilder {
                             getLocationBySolr(location, oleLoanDocument);
                             oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("claimsReturnedFlagCreateDate")) {
-                            String[] formatStrings = new String[]{"MM/dd/yyyy hh:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd hh:mm:ss"};
+                            String[] formatStrings = new String[]{"MM/dd/yyyy HH:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd HH:mm:ss"};
                             Date date = tryParse(formatStrings, searchResultField.getFieldValue());
                             oleLoanDocument.setClaimsReturnedDate(new Timestamp(date.getTime()));
 

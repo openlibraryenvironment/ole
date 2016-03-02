@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="checkoutClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturn"
-          p:label="Record a note or not" p:render="true">
+          p:label="Add note to patron record that claims returned item was loaned?" p:render="true">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">

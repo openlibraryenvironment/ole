@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.kuali.ole</groupId>
         <artifactId>ole-impex</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
 
     <name>OLE Impex LS</name>
     <groupId>org.kuali.ole</groupId>
     <artifactId>ole-impex-ls</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
 
     <properties>
         <impex.sql.artifactId>ole-ls-sql</impex.sql.artifactId>

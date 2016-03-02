@@ -3,7 +3,6 @@ package org.kuali.ole.deliver.bo;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +37,8 @@ public class FeeType extends PersistableBusinessObjectBase {
     private String itemAuthor;
     private String itemCallNumber;
     private String itemEnumeration;
-    private String itemChronologyOwnLocation;
+    private String itemChronology;
+    private String itemOwnLocation;
     private String itemCopyNumber;
     private Timestamp billDate = new Timestamp(new Date().getTime());
     private KualiDecimal balFeeAmount = new KualiDecimal(0);
@@ -54,6 +54,13 @@ public class FeeType extends PersistableBusinessObjectBase {
     private Date checkOutDate;
     private Timestamp checkInDate;
     private Timestamp lastTransactionDate;
+    private Timestamp overrideCheckInDate;
+    private KualiDecimal creditIssued = new KualiDecimal(0);
+    private KualiDecimal creditRemaining = new KualiDecimal(0);
+    private String creditNote;
+    private String transferNote;
+    private String refundNote;
+    private String cancelCreditNote;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -152,12 +159,12 @@ public class FeeType extends PersistableBusinessObjectBase {
         this.itemEnumeration = itemEnumeration;
     }
 
-    public String getItemChronologyOwnLocation() {
-        return itemChronologyOwnLocation;
+    public String getItemChronology() {
+        return itemChronology;
     }
 
-    public void setItemChronologyOwnLocation(String itemChronologyOwnLocation) {
-        this.itemChronologyOwnLocation = itemChronologyOwnLocation;
+    public void setItemChronology(String itemChronology) {
+        this.itemChronology = itemChronology;
     }
 
     public String getItemCopyNumber() {
@@ -359,5 +366,69 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setViewBillNumber(Integer viewBillNumber) {
         this.viewBillNumber = viewBillNumber;
+    }
+
+    public KualiDecimal getCreditIssued() {
+        return creditIssued;
+    }
+
+    public void setCreditIssued(KualiDecimal creditIssued) {
+        this.creditIssued = creditIssued;
+    }
+
+    public KualiDecimal getCreditRemaining() {
+        return creditRemaining;
+    }
+
+    public void setCreditRemaining(KualiDecimal creditRemaining) {
+        this.creditRemaining = creditRemaining;
+    }
+
+    public String getCreditNote() {
+        return creditNote;
+    }
+
+    public void setCreditNote(String creditNote) {
+        this.creditNote = creditNote;
+    }
+
+    public String getItemOwnLocation() {
+        return itemOwnLocation;
+    }
+
+    public void setItemOwnLocation(String itemOwnLocation) {
+        this.itemOwnLocation = itemOwnLocation;
+    }
+
+    public Timestamp getOverrideCheckInDate() {
+        return overrideCheckInDate;
+    }
+
+    public void setOverrideCheckInDate(Timestamp overrideCheckInDate) {
+        this.overrideCheckInDate = overrideCheckInDate;
+    }
+
+    public String getTransferNote() {
+        return transferNote;
+    }
+
+    public void setTransferNote(String transferNote) {
+        this.transferNote = transferNote;
+    }
+
+    public String getRefundNote() {
+        return refundNote;
+    }
+
+    public void setRefundNote(String refundNote) {
+        this.refundNote = refundNote;
+    }
+
+    public String getCancelCreditNote() {
+        return cancelCreditNote;
+    }
+
+    public void setCancelCreditNote(String cancelCreditNote) {
+        this.cancelCreditNote = cancelCreditNote;
     }
 }

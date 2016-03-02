@@ -39,7 +39,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String operatorModifiedId;
     private String machineId;
     private String circulationLocationId;
-    private Date createDate;
+    private Timestamp createDate;
     private Date modifiedDate;
     private Date requestExpiryDate;
     private Date onHoldNoticeSentDate;
@@ -73,6 +73,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String circulationLocationCode;
     private String pickUpLocationCode;
     private String inTransitCheckInNote;
+    private Timestamp inTransitDate;
     private boolean requestFlag;
     private boolean claimsReturnedFlag;
     private String message;
@@ -494,11 +495,11 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
             this.circulationLocationId = circulationLocationId;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -1156,5 +1157,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setCallNumberPrefix(String callNumberPrefix) {
         this.callNumberPrefix = callNumberPrefix;
+    }
+
+    public Timestamp getInTransitDate() {
+        return inTransitDate;
+    }
+
+    public void setInTransitDate(Timestamp inTransitDate) {
+        this.inTransitDate = inTransitDate;
     }
 }
