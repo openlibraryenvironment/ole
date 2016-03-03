@@ -281,6 +281,7 @@ public class OleNGConstants {
     public final static String MARC = "mrc";
     public final static String EDI = "edi";
     public final static String INV = "inv";
+    public final static String BIB_IMPORT = "Bib Import";
 
     public static final String FORWARD_SLASH = "/";
 

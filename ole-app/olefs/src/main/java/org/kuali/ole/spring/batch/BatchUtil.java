@@ -1,16 +1,23 @@
 package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.dao.DescribeDAO;
+import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.Record;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -175,6 +182,22 @@ public class BatchUtil extends OleNgUtil{
         valueByPriorityMap.put(destinationField, valueByPriorities);
 
         return valueByPriorityMap;
+    }
+
+    public BatchProcessProfile getProfileByNameAndType(String profileName, String profileType) {
+        try {
+            DescribeDAO describeDAO =  new DescribeDAOImpl();
+            List<BatchProcessProfile> batchProcessProfiles = describeDAO.fetchProfileByNameAndType(profileName, profileType);
+            if(CollectionUtils.isNotEmpty(batchProcessProfiles)) {
+                BatchProcessProfile batchProcessProfile = batchProcessProfiles.get(0);
+                getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+                batchProcessProfile = getObjectMapper().readValue(IOUtils.toString(batchProcessProfile.getContent()), BatchProcessProfile.class);
+                return batchProcessProfile;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
