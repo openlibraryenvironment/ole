@@ -36,14 +36,14 @@ public class LoanProcessor_IT extends OLETestCaseBase{
 
     private static final Logger LOG = Logger.getLogger(LoanProcessor_IT.class);
 
-    public String PATRON_BARCODE="6010570002487301";
-    public String CHECKOUT_ITEM_BARCODE = "9093";
-    public String CHECKIN_ITEM_BARCODE = "8086";
-    public String PATRON_ID ="41752075D";
-    public String ITEM_BARCODE="345";
-    public String OPERATOR_ID="olequickstart";
-    public String ALTER_DUE_DATE="2015-04-01"; //yyyy-mm-dd
-    public String ALTER_DUE_TIME="04:00"; //24hr format
+    private String PATRON_BARCODE="6010570002487301";
+    private String CHECKOUT_ITEM_BARCODE = "9093";
+    private String CHECKIN_ITEM_BARCODE = "8086";
+    private String PATRON_ID ="41752075D";
+    private String ITEM_BARCODE="345";
+    private String OPERATOR_ID="olequickstart";
+    private String ALTER_DUE_DATE="2015-04-01"; //yyyy-mm-dd
+    private String ALTER_DUE_TIME="04:00"; //24hr format
 
     @Test
     public void testCheckOut() throws Exception {
@@ -57,7 +57,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
         }
     }
 
-    public List<OleLoanDocument> checkOutItem(String patronBarcode, String operatorId, String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation, String dateExpires, String requestType, String pickUpLocation)throws Exception{
+    private List<OleLoanDocument> checkOutItem(String patronBarcode, String operatorId, String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation, String dateExpires, String requestType, String pickUpLocation)throws Exception{
         LoanProcessor loanProcessor = (LoanProcessor) SpringContext.getBean("loanProcessor");
         //TODO: Data setup
         String itemIdentifier = createItem(patronBarcode,operatorId,itemBarcode,callNumber,title,author,itemType,itemLocation,dateExpires,requestType,pickUpLocation);

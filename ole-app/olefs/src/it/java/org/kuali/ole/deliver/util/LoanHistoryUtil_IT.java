@@ -36,15 +36,15 @@ public class LoanHistoryUtil_IT extends OLETestCaseBase {
     }
     @Test
     public void createCirculationHistoryRecords() throws Exception{
-        //change the item barcode everytime the test case is fired.
 
         List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>)getBusinessObjectService().findAll(OleLoanDocument.class);
         if(oleLoanDocumentList.size()>0){
         Map<String,String> loanMap = new HashMap<String,String>();
-        loanMap.put("loanId",oleLoanDocumentList.get(0).getLoanId());
+        loanMap.put("loanId", oleLoanDocumentList.get(0).getLoanId());
         getLoanHistoryUtil().getBusinessObjectService().deleteMatching(OleCirculationHistory.class, loanMap);
-        getLoanHistoryUtil().createCirculationHistoryRecords(oleLoanDocumentList.get(0));
-        List<OleCirculationHistory> oleCirculationHistories = (List<OleCirculationHistory>)getLoanHistoryUtil().getBusinessObjectService().findMatching(OleCirculationHistory.class,loanMap);
+        OleCirculationHistory oleCirculationHistory = getLoanHistoryUtil().createCirculationHistoryRecords(oleLoanDocumentList.get(0));
+        getBusinessObjectService().save(oleCirculationHistory);
+        List<OleCirculationHistory> oleCirculationHistories = (List<OleCirculationHistory>)getLoanHistoryUtil().getBusinessObjectService().findMatching(OleCirculationHistory.class,loanMap); 
         Assert.assertEquals(1,oleCirculationHistories.size());
         }
     }
