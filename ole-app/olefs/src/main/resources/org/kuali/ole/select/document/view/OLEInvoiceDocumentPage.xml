@@ -511,19 +511,38 @@
     </bean>
 
     <bean id="OLEInvoiceView-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="true">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="true"  >
         <property name="headerText" value="Line Item Note for Invoice"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceNote" />
         <property name="propertyName" value="notes" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.templateOptions" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="true"/>
         <property name="renderLineActions" value="true"/>
         <property name="subCollectionSuffix" value="@{#lineSuffix}" />
         <property name="items">
             <list>
-                <bean id="OLEInvoiceView-invoice-note"  parent="Uif-InputField" p:label="Invoice Note" p:propertyName="note" p:required="false" />
+                <bean id="OLEInvoiceView-invoice-note" parent="Uif-InputField" p:label="Invoice Note"
+                      p:propertyName="note" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="onKeyPressScript" value="
+                if(e.which==13){
+                    e.preventDefault();
+                    var obj = this.id;
+                    var index = obj.substring(obj.indexOf('_line'),obj.length).replace('_line', '').replace('_add_control', '');
+                    var id= '#OLEInvoiceView-invoiceNotes_line'+index+'_toggle_col';
+                    retrieveComponent('OleInvoiceView-invoiceItems','addLineItemNote', function(){
+                    jq(id).focus();
+                    },null,true);
+                }"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
             </list>
         </property>
         <property name="lineActions">

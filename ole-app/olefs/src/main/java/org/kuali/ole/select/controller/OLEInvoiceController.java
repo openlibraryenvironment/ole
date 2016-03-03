@@ -2010,7 +2010,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         }
                     }
                 }
-                getInvoiceService().calculateAccount(item);
+//                getInvoiceService().calculateAccount(item);
             }
         }
 
@@ -3549,6 +3549,34 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             oleInvoiceDocument.setVendorAddressInternationalProvinceName("");
             oleInvoiceDocument.setVendorCountryCode("");
         }
+        return getUIFModelAndView(oleInvoiceForm);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLineItemNote")
+    public ModelAndView addLineItemNote(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) uifForm;
+       OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        String indexValue = null;
+        if(oleInvoiceForm.getSelectRowDetails() != null) {
+             indexValue = oleInvoiceForm.getSelectRowDetails().substring(oleInvoiceForm.getSelectRowDetails().length()-1,oleInvoiceForm.getSelectRowDetails().length());
+        }
+        List<OleInvoiceItem> oleInvoiceItemList = oleInvoiceDocument.getItems();
+        List<OleInvoiceItem> newItemList = new ArrayList<>();
+        int index = Integer.parseInt(indexValue);
+            for(int i=0;i<oleInvoiceItemList.size();i++) {
+                if(i == index) {
+                    OleInvoiceNote oleInvoiceNote =  new OleInvoiceNote();
+                    String note = ((OleInvoiceNote)oleInvoiceForm.getNewCollectionLines().get("document.items_" + index+"_.notes")).getNote();
+                    oleInvoiceNote.setNote(note);
+                    oleInvoiceItemList.get(i).getNotes().add(oleInvoiceNote);
+                    newItemList.add(oleInvoiceItemList.get(i));
+                    ((OleInvoiceNote)oleInvoiceForm.getNewCollectionLines().get("document.items_" + index+"_.notes")).setNote("");
+                } else {
+                    newItemList.add(oleInvoiceItemList.get(i));
+                }
+            }
+        oleInvoiceDocument.setItems(newItemList);
         return getUIFModelAndView(oleInvoiceForm);
     }
 
