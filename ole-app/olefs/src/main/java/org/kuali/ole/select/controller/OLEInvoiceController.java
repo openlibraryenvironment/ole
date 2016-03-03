@@ -2010,7 +2010,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         }
                     }
                 }
-//                getInvoiceService().calculateAccount(item);
+                getInvoiceService().calculateAccount(item);
             }
         }
 
