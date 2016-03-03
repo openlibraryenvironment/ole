@@ -25,6 +25,7 @@ then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
  rule "Available Check based on shelving lag time"
@@ -42,6 +43,7 @@ then
 $i.setItemStatusToBeUpdatedTo("AVAILABLE");
 $i.updateCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
 rule "InTransitCheck for item location mapped to circulation desk"

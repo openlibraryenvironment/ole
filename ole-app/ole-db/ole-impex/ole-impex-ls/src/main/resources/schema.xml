@@ -572,6 +572,8 @@
         <column name="OLE_CRCL_DSK_ID" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_LOCN" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_PICKUP_DSK_LOCN"  size="40" type="VARCHAR"/>
+        <column name="LOCN_POPUP"  size="1" type="VARCHAR" default="N"/>
+        <column name="LOCN_POPUP_MSG"  size="4000" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_CRCL_DSK_T" name="OLE_CRCL_LOCN_FK">
             <reference foreign="OLE_CRCL_DSK_ID" local="OLE_CRCL_DSK_ID"/>
         </foreign-key>

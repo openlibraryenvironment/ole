@@ -5,6 +5,7 @@ import org.kuali.ole.deliver.bo.OleCirculationDesk
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord
 import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
 
 
  rule "In transit for Recently returned per staff request "
@@ -18,9 +19,12 @@ $c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
 $s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
+$d : DroolsResponse()
+
 then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateCheckinCount();
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
  rule "In transit for Available per staff request"
@@ -32,9 +36,12 @@ $c: OleCirculationDesk(getShelvingLagTimeInt() == 0)
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
 $s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
+$d : DroolsResponse()
+
 then
 $i.setItemStatusToBeUpdatedTo("AVAILABLE");
 $i.updateCheckinCount();
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
 

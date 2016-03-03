@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="checkinLocationPopup" parent="Uif-DialogGroup">
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="checkinLocnPopupMsgSection"/>
+                <ref bean="btnCheckinLocnPopupSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkinLocnPopupMsgSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="locationPopupMsgText" parent="Uif-DataField" p:style="font-size:15px" p:propertyName="locationPopupMsg"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="btnCheckinLocnPopupSection" parent="Uif-VerticalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
+        <property name="items">
+            <list>
+                <bean id="btnOKLocationPopup" parent="Uif-SecondaryActionButton" p:actionLabel="Ok"
+                      p:actionScript="jq.fancybox.close();
+                        submitForm('reset',null,null,true,function(){
+                            jq('#checkIn-Item_control').val('');jq('#checkIn-Item_control').focus();validateCheckInDate();
+                        });"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -123,4 +123,17 @@
         </createView>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="ADD_LOCN_POPUP">
+        <addColumn tableName="OLE_CRCL_DSK_LOCN_T">
+            <column name="LOCN_POPUP" type="VARCHAR(1)"/>
+            <column name="LOCN_POPUP_MSG" type="VARCHAR(4000)"/>
+        </addColumn>
+
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="LOCN_POPUP"
+                defaultValue="N"
+                tableName="OLE_CRCL_DSK_LOCN_T"/>
+    </changeSet>
+
 </databaseChangeLog>
