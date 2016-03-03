@@ -63,7 +63,6 @@ public class LoanProcessor_IT extends OLETestCaseBase{
         String itemIdentifier = createItem(patronBarcode,operatorId,itemBarcode,callNumber,title,author,itemType,itemLocation,dateExpires,requestType,pickUpLocation);
         OleLoanForm oleLoanForm = buildLoanForm(itemIdentifier, itemBarcode);
         OleLoanDocument oleLoanDocument = buildLoanDocument();
-        oleLoanDocument.setItemUuid(itemIdentifier);
         //TODO: Method to test
         GlobalVariables.setUserSession(new UserSession("dev2"));
         OleLoanForm loanForm = loanProcessor.processLoan(oleLoanForm, oleLoanDocument);
@@ -160,7 +159,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
         loanForm.setBorrowerTypeId("7");
         loanForm.setBorrowerType("UnderGrad");
         loanForm.setNonCirculatingFlag(false);
-        loanForm.setItemUuid(itemIdentifier);
+        loanForm.setInstanceUuid(itemIdentifier);
         loanForm.setLoanList(new ArrayList<OleLoanDocument>());
         loanForm.setPatronName("Andrew Wample");
         loanForm.setPatronBarcode(PATRON_BARCODE);
