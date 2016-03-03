@@ -2,7 +2,7 @@
 <chapter xmlns="http://docbook.org/ns/docbook"
     xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
      <title>Introduction to OLE</title>
-    <para role="No Spacing"><emphasis role="bold">January 2016, Release 2.0</emphasis></para>
+    <para role="No Spacing"><emphasis role="bold">May 2016, Release 3.0</emphasis></para>
     <para>The user documentation is broken down into 6 chapters and also includes the Technical
         Documentation and the Glossary of Terms</para>
     <note>
@@ -784,7 +784,7 @@
                         <title>Holdings records</title>
                         <para role="Normal">OLE Holding Records store information about particular
                             copies, including “base” call numbers and shelving locations. In OLE
-                            2.0, holdings are maintained in a format specific to OLE called “OLE
+                            3.0, holdings are maintained in a format specific to OLE called “OLE
                             holdings” which also provides the ability to record summary holdings
                             information. In the future, other types of holdings formats
                             (collectively referred to as “source holdings”) will be supported. “OLE
