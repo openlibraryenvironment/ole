@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="currentLoanListSection-HorizontalBoxSection" p:onClickScript="toggleCurrentLoanSection()" parent="Uif-HorizontalBoxSection" p:style="width:1300px;margin-left:auto; margin-right:0;" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
+    <bean id="currentLoanListSection-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" p:style="width:1300px;margin-left:auto; margin-right:0;" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
         <property name="headerText" value="&lt;a&gt;Items Checked Out This Session&lt;/a&gt;"/>
         <property name="items">
             <list>
