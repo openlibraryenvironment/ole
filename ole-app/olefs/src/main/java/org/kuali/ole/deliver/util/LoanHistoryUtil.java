@@ -52,12 +52,12 @@ public class LoanHistoryUtil {
 
     public void populateCirculationHistoryTable() {
 
-     /*   List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentDaoOjb().getAllLoans();
+        List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentDaoOjb().getAllLoans();
         List<OleCirculationHistory> oleCirculationHistoryList = new ArrayList<OleCirculationHistory>();
         for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
             oleCirculationHistoryList.add(createCirculationHistoryRecords(oleLoanDocument));
         }
-        getBusinessObjectService().save(oleCirculationHistoryList);*/
+        getBusinessObjectService().save(oleCirculationHistoryList);
     }
 
 
