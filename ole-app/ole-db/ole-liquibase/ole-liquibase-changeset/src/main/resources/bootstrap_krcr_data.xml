@@ -30,9 +30,6 @@
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
         <loadData tableName="KRCR_PARM_T" file="ole-bootstrap/attributes/krcr_parm_t.csv"/>
         <rollback>
             <delete tableName="KRCR_PARM_T">
