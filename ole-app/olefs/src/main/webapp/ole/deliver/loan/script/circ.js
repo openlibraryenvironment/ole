@@ -3,17 +3,9 @@ function openLightboxOnLoad(dialogId) {
     jQuery('.uif-dialogButtons').button();
 }
 
-function toggleCurrentLoanSection(){
-    jq( "#currentLoanListSection-HorizontalBoxSection" ).click(function() {
-        jq( "#currentLoanList-HorizontalBoxSection" ).toggle();
-    });
-}
 
-function toggleExistingLoanSection(){
-    jq( "#existingLoanItemListSection-HorizontalBoxSection" ).click(function() {
-        jq( "#existingLoanItemList-HorizontalBoxSection" ).toggle();
-    });
-}
+
+
 
 function openLightboxOnLoadWithOverrideParameters(dialogId,overrideParameters) {
     showLightboxComponent(dialogId, overrideParameters);
@@ -163,6 +155,18 @@ jq(document).ready(function () {
             }
         }
     });
+
+
+        jq( "#existingLoanItemListSection-HorizontalBoxSection h3").live("click",function() {
+            jq( "#existingLoanItemList-HorizontalBoxSection" ).toggle();
+
+        });
+
+         jq( "#currentLoanListSection-HorizontalBoxSection h3" ).live("click",function() {
+            jq( "#currentLoanList-HorizontalBoxSection" ).toggle();
+        });
+
+
 });
 
 function setTimeoutInterval(interval){

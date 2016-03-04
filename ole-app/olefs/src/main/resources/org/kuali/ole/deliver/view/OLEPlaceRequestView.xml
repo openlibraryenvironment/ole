@@ -96,8 +96,9 @@
     <bean id="OLEOverrideButtons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="OLEPlaceRequestOverrideButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="overrideRequest" p:actionLabel="Override" p:successCallback="cancelOverride();" p:render="@{!blockOverride}"/>
-                <bean id="OLEPlaceRequestCancelButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelOverride();" p:actionLabel="cancel"/>
+                <bean id="OLEPlaceRequestOverrideButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="overrideRequest" p:actionLabel="Override" p:successCallback="cancelOverride();" p:render="@{!blockOverride and !showOk}"/>
+                <bean id="OLEPlaceRequestCancelButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelOverride();" p:actionLabel="cancel" p:render="@{!showOk}"/>
+                <bean id="OLEPlaceRequestOkButton" parent="Uif-SecondaryActionButton-Small"  p:render="@{showOk}" p:actionLabel="ok" p:actionScript="cancelOverride();"/>
             </list>
         </property>
     </bean>
