@@ -548,4 +548,12 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     }
 
 
+    public List<OleLoanDocument> getAllLoans(){
+        Criteria criteria = new Criteria();
+        QueryByCriteria getAllLoansQuery = QueryFactory.newQuery(OleLoanDocument.class, criteria, true);
+        criteria.addColumnNotNull("LOAN_TRAN_ID");
+        return (List<OleLoanDocument>)getPersistenceBrokerTemplate().getCollectionByQuery
+                (getAllLoansQuery);
+    }
+
 }
