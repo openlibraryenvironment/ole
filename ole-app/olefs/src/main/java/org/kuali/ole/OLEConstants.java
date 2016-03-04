@@ -1147,6 +1147,8 @@ public class OLEConstants {
         public static final String OLE_PTRN_BILL_MAIN_DOC_SER = "olePatronBillMaintenanceDocumentService";
         public static final String NOT_ELIGIBLE_FOR_CREDIT = "error.not.eligible.for.credit";
         public static final String POSITIVE_VAL_NOT_ALLOWED = "error.positive.value.not.allowed";
+        public static final String PATRON_BILL_OLE_KR_KRAD = "/ole-kr-krad/";
+        public static final String PATRON_BILL_URL = "/portal.do?channelTitle=PatronBill&amp;channelUrl=";
         //patronMerge
         public static final String PATRON_MERGE_SURVIVOR_SELECT = "error.select.survivor";
         public static final String PATRON_MERGE_DUPLICATE_PATRON_SELECT = "error.select.dyingPatron";
