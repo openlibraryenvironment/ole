@@ -121,6 +121,42 @@ if(jq("#feeAmt_add_control").val()!=null) {
 }
 }
 
+function expandAll(){
+    if(jq("#patronDetailList_disclosureContent").attr('data-open') == 'false'){
+        jq("#patronDetailList_toggle").focus().click();
+    }
+    if(jq("#BillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#BillSection_toggle").focus().click();
+    }
+    if(jq("#DetailBillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#DetailBillSection_toggle").focus().click();
+    }
+    if(jq("#ClosedBillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#ClosedBillSection_toggle").focus().click();
+    }
+    if(jq("#billView_payment_transaction_Details_disclosureContent").attr('data-open') == 'false'){
+        jq("#billView_payment_transaction_Details_toggle").focus().click();
+    }
+}
+
+function collapseAll(){
+    if(jq("#patronDetailList_disclosureContent").attr('data-open') == 'true'){
+        jq("#patronDetailList_toggle").focus().click();
+    }
+    if(jq("#BillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#BillSection_toggle").focus().click();
+    }
+    if(jq("#DetailBillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#DetailBillSection_toggle").focus().click();
+    }
+    if(jq("#ClosedBillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#ClosedBillSection_toggle").focus().click();
+    }
+    if(jq("#billView_payment_transaction_Details_disclosureContent").attr('data-open') == 'true'){
+        jq("#billView_payment_transaction_Details_toggle").focus().click();
+    }
+}
+
 function closeForgiveNote(){
     if(jq("#forgiveNote_control").val().length > 0){
         jQuery.fancybox.close();
@@ -331,7 +367,7 @@ function printPatronBill(){
 }
 
 function closePatronBillWindow(){
-    self.window.close();
+    parent.window.close();
 }
 function removeCurrencyPattern(){
     if (jq("input#billView_paymentDetails_paidAmount_control").val()!=undefined) {

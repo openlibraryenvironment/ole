@@ -432,7 +432,7 @@
                 <ref bean="OLE_OlePatron_Uif-CreateNewLink"/>
                 <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{!#form.renderedInLightBox}"/>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:render="@{#form.renderedInLightBox}"
                       p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
             </list>
         </property>

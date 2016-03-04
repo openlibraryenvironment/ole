@@ -25,6 +25,18 @@
     <bean id="BillView" parent="BillView-parentBean" />
     <bean id="BillView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="Patron Bill Summary"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean="expandCollapse_PatronBill"/>
+                        <bean parent="Uif-Message" p:messageText="* indicates required field" p:style="float:right;margin-right: 10px;"/>
+                        <ref bean="billView_PatronBillButtons"/>
+                        <!--<bean parent="Uif-Message" p:messageText="* indicates required field"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean id="BillViewPage" parent="Uif-Page" >
@@ -162,20 +174,20 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="BillView-Footer" parent="Uif-FooterBase">
+    <bean id="BillView-Footer" parent="Uif-FooterBase" p:style="float:left">
         <property name="items">
             <list>
-                <bean id="BillView_selectBill" parent="Uif-SecondaryActionButton"  p:actionLabel="select all from this page"   p:successCallback="removeCurrencyPattern();"/>
-                <bean id="BillView_deselectBill" parent="Uif-SecondaryActionButton"    p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_selectBill" parent="Uif-SecondaryActionButton"  p:actionLabel="select all from this table"   p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_deselectBill" parent="Uif-SecondaryActionButton"    p:actionLabel="deselect all from this table"  p:successCallback="removeCurrencyPattern();"/>
             </list>
         </property>
     </bean>
 
-    <bean id="DetailedBillView-Footer" parent="Uif-FooterBase">
+    <bean id="DetailedBillView-Footer" parent="Uif-FooterBase" p:style="float:left">
         <property name="items">
             <list>
-                <bean id="BillView_selectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="select all from this page" p:successCallback="removeCurrencyPattern();" />
-                <bean id="BillView_deselectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_selectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="select all from this table" p:successCallback="removeCurrencyPattern();" />
+                <bean id="BillView_deselectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this table"  p:successCallback="removeCurrencyPattern();"/>
             </list>
         </property>
     </bean>
@@ -455,23 +467,40 @@
         </property>
     </bean>
 
+    <bean id="expandCollapse_PatronBill" parent="Uif-HorizontalBoxSection" p:style="float:right">
+        <property name="items">
+            <list>
+                <bean id="olePatronBill_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="olePatronBill_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="billView_PatronBillButtons" parent="Uif-HorizontalBoxSection" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
+        <property name="items">
+            <list>
+                <bean id="Accept_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Accept" p:actionEvent="accept"  p:componentSecurity.performActionAuthz="true"/>
+                <bean id="Forgive_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Forgive" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('forgiveNoteDialog');" p:actionEvent="payment" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="Print_Button" parent="Uif-SecondaryActionButton" p:methodToCall="printBillPayment" p:actionLabel="Print" p:ajaxSubmit="true"  p:successCallback="printPatronBill()"/>
+                <bean id="credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Credit" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('creditNoteDialog');"  p:actionEvent="credit" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Debit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Debit" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferDebitNoteDialog');"  p:actionEvent="debitTransfer" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Credit" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferCreditNoteDialog');"  p:actionEvent="creditTransfer" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_Refund_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Refund" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('refundNoteDialog');"  p:actionEvent="refund" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="transfer_cancelCredit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel Credit" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelCreditNoteDialog');" />
+                <bean id="Cancel_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel Bill" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelNoteDialog');" />
+                <bean id="Error_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Error" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('errorNoteDialog');"/>
+                <!--<bean id="Close_Button" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Cancel" p:ajaxSubmit="true"  p:successCallback="closePatronBillWindow()"/>-->
+                <bean id="Close_Button" parent="Uif-SecondaryActionButton" p:methodToCall="back" p:actionLabel="Cancel" />
+                <bean id="Mail_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Email To Patron" />
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="BillFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean id="Accept_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Accept" p:style="float:left;margin-left:2em" p:actionEvent="accept"  p:componentSecurity.performActionAuthz="true"/>
-                <bean id="Forgive_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Forgive" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('forgiveNoteDialog');" p:actionEvent="payment" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="Print_Button" parent="Uif-SecondaryActionButton" p:methodToCall="printBillPayment" p:actionLabel="Print" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="printPatronBill()"/>
-                <bean id="credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('creditNoteDialog');"  p:actionEvent="credit" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="transfer_Debit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Debit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferDebitNoteDialog');"  p:actionEvent="debitTransfer" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="transfer_Credit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Transfer Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('transferCreditNoteDialog');"  p:actionEvent="creditTransfer" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="transfer_Refund_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Refund" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('refundNoteDialog');"  p:actionEvent="refund" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="transfer_cancelCredit_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel Credit" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelCreditNoteDialog');" />
-                <bean id="Cancel_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelNoteDialog');" />
-                <bean id="Error_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Error" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('errorNoteDialog');"/>
-                <bean id="Close_Button" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="closePatronBillWindow()"/>
-                <bean id="Mail_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Email To Patron" p:style="float:left;margin-left:2em"/>
-
+                <ref bean="billView_PatronBillButtons"/>
             </list>
         </property>
     </bean>
