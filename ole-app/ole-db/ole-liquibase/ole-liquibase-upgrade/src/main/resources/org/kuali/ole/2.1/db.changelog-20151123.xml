@@ -692,17 +692,20 @@
             E.TOTAL_ENCUMBRANCE,
             SUMMATION.TOTAL_AMOUNT,
             P.PO_CRTE_DT AS PO_CRTE_DT,
-            E.INVOICED_QUANTITY AS INVOICED_QUANTITY
+            E.INVOICED_QUANTITY AS INVOICED_QUANTITY,
+            POTYPE.OLE_PO_TYPE
             FROM
             PUR_PO_T P,
             KREW_DOC_HDR_T D,
+            OLE_PUR_PO_TYP_T POTYPE,
             PUR_PO_ITM_TOT_ENC_V E,
             PUR_PO_ITM_TOT_AMT_V SUMMATION
             WHERE
             P.FDOC_NBR = E.FDOC_NBR
             AND
             P.FDOC_NBR=D.DOC_HDR_ID
-            AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+            AND P.FDOC_NBR = SUMMATION.FDOC_NBR
+            AND P.OLE_PO_TYPE_ID = POTYPE.OLE_PO_TYPE_ID)
         </createView>
     </changeSet>
 

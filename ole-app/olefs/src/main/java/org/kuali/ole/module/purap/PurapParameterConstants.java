@@ -79,6 +79,7 @@ public class PurapParameterConstants {
 
     public static final String AUTO_CLOSE_PO_FROM_DATE = "AUTO_CLOSE_PO_FROM_DATE";
     public static final String AUTO_CLOSE_PO_TO_DATE = "AUTO_CLOSE_PO_TO_DATE";
+    public static final String AUTO_CLOSE_PO_ORDER_TYPE = "AUTO_CLOSE_PO_ORDER_TYPE";
 
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
 
