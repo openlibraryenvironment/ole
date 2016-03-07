@@ -13,9 +13,11 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.ole.constants.OleNGConstants;
+import org.quartz.SchedulerException;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.job.SimpleJob;
-import org.springframework.batch.core.job.flow.FlowJob;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,20 +30,40 @@ import java.util.Scanner;
  *
  */
 public class SchedulerInitializer extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(SchedulerInitializer.class);
 
+    String[] springConfig = {"spring/batch/jobs/*.xml"};
+    BatchJobScheduler batchJobScheduler;
+    ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+
+    private static final Logger LOG = Logger.getLogger(SchedulerInitializer.class);
     private String urlBase;
 
     public void init() throws ServletException {
-        System.err.println("-- initializing --");
+        JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
+        System.out.println("-- initializing --");
+        List<OleBatchJob> allJobs = getAllScheduledJobs();
+        for (OleBatchJob oleBatchJob : allJobs) {
+            try {
+                getBatchJobScheduler().scheduleSpringBatchJob(oleBatchJob.getJob(), jobLauncher,
+                        oleBatchJob.getCronExpression(), oleBatchJob.getName(), "myTestTrigger");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        getAllScheduledJobs();
+    private BatchJobScheduler getBatchJobScheduler() throws SchedulerException {
+        if (batchJobScheduler == null) {
+            return new BatchJobScheduler();
+        }
+        return batchJobScheduler;
     }
 
     /**
      * Set the urlBase, this can be used for regression testing when the ConfigContext
      * hasn't been initialized.
-     * @param urlBase   URL excluding the trailing slash
+     *
+     * @param urlBase URL excluding the trailing slash
      */
     void setUrlBase(String urlBase) {
         this.urlBase = urlBase;
@@ -55,18 +77,19 @@ public class SchedulerInitializer extends HttpServlet {
         return urlBase;
     }
 
-    List<Job> getAllScheduledJobs() {
+    List<OleBatchJob> getAllScheduledJobs() {
         try {
             String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
             JSONArray schedules = new JSONArray(schedulesString);
-            List<Job> jobs = new ArrayList<>(schedules.length());
-            for (int i=0; i<schedules.length(); i++) {
+            List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
+            for (int i = 0; i < schedules.length(); i++) {
                 JSONObject schedule = schedules.getJSONObject(i);
                 String name = schedule.optString(OleNGConstants.PROCESS_NAME);
                 String cron = schedule.optString(OleNGConstants.CRON_EXPRESSION);
-                Job job = new SimpleJob(name);
-                jobs.add(job);
-                System.err.println(name + " " + cron + " " + schedule.toString());
+                Job springBatchJob = (Job) context.getBean(name);
+                OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cron, name);
+                jobs.add(oleBatchJob);
+                System.err.println("***" + name + " " + cron + " " + schedule.toString());
             }
             return jobs;
         } catch (Exception ex) {
@@ -76,8 +99,9 @@ public class SchedulerInitializer extends HttpServlet {
 
     /**
      * Do a http Get at some rest URL.
-     * @param restPath   the path starting with "rest/" of the URL where to do the GET
-     * @return  response to the Get request
+     *
+     * @param restPath the path starting with "rest/" of the URL where to do the GET
+     * @return response to the Get request
      */
     private String rest(String restPath) {
         try {
@@ -94,16 +118,12 @@ public class SchedulerInitializer extends HttpServlet {
             System.err.println("response: " + response.getEntity().toString());
             InputStream body = response.getEntity().getContent();
             Scanner scanner = new Scanner(body, "UTF-8").useDelimiter("\\A");
-            if (! scanner.hasNext()) {
+            if (!scanner.hasNext()) {
                 return "";
             }
             return scanner.next();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    private void scheduleJobs() {
     }
 }
