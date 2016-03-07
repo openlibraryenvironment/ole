@@ -1857,7 +1857,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         if (parameterService.parameterExists(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_ORDER_TYPE)) {
             orderTypeString = parameterService.getParameterValuesAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_ORDER_TYPE);
-            if(orderTypeString.toString().replaceAll("\\[","").replaceAll("\\]","").equalsIgnoreCase("All")) {
+            if(orderTypeString.size() == 0) {
+                orderTypeString = null;
+            }
+            else if(orderTypeString.toString().replaceAll("\\[","").replaceAll("\\]","").equalsIgnoreCase("All")) {
                 orderTypeString = null;
             }
         }
