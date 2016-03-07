@@ -159,6 +159,7 @@ public class OleNGConstants {
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
 
+    public static final String BATCH_PROCESS_JOBS = "rest/describe/getBatchProcessJobs";
     public static final String PROCESS_ID = "processId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";
     public static final String PROCESS_NAME = "batchProcessName";
