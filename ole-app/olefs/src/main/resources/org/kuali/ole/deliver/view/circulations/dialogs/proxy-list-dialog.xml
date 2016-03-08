@@ -115,15 +115,7 @@
         <property name="items">
             <list>
                 <bean id="btnProceed" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="if(!jq('.patronCheckBoxClass:checked').length == 0 || !jq('.patronCheckBoxListClass:checked').length == 0){
-                      var isChecked = false;
-                      isChecked = jq('#selfCheckout_line0_control').is(':checked');
-                      submitForm('processPatronSearchPostProxyHandling',{isSelfCheckout:isChecked},null,true,
-                      function (){jq('#checkoutItem_control').focus();}
-                      );jq.fancybox.close();
-                      } else {
-                         jq('#errorMessage_proxyPatron').attr('style','display:inline');
-                      }"
+                      p:actionScript="processProxySelection();"
                       p:actionLabel="OK"/>
                 <bean id="realPatronCloseBtn"
                       parent="Uif-SecondaryActionButton-Small"
