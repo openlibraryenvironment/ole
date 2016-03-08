@@ -57,8 +57,6 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
                 }
                 setPatronDocument(droolsExchange, patronDocument);
             }
-            String[] expectedRules = {};
-            droolsResponse = processRules(droolsExchange, patronDocument, expectedRules);
         } catch (Exception e) {
             droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
@@ -88,8 +86,19 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
                     droolsResponse = processRules(droolsExchange,realOlePatronDocument, expectedRules);
                 }
             }
+        } else {
+            String[] expectedRules = {};
+            droolsResponse = processRules(droolsExchange,patronDocument, expectedRules);
         }
 
+        return droolsResponse;
+    }
+
+    public DroolsResponse processPatronValidation(DroolsExchange droolsExchange) {
+        DroolsResponse droolsResponse = null;
+        OlePatronDocument patronDocument = getPatronDocument(droolsExchange);
+        String[] expectedRules = {};
+        droolsResponse = processRules(droolsExchange, patronDocument, expectedRules);
         return droolsResponse;
     }
 
