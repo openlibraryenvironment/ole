@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -32,24 +33,38 @@ import java.util.Scanner;
 public class SchedulerInitializer extends HttpServlet {
 
     String[] springConfig = {"spring/batch/jobs/*.xml"};
-    BatchJobScheduler batchJobScheduler;
+    BatchJobScheduler batchJobScheduler = null;
     ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
 
     private static final Logger LOG = Logger.getLogger(SchedulerInitializer.class);
     private String urlBase;
 
     public void init() throws ServletException {
-        JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-        System.out.println("-- initializing --");
-        List<OleBatchJob> allJobs = getAllScheduledJobs();
-        for (OleBatchJob oleBatchJob : allJobs) {
-            try {
-                getBatchJobScheduler().scheduleSpringBatchJob(oleBatchJob.getJob(), jobLauncher,
-                        oleBatchJob.getCronExpression(), oleBatchJob.getName(), "myTestTrigger");
-            } catch (Exception e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
+                System.out.println("-- initializing 1 --");
+                try {
+                    TimeUnit.MINUTES.sleep(3);
+                    System.out.println("-- initializing 2 --");
+                    List<OleBatchJob> allJobs = getAllScheduledJobs();
+                    for (OleBatchJob oleBatchJob : allJobs) {
+                        try {
+                            getBatchJobScheduler().scheduleSpringBatchJob(oleBatchJob.getJob(), jobLauncher,
+                                    oleBatchJob.getCronExpression(), oleBatchJob.getName(), "myTestTrigger");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    batchJobScheduler.startScheduler();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (SchedulerException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        }).start();
     }
 
     private BatchJobScheduler getBatchJobScheduler() throws SchedulerException {
