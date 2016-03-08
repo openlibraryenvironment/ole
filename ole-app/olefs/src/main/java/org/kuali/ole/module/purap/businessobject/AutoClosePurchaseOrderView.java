@@ -30,6 +30,7 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
     private Date purchaseOrderCreateTimestamp;
     private KualiDecimal invoicedQuantity;
     private String appDocStatus;
+    private String purchaseOrderType;
 
     public Date getPurchaseOrderCreateTimestamp() {
         return purchaseOrderCreateTimestamp;
@@ -65,5 +66,13 @@ public class AutoClosePurchaseOrderView extends PurchaseOrderView {
 
     public void setInvoicedQuantity(KualiDecimal invoicedQuantity) {
         this.invoicedQuantity = invoicedQuantity;
+    }
+
+    public String getPurchaseOrderType() {
+        return purchaseOrderType;
+    }
+
+    public void setPurchaseOrderType(String purchaseOrderType) {
+        this.purchaseOrderType = purchaseOrderType;
     }
 }
