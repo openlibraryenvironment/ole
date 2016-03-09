@@ -414,7 +414,7 @@
 
     <!--OLE Feedback Link-->
     <param name="ole.provide.feedback.link.text">Provide Feedback</param>
-    <param name="ole.provide.feedback.link">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10792</param>
+    <param name="ole.provide.feedback.link">https://openlibraryenvironment.atlassian.net/secure/CreateIssue.jspa?pid=10792</param>
 
     <!--Describe related params-->
     <param name="ole.docstore.url">${ole.docstore.url.base}/discovery</param>
