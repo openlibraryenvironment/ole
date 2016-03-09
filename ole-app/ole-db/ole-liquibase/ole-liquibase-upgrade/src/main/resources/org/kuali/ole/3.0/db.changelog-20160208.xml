@@ -40,7 +40,7 @@
         <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/3.0/data/ole_krim_role_perm_t.csv"/>
         <rollback>
             <delete tableName="KRIM_ROLE_PERM_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
+                <where>APPL_NMSPC_CD = 'OLEgit branch'</where>
             </delete>
         </rollback>
     </changeSet>
@@ -109,17 +109,20 @@
             E.TOTAL_ENCUMBRANCE,
             SUMMATION.TOTAL_AMOUNT,
             P.PO_CRTE_DT AS PO_CRTE_DT,
-            E.INVOICED_QUANTITY AS INVOICED_QUANTITY
+            E.INVOICED_QUANTITY AS INVOICED_QUANTITY,
+            POTYPE.OLE_PO_TYPE
             FROM
             PUR_PO_T P,
             KREW_DOC_HDR_T D,
+            OLE_PUR_PO_TYP_T POTYPE,
             PUR_PO_ITM_TOT_ENC_V E,
             PUR_PO_ITM_TOT_AMT_V SUMMATION
             WHERE
             P.FDOC_NBR = E.FDOC_NBR
             AND
             P.FDOC_NBR=D.DOC_HDR_ID
-            AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+            AND P.FDOC_NBR = SUMMATION.FDOC_NBR
+            AND P.OLE_PO_TYPE_ID = POTYPE.OLE_PO_TYPE_ID)
         </createView>
     </changeSet>
 
@@ -134,6 +137,27 @@
                 columnName="LOCN_POPUP"
                 defaultValue="N"
                 tableName="OLE_CRCL_DSK_LOCN_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

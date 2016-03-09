@@ -206,9 +206,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     }
 
     /**
-     * @see org.kuali.ole.module.purap.document.dataaccess.PurchaseOrderDao#getAllOpenPurchaseOrders(java.util.List,java.sql.Date,java.sql.Date)
+     * @see org.kuali.ole.module.purap.document.dataaccess.PurchaseOrderDao#getAllOpenPurchaseOrders(java.util.List,java.sql.Date,java.sql.Date,java.util.Collection)
      */
-    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes, java.sql.Date poCloseFromDate,Date poCloseToDate) {
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes, java.sql.Date poCloseFromDate,Date poCloseToDate, Collection<String> orderTypeString) {
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
@@ -217,6 +217,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.APP_DOC_STAT, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         criteria.addGreaterOrEqualThan(PurapPropertyConstants.TOTAL_AMOUNT, new KualiDecimal(0));
         criteria.addGreaterThan(PurapPropertyConstants.INVOICED_QTY, new KualiDecimal(0));
+        if(orderTypeString != null) {
+            criteria.addIn(PurapPropertyConstants.PO_TYPE, orderTypeString);
+        }
         String dbVendor = getProperty("db.vendor");
         if (dbVendor.equals("mysql")) {
             if (poCloseFromDate != null) {
