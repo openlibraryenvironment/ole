@@ -62,7 +62,8 @@
     <param name="organization.marc.code">OLE</param>
     <param name="info.DateFormat">MM/dd/yyyy</param>
 
-
+    <param name="app.feedback.linkText">Provide Feedback</param>
+    <param name="app.feedback.link">https://openlibraryenvironment.atlassian.net/secure/CreateIssue.jspa?pid=10792</param>
 
 
 </config>
