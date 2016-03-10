@@ -474,7 +474,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
                 }
                 return true;
             }
-            else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
+            else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 encumbranceAmount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
@@ -722,7 +722,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
                 }
                 return true;
             }
-            else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
+            else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 expenseAmount = new KualiDecimal(oleSufficientFundCheck.getExpenseAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck

@@ -200,7 +200,7 @@ public class OlePaymentRequestFundCheckServiceImpl implements OlePaymentRequestF
                             .divide(new KualiDecimal(100)));
 
                 }
-            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
+            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 amount = new KualiDecimal(oleSufficientFundCheck.getExpenseAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
@@ -255,7 +255,7 @@ public class OlePaymentRequestFundCheckServiceImpl implements OlePaymentRequestF
                             .divide(new KualiDecimal(100)));
 
                 }
-            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
+            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 amount = new KualiDecimal(oleSufficientFundCheck.getExpenseAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck

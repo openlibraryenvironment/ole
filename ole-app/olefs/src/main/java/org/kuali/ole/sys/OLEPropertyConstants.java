@@ -1258,7 +1258,7 @@ public class OLEPropertyConstants {
     public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
 
     public static final String SUFFICIENT_FUND_ENC_TYP_PERCENTAGE = "percentage";
-    public static final String SUFFICIENT_FUND_ENC_TYP_HASH                                          = "Hash";
+    public static final String SUFFICIENT_FUND_ENC_TYP_CASH                                          = "Hash";
     public static final String SUFFICIENT_FUND_ENC_OVER = "over";
     public static final String SUFFICIENT_FUND_ENC_UNDER = "under";
     public static final String BLOCK_USE = "block_user";
