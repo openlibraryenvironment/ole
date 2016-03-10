@@ -299,7 +299,27 @@
         <property name="renderLineActions" value="true"/>
         <property name="items">
             <list>
-                <bean id="invoice-note"  parent="Uif-InputField" p:label="Invoice Note" p:propertyName="note" p:required="false" />
+                <bean id="poItem-invoice-note" parent="Uif-InputField" p:label="Invoice Note"
+                      p:propertyName="note" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="onKeyPressScript" value="
+                if(e.which==13){
+                    e.preventDefault();
+                    var obj = this.id;
+                    var index = obj.substring(obj.indexOf('_line'),obj.length).replace('_line', '').replace('_add_control', '');
+                    var id= '#OLEInvoiceView-processItems-invoiceNotes_line'+index+'_toggle_col';
+                    retrieveComponent('OleInvoiceView-POItems','addPOLineItemNote', function(){
+                    jq(id).focus();
+                    },null,true);
+                }"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
             </list>
         </property>
     </bean>
