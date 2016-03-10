@@ -154,6 +154,10 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
                 .findByPrimaryKey(OleSufficientFundCheck.class, encMap);
         KualiDecimal amount = KualiDecimal.ZERO;
+
+        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForObject(chartCode,accountNumber,objectCode);
+        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForObject(chartCode,accountNumber,objectCode);
+        initialBudgetAmount = initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
         if (oleSufficientFundCheck != null) {
             if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
@@ -168,7 +172,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                             .divide(new KualiDecimal(100)));
 
                 }
-            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
+            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
@@ -180,10 +184,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                 }
             }
         }
-        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForObject(chartCode,accountNumber,objectCode);
-        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForObject(chartCode,accountNumber,objectCode);
-        return initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
-        //return initialBudgetAmount;
+        return initialBudgetAmount;
     }
 
     private KualiDecimal getEncumbranceForAccount(String chartCode, String accountNumber, String objectCode) {
@@ -214,9 +215,10 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
 
                         String user = null;
                         if (GlobalVariables.getUserSession() == null) {
-                            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                            user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
-                            GlobalVariables.setUserSession(new UserSession(user));
+                           // kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+                           // user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
+                           // GlobalVariables.setUserSession(new UserSession(user));
+                            GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR)));
                         }
 
 
@@ -260,6 +262,10 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
                 .findByPrimaryKey(OleSufficientFundCheck.class, encMap);
         KualiDecimal amount = KualiDecimal.ZERO;
+        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForAccount(chartCode,accountNumber,objectCode);
+        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForAccount(chartCode,accountNumber,objectCode);
+        initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
+
         if (oleSufficientFundCheck != null) {
             if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
@@ -274,7 +280,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                             .divide(new KualiDecimal(100)));
 
                 }
-            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
+            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_HASH.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
                 amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
                 if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
@@ -286,10 +292,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                 }
             }
         }
-
-        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForAccount(chartCode,accountNumber,objectCode);
-        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForAccount(chartCode,accountNumber,objectCode);
-        return initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
+        return initialBudgetAmount;
     }
 
     private KualiDecimal getEncumbranceForObject(String chartCode, String accountNumber, String objectCode) {
@@ -320,9 +323,11 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                         //GlobalVariables.setUserSession(new UserSession("ole-khuntley"));
                         String user = null;
                         if (GlobalVariables.getUserSession() == null) {
-                            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                            user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
-                            GlobalVariables.setUserSession(new UserSession(user));
+                          //  kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+                        //    user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
+                            GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR)));
+
+//                            GlobalVariables.setUserSession(new UserSession(user));
                         }
                         workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(encumReqsDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
                         if(!(workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isException())) {
