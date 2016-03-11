@@ -14,6 +14,8 @@
    - limitations under the License.
 --%>
 
+<%@ page import="org.kuali.rice.core.api.config.property.ConfigContext" %>
+
 <link href="./css/portal.css" rel="stylesheet" type="text/css"/>
 <!--
 <script language="JavaScript" type="text/javascript" src="http://dev.ole.kuali.org/ole-dev/kr/scripts/my_common.js"></script>
@@ -29,9 +31,13 @@
 <div id="header" title="Kuali Open Library Environment">
     <h1 class="kfs"></h1>
 </div>
+<%
+    String feedbackText=ConfigContext.getCurrentContextConfig().getProperty("app.feedback.linkText");
+    String feedbackUrl=ConfigContext.getCurrentContextConfig().getProperty("app.feedback.link");
+%>
 <div id="feedback">
-    <a class="portal_link" href="#"
-       title="Provide Feedback">Provide Feedback</a>
+    <a class="portal_link" href="<%=feedbackUrl%>" target="_blank"
+       title="Provide Feedback"><%=feedbackText%></a>
 </div>
 
 <div id="build">${project.version} :: ${kuali.build.timestamp}</div>
