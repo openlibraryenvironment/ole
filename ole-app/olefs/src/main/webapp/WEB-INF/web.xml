@@ -538,7 +538,8 @@ This file contains custom application specific web.xml content.
         <display-name>SchedulerInitializer</display-name>
         <servlet-name>SchedulerInitializer</servlet-name>
         <servlet-class>org.kuali.ole.scheduler.SchedulerInitializer</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <!-- startup after the rest servlet defined above -->
+        <load-on-startup>7</load-on-startup>
     </servlet>
 
     <servlet-mapping>
