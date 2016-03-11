@@ -185,6 +185,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.jobId = null;
         if ($scope.quickLaunch.showModal) {
             $scope.quickLaunch.selectedFile = null;
+            document.getElementById('selectedFile').value = null;
             $scope.quickLaunch.showModal = false;
         } else if ($scope.batchSchedule.showModal) {
             $scope.batchSchedule.showModal = false;
@@ -217,6 +218,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             $scope.closeModal();
             //$scope.initializeExecutions();
         });
+        document.getElementById('selectedFile').value = null;
         $scope.quickLaunch.showModal = false;
         $scope.closeModal();
     };
