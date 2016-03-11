@@ -1009,8 +1009,8 @@
         <column name="ITM_ENUM"  size="100" type="VARCHAR"/>
         <column name="ITM_CHRON"  size="100" type="VARCHAR"/>
         <column name="ITM_LOC"  size="600" type="VARCHAR"/>
-        <column name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
-        <column name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
+        <column default="0.00" name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
+        <column default="0.00" name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
         <column name="PAY_CREDIT_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_TRANSFER_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_REFUND_NOTE" size="500" type="VARCHAR"/>
@@ -1060,8 +1060,8 @@
         <column name="PAY_NOTE" size="500" type="VARCHAR"/>
         <column name="NOTE" size="500" type="VARCHAR"/>
         <column name="BILL_REVIEWED" size="1" type="VARCHAR"/>
-        <column name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
-        <column name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
+        <column default="0.00" name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
+        <column default="0.00" name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
         <index name="OLE_DLVR_PTRN_BILL_TI1">
             <index-column name="OLE_PTRN_ID"/>
         </index>
