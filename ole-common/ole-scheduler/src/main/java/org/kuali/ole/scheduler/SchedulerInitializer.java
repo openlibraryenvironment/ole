@@ -1,6 +1,7 @@
 package org.kuali.ole.scheduler;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -8,8 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.ole.constants.OleNGConstants;
@@ -21,6 +22,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,43 +30,61 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * Read all job schedules from REST api, start them.
  */
 public class SchedulerInitializer extends HttpServlet {
-
     String[] springConfig = {"spring/batch/jobs/*.xml"};
     BatchJobScheduler batchJobScheduler = null;
     ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
 
-    private static final Logger LOG = Logger.getLogger(SchedulerInitializer.class);
     private String urlBase;
 
     public void init() throws ServletException {
+        // invoke in separate thead to complete the deployment in parallel
         new Thread(new Runnable() {
             @Override
             public void run() {
-                JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-                System.out.println("-- initializing 1 --");
-                try {
-                    TimeUnit.MINUTES.sleep(3);
-                    System.out.println("-- initializing 2 --");
-                    List<OleBatchJob> allJobs = getAllScheduledJobs();
-                    for (OleBatchJob oleBatchJob : allJobs) {
-                        try {
-                            getBatchJobScheduler().scheduleSpringBatchJob(oleBatchJob.getJob(), jobLauncher,
-                                    oleBatchJob.getCronExpression(), oleBatchJob.getName(), "myTestTrigger");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    batchJobScheduler.startScheduler();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (SchedulerException e) {
-                    e.printStackTrace();
-                }
+                initScheduler();
             }
         }).start();
+    }
+
+    void initScheduler() {
+        try {
+            System.err.println("-- initializing --");
+            List<OleBatchJob> allJobs = null;
+            for (int n=1; n<50; n++) {
+                allJobs = getAllScheduledJobs();
+                if (allJobs != null) {
+                    break;
+                }
+                System.err.println("rest not yet available, not fully deployed?");
+                TimeUnit.SECONDS.sleep(n);
+            }
+            if (allJobs == null) {
+                throw new RuntimeException("REST api not available: " + OleNGConstants.BATCH_PROCESS_JOBS);
+            }
+            scheduleJobs(allJobs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scheduleJobs(List<OleBatchJob> allJobs) throws SchedulerException {
+        JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
+
+        for (OleBatchJob oleBatchJob : allJobs) {
+            try {
+                getBatchJobScheduler().scheduleSpringBatchJob(oleBatchJob.getJob(), jobLauncher,
+                        oleBatchJob.getCronExpression(), oleBatchJob.getName(), "myTestTrigger");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (batchJobScheduler == null) {
+            return;
+        }
+        batchJobScheduler.startScheduler();
     }
 
     private BatchJobScheduler getBatchJobScheduler() throws SchedulerException {
@@ -92,53 +112,56 @@ public class SchedulerInitializer extends HttpServlet {
         return urlBase;
     }
 
-    List<OleBatchJob> getAllScheduledJobs() {
-        try {
-            String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
-            JSONArray schedules = new JSONArray(schedulesString);
-            List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
-            for (int i = 0; i < schedules.length(); i++) {
+    /**
+     * All batch jobs.
+     * @return List of jobs, may be empty, or null if the REST api is not yet available.
+     */
+    List<OleBatchJob> getAllScheduledJobs() throws IOException, JSONException {
+        String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
+        if (schedulesString == null) {
+            return null;
+        }
+        JSONArray schedules = new JSONArray(schedulesString);
+        List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
+        for (int i = 0; i < schedules.length(); i++) {
+            try {
                 JSONObject schedule = schedules.getJSONObject(i);
                 String name = schedule.optString(OleNGConstants.PROCESS_NAME);
                 String cron = schedule.optString(OleNGConstants.CRON_EXPRESSION);
                 Job springBatchJob = (Job) context.getBean(name);
                 OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cron, name);
                 jobs.add(oleBatchJob);
-                System.err.println("***" + name + " " + cron + " " + schedule.toString());
+                System.err.println("added oleBatchJob: " + name + " " + cron + " " + schedule.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return jobs;
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
         }
+        return jobs;
     }
 
     /**
      * Do a http Get at some rest URL.
      *
      * @param restPath the path starting with "rest/" of the URL where to do the GET
-     * @return response to the Get request
+     * @return response to the Get request, null if restPath not found
      */
-    private String rest(String restPath) {
-        try {
-            String url = getUrlBase() + "/" + restPath;
-            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-            credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("ole-quickstart", ""));
-            CloseableHttpClient httpClient = HttpClientBuilder
-                    .create()
-                    .setDefaultCredentialsProvider(credentialsProvider)
-                    .build();
-            HttpResponse response = httpClient.execute(new HttpGet(url));
-            System.err.println("URL: " + url);
-            System.err.println("response: " + response.toString());
-            System.err.println("response: " + response.getEntity().toString());
-            InputStream body = response.getEntity().getContent();
-            Scanner scanner = new Scanner(body, "UTF-8").useDelimiter("\\A");
-            if (!scanner.hasNext()) {
-                return "";
-            }
-            return scanner.next();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+    private String rest(String restPath) throws IOException {
+        String url = getUrlBase() + "/" + restPath;
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("ole-quickstart", ""));
+        CloseableHttpClient httpClient = HttpClientBuilder
+                .create()
+                .setDefaultCredentialsProvider(credentialsProvider)
+                .build();
+        HttpResponse response = httpClient.execute(new HttpGet(url));
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+            return null;
         }
+        InputStream body = response.getEntity().getContent();
+        Scanner scanner = new Scanner(body, "UTF-8").useDelimiter("\\A");
+        if (!scanner.hasNext()) {
+            return "";
+        }
+        return scanner.next();
     }
 }
