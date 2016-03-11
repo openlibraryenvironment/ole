@@ -1955,6 +1955,9 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         List<PurApAccountingLine> purApAccountingLines = purapItem.getSourceAccountingLines();
         BigDecimal totalPercent = BigDecimal.ZERO;
         BigDecimal totalAmt = BigDecimal.ZERO;
+        BigDecimal sumAmt = BigDecimal.ZERO;
+        int counter = 0;
+        int accLineSize = purApAccountingLines.size();
         for (PurApAccountingLine account : purApAccountingLines) {
             if (purapItem.getTotalAmount() != null && !purapItem.getTotalAmount().equals(KualiDecimal.ZERO)) {
                 if (account.getAccountLinePercent() != null && (account.getAmount() == null || account.getAmount().equals(KualiDecimal.ZERO))) {
@@ -1968,14 +1971,22 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     account.setAccountLinePercent(new BigDecimal(0));
                 } else if((account.getAmount()!=null&&account.getAccountLinePercent() != null) ||
                         (account.getAmount()!=null&& account.getAccountLinePercent().intValue()== 100)){
+                    if (counter == accLineSize - 1) {
                     BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
+                        account.setAmount(purapItem.getTotalAmount().subtract(new KualiDecimal(sumAmt)));
+                    } else {
+                        BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
                     account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
+                }
+
                 }
                 totalPercent = totalPercent.add(account.getAccountLinePercent());
                 totalAmt = totalAmt.add(account.getAmount().bigDecimalValue());
             } else {
                 account.setAmount(KualiDecimal.ZERO);
             }
+            ++counter;
+            sumAmt = sumAmt.add(account.getAmount().bigDecimalValue());
         }
         // If Total Percent or Total Amount mis matches,percentage is divided across accounting lines.
         if(totalPercent.intValue() != 100 ||
