@@ -86,7 +86,9 @@
 </kul:documentPage>
 <script type="text/javascript">
     window.onload = function () {
-        document.getElementById('document.vendorAliasName').focus();
+        if(document.getElementById('document.vendorName').value == '') {
+            document.getElementById('document.vendorAliasName').focus();
+        }
         if (${KualiForm.document.vendorEnterKeyEvent}) {
             document.getElementById('attachExistingBibId').checked = true;
             document.getElementById('attachExistingBibId').click();
