@@ -21,10 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -269,8 +266,13 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
         String rawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(records);
-
-        String response = mockBatchBibFileProcessor.processRecords(rawContent, records, OleNGConstants.MARC, batchProcessProfile,reportDirectory);
+        Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+        for(int index = 0; index < records.size(); index++){
+            RecordDetails recordDetails = new RecordDetails();
+            recordDetails.setRecord(records.get(index + 1));
+            recordDetailsMap.put(index, recordDetails);
+        }
+        String response = mockBatchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC, batchProcessProfile,reportDirectory);
         assertTrue(StringUtils.isNotBlank(response));
         System.out.println(response);
     }

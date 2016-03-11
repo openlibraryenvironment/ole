@@ -8,11 +8,9 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.*;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.reports.OrderImportReportLogHandler;
@@ -58,68 +56,69 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private HashMap operationIndMap;
 
     @Override
-    public String processRecords(String rawContent ,List<Record> records, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent ,Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
         List<Integer> purapIds = new ArrayList<>();
 
-        Map<String, Record> matchedRecords = new HashMap();
-        List<Record> unMatchedRecords = new ArrayList<>();
-        List<Record> multipleMatchedRecords = new ArrayList<>();
+        Map<Integer,RecordDetails> unMatchedRecordMap = new HashMap<>();
+        Map<Integer,RecordDetails> matchedRecordMap = new HashMap<>();
+        Map<Integer,RecordDetails> multipleMatchedRecordMap = new HashMap<>();
 
         List<OrderData> matchedOrderDatas = new ArrayList<OrderData>();
         List<OrderData> unmatchedOrderDatas = new ArrayList<OrderData>();
 
+
         BibUtil bibUtil = new BibUtil();
-        if (CollectionUtils.isNotEmpty(records)) {
+        if (recordsMap.size() > 0) {
 
             BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
             if (null != bibImportProfile) {
-                List<Record> recordToProcessBibImport = new ArrayList<>();
-                for (int index = 0; index < records.size(); index++) {
-
-                    Record marcRecord = records.get(index);
+                Map<Integer,RecordDetails> recordForBibImportsMap = new HashMap<>();
+                for (Iterator<Integer> iterator = recordsMap.keySet().iterator(); iterator.hasNext(); ) {
+                    Integer index = iterator.next();
+                    RecordDetails recordDetails = recordsMap.get(index);
+                    Record marcRecord = recordDetails.getRecord();
 
                     Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
                     OrderData orderData = new OrderData();
-                    orderData.setRecordNumber(String.valueOf(index + 1));
+                    orderData.setRecordNumber(String.valueOf(index));
                     orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
 
                     String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
-
 
                     if (StringUtils.isNotBlank(query)) {
                         query = query.replace("\\", "\\\\");
                         List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
                         if (null == results || results.size() > 1) {
                             System.out.println("**** More than one record found for query : " + query);
-                            multipleMatchedRecords.add(marcRecord);
+                            multipleMatchedRecordMap.put(index, recordDetails);
                             continue;
                         }
 
                         if (null != results && results.size() == 1) {
                             SolrDocument solrDocument = (SolrDocument) results.get(0);
                             String bibId = (String) solrDocument.getFieldValue("id");
-                            matchedRecords.put(bibId, marcRecord);
+                            recordDetails.setBibUUID(bibId);
+                            matchedRecordMap.put(index, recordDetails);
                             orderData.setSuccessfulMatchPoints(query);
                             matchedOrderDatas.add(orderData);
                         } else {
-                            unMatchedRecords.add(marcRecord);
+                            unMatchedRecordMap.put(index, recordDetails);
                             unmatchedOrderDatas.add(orderData);
                         }
                     } else {
-                        unMatchedRecords.add(marcRecord);
+                        unMatchedRecordMap.put(index, recordDetails);
                         unmatchedOrderDatas.add(orderData);
                     }
                 }
-
-                recordToProcessBibImport.addAll(matchedRecords.values());
-                recordToProcessBibImport.addAll(unMatchedRecords);
+                recordForBibImportsMap.putAll(matchedRecordMap);
+                recordForBibImportsMap.putAll(unMatchedRecordMap);
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
-                if (CollectionUtils.isNotEmpty(recordToProcessBibImport)) {
-                    oleNGBibImportResponse = processBibImport(rawContent, recordToProcessBibImport, fileType,  bibImportProfile, reportDirectoryName);
+                if (recordForBibImportsMap.size() > 0) {
+                    oleNGBibImportResponse = processBibImport(rawContent, recordForBibImportsMap, fileType,  bibImportProfile, reportDirectoryName);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -133,10 +132,16 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                             Map<String, Record> recordsToProcess = new HashMap<>();
                             List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
                             if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
-                                recordsToProcess = matchedRecords;
+                                List<RecordDetails> matchedRecordDetails = new ArrayList<RecordDetails>(matchedRecordMap.values());
+                                if (CollectionUtils.isNotEmpty(matchedRecordDetails)) {
+                                    for (Iterator<RecordDetails> recordDetailsIterator = matchedRecordDetails.iterator(); recordDetailsIterator.hasNext(); ) {
+                                        RecordDetails recordDetails = recordDetailsIterator.next();
+                                        recordsToProcess.put(recordDetails.getBibUUID(), recordDetails.getRecord());
+                                    }
+                                }
                                 orderDatasToReport = matchedOrderDatas;
                             } else if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
-                                recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse, matchedRecords);
+                                recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse,unMatchedRecordMap);
                                 orderDatasToReport = unmatchedOrderDatas;
                             }
                             try {
@@ -186,7 +191,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
     }
 
-    private Map<String, Record> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, Map<String, Record> matchedRecords) {
+    private Map<String, Record> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, Map<Integer, RecordDetails> recordDetailsMap) {
 
         Map<String, Record> map = new HashMap<>();
 
@@ -195,16 +200,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             if (CollectionUtils.isNotEmpty(bibResponses)) {
                 for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
                     BibResponse bibResponse = iterator.next();
-                    String bibId = bibResponse.getBibId();
-                    if (!matchedRecords.containsKey(bibId)) {
-                        String bibIdWithoutPrefix = DocumentUniqueIDPrefix.getDocumentId(bibId);
-                        BibRecord matchedBibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibIdWithoutPrefix);
-                        if (null != matchedBibRecord) {
-                            String content = matchedBibRecord.getContent();
-                            List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
-                            if (CollectionUtils.isNotEmpty(records)) {
-                                map.put(bibId, records.get(0));
-                            }
+                    Integer recordIndex = bibResponse.getRecordIndex();
+                    if (recordDetailsMap.containsKey(recordIndex)) {
+                        RecordDetails recordDetails = recordDetailsMap.get(recordIndex);
+                        if(null != recordDetails) {
+                            map.put(bibResponse.getBibId(), recordDetails.getRecord());
                         }
                     }
                 }
@@ -240,10 +240,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(String rawContent ,List<Record> records,String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
+    private OleNGBibImportResponse processBibImport(String rawContent ,Map<Integer, RecordDetails> recordsMap,String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            String response = batchBibFileProcessor.processRecords(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
+            String response = batchBibFileProcessor.processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName);
             if(StringUtils.isNotBlank(response)) {
                 oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
             }
@@ -299,5 +299,4 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
         return operationIndMap;
     }
-
 }

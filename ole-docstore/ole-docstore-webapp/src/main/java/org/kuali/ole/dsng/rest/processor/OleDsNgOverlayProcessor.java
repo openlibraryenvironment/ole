@@ -67,6 +67,10 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
 
                 BibResponse bibResponse = new BibResponse();
+                String recordIndex = getStringValueFromJsonObject(bibJSONDataObject, OleNGConstants.RECORD_INDEX);
+                if(null != recordIndex) {
+                    bibResponse.setRecordIndex(Integer.valueOf(recordIndex));
+                }
 
                 String ops = bibJSONDataObject.getString(OleNGConstants.OPS);
                 List<String> operationsList = getListFromJSONArray(ops);
@@ -443,6 +447,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             }
         }
 
+        bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
         if (doIndex && StringUtils.isNotBlank(bibRecord.getBibId())) {
             getBibIndexer().getInputDocumentForBib(bibRecord, solrInputDocumentMap);
         }

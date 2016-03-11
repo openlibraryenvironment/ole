@@ -251,17 +251,16 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     }
 
     private void setOrderType(OleRequisitionDocument requisitionDocument, OleTxRecord oleTxRecord) {
-        if (oleTxRecord.getOrderType() != null) {
-            Map purchaseOrderTypeMap = new HashMap();
+        Map purchaseOrderTypeMap = new HashMap();
+        if (StringUtils.isNotBlank(oleTxRecord.getOrderType())) {
             purchaseOrderTypeMap.put(OLEConstants.PO_TYPE, oleTxRecord.getOrderType());
-            org.kuali.rice.krad.service.BusinessObjectService
-                    businessObjectService = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
-            List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) businessObjectService.findMatching(PurchaseOrderType.class, purchaseOrderTypeMap);
-            if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
-                requisitionDocument.setPurchaseOrderTypeId(purchaseOrderTypeDocumentList.get(0).getPurchaseOrderTypeId());
-            }
         } else {
-            requisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+            purchaseOrderTypeMap.put("purchaseOrderTypeId", OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+        }
+        List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, purchaseOrderTypeMap);
+        if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
+            requisitionDocument.setPurchaseOrderTypeId(purchaseOrderTypeDocumentList.get(0).getPurchaseOrderTypeId());
+            requisitionDocument.setOrderType(purchaseOrderTypeDocumentList.get(0));
         }
     }
 

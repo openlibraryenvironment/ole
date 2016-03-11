@@ -35,14 +35,16 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(String rawContent ,List<Record> records, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent ,Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
-        for (int index = 0; index < records.size(); index++) {
-            Record marcRecord = records.get(index);
+        for (Iterator<Integer> iterator = recordsMap.keySet().iterator(); iterator.hasNext(); ) {
+            Integer index = iterator.next();
+            RecordDetails recordDetails = recordsMap.get(index);
+            Record marcRecord = recordDetails.getRecord();
             JSONObject jsonObject = null;
 
             if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
@@ -60,15 +62,15 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     if (null != results && results.size() == 1) {
                         SolrDocument solrDocument = (SolrDocument) results.get(0);
                         String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
-                        jsonObject = prepareRequest(bibId, marcRecord, batchProcessProfile);
+                        jsonObject = prepareRequest(index, bibId, marcRecord, batchProcessProfile);
                         matchedRecords.add(marcRecord);
                     } else {
-                        jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                        jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
                         unmatchedRecords.add(marcRecord);
                     }
                 }
             } else {
-                jsonObject = prepareRequest(null, marcRecord, batchProcessProfile);
+                jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
                 unmatchedRecords.add(marcRecord);
             }
             jsonArray.put(jsonObject);
@@ -76,24 +78,35 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         if (jsonArray.length() > 0) {
             response = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
-            try {
-                OleNGBibImportResponse oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
-                oleNGBibImportResponse.setMatchedBibsCount(matchedRecords.size());
-                oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
-                oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
-                oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
-                oleNGBibImportResponse.setMatchedRecords(matchedRecords);
-                oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
-                oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
-                generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
+
+        OleNGBibImportResponse oleNGBibImportResponse = null;
+        try {
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(null  == oleNGBibImportResponse) {
+            oleNGBibImportResponse = new OleNGBibImportResponse();
+        }
+
+        oleNGBibImportResponse.setMatchedBibsCount(matchedRecords.size());
+        oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
+        oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
+        oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
+        oleNGBibImportResponse.setMatchedRecords(matchedRecords);
+        oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
+        oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
+        oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
+        generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
+
         return response;
     }
 
-    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) throws Exception {
+    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) {
         oleNGBibImportResponse.setDirectoryName(reportDirectoryName);
         BibImportReportLogHandler bibImportReportLogHandler = BibImportReportLogHandler.getInstance();
         bibImportReportLogHandler.logMessage(oleNGBibImportResponse,reportDirectoryName);
@@ -123,7 +136,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
      * main bibData json object that contains the respective holdings, items json objects.
      * @throws JSONException
      */
-    private JSONObject prepareRequest(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
+    private JSONObject prepareRequest(Integer index, String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
 
         JSONObject bibData = new JSONObject();
@@ -135,6 +148,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
+        bibData.put(OleNGConstants.RECORD_INDEX , index);
         bibData.put(OleNGConstants.UPDATED_BY, updatedUserName);
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
