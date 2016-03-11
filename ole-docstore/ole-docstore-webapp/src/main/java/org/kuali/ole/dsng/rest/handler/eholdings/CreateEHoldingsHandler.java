@@ -104,8 +104,6 @@ public class CreateEHoldingsHandler extends Handler {
             metaDataHandlers.add(new CurrentSubscriptionEndDateHandler());
             metaDataHandlers.add(new CurrentSubscriptionStartDateHandler());
             metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorCodeHandler());
-            metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorNoteHandler());
-            metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorPublicDisplayHandler());
             metaDataHandlers.add(new EResourceIdHandler());
             metaDataHandlers.add(new NoOfSumultaneousUserHander());
             metaDataHandlers.add(new InitialSubscriptionEndDateHandler());

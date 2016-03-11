@@ -8,7 +8,6 @@ import org.marc4j.MarcWriter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
-import org.springframework.util.ObjectUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;

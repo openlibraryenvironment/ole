@@ -71,9 +71,6 @@ public class POCallable implements Callable {
             oleBibRecord.setBib(bib);
             oleOrderRecord.setOleBibRecord(oleBibRecord);
 
-            BibId bibTree = new BibId();
-            bibTree.setId(bibId);
-            oleOrderRecord.setBibTree(bibTree);
 
             oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
 

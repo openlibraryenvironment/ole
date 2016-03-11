@@ -8,6 +8,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.select.bo.OLEDonor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,19 +55,29 @@ public class DonorCodeHandler extends ItemHandler {
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    for (Iterator<OLEItemDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
-                        OLEItemDonorRecord oleItemDonorRecord = iterator1.next();
-                        oleItemDonorRecord.setDonorCode(donorCode);
+                    OLEDonor donor = getDonorCode(donorCode);
+                    if(null != donor) {
+                        for (Iterator<OLEItemDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
+                            OLEItemDonorRecord oleItemDonorRecord = iterator1.next();
+                            oleItemDonorRecord.setDonorCode(donor.getDonorCode());
+                            oleItemDonorRecord.setDonorNote(donor.getDonorNote());
+                            oleItemDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
+                        }
                     }
                 }
             } else {
                 donorList = new ArrayList<OLEItemDonorRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
-                    oleItemDonorRecord.setDonorCode(donorCode);
-                    oleItemDonorRecord.setItemId(itemRecord.getItemId());
-                    donorList.add(oleItemDonorRecord);
+                    OLEDonor donor = getDonorCode(donorCode);
+                    if(null != donor) {
+                        OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
+                        oleItemDonorRecord.setDonorCode(donor.getDonorCode());
+                        oleItemDonorRecord.setDonorNote(donor.getDonorNote());
+                        oleItemDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
+                        oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                        donorList.add(oleItemDonorRecord);
+                    }
                 }
                 itemRecord.setDonorList(donorList);
             }

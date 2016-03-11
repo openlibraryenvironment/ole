@@ -1,18 +1,10 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.PHoldings;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.Exchange;
@@ -23,7 +15,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by SheikS on 12/26/2015.
@@ -94,8 +85,6 @@ public class CreateItemHandler extends Handler {
             metaDataHandlers.add(new ChronologyHandler());
             metaDataHandlers.add(new CopyNumberHandler());
             metaDataHandlers.add(new DonorCodeHandler());
-            metaDataHandlers.add(new DonorNoteHandler());
-            metaDataHandlers.add(new DonorPublicDisplayHandler());
             metaDataHandlers.add(new EnumerationHandler());
             metaDataHandlers.add(new ItemHoldingLocationHandler());
             metaDataHandlers.add(new ItemBarcodeHandler());

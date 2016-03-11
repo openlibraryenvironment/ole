@@ -68,8 +68,6 @@ public class UpdateEholdingsHandler extends Handler {
             eholdingMetaDataHandlers.add(new CurrentSubscriptionEndDateHandler());
             eholdingMetaDataHandlers.add(new CurrentSubscriptionStartDateHandler());
             eholdingMetaDataHandlers.add(new DonorCodeHandler());
-            eholdingMetaDataHandlers.add(new DonorNoteHandler());
-            eholdingMetaDataHandlers.add(new DonorPublicDisplayHandler());
             eholdingMetaDataHandlers.add(new EResourceIdHandler());
             eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
             eholdingMetaDataHandlers.add(new InitialSubscriptionEndDateHandler());

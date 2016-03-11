@@ -12,7 +12,6 @@ import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.dsng.util.CallNumberUtil;
-import org.kuali.ole.dsng.util.LocationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

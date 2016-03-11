@@ -1,19 +1,22 @@
-package org.kuali.ole.dsng.util;
+package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 
 import java.util.*;
 
 /**
- * Created by pvsubrah on 1/4/16.
+ * Created by SheikS on 3/2/2016.
  */
-public class LocationUtil extends OleDsHelperUtil {
+public class LocationUtil extends BusinessObjectServiceHelperUtil{
+
+    public static final String FORWARD_SLASH = "/";
+
+    private JSONHelperUtil jsonHelperUtil;
 
     public String getLevelIdByLocationCode(String locationCode) {
         OleLocation levelIdForLocationCode = getLocationByCode(locationCode);
@@ -50,40 +53,40 @@ public class LocationUtil extends OleDsHelperUtil {
         Map<String,String> locationMap = new TreeMap<String, String>();
 
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_1)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_1);
-            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            JSONArray jsonArrayeFromJsonObject = getJsonHelperUtil().getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_1);
+            List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_2)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_2);
-            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            JSONArray jsonArrayeFromJsonObject = getJsonHelperUtil().getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_2);
+            List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_3)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_3);
-            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            JSONArray jsonArrayeFromJsonObject = getJsonHelperUtil().getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_3);
+            List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_4)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_4);
-            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            JSONArray jsonArrayeFromJsonObject = getJsonHelperUtil().getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_4);
+            List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_5)) {
-            JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_5);
-            List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
+            JSONArray jsonArrayeFromJsonObject = getJsonHelperUtil().getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.LOCATION_LEVEL_5);
+            List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
                 addLocationToMap(value,locationMap);
@@ -117,5 +120,17 @@ public class LocationUtil extends OleDsHelperUtil {
         if(null != oleLocation) {
             locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
         }
+    }
+
+
+    public JSONHelperUtil getJsonHelperUtil() {
+        if(null == jsonHelperUtil) {
+            jsonHelperUtil = new JSONHelperUtil();
+        }
+        return jsonHelperUtil;
+    }
+
+    public void setJsonHelperUtil(JSONHelperUtil jsonHelperUtil) {
+        this.jsonHelperUtil = jsonHelperUtil;
     }
 }

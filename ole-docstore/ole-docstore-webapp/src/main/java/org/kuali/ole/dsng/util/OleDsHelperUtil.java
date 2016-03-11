@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
+import org.kuali.ole.utility.JSONHelperUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
     private MarcRecordUtil marcRecordUtil;
 
+    private JSONHelperUtil jsonHelperUtil;
+
 
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
@@ -48,71 +51,27 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
     }
 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
-        String returnValue = null;
-        try {
-            if (jsonObject.has(key)) {
-                returnValue = jsonObject.getString(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
+        return getJsonHelperUtil().getStringValueFromJsonObject(jsonObject,key);
     }
 
     public boolean getBooleanValueFromJsonObject(JSONObject jsonObject, String key) {
-        boolean returnValue = false;
-        try {
-            if (jsonObject.has(key)) {
-                returnValue = jsonObject.getBoolean(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
+        return getJsonHelperUtil().getBooleanValueFromJsonObject(jsonObject,key);
     }
 
     public JSONArray getJSONArrayeFromJsonObject(JSONObject jsonObject, String key) {
-        JSONArray returnValue = null;
-        try {
-            if(jsonObject.has(key)){
-                returnValue = jsonObject.getJSONArray(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
+        return getJsonHelperUtil().getJSONArrayeFromJsonObject(jsonObject,key);
     }
 
     public JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonObject.getJSONObject(key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
+        return getJsonHelperUtil().getJSONObjectFromJSONObject(jsonObject,key);
     }
 
     public JSONObject getJSONObjectFromJsonArray(JSONArray jsonArray, int index) {
-        JSONObject returnObject = null;
-        try {
-            returnObject = jsonArray.getJSONObject(index);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnObject;
+        return getJsonHelperUtil().getJSONObjectFromJsonArray(jsonArray,index);
     }
 
     public List<String> getListFromJSONArray(String operation){
-        List ops = new ArrayList();
-        try {
-            ops = new ObjectMapper().readValue(operation, new TypeReference<List<String>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return ops;
+        return getJsonHelperUtil().getListFromJSONArray(operation);
 
     }
 
@@ -183,4 +142,14 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
         this.marcRecordUtil = marcRecordUtil;
     }
 
+    public JSONHelperUtil getJsonHelperUtil() {
+        if(null == jsonHelperUtil) {
+            jsonHelperUtil = new JSONHelperUtil();
+        }
+        return jsonHelperUtil;
+    }
+
+    public void setJsonHelperUtil(JSONHelperUtil jsonHelperUtil) {
+        this.jsonHelperUtil = jsonHelperUtil;
+    }
 }

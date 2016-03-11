@@ -1,7 +1,10 @@
 package org.kuali.ole.select.document.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.DataCarrierService;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
@@ -13,6 +16,9 @@ import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.docstore.model.xmlpojo.ingest.*;
 import org.kuali.ole.docstore.model.xmlpojo.work.instance.oleml.InstanceCollection;
@@ -57,7 +63,7 @@ import java.util.*;
 /**
  * This class...
  */
-public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
+public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUtil implements OleDocstoreHelperService {
 
     private ConfigurationService kualiConfigurationService;
     private WebClientService webClientService;
@@ -1257,11 +1263,23 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                                         String itemTypeDescription,String itemStatusValue, OlePurchaseOrderItem singleItem, String initiatorName) throws Exception {
         OleCopy copy = oleCopyList.get(0);
         Holdings pHoldings = (Holdings) getDataCarrierService().getData("reqItemId:" + copy.getReqItemId() + ":holdings");
-        if(null == pHoldings) {
-            pHoldings = new PHoldings();
-        }
         if (StringUtils.isNotBlank(copy.getInstanceId())) {
             pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(copy.getInstanceId());
+        } else {
+            Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap = new HashMap<>();
+            if(StringUtils.isNotBlank(copy.getBibId())) {
+                String bibId = copy.getBibId();
+                bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId);
+                String holdingsUUID = getLocationMatchedHoldingsId(bibHoldingsDetailsMap, copy.getLocation(), bibId);
+                if(StringUtils.isNotBlank(holdingsUUID)) {
+                    pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsUUID);
+                    copy.setInstanceId(holdingsUUID);
+                }
+            }
+        }
+
+        if(null == pHoldings) {
+            pHoldings = new PHoldings();
         }
         List<org.kuali.ole.docstore.common.document.Item> itemList = new ArrayList<org.kuali.ole.docstore.common.document.Item>();
         org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = setHoldingDetails(copy);
@@ -1339,6 +1357,48 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         }
     }
 
+    private String getLocationMatchedHoldingsId(Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap, String location, String bibId) {
+        List<HoldingsDetails> holdingsDetailses = bibHoldingsDetailsMap.get(bibId);
+        if(CollectionUtils.isNotEmpty(holdingsDetailses)) {
+            for (Iterator<HoldingsDetails> iterator = holdingsDetailses.iterator(); iterator.hasNext(); ) {
+                HoldingsDetails holdingsDetails = iterator.next();
+                String holdingsLocation = holdingsDetails.getLocation();
+                if(StringUtils.isNotBlank(holdingsLocation) && StringUtils.isNotBlank(location) &&
+                        location.equalsIgnoreCase(holdingsLocation)) {
+                    return holdingsDetails.getHoldingsUUID();
+                }
+            }
+        }
+        return null;
+    }
+
+    private Map<String, List<HoldingsDetails>> getBibHoldingsDetailsMap(String bibUUID) {
+        Map<String, List<HoldingsDetails>> bibDetailsMap = new HashMap<>();
+        String bibId = DocumentUniqueIDPrefix.getDocumentId(bibUUID);
+        BibRecord matchedRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibId);
+        if(null != matchedRecord) {
+            List<HoldingsDetails> holdingsDetailses = new ArrayList<>();
+            List<HoldingsRecord> holdingsRecords = matchedRecord.getHoldingsRecords();
+            if(CollectionUtils.isNotEmpty(holdingsRecords)) {
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    String holdingsType = holdingsRecord.getHoldingsType();
+                    if (StringUtils.isNotBlank(holdingsType) && holdingsType.equalsIgnoreCase(PHoldings.PRINT)) {
+                        HoldingsDetails holdingsDetails = new HoldingsDetails();
+                        holdingsDetails.setHoldingsId(holdingsRecord.getHoldingsId());
+                        holdingsDetails.setLocation(holdingsRecord.getLocation());
+                        holdingsDetails.setBibId(bibUUID);
+                        String holdingsUUID = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, String.valueOf(holdingsRecord.getHoldingsId()));
+                        holdingsDetails.setHoldingsUUID(holdingsUUID);
+                        holdingsDetailses.add(holdingsDetails);
+                    }
+                }
+            }
+            bibDetailsMap.put(bibUUID,holdingsDetailses);
+        }
+        return bibDetailsMap;
+    }
+
     private String populateFundCodes(List<PurApAccountingLine> purApAccountingLines) {
         StringBuffer fundCode = new StringBuffer();
         List fundCodeList = new ArrayList();
@@ -1380,6 +1440,45 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
             dataCarrierService = SpringContext.getBean(DataCarrierService.class);
         }
         return dataCarrierService;
+    }
+
+    class HoldingsDetails {
+        private String holdingsId;
+        private String holdingsUUID;
+        private String location;
+        private String bibId;
+
+        public String getHoldingsId() {
+            return holdingsId;
+        }
+
+        public void setHoldingsId(String holdingsId) {
+            this.holdingsId = holdingsId;
+        }
+
+        public String getHoldingsUUID() {
+            return holdingsUUID;
+        }
+
+        public void setHoldingsUUID(String holdingsUUID) {
+            this.holdingsUUID = holdingsUUID;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public String getBibId() {
+            return bibId;
+        }
+
+        public void setBibId(String bibId) {
+            this.bibId = bibId;
+        }
     }
 
 }

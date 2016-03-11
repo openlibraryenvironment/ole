@@ -8,7 +8,7 @@ import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.util.LocationUtil;
+import org.kuali.ole.utility.LocationUtil;
 
 import java.util.*;
 

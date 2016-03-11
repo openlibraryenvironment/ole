@@ -34,7 +34,7 @@ public class AddSubFieldStepHandler extends StepHandler {
             value = getBatchProfileDataTransformer().getConstant();
         }
 
-        if (StringUtils.isNotBlank(destinationField)) {
+        if (StringUtils.isNotBlank(value) && StringUtils.isNotBlank(destinationField)) {
             if (!getMarcRecordUtil().isControlField(destinationField) && StringUtils.isNotBlank(destinationSubField)) {
                 getMarcRecordUtil().addSubField(marcRecord, destinationField, destinationInd1, destinationInd2, destinationSubField, value);
             }
