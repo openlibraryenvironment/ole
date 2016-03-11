@@ -1,0 +1,2 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-PURAP","AutoClosePurchaseOrdersStep","AUTO_CLOSE_PO_ORDER_TYPE","OLEAC1001","1","CONFG","Firm, Fixed;Approval;Blanket;","Order Types Included in AutoClose Job PO Job. Change it to 'All' to include all open PO for AutoClose Job","A","OLE"
