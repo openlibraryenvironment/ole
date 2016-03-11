@@ -592,7 +592,12 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public String getFirstName() {
         if (firstName == null && borrowerId != null && olePatron.getBarcode() != null && (borrowerId.equals(olePatron.getOlePatronId()))) {
-            return olePatron.getEntity().getNames().get(0).getFirstName();
+            firstName = olePatron.getEntity().getNames().get(0).getFirstName();
+        } else if(firstName == null && borrowerId != null && (olePatron.getBarcode() == null)) {
+            getOlePatron();
+            if(borrowerId.equals(olePatron.getOlePatronId())) {
+                firstName = olePatron.getEntity().getNames().get(0).getFirstName();
+            }
         }
         return firstName;
     }
@@ -603,7 +608,12 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public String getLastName() {
         if (lastName == null && borrowerId != null && olePatron.getBarcode() != null && (borrowerId.equals(olePatron.getOlePatronId()))) {
-            return olePatron.getEntity().getNames().get(0).getLastName();
+            lastName = olePatron.getEntity().getNames().get(0).getLastName();
+        } else if(lastName == null && borrowerId != null && (olePatron.getBarcode() == null)) {
+            getOlePatron();
+            if(borrowerId.equals(olePatron.getOlePatronId())) {
+                lastName = olePatron.getEntity().getNames().get(0).getLastName();
+            }
         }
         return lastName;
     }
