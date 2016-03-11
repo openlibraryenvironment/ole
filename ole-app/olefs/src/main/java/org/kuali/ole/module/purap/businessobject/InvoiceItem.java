@@ -23,7 +23,6 @@ import org.kuali.ole.module.purap.document.InvoiceDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.service.AccountsPayableService;
 import org.kuali.ole.module.purap.document.service.PurapService;
-import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
 import org.kuali.ole.module.purap.exception.PurError;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.ole.module.purap.util.PurApItemUtils;
@@ -242,17 +241,31 @@ public class InvoiceItem extends AccountsPayableItemBase {
         // do nothing
     }
 
+    private List<String> getRecurringOrderTypes(){
+        List<String> continuingOrderType=new ArrayList<>();
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_STANDING);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_SUBSCRIPTION);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_MEMBERSHIP);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_BLANKET);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_INTEGRATING_RESOURCE);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_CONTINUING);
+        return continuingOrderType;
+    }
 
     public KualiDecimal getPoOutstandingQuantity() {
         PurchaseOrderItem poi = this.getPoItem()!=null ? this.getPoItem() : getPurchaseOrderItem();
-        if (poi == null) {
-            return KualiDecimal.ZERO;
-        } else {
-            if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(this.getItemTypeCode())) {
+        if (this.getInvoice().getPurchaseOrderDocument().getOrderType()!=null && !getRecurringOrderTypes().contains(this.getInvoice().getPurchaseOrderDocument().getOrderType().getPurchaseOrderType())) {
+            if (poi == null) {
                 return KualiDecimal.ZERO;
             } else {
-                return poi.getOutstandingQuantity();
+                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(this.getItemTypeCode())) {
+                    return KualiDecimal.ZERO;
+                } else {
+                    return poi.getOutstandingQuantity();
+                }
             }
+        }else{
+            return KualiDecimal.ZERO;
         }
     }
 
