@@ -18,10 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -80,7 +77,13 @@ public class BatchBibFileProcessorTest {
 
         BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
         String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
-        String processedRecords = batchBibFileProcessor.processRecords(rawContent, records, OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory);
+        Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+        for(int index = 0; index < records.size(); index++){
+            RecordDetails recordDetails = new RecordDetails();
+            recordDetails.setRecord(records.get(index + 1));
+            recordDetailsMap.put(index, recordDetails);
+        }
+        String processedRecords = batchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory);
         assertNotNull(processedRecords);
     }
 

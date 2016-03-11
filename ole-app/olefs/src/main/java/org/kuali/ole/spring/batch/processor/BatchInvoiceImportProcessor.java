@@ -58,16 +58,24 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     private InvoiceImportHelperUtil invoiceImportHelperUtil;
 
     @Override
-    public String processRecords(String rawContent, List<Record> records, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONObject response = new JSONObject();
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
 
         Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
-            if (CollectionUtils.isNotEmpty(records)) {
+            if (recordsMap.size() > 0) {
                 BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
                 if (null != bibImportProfile) {
-                    OleNGBibImportResponse oleNGBibImportResponse = processBibImport(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
+                    OleNGBibImportResponse oleNGBibImportResponse = processBibImport(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName);
+                    List<RecordDetails> recordDetailses = new ArrayList<RecordDetails>(recordsMap.values());
+                    List<Record> records = new ArrayList<>();
+                    if(CollectionUtils.isNotEmpty(recordDetailses)) {
+                        for (Iterator<RecordDetails> iterator = recordDetailses.iterator(); iterator.hasNext(); ) {
+                            RecordDetails recordDetails = iterator.next();
+                            records.add(recordDetails.getRecord());
+                        }
+                    }
                     oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(records, batchProcessProfile);
                 }
             }
@@ -332,10 +340,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(String rawContent, List<Record> records, String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
+    private OleNGBibImportResponse processBibImport(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            String response = batchBibFileProcessor.processRecords(rawContent, records, fileType, bibImportProfile, reportDirectoryName);
+            String response = batchBibFileProcessor.processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName);
             if(StringUtils.isNotBlank(response)) {
                 oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
             }

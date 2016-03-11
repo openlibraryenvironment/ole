@@ -77,11 +77,12 @@
             </div>
         </div>
 
-        <table datatable="ng" class="row-border hover">
+        <table datatable="ng" class="table table-bordered row-border hover">
             <thead>
             <tr>
                 <th>Action</th>
                 <th>Profile Name</th>
+                <th>Profile Type</th>
             </tr>
             </thead>
             <tbody>
@@ -92,6 +93,7 @@
                     <a ng-click="exportProfile($index)" href="">export</a>
                 </td>
                 <td><a ng-click="profileInquiry(profile.profileId)" href=''>{{profile.profileName}}</a></td>
+                <td>{{profile.profileType}}</td>
             </tr>
             </tbody>
         </table>

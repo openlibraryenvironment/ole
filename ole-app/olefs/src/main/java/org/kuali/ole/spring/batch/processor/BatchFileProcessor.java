@@ -25,10 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 12/7/15.
@@ -53,7 +50,13 @@ public abstract class BatchFileProcessor extends BatchUtil {
             if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
                 records = getMarcXMLConverter().convertRawMarchToMarc(rawContent);
             }
-            responseData = processRecords(rawContent, records, fileType, batchProcessProfile, reportDirectoryName);
+            Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+            for(int index = 0; index < records.size(); index++){
+                RecordDetails recordDetails = new RecordDetails();
+                recordDetails.setRecord(records.get(index));
+                recordDetailsMap.put(index + 1, recordDetails);
+            }
+            responseData = processRecords(rawContent, recordDetailsMap, fileType, batchProcessProfile, reportDirectoryName);
             String date = simpleDateFormat.format(new Date());
             String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
             String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
@@ -95,7 +98,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         return batchProcessProfile;
     }
 
-    public abstract String processRecords(String rawContent, List<Record> records,String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException;
+    public abstract String processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap,String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException;
     public abstract String getReportingFilePath();
 
     public String getUpdatedUserName() {

@@ -73,12 +73,14 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
                     StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
-                    HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
-                    holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
-                    holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
-                    holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-                    holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
-                    holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                    if (null != statisticalSearchCode) {
+                        HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
+                        holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                        holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                        holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                        holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
+                        holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                    }
 
                 }
                 holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
