@@ -16,9 +16,7 @@ import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -239,9 +237,11 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.NEXT_RUN_TIME, batchProcessJob.getNextRunTime());
                     jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
                     jsonObject.put(OleNGConstants.CRON_EXPRESSION, batchProcessJob.getCronExpression());
-                    jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchProcessJob.getBatchJobDetailsList().size());
-                    if (CollectionUtils.isNotEmpty(batchProcessJob.getBatchJobDetailsList())) {
-                        jsonObject.put(OleNGConstants.LAST_EXECUTION_STATUS, batchProcessJob.getBatchJobDetailsList().get(0).getStatus());
+                    List<BatchJobDetails> batchJobDetailsList = batchProcessJob.getBatchJobDetailsList();
+                    sortExecutions(batchJobDetailsList);
+                    jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchJobDetailsList.size());
+                    if (CollectionUtils.isNotEmpty(batchJobDetailsList)) {
+                        jsonObject.put(OleNGConstants.LAST_EXECUTION_STATUS, batchJobDetailsList.get(batchJobDetailsList.size() - 1).getStatus());
                     }
                     jsonArray.put(jsonObject);
                 }
@@ -286,6 +286,17 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return batchProfileService.fetchValues(dropDownType).toString();
     }
 
+    public void sortExecutions(List<BatchJobDetails> batchJobDetailses) {
+        if (CollectionUtils.isNotEmpty(batchJobDetailses)) {
+            Collections.sort(batchJobDetailses, new Comparator<BatchJobDetails>() {
+                public int compare(BatchJobDetails details1, BatchJobDetails details2) {
+                    long priorityForDataMapping1 = details1.getJobDetailId();
+                    long priorityForDataMapping2 = details2.getJobDetailId();
+                    return new Long(priorityForDataMapping1).compareTo(new Long(priorityForDataMapping2));
+                }
+            });
+        }
+    }
 
 
     public BatchProfileService getBatchProfileService() {
