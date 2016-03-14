@@ -25,6 +25,7 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue(OLEConstants.OVERDUE_NOTICE,"Overdue Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_PIECE_NOTICE,"Missing Piece Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_LOST,"Lost Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CANCELLATION_NOTICE,OLEConstants.CANCELLATION_NOTICE));
         return keyValues;
     }
 }
