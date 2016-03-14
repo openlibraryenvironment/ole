@@ -73,7 +73,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
                     StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
-                    if (null != statisticalSearchCode) {
+                    if (null != statisticalSearchRecord) {
                         HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
                         holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
                         holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);

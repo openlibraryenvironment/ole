@@ -1065,9 +1065,11 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     String ind2 = actionOp.has(OleNGConstants.IND2) ? actionOp.getString(OleNGConstants.IND2) : null;
                     String subField = actionOp.has(OleNGConstants.SUBFIELD) ? actionOp.getString(OleNGConstants.SUBFIELD) : null;
 
-                    Integer count = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
-                    if(count != null && count > 0) {
-                        numOccurances.put(docType, count);
+                    if (StringUtils.isNotBlank(dataField)) {
+                        Integer count = getMarcRecordUtil().getNumOccurances(marcRecords.get(0), dataField, ind1, ind2, subField);
+                        if(count != null && count > 0) {
+                            numOccurances.put(docType, count);
+                        }
                     }
                 }
 
