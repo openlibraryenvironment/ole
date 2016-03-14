@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.asr.ASRConstants;
 import org.kuali.asr.service.ASRHelperServiceImpl;
+import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
@@ -19,6 +20,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
+import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.*;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
@@ -121,6 +123,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
     private ParameterValueResolver parameterResolverInstance;
     private OleMailer oleMailer;
+    private SolrRequestReponseHandler solrRequestReponseHandler;
+    private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
     public ParameterValueResolver getParameterResolverInstance() {
         if (null == parameterResolverInstance) {
             parameterResolverInstance = ParameterValueResolver.getInstance();
@@ -250,6 +254,19 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleCirculationPolicyService = (OleCirculationPolicyService)SpringContext.getService("oleCirculationPolicyService");
         }
         return oleCirculationPolicyService;
+    }
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
+        if (null == solrRequestReponseHandler) {
+            solrRequestReponseHandler = new SolrRequestReponseHandler();
+        }
+        return solrRequestReponseHandler;
+    }
+
+    public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+        if (null == noticeSolrInputDocumentGenerator) {
+            noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
+        }
+        return noticeSolrInputDocumentGenerator;
     }
 
     /**
@@ -686,6 +703,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      */
     public void cancelDocument(OleDeliverRequestBo oleDeliverRequestBo) {
         String operatorId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+        String mailContent = null;
         try {
             List<OleNoticeBo> oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId());
             ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -705,8 +723,15 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             getBusinessObjectService().save(oleDeliverRequestDocumentsList);
             asrHelperService.deleteASRTypeRequest(oleDeliverRequestBo.getRequestId());
-            sendCancelNotice(oleNoticeBos);
-        } catch (Exception e) {
+            mailContent = sendCancelNotice(oleNoticeBos);
+            if(mailContent!=null){
+            List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
+            deliverRequestBos.add(oleDeliverRequestBo);
+            getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                    getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                            buildMapForIndexToSolr(OLEConstants.CANCELLATION_NOTICE,mailContent, deliverRequestBos))));
+            }
+            } catch (Exception e) {
             LOG.error("Cancellation of Request" + e.getMessage());
         }
 
@@ -764,11 +789,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleNoticeBos
      * @throws Exception
      */
-    public void sendCancelNotice(List<OleNoticeBo> oleNoticeBos) throws Exception {
+    public String sendCancelNotice(List<OleNoticeBo> oleNoticeBos)  {
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
+        String content = null;
         for (OleNoticeBo oleNoticeBo : oleNoticeBos) {
+            try{
             List list = oleDeliverBatchService.getNoticeForPatron(oleNoticeBos);
-            String content = list.toString();
+            content = list.toString();
             content = content.replace('[', ' ');
             content = content.replace(']', ' ');
             if (!content.trim().equals("")) {
@@ -784,7 +811,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
                 }
             }
+            }catch(Exception e){
+                LOG.info("Exception occured while sending the request cancellation notice   " + e.getMessage());
+                LOG.error(e);
+
+            }
         }
+     return content;
     }
 
 
@@ -4885,6 +4918,27 @@ return oleLoanDocument;
         }
 
         return noticeContent;
+    }
+    public Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleDeliverRequestBo> oleDeliverRequestBos) {
+        Map parameterMap = new HashMap();
+        parameterMap.put("DocType", noticeType);
+        parameterMap.put("DocFormat", "Email");
+        parameterMap.put("noticeType", noticeType);
+        parameterMap.put("noticeContent", noticeContent);
+        String patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
+        String patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
+        parameterMap.put("patronBarcode", patronBarcode);
+        Date dateSent = new Date();
+        parameterMap.put("dateSent", dateSent);
+        parameterMap.put("uniqueId", patronId+ dateSent.getTime());
+        List<String> itemBarcodes = new ArrayList<>();
+        for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
+            OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+            String itemBarcode = oleDeliverRequestBo.getItemId();
+            itemBarcodes.add(itemBarcode);
+        }
+        parameterMap.put("itemBarcodes",itemBarcodes);
+        return parameterMap;
     }
 
 }
