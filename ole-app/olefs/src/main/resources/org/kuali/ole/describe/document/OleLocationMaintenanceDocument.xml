@@ -64,6 +64,7 @@
                                     <null></null>
                                 </property>
                             </bean>
+                            <bean id="create_active" parent="Uif-InputField" p:propertyName="active"/>
                         </list>
                     </property>
                 </bean>
