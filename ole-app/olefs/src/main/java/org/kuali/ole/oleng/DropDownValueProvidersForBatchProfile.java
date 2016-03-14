@@ -145,7 +145,7 @@ public class DropDownValueProvidersForBatchProfile {
                     StatisticalSearchRecord statisticalSearchRecord = iterator.next();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(OleNGConstants.ID,statisticalSearchRecord.getCode());
-                    jsonObject.put(OleNGConstants.VALUE,statisticalSearchRecord.getName());
+                    jsonObject.put(OleNGConstants.VALUE,statisticalSearchRecord.getCode());
                     jsonArray.put(jsonObject);
                 }
             }
