@@ -428,6 +428,8 @@
         <field-descriptor name="levelId" column="LEVEL_ID" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <reference-descriptor name="oleLocation" class-ref="org.kuali.ole.describe.bo.OleLocation" auto-retrieve="true"
                               auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="parentLocationId" target-field-ref="locationId"/>

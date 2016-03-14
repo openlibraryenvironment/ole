@@ -101,6 +101,8 @@ public class LocationValuesBuilder extends KeyValuesBase {
         options.add(new ConcreteKeyValue("", ""));
         Map parentCriteria = new HashMap();
         parentCriteria.put("levelId", shelvingId);
+        parentCriteria.put("active", true);
+
         Collection<OleLocation> oleLocationCollection = businessObjectService.findMatching(OleLocation.class, parentCriteria);
         for (OleLocation oleLocation : oleLocationCollection) {
             String locationName = oleLocation.getLocationName();

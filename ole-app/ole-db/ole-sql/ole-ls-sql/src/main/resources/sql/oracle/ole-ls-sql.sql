@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -4261,6 +4260,7 @@ CREATE TABLE OLE_LOCN_T
         , LOCN_NAME VARCHAR2(100) NOT NULL
         , LEVEL_ID VARCHAR2(40) NOT NULL
         , PARENT_LOCN_ID VARCHAR2(40)
+        , ROW_ACT_IND VARCHAR2(1) default 'Y'
     
     , CONSTRAINT LOCN_CD UNIQUE (LOCN_CD)
 

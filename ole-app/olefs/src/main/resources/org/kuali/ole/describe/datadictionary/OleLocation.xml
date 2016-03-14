@@ -36,6 +36,7 @@
         <ref bean="OleLocation-locationName"/>
         <ref bean="OleLocation-parentLocationId"/>
         <ref bean="OleLocation-levelId"/>
+        <ref bean="OleLocation-active"/>
       </list>
     </property>
   </bean>
@@ -149,6 +150,26 @@
   </bean>
 
 
+
+  <bean id="OleLocation-active" parent="OleLocation-active-parentBean"/>
+
+  <bean id="OleLocation-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validCharactersConstraint">
+      <bean  parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean  parent="Uif-CheckboxControl"/>
+    </property>
+    <property name="summary" value="Active Indicator"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    <property name="label" value="Active Indicator"/>
+    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -166,6 +187,7 @@
               <bean id="inquiry_locationName" parent="FieldDefinition" p:attributeName="locationName"/>
               <bean id="inquiry_parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId"/>
               <bean id="inquiry_levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+              <bean id="inquiry_active" parent="FieldDefinition" p:attributeName="active" />
             </list>
           </property>
           <property name="title" value="Ole Location "/>
@@ -193,6 +215,7 @@
         <bean id="locationName" parent="FieldDefinition" p:attributeName="locationName"/>
         <bean id="parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId"/>
         <bean id="levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+        <bean id="activeIndicator" parent="FieldDefinition" p:attributeName="active" />
      </list>
     </property>
     <property name="resultFields">
@@ -202,6 +225,7 @@
         <bean id="searchResult_locationName" parent="FieldDefinition" p:attributeName="locationName"/>
         <bean id="searchResult_parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId" />
         <bean id="searchResult_levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+        <bean id="searchResult_active" parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="title" value="Ole Location "/>

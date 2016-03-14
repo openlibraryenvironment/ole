@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -3425,6 +3424,7 @@ CREATE TABLE OLE_LOCN_T
         , LOCN_NAME VARCHAR(100) NOT NULL
         , LEVEL_ID VARCHAR(40) NOT NULL
         , PARENT_LOCN_ID VARCHAR(40)
+        , ROW_ACT_IND VARCHAR(1) default 'Y'
     
     , CONSTRAINT OLE_LOCN_TP1 PRIMARY KEY(LOCN_ID)
 
@@ -3434,11 +3434,11 @@ CREATE TABLE OLE_LOCN_T
 
 
     
-                                                                                                                                                                                                                                    
+
                                     
 , INDEX OLE_LOCN_FK1 (PARENT_LOCN_ID )
     
-                                                                                                                                                                                                                                    
+
                                     
 , INDEX OLE_LOCN_FK2 (LEVEL_ID )
 

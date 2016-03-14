@@ -1857,6 +1857,7 @@
         <column name="LOCN_NAME" required="true" size="100" type="VARCHAR"/>
         <column name="LEVEL_ID" required="true" size="40" type="VARCHAR"/>
         <column name="PARENT_LOCN_ID" size="40" type="VARCHAR"/>
+        <column default="Y" name="ROW_ACT_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_LOCN_LEVEL_T" name="OLE_LOCN_FK2">
             <reference foreign="LEVEL_ID" local="LEVEL_ID"/>
         </foreign-key>
