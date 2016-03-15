@@ -159,5 +159,11 @@
             </delete>
         </rollback>
     </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_ADD">
+        <addColumn
+                tableName="OLE_DS_ITEM_T">
+            <column name="VOLUME_NUMBER"   type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

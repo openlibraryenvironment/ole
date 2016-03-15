@@ -30,6 +30,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private String tempItemTypeId;
     @AuditField
     private String enumeration;
+    private String volumeNumber;
     @AuditField
     private String chronology;
     @AuditField
@@ -170,6 +171,14 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setEnumeration(String enumeration) {
         this.enumeration = enumeration;
+    }
+
+    public String getVolumeNumber() {
+        return volumeNumber;
+    }
+
+    public void setVolumeNumber(String volumeNumber) {
+        this.volumeNumber = volumeNumber;
     }
 
     public String getChronology() {

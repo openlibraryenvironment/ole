@@ -482,6 +482,13 @@
                         <bean parent="Uif-TextControl" p:size="20" p:maxLength="80"/>
                     </property>
                 </bean>
+                <bean id="oleItemVolumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"
+                      p:label="Volume Number"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="11"/>
+                    </property>
+                </bean>
                 <bean id="oleItemTemporaryItemType" parent="Uif-InputField" p:propertyName="temporaryItemType.codeValue"
                       p:label="Temp Item Type" p:required="false">
                     <property name="control">
