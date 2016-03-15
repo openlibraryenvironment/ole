@@ -8,10 +8,12 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
+import org.kuali.ole.dsng.rest.Exchange;
 import org.kuali.ole.utility.JSONHelperUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 
@@ -75,14 +77,30 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
     }
 
-    private void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {
-        if (stringBuilder.length() > 0) {
-            stringBuilder.append(FORWARD_SLASH).append(location);
-        } else {
-            stringBuilder.append(location);
+    public void addFailureReportToExchange(JSONObject requestJsonObject, Exchange exchange, String type, String exception,
+                                           String detailedMessage, Integer size) {
+        String recordIndex = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.RECORD_INDEX);
+        Integer index = null;
+        if(null != recordIndex) {
+            index = Integer.valueOf(recordIndex);
+        }
+        String unmodifiedContent = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UNMODIFIED_CONTENT);
+
+        FailureResponse failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        failureResponse.setIndex(index);
+        failureResponse.setFailureMessage(exception);
+        failureResponse.setDetailedMessage(detailedMessage);
+        failureResponse.setMarcXmlContent(unmodifiedContent);
+
+        int count = (null == size ? 0 : size);
+        if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_HOLDINGS)){
+            failureResponse.setNoOfFailureHoldings(failureResponse.getNoOfFailureHoldings() + count);
+        } else if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_EHOLDINGS)){
+            failureResponse.setNoOfFailureEHoldings(failureResponse.getNoOfFailureEHoldings() + count);
+        } else if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_ITEM)){
+            failureResponse.setNoOfFailureItems(failureResponse.getNoOfFailureItems() + count);
         }
     }
-
 
     public ObjectMapper getObjectMapper() {
         if(null == objectMapper) {

@@ -45,37 +45,38 @@ public class UpdateItemHandler extends Handler {
         List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
         if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
-            try {
 
                 String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
                 Timestamp updatedDate = getDateTimeStamp(updatedDateString);
                 String updatedBy = getStringValueFromJsonObject(requestJsonObject,OleNGConstants.UPDATED_BY);
 
                 for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                    ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
-                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                    JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                    itemRecord.setUpdatedBy(updatedBy);
-                    itemRecord.setUpdatedDate(updatedDate);
-                    exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                    if (null != dataMapping) {
-                        processOverlay(exchange, dataMapping, itemRecord);
+                    try {
+                        ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                        ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                        JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                        itemRecord.setUpdatedBy(updatedBy);
+                        itemRecord.setUpdatedDate(updatedDate);
+                        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                        if (null != dataMapping) {
+                            processOverlay(exchange, dataMapping, itemRecord);
+                        }
+                        itemRecords.add(itemRecord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
+                                "Problem while update item.", 1);
                     }
-                    itemRecords.add(itemRecord);
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             exchange.remove(OleNGConstants.ITEM_RECORD);
-            getItemDAO().saveAll(itemRecords);
+            try {
+                getItemDAO().saveAll(itemRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
+                        "Problem while update item.", itemRecords.size());
+            }
         }
     }
 

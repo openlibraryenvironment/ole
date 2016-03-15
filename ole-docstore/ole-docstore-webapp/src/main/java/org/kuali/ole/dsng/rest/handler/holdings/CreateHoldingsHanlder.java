@@ -39,27 +39,35 @@ public class CreateHoldingsHanlder extends Handler {
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
             for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
-                holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
-                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                 try {
+                    HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
+                    HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                    JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
+                    holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
+                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                     JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.HOLDINGS);
-                    exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
-                    processDataMappings(holdingsJSONObject, exchange);
+                    if (null != dataMapping) {
+                        exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
+                        processDataMappings(holdingsJSONObject, exchange);
+                    }
                     setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
                     holdingsRecords.add(holdingsRecord);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
+                            "Problem while create holdings.", 1);
                 }
 
             }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
             exchange.remove(OleNGConstants.DATAMAPPING);
-            getHoldingDAO().saveAll(holdingsRecords);
+            try {
+                getHoldingDAO().saveAll(holdingsRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
+                        "Problem while create holdings.", holdingsRecords.size());
+            }
         }
     }
 

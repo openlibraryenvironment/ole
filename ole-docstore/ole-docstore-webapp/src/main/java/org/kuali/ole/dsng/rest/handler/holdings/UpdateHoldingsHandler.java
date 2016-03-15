@@ -64,38 +64,37 @@ public class UpdateHoldingsHandler extends Handler {
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
-            try {
-                String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-                String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
-                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+            String updatedBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
+            String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
+            Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-                for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+            for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
+                try {
                     HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
                     HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                     holdingsRecord.setUpdatedDate(updatedDate);
                     holdingsRecord.setUpdatedBy(updatedBy);
-                    exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
+                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                     JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                    if(null != dataMappingByValue) {
+                    if (null != dataMappingByValue) {
                         processOverlay(exchange, holdingsRecord, dataMappingByValue);
                         holdingsRecords.add(holdingsRecord);
-
-                        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,requestJsonObject);
-
+                        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
+                            "Problem while updating holdings.", 1);
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-            getHoldingDAO().saveAll(holdingsRecords);
+            try {
+                getHoldingDAO().saveAll(holdingsRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
+                        "Problem while updating holdings.", 1);
+            }
         }
     }
 
@@ -112,10 +111,8 @@ public class UpdateHoldingsHandler extends Handler {
             }
         }
         exchange.remove(OleNGConstants.MATCHED_HOLDINGS);
-        return  holdingsRecord;
+        return holdingsRecord;
     }
-
-
 
 
 }

@@ -46,6 +46,9 @@ public class OleNGBibImportResponse {
     @JsonProperty("multipleMatchedEHoldingsCount")
     private int multipleMatchedEHoldingsCount;
 
+    @JsonProperty("failureResponses")
+    private List<FailureResponse> failureResponses;
+
     @JsonIgnore
     private List<Record> matchedRecords = new ArrayList<>();
     @JsonIgnore
@@ -200,5 +203,20 @@ public class OleNGBibImportResponse {
 
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
+    }
+
+    public List<FailureResponse> getFailureResponses() {
+        if(null == failureResponses) {
+            failureResponses = new ArrayList<>();
+        }
+        return failureResponses;
+    }
+
+    public void setFailureResponses(List<FailureResponse> failureResponses) {
+        this.failureResponses = failureResponses;
+    }
+
+    public void addFailureResponse(FailureResponse failureResponse) {
+        getFailureResponses().add(failureResponse);
     }
 }

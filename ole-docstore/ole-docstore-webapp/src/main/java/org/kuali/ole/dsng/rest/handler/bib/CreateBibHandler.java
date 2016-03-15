@@ -67,6 +67,8 @@ public class CreateBibHandler extends BibHandler {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            addFailureReportToExchange(requestJsonObject, exchange,"bib", e.toString(),
+                    "Problem while creating bib.",null);
         }
     }
 }

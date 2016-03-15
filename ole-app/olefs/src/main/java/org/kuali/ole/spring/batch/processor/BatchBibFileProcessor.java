@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
@@ -38,6 +39,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     public String processRecords(String rawContent ,Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
+        OleNGBibImportResponse oleNGBibImportResponse = null;
+        List<FailureResponse> failureResponses = new ArrayList<>();
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
@@ -45,48 +48,55 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             Integer index = iterator.next();
             RecordDetails recordDetails = recordsMap.get(index);
             Record marcRecord = recordDetails.getRecord();
-            JSONObject jsonObject = null;
+            try {
+                JSONObject jsonObject = null;
 
-            if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
-                String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+                if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
+                    String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
 
-                if (StringUtils.isNotBlank(query)) {
-                    query = query.replace("\\", "\\\\");
-                    List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
-                    if (null == results || results.size() > 1) {
-                        System.out.println("**** More than one record found for query : " + query);
-                        multipleMatchedRecords.add(marcRecord);
-                        continue;
+                    if (StringUtils.isNotBlank(query)) {
+                        query = query.replace("\\", "\\\\");
+                        List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+                        if (null == results || results.size() > 1) {
+                            System.out.println("**** More than one record found for query : " + query);
+                            multipleMatchedRecords.add(marcRecord);
+                            continue;
+                        }
+
+                        if (null != results && results.size() == 1) {
+                            SolrDocument solrDocument = (SolrDocument) results.get(0);
+                            String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
+                            jsonObject = prepareRequest(index, bibId, marcRecord, batchProcessProfile);
+                            matchedRecords.add(marcRecord);
+                        } else {
+                            jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
+                            unmatchedRecords.add(marcRecord);
+                        }
                     }
-
-                    if (null != results && results.size() == 1) {
-                        SolrDocument solrDocument = (SolrDocument) results.get(0);
-                        String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
-                        jsonObject = prepareRequest(index, bibId, marcRecord, batchProcessProfile);
-                        matchedRecords.add(marcRecord);
-                    } else {
-                        jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
-                        unmatchedRecords.add(marcRecord);
-                    }
+                } else {
+                    jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
+                    unmatchedRecords.add(marcRecord);
                 }
-            } else {
-                jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
-                unmatchedRecords.add(marcRecord);
+                jsonArray.put(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+                FailureResponse failureResponse = getFailureResponse(index, marcRecord, e);
+                failureResponses.add(failureResponse);
             }
-            jsonArray.put(jsonObject);
         }
 
         if (jsonArray.length() > 0) {
             response = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
         }
 
-        OleNGBibImportResponse oleNGBibImportResponse = null;
         try {
             if(StringUtils.isNotBlank(response)) {
                 oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            FailureResponse failureResponse = getFailureResponse(null, null, e);
+            failureResponses.add(failureResponse);
         }
 
         if(null  == oleNGBibImportResponse) {
@@ -101,9 +111,20 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
+        oleNGBibImportResponse.setFailureResponses(failureResponses);
         generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
 
         return response;
+    }
+
+    private FailureResponse getFailureResponse(Integer index, Record marcRecord, Exception e) {
+        FailureResponse failureResponse = new FailureResponse();
+        failureResponse.setFailureMessage(e.toString());
+        failureResponse.setIndex(index);
+        if (null != marcRecord) {
+            failureResponse.setMarcXmlContent(getMarcXMLConverter().generateMARCXMLContent(marcRecord));
+        }
+        return failureResponse;
     }
 
     public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) {

@@ -100,35 +100,36 @@ public class UpdateEholdingsHandler extends Handler {
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
-            try {
-                String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-                String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
+                String updatedBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
+                String updatedDateString = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_DATE);
                 Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
                 for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                    HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-                    HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                    holdingsRecord.setUpdatedDate(updatedDate);
-                    holdingsRecord.setUpdatedBy(updatedBy);
-                    exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
-                    JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                    if(null != dataMappingByValue) {
-                        processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                    try {
+                        HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
+                        HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                        holdingsRecord.setUpdatedDate(updatedDate);
+                        holdingsRecord.setUpdatedBy(updatedBy);
+                        exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
+                        JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
+                        if(null != dataMappingByValue) {
+                            processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                        }
+                        holdingsRecords.add(holdingsRecord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e.toString(),
+                                "Problem while updating eholdings.", 1);
                     }
-                    holdingsRecords.add(holdingsRecord);
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-            getHoldingDAO().saveAll(holdingsRecords);
+            try {
+                getHoldingDAO().saveAll(holdingsRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e.toString(),
+                        "Problem while updating eholdings.", holdingsRecords.size());
+            }
         }
     }
 

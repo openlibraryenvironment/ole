@@ -39,29 +39,34 @@ public class CreateItemHandler extends Handler {
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
 
         if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
-            JSONObject itemJSONObject;
-            try {
-                itemJSONObject = requestJsonObject.getJSONObject(OleNGConstants.ITEM);
+            JSONObject itemJSONObject = getJSONObjectFromJSONObject(requestJsonObject, OleNGConstants.ITEM);
                 for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                    ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
-                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                    JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                    exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
-                    itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
-                    exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                    processDataMappings(itemJSONObject, exchange);
-                    setCommonValuesToItemRecord(requestJsonObject, itemRecord);
-                    itemRecords.add(itemRecord);
+                    try {
+                        ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                        ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                        JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                        exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
+                        itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
+                        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                        processDataMappings(itemJSONObject, exchange);
+                        setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                        itemRecords.add(itemRecord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
+                                "Problem while create item.", 1);
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             exchange.remove(OleNGConstants.ITEM_RECORD);
             exchange.remove(OleNGConstants.DATAMAPPING);
-            getItemDAO().saveAll(itemRecords);
+            try {
+                getItemDAO().saveAll(itemRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
+                        "Problem while create item.", itemRecords.size());
+            }
         }
 
     }
