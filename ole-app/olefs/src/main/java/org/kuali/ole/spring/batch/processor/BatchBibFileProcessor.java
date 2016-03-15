@@ -12,6 +12,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
@@ -36,7 +37,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(String rawContent ,Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         OleNGBibImportResponse oleNGBibImportResponse = null;
@@ -80,7 +81,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 jsonArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
-                FailureResponse failureResponse = getFailureResponse(index, marcRecord, e);
+                FailureResponse failureResponse = getFailureResponse(index,  e);
                 failureResponses.add(failureResponse);
             }
         }
@@ -95,7 +96,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FailureResponse failureResponse = getFailureResponse(null, null, e);
+            FailureResponse failureResponse = getFailureResponse(null, e);
             failureResponses.add(failureResponse);
         }
 
@@ -111,19 +112,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
-        oleNGBibImportResponse.setFailureResponses(failureResponses);
+        oleNGBibImportResponse.getFailureResponses().addAll(failureResponses);
+        oleNGBibImportResponse.setRecordsMap(recordsMap);
         generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
 
         return response;
     }
 
-    private FailureResponse getFailureResponse(Integer index, Record marcRecord, Exception e) {
+    private FailureResponse getFailureResponse(Integer index, Exception e) {
         FailureResponse failureResponse = new FailureResponse();
         failureResponse.setFailureMessage(e.toString());
         failureResponse.setIndex(index);
-        if (null != marcRecord) {
-            failureResponse.setMarcXmlContent(getMarcXMLConverter().generateMARCXMLContent(marcRecord));
-        }
         return failureResponse;
     }
 

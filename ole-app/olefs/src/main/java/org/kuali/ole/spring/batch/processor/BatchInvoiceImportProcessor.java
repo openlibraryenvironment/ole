@@ -10,6 +10,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.InvoiceResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;

@@ -11,6 +11,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;

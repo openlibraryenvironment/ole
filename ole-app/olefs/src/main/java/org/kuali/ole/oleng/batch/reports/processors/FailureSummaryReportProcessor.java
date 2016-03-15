@@ -9,6 +9,6 @@ public class FailureSummaryReportProcessor extends OleNGReportProcessor {
 
     public void process(Object object, String directoryToWrite) throws Exception {
         String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
-        logMessage(directoryToWrite, "FailureReport","mrc", message);
+        logMessage(directoryToWrite, "FailureReport","txt", message);
     }
 }

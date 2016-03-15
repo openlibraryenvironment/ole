@@ -291,4 +291,10 @@ public class OleNGConstants {
     public static final String UTF_8 = "UTF-8";
     public static final String UTF_8_XML_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
+    public static final String COMMON_IDENTIFIER_SEARCH = "common_identifier_search";
+    public static final String FAILURE_RESPONSE = "failureResponse";
+    public static final String NO_OF_FAILURE_HOLDINGS = "noOfFailureHoldings";
+    public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
+    public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
+
 }

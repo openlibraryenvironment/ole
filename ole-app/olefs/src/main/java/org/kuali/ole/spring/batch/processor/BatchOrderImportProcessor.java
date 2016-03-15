@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
@@ -56,7 +57,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private HashMap operationIndMap;
 
     @Override
-    public String processRecords(String rawContent ,Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public String processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();

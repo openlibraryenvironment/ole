@@ -84,13 +84,11 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
         if(null != recordIndex) {
             index = Integer.valueOf(recordIndex);
         }
-        String unmodifiedContent = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UNMODIFIED_CONTENT);
 
         FailureResponse failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
         failureResponse.setIndex(index);
         failureResponse.setFailureMessage(exception);
         failureResponse.setDetailedMessage(detailedMessage);
-        failureResponse.setMarcXmlContent(unmodifiedContent);
 
         int count = (null == size ? 0 : size);
         if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_HOLDINGS)){

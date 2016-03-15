@@ -7,7 +7,6 @@ public class FailureResponse {
 
     private Integer index;
     private String failureMessage;
-    private String marcXmlContent;
     private String detailedMessage;
     private int noOfFailureHoldings;
     private int noOfFailureItems;
@@ -27,14 +26,6 @@ public class FailureResponse {
 
     public void setFailureMessage(String failureMessage) {
         this.failureMessage = failureMessage;
-    }
-
-    public String getMarcXmlContent() {
-        return marcXmlContent;
-    }
-
-    public void setMarcXmlContent(String marcXmlContent) {
-        this.marcXmlContent = marcXmlContent;
     }
 
     public String getDetailedMessage() {

@@ -63,6 +63,9 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
                 BibResponse bibResponse = new BibResponse();
+                FailureResponse failureResponse = new FailureResponse();
+
+                exchange.add(OleNGConstants.FAILURE_RESPONSE, failureResponse);
                 try {
 
                     String recordIndex = getStringValueFromJsonObject(bibJSONDataObject, OleNGConstants.RECORD_INDEX);
@@ -101,10 +104,6 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                     List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
                     List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
-
-                    FailureResponse failureResponse = new FailureResponse();
-
-                    exchange.add(OleNGConstants.FAILURE_RESPONSE, failureResponse);
 
                     processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 
@@ -195,9 +194,10 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     addFailureReportToExchange(bibJSONDataObject, exchange, "Bib", e.toString(),
                             "Problem while processing bib request.", null);
                 }
-                FailureResponse failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
-                oleNGBibImportResponse.addFailureResponse(failureResponse);
-
+                failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+                if(StringUtils.isNotBlank(failureResponse.getFailureMessage())) {
+                    oleNGBibImportResponse.addFailureResponse(failureResponse);
+                }
             }
 
             List<SolrInputDocument> solrInputDocuments = getBibIndexer().getSolrInputDocumentListFromMap(solrInputDocumentMap);

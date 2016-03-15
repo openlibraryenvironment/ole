@@ -11,6 +11,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLERestBaseTestCase;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
