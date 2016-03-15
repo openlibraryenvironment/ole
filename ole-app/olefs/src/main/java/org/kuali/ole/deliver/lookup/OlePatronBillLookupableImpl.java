@@ -129,7 +129,9 @@ public class OlePatronBillLookupableImpl extends LookupableImpl {
 
             if (!searchPatronCriteria.isEmpty() && !(feeFlag && CollectionUtils.isEmpty(olePatronIdList))) {
                 Set<String> patronIdList = new HashSet<>();
-                searchResults = (List<OLEPatronEntityViewBo>) getBusinessObjectService().findMatching(OLEPatronEntityViewBo.class, searchPatronCriteria);
+                Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+                searchResults = (List<?>) getLookupService().findCollectionBySearchHelper(OLEPatronEntityViewBo.class,
+                        searchPatronCriteria, !bounded, searchResultsLimit);
                 iterator = searchResults.iterator();
                 while (iterator.hasNext()) {
                     OLEPatronEntityViewBo olePatronEntityViewBo = (OLEPatronEntityViewBo) iterator.next();
