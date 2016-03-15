@@ -1089,7 +1089,6 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         int totalSize = searchConditions.size();
         int count = 0;
         while (count < totalSize) {
-            searchParams.getSearchConditions().clear();
             for (int i = 0; i < chunkSize; i++) {
                 if (count < totalSize) {
                     searchParams.getSearchConditions().add(searchConditions.get(count));
@@ -1103,8 +1102,8 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY)) {
                 SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
                 searchResultList.addAll(responseLocal.getSearchResults());
-
             }
+            searchParams.getSearchConditions().clear();
         }
 
         if (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport())

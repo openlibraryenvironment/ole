@@ -275,6 +275,7 @@
         <column default="" name="CALL_NUMBER" size="100" type="VARCHAR"/>
         <column default="" name="SHELVING_ORDER" size="300" type="VARCHAR"/>
         <column default="" name="ENUMERATION" size="100" type="VARCHAR"/>
+        <column default="" name="VOLUME_NUMBER" size="100" type="VARCHAR"/>
         <column default="" name="CHRONOLOGY" size="100" type="VARCHAR"/>
         <column default="" name="COPY_NUMBER" size="20" type="VARCHAR"/>
         <column default="" name="NUM_PIECES" size="10" type="VARCHAR"/>

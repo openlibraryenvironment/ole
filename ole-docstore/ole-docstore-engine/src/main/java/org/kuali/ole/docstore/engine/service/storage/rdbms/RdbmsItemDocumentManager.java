@@ -281,6 +281,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setBarcodeARSL(itemRecord.getBarCodeArsl());
         item.setCopyNumber(itemRecord.getCopyNumber());
         item.setEnumeration(itemRecord.getEnumeration());
+        item.setVolumeNumber(itemRecord.getVolumeNumber());
         item.setChronology(itemRecord.getChronology());
         item.setNumberOfPieces(itemRecord.getNumberOfPieces());
         item.setDescriptionOfPieces(itemRecord.getDescriptionOfPieces());
@@ -646,6 +647,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         if (StringUtils.isNotEmpty(itemRecord.getEnumeration())) {
             addDataToLabel(sortedValue, getNormalized(itemRecord.getEnumeration()));
         }
+        if (StringUtils.isNotEmpty(itemRecord.getVolumeNumber())) {
+            addDataToLabel(sortedValue, getNormalized(itemRecord.getVolumeNumber()));
+        }
         if (StringUtils.isNotEmpty(itemRecord.getChronology())) {
             addDataToLabel(sortedValue, itemRecord.getChronology());
         }
@@ -665,6 +669,10 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         if (StringUtils.isNotEmpty(itemRecord.getEnumeration())) {
             addDataToLabel(labelName, itemRecord.getEnumeration());
+        }
+
+        if (StringUtils.isNotEmpty(itemRecord.getVolumeNumber())) {
+            addDataToLabel(labelName, itemRecord.getVolumeNumber());
         }
         if (StringUtils.isNotEmpty(itemRecord.getChronology())) {
             addDataToLabel(labelName, itemRecord.getChronology());
@@ -856,7 +864,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setChronology(item.getChronology());
         itemRecord.setCopyNumber(item.getCopyNumber());
         itemRecord.setEnumeration(item.getEnumeration());
-
+        itemRecord.setVolumeNumber(item.getVolumeNumber());
         itemRecord.setNumberOfPieces(item.getNumberOfPieces());
         itemRecord.setDescriptionOfPieces(item.getDescriptionOfPieces());
         itemRecord.setPurchaseOrderItemLineId(item.getPurchaseOrderLineItemIdentifier());

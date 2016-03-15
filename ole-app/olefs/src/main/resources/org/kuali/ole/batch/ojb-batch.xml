@@ -756,6 +756,7 @@
         <field-descriptor name="barCodeArsl" column="BARCODE_ARSL" jdbc-type="VARCHAR"/>
         <field-descriptor name="barCode" column="BARCODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="enumeration" column="ENUMERATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="volumeNumber" column="VOLUME_NUMBER" jdbc-type="VARCHAR"/>
         <field-descriptor name="chronology" column="CHRONOLOGY" jdbc-type="VARCHAR"/>
         <field-descriptor name="copyNumber" column="COPY_NUMBER" jdbc-type="VARCHAR"/>
         <field-descriptor name="uri" column="URI" jdbc-type="VARCHAR"/>

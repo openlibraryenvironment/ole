@@ -586,6 +586,7 @@ CREATE TABLE OLE_DS_ITEM_T
         , CALL_NUMBER VARCHAR(100)
         , SHELVING_ORDER VARCHAR(300)
         , ENUMERATION VARCHAR(100)
+        , VOLUME_NUMBER VARCHAR(100)
         , CHRONOLOGY VARCHAR(100)
         , COPY_NUMBER VARCHAR(20)
         , NUM_PIECES VARCHAR(10)
@@ -625,11 +626,11 @@ CREATE TABLE OLE_DS_ITEM_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
                                     
 , INDEX OLE_DS_ITEM_TI1 (BARCODE )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
                                     
 , INDEX OLE_DS_ITEM_TI2 (HOLDINGS_ID )
 
