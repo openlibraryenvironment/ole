@@ -82,8 +82,8 @@ public class CircBaseController extends OLEUifControllerBase{
         circForm.setMaxSessionTime(maxTimeoutCount);
         String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
         circForm.setUrlBase(url);
-        circForm.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL);
-        circForm.setCreateBillUrl(OLEConstants.OlePatron.PATRON_CREATE_BILL_URL);
+        circForm.setViewBillUrl(circForm.getUrlBase()+OLEConstants.OlePatron.PATRON_BILL_URL + circForm.getUrlBase()+OLEConstants.OlePatron.PATRON_BILL_OLE_KR_KRAD+OLEConstants.OlePatron.PATRON_VIEW_BILL_URL);
+        circForm.setCreateBillUrl(circForm.getUrlBase()+OLEConstants.OlePatron.PATRON_BILL_URL + circForm.getUrlBase()+OLEConstants.OlePatron.PATRON_BILL_OLE_KR_KRAD+OLEConstants.OlePatron.PATRON_CREATE_BILL_URL);
         return super.start(circForm, result, request, response);
     }
 

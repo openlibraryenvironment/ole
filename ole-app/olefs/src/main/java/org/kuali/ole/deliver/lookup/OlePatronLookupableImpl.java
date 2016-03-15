@@ -8,6 +8,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
@@ -120,11 +121,12 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
                     patronId=patronBo.getOlePatronId();
                     patronBo = OLEDeliverService.populatePatronName(patronBo);
                     patronBo = OLEDeliverService.populatePatronEmailAndPhone(patronBo);
-                    patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(), patronBo.getFirstName(), patronBo.getLastName()));
+                    String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+                    patronBo.setCreateBillUrl(url+OLEConstants.OlePatron.PATRON_BILL_URL+ url+OLEConstants.OlePatron.PATRON_BILL_OLE_KR_KRAD+getPatronBillUrl(patronBo.getOlePatronId(), patronBo.getFirstName(), patronBo.getLastName()));
                     List<PatronBillPayment> patronBillPaymentList = patronBo.getPatronBillPayments();
                     if (CollectionUtils.isNotEmpty(patronBillPaymentList)) {
                         patronBo.setPatronBillFileName(OLEConstants.OlePatron.PATRON_BILL);
-                        patronBo.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
+                        patronBo.setViewBillUrl(url+OLEConstants.OlePatron.PATRON_BILL_URL+ url+OLEConstants.OlePatron.PATRON_BILL_OLE_KR_KRAD+OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
                     }
                 } catch (Exception e) {
                     LOG.error("Error occurred while patron Lookup (patron Id -"+patronId+"):"+e);  //To change body of catch statement use File | Settings | File Templates.

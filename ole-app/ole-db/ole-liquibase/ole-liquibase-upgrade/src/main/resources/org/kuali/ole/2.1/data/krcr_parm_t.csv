@@ -12,3 +12,4 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-SELECT","Select","MAX_NO_OF_THREAD_FOR_ORDER_IMPORT","OLE7054","1","CONFG","10","This parameter is having option to set default number of thread for order import.","A","OLE"
 "OLE-DESC","Describe","SRU_AVAILABLE_STATUSES","OLEDEC7055","1","CONFG","AVAILABLE","To define the items statuses to which the sru response should responds as AVAILABLE item.You can provide multiple values with ';' as separator","A","OLE"
 "OLE-DESC","Describe","SRU_ON_HOLD_STATUSES","OLEDEC7056","1","CONFG","ONHOLD","To define the items statuses to which the sru response should responds as ONHOLD item.You can provide multiple values with ';' as separator","A","OLE"
+"OLE-PURAP","AutoClosePurchaseOrdersStep","AUTO_CLOSE_PO_ORDER_TYPE","OLEAC1001","1","CONFG","Firm, Fixed;Approval;Blanket;","Order Types Included in AutoClose Job PO Job. Change it to 'All' to include all open PO for AutoClose Job","A","OLE"

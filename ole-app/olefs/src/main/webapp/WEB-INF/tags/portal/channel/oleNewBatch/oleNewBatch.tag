@@ -23,5 +23,6 @@
     <portal:portalLink displayTitle="true" title="Batch Process Profile Import" url="${ConfigProperties.application.url}/oleng/view/batchProfileImport.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Process Jobs" url="${ConfigProperties.application.url}/batchProcessJobs.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Reports" url="${ConfigProperties.application.url}/reportViewer.html"/><br/>
+    <portal:portalLink displayTitle="true" title="Batch Display Reports" url="${ConfigProperties.application.url}/showBatchReport.html"/><br/>
 </div>
 <channel:portalChannelBottom/>

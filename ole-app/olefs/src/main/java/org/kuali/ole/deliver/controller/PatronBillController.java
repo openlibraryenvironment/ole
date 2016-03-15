@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.PatronBillForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
@@ -508,7 +509,8 @@ public class PatronBillController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=back")
     public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        return super.back(form, result, request, response);
+        String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+        return super.performRedirect(form,url);
     }
 
     /**
