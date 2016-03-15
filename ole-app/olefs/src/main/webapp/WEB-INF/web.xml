@@ -547,5 +547,18 @@ This file contains custom application specific web.xml content.
         <url-pattern>/init</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <display-name>SpringCronJob</display-name>
+        <servlet-name>SpringCronJob</servlet-name>
+        <servlet-class>org.kuali.ole.scheduler.SpringCronJob</servlet-class>
+        <!-- startup after the rest servlet defined above -->
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SpringCronJob</servlet-name>
+        <url-pattern>/initSpringCronJob</url-pattern>
+    </servlet-mapping>
+
 </web-app>
 
