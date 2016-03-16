@@ -19,18 +19,24 @@ function initializePanels($scope) {
     $scope.reportItemSectionPanel.collapsed = false;
     $scope.reportEHoldingsSectionPanel.collapsed = false;
 
-    $scope.reportReqSectionActivePanel = [0];
+    $scope.orderImportReportMainSectionActivePanel = [0];
+    $scope.orderImportReportMainSectionPanel = [];
+    $scope.reportReqSectionActivePanel = [];
     $scope.reportReqAndPoSectionActivePanel = [];
     $scope.reportNeitherReqNorPoSectionActivePanel = [];
     $scope.reportReqSectionPanel = [];
     $scope.reportReqAndPoSectionPanel = [];
     $scope.reportNeitherReqNorPoSectionPanel = [];
+    $scope.orderImportReportMainSectionPanel.collapsed = false;
     $scope.reportReqSectionPanel.collapsed = false;
     $scope.reportReqAndPoSectionPanel.collapsed = false;
     $scope.reportNeitherReqNorPoSectionPanel.collapsed = false;
 
-    $scope.reportInvoiceSectionActivePanel = [0];
+    $scope.invoiceImportReportMainSectionActivePanel = [0];
+    $scope.invoiceImportReportMainSectionPanel = [];
+    $scope.reportInvoiceSectionActivePanel = [];
     $scope.reportInvoiceSectionPanel = [];
+    $scope.invoiceImportReportMainSectionPanel.collapsed = false;
     $scope.reportInvoiceSectionPanel.collapsed = false;
 }
 
@@ -41,25 +47,66 @@ function populateBibImportReportFromContent(fileContent, $scope) {
     var itemSectionContent = [];
     var eHoldingsSectionContent = [];
 
+    $scope.bibCreatedCount = 0;
+    $scope.bibUpdatedCount = 0;
+    $scope.bibDiscardedCount = 0;
+    $scope.holdingsCreatedCount = 0;
+    $scope.holdingsUpdatedCount = 0;
+    $scope.holdingsDiscardedCount = 0;
+    $scope.itemCreatedCount = 0;
+    $scope.itemUpdatedCount = 0;
+    $scope.itemDiscardedCount = 0;
+    $scope.eholdingsCreatedCount = 0;
+    $scope.eholdingsUpdatedCount = 0;
+    $scope.eholdingsDiscardedCount = 0;
+
     var bibResponses = fileContent["bibResponses"];
     if (bibResponses != null && bibResponses != undefined) {
         for (var i = 0; i < bibResponses.length; i++) {
             var bib = getBibFromBibResponse(bibResponses[i]);
             bibSectionContent.push(bib);
+            if(bib.operation === 'Created') {
+                $scope.bibCreatedCount++;
+            } else if(bib.operation === 'Updated') {
+                $scope.bibUpdatedCount++;
+            } else {
+                $scope.bibDiscardedCount++;
+            }
             var holdingsResponses = bibResponses[i]["holdingsResponses"];
             if (holdingsResponses != null && holdingsResponses != undefined) {
                 for (var j = 0; j < holdingsResponses.length; j++) {
                     var holdings = getHoldingsFromHoldingsResponse(holdingsResponses[j], bib);
                     if (holdingsResponses[j]["holdingsType"] == 'print') {
                         holdingsSectionContent.push(holdings);
+                        if(holdings.operation === 'Created') {
+                            $scope.holdingsCreatedCount++;
+                        } else if(holdings.operation === 'Updated') {
+                            $scope.holdingsUpdatedCount++;
+                        } else {
+                            $scope.holdingsDiscardedCount++;
+                        }
                     } else if (holdingsResponses[j]["holdingsType"] == 'electronic') {
                         eHoldingsSectionContent.push(holdings);
+                        if(holdings.operation === 'Created') {
+                            $scope.eholdingsCreatedCount++;
+                        } else if(holdings.operation === 'Updated') {
+                            $scope.eholdingsUpdatedCount++;
+                        } else {
+                            $scope.eholdingsDiscardedCount++;
+                        }
                     }
                     var itemResponses = holdingsResponses[j]["itemResponses"];
                     if (itemResponses != null && itemResponses != undefined) {
                         for (var k = 0; k < itemResponses.length; k++) {
                             var item = getItemFromItemResponse(itemResponses[k], holdings, bib);
                             itemSectionContent.push(item);
+                            if(item.operation === 'Created') {
+                                $scope.itemCreatedCount++;
+                            } else if(item.operation === 'Updated') {
+                                $scope.itemUpdatedCount++;
+                            } else {
+                                $scope.itemDiscardedCount++;
+                            }
                         }
                     }
                 }
@@ -75,18 +122,24 @@ function populateBibImportReportFromContent(fileContent, $scope) {
 
 
 function populateOrderImportReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForOrderAndInvoiceImport(fileContent);
+    $scope.orderImportReportMainSectionPanel = mainSectionContent;
     $scope.reportReqSectionPanel = getReqOnlySectionContent(fileContent);
     $scope.reportReqAndPoSectionPanel = getReqAndPoSectionContent(fileContent);
     $scope.reportNeitherReqNorPoSectionPanel = getNeitherReqNorPoSectionContent(fileContent);
 }
 
 function populateInvoiceImportReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForOrderAndInvoiceImport(fileContent);
+    $scope.invoiceImportReportMainSectionPanel = mainSectionContent;
     $scope.reportInvoiceSectionPanel = getInvoiceSectionContent(fileContent);
 }
 
 function getMainSectionContent(fileContent) {
     var mainSectionContent = {
         "bibImportProfileName": fileContent["bibImportProfileName"],
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
         "matchedBibsCount": fileContent["matchedBibsCount"],
         "unmatchedBibsCount": fileContent["unmatchedBibsCount"],
         "multipleMatchedBibsCount": fileContent["multipleMatchedBibsCount"],
@@ -103,10 +156,24 @@ function getMainSectionContent(fileContent) {
     return mainSectionContent;
 }
 
+
+function getMainSectionContentForOrderAndInvoiceImport(fileContent) {
+    var mainSectionContent = {
+        "profileName": fileContent["profileName"],
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
+        "matchedCount": fileContent["matchedCount"],
+        "unmatchedCount": fileContent["unmatchedCount"],
+        "multipleMatchedCount": fileContent["multipleMatchedCount"]
+    };
+    return mainSectionContent;
+}
+
 function getBibFromBibResponse(bibResponse) {
     var bib = {
         "bibId" : bibResponse["bibId"],
-        "operation" : bibResponse["operation"]
+        "operation" : bibResponse["operation"],
+        "recordIndex" : bibResponse["recordIndex"]
     };
     return bib;
 }
@@ -115,7 +182,8 @@ function getHoldingsFromHoldingsResponse(holdingsResponse, bib) {
     var holdings = {
         "holdingsId" : holdingsResponse["holdingsId"],
         "bibId" : bib.bibId,
-        "operation" : holdingsResponse["operation"]
+        "operation" : holdingsResponse["operation"],
+        "recordIndex" : holdingsResponse["recordIndex"]
     };
     return holdings;
 }
@@ -125,7 +193,8 @@ function getItemFromItemResponse(itemResponse, holdings, bib) {
         "itemId" : itemResponse["itemId"],
         "holdingsId" : holdings.holdingsId,
         "bibId" : bib.bibId,
-        "operation" : itemResponse["operation"]
+        "operation" : itemResponse["operation"],
+        "recordIndex" : itemResponse["recordIndex"]
     };
     return item;
 }

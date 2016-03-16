@@ -184,6 +184,7 @@ public class OleNGConstants {
     public static final String PROFILE_NAME = "profileName";
     public static final String PROFILE_ID = "profileId";
     public static final String PROFILE_TYPE = "profileType";
+    public static final String FILE_NAME = "fileName";
     public static final String CONTENT = "content";
     public static final String ACTION = "action";
     public static final String COPY = "copy";
@@ -217,6 +218,7 @@ public class OleNGConstants {
     public static final String TIME_SPENT = "timeSpent";
     public static final String TOTAL_RECORDS = "totalRecords";
     public static final String TOTAL_RECORDS_PROCESSED = "totalRecordsProcessed";
+    public static final String TOTAL_FAILURE_RECORDS = "totalFailureRecords";
     public static final String JOB_STATUS = "status";
     public static final String CREATED_ON = "createdOn";
     public static final String NEXT_RUN_TIME = "nextRunTime";

@@ -13,11 +13,13 @@
         <div ng-include="'batchReport/views/batchReportEHoldingsSection.html'"></div>
     </div>
     <div ng-show="batchReportViewer.fileName.indexOf('OrderImport') != -1">
+        <div ng-include="'batchReport/views/orderImportReportMainSection.html'"></div>
         <div ng-include="'batchReport/views/batchReportRequisitionOnlySection.html'"></div>
         <div ng-include="'batchReport/views/batchReportReqAndPoSection.html'"></div>
         <div ng-include="'batchReport/views/batchReportNeitherReqNorPoSection.html'"></div>
     </div>
     <div ng-show="batchReportViewer.fileName.indexOf('Invoice') != -1">
+        <div ng-include="'batchReport/views/invoiceImportReportMainSection.html'"></div>
         <div ng-include="'batchReport/views/batchReportInvoiceSection.html'"></div>
     </div>
 </div>

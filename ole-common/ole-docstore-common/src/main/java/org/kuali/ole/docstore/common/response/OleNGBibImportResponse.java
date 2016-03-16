@@ -20,6 +20,10 @@ public class OleNGBibImportResponse {
 
     @JsonProperty("bibImportProfileName")
     private String bibImportProfileName;
+    @JsonProperty("jobDetailId")
+    private String jobDetailId;
+    @JsonProperty("jobName")
+    private String jobName;
     @JsonProperty("matchedBibsCount")
     private int matchedBibsCount;
     @JsonProperty("unmatchedBibsCount")
@@ -230,5 +234,21 @@ public class OleNGBibImportResponse {
 
     public void setRecordsMap(Map<Integer, RecordDetails> recordsMap) {
         this.recordsMap = recordsMap;
+    }
+
+    public String getJobDetailId() {
+        return jobDetailId;
+    }
+
+    public void setJobDetailId(String jobDetailId) {
+        this.jobDetailId = jobDetailId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 }

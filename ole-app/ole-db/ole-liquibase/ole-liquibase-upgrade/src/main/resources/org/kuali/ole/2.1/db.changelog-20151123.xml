@@ -730,5 +730,12 @@
         <sql>update OLE_DLVR_PTRN_BILL_T set CRDT_REMAINING=0.0</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_JOB_DETAILS_T_ADD">
+        <addColumn tableName="OLE_NG_BAT_JOB_DETAILS_T">
+            <column name="FILE_NAME"   type="VARCHAR(100)"/>
+            <column name="TOTAL_FAILURE_RECORDS"   type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

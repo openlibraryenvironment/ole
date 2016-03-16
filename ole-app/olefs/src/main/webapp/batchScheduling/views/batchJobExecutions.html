@@ -9,13 +9,14 @@
                     <th>Job Id</th>
                     <th style="width: 110px">Profile Type</th>
                     <th style="width: 150px">Profile Name</th>
+                    <th>File Name</th>
                     <th>Initiated By</th>
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>% Completed</th>
                     <th>Time Spent</th>
                     <th>Total Records</th>
-                    <th>Records Processed</th>
+                    <th>Failure Records</th>
                     <th>Status</th>
                     <th>Report</th>
                     <th style="width: 215px">Actions</th>
@@ -28,13 +29,14 @@
                     <td><span ng-bind="batchJob.jobId"></span></td>
                     <td><span ng-bind="batchJob.profileType"></span></td>
                     <td><span ng-bind="batchJob.profileName"></span></td>
+                    <td><span ng-bind="batchJob.fileName"></span></td>
                     <td><span ng-bind="batchJob.createdBy"></span></td>
                     <td><span ng-bind="batchJob.startTime"></span></td>
                     <td><span ng-bind="batchJob.endTime"></span></td>
                     <td><span ng-bind="batchJob.perCompleted"></span></td>
                     <td><span ng-bind="batchJob.timeSpent"></span></td>
                     <td><span ng-bind="batchJob.totalRecords"></span></td>
-                    <td><span ng-bind="batchJob.totalRecordsProcessed"></span></td>
+                    <td><span ng-bind="batchJob.totalFailureRecords"></span></td>
                     <td><span ng-bind="batchJob.status"></span></td>
                     <td><a href="reportViewer.html?jobDetailsId={{batchJob.jobDetailId}}"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
                     <td>

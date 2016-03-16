@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class OleNGInvoiceImportResponse {
     private List<InvoiceResponse> invoiceResponses;
+    private int matchedCount;
+    private int unmatchedCount;
+    private int multiMatchedCount;
+    private String jobDetailId;
+    private String jobName;
 
     public List<InvoiceResponse> getInvoiceResponses() {
         if(null == invoiceResponses) {
@@ -18,5 +23,45 @@ public class OleNGInvoiceImportResponse {
 
     public void setInvoiceResponses(List<InvoiceResponse> invoiceResponses) {
         this.invoiceResponses = invoiceResponses;
+    }
+
+    public int getMatchedCount() {
+        return matchedCount;
+    }
+
+    public void setMatchedCount(int matchedCount) {
+        this.matchedCount = matchedCount;
+    }
+
+    public int getUnmatchedCount() {
+        return unmatchedCount;
+    }
+
+    public void setUnmatchedCount(int unmatchedCount) {
+        this.unmatchedCount = unmatchedCount;
+    }
+
+    public int getMultiMatchedCount() {
+        return multiMatchedCount;
+    }
+
+    public void setMultiMatchedCount(int multiMatchedCount) {
+        this.multiMatchedCount = multiMatchedCount;
+    }
+
+    public String getJobDetailId() {
+        return jobDetailId;
+    }
+
+    public void setJobDetailId(String jobDetailId) {
+        this.jobDetailId = jobDetailId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 }

@@ -12,6 +12,7 @@
             </h4>
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            &nbsp;&nbsp;&nbsp;<font color="green"> Created : {{holdingsCreatedCount}} &nbsp;&nbsp;&nbsp;&nbsp;Updated : {{holdingsUpdatedCount}} &nbsp;&nbsp;&nbsp;&nbsp;Discarded : {{holdingsDiscardedCount}}</font>
             <div class="panel-body">
                 <div class="form-group">
                     <table datatable="ng" class="table table-bordered row-border hover">
@@ -20,6 +21,7 @@
                             <th>Holdings Id</th>
                             <th>Bib Id</th>
                             <th>Operation</th>
+                            <th>Record Index</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -27,6 +29,7 @@
                             <td><span ng-bind="reportHoldings.holdingsId"></span></td>
                             <td><span ng-bind="reportHoldings.bibId"></span></td>
                             <td><span ng-bind="reportHoldings.operation"></span></td>
+                            <td><span ng-bind="reportHoldings.recordIndex"></span></td>
                         </tr>
                         </tbody>
                     </table>

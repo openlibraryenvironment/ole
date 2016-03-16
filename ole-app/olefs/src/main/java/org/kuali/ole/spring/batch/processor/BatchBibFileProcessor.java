@@ -13,6 +13,8 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
@@ -37,7 +39,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public OleNgBatchResponse processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType,
+                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName, BatchJobDetails batchJobDetails) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         OleNGBibImportResponse oleNGBibImportResponse = null;
@@ -108,6 +111,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
         oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
         oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
+        oleNGBibImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
+        oleNGBibImportResponse.setJobName(batchJobDetails.getJobName());
+        oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
         oleNGBibImportResponse.setMatchedRecords(matchedRecords);
         oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
@@ -116,7 +122,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setRecordsMap(recordsMap);
         generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
 
-        return response;
+        OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
+        oleNgBatchResponse.setResponse(response);
+
+        return oleNgBatchResponse;
     }
 
     private FailureResponse getFailureResponse(Integer index, Exception e) {

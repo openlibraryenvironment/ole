@@ -3584,6 +3584,7 @@
         <column name="JOB_ID" size="10" type="INTEGER"/>
         <column name="PROFILE_TYPE" size="40" type="VARCHAR"/>
         <column name="PROFILE_NAME" size="100" type="VARCHAR"/>
+        <column name="FILE_NAME" size="100" type="VARCHAR"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column name="START_TIME" type="TIMESTAMP"/>
         <column name="END_TIME" type="TIMESTAMP"/>
@@ -3591,6 +3592,7 @@
         <column name="TIME_SPENT" size="40" type="VARCHAR"/>
         <column name="TOTAL_RECORDS" size="40" type="VARCHAR"/>
         <column name="TOTAL_RECORDS_PRCSD" size="40" type="VARCHAR"/>
+        <column name="TOTAL_FAILURE_RECORDS" size="40" type="VARCHAR"/>
         <column name="STATUS" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
