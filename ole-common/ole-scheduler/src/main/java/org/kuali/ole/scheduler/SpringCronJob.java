@@ -31,10 +31,10 @@ import java.util.Scanner;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class SpringCronJob extends HttpServlet implements Runnable {
+public class SpringCronJob extends HttpServlet {
 
     private ThreadPoolTaskScheduler scheduler;
-    String[] springConfig = {"spring/batch/jobs/*.xml"};
+    String[] springConfig = {"org/kuali/ole/scheduler/jobs/*.xml"};
     ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
     JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
     private String urlBase;
@@ -85,10 +85,6 @@ public class SpringCronJob extends HttpServlet implements Runnable {
         for (OleBatchJob oleBatchJob : allJobs) {
             scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
         }
-    }
-
-    public void run() {
-        System.err.println("SpringCronJob.run()");
     }
 
     List<OleBatchJob> getAllScheduledJobs() throws IOException, JSONException {
@@ -157,10 +153,4 @@ public class SpringCronJob extends HttpServlet implements Runnable {
         }
         return scanner.next();
     }
-
-//    public static void main(String[] args) {
-//        SpringCronJob job = new SpringCronJob();
-//        job.start();
-//    }
-
 }
