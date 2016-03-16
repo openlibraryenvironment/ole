@@ -16,7 +16,7 @@ import org.kuali.ole.docstore.common.util.BibMarcUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.DataField;

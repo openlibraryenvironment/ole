@@ -10,7 +10,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 
 import java.io.IOException;
 import java.util.ArrayList;

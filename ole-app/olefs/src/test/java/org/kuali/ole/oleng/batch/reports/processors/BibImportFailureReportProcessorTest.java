@@ -1,7 +1,7 @@
 package org.kuali.ole.oleng.batch.reports.processors;
 
 import org.junit.Test;
-import org.kuali.ole.docstore.common.response.FailureResponse;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 
 /**
@@ -12,7 +12,7 @@ public class BibImportFailureReportProcessorTest {
     @Test
     public void testFailureReportProcessor() {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
-        FailureResponse failureResponse = new FailureResponse();
+        BibFailureResponse failureResponse = new BibFailureResponse();
         failureResponse.setFailureMessage("NullPointerException");
         failureResponse.setIndex(1);
         failureResponse.setNoOfFailureHoldings(5);

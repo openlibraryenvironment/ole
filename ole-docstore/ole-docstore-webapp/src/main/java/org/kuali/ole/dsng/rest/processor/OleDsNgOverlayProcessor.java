@@ -24,7 +24,7 @@ import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.items.*;
@@ -63,7 +63,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             for (int index = 0; index < requestJsonArray.length(); index++) {
                 JSONObject bibJSONDataObject = requestJsonArray.getJSONObject(index);
                 BibResponse bibResponse = new BibResponse();
-                FailureResponse failureResponse = new FailureResponse();
+                BibFailureResponse failureResponse = new BibFailureResponse();
 
                 exchange.add(OleNGConstants.FAILURE_RESPONSE, failureResponse);
                 try {
@@ -194,7 +194,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     addFailureReportToExchange(bibJSONDataObject, exchange, "Bib", e.toString(),
                             "Problem while processing bib request.", null);
                 }
-                failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+                failureResponse = (BibFailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
                 if(StringUtils.isNotBlank(failureResponse.getFailureMessage())) {
                     oleNGBibImportResponse.addFailureResponse(failureResponse);
                 }
@@ -207,7 +207,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
         } catch (Exception e) {
             e.printStackTrace();
-            FailureResponse failureResponse = new FailureResponse();
+            BibFailureResponse failureResponse = new BibFailureResponse();
             failureResponse.setFailureMessage(e.toString());
             oleNGBibImportResponse.addFailureResponse(failureResponse);
         }
@@ -218,7 +218,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             response = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGBibImportResponse);
         } catch (IOException e) {
             e.printStackTrace();
-            FailureResponse failureResponse = new FailureResponse();
+            BibFailureResponse failureResponse = new BibFailureResponse();
             failureResponse.setFailureMessage(e.toString());
             oleNGBibImportResponse.addFailureResponse(failureResponse);
         }

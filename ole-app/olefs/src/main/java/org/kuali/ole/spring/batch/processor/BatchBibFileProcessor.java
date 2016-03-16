@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
@@ -41,7 +42,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         OleNGBibImportResponse oleNGBibImportResponse = null;
-        List<FailureResponse> failureResponses = new ArrayList<>();
+        List<BibFailureResponse> failureResponses = new ArrayList<>();
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
@@ -81,7 +82,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 jsonArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
-                FailureResponse failureResponse = getFailureResponse(index,  e);
+                BibFailureResponse failureResponse = getBibFailureResponse(index,  e);
                 failureResponses.add(failureResponse);
             }
         }
@@ -96,7 +97,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FailureResponse failureResponse = getFailureResponse(null, e);
+            BibFailureResponse failureResponse = getBibFailureResponse(null, e);
             failureResponses.add(failureResponse);
         }
 
@@ -119,8 +120,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return response;
     }
 
-    private FailureResponse getFailureResponse(Integer index, Exception e) {
-        FailureResponse failureResponse = new FailureResponse();
+    private BibFailureResponse getBibFailureResponse(Integer index, Exception e) {
+        BibFailureResponse failureResponse = new BibFailureResponse();
         failureResponse.setFailureMessage(e.toString());
         failureResponse.setIndex(index);
         return failureResponse;

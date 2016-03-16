@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.rest;
+package org.kuali.ole;
 
 import org.apache.commons.collections.map.HashedMap;
 

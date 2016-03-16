@@ -1,24 +1,20 @@
 package org.kuali.ole.dsng.util;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.response.FailureResponse;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.utility.JSONHelperUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,7 +81,7 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
             index = Integer.valueOf(recordIndex);
         }
 
-        FailureResponse failureResponse = (FailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        BibFailureResponse failureResponse = (BibFailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
         failureResponse.setIndex(index);
         failureResponse.setFailureMessage(exception);
         failureResponse.setDetailedMessage(detailedMessage);
