@@ -61,6 +61,7 @@ public class FeeType extends PersistableBusinessObjectBase {
     private String transferNote;
     private String refundNote;
     private String cancelCreditNote;
+    private boolean manualProcessBill = false;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -430,5 +431,13 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setCancelCreditNote(String cancelCreditNote) {
         this.cancelCreditNote = cancelCreditNote;
+    }
+
+    public boolean isManualProcessBill() {
+        return manualProcessBill;
+    }
+
+    public void setManualProcessBill(boolean manualProcessBill) {
+        this.manualProcessBill = manualProcessBill;
     }
 }

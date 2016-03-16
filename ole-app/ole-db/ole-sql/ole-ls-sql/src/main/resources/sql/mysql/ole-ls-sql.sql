@@ -1963,6 +1963,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , PAY_TRANSFER_NOTE VARCHAR(500)
         , PAY_REFUND_NOTE VARCHAR(500)
         , PAY_CAN_CRDT_NOTE VARCHAR(500)
+        , MANUAL_BILL VARCHAR(1) default 'N'
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
 
@@ -1971,7 +1972,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -2040,6 +2041,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , BILL_REVIEWED VARCHAR(1)
         , CRDT_ISSUED DECIMAL(10,4) default 0.00
         , CRDT_REMAINING DECIMAL(10,4) default 0.00
+        , MANUAL_BILL VARCHAR(1) default 'Y'
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_TP1 PRIMARY KEY(PTRN_BILL_ID)
 
@@ -2048,7 +2050,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_DLVR_PTRN_BILL_TI1 (OLE_PTRN_ID )
 
@@ -3434,11 +3436,11 @@ CREATE TABLE OLE_LOCN_T
 
 
     
-
+                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_LOCN_FK1 (PARENT_LOCN_ID )
     
-
+                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_LOCN_FK2 (LEVEL_ID )
 

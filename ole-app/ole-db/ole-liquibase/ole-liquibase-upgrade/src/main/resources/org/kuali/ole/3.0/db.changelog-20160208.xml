@@ -229,4 +229,38 @@
                                  referencedTableName="OLE_FUND_CD_T" />
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ADD_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_T ">
+            <column name="MANUAL_BILL" type="varchar(1)"/>
+
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ADD_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="MANUAL_BILL" type="varchar(1)"/>
+
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_DEFAULTVAL">
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="MANUAL_BILL"
+                defaultValue="N"
+                tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_DEFAULTVAL">
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="MANUAL_BILL"
+                defaultValue="N"
+                tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
 </databaseChangeLog>

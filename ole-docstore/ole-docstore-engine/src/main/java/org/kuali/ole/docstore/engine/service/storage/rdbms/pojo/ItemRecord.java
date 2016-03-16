@@ -80,6 +80,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<ItemNoteRecord> itemNoteRecords;
     private List<LocationsCheckinCountRecord> locationsCheckinCountRecords;
     private String damagedItemNote;
+    private String itemLostNote;
     private boolean itemDamagedStatus;
     private boolean missingPieceFlag;
     private String missingPiecesCount;
@@ -629,5 +630,13 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setOriginalDueDate(Timestamp originalDueDate) {
         this.originalDueDate = originalDueDate;
+    }
+
+    public String getItemLostNote() {
+        return itemLostNote;
+    }
+
+    public void setItemLostNote(String itemLostNote) {
+        this.itemLostNote = itemLostNote;
     }
 }

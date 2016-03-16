@@ -1015,6 +1015,7 @@
         <column name="PAY_TRANSFER_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_REFUND_NOTE" size="500" type="VARCHAR"/>
         <column name="PAY_CAN_CRDT_NOTE" size="500" type="VARCHAR"/>
+        <column default="N" name="MANUAL_BILL" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_DLVR_PTRN_BILL_T" name="FEE_TYP_BILL_ID">
             <reference foreign="PTRN_BILL_ID" local="PTRN_BILL_ID"/>
         </foreign-key>
@@ -1062,6 +1063,7 @@
         <column name="BILL_REVIEWED" size="1" type="VARCHAR"/>
         <column default="0.00" name="CRDT_ISSUED"  scale="4" size="10" type="DECIMAL"/>
         <column default="0.00" name="CRDT_REMAINING" scale="4" size="10" type="DECIMAL"/>
+        <column default="Y" name="MANUAL_BILL" size="1" type="VARCHAR"/>
         <index name="OLE_DLVR_PTRN_BILL_TI1">
             <index-column name="OLE_PTRN_ID"/>
         </index>
