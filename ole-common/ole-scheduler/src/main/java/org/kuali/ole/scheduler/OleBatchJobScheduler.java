@@ -26,26 +26,28 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class SpringCronJob extends HttpServlet {
+public class OleBatchJobScheduler extends HttpServlet {
 
-    private ThreadPoolTaskScheduler scheduler;
+    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
     String[] springConfig = {"org/kuali/ole/scheduler/jobs/*.xml"};
     ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
     JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
     private String urlBase;
+    private HashMap<String, ScheduledFuture> scheduledFutures = new HashMap<>();
 
     public void init() throws ServletException {
-        // invoke in separate thead to complete the deployment in parallel
+        // invoke in separate thread to complete the deployment in parallel
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    start();
+                    startAllJobs();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -57,57 +59,50 @@ public class SpringCronJob extends HttpServlet {
         }).start();
     }
 
-    public void start() throws IOException, JSONException, InterruptedException {
-        System.err.println("SpringCronJob.start()");
-        scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setThreadNamePrefix("SpringCronJob");
-        scheduler.initialize();
-
-        System.err.println("-- initializing --");
-        List<OleBatchJob> allJobs = null;
+    private void startAllJobs() throws IOException, JSONException, InterruptedException {
+        scheduler.setThreadNamePrefix("OleBatchJobScheduler");
+        startScheduler();
+        System.err.println("-- initializing batch jobs --");
         for (int n = 1; n < 50; n++) {
-            allJobs = getAllScheduledJobs();
-            if (allJobs != null) {
+            if (scheduleAllPersitedJobs() == true) {
                 break;
             }
             System.err.println("rest not yet available, not fully deployed?");
             TimeUnit.SECONDS.sleep(n);
         }
-
-        if (allJobs == null) {
+        if (scheduleAllPersitedJobs() == false) {
             throw new RuntimeException("REST api not available: " + OleNGConstants.BATCH_PROCESS_JOBS);
         }
-
-        scheduleJobs(allJobs);
     }
 
-    private void scheduleJobs(List<OleBatchJob> allJobs) {
-        for (OleBatchJob oleBatchJob : allJobs) {
-            scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
-        }
-    }
-
-    List<OleBatchJob> getAllScheduledJobs() throws IOException, JSONException {
+    private boolean scheduleAllPersitedJobs() throws IOException, JSONException {
         String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
+
+        // ToDo
+        // i think we should have some more elaborated handling here
+        // could be the case that there are no persited jobs but rest is available, right?
         if (schedulesString == null) {
-            return null;
+            return false;
         }
         JSONArray schedules = new JSONArray(schedulesString);
         List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
         for (int i = 0; i < schedules.length(); i++) {
             try {
                 JSONObject schedule = schedules.getJSONObject(i);
-                String name = schedule.optString(OleNGConstants.PROCESS_NAME);
+                String springJobName = schedule.optString(OleNGConstants.PROCESS_NAME);
                 String cron = schedule.optString(OleNGConstants.CRON_EXPRESSION);
-                Job springBatchJob = (Job) context.getBean(name);
-                OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cron, name, jobLauncher);
-                jobs.add(oleBatchJob);
-                System.err.println("added oleBatchJob: " + name + " " + cron + " " + schedule.toString());
+
+                // ToDo
+                // Last argument "name" should be some kind of id!!!
+                // This has to be in the db somewhere
+                addJob(springJobName, cron, springJobName);
+
+                System.err.println("added oleBatchJob: " + springJobName + " " + cron + " " + schedule.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return jobs;
+        return true;
     }
 
     /**
@@ -152,5 +147,35 @@ public class SpringCronJob extends HttpServlet {
             return "";
         }
         return scanner.next();
+    }
+
+    public void addJob(String springJobName, String cronExpression, String name) {
+        if (!scheduledFutures.containsKey(name)) {
+            Job springBatchJob = (Job) context.getBean(springJobName);
+            OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cronExpression, name, jobLauncher);
+            ScheduledFuture scheduledFuture = scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
+            scheduledFutures.put(name, scheduledFuture);
+        } else {
+            // we have to handle this as some kind of exception
+            System.err.println("there is already a job with this name!");
+        }
+    }
+
+    public void deleteJob(String name) {
+        if (scheduledFutures.containsKey(name)) {
+            scheduledFutures.get(name).cancel(true);
+            System.err.println("cancelled job with name: " + name);
+            scheduledFutures.remove(name);
+        } else {
+            System.err.println("no job found with this name!");
+        }
+    }
+
+    public void startScheduler() {
+        scheduler.initialize();
+    }
+
+    public void stopScheduler() {
+        scheduler.shutdown();
     }
 }
