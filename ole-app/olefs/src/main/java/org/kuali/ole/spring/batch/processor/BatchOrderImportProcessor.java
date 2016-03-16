@@ -8,6 +8,7 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
@@ -64,6 +65,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
+        List<OrderFailureResponse> orderFailureResponses = new ArrayList<>();
         List<Integer> purapIds = new ArrayList<>();
 
         Map<Integer,RecordDetails> unMatchedRecordMap = new HashMap<>();
@@ -73,6 +75,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         List<OrderData> matchedOrderDatas = new ArrayList<OrderData>();
         List<OrderData> unmatchedOrderDatas = new ArrayList<OrderData>();
 
+        Exchange exchange = new Exchange();
 
         BibUtil bibUtil = new BibUtil();
         if (recordsMap.size() > 0) {
@@ -85,36 +88,42 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     RecordDetails recordDetails = recordsMap.get(index);
                     Record marcRecord = recordDetails.getRecord();
 
-                    Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
-                    OrderData orderData = new OrderData();
-                    orderData.setRecordNumber(String.valueOf(index));
-                    orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
+                    try {
+                        Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
+                        OrderData orderData = new OrderData();
+                        orderData.setRecordNumber(String.valueOf(index));
+                        orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
 
-                    String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+                        String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
 
-                    if (StringUtils.isNotBlank(query)) {
-                        query = query.replace("\\", "\\\\");
-                        List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
-                        if (null == results || results.size() > 1) {
-                            System.out.println("**** More than one record found for query : " + query);
-                            multipleMatchedRecordMap.put(index, recordDetails);
-                            continue;
-                        }
+                        if (StringUtils.isNotBlank(query)) {
+                            query = query.replace("\\", "\\\\");
+                            List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+                            if (null == results || results.size() > 1) {
+                                System.out.println("**** More than one record found for query : " + query);
+                                multipleMatchedRecordMap.put(index, recordDetails);
+                                continue;
+                            }
 
-                        if (null != results && results.size() == 1) {
-                            SolrDocument solrDocument = (SolrDocument) results.get(0);
-                            String bibId = (String) solrDocument.getFieldValue("id");
-                            recordDetails.setBibUUID(bibId);
-                            matchedRecordMap.put(index, recordDetails);
-                            orderData.setSuccessfulMatchPoints(query);
-                            matchedOrderDatas.add(orderData);
+                            if (null != results && results.size() == 1) {
+                                SolrDocument solrDocument = (SolrDocument) results.get(0);
+                                String bibId = (String) solrDocument.getFieldValue("id");
+                                recordDetails.setBibUUID(bibId);
+                                matchedRecordMap.put(index, recordDetails);
+                                orderData.setSuccessfulMatchPoints(query);
+                                matchedOrderDatas.add(orderData);
+                            } else {
+                                unMatchedRecordMap.put(index, recordDetails);
+                                unmatchedOrderDatas.add(orderData);
+                            }
                         } else {
                             unMatchedRecordMap.put(index, recordDetails);
                             unmatchedOrderDatas.add(orderData);
                         }
-                    } else {
-                        unMatchedRecordMap.put(index, recordDetails);
-                        unmatchedOrderDatas.add(orderData);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                        OrderFailureResponse orderFailureResponse = getOrderFailureResponse(index, e);
+                        orderFailureResponses.add(orderFailureResponse);
                     }
                 }
                 recordForBibImportsMap.putAll(matchedRecordMap);
@@ -132,32 +141,32 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
                     for (Iterator<OrderProcessHandler> batchProfileAddOrOverlayIterator = getOrderProcessHandlers().iterator(); batchProfileAddOrOverlayIterator.hasNext(); ) {
                         OrderProcessHandler orderProcessHandler = batchProfileAddOrOverlayIterator.next();
-                        if (orderProcessHandler.isInterested(batchProfileAddOrOverlay.getAddOperation())) {
-                            orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
-                            Map<String, Record> recordsToProcess = new HashMap<>();
-                            List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
-                            if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
-                                List<RecordDetails> matchedRecordDetails = new ArrayList<RecordDetails>(matchedRecordMap.values());
-                                if (CollectionUtils.isNotEmpty(matchedRecordDetails)) {
-                                    for (Iterator<RecordDetails> recordDetailsIterator = matchedRecordDetails.iterator(); recordDetailsIterator.hasNext(); ) {
-                                        RecordDetails recordDetails = recordDetailsIterator.next();
-                                        recordsToProcess.put(recordDetails.getBibUUID(), recordDetails.getRecord());
+                        try {
+                            if (orderProcessHandler.isInterested(batchProfileAddOrOverlay.getAddOperation())) {
+                                orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
+                                Map<String, Record> recordsToProcess = new HashMap<>();
+                                List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
+                                if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
+                                    List<RecordDetails> matchedRecordDetails = new ArrayList<RecordDetails>(matchedRecordMap.values());
+                                    if (CollectionUtils.isNotEmpty(matchedRecordDetails)) {
+                                        for (Iterator<RecordDetails> recordDetailsIterator = matchedRecordDetails.iterator(); recordDetailsIterator.hasNext(); ) {
+                                            RecordDetails recordDetails = recordDetailsIterator.next();
+                                            recordsToProcess.put(recordDetails.getBibUUID(), recordDetails.getRecord());
+                                        }
                                     }
+                                    orderDatasToReport = matchedOrderDatas;
+                                } else if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
+                                    recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse,unMatchedRecordMap);
+                                    orderDatasToReport = unmatchedOrderDatas;
                                 }
-                                orderDatasToReport = matchedOrderDatas;
-                            } else if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
-                                recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse,unMatchedRecordMap);
-                                orderDatasToReport = unmatchedOrderDatas;
-                            }
-                            try {
                                 if (recordsToProcess.size() > 0) {
-                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, orderRequestHandler));
+                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, orderRequestHandler, exchange));
                                     prepareResponse(batchProfileAddOrOverlay.getAddOperation(), orderDatasToReport, oleNGOrderImportResponse);
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                break;
                             }
-                            break;
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -180,6 +189,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         oleNGOrderImportResponse.setMatchedCount(matchedRecordMap.size());
         oleNGOrderImportResponse.setUnmatchedCount(unMatchedRecordMap.size());
         oleNGOrderImportResponse.setMultiMatchedCount(multipleMatchedRecordMap.size());
+        oleNGOrderImportResponse.getOrderFailureResponses().addAll(orderFailureResponses);
+        oleNGOrderImportResponse.setRecordsMap(recordsMap);
         OrderImportReportLogHandler orderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
         orderImportReportLogHandler.logMessage(oleNGOrderImportResponse,reportDirectoryName);
 
@@ -275,18 +286,13 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return ConfigContext.getCurrentContextConfig().getProperty("batch.orderRecord.directory");
     }
 
-    private List<String> getOptions(List<BatchProfileAddOrOverlay> optionsList) {
-        List<String> options = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(optionsList)) {
-            for (Iterator<BatchProfileAddOrOverlay> iterator = optionsList.iterator(); iterator.hasNext(); ) {
-                BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
-                String matchOption = batchProfileAddOrOverlay.getMatchOption();
-                String operation = batchProfileAddOrOverlay.getAddOperation();
-                String option = getMatchOptionInd(matchOption) + getActionInd(operation);
-                options.add(option);
-            }
-        }
-        return options;
+
+
+    private OrderFailureResponse getOrderFailureResponse(Integer index, Exception e) {
+        OrderFailureResponse failureResponse = new OrderFailureResponse();
+        failureResponse.setFailureMessage(e.toString());
+        failureResponse.setIndex(index);
+        return failureResponse;
     }
 
     private String getMatchOptionInd(String matchOption) {
