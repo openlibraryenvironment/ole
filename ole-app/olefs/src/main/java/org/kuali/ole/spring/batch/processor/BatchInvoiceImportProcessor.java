@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.InvoiceResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
@@ -67,6 +68,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         JSONObject response = new JSONObject();
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
         MatchedDetails matchedDetails = new MatchedDetails();
+        List<InvoiceFailureResponse> invoiceFailureResponses = new ArrayList<>();
 
         Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
@@ -116,6 +118,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                InvoiceFailureResponse invoiceFailureResponse = new InvoiceFailureResponse();
+                invoiceFailureResponse.setInvoiceNumber(invoiceNumber);
+                invoiceFailureResponse.setFailureMessage(e.getMessage());
+                invoiceFailureResponses.add(invoiceFailureResponse);
             }
         }
 
@@ -127,6 +133,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
 
         try {
+            oleNGInvoiceImportResponse.getInvoiceFailureResponses().addAll(invoiceFailureResponses);
             String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
             //System.out.println("Invoice Import Response : " + successResponse);
             InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();

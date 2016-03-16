@@ -1,18 +1,11 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.EHoldings;
-import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

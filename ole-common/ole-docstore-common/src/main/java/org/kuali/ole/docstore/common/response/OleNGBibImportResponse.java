@@ -53,7 +53,7 @@ public class OleNGBibImportResponse {
     private int multipleMatchedEHoldingsCount;
 
     @JsonProperty("failureResponses")
-    private List<FailureResponse> failureResponses;
+    private List<BibFailureResponse> failureResponses;
 
     @JsonIgnore
     private List<Record> matchedRecords = new ArrayList<>();
@@ -213,18 +213,18 @@ public class OleNGBibImportResponse {
         this.directoryName = directoryName;
     }
 
-    public List<FailureResponse> getFailureResponses() {
+    public List<BibFailureResponse> getFailureResponses() {
         if(null == failureResponses) {
             failureResponses = new ArrayList<>();
         }
         return failureResponses;
     }
 
-    public void setFailureResponses(List<FailureResponse> failureResponses) {
+    public void setFailureResponses(List<BibFailureResponse> failureResponses) {
         this.failureResponses = failureResponses;
     }
 
-    public void addFailureResponse(FailureResponse failureResponse) {
+    public void addFailureResponse(BibFailureResponse failureResponse) {
         getFailureResponses().add(failureResponse);
     }
 

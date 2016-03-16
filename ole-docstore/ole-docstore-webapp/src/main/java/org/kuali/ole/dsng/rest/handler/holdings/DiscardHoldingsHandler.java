@@ -1,19 +1,15 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.util.HoldingsUtil;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;

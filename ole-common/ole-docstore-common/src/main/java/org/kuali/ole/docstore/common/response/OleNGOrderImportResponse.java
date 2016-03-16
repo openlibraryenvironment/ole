@@ -1,7 +1,14 @@
 package org.kuali.ole.docstore.common.response;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by angelind on 2/16/16.
@@ -17,6 +24,9 @@ public class OleNGOrderImportResponse {
     private List<OrderResponse> reqOnlyResponses;
     private List<OrderResponse> reqAndPOResponses;
     private List<OrderResponse> noReqNorPOResponses;
+    private List<OrderFailureResponse> orderFailureResponses;
+    @JsonIgnore
+    private Map<Integer, RecordDetails> recordsMap;
 
     public List<Integer> getRequisitionIds() {
         return requisitionIds;
@@ -111,4 +121,29 @@ public class OleNGOrderImportResponse {
         getNoReqNorPOResponses().add(orderResponse);
     }
 
+    public List<OrderFailureResponse> getOrderFailureResponses() {
+        if(null == orderFailureResponses) {
+            orderFailureResponses = new ArrayList<>();
+        }
+        return orderFailureResponses;
+    }
+
+    public void setOrderFailureResponses(List<OrderFailureResponse> orderFailureResponses) {
+        this.orderFailureResponses = orderFailureResponses;
+    }
+
+    public void addOrderFailureResponse(OrderFailureResponse orderFailureResponse) {
+        getOrderFailureResponses().add(orderFailureResponse);
+    }
+
+    public Map<Integer, RecordDetails> getRecordsMap() {
+        if(null == recordsMap) {
+            recordsMap = new HashMap<>();
+        }
+        return recordsMap;
+    }
+
+    public void setRecordsMap(Map<Integer, RecordDetails> recordsMap) {
+        this.recordsMap = recordsMap;
+    }
 }

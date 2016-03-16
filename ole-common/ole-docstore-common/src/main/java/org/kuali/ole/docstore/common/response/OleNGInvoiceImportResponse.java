@@ -13,6 +13,7 @@ public class OleNGInvoiceImportResponse {
     private int multiMatchedCount;
     private String jobDetailId;
     private String jobName;
+    private List<InvoiceFailureResponse> invoiceFailureResponses;
 
     public List<InvoiceResponse> getInvoiceResponses() {
         if(null == invoiceResponses) {
@@ -63,5 +64,20 @@ public class OleNGInvoiceImportResponse {
 
     public void setJobName(String jobName) {
         this.jobName = jobName;
+    }
+
+    public List<InvoiceFailureResponse> getInvoiceFailureResponses() {
+        if(null == invoiceFailureResponses) {
+            invoiceFailureResponses = new ArrayList<>();
+        }
+        return invoiceFailureResponses;
+    }
+
+    public void setInvoiceFailureResponses(List<InvoiceFailureResponse> invoiceFailureResponses) {
+        this.invoiceFailureResponses = invoiceFailureResponses;
+    }
+
+    public void addInvoiceFailureResponse(InvoiceFailureResponse invoiceFailureResponse) {
+        getInvoiceFailureResponses().add(invoiceFailureResponse);
     }
 }

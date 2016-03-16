@@ -59,8 +59,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
     @Override
     public OleNgBatchResponse processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType,
-                                 BatchProcessProfile batchProcessProfile, String reportDirectoryName,
-                                 BatchJobDetails batchJobDetails) throws JSONException {
+                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName,
+                                             BatchJobDetails batchJobDetails) throws JSONException {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();

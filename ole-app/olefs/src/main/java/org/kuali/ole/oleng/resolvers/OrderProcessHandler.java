@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.resolvers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
@@ -23,7 +24,7 @@ public abstract class OrderProcessHandler {
 
     public abstract CreateReqAndPOBaseServiceHandler getCreateReqOrPOServiceHandler();
 
-    public List<Integer> processOrder(Map<String, Record> recordMap, BatchProcessProfile batchProcessProfile, CreateReqAndPOServiceHandler orderRequestHandler) throws Exception {
+    public List<Integer> processOrder(Map<String, Record> recordMap, BatchProcessProfile batchProcessProfile, CreateReqAndPOServiceHandler orderRequestHandler, Exchange exchange) throws Exception {
         List<Integer> poIds = new ArrayList<>();
         OleNGPOHelperUtil oleNGPOHelperUtil = OleNGPOHelperUtil.getInstance();
 
@@ -36,7 +37,7 @@ public abstract class OrderProcessHandler {
         }
         if(multiTitle) {
             Set<String> bibIds = recordMap.keySet();
-            Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(bibIds, batchProcessProfile, getCreateReqOrPOServiceHandler());
+            Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(bibIds, batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
             if (null != purapIdentifier) {
                 poIds.add(purapIdentifier);
             }
@@ -44,7 +45,7 @@ public abstract class OrderProcessHandler {
             Set<String> bibIds = recordMap.keySet();
             for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
                 String bibId = iterator.next();
-                Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(Collections.singleton(bibId), batchProcessProfile, getCreateReqOrPOServiceHandler());
+                Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(Collections.singleton(bibId), batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
                 if (null != purapIdentifier) {
                     poIds.add(purapIdentifier);
                 }

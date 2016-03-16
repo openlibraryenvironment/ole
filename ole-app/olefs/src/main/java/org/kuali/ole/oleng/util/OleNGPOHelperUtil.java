@@ -5,9 +5,11 @@ import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.response.OrderFailureResponse;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
@@ -44,8 +46,9 @@ public class OleNGPOHelperUtil {
     }
 
     public Integer processReqAndPo(Set<String> bibIds, BatchProcessProfile batchProcessProfile,
-                                   CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler)  {
+                                   CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler, Exchange exchange)  {
         List<OleOrderRecord> oleOrderRecords = new ArrayList<>();
+        List<OrderFailureResponse> orderFailureResponses = new ArrayList<>();
         Integer purapId = null;
         for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
             try {
@@ -70,6 +73,9 @@ public class OleNGPOHelperUtil {
                 oleOrderRecords.add(oleOrderRecord);
             } catch (Exception e) {
                 e.printStackTrace();
+                OrderFailureResponse orderFailureResponse = new OrderFailureResponse();
+                orderFailureResponse.setFailureMessage(e.getMessage());
+                orderFailureResponses.add(orderFailureResponse);
             }
 
         }
@@ -79,8 +85,11 @@ public class OleNGPOHelperUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            OrderFailureResponse orderFailureResponse = new OrderFailureResponse();
+            orderFailureResponse.setFailureMessage(e.getMessage());
+            orderFailureResponses.add(orderFailureResponse);
         }
-
+        exchange.add("orderFailureResponses",orderFailureResponses);
         return purapId;
     }
 

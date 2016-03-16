@@ -1,16 +1,14 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
