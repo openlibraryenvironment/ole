@@ -7,6 +7,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.response.OrderFailureResponse;
@@ -89,7 +90,7 @@ public class OleNGPOHelperUtil {
             orderFailureResponse.setFailureMessage(e.getMessage());
             orderFailureResponses.add(orderFailureResponse);
         }
-        exchange.add("orderFailureResponses",orderFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE,orderFailureResponses);
         return purapId;
     }
 
