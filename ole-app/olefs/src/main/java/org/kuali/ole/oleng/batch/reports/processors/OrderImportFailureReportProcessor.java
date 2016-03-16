@@ -36,10 +36,10 @@ public class OrderImportFailureReportProcessor extends OleNGReportProcessor {
             }
             if(CollectionUtils.isNotEmpty(marcRecords)) {
                 String failedMarcContent = marcRecordUtil.convertMarcRecordListToRawMarcContent(marcRecords);
-                logMessage(directoryToWrite, "OrderImport-FailedMarcRecords", "mrc", failedMarcContent);
+                logMessage(directoryToWrite, "Order-FailedMarcRecords", "mrc", failedMarcContent);
             }
             String orderFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(orderFailureResponses);
-            logMessage(directoryToWrite, "OrderImport-FailureMessages", "txt", orderFailureMessage);
+            logMessage(directoryToWrite, "Order-FailureMessages", "txt", orderFailureMessage);
         }
     }
 }

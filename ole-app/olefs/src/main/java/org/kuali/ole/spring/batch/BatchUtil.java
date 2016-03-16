@@ -1,12 +1,13 @@
 package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.OrderFailureResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
@@ -198,6 +199,25 @@ public class BatchUtil extends OleNgUtil{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void addOrderFaiureResponseToExchange(Exception exception, Integer index, Exchange exchange) {
+        String message = exception.toString();
+        List<OrderFailureResponse> orderFailureResponses = (List<OrderFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == orderFailureResponses) {
+            orderFailureResponses = new ArrayList<>();
+        }
+        OrderFailureResponse newOrderFailureResponse = getNewOrderFailureResponse(message, index);
+        orderFailureResponses.add(newOrderFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE,orderFailureResponses);
+
+    }
+
+    public OrderFailureResponse getNewOrderFailureResponse(String message, Integer index) {
+        OrderFailureResponse orderFailureResponse = new OrderFailureResponse();
+        orderFailureResponse.setFailureMessage(message);
+        orderFailureResponse.setIndex(index);
+        return orderFailureResponse;
     }
 
 }

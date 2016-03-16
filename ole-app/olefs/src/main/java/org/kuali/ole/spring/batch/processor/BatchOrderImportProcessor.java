@@ -41,10 +41,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
     private static final Logger LOG = Logger.getLogger(BatchOrderImportProcessor.class);
 
-
-    @Autowired
-    private CreateReqAndPOServiceHandler orderRequestHandler;
-
     @Autowired
     private DescribeDAO describeDAO;
 
@@ -65,7 +61,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
-        List<OrderFailureResponse> orderFailureResponses = new ArrayList<>();
         List<Integer> purapIds = new ArrayList<>();
 
         Map<Integer,RecordDetails> unMatchedRecordMap = new HashMap<>();
@@ -122,8 +117,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         }
                     } catch(Exception e) {
                         e.printStackTrace();
-                        OrderFailureResponse orderFailureResponse = getOrderFailureResponse(index, e);
-                        orderFailureResponses.add(orderFailureResponse);
+                        addOrderFaiureResponseToExchange(e, index, exchange);
                     }
                 }
                 recordForBibImportsMap.putAll(matchedRecordMap);
@@ -132,7 +126,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (recordForBibImportsMap.size() > 0) {
                     oleNGBibImportResponse = processBibImport(rawContent, recordForBibImportsMap, fileType,  bibImportProfile,
-                            reportDirectoryName, batchJobDetails);
+                            reportDirectoryName, batchJobDetails, exchange);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -144,29 +138,24 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         try {
                             if (orderProcessHandler.isInterested(batchProfileAddOrOverlay.getAddOperation())) {
                                 orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
-                                Map<String, Record> recordsToProcess = new HashMap<>();
+                                List<RecordDetails> recordsToProcess = new ArrayList<>();
                                 List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
                                 if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
-                                    List<RecordDetails> matchedRecordDetails = new ArrayList<RecordDetails>(matchedRecordMap.values());
-                                    if (CollectionUtils.isNotEmpty(matchedRecordDetails)) {
-                                        for (Iterator<RecordDetails> recordDetailsIterator = matchedRecordDetails.iterator(); recordDetailsIterator.hasNext(); ) {
-                                            RecordDetails recordDetails = recordDetailsIterator.next();
-                                            recordsToProcess.put(recordDetails.getBibUUID(), recordDetails.getRecord());
-                                        }
-                                    }
+                                    recordsToProcess = new ArrayList<RecordDetails>(matchedRecordMap.values());
                                     orderDatasToReport = matchedOrderDatas;
                                 } else if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_NOT_MATCH_FOUND)) {
                                     recordsToProcess = buildUnMatchedRecordsWithBibId(oleNGBibImportResponse,unMatchedRecordMap);
                                     orderDatasToReport = unmatchedOrderDatas;
                                 }
                                 if (recordsToProcess.size() > 0) {
-                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, orderRequestHandler, exchange));
+                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, exchange));
                                     prepareResponse(batchProfileAddOrOverlay.getAddOperation(), orderDatasToReport, oleNGOrderImportResponse);
                                 }
                                 break;
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
+                            addOrderFaiureResponseToExchange(e, null, exchange);
                         }
                     }
                 }
@@ -183,22 +172,20 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             response = jsonObject.toString();
         }
         List<OrderFailureResponse> orderFailureResponseList = (List<OrderFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
-        if(CollectionUtils.isNotEmpty(orderFailureResponseList)) {
-            orderFailureResponses.addAll(orderFailureResponseList);
-        }
         oleNGOrderImportResponse.setRequisitionIds(purapIds);
         oleNGOrderImportResponse.setJobName(batchJobDetails.getJobName());
         oleNGOrderImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
         oleNGOrderImportResponse.setMatchedCount(matchedRecordMap.size());
         oleNGOrderImportResponse.setUnmatchedCount(unMatchedRecordMap.size());
         oleNGOrderImportResponse.setMultiMatchedCount(multipleMatchedRecordMap.size());
-        oleNGOrderImportResponse.getOrderFailureResponses().addAll(orderFailureResponses);
+        oleNGOrderImportResponse.setOrderFailureResponses(orderFailureResponseList);
         oleNGOrderImportResponse.setRecordsMap(recordsMap);
         OrderImportReportLogHandler orderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
         orderImportReportLogHandler.logMessage(oleNGOrderImportResponse,reportDirectoryName);
 
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
         oleNgBatchResponse.setResponse(response);
+        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(orderFailureResponseList));
 
         return oleNgBatchResponse;
     }
@@ -218,9 +205,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
     }
 
-    private Map<String, Record> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, Map<Integer, RecordDetails> recordDetailsMap) {
-
-        Map<String, Record> map = new HashMap<>();
+    private List<RecordDetails> buildUnMatchedRecordsWithBibId(OleNGBibImportResponse oleNGBibImportResponse, Map<Integer, RecordDetails> recordDetailsMap) {
+        List<RecordDetails> recordDetailsList = new ArrayList<>();
 
         if (null != oleNGBibImportResponse) {
             List<BibResponse> bibResponses = oleNGBibImportResponse.getBibResponses();
@@ -231,13 +217,14 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     if (recordDetailsMap.containsKey(recordIndex)) {
                         RecordDetails recordDetails = recordDetailsMap.get(recordIndex);
                         if(null != recordDetails) {
-                            map.put(bibResponse.getBibId(), recordDetails.getRecord());
+                            recordDetails.setBibUUID(bibResponse.getBibId());
+                            recordDetailsList.add(recordDetails);
                         }
                     }
                 }
             }
         }
-        return map;
+        return recordDetailsList;
     }
 
     private List<OrderProcessHandler> getOrderProcessHandlers() {
@@ -267,9 +254,9 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(String rawContent ,Map<Integer, RecordDetails> recordsMap,
+    private OleNGBibImportResponse processBibImport(String rawContent, Map<Integer, RecordDetails> recordsMap,
                                                     String fileType, BatchProcessProfile bibImportProfile,
-                                                    String reportDirectoryName, BatchJobDetails batchJobDetails) {
+                                                    String reportDirectoryName, BatchJobDetails batchJobDetails, Exchange exchange) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
             OleNgBatchResponse oleNgBatchResponse = batchBibFileProcessor.processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName, batchJobDetails);
@@ -279,6 +266,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            addOrderFaiureResponseToExchange(e, null, exchange);
         }
         return oleNGBibImportResponse;
     }
@@ -287,15 +275,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     @Override
     public String getReportingFilePath() {
         return ConfigContext.getCurrentContextConfig().getProperty("batch.orderRecord.directory");
-    }
-
-
-
-    private OrderFailureResponse getOrderFailureResponse(Integer index, Exception e) {
-        OrderFailureResponse failureResponse = new OrderFailureResponse();
-        failureResponse.setFailureMessage(e.toString());
-        failureResponse.setIndex(index);
-        return failureResponse;
     }
 
     private String getMatchOptionInd(String matchOption) {

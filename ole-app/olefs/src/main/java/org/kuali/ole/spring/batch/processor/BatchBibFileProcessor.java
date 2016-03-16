@@ -126,14 +126,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
         oleNgBatchResponse.setResponse(response);
 
-        return oleNgBatchResponse;
-    }
+        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(failureResponses));
 
-    private BibFailureResponse getBibFailureResponse(Integer index, Exception e) {
-        BibFailureResponse failureResponse = new BibFailureResponse();
-        failureResponse.setFailureMessage(e.toString());
-        failureResponse.setIndex(index);
-        return failureResponse;
+        return oleNgBatchResponse;
     }
 
     public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) {
@@ -666,6 +661,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         return CollectionUtils.isNotEmpty(records) ? records : Collections.singletonList(record);
 
+    }
+
+    private BibFailureResponse getBibFailureResponse(Integer index, Exception e) {
+        BibFailureResponse failureResponse = new BibFailureResponse();
+        failureResponse.setFailureMessage(e.toString());
+        failureResponse.setIndex(index);
+        return failureResponse;
     }
 
 }

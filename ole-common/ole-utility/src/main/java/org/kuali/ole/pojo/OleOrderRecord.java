@@ -28,6 +28,7 @@ public class OleOrderRecord {
     private BibId bibTree;
     private String linkToOrderOption;
     private String bibImportProfileName;
+    private Integer recordIndex;
 
     public String getBibId() {
         return bibId;
@@ -177,6 +178,14 @@ public class OleOrderRecord {
 
     public void setBibImportProfileName(String bibImportProfileName) {
         this.bibImportProfileName = bibImportProfileName;
+    }
+
+    public Integer getRecordIndex() {
+        return recordIndex;
+    }
+
+    public void setRecordIndex(Integer recordIndex) {
+        this.recordIndex = recordIndex;
     }
 }
 

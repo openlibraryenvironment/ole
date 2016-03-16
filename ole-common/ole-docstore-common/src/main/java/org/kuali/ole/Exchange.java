@@ -2,6 +2,7 @@ package org.kuali.ole;
 
 import org.apache.commons.collections.map.HashedMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,9 +19,9 @@ public class Exchange {
         return getContext().get(key);
     }
 
-    private Map getContext() {
+    public Map getContext() {
         if (null == context) {
-            context = new HashedMap();
+            context = new HashMap();
         }
         return context;
     }

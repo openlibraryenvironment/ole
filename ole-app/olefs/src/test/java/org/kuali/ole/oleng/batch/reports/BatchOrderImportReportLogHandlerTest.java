@@ -5,7 +5,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.OleNGOrderImportResponse;
 import org.kuali.ole.docstore.common.response.OrderData;
 import org.kuali.ole.docstore.common.response.OrderResponse;
-import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportReportProcessor;
 import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class BatchOrderImportReportLogHandlerTest{
         orderResponse.addOrderData(orderData);
         oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
         List<OleNGReportProcessor> processors = new ArrayList<>();
-        processors.add(new MultipleBatchOrderImportProcessor());
+        processors.add(new MultipleBatchOrderImportReportProcessor());
         OrderImportReportLogHandler batchOrderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
         batchOrderImportReportLogHandler.setProcessors(processors);
         batchOrderImportReportLogHandler.logMessage(oleNGOrderImportResponse,"4");
@@ -38,7 +38,7 @@ public class BatchOrderImportReportLogHandlerTest{
 
 
 
-    public class MultipleBatchOrderImportProcessor extends BatchOrderImportProcessor {
+    public class MultipleBatchOrderImportReportProcessor extends BatchOrderImportReportProcessor {
         @Override
         public String getReportDirectoryPath() {
             String tempLocation = System.getProperty("java.io.tmpdir") + File.separator + "reports";

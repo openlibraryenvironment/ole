@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
@@ -41,15 +42,12 @@ public class OrderImportServiceImpl implements OrderImportService {
     private OleDocstoreHelperService oleDocstoreHelperService;
 
     @Override
-    public OleTxRecord processDataMapping(String bibId, BatchProcessProfile batchProcessProfile) {
+    public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile) {
         OleTxRecord oleTxRecord = new OleTxRecord();
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
 
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
-
-            BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibId));
-            List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
-            Record marcRecord = records.get(0);
+            Record marcRecord = recordDetails.getRecord();
 
             ArrayList<String> datamappingTypes = new ArrayList<>();
             datamappingTypes.add(OleNGConstants.CONSTANT);

@@ -1,6 +1,6 @@
 package org.kuali.ole.oleng.batch.reports;
 
-import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportProcessor;
+import org.kuali.ole.oleng.batch.reports.processors.BatchOrderImportReportProcessor;
 import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 import org.kuali.ole.oleng.batch.reports.processors.OrderImportFailureReportProcessor;
 
@@ -30,7 +30,7 @@ public class OrderImportReportLogHandler  extends ReportLogHandler{
         if (null == processors) {
             processors = new ArrayList<>();
             processors.add(new OrderImportFailureReportProcessor());
-            processors.add(new BatchOrderImportProcessor());
+            processors.add(new BatchOrderImportReportProcessor());
         }
         return processors;
     }

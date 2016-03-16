@@ -12,6 +12,8 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
+import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -58,8 +60,10 @@ public abstract class BatchFileProcessor extends BatchUtil {
             Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
             for(int index = 0; index < records.size(); index++){
                 RecordDetails recordDetails = new RecordDetails();
+                int position = index + 1;
                 recordDetails.setRecord(records.get(index));
-                recordDetailsMap.put(index + 1, recordDetails);
+                recordDetails.setIndex(position);
+                recordDetailsMap.put(position, recordDetails);
             }
             OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordDetailsMap, fileType, batchProcessProfile, reportDirectoryName, batchJobDetails);
             int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
@@ -144,5 +148,19 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
         this.matchPointProcessor = matchPointProcessor;
+    }
+
+    public int getFailureRecordsCount(List<? extends FailureResponse> failureResponses) {
+        int failureRecordCount = 0;
+        if(CollectionUtils.isNotEmpty(failureResponses)) {
+            for (Iterator<? extends FailureResponse> iterator = failureResponses.iterator(); iterator.hasNext(); ) {
+                FailureResponse bibFailureResponse = iterator.next();
+                Integer index = bibFailureResponse.getIndex();
+                if(null != index && index != 0) {
+                    failureRecordCount++;
+                }
+            }
+        }
+        return  failureRecordCount;
     }
 }

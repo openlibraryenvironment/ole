@@ -76,6 +76,7 @@ public class BatchRestController extends OleNgControllerBase {
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
         JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory, batchJobDetails);
+        getBusinessObjectService().save(batchJobDetails);
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
         response.put("processTime",totalTime + "ms");
