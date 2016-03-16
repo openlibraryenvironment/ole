@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.InvoiceResponse;
@@ -69,6 +70,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
         MatchedDetails matchedDetails = new MatchedDetails();
         List<InvoiceFailureResponse> invoiceFailureResponses = new ArrayList<>();
+        Exchange exchange = new Exchange();
 
         Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
@@ -85,11 +87,11 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                             records.add(recordDetails.getRecord());
                         }
                     }
-                    oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(records, batchProcessProfile, matchedDetails);
+                    oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(records, batchProcessProfile, matchedDetails, exchange);
                 }
             }
         } else if (fileType.equalsIgnoreCase(OleNGConstants.INV) || fileType.equalsIgnoreCase(OleNGConstants.EDI)) {
-            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile, matchedDetails, batchJobDetails);
+            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile, matchedDetails, batchJobDetails, exchange);
         }
 
 
@@ -133,6 +135,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
 
         try {
+            List<InvoiceFailureResponse> invoiceFailureResponseList = (List<InvoiceFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+            if(CollectionUtils.isNotEmpty(invoiceFailureResponseList)) {
+                invoiceFailureResponses.addAll(invoiceFailureResponseList);
+            }
             oleNGInvoiceImportResponse.getInvoiceFailureResponses().addAll(invoiceFailureResponses);
             String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
             //System.out.println("Invoice Import Response : " + successResponse);
@@ -151,30 +157,41 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     }
 
     private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForMarc(List<Record> records, BatchProcessProfile batchProcessProfile,
-                                                                             MatchedDetails matchedDetails) {
+                                                                             MatchedDetails matchedDetails, Exchange exchange) {
         Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap = new TreeMap<>();
         ArrayList<String> datamappingTypes = new ArrayList<>();
+        List<InvoiceFailureResponse> invoiceFailureResponses = new ArrayList<>();
         datamappingTypes.add(OleNGConstants.CONSTANT);
         datamappingTypes.add(OleNGConstants.BIB_MARC);
-        for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-            Record record = iterator.next();
-            OleInvoiceRecord oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(record, batchProcessProfile, null, datamappingTypes);
+        for (int index=0 ; index < records.size() ; index++) {
+            try {
+                Record record = records.get(index);
+                OleInvoiceRecord oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(record, batchProcessProfile, null, datamappingTypes);
 
-            //Match Point process start
-            if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
-                List<OlePurchaseOrderItem> olePurchaseOrderItems = processMatchpoint(record, batchProcessProfile, oleInvoiceRecord);
-                setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
+                //Match Point process start
+                if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
+                    List<OlePurchaseOrderItem> olePurchaseOrderItems = processMatchpoint(record, batchProcessProfile, oleInvoiceRecord);
+                    setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
+                }
+
+                addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
+            } catch(Exception e) {
+                e.printStackTrace();
+                InvoiceFailureResponse invoiceFailureResponse = new InvoiceFailureResponse();
+                invoiceFailureResponse.setIndex(index);
+                invoiceFailureResponse.setFailureMessage(e.getMessage());
+                invoiceFailureResponses.add(invoiceFailureResponse);
             }
-
-            addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
         }
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, invoiceFailureResponses);
         return oleInvoiceRecordMap;
     }
 
 
     private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForEdifact(String rawContent, BatchProcessProfile batchProcessProfile,
-                                                                                MatchedDetails matchedDetails, BatchJobDetails batchJobDetails) {
+                                                                                MatchedDetails matchedDetails, BatchJobDetails batchJobDetails, Exchange exchange) {
         Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap = new TreeMap<>();
+        List<InvoiceFailureResponse> invoiceFailureResponses = new ArrayList<>();
 
         List<INVOrder> invOrders = getInvoiceImportHelperUtil().readEDIContent(rawContent);
         int totalNoOfRecords = 0;
@@ -184,11 +201,9 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
         for (Iterator<INVOrder> iterator = invOrders.iterator(); iterator.hasNext(); ) {
             INVOrder invOrder = iterator.next();
-            List<LineItemOrder> lineItemOrders = invOrder.getLineItemOrder();
-            if (CollectionUtils.isNotEmpty(lineItemOrders)) {
-                totalNoOfRecords = totalNoOfRecords + lineItemOrders.size();
-                for (Iterator<LineItemOrder> invOrderIterator = lineItemOrders.iterator(); invOrderIterator.hasNext(); ) {
-                    LineItemOrder lineItemOrder = invOrderIterator.next();
+            if (CollectionUtils.isNotEmpty(invOrder.getLineItemOrder())) {
+                for(int index=0 ; index < invOrder.getLineItemOrder().size() ; index++) {
+                    LineItemOrder lineItemOrder = invOrder.getLineItemOrder().get(index);
                     OleInvoiceRecord oleInvoiceRecord = null;
                     try {
                         oleInvoiceRecord = getOleNGInvoiceRecordBuilderUtil().build(lineItemOrder, invOrder);
@@ -213,10 +228,16 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        InvoiceFailureResponse invoiceFailureResponse = new InvoiceFailureResponse();
+                        invoiceFailureResponse.setIndex(index);
+                        invoiceFailureResponse.setDetailedMessage(e.getMessage());
+                        invoiceFailureResponses.add(invoiceFailureResponse);
                     }
                 }
             }
         }
+
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, invoiceFailureResponses);
 
         batchJobDetails.setTotalRecords(String.valueOf(totalNoOfRecords));
         getBusinessObjectService().save(batchJobDetails);
