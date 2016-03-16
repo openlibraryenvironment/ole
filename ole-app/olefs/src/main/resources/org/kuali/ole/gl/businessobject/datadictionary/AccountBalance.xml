@@ -31,6 +31,8 @@
       <list>
         <ref bean="AccountBalance-universityFiscalYear"/>
         <ref bean="AccountBalance-chartOfAccountsCode"/>
+        <ref bean="AccountBalance-fundCodeId"/>
+        <ref bean="AccountBalance-fundCode"/>
         <ref bean="AccountBalance-accountNumber"/>
         <ref bean="AccountBalance-subAccountNumber"/>
         <ref bean="AccountBalance-objectCode"/>
@@ -81,7 +83,18 @@
 		parent="Chart-chartOfAccountsCode">
 		<property name="forceUppercase" value="true" />
 	</bean>
-	<bean id="AccountBalance-accountNumber" parent="AccountBalance-accountNumber-parentBean" />
+
+    <bean id="AccountBalance-fundCodeId" parent="AccountBalance-fundCodeId-parentBean"/>
+    <bean id="AccountBalance-fundCodeId-parentBean" abstract="true" parent="OleFundCode-fundCodeId">
+        <property name="name" value="fundCodeId"/>
+    </bean>
+
+    <bean id="AccountBalance-fundCode" parent="AccountBalance-fundCode-parentBean"/>
+    <bean id="AccountBalance-fundCode-parentBean" abstract="true" parent="OleFundCode-fundCode">
+        <property name="name" value="fundCode"/>
+    </bean>
+
+    <bean id="AccountBalance-accountNumber" parent="AccountBalance-accountNumber-parentBean" />
 
 	<bean id="AccountBalance-accountNumber-parentBean" abstract="true"
 		parent="Account-accountNumber">
@@ -223,6 +236,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="fundCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="objectCode" />
@@ -263,7 +277,10 @@
 				<bean parent="FieldDefinition" p:required="true"
 					p:attributeName="chartOfAccountsCode"
 					p:treatWildcardsAndOperatorsAsLiteral="true" />
-				<bean parent="FieldDefinition" p:required="true"
+                <bean parent="FieldDefinition"
+                      p:attributeName="fundCode"
+                      p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:required="true"
 					p:attributeName="accountNumber"
 					p:treatWildcardsAndOperatorsAsLiteral="false" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber"
@@ -282,7 +299,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="objectCode" />
 				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />

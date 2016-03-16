@@ -49,6 +49,8 @@ public class Balance extends PersistableBusinessObjectBase {
     private String balanceTypeCode;
     private String objectTypeCode;
     private KualiDecimal accountLineAnnualBalanceAmount;
+    private String fundCodeId;
+    private String fundCode;
    
     private KualiDecimal beginningBalanceLineAmount;
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
@@ -315,6 +317,8 @@ public class Balance extends PersistableBusinessObjectBase {
         this.accountNumber = accountNumber;
     }
 
+
+
     /**
      * @return Returns the balanceTypeCode.
      */
@@ -350,11 +354,28 @@ public class Balance extends PersistableBusinessObjectBase {
         return chartOfAccountsCode;
     }
 
+
     /**
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getFundCodeId() {
+        return fundCodeId;
+    }
+
+    public void setFundCodeId(String fundCodeId) {
+        this.fundCodeId = fundCodeId;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     /**

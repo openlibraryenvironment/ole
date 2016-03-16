@@ -1670,6 +1670,8 @@ public class OLEConstants {
 
     public static final String USER_ID                                                                                       = "userId";
 
+    public static final String PO_APO_LIMIT_EXCEEDED = "po.apo.limit.exceeded";
+
     public static class OlePersonRequestorLookupable {
         public static final String FIRST_NAME = "firstName";
         public static final String LAST_NAME  = "lastName";
@@ -1900,11 +1902,14 @@ public class OLEConstants {
     public static final String   FINAL_STATUS="F";
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String CHART_CODE = "chartOfAccountsCode";
+    public static final String FUND_CODE = "fundCode";
+    public static final String FUND_CODE_ID = "fundCodeId";
     public static final String FISCAL_YEAR = "universityFiscalYear";
     public static final String OBJECT_CODE = "objectCode";
     public static final String CHART_CODE_NOT_FOUND = "The requested Chart Code does not exist";
     public static final String CHART_CODE_WILDCARD_SEARCH = "Wildcard search not applicable to chart code";
     public static final String ACC_NO_NOT_FOUND = "The requested Account Number does not exist";
+    public static final String FUND_CD_NOT_FOUND = "The requested Fund Code does not exist";
     public static final String OBJ_CODE_NOT_FOUND = "The requested Object Code does not exist";
     public static final String UNIV_FIS_YR_FOUND = "No result found for requested fiscal year";
 
@@ -1966,6 +1971,7 @@ public class OLEConstants {
         public static final String ORG_CODE = "organizationCode";
         public static final String CHART_CODE = "chartOfAccountsCode";
         public static final String ACC_NO = "accountNumber";
+        public static final String FUND_CODE = "fundCode";
     }
 
     public static final String VENDOR_LINK = "/kr/inquiry.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=";

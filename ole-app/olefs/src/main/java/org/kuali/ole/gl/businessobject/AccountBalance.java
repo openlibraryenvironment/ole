@@ -26,6 +26,7 @@ import org.kuali.ole.coa.businessobject.Chart;
 import org.kuali.ole.coa.businessobject.ObjectCode;
 import org.kuali.ole.coa.businessobject.SubAccount;
 import org.kuali.ole.coa.businessobject.SubObjectCode;
+import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.ReportBusinessObject;
@@ -45,6 +46,8 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
+    private String fundCodeId;
+    private String fundCode;
     private String accountNumber;
     private String subAccountNumber;
     private String objectCode;
@@ -59,6 +62,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
     private SubAccount subAccount;
     private ObjectCode financialObject;
     private SubObjectCode financialSubObject;
+    private OleFundCode oleFundCode;
     private A21SubAccount a21SubAccount;
     private TransientBalanceInquiryAttributes dummyBusinessObject;
     private SystemOptions option;
@@ -72,6 +76,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
         super();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
+        this.oleFundCode = new OleFundCode();
     }
 
     public AccountBalance(Transaction t) {
@@ -293,6 +298,21 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
+    public String getFundCodeId() {
+        return fundCodeId;
+    }
+
+    public void setFundCodeId(String fundCodeId) {
+        this.fundCodeId = fundCodeId;
+    }
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
+    }
+
     public KualiDecimal getCurrentBudgetLineBalanceAmount() {
         return currentBudgetLineBalanceAmount;
     }
@@ -375,6 +395,14 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
      */
     public void setChart(Chart chart) {
         this.chart = chart;
+    }
+
+    public OleFundCode getOleFundCode() {
+        return oleFundCode;
+    }
+
+    public void setOleFundCode(OleFundCode oleFundCode) {
+        this.oleFundCode = oleFundCode;
     }
 
     /**
