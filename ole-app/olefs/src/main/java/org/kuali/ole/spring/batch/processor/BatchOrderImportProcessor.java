@@ -182,7 +182,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             jsonObject.put("reason", "Invalid record.");
             response = jsonObject.toString();
         }
-
+        List<OrderFailureResponse> orderFailureResponseList = (List<OrderFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(CollectionUtils.isNotEmpty(orderFailureResponseList)) {
+            orderFailureResponses.addAll(orderFailureResponseList);
+        }
         oleNGOrderImportResponse.setRequisitionIds(purapIds);
         oleNGOrderImportResponse.setJobName(batchJobDetails.getJobName());
         oleNGOrderImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
