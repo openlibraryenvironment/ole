@@ -1,0 +1,339 @@
+package org.kuali.ole.oleng.util;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.document.PHoldings;
+import org.kuali.ole.docstore.common.response.*;
+import org.kuali.ole.spring.batch.BatchUtil;
+
+import java.io.IOException;
+import java.util.*;
+
+/**
+ * Created by SheikS on 3/17/2016.
+ */
+public class BatchExcelReportUtil extends BatchUtil{
+
+    private int addHeaders(XSSFSheet spreadsheet, int rowId, String[] headerArray) {
+        XSSFRow mainSectionHeaderRow = spreadsheet.createRow(rowId++);
+        int cellId = 0;
+        for (String header : headerArray)
+        {
+            Cell cell = mainSectionHeaderRow.createCell(cellId++);
+            cell.setCellValue(header);
+        }
+        return rowId;
+    }
+
+    private int addSection(XSSFSheet spreadsheet, int rowId,String[] header, List<List<String>> contents) {
+        spreadsheet.createRow(rowId++);
+        spreadsheet.createRow(rowId++);
+        spreadsheet.createRow(rowId++);
+        rowId = addHeaders(spreadsheet, rowId, header);
+        for (Iterator<List<String>> iterator = contents.iterator(); iterator.hasNext(); ) {
+            List<String> row = iterator.next();
+            XSSFRow holdingsRow = spreadsheet.createRow(rowId++);
+            int cellId = 0;
+            for (Iterator<String> stringIterator = row.iterator(); stringIterator.hasNext(); ) {
+                String column = stringIterator.next();
+                Cell cell = holdingsRow.createCell(cellId++);
+                cell.setCellValue(column);
+            }
+        }
+
+        return rowId;
+    }
+
+    public byte[] getExcelSheetForBibImport(String fileContent) {
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        OleNGBibImportResponse oleNGBibImportResponse = null;
+        try {
+            oleNGBibImportResponse = getObjectMapper().readValue(fileContent, OleNGBibImportResponse.class);
+            int rowId = 0;
+            if(oleNGBibImportResponse != null) {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet spreadsheet = workbook.createSheet("Bib Import Response");
+                String[] headerArray = {"Job Name", "Job Execution Id", "Matched Bibs Count", "Unmatched Bibs Count",
+                        "Multiple Matched Bibs Count", "Matched Holdings Count" , "Unmatched Holdings Count", "Multiple Matched Holdings Count",
+                        "Matched Items Count", "Unmatched Items Count", "Multiple Matched Items Count", "Matched EHoldings Count", "Multiple Matched EHoldings Count"};
+                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                int cellId;
+
+                XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
+                List<String> mainSectionValueList = getBibMainSectionValues(oleNGBibImportResponse);
+
+                cellId = 0;
+                for (Iterator<String> iterator = mainSectionValueList.iterator(); iterator.hasNext(); ) {
+                    String value = iterator.next();
+                    Cell cell = mainSectionValueRow.createCell(cellId++);
+                    cell.setCellValue(value);
+                }
+
+                // Bib Section
+                String[] bibSectionHeader = {"Bib Id", "Operation", "Record Index"};
+                Map<String, List<List<String>>> contents = getBibContent(oleNGBibImportResponse.getBibResponses());
+                List<List<String>> bibContent = contents.get(OleNGConstants.BIB);
+                rowId = addSection(spreadsheet, rowId, bibSectionHeader,  bibContent);
+
+                //Holdings Section
+                String[] holdingsSectionHeader = {"Holdings Id", "Bib Id", "Operation", "Record Index"};
+                List<List<String>> holdingsContent = contents.get(OleNGConstants.HOLDINGS);
+                rowId = addSection(spreadsheet, rowId,holdingsSectionHeader, holdingsContent);
+
+                //Item Section
+                String[] itemSectionHeader = {"Item Id","Holdings Id", "Bib Id", "Operation", "Record Index"};
+                List<List<String>> itemContent = contents.get(OleNGConstants.ITEM);
+                rowId = addSection(spreadsheet, rowId,itemSectionHeader, itemContent);
+
+
+                //Holdings Section
+                String[] eholdingsSectionHeader = {"Holdings Id", "Bib Id", "Operation", "Record Index"};
+                List<List<String>> eholdingsContent = contents.get(OleNGConstants.EHOLDINGS);
+                rowId = addSection(spreadsheet, rowId,eholdingsSectionHeader, eholdingsContent);
+
+                workbook.write(byteArrayInputStream);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return byteArrayInputStream.toByteArray();
+    }
+
+    private List<String> getBibMainSectionValues(OleNGBibImportResponse oleNGBibImportResponse) {
+        List<String> values = new ArrayList<>();
+        values.add(oleNGBibImportResponse.getJobName());
+        values.add(oleNGBibImportResponse.getJobDetailId());
+        values.add(String.valueOf(oleNGBibImportResponse.getMatchedBibsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getUnmatchedBibsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getMultipleMatchedBibsCount()));
+
+        values.add(String.valueOf(oleNGBibImportResponse.getMatchedHoldingsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getUnmatchedHoldingsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getMultipleMatchedHoldingsCount()));
+
+        values.add(String.valueOf(oleNGBibImportResponse.getMatchedItemsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getUnmatchedItemsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getMultipleMatchedItemsCount()));
+
+        values.add(String.valueOf(oleNGBibImportResponse.getMatchedEHoldingsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getUnmatchedEHoldingsCount()));
+        values.add(String.valueOf(oleNGBibImportResponse.getMultipleMatchedEHoldingsCount()));
+        return values;
+    }
+
+    public Map<String, List<List<String>>> getBibContent(List<BibResponse> bibResponses) {
+        Map<String, List<List<String>>> valueMap = new HashMap<>();
+        List<List<String>> bibValues = new ArrayList<>();
+        List<List<String>> holdingsValues = new ArrayList<>();
+        List<List<String>> itemsValues = new ArrayList<>();
+        List<List<String>> eholdingsValues = new ArrayList<>();
+        for (Iterator<BibResponse> iterator = bibResponses.iterator(); iterator.hasNext(); ) {
+            List<String> rowValue = new ArrayList<>();
+            BibResponse bibResponse = iterator.next();
+            String bibId = bibResponse.getBibId();
+            rowValue.add(bibId);
+            rowValue.add(bibResponse.getOperation());
+            String index = String.valueOf(bibResponse.getRecordIndex());
+            rowValue.add(index);
+            bibValues.add(rowValue);
+            Map<String, List<List<String>>>holdingsContent  = getHoldingsContent(bibResponse.getHoldingsResponses(), bibId, index);
+            holdingsValues.addAll(holdingsContent.get(OleNGConstants.HOLDINGS));
+            eholdingsValues.addAll(holdingsContent.get(OleNGConstants.EHOLDINGS));
+            itemsValues.addAll(holdingsContent.get(OleNGConstants.ITEM));
+        }
+
+        valueMap.put(OleNGConstants.BIB, bibValues);
+        valueMap.put(OleNGConstants.HOLDINGS, holdingsValues);
+        valueMap.put(OleNGConstants.EHOLDINGS, eholdingsValues);
+        valueMap.put(OleNGConstants.ITEM, itemsValues);
+
+        return valueMap;
+
+    }
+
+    public Map<String, List<List<String>>> getHoldingsContent(List<HoldingsResponse> holdingsResponses, String bibUUID, String index) {
+        Map<String, List<List<String>>> valueMap = new HashMap<>();
+        List<List<String>> holdingsValues = new ArrayList<>();
+        List<List<String>> eholdingsValues = new ArrayList<>();
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<HoldingsResponse> iterator = holdingsResponses.iterator(); iterator.hasNext(); ) {
+            List<String> rowValue = new ArrayList<>();
+            HoldingsResponse holdingsResponse = iterator.next();
+            String holdingsId = holdingsResponse.getHoldingsId();
+            rowValue.add(holdingsId);
+            rowValue.add(bibUUID);
+            rowValue.add(holdingsResponse.getOperation());
+            rowValue.add(index);
+            if(StringUtils.equals(holdingsResponse.getHoldingsType(), PHoldings.PRINT)) {
+                holdingsValues.add(rowValue);
+                itemValues.addAll(getItemContent(holdingsResponse.getItemResponses(), bibUUID, holdingsId, index));
+            } else {
+                eholdingsValues.add(rowValue);
+            }
+        }
+        valueMap.put(OleNGConstants.HOLDINGS, holdingsValues);
+        valueMap.put(OleNGConstants.EHOLDINGS, eholdingsValues);
+        valueMap.put(OleNGConstants.ITEM, itemValues);
+        return valueMap;
+    }
+
+    private List<List<String>> getItemContent(List<ItemResponse> itemResponses, String bibUUID, String holdingUUID, String index) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<ItemResponse> iterator = itemResponses.iterator(); iterator.hasNext(); ) {
+            List<String> rowValue = new ArrayList<>();
+            ItemResponse itemResponse = iterator.next();
+            rowValue.add(itemResponse.getItemId());
+            rowValue.add(holdingUUID);
+            rowValue.add(bibUUID);
+            rowValue.add(itemResponse.getOperation());
+            rowValue.add(index);
+            itemValues.add(rowValue);
+        }
+        return itemValues;
+    }
+
+    public byte[] getExcelSheetForOrderImport(String fileContent) throws IOException {
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        OleNGOrderImportResponse oleNGOrderImportResponse = null;
+        try {
+            oleNGOrderImportResponse = getObjectMapper().readValue(fileContent, OleNGOrderImportResponse.class);
+            int rowId = 0;
+            if(oleNGOrderImportResponse != null) {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet spreadsheet = workbook.createSheet("Order Import Response");
+                String[] headerArray = {"Job Name", "Job Execution Id", "Matched Count", "Unmatched Count",
+                        "Multiple Matched Count"};
+                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                int cellId;
+
+                XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
+                List<String> mainSectionValueList = getOrderMainSectionValues(oleNGOrderImportResponse);
+
+                cellId = 0;
+                for (Iterator<String> iterator = mainSectionValueList.iterator(); iterator.hasNext(); ) {
+                    String value = iterator.next();
+                    Cell cell = mainSectionValueRow.createCell(cellId++);
+                    cell.setCellValue(value);
+                }
+
+                // Requisition Only Section
+                String[] orderSectionReportHeader = {"Record Number", "Title", "Successful Match Points"};
+                List<List<String>> requisitionOnlyContent = getOrderResponseContent(oleNGOrderImportResponse.getReqOnlyResponses());
+                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent);
+
+                //Req and PO Section
+                List<List<String>> requisitionAndPOContent = getOrderResponseContent(oleNGOrderImportResponse.getReqAndPOResponses());
+                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionAndPOContent);
+
+                //Neither Req Nor PO Section
+                List<List<String>> neitherReqNorPOContent = getOrderResponseContent(oleNGOrderImportResponse.getNoReqNorPOResponses());
+                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  neitherReqNorPOContent);
+
+                workbook.write(byteArrayInputStream);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return byteArrayInputStream.toByteArray();
+    }
+
+    private List<List<String>> getOrderResponseContent(List<OrderResponse> reqOnlyResponses) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<OrderResponse> iterator = reqOnlyResponses.iterator(); iterator.hasNext(); ) {
+            OrderResponse orderResponse = iterator.next();
+            List<OrderData> orderDatas = orderResponse.getOrderDatas();
+            for (Iterator<OrderData> orderDataIterator = orderDatas.iterator(); orderDataIterator.hasNext(); ) {
+                OrderData orderData = orderDataIterator.next();
+                List<String> rowValue = new ArrayList<>();
+                rowValue.add(orderData.getRecordNumber());
+                rowValue.add(orderData.getTitle());
+                rowValue.add(orderData.getSuccessfulMatchPoints());
+                itemValues.add(rowValue);
+            }
+        }
+        return itemValues;
+    }
+
+
+    private List<String> getOrderMainSectionValues(OleNGOrderImportResponse oleNGOrderImportResponse) {
+        List<String> values = new ArrayList<>();
+        values.add(oleNGOrderImportResponse.getJobName());
+        values.add(oleNGOrderImportResponse.getJobDetailId());
+        values.add(String.valueOf(oleNGOrderImportResponse.getMatchedCount()));
+        values.add(String.valueOf(oleNGOrderImportResponse.getUnmatchedCount()));
+        values.add(String.valueOf(oleNGOrderImportResponse.getMultiMatchedCount()));
+        return values;
+    }
+
+    public byte[] getExcelSheetForInvoiceImport(String fileContent)  {
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        OleNGInvoiceImportResponse oleNGInvoiceImportResponse = null;
+        try {
+            oleNGInvoiceImportResponse = getObjectMapper().readValue(fileContent, OleNGInvoiceImportResponse.class);
+            int rowId = 0;
+            if(oleNGInvoiceImportResponse != null) {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet spreadsheet = workbook.createSheet("Invoice Import Response");
+                String[] headerArray = {"Job Name", "Job Execution Id", "Matched Count", "Unmatched Count",
+                        "Multiple Matched Count"};
+                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                int cellId;
+
+                XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
+                List<String> mainSectionValueList = getInvoiceMainSectionValues(oleNGInvoiceImportResponse);
+
+                cellId = 0;
+                for (Iterator<String> iterator = mainSectionValueList.iterator(); iterator.hasNext(); ) {
+                    String value = iterator.next();
+                    Cell cell = mainSectionValueRow.createCell(cellId++);
+                    cell.setCellValue(value);
+                }
+
+                // Requisition Only Section
+                String[] orderSectionReportHeader = {"Document Number", "Number Of Records Unlinked", "Number Of Records Linked"};
+                List<List<String>> requisitionOnlyContent = getInvoiceResponseContent(oleNGInvoiceImportResponse.getInvoiceResponses());
+                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent);
+
+                workbook.write(byteArrayInputStream);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return byteArrayInputStream.toByteArray();
+    }
+
+    private List<List<String>> getInvoiceResponseContent(List<InvoiceResponse> invoiceResponses) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<InvoiceResponse> iterator = invoiceResponses.iterator(); iterator.hasNext(); ) {
+            InvoiceResponse invoiceResponse = iterator.next();
+            List<String> rowValue = new ArrayList<>();
+            rowValue.add(invoiceResponse.getDocumentNumber());
+            rowValue.add(String.valueOf(invoiceResponse.getNoOfRecordUnlinked()));
+            rowValue.add(String.valueOf(invoiceResponse.getNoOfRecordLinked()));
+            itemValues.add(rowValue);
+        }
+        return itemValues;
+    }
+
+
+    private List<String> getInvoiceMainSectionValues(OleNGInvoiceImportResponse oleNGInvoiceImportResponse) {
+        List<String> values = new ArrayList<>();
+        values.add(oleNGInvoiceImportResponse.getJobName());
+        values.add(oleNGInvoiceImportResponse.getJobDetailId());
+        values.add(String.valueOf(oleNGInvoiceImportResponse.getMatchedCount()));
+        values.add(String.valueOf(oleNGInvoiceImportResponse.getUnmatchedCount()));
+        values.add(String.valueOf(oleNGInvoiceImportResponse.getMultiMatchedCount()));
+        return values;
+    }
+
+}

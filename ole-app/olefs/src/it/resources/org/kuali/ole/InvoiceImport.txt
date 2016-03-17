@@ -1,0 +1,13 @@
+{
+  "jobDetailId" : "358",
+  "jobName" : "Invoice Import",
+  "invoiceFailureResponses" : [ ],
+  "matchedCount" : 0,
+  "invoiceResponses" : [ {
+    "documentNumber" : "4265380",
+    "noOfRecordUnlinked" : 5,
+    "noOfRecordLinked" : 0
+  } ],
+  "unmatchedCount" : 0,
+  "multiMatchedCount" : 5
+}

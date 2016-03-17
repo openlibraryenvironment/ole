@@ -61,13 +61,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
     };
 
     $scope.downloadReport = function(file) {
-        doGetRequest($scope, $http, OLENG_CONSTANTS.GET_FILE_CONTENT, {"fileName": file.name,"parent": file.parent},function(response) {
-            var data = response.data;
-            var blob = new Blob([data.fileContent], {
-                type: "application/json;charset=utf-8"
-            });
-            saveAs(blob, file.name);
-        });
+        var url = OLENG_CONSTANTS.DOWNLOAD_REPORT_FILE + "?fileName=" + file.name + "&parent=" + file.parent;
+        window.location.href = url;
     };
 
     $scope.closeModal = function() {

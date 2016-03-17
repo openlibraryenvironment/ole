@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.common.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,9 @@ public class BibResponse {
     }
 
     public List<HoldingsResponse> getHoldingsResponses() {
+        if(null == holdingsResponses) {
+            holdingsResponses = new ArrayList<>();
+        }
         return holdingsResponses;
     }
 

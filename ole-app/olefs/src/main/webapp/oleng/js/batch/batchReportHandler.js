@@ -164,7 +164,7 @@ function getMainSectionContentForOrderAndInvoiceImport(fileContent) {
         "jobDetailId": fileContent["jobDetailId"],
         "matchedCount": fileContent["matchedCount"],
         "unmatchedCount": fileContent["unmatchedCount"],
-        "multipleMatchedCount": fileContent["multipleMatchedCount"]
+        "multiMatchedCount": fileContent["multiMatchedCount"]
     };
     return mainSectionContent;
 }

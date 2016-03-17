@@ -1,8 +1,6 @@
 package org.kuali.ole.docstore.common.response;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.*;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 
 import java.util.ArrayList;
@@ -13,18 +11,39 @@ import java.util.Map;
 /**
  * Created by angelind on 2/16/16.
  */
+@JsonAutoDetect(JsonMethod.FIELD)
 public class OleNGOrderImportResponse {
 
+    @JsonProperty("requisitionIds")
     private List<Integer> requisitionIds;
+
+    @JsonProperty("matchedCount")
     private int matchedCount;
+
+    @JsonProperty("unmatchedCount")
     private int unmatchedCount;
+
+    @JsonProperty("multiMatchedCount")
     private int multiMatchedCount;
+
+    @JsonProperty("jobDetailId")
     private String jobDetailId;
+
+    @JsonProperty("jobName")
     private String jobName;
+
+    @JsonProperty("reqOnlyResponses")
     private List<OrderResponse> reqOnlyResponses;
+
+    @JsonProperty("reqAndPOResponses")
     private List<OrderResponse> reqAndPOResponses;
+
+    @JsonProperty("noReqNorPOResponses")
     private List<OrderResponse> noReqNorPOResponses;
+
+    @JsonProperty("orderFailureResponses")
     private List<OrderFailureResponse> orderFailureResponses;
+
     @JsonIgnore
     private Map<Integer, RecordDetails> recordsMap;
 
