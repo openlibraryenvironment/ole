@@ -92,6 +92,7 @@ public class OleInvoiceRecord {
     private List olePurchaseOrderItems;
     private boolean link;
     private String matchPointType;
+    private Integer recordIndex;
 
     public String getVendorAlias() {
         return vendorAlias;
@@ -591,5 +592,13 @@ public class OleInvoiceRecord {
 
     public void setMatchPointType(String matchPointType) {
         this.matchPointType = matchPointType;
+    }
+
+    public Integer getRecordIndex() {
+        return recordIndex;
+    }
+
+    public void setRecordIndex(Integer recordIndex) {
+        this.recordIndex = recordIndex;
     }
 }

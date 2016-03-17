@@ -8,6 +8,7 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.BibFailureResponse;
@@ -668,6 +669,24 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         failureResponse.setFailureMessage(e.toString());
         failureResponse.setIndex(index);
         return failureResponse;
+    }
+
+
+    public OleNGBibImportResponse processBibImportForOrderOrInvoiceImport(String rawContent, Map<Integer, RecordDetails> recordsMap,
+                                                   String fileType, BatchProcessProfile bibImportProfile,
+                                                   String reportDirectoryName, BatchJobDetails batchJobDetails, Exchange exchange) {
+        OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
+        try {
+            OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName, batchJobDetails);
+            String response = oleNgBatchResponse.getResponse();
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            addOrderFaiureResponseToExchange(e, null, exchange);
+        }
+        return oleNGBibImportResponse;
     }
 
 }

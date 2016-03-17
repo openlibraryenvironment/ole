@@ -125,7 +125,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (recordForBibImportsMap.size() > 0) {
-                    oleNGBibImportResponse = processBibImport(rawContent, recordForBibImportsMap, fileType,  bibImportProfile,
+                    oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(rawContent, recordForBibImportsMap, fileType,  bibImportProfile,
                             reportDirectoryName, batchJobDetails, exchange);
                 }
 
@@ -253,24 +253,6 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         }
         return batchProcessProfile;
     }
-
-    private OleNGBibImportResponse processBibImport(String rawContent, Map<Integer, RecordDetails> recordsMap,
-                                                    String fileType, BatchProcessProfile bibImportProfile,
-                                                    String reportDirectoryName, BatchJobDetails batchJobDetails, Exchange exchange) {
-        OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
-        try {
-            OleNgBatchResponse oleNgBatchResponse = batchBibFileProcessor.processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName, batchJobDetails);
-            String response = oleNgBatchResponse.getResponse();
-            if(StringUtils.isNotBlank(response)) {
-                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            addOrderFaiureResponseToExchange(e, null, exchange);
-        }
-        return oleNGBibImportResponse;
-    }
-
 
     @Override
     public String getReportingFilePath() {

@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.OrderFailureResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -208,6 +209,8 @@ public class BatchUtil extends OleNgUtil{
             orderFailureResponses = new ArrayList<>();
         }
         OrderFailureResponse newOrderFailureResponse = getNewOrderFailureResponse(message, index);
+        String detailedMessage = getDetailedMessage(exception);
+        newOrderFailureResponse.setDetailedMessage(detailedMessage);
         orderFailureResponses.add(newOrderFailureResponse);
         exchange.add(OleNGConstants.FAILURE_RESPONSE,orderFailureResponses);
 
@@ -218,6 +221,49 @@ public class BatchUtil extends OleNgUtil{
         orderFailureResponse.setFailureMessage(message);
         orderFailureResponse.setIndex(index);
         return orderFailureResponse;
+    }
+
+    public void addInvoiceFaiureResponseToExchange(Exception exception, Integer index, Exchange exchange) {
+        String message = exception.toString();
+        List<InvoiceFailureResponse> invoiceFailureResponses = (List<InvoiceFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == invoiceFailureResponses) {
+            invoiceFailureResponses = new ArrayList<>();
+        }
+        InvoiceFailureResponse newInvoiceFailureResponse = getNewInvoiceFailureResponse(message, index);
+        String detailedMessage = getDetailedMessage(exception);
+        newInvoiceFailureResponse.setDetailedMessage(detailedMessage);
+        invoiceFailureResponses.add(newInvoiceFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE,invoiceFailureResponses);
+
+    }
+
+    public String getDetailedMessage(Exception exception) {
+        StackTraceElement[] stackTrace = exception.getStackTrace();
+        StringBuilder detailedMessage = new StringBuilder();
+        String className = null;
+        String methodName = null;
+        int lineNumber = 0;
+        if (null != stackTrace && stackTrace.length >= 2) {
+            for(int index = 0; index < 2; index++) {
+                StackTraceElement stackTraceElement = stackTrace[index];
+                String fullClassName = stackTraceElement.getClassName();
+                className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+                methodName = stackTraceElement.getMethodName();
+                lineNumber = stackTraceElement.getLineNumber();
+                if(StringUtils.isNotBlank(detailedMessage.toString())){
+                    detailedMessage.append("\n");
+                }
+                detailedMessage.append(className + "." + methodName + "():line#" + lineNumber);
+            }
+        }
+        return detailedMessage.toString();
+    }
+
+    public InvoiceFailureResponse getNewInvoiceFailureResponse(String message, Integer index) {
+        InvoiceFailureResponse invoiceFailureResponse = new InvoiceFailureResponse();
+        invoiceFailureResponse.setFailureMessage(message);
+        invoiceFailureResponse.setIndex(index);
+        return invoiceFailureResponse;
     }
 
 }

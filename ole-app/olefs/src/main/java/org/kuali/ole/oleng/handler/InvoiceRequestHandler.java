@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.handler;
 
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
 import org.kuali.ole.oleng.util.OleNgUtil;
@@ -29,7 +30,8 @@ public class InvoiceRequestHandler extends OleNgUtil {
 
         List<OleInvoiceRecord> oleInvoiceRecords = getObjectMapper().readValue(requestBody, new TypeReference<List<OleInvoiceRecord>>(){});
         OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
-        oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument,oleInvoiceRecords);
+        Exchange exchange = new Exchange();
+        oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument,oleInvoiceRecords, exchange);
         oleInvoiceDocument = oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
 
         JSONObject jsonObject = new JSONObject();
