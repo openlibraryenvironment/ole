@@ -63,13 +63,15 @@ public class OleShelvingLagTime {
         if (StringUtils.isNotBlank(solrMaxPageSize)) {
             search_Params.setPageSize(Integer.parseInt(solrMaxPageSize));
         }
+        String itemUUID= null;
         searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
         for (SearchResult searchResult : searchResponse.getSearchResults()) {
+            try{
             for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
                 String fieldName = searchResultField.getFieldName();
                 String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
                 if (fieldName.equalsIgnoreCase("id") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-                    String itemUUID = DocumentUniqueIDPrefix.getDocumentId(fieldValue);
+                    itemUUID = DocumentUniqueIDPrefix.getDocumentId(fieldValue);
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("itemUuid", itemUUID);
                     OleRecentlyReturned oleRecentlyReturned = businessObjectService.findByPrimaryKey(OleRecentlyReturned.class, map);
@@ -101,6 +103,9 @@ public class OleShelvingLagTime {
                     }
                 }
 
+            }}catch(Exception e){
+                LOG.info("Exception occured while processing the item : "+itemUUID);
+                LOG.error(e,e);
             }
         }
     }
