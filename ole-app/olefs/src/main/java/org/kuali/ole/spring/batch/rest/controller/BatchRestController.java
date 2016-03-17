@@ -15,6 +15,7 @@ import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
+import org.kuali.ole.oleng.util.BatchExcelReportUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,8 @@ public class BatchRestController extends OleNgControllerBase {
     @Autowired
     private BatchInvoiceImportProcessor batchInvoiceImportProcessor;
 
+    private BatchExcelReportUtil batchExcelReportUtil;
+
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,
@@ -75,7 +79,8 @@ public class BatchRestController extends OleNgControllerBase {
         long jobDetailsId = batchJobDetails.getJobDetailId();
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
-        JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory);
+        JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory, batchJobDetails);
+        getBusinessObjectService().save(batchJobDetails);
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
         response.put("processTime",totalTime + "ms");
@@ -119,11 +124,12 @@ public class BatchRestController extends OleNgControllerBase {
         BatchJobDetails batchJobDetails = null;
         try {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
-            batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob);
-            getBusinessObjectService().save(batchJobDetails);
             if (null != file) {
+                String originalFilename = file.getOriginalFilename();
+                batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
+                getBusinessObjectService().save(batchJobDetails);
                 String rawContent = IOUtils.toString(file.getBytes());
-                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(originalFilename);
                 JSONObject response = processBatch(String.valueOf(matchedBatchJob.getBatchProfileId()), batchJobDetails.getProfileType(),
                         rawContent, extension,batchJobDetails);
                 batchJobDetails.setTimeSpent(response.getString("processTime"));
@@ -269,7 +275,66 @@ public class BatchRestController extends OleNgControllerBase {
         return response.toString();
     }
 
-    private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob) {
+    @RequestMapping(method = RequestMethod.GET, value = "job/downloadReportFile")
+    @ResponseBody
+    public byte[] downloadReportFile(@RequestParam("fileName") String fileName, @RequestParam("parent") String parent, HttpServletResponse response) throws IOException {
+
+        byte[] fileContentBytes = null;
+
+        String fileContent = "";
+
+        try {
+            String reportLocation = ConfigContext.getCurrentContextConfig().getProperty("report.directory");
+            File reportDirectory = new File(reportLocation);
+            if(reportDirectory.exists() && reportDirectory.isDirectory()) {
+                File file = null;
+                if(!reportDirectory.getName().equals(parent)) {
+                    file = new File(reportDirectory + File.separator + parent + File.separator + fileName);
+                } else {
+                    file = new File(reportDirectory + File.separator + fileName);
+                }
+                if(file.exists() && file.isFile()) {
+                    fileContent = FileUtils.readFileToString(file);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String extension = FilenameUtils.getExtension(fileName);
+        String fileNameWithoutExtension = FilenameUtils.getBaseName(fileName);
+        if(extension.contains(OleNGConstants.MARC)) {
+            fileContentBytes = fileContent.getBytes();
+        } else {
+            if(fileName.contains("FailureMessages")) {
+                fileContentBytes = fileContent.getBytes();
+            } else if(fileName.contains("BibImport")) {
+                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBibImport(fileContent);
+                extension = "xlsx";
+            } else if(fileName.contains("OrderImport")) {
+                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForOrderImport(fileContent);
+                extension = "xlsx";
+            } else if(fileName.contains("InvoiceImport")) {
+                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
+                extension = "xlsx";
+            }
+        }
+
+        String fileNameWithExtension = fileNameWithoutExtension + "." + extension;
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileNameWithExtension + "\"");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setContentLength(fileContentBytes.length);
+
+        return fileContentBytes;
+
+    }
+
+
+    private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob, String fileName) {
         BatchJobDetails batchJobDetails = new BatchJobDetails();
         batchJobDetails.setJobId(batchProcessJob.getJobId());
         batchJobDetails.setJobName(batchProcessJob.getJobName());
@@ -279,6 +344,7 @@ public class BatchRestController extends OleNgControllerBase {
         batchJobDetails.setCreatedBy(loginUser); // Job initiated by
         batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
         batchJobDetails.setStatus("RUNNING");
+        batchJobDetails.setFileName(fileName);
         batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
         return batchJobDetails;
     }
@@ -353,5 +419,16 @@ public class BatchRestController extends OleNgControllerBase {
             jobDirectoryName = "batchOrderRecord";
         }
         return jobDirectoryName;
+    }
+
+    public BatchExcelReportUtil getBatchExcelReportUtil() {
+        if(null == batchExcelReportUtil) {
+            batchExcelReportUtil = new BatchExcelReportUtil();
+        }
+        return batchExcelReportUtil;
+    }
+
+    public void setBatchExcelReportUtil(BatchExcelReportUtil batchExcelReportUtil) {
+        this.batchExcelReportUtil = batchExcelReportUtil;
     }
 }

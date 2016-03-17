@@ -566,6 +566,7 @@
         <field-descriptor name="jobId" column="JOB_ID" jdbc-type="INTEGER"></field-descriptor>
         <field-descriptor name="profileType" column="PROFILE_TYPE" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="profileName" column="PROFILE_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="startTime" column="START_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="endTime" column="END_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
@@ -573,6 +574,7 @@
         <field-descriptor name="timeSpent" column="TIME_SPENT" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="totalRecords" column="TOTAL_RECORDS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="totalRecordsProcessed" column="TOTAL_RECORDS_PRCSD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="totalFailureRecords" column="TOTAL_FAILURE_RECORDS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

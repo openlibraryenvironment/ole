@@ -29,6 +29,7 @@ public class BibImportReportLogHandler extends ReportLogHandler{
             processors.add(new UnMatchedRecordsReportProcessor());
             processors.add(new MatchedRecordsReportProcessor());
             processors.add(new MultipleMatchedRecordsReportProcessor());
+            processors.add(new BibImportFailureReportProcessor());
             processors.add(new SummaryReportProcessor());
         }
         return processors;

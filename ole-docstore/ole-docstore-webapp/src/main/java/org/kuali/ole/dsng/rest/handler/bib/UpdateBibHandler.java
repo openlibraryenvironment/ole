@@ -6,7 +6,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
 
@@ -71,6 +71,7 @@ public class UpdateBibHandler extends BibHandler {
 
         } catch (Exception e) {
             e.printStackTrace();
+            addFailureReportToExchange(requestJsonObject, exchange,"bib", e , null);
         }
 
     }

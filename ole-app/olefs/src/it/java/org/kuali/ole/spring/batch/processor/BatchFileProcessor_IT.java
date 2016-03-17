@@ -11,6 +11,9 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLERestBaseTestCase;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
@@ -49,7 +52,7 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
         String rawMarc = FileUtils.readFileToString(file);
         String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
-        batchFileProcessor.processBatch(rawMarc, OleNGConstants.MARC, profileName,reportDirectory);
+        batchFileProcessor.processBatch(rawMarc, OleNGConstants.MARC, profileName,reportDirectory, new BatchJobDetails());
     }
 
     @Test
@@ -272,7 +275,9 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
             recordDetails.setRecord(records.get(index + 1));
             recordDetailsMap.put(index, recordDetails);
         }
-        String response = mockBatchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC, batchProcessProfile,reportDirectory);
+        OleNgBatchResponse oleNgBatchResponse = mockBatchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC,
+                batchProcessProfile, reportDirectory, new BatchJobDetails());
+        String response = oleNgBatchResponse.toString();
         assertTrue(StringUtils.isNotBlank(response));
         System.out.println(response);
     }

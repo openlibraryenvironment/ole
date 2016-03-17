@@ -28,6 +28,9 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
     @JsonProperty(OleNGConstants.PROFILE_NAME)
     private String profileName;
 
+    @JsonProperty(OleNGConstants.FILE_NAME)
+    private String fileName;
+
     @JsonProperty(OleNGConstants.PROFILE_ID)
     private long profileId;
 
@@ -51,6 +54,9 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
 
     @JsonProperty(OleNGConstants.TOTAL_RECORDS_PROCESSED)
     private String totalRecordsProcessed;
+
+    @JsonProperty(OleNGConstants.TOTAL_FAILURE_RECORDS)
+    private String totalFailureRecords;
 
     @JsonProperty(OleNGConstants.JOB_STATUS)
     private String status;
@@ -166,4 +172,21 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
     public void setProfileId(long profileId) {
         this.profileId = profileId;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getTotalFailureRecords() {
+        return totalFailureRecords;
+    }
+
+    public void setTotalFailureRecords(String totalFailureRecords) {
+        this.totalFailureRecords = totalFailureRecords;
+    }
 }
+

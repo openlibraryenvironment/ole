@@ -1,7 +1,6 @@
 package org.kuali.ole.oleng.handler;
 
-import org.kuali.ole.DataCarrierService;
-import org.kuali.ole.oleng.service.OleNGRequisitionService;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.pojo.OleOrderRecord;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class CreateNeitherReqNorPOServiceHandler implements CreateReqAndPOBaseServiceHandler {
 
-    public Integer processOrder(List<OleOrderRecord> oleOrderRecords) throws Exception {
+    public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         return null;
     }
 }

@@ -265,6 +265,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
                     jsonObject.put(OleNGConstants.PROFILE_TYPE, batchJob.getProfileType());
                     jsonObject.put(OleNGConstants.PROFILE_NAME, batchJob.getProfileName());
+                    jsonObject.put(OleNGConstants.FILE_NAME, batchJob.getFileName());
                     jsonObject.put(OleNGConstants.CREATED_BY, batchJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.START_TIME, batchJob.getStartTime());
                     jsonObject.put(OleNGConstants.END_TIME, batchJob.getEndTime());
@@ -272,6 +273,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.TIME_SPENT, batchJob.getTimeSpent());
                     jsonObject.put(OleNGConstants.TOTAL_RECORDS, batchJob.getTotalRecords());
                     jsonObject.put(OleNGConstants.TOTAL_RECORDS_PROCESSED, batchJob.getTotalRecordsProcessed());
+                    jsonObject.put(OleNGConstants.TOTAL_FAILURE_RECORDS, batchJob.getTotalFailureRecords());
                     jsonObject.put(OleNGConstants.JOB_STATUS, batchJob.getStatus());
                     jsonArray.put(jsonObject);
                 }

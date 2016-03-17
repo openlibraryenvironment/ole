@@ -11,6 +11,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
@@ -20,12 +21,12 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRe
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
+import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -43,46 +44,51 @@ import java.util.*;
  * Created by SheikS on 12/18/2015.
  */
 @Service("createReqAndPOServiceHandler")
-public class CreateReqAndPOServiceHandler extends OleNgUtil implements CreateReqAndPOBaseServiceHandler {
+public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReqAndPOBaseServiceHandler {
     private OleNGRequisitionService oleNGRequisitionService;
     private DataCarrierService dataCarrierService;
 
-    public Integer processOrder(List<OleOrderRecord> oleOrderRecords) throws Exception {
+    public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(oleOrderRecords);
+        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(oleOrderRecords,exchange);
         List items = requisitionDocument.getItems();
         if(CollectionUtils.isNotEmpty(items)) {
             for (Iterator iterator = items.iterator(); iterator.hasNext(); ) {
                 OleRequisitionItem oleRequisitionItem = (OleRequisitionItem) iterator.next();
                 String itemTypeCode = oleRequisitionItem.getItemTypeCode();
-                if(StringUtils.isNotBlank(itemTypeCode) && itemTypeCode.equalsIgnoreCase(OLEConstants.ITEM)) {
-                    String bibUUID = oleRequisitionItem.getBibUUID();
-                    BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibUUID));
-                    List<Record> records = new MarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
-                    String bibProfileName = oleOrderRecords.get(0).getBibImportProfileName();
-                    BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
-                    if(StringUtils.isNotBlank(bibProfileName)) {
-                        BatchProcessProfile processProfile = fetchBatchProcessProfile(bibProfileName);
-                        List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
-                                OleNGConstants.HOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
-                        List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
-                                OleNGConstants.HOLDINGS, OleNGConstants.POST_MARC_TRANSFORMATION, false);
+                try {
+                    if(StringUtils.isNotBlank(itemTypeCode) && itemTypeCode.equalsIgnoreCase(OLEConstants.ITEM)) {
+                        String bibUUID = oleRequisitionItem.getBibUUID();
+                        BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibUUID));
+                        List<Record> records = new MarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
+                        String bibProfileName = oleOrderRecords.get(0).getBibImportProfileName();
+                        BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
+                        if(StringUtils.isNotBlank(bibProfileName)) {
+                            BatchProcessProfile processProfile = fetchBatchProcessProfile(bibProfileName);
+                            List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
+                                    OleNGConstants.HOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
+                            List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
+                                    OleNGConstants.HOLDINGS, OleNGConstants.POST_MARC_TRANSFORMATION, false);
 
-                        List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
+                            List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
 
-                        List<JSONObject> preTransformForItem = batchBibFileProcessor.prepareDataMappings(records, processProfile,
-                                OleNGConstants.ITEM, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
-                        List<JSONObject> postTransformForItem = batchBibFileProcessor.prepareDataMappings(records, processProfile,
-                                OleNGConstants.ITEM, OleNGConstants.POST_MARC_TRANSFORMATION, false);
+                            List<JSONObject> preTransformForItem = batchBibFileProcessor.prepareDataMappings(records, processProfile,
+                                    OleNGConstants.ITEM, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
+                            List<JSONObject> postTransformForItem = batchBibFileProcessor.prepareDataMappings(records, processProfile,
+                                    OleNGConstants.ITEM, OleNGConstants.POST_MARC_TRANSFORMATION, false);
 
-                        List<JSONObject> dataMappingForItem = batchBibFileProcessor.buildOneObjectForList(preTransformForItem, postTransformForItem);
+                            List<JSONObject> dataMappingForItem = batchBibFileProcessor.buildOneObjectForList(preTransformForItem, postTransformForItem);
 
-                        Holdings dummyHoldingsFromDataMapping = createDummyHoldingsFromDataMapping(dataMappingForHoldings);
-                        Item dummyItemFromDataMapping = createDummyItemFromDataMapping(dataMappingForItem);
+                            Holdings dummyHoldingsFromDataMapping = createDummyHoldingsFromDataMapping(dataMappingForHoldings);
+                            Item dummyItemFromDataMapping = createDummyItemFromDataMapping(dataMappingForItem);
 
-                        getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":holdings",dummyHoldingsFromDataMapping);
-                        getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":item",dummyItemFromDataMapping);
+                            getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":holdings",dummyHoldingsFromDataMapping);
+                            getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":item",dummyItemFromDataMapping);
+                        }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    addOrderFaiureResponseToExchange(e, null, exchange);
                 }
 
             }

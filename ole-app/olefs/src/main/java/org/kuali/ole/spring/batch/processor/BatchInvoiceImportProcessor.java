@@ -6,11 +6,16 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.InvoiceResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
 import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.module.purap.PurapConstants;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
@@ -58,29 +63,27 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     private InvoiceImportHelperUtil invoiceImportHelperUtil;
 
     @Override
-    public String processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile batchProcessProfile, String reportDirectoryName) throws JSONException {
+    public OleNgBatchResponse processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType,
+                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName,
+                                             BatchJobDetails batchJobDetails) throws JSONException {
         JSONObject response = new JSONObject();
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
+        MatchedDetails matchedDetails = new MatchedDetails();
+        Exchange exchange = new Exchange();
 
         Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
             if (recordsMap.size() > 0) {
                 BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
                 if (null != bibImportProfile) {
-                    OleNGBibImportResponse oleNGBibImportResponse = processBibImport(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName);
+                    OleNGBibImportResponse oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(rawContent, recordsMap, fileType,
+                            bibImportProfile, reportDirectoryName, batchJobDetails,exchange);
                     List<RecordDetails> recordDetailses = new ArrayList<RecordDetails>(recordsMap.values());
-                    List<Record> records = new ArrayList<>();
-                    if(CollectionUtils.isNotEmpty(recordDetailses)) {
-                        for (Iterator<RecordDetails> iterator = recordDetailses.iterator(); iterator.hasNext(); ) {
-                            RecordDetails recordDetails = iterator.next();
-                            records.add(recordDetails.getRecord());
-                        }
-                    }
-                    oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(records, batchProcessProfile);
+                    oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(recordDetailses, batchProcessProfile, matchedDetails, exchange);
                 }
             }
         } else if (fileType.equalsIgnoreCase(OleNGConstants.INV) || fileType.equalsIgnoreCase(OleNGConstants.EDI)) {
-            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile);
+            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile, matchedDetails, batchJobDetails, exchange);
         }
 
 
@@ -90,7 +93,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
             try {
                 OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
-                oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument, oleInvoiceRecords);
+                oleNGInvoiceService.populateInvoiceDocWithOrderInformation(oleInvoiceDocument, oleInvoiceRecords, exchange);
                 oleNGInvoiceService.saveInvoiceDocument(oleInvoiceDocument);
                 String documentNumber = oleInvoiceDocument.getDocumentNumber();
                 if (null != documentNumber) {
@@ -109,57 +112,84 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                addInvoiceFaiureResponseToExchange(e, null, exchange);
             }
         }
 
+        oleNGInvoiceImportResponse.setJobName(batchJobDetails.getJobName());
+        oleNGInvoiceImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
+        oleNGInvoiceImportResponse.setMatchedCount(matchedDetails.getMatchedCount());
+        oleNGInvoiceImportResponse.setUnmatchedCount(matchedDetails.getUnmatchedCount());
+        oleNGInvoiceImportResponse.setMultiMatchedCount(matchedDetails.getMultiMatchedCount());
+        OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
+
+        List<InvoiceFailureResponse> invoiceFailureResponseList = (List<InvoiceFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        oleNGInvoiceImportResponse.setInvoiceFailureResponses(invoiceFailureResponseList);
+        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(invoiceFailureResponseList));
         try {
             String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
-            //System.out.println("Invoice Import Response : " + successResponse);
             InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
             invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
-            return successResponse;
+            oleNgBatchResponse.setResponse(successResponse);
+            return oleNgBatchResponse;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         response.put(OleNGConstants.STATUS, OleNGConstants.FAILURE);
-        return response.toString();
+        oleNgBatchResponse.setResponse(response.toString());
+
+        return oleNgBatchResponse;
     }
 
-    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForMarc(List<Record> records, BatchProcessProfile batchProcessProfile) {
+    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForMarc(List<RecordDetails> recordDetailses , BatchProcessProfile batchProcessProfile,
+                                                                             MatchedDetails matchedDetails, Exchange exchange) {
         Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap = new TreeMap<>();
         ArrayList<String> datamappingTypes = new ArrayList<>();
         datamappingTypes.add(OleNGConstants.CONSTANT);
         datamappingTypes.add(OleNGConstants.BIB_MARC);
-        for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
-            Record record = iterator.next();
-            OleInvoiceRecord oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(record, batchProcessProfile, null, datamappingTypes);
+        for (int index=0 ; index < recordDetailses.size() ; index++) {
+            RecordDetails recordDetails = recordDetailses.get(index);
+            Integer recordIndex = recordDetails.getIndex();
+            try {
+                Record record = recordDetails.getRecord();
+                OleInvoiceRecord oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(record, batchProcessProfile, null, datamappingTypes);
 
-            //Match Point process start
-            if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
-                List<OlePurchaseOrderItem> olePurchaseOrderItems = processMatchpoint(record, batchProcessProfile, oleInvoiceRecord);
-                setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems);
+                //Match Point process start
+                if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
+                    List<OlePurchaseOrderItem> olePurchaseOrderItems = processMatchpoint(record, batchProcessProfile, oleInvoiceRecord);
+                    setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
+                }
+
+                oleInvoiceRecord.setRecordIndex(recordIndex);
+
+                addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
+            } catch(Exception e) {
+                e.printStackTrace();
+                addInvoiceFaiureResponseToExchange(e, recordIndex, exchange);
             }
-
-            addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
         }
         return oleInvoiceRecordMap;
     }
 
 
-    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForEdifact(String rawContent, BatchProcessProfile batchProcessProfile) {
+    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForEdifact(String rawContent, BatchProcessProfile batchProcessProfile,
+                                                                                MatchedDetails matchedDetails, BatchJobDetails batchJobDetails, Exchange exchange) {
         Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap = new TreeMap<>();
 
         List<INVOrder> invOrders = getInvoiceImportHelperUtil().readEDIContent(rawContent);
+        int totalNoOfRecords = 0;
 
         ArrayList<String> datamappingTypes = new ArrayList<>();
         datamappingTypes.add(OleNGConstants.CONSTANT);
 
         for (Iterator<INVOrder> iterator = invOrders.iterator(); iterator.hasNext(); ) {
             INVOrder invOrder = iterator.next();
-            if (CollectionUtils.isNotEmpty(invOrder.getLineItemOrder())) {
-                for (Iterator<LineItemOrder> invOrderIterator = invOrder.getLineItemOrder().iterator(); invOrderIterator.hasNext(); ) {
-                    LineItemOrder lineItemOrder = invOrderIterator.next();
+            List<LineItemOrder> lineItemOrders = invOrder.getLineItemOrder();
+            if (CollectionUtils.isNotEmpty(lineItemOrders)) {
+                for(int index = 0; index < lineItemOrders.size() ; index++) {
+                    LineItemOrder lineItemOrder = lineItemOrders.get(index);
+                    totalNoOfRecords++;
                     OleInvoiceRecord oleInvoiceRecord = null;
                     try {
                         oleInvoiceRecord = getOleNGInvoiceRecordBuilderUtil().build(lineItemOrder, invOrder);
@@ -179,27 +209,41 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                             dbCriteria.put("purchaseOrder.purapDocumentIdentifier", oleInvoiceRecord.getPurchaseOrderNumber());
                             olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
                         }
-                        setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems);
+                        oleInvoiceRecord.setRecordIndex(totalNoOfRecords);
+                        setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
 
                         addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        addInvoiceFaiureResponseToExchange(e, totalNoOfRecords, exchange);
                     }
                 }
             }
         }
 
+        batchJobDetails.setTotalRecords(String.valueOf(totalNoOfRecords));
+        getBusinessObjectService().save(batchJobDetails);
+
         return oleInvoiceRecordMap;
     }
 
-    private void setLinkedOrUnlinked(OleInvoiceRecord oleInvoiceRecord, List<OlePurchaseOrderItem> olePurchaseOrderItems) {
+    private void setLinkedOrUnlinked(OleInvoiceRecord oleInvoiceRecord, List<OlePurchaseOrderItem> olePurchaseOrderItems,
+                                     MatchedDetails matchedDetails) {
         if (CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
             oleInvoiceRecord.setOlePurchaseOrderItems(olePurchaseOrderItems);
             if (oleInvoiceRecord.getMatchPointType().equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
-                oleInvoiceRecord.setLink((olePurchaseOrderItems.size() == 1 ? true : false));
+                if(olePurchaseOrderItems.size() == 1) {
+                    oleInvoiceRecord.setLink(true);
+                    matchedDetails.setMatchedCount(matchedDetails.getMatchedCount() + 1);
+                } else {
+                    matchedDetails.setMultiMatchedCount(matchedDetails.getMultiMatchedCount() + 1);
+                }
             } else {
                 oleInvoiceRecord.setLink(true);
+                matchedDetails.setMatchedCount(matchedDetails.getMatchedCount() + 1);
             }
+        } else {
+            matchedDetails.setUnmatchedCount(matchedDetails.getUnmatchedCount() + 1);
         }
     }
 
@@ -340,18 +384,6 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         return batchProcessProfile;
     }
 
-    private OleNGBibImportResponse processBibImport(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType, BatchProcessProfile bibImportProfile, String reportDirectoryName) {
-        OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
-        try {
-            String response = batchBibFileProcessor.processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName);
-            if(StringUtils.isNotBlank(response)) {
-                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return oleNGBibImportResponse;
-    }
 
     private OleInvoiceRecord prepareInvoiceOrderRercordFromProfile(Record marcRecord, BatchProcessProfile batchProcessProfile, OleInvoiceRecord oleInvoiceRecord, List<String> datamappingTypes) {
         if(oleInvoiceRecord == null) {
@@ -435,5 +467,35 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
     public void setOleNGInvoiceRecordBuilderUtil(OleNGInvoiceRecordBuilderUtil oleNGInvoiceRecordBuilderUtil) {
         this.oleNGInvoiceRecordBuilderUtil = oleNGInvoiceRecordBuilderUtil;
+    }
+
+    class MatchedDetails {
+        private int matchedCount;
+        private int unmatchedCount;
+        private int multiMatchedCount;
+
+        public int getMatchedCount() {
+            return matchedCount;
+        }
+
+        public void setMatchedCount(int matchedCount) {
+            this.matchedCount = matchedCount;
+        }
+
+        public int getUnmatchedCount() {
+            return unmatchedCount;
+        }
+
+        public void setUnmatchedCount(int unmatchedCount) {
+            this.unmatchedCount = unmatchedCount;
+        }
+
+        public int getMultiMatchedCount() {
+            return multiMatchedCount;
+        }
+
+        public void setMultiMatchedCount(int multiMatchedCount) {
+            this.multiMatchedCount = multiMatchedCount;
+        }
     }
 }

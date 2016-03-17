@@ -1,4 +1,4 @@
-package org.kuali.ole.spring.batch.processor;
+package org.kuali.ole.docstore.common.pojo;
 
 import org.marc4j.marc.Record;
 
@@ -8,6 +8,7 @@ import org.marc4j.marc.Record;
 public class RecordDetails {
     private Record record;
     private String bibUUID;
+    private Integer index;
 
     public Record getRecord() {
         return record;
@@ -23,5 +24,13 @@ public class RecordDetails {
 
     public void setBibUUID(String bibUUID) {
         this.bibUUID = bibUUID;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }

@@ -1,16 +1,14 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,29 +37,32 @@ public class CreateItemHandler extends Handler {
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
 
         if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
-            JSONObject itemJSONObject;
-            try {
-                itemJSONObject = requestJsonObject.getJSONObject(OleNGConstants.ITEM);
+            JSONObject itemJSONObject = getJSONObjectFromJSONObject(requestJsonObject, OleNGConstants.ITEM);
                 for (Iterator<ItemRecordAndDataMapping> iterator = itemRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                    ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
-                    ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                    JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                    exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
-                    itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
-                    exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                    processDataMappings(itemJSONObject, exchange);
-                    setCommonValuesToItemRecord(requestJsonObject, itemRecord);
-                    itemRecords.add(itemRecord);
+                    try {
+                        ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
+                        ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
+                        JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                        exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
+                        itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
+                        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                        processDataMappings(itemJSONObject, exchange);
+                        setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                        itemRecords.add(itemRecord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , 1);
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             exchange.remove(OleNGConstants.ITEM_RECORD);
             exchange.remove(OleNGConstants.DATAMAPPING);
-            getItemDAO().saveAll(itemRecords);
+            try {
+                getItemDAO().saveAll(itemRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , itemRecords.size());
+            }
         }
 
     }

@@ -1,22 +1,21 @@
 package org.kuali.ole.dsng.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.dsng.indexer.BibIndexer;
 import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.utility.JSONHelperUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,14 +74,53 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
     }
 
-    private void appendLocationToStringBuilder(StringBuilder stringBuilder, String location) {
-        if (stringBuilder.length() > 0) {
-            stringBuilder.append(FORWARD_SLASH).append(location);
-        } else {
-            stringBuilder.append(location);
+    public void addFailureReportToExchange(JSONObject requestJsonObject, Exchange exchange, String type, Exception exception,
+                                           Integer size) {
+        String recordIndex = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.RECORD_INDEX);
+        Integer index = null;
+        if(null != recordIndex) {
+            index = Integer.valueOf(recordIndex);
+        }
+
+        BibFailureResponse failureResponse = (BibFailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        failureResponse.setIndex(index);
+        String message = exception.toString();
+        failureResponse.setFailureMessage(message);
+
+        String detailedMessage = getDetailedMessage(exception);
+        failureResponse.setDetailedMessage(detailedMessage);
+
+        int count = (null == size ? 0 : size);
+        if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_HOLDINGS)){
+            failureResponse.setNoOfFailureHoldings(failureResponse.getNoOfFailureHoldings() + count);
+        } else if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_EHOLDINGS)){
+            failureResponse.setNoOfFailureEHoldings(failureResponse.getNoOfFailureEHoldings() + count);
+        } else if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_ITEM)){
+            failureResponse.setNoOfFailureItems(failureResponse.getNoOfFailureItems() + count);
         }
     }
 
+    public String getDetailedMessage(Exception exception) {
+        StackTraceElement[] stackTrace = exception.getStackTrace();
+        StringBuilder detailedMessage = new StringBuilder();
+        String className = null;
+        String methodName = null;
+        int lineNumber = 0;
+        if (null != stackTrace && stackTrace.length >= 2) {
+            for(int index = 0; index < 2; index++) {
+                StackTraceElement stackTraceElement = stackTrace[index];
+                String fullClassName = stackTraceElement.getClassName();
+                className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+                methodName = stackTraceElement.getMethodName();
+                lineNumber = stackTraceElement.getLineNumber();
+                if(StringUtils.isNotBlank(detailedMessage.toString())){
+                    detailedMessage.append("\n");
+                }
+                detailedMessage.append(className + "." + methodName + "():line#" + lineNumber);
+            }
+        }
+        return detailedMessage.toString();
+    }
 
     public ObjectMapper getObjectMapper() {
         if(null == objectMapper) {

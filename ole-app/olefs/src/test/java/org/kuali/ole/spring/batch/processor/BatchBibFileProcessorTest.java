@@ -1,13 +1,14 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.i18n.Exception;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
@@ -83,7 +84,9 @@ public class BatchBibFileProcessorTest {
             recordDetails.setRecord(records.get(index + 1));
             recordDetailsMap.put(index, recordDetails);
         }
-        String processedRecords = batchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory);
+        OleNgBatchResponse oleNgBatchResponse = batchBibFileProcessor.processRecords(rawContent, recordDetailsMap,
+                OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory, new BatchJobDetails());
+        String processedRecords = oleNgBatchResponse.toString();
         assertNotNull(processedRecords);
     }
 

@@ -5,10 +5,12 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.marc4j.marc.Record;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 1/11/2016.
@@ -18,6 +20,10 @@ public class OleNGBibImportResponse {
 
     @JsonProperty("bibImportProfileName")
     private String bibImportProfileName;
+    @JsonProperty("jobDetailId")
+    private String jobDetailId;
+    @JsonProperty("jobName")
+    private String jobName;
     @JsonProperty("matchedBibsCount")
     private int matchedBibsCount;
     @JsonProperty("unmatchedBibsCount")
@@ -46,6 +52,9 @@ public class OleNGBibImportResponse {
     @JsonProperty("multipleMatchedEHoldingsCount")
     private int multipleMatchedEHoldingsCount;
 
+    @JsonProperty("failureResponses")
+    private List<BibFailureResponse> failureResponses;
+
     @JsonIgnore
     private List<Record> matchedRecords = new ArrayList<>();
     @JsonIgnore
@@ -54,6 +63,8 @@ public class OleNGBibImportResponse {
     private List<Record> multipleMatchedRecords = new ArrayList<>();
     @JsonIgnore
     private String directoryName;
+    @JsonIgnore
+    private Map<Integer, RecordDetails> recordsMap;
 
     @JsonProperty("bibResponses")
     private List<BibResponse> bibResponses;
@@ -200,5 +211,44 @@ public class OleNGBibImportResponse {
 
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
+    }
+
+    public List<BibFailureResponse> getFailureResponses() {
+        if(null == failureResponses) {
+            failureResponses = new ArrayList<>();
+        }
+        return failureResponses;
+    }
+
+    public void setFailureResponses(List<BibFailureResponse> failureResponses) {
+        this.failureResponses = failureResponses;
+    }
+
+    public void addFailureResponse(BibFailureResponse failureResponse) {
+        getFailureResponses().add(failureResponse);
+    }
+
+    public Map<Integer, RecordDetails> getRecordsMap() {
+        return recordsMap;
+    }
+
+    public void setRecordsMap(Map<Integer, RecordDetails> recordsMap) {
+        this.recordsMap = recordsMap;
+    }
+
+    public String getJobDetailId() {
+        return jobDetailId;
+    }
+
+    public void setJobDetailId(String jobDetailId) {
+        this.jobDetailId = jobDetailId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 }

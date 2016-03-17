@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.batch.reports;
 
+import org.kuali.ole.oleng.batch.reports.processors.InvoiceImportFailureReportProcessor;
 import org.kuali.ole.oleng.batch.reports.processors.InvoiceImportReportProcessor;
 import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
@@ -27,6 +28,7 @@ public class InvoiceImportLoghandler  extends ReportLogHandler{
     public List<OleNGReportProcessor> getProcessors() {
         if (null == processors) {
             processors = new ArrayList<>();
+            processors.add(new InvoiceImportFailureReportProcessor());
             processors.add(new InvoiceImportReportProcessor());
         }
         return processors;

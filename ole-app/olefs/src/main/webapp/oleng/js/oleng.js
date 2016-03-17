@@ -31,7 +31,8 @@ var OLENG_CONSTANTS = {
     DESTROY_PROCESS : "rest/batch/job/destroy",
     REPORT_FILES : "rest/batch/job/getReportsFiles",
     SPECIFIC_REPORT_FILES : "rest/batch/job/getSpecificReportsFiles",
-    GET_FILE_CONTENT : "rest/batch/job/getFileContent"
+    GET_FILE_CONTENT : "rest/batch/job/getFileContent",
+    DOWNLOAD_REPORT_FILE : "rest/batch/job/downloadReportFile"
 
 };
 
