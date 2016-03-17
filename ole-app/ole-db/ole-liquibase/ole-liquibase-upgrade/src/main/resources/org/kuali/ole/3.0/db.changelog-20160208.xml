@@ -230,20 +230,14 @@
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ADD_COLUMN">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="OLE_DLVR_PTRN_BILL_T ">
+        <addColumn tableName="OLE_DLVR_PTRN_BILL_T ">
             <column name="MANUAL_BILL" type="varchar(1)"/>
-
         </addColumn>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ADD_COLUMN">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+        <addColumn tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
             <column name="MANUAL_BILL" type="varchar(1)"/>
-
         </addColumn>
     </changeSet>
 
