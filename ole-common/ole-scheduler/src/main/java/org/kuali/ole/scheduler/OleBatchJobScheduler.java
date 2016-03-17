@@ -25,10 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -39,65 +36,87 @@ public class OleBatchJobScheduler extends HttpServlet {
     ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
     JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
     private String urlBase;
-    private HashMap<String, ScheduledFuture> scheduledFutures = new HashMap<>();
+    private List<String> restResult;
+    /**
+     * Maps the scheduleId to the schedule's future
+     */
+    private HashMap<Integer, ScheduledFuture> scheduledFutures = new HashMap<>();
 
+    @Override
     public void init() throws ServletException {
         // invoke in separate thread to complete the deployment in parallel
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    startAllJobs();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                    scheduler.setThreadNamePrefix("OleBatchJobScheduler");
+                    scheduler.initialize();
+                    scheduleAllJobs();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
 
-    private void startAllJobs() throws IOException, JSONException, InterruptedException {
-        scheduler.setThreadNamePrefix("OleBatchJobScheduler");
-        startScheduler();
-        System.err.println("-- initializing batch jobs --");
-        for (int n = 1; n < 50; n++) {
-            if (scheduleAllPersitedJobs() == true) {
-                break;
-            }
-            System.err.println("rest not yet available, not fully deployed?");
-            TimeUnit.SECONDS.sleep(n);
-        }
-        if (scheduleAllPersitedJobs() == false) {
-            throw new RuntimeException("REST api not available: " + OleNGConstants.BATCH_PROCESS_JOBS);
-        }
+    @Override
+    public void destroy() {
+        scheduler.shutdown();
     }
 
-    private boolean scheduleAllPersitedJobs() throws IOException, JSONException {
+    /**
+     * Try 20 Minutes to get the list of jobs and their schedules from the
+     * REST API.  Schedule the jobs, or throw an exception.
+     *
+     * @throws IOException      when REST call fails
+     * @throws JSONException    when REST return invalid JSON
+     * @throws InterruptedException when waiting is interrupted
+     * @throws RuntimeException     if REST API is not available for 20 Minutes
+     */
+    private void scheduleAllJobs() throws IOException, JSONException, InterruptedException {
+        System.err.println("-- initializing batch jobs --");
+        for (int n = 1; n < 50; n++) {
+            if (scheduleAllJobsOneTry()) {
+                return;
+            }
+            System.err.println("rest not yet available, not fully deployed?");
+            // increasing sleep time
+            TimeUnit.SECONDS.sleep(n);
+        }
+
+        throw new RuntimeException("REST api not available: " + OleNGConstants.BATCH_PROCESS_JOBS);
+    }
+
+    /**
+     * Invoke REST API for jobs and their schedules and do the scheduling.
+     *
+     * @return true if REST API is available and scheduling all jobs was successful, false otherwise
+     * @throws IOException  when REST call fails
+     * @throws JSONException    when REST return invalid JSON
+     */
+    private boolean scheduleAllJobsOneTry() throws IOException, JSONException {
         String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
 
-        // ToDo
-        // i think we should have some more elaborated handling here
-        // could be the case that there are no persited jobs but rest is available, right?
+        // null if REST API is not yet available (HTTP 404)
         if (schedulesString == null) {
             return false;
         }
+
+        System.err.println("REST schedules string =");
+        System.err.println(schedulesString);
+
+        // The list of schedules, can be an empty list.
         JSONArray schedules = new JSONArray(schedulesString);
         List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
         for (int i = 0; i < schedules.length(); i++) {
             try {
                 JSONObject schedule = schedules.getJSONObject(i);
-                String springJobName = schedule.optString(OleNGConstants.PROCESS_NAME);
-                String cron = schedule.optString(OleNGConstants.CRON_EXPRESSION);
+                int scheduleId = schedule.getInt(   OleNGConstants.PROCESS_ID);
+                String name    = schedule.optString(OleNGConstants.PROCESS_NAME);
+                String cron    = schedule.optString(OleNGConstants.CRON_EXPRESSION);
 
-                // ToDo
-                // Last argument "name" should be some kind of id!!!
-                // This has to be in the db somewhere
-                addJob(springJobName, cron, springJobName);
-
-                System.err.println("added oleBatchJob: " + springJobName + " " + cron + " " + schedule.toString());
+                modifySchedule(scheduleId, name, cron);
+                System.err.println("added oleBatchJob: " + scheduleId + " " + name + " " + cron + "\n   " + schedule.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -124,12 +143,39 @@ public class OleBatchJobScheduler extends HttpServlet {
     }
 
     /**
-     * Do a http Get at some rest URL.
+     * Set the answers of the REST call.  Used for regression testing.
+     * @param restResult    the list of result strings, may contain null
+     */
+    void setRestResult(String [] restResult) {
+        if (restResult == null) {
+            this.restResult = null;
+            return;
+        }
+        List<String> list = new LinkedList<>();
+        for (String s : restResult) {
+            list.add(s);
+        }
+        this.restResult = list;
+    }
+
+    /**
+     * Do a HTTP Get at some rest URL.
      *
      * @param restPath the path starting with "rest/" of the URL where to do the GET
-     * @return response to the Get request, null if restPath not found
+     * @return response to the Get request, null if restPath not found (HTTP 404)
      */
     private String rest(String restPath) throws IOException {
+        // simlate rest answer for regression testing?
+        if (restResult != null) {
+            if (restResult.isEmpty()) {
+                restResult = null;
+            } else {
+                String result = restResult.get(0);
+                restResult.remove(0);
+                return result;
+            }
+        }
+
         String url = getUrlBase() + "/" + restPath;
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("ole-quickstart", ""));
@@ -149,33 +195,33 @@ public class OleBatchJobScheduler extends HttpServlet {
         return scanner.next();
     }
 
-    public void addJob(String springJobName, String cronExpression, String name) {
-        if (!scheduledFutures.containsKey(name)) {
-            Job springBatchJob = (Job) context.getBean(springJobName);
-            OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cronExpression, name, jobLauncher);
-            ScheduledFuture scheduledFuture = scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
-            scheduledFutures.put(name, scheduledFuture);
-        } else {
-            // we have to handle this as some kind of exception
-            System.err.println("there is already a job with this name!");
+    /**
+     * Add, alter or delete a schedule.  Use cron for the scheduling, where
+     * null means to delete a schedule.
+     * @param id    id of the schedule
+     * @param jobName  name of the job
+     * @param cron  cron expression or null
+     */
+    void modifySchedule(int id, String jobName, String cron) {
+        ScheduledFuture scheduledFuture = scheduledFutures.get(id);
+
+        // stop current schedule
+        if (scheduledFuture != null) {
+            if (!scheduledFuture.isCancelled()) {
+                scheduledFuture.cancel(false);
+            }
         }
-    }
 
-    public void deleteJob(String name) {
-        if (scheduledFutures.containsKey(name)) {
-            scheduledFutures.get(name).cancel(true);
-            System.err.println("cancelled job with name: " + name);
-            scheduledFutures.remove(name);
-        } else {
-            System.err.println("no job found with this name!");
+        if (cron == null) {
+            return;
         }
-    }
 
-    public void startScheduler() {
-        scheduler.initialize();
-    }
+        // set new schedule
+        Job springBatchJob = (Job) context.getBean(jobName);
+        OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cron, jobName, jobLauncher);
+        scheduledFuture = scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
 
-    public void stopScheduler() {
-        scheduler.shutdown();
+        // store for cancelling
+        scheduledFutures.put(id, scheduledFuture);
     }
 }
