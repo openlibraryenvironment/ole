@@ -116,8 +116,7 @@ public class UpdateEholdingsHandler extends Handler {
                         holdingsRecords.add(holdingsRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e.toString(),
-                                "Problem while updating eholdings.", 1);
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , 1);
                     }
                 }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
@@ -125,8 +124,7 @@ public class UpdateEholdingsHandler extends Handler {
                 getHoldingDAO().saveAll(holdingsRecords);
             } catch (Exception e) {
                 e.printStackTrace();
-                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e.toString(),
-                        "Problem while updating eholdings.", holdingsRecords.size());
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());
             }
         }
     }

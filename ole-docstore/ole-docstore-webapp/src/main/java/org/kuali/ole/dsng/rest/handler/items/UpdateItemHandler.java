@@ -62,8 +62,7 @@ public class UpdateItemHandler extends Handler {
                         itemRecords.add(itemRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
-                                "Problem while update item.", 1);
+                        addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e, 1);
                     }
                 }
 
@@ -72,8 +71,7 @@ public class UpdateItemHandler extends Handler {
                 getItemDAO().saveAll(itemRecords);
             } catch (Exception e) {
                 e.printStackTrace();
-                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e.toString(),
-                        "Problem while update item.", itemRecords.size());
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , itemRecords.size());
             }
         }
     }

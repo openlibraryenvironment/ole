@@ -71,8 +71,7 @@ public class UpdateBibHandler extends BibHandler {
 
         } catch (Exception e) {
             e.printStackTrace();
-            addFailureReportToExchange(requestJsonObject, exchange,"bib", e.toString(),
-                    "Problem while updating bib.", null);
+            addFailureReportToExchange(requestJsonObject, exchange,"bib", e , null);
         }
 
     }

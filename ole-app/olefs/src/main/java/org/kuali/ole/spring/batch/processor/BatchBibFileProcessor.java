@@ -11,11 +11,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.response.BibFailureResponse;
-import org.kuali.ole.docstore.common.response.FailureResponse;
-import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
-import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
@@ -46,10 +43,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         JSONArray jsonArray = new JSONArray();
         String response = "";
         OleNGBibImportResponse oleNGBibImportResponse = null;
-        List<BibFailureResponse> failureResponses = new ArrayList<>();
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
+        Exchange exchange = new Exchange();
         for (Iterator<Integer> iterator = recordsMap.keySet().iterator(); iterator.hasNext(); ) {
             Integer index = iterator.next();
             RecordDetails recordDetails = recordsMap.get(index);
@@ -86,8 +83,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 jsonArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
-                BibFailureResponse failureResponse = getBibFailureResponse(index,  e);
-                failureResponses.add(failureResponse);
+                addBibFaiureResponseToExchange(e, index, exchange);
             }
         }
 
@@ -101,14 +97,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            BibFailureResponse failureResponse = getBibFailureResponse(null, e);
-            failureResponses.add(failureResponse);
+            addBibFaiureResponseToExchange(e, null, exchange);
         }
 
         if(null  == oleNGBibImportResponse) {
             oleNGBibImportResponse = new OleNGBibImportResponse();
         }
 
+        List<BibFailureResponse> bibFailureResponses = (List<BibFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(CollectionUtils.isNotEmpty(bibFailureResponses)) {
+            oleNGBibImportResponse.getFailureResponses().addAll(bibFailureResponses);
+        }
         oleNGBibImportResponse.setMatchedBibsCount(matchedRecords.size());
         oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
         oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
@@ -120,14 +119,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
-        oleNGBibImportResponse.getFailureResponses().addAll(failureResponses);
         oleNGBibImportResponse.setRecordsMap(recordsMap);
         generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
 
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
         oleNgBatchResponse.setResponse(response);
 
-        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(failureResponses));
+        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(bibFailureResponses));
 
         return oleNgBatchResponse;
     }

@@ -191,8 +191,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     bibResponses.add(bibResponse);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    addFailureReportToExchange(bibJSONDataObject, exchange, "Bib", e.toString(),
-                            "Problem while processing bib request.", null);
+                    addFailureReportToExchange(bibJSONDataObject, exchange, "Bib", e , null);
                 }
                 failureResponse = (BibFailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
                 if(StringUtils.isNotBlank(failureResponse.getFailureMessage())) {

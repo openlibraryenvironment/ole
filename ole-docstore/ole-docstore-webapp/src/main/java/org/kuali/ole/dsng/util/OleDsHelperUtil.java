@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -73,8 +74,8 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
     }
 
-    public void addFailureReportToExchange(JSONObject requestJsonObject, Exchange exchange, String type, String exception,
-                                           String detailedMessage, Integer size) {
+    public void addFailureReportToExchange(JSONObject requestJsonObject, Exchange exchange, String type, Exception exception,
+                                           Integer size) {
         String recordIndex = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.RECORD_INDEX);
         Integer index = null;
         if(null != recordIndex) {
@@ -83,7 +84,10 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
 
         BibFailureResponse failureResponse = (BibFailureResponse) exchange.get(OleNGConstants.FAILURE_RESPONSE);
         failureResponse.setIndex(index);
-        failureResponse.setFailureMessage(exception);
+        String message = exception.toString();
+        failureResponse.setFailureMessage(message);
+
+        String detailedMessage = getDetailedMessage(exception);
         failureResponse.setDetailedMessage(detailedMessage);
 
         int count = (null == size ? 0 : size);
@@ -94,6 +98,28 @@ public class OleDsHelperUtil extends BusinessObjectServiceHelperUtil implements 
         } else if(type.equalsIgnoreCase(OleNGConstants.NO_OF_FAILURE_ITEM)){
             failureResponse.setNoOfFailureItems(failureResponse.getNoOfFailureItems() + count);
         }
+    }
+
+    public String getDetailedMessage(Exception exception) {
+        StackTraceElement[] stackTrace = exception.getStackTrace();
+        StringBuilder detailedMessage = new StringBuilder();
+        String className = null;
+        String methodName = null;
+        int lineNumber = 0;
+        if (null != stackTrace && stackTrace.length >= 2) {
+            for(int index = 0; index < 2; index++) {
+                StackTraceElement stackTraceElement = stackTrace[index];
+                String fullClassName = stackTraceElement.getClassName();
+                className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+                methodName = stackTraceElement.getMethodName();
+                lineNumber = stackTraceElement.getLineNumber();
+                if(StringUtils.isNotBlank(detailedMessage.toString())){
+                    detailedMessage.append("\n");
+                }
+                detailedMessage.append(className + "." + methodName + "():line#" + lineNumber);
+            }
+        }
+        return detailedMessage.toString();
     }
 
     public ObjectMapper getObjectMapper() {

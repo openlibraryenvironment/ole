@@ -78,8 +78,7 @@ public class UpdateHoldingsHandler extends Handler {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
-                            "Problem while updating holdings.", 1);
+                    addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e , 1);
                 }
             }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
@@ -87,8 +86,7 @@ public class UpdateHoldingsHandler extends Handler {
                 getHoldingDAO().saveAll(holdingsRecords);
             } catch (Exception e) {
                 e.printStackTrace();
-                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e.toString(),
-                        "Problem while updating holdings.", 1);
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e , 1);
             }
         }
     }

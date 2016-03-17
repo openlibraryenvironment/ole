@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.OrderFailureResponse;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
@@ -264,6 +265,29 @@ public class BatchUtil extends OleNgUtil{
         invoiceFailureResponse.setFailureMessage(message);
         invoiceFailureResponse.setIndex(index);
         return invoiceFailureResponse;
+    }
+
+
+
+    public void addBibFaiureResponseToExchange(Exception exception, Integer index, Exchange exchange) {
+        String message = exception.toString();
+        List<BibFailureResponse> bibFailureResponses = (List<BibFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == bibFailureResponses) {
+            bibFailureResponses = new ArrayList<>();
+        }
+        BibFailureResponse newBibFailureResponse = getNewBibFailureResponse(message, index);
+        String detailedMessage = getDetailedMessage(exception);
+        newBibFailureResponse.setDetailedMessage(detailedMessage);
+        bibFailureResponses.add(newBibFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE,bibFailureResponses);
+
+    }
+
+    public BibFailureResponse getNewBibFailureResponse(String message, Integer index) {
+        BibFailureResponse bibFailureResponse = new BibFailureResponse();
+        bibFailureResponse.setFailureMessage(message);
+        bibFailureResponse.setIndex(index);
+        return bibFailureResponse;
     }
 
 }
