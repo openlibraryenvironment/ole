@@ -776,5 +776,7 @@
     <bean id="oleSelectDaoOjb" parent="platformAwareDao" class="org.kuali.ole.select.service.OLESelectDaoOjb" />
 
     <bean id="receivingQueueDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.ReceivingQueueDAOServiceimpl" />
+    <bean id="donorEncumberReportDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.DonorEncumberReportDAOServiceImpl" />
+
 
 </beans>

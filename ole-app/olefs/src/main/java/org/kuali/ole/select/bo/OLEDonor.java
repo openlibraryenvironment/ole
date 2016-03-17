@@ -23,7 +23,9 @@ public class OLEDonor extends PersistableBusinessObjectBase {
     private KualiDecimal expensedAmount;
     private String bookPlateUrl;
     private String donorPublicUrl;
+    private String poNumber;
     private boolean active;
+    private String poLinkUrl;
 
     public String getDonorId() {
         return donorId;
@@ -105,12 +107,28 @@ public class OLEDonor extends PersistableBusinessObjectBase {
         this.donorPublicUrl = donorPublicUrl;
     }
 
+    public String getPoNumber() {
+        return poNumber;
+    }
+
+    public void setPoNumber(String poNumber) {
+        this.poNumber = poNumber;
+    }
+
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getPoLinkUrl() {
+        return poLinkUrl;
+    }
+
+    public void setPoLinkUrl(String poLinkUrl) {
+        this.poLinkUrl = poLinkUrl;
     }
 
     protected LinkedHashMap toStringMapper() {
@@ -122,7 +140,9 @@ public class OLEDonor extends PersistableBusinessObjectBase {
         toStringMap.put("donorAmount", donorAmount);
         toStringMap.put("encumberedAmount", encumberedAmount);
         toStringMap.put("expensedAmount", expensedAmount);
+        toStringMap.put("poNumber", poNumber);
         toStringMap.put("active", active);
+        toStringMap.put("poLinkUrl", poLinkUrl);
         return toStringMap;
     }
 }
