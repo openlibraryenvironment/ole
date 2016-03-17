@@ -56,6 +56,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     private Timestamp lastTransactionDate;
     private KualiDecimal creditIssued = new KualiDecimal(0);
     private KualiDecimal creditRemaining = new KualiDecimal(0);
+    private boolean manualProcessBill = false;
     private String patronBarcode;
     private String patronTypeId;
     private String feeTypeId;
@@ -578,6 +579,14 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setCreditRemaining(KualiDecimal creditRemaining) {
         this.creditRemaining = creditRemaining;
+    }
+
+    public boolean isManualProcessBill() {
+        return manualProcessBill;
+    }
+
+    public void setManualProcessBill(boolean manualProcessBill) {
+        this.manualProcessBill = manualProcessBill;
     }
 
     public String getPatronBarcode() {

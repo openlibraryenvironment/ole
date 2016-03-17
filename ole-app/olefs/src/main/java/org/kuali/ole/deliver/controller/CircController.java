@@ -15,11 +15,12 @@ import org.kuali.ole.deliver.controller.checkout.CheckoutValidationController;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.controller.renew.RenewController;
 import org.kuali.ole.deliver.form.CircForm;
+import org.kuali.ole.deliver.service.LostNoticesExecutor;
 import org.kuali.ole.deliver.service.OleLoanDocumentPlatformAwareDao;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
-import org.kuali.ole.docstore.common.document.DocstoreDocument;
-import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.*;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
@@ -39,6 +40,8 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by pvsubrah on 6/3/15.
@@ -849,6 +852,90 @@ public class CircController extends CheckoutValidationController {
         circForm.getCustomDueDateTimeMessageForRenew();
         return getUIFModelAndView(form);
     }
+
+    @RequestMapping(params = "methodToCall=openItemLostDialog")
+    public ModelAndView openItemLostDialog(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
+        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+            for (Iterator<OleLoanDocument> iterator = selectedLoanDocumentList.iterator(); iterator.hasNext(); ) {
+                OleLoanDocument oleLoanDocument = iterator.next();
+                if (oleLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
+                    ErrorMessage errorMessage = new ErrorMessage();
+                    errorMessage.setErrorMessage("The selected item is already billed as Lost.");
+                    circForm.setErrorMessage(errorMessage);
+                    showDialog("generalInfoDialog", circForm, request, response);
+                    return getUIFModelAndView(form);
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+            showDialog("itemLostDialog", circForm, request, response);
+            ItemRecord itemRecord = getCheckoutUIController(circForm.getFormKey()).getItemRecordByBarcode(selectedLoanDocumentList.get(0).getItemId());
+            circForm.setItemLostNote((itemRecord != null) ? itemRecord.getItemLostNote() : "");
+        } else {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setErrorMessage("Please select any one of loaned item to Lost.");
+            circForm.setErrorMessage(errorMessage);
+            showDialog("generalInfoDialog", circForm, request, response);
+        }
+        return getUIFModelAndView(form);
+    }
+
+
+    @RequestMapping(params = "methodToCall=applyItemLost")
+    public ModelAndView applyItemLost(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        String itemLostDescription = request.getParameter("itemLostDescription");
+        int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
+        ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+        List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
+        if (loanDocumentList.size() > 0) {
+            List<OleLoanDocument> loanDocuments = new ArrayList<>();
+            for (OleLoanDocument oleLoanDocument : loanDocumentList) {
+                String itemFullLocation = getItemFullLocation(oleLoanDocument.getItemId());
+                if(itemFullLocation != null) {
+                    oleLoanDocument.setItemFullLocation(itemFullLocation);
+                }
+                oleLoanDocument.setItemLostNote(itemLostDescription);
+                oleLoanDocument.setIsManualBill(true);
+                oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
+                loanDocuments.add(oleLoanDocument);
+            }
+            Map lostMap = new HashMap();
+            lostMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, OLEConstants.LOST_NOTICE);
+            lostMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocumentList);
+            Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
+            lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+        }
+        return getUIFModelAndView(circForm);
+    }
+
+    public String getItemFullLocation(String itemBarcode) {
+
+        ItemInfoUtil itemInfoUtil = ItemInfoUtil.getInstance();
+        ItemRecord itemRecord = itemInfoUtil.getItemRecordByBarcode(itemBarcode);
+        String fullLocation = null;
+        String location = null;
+        location = itemRecord.getLocation();
+        if (StringUtils.isBlank(location)) {
+            Map<String, String> criteriaMap = new HashMap();
+            criteriaMap.put("holdingsId", itemRecord.getHoldingsId());
+            List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord
+                            .class,
+                    criteriaMap);
+            HoldingsRecord holdingsRecord = holdingsRecords.get(0);
+            location = holdingsRecord.getLocation();
+        }
+        OleItemRecordForCirc itemRecordForCirc = new OleItemRecordForCirc();
+        ItemInfoUtil.getInstance().populateItemLocation(itemRecordForCirc, location);
+        fullLocation = itemRecordForCirc.getItemFullPathLocation();
+        return fullLocation;
+    }
+
+
 
     public OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
         if (null == oleLoanDocumentsFromSolrBuilder) {
