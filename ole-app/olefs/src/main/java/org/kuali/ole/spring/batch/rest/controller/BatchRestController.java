@@ -311,13 +311,13 @@ public class BatchRestController extends OleNgControllerBase {
                 fileContentBytes = fileContent.getBytes();
             } else if(fileName.contains("BibImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBibImport(fileContent);
-                extension = "xls";
+                extension = "xlsx";
             } else if(fileName.contains("OrderImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForOrderImport(fileContent);
-                extension = "xls";
+                extension = "xlsx";
             } else if(fileName.contains("InvoiceImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
-                extension = "xls";
+                extension = "xlsx";
             }
         }
 

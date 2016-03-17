@@ -29,7 +29,7 @@ public class BatchRestControllerTest {
         byte[] byteArray = new BatchExcelReportUtil().getExcelSheetForBibImport(content);
         assertNotNull(byteArray);
         String tempLocation = System.getProperty("java.io.tmpdir");
-        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "BibImport-Excel.xls"), byteArray);
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "BibImport-Excel.xlsx"), byteArray);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class BatchRestControllerTest {
         byte[] byteArray = new BatchExcelReportUtil().getExcelSheetForOrderImport(content);
         assertNotNull(byteArray);
         String tempLocation = System.getProperty("java.io.tmpdir");
-        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "OrderImport-Excel.xls"), byteArray);
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "OrderImport-Excel.xlsx"), byteArray);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class BatchRestControllerTest {
         byte[] byteArray = new BatchExcelReportUtil().getExcelSheetForInvoiceImport(content);
         assertNotNull(byteArray);
         String tempLocation = System.getProperty("java.io.tmpdir");
-        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "InvoiceImport-Excel.xls"), byteArray);
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(tempLocation + File.separator + "InvoiceImport-Excel.xlsx"), byteArray);
     }
 
 
