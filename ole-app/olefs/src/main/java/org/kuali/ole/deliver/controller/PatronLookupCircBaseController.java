@@ -59,8 +59,13 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
             }
         } catch (Exception e) {
             droolsResponse = new DroolsResponse();
-            droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
-            droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            if(e.getMessage().equalsIgnoreCase(OLEConstants.PTRN_BARCD_NOT_EXT)){
+                droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
+                droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            } else {
+                droolsResponse.addErrorMessage(e.getMessage());
+                droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            }
             LOG.error("Exception while search patron time", e);
             return droolsResponse;
         }
