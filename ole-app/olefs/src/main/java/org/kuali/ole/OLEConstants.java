@@ -1692,6 +1692,7 @@ public class OLEConstants {
     public static final String PTRN_START_LINK = "<a id=\"u20\" href=\"patronMaintenance?viewTypeName=MAINTENANCE&amp;returnLocation=";
     public static final String PTRN_END_LINK = "/portal.do&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument\" target=\"_blank\" title=\"Create New Patron with\" class=\"uif-field uif-link uif-createNewLink\">Create New Patron</a>";
     public static final String PTRN_BARCD_NOT_EXT = "Patron barcode does not exist.";
+    public static final String PTRN_LOST_BARCODE = "Patron barcode is reported lost/stolen. Do Not Loan";
     public static final String ERROR_PTRN_BARCD_NOT_EXT = "error.patron.barcode.not.exist";
     public static final String ITM_BARCD_NT_AVAL_DOC = "Item barcode does not exist.";
     public static final String TIT_NT_EXT = "Title does not exist.";
