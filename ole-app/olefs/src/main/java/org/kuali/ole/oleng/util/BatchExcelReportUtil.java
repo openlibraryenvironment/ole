@@ -2,7 +2,10 @@ package org.kuali.ole.oleng.util;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -19,22 +22,33 @@ import java.util.*;
  */
 public class BatchExcelReportUtil extends BatchUtil{
 
-    private int addHeaders(XSSFSheet spreadsheet, int rowId, String[] headerArray) {
+    private int GREEN_COLOR = HSSFColor.GREEN.index;
+
+    private int addHeaders(XSSFWorkbook workbook, XSSFSheet spreadsheet, int rowId, String[] headerArray, Integer color) {
+        CellStyle style = workbook.createCellStyle();
+        Font font = workbook.createFont();
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        if(null != color) {
+            font.setColor(color.shortValue());
+        }
+        style.setFont(font);
         XSSFRow mainSectionHeaderRow = spreadsheet.createRow(rowId++);
         int cellId = 0;
         for (String header : headerArray)
         {
             Cell cell = mainSectionHeaderRow.createCell(cellId++);
+            cell.setCellStyle(style);
             cell.setCellValue(header);
         }
         return rowId;
     }
 
-    private int addSection(XSSFSheet spreadsheet, int rowId,String[] header, List<List<String>> contents) {
+    private int addSection(XSSFWorkbook workbook, XSSFSheet spreadsheet, int rowId,String[] header, List<List<String>> contents,
+                            String sectionTitle) {
         spreadsheet.createRow(rowId++);
         spreadsheet.createRow(rowId++);
-        spreadsheet.createRow(rowId++);
-        rowId = addHeaders(spreadsheet, rowId, header);
+        rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{sectionTitle}, GREEN_COLOR);
+        rowId = addHeaders(workbook, spreadsheet, rowId, header, null);
         for (Iterator<List<String>> iterator = contents.iterator(); iterator.hasNext(); ) {
             List<String> row = iterator.next();
             XSSFRow holdingsRow = spreadsheet.createRow(rowId++);
@@ -61,7 +75,8 @@ public class BatchExcelReportUtil extends BatchUtil{
                 String[] headerArray = {"Job Name", "Job Execution Id", "Matched Bibs Count", "Unmatched Bibs Count",
                         "Multiple Matched Bibs Count", "Matched Holdings Count" , "Unmatched Holdings Count", "Multiple Matched Holdings Count",
                         "Matched Items Count", "Unmatched Items Count", "Multiple Matched Items Count", "Matched EHoldings Count", "Multiple Matched EHoldings Count"};
-                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{"Main Section"}, GREEN_COLOR);
+                rowId = addHeaders(workbook, spreadsheet, rowId, headerArray, null);
                 int cellId;
 
                 XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
@@ -78,23 +93,23 @@ public class BatchExcelReportUtil extends BatchUtil{
                 String[] bibSectionHeader = {"Bib Id", "Operation", "Record Index"};
                 Map<String, List<List<String>>> contents = getBibContent(oleNGBibImportResponse.getBibResponses());
                 List<List<String>> bibContent = contents.get(OleNGConstants.BIB);
-                rowId = addSection(spreadsheet, rowId, bibSectionHeader,  bibContent);
+                rowId = addSection(workbook, spreadsheet, rowId, bibSectionHeader,  bibContent, "Bib Section");
 
                 //Holdings Section
                 String[] holdingsSectionHeader = {"Holdings Id", "Bib Id", "Operation", "Record Index"};
                 List<List<String>> holdingsContent = contents.get(OleNGConstants.HOLDINGS);
-                rowId = addSection(spreadsheet, rowId,holdingsSectionHeader, holdingsContent);
+                rowId = addSection(workbook, spreadsheet, rowId,holdingsSectionHeader, holdingsContent, "Holdings Section");
 
                 //Item Section
                 String[] itemSectionHeader = {"Item Id","Holdings Id", "Bib Id", "Operation", "Record Index"};
                 List<List<String>> itemContent = contents.get(OleNGConstants.ITEM);
-                rowId = addSection(spreadsheet, rowId,itemSectionHeader, itemContent);
+                rowId = addSection(workbook, spreadsheet, rowId,itemSectionHeader, itemContent, "Item Section");
 
 
                 //Holdings Section
                 String[] eholdingsSectionHeader = {"Holdings Id", "Bib Id", "Operation", "Record Index"};
                 List<List<String>> eholdingsContent = contents.get(OleNGConstants.EHOLDINGS);
-                rowId = addSection(spreadsheet, rowId,eholdingsSectionHeader, eholdingsContent);
+                rowId = addSection(workbook, spreadsheet, rowId,eholdingsSectionHeader, eholdingsContent, "Eholdings Section");
 
                 workbook.write(byteArrayInputStream);
 
@@ -210,7 +225,8 @@ public class BatchExcelReportUtil extends BatchUtil{
                 XSSFSheet spreadsheet = workbook.createSheet("Order Import Response");
                 String[] headerArray = {"Job Name", "Job Execution Id", "Matched Count", "Unmatched Count",
                         "Multiple Matched Count"};
-                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{"Main Section"}, GREEN_COLOR);
+                rowId = addHeaders(workbook, spreadsheet, rowId, headerArray, null);
                 int cellId;
 
                 XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
@@ -226,15 +242,15 @@ public class BatchExcelReportUtil extends BatchUtil{
                 // Requisition Only Section
                 String[] orderSectionReportHeader = {"Record Number", "Title", "Successful Match Points"};
                 List<List<String>> requisitionOnlyContent = getOrderResponseContent(oleNGOrderImportResponse.getReqOnlyResponses());
-                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent);
+                rowId = addSection(workbook, spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent, "Requisition Only");
 
                 //Req and PO Section
                 List<List<String>> requisitionAndPOContent = getOrderResponseContent(oleNGOrderImportResponse.getReqAndPOResponses());
-                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionAndPOContent);
+                rowId = addSection(workbook, spreadsheet, rowId, orderSectionReportHeader,  requisitionAndPOContent, "Requisition and Purchase Order");
 
                 //Neither Req Nor PO Section
                 List<List<String>> neitherReqNorPOContent = getOrderResponseContent(oleNGOrderImportResponse.getNoReqNorPOResponses());
-                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  neitherReqNorPOContent);
+                rowId = addSection(workbook, spreadsheet, rowId, orderSectionReportHeader,  neitherReqNorPOContent, "Neither Requisition Nor Purchase Order");
 
                 workbook.write(byteArrayInputStream);
             }
@@ -284,7 +300,8 @@ public class BatchExcelReportUtil extends BatchUtil{
                 XSSFSheet spreadsheet = workbook.createSheet("Invoice Import Response");
                 String[] headerArray = {"Job Name", "Job Execution Id", "Matched Count", "Unmatched Count",
                         "Multiple Matched Count"};
-                rowId = addHeaders(spreadsheet, rowId, headerArray);
+                rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{"Main Section"}, GREEN_COLOR);
+                rowId = addHeaders(workbook, spreadsheet, rowId, headerArray, null);
                 int cellId;
 
                 XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
@@ -300,7 +317,7 @@ public class BatchExcelReportUtil extends BatchUtil{
                 // Requisition Only Section
                 String[] orderSectionReportHeader = {"Document Number", "Number Of Records Unlinked", "Number Of Records Linked"};
                 List<List<String>> requisitionOnlyContent = getInvoiceResponseContent(oleNGInvoiceImportResponse.getInvoiceResponses());
-                rowId = addSection(spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent);
+                rowId = addSection(workbook, spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent, "Invoice");
 
                 workbook.write(byteArrayInputStream);
 
