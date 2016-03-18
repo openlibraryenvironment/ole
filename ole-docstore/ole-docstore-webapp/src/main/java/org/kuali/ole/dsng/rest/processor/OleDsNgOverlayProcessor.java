@@ -115,7 +115,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                     processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
-                    buildBibResponses(bibResponse, exchange, operationsList);
+                    buildBibResponses(bibResponse, bibRecord, exchange, operationsList);
 
                     if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
                         for (Iterator<HoldingsRecordAndDataMapping> iterator = createHoldingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
@@ -236,7 +236,11 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         }
     }
 
-    public void buildBibResponses(BibResponse bibResponse, Exchange exchange, List<String> options) {
+    public void buildBibResponses(BibResponse bibResponse, BibRecord bibRecord, Exchange exchange, List<String> options) {
+        if (StringUtils.isBlank(bibRecord.getBibId())) {
+            bibResponse.setOperation(OleNGConstants.DISCARDED);
+            bibResponse.setBibId(" ");
+        }
         buildHoldingResponses(bibResponse, exchange, options);
         buildEHoldingResponses(bibResponse, exchange, options);
     }

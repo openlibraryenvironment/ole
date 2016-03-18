@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.holdings;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
@@ -40,16 +41,19 @@ public class CreateHoldingsHanlder extends Handler {
                 try {
                     HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
                     HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                    JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
-                    holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
-                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                    JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.HOLDINGS);
-                    if (null != dataMapping) {
-                        exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
-                        processDataMappings(holdingsJSONObject, exchange);
+                    String bibId = holdingsRecord.getBibRecords().get(0).getBibId();
+                    if (StringUtils.isNotBlank(bibId)) {
+                        JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
+                        holdingsRecord.setBibId(bibId);
+                        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                        JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.HOLDINGS);
+                        if (null != dataMapping) {
+                            exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
+                            processDataMappings(holdingsJSONObject, exchange);
+                        }
+                        setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
+                        holdingsRecords.add(holdingsRecord);
                     }
-                    setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
-                    holdingsRecords.add(holdingsRecord);
                 } catch (Exception e) {
                     e.printStackTrace();
                     addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.NO_OF_FAILURE_HOLDINGS, e, 1);

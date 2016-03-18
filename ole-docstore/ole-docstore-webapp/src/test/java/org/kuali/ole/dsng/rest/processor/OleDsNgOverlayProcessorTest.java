@@ -6,6 +6,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.response.BibResponse;
 import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
@@ -46,7 +47,8 @@ public class OleDsNgOverlayProcessorTest {
         itemRecordAndDataMappingList.add(itemRecordAndDataMapping);
         exchange.add(OleNGConstants.HOLDINGS_FOR_CREATE, holdingsRecordAndDataMappingList);
         exchange.add(OleNGConstants.ITEMS_FOR_CREATE, itemRecordAndDataMappingList);
-        oleDsNgOverlayProcessor.buildBibResponses(bibResponse, exchange, Collections.singletonList("211"));
+        BibRecord bibRecord = new BibRecord();
+        oleDsNgOverlayProcessor.buildBibResponses(bibResponse, bibRecord, exchange, Collections.singletonList("211"));
         bibResponses.add(bibResponse);
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         oleNGBibImportResponse.setBibResponses(bibResponses);

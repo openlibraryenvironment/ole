@@ -1,6 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
@@ -42,13 +43,16 @@ public class CreateItemHandler extends Handler {
                     try {
                         ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
                         ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                        JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                        exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
-                        itemRecord.setHoldingsId(itemRecord.getHoldingsRecord().getHoldingsId());
-                        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                        processDataMappings(itemJSONObject, exchange);
-                        setCommonValuesToItemRecord(requestJsonObject, itemRecord);
-                        itemRecords.add(itemRecord);
+                        String holdingsId = itemRecord.getHoldingsRecord().getHoldingsId();
+                        if (StringUtils.isNotBlank(holdingsId)) {
+                            JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                            exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
+                            itemRecord.setHoldingsId(holdingsId);
+                            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                            processDataMappings(itemJSONObject, exchange);
+                            setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                            itemRecords.add(itemRecord);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , 1);
