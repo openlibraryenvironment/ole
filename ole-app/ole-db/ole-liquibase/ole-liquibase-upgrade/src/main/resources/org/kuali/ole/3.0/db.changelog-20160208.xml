@@ -183,7 +183,7 @@
 
     <changeSet context="bootstrap" author="ole" id="KRCR_PARM_T_UPDATE">
         <update tableName="KRCR_PARM_T">
-            <column name="VALUE" value="DEPOSI"/>
+            <column name="VAL" value="DEPOSI"/>
             <column name="PARM_DESC_TXT" value="Sub Fund Group Code DEPOSI."/>
             <where>PARM_NM = 'SUB_FUND_GRP_CD'</where>
         </update>
@@ -255,6 +255,13 @@
                 columnName="MANUAL_BILL"
                 defaultValue="N"
                 tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOCN_T_ROW_IND">
+        <addColumn
+                tableName="OLE_LOCN_T">
+            <column name="ROW_ACT_IND"   type="VARCHAR(1)"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>
