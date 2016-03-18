@@ -25,11 +25,21 @@ public class CircDeskLocationResolver {
 
     private BusinessObjectService businessObjectService;
     private List<String> locationLevelIds = new ArrayList<>();
+    private Map<String,String> locationLevelMap ;
 
     public void setLocationLevelIds(List<String> locationLevelIds) {
         this.locationLevelIds = locationLevelIds;
     }
+public CircDeskLocationResolver(){
+    locationLevelMap = new HashMap<String,String>();
+    List<OleLocationLevel> oleLocationLevels = (List<OleLocationLevel>) getBusinessObjectService().findAll(OleLocationLevel.class);
+    if(oleLocationLevels!=null){
+        for(OleLocationLevel oleLocationLevel : oleLocationLevels){
+            locationLevelMap.put(oleLocationLevel.getLevelId(), oleLocationLevel.getLevelCode());
+        }
+    }
 
+}
 
     public String getReplyToEmail(String itemLocation) {
         OleCirculationDesk oleCirculationDesk = getCirculationDesk(itemLocation);
@@ -220,24 +230,19 @@ public class CircDeskLocationResolver {
             if (oleLocations != null) {
                 String locationLevelId = oleLocations.getLevelId();
                // requestMap.clear();
-                requestMap.put(OLEConstants.LEVEL_ID, locationLevelId);
-                List<OleLocationLevel> oleLocationLevels = (List<OleLocationLevel>) getBusinessObjectService().findMatching(OleLocationLevel.class, requestMap);
-                if (oleLocationLevels != null && oleLocationLevels.size() > 0) {
-                    OleLocationLevel oleLocationLevel = new OleLocationLevel();
-                    oleLocationLevel = oleLocationLevels.get(0);
-                    if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_CAMPUS)) {
+                String locationLevelCode = locationLevelMap.get(locationLevelId);
+                    if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_CAMPUS)) {
                         locationMap.put(OLEConstants.ITEM_CAMPUS, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_INSTITUTION)) {
+                    } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_INSTITUTION)) {
                         locationMap.put(OLEConstants.ITEM_INSTITUTION, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_COLLECTION)) {
+                    } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_COLLECTION)) {
                         locationMap.put(OLEConstants.ITEM_COLLECTION, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_LIBRARY)) {
+                    } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_LIBRARY)) {
                         locationMap.put(OLEConstants.ITEM_LIBRARY, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_SHELVING)) {
+                    } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_SHELVING)) {
                         locationMap.put(OLEConstants.ITEM_SHELVING, value);
                     }
-                }
-            }
+               }
         }
         return locationMap;
     }

@@ -2,9 +2,7 @@ package org.kuali.ole.deliver.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.*;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
@@ -15,6 +13,8 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import java.sql.Timestamp;
 import java.util.*;
 
+import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
+import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -546,6 +546,30 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return results;
 
     }
+    public List<OleLoanDocument> getAllLoans(List<String> loanIds){
+        Criteria criteria = new Criteria();
+        QueryByCriteria getAllLoansQuery = QueryFactory.newQuery(OleLoanDocument.class, criteria, true);
+        criteria.addColumnIn("loan_tran_id",loanIds);
+        getAllLoansQuery.addOrderBy("patronId");
+        return (List<OleLoanDocument>)getPersistenceBrokerTemplate().getCollectionByQuery
+                (getAllLoansQuery);
+    }
 
+
+  public List<EntityAffiliationBo> getEntityAffiliationBos(String entityId){
+      Criteria criteria = new Criteria();
+      criteria.addEqualTo("entityId", entityId);
+      QueryByCriteria affiliationQuery = QueryFactory.newQuery(EntityAffiliationBo.class, criteria, true);
+      return (List<EntityAffiliationBo>)getPersistenceBrokerTemplate().getCollectionByQuery(affiliationQuery);
+  }
+
+    public List<EntityEmploymentBo> getEntityEmploymentBos(String entityId){
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("entityId", entityId);
+        criteria.addEqualTo("primary","Y");
+        criteria.addEqualTo("active","Y");
+        QueryByCriteria employmentQuery = QueryFactory.newQuery(EntityEmploymentBo.class, criteria, true);
+        return (List<EntityEmploymentBo>)getPersistenceBrokerTemplate().getCollectionByQuery(employmentQuery);
+    }
 
 }
