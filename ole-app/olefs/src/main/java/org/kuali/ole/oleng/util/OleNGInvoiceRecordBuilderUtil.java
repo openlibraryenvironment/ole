@@ -76,6 +76,7 @@ public class OleNGInvoiceRecordBuilderUtil extends BusinessObjectServiceHelperUt
         oleInvoiceRecord.setNumberOfCopiesOrdered(oleInvoiceRecord.getQuantity());
         oleInvoiceRecord.setSubscriptionPeriodFrom(getSubscriptionDateFrom(lineItemOrder));
         oleInvoiceRecord.setSubscriptionPeriodTo(getSubscriptionDateTo(lineItemOrder));
+        oleInvoiceRecord.setSubscriptionPeriod(getSubscriptionPeriod(lineItemOrder));
         oleInvoiceRecord.setSummaryAmount(getSummaryCharge(invOrder));
         oleInvoiceRecord.setAdditionalChargeCode(getAdditionChargeCode(invOrder));
         oleInvoiceRecord.setAdditionalCharge(getAdditionCharge(invOrder));
@@ -609,4 +610,23 @@ public class OleNGInvoiceRecordBuilderUtil extends BusinessObjectServiceHelperUt
         return str.length() == pos.getIndex();
     }
 
+
+    private String getSubscriptionPeriod(LineItemOrder lineItemOrder) {
+        StringBuilder subscriptionPeriod = new StringBuilder();
+        if (CollectionUtils.isNotEmpty(lineItemOrder.getItemDescriptionList())) {
+            for (int index = 0; index < lineItemOrder.getItemDescriptionList().size(); index++) {
+                ItemDescription itemDescription = lineItemOrder.getItemDescriptionList().get(index);
+                if (itemDescription.getItemCharacteristicCode() != null &&
+                        itemDescription.getItemCharacteristicCode().contains("08")) {
+                    if(StringUtils.isNotBlank(subscriptionPeriod.toString())) {
+                        subscriptionPeriod.append("-");
+                    }
+                    String data = itemDescription.getData();
+                    data = data.replaceAll(":::","");
+                    subscriptionPeriod.append(data);
+                }
+            }
+        }
+        return subscriptionPeriod.toString();
+    }
 }

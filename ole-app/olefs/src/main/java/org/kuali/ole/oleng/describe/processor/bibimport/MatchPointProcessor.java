@@ -119,15 +119,6 @@ public class MatchPointProcessor extends BatchUtil {
         }
     }
 
-    private void appendQuery(StringBuilder queryBuilder, String query) {
-        if (StringUtils.isNotBlank(query)) {
-            if(queryBuilder.length() > 0) {
-                queryBuilder.append(" OR ");
-            }
-            queryBuilder.append(query);
-        }
-    }
-
     public JSONObject prepareMatchPointsForItem(Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject itemData = new JSONObject();
         JSONObject itemMatchPoints = prepareMatchPointsForDocType(marcRecord, batchProcessProfile.getBatchProfileMatchPointList(), OleNGConstants.ITEM);
