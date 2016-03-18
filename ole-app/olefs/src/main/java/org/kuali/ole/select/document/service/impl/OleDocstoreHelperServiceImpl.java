@@ -1452,11 +1452,13 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
     }
 
     public boolean isValidLocation(String location) {
-        List<String> locationList = LocationValuesBuilder.retrieveLocationDetailsForSuggest(location);
-        if (locationList != null && locationList.size() > 0) {
-            for (String locationValue : locationList) {
-                if (locationValue.equalsIgnoreCase(location)) {
-                    return true;
+        if(StringUtils.isNotBlank(location)) {
+            List<String> locationList = LocationValuesBuilder.retrieveLocationDetailsForSuggest(location);
+            if (locationList != null && locationList.size() > 0) {
+                for (String locationValue : locationList) {
+                    if (locationValue.equalsIgnoreCase(location)) {
+                        return true;
+                    }
                 }
             }
         }
