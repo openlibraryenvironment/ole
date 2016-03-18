@@ -467,6 +467,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         holdings.setContent(content);
         buildLabelForHoldings(holdingsRecord, holdings);
         try {
+            oldHoldingsRecord = processHoldingsForAudit(oldHoldingsRecord);
+            holdingsRecord = processHoldingsForAudit(holdingsRecord);
             List<Audit> auditList= OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -1734,5 +1736,20 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             }
         }
 
+    }
+
+    public HoldingsRecord processHoldingsForAudit(HoldingsRecord holdingsRecord){
+        holdingsRecord.setAccessUriRecords(null);
+        holdingsRecord.setDonorList(null);
+        holdingsRecord.setBibRecords(null);
+        holdingsRecord.setItemRecords(null);
+        holdingsRecord.setHoldingsUriRecords(null);
+        holdingsRecord.setHoldingsNoteRecords(null);
+        holdingsRecord.setHoldingsStatisticalSearchRecords(null);
+        holdingsRecord.seteInstancePerpetualAccessRecordList(null);
+        holdingsRecord.setExtentOfOwnerShipRecords(null);
+        holdingsRecord.seteInstanceCoverageRecordList(null);
+        holdingsRecord.setHoldingsAccessLocations(null);
+        return holdingsRecord;
     }
 }
