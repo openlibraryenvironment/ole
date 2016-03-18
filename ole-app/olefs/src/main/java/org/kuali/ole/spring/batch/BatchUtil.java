@@ -290,4 +290,13 @@ public class BatchUtil extends OleNgUtil{
         return bibFailureResponse;
     }
 
+    public void appendQuery(StringBuilder queryBuilder, String query) {
+        if (StringUtils.isNotBlank(query)) {
+            if(queryBuilder.length() > 0) {
+                queryBuilder.append(" OR ");
+            }
+            queryBuilder.append(query);
+        }
+    }
+
 }

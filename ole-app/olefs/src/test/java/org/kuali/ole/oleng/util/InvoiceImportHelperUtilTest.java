@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.i18n.Exception;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by SheikS on 2/26/2016.
@@ -60,5 +61,23 @@ public class InvoiceImportHelperUtilTest {
             }
         }
         assertTrue(CollectionUtils.isNotEmpty(oleInvoiceRecords));
+    }
+
+    @Test
+    public void splitContentByLineItem() throws java.lang.Exception {
+        String ediFilePath = org.kuali.ole.loaders.common.FileUtils.getFilePath("org/kuali/ole/oleng/invoice/swets030416.inv");
+        File ediFile = new File(ediFilePath);
+        String rawContent = FileUtils.readFileToString(ediFile);
+        String[] lineItems = rawContent.split("'LIN");
+        StringBuilder contentBuilder = new StringBuilder();
+        for(String lineItem : lineItems) {
+            if(StringUtils.isNotBlank(contentBuilder.toString())) {
+                contentBuilder.append("'LIN");
+            }
+            contentBuilder.append(lineItem).append("\n");
+
+        }
+        assertTrue(StringUtils.isNotBlank(contentBuilder.toString()));
+        System.out.println(contentBuilder.toString());
     }
 }

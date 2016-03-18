@@ -115,10 +115,13 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         }
 
         if(null == invoiceDate) {
-            // Todo : need to process for failure and block the flow.
+            getBatchUtil().addInvoiceFaiureResponseToExchange(new RuntimeException("Invoice date is Null."), null, exchange);
+            return null;
         }
 
         oleInvoiceDocument.setInvoiceDate(new java.sql.Date(invoiceDate.getTime()));
+
+        Map<Integer, List<OleInvoiceItem>> invoiceItemMap = new TreeMap<>();
 
         for (Iterator<OleInvoiceRecord> iterator = oleInvoiceRecords.iterator(); iterator.hasNext(); ) {
             OleInvoiceRecord invoiceRecord = iterator.next();
@@ -126,10 +129,8 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
             try {
                 List<OleInvoiceItem> oleInvoiceItems = new ArrayList<>();
 
-                HashMap purchaseOrderItemMap = new HashMap();
                 List<OlePurchaseOrderItem> olePurchaseOrderItems = invoiceRecord.getOlePurchaseOrderItems();
 
-                PurchaseOrderDocument purchaseOrderDocument = null;
                 oleInvoiceItems = createInvoiceItems(olePurchaseOrderItems, invoiceRecord);
 
                 if (CollectionUtils.isNotEmpty(oleInvoiceItems)) {
@@ -146,18 +147,15 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                             }
                         }
                     }
-                    oleInvoiceDocument.getItems().addAll(oleInvoiceItems);
-                }
-                if(null != purchaseOrderDocument) {
-
-                } else if(purchaseOrderItemMap.get("applicationStatus")==null || PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(purchaseOrderItemMap.get("applicationStatus"))) {
-                    //TODO : Need to write logic for this scenario.
+                    invoiceItemMap.put(recordIndex, oleInvoiceItems);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 getBatchUtil().addInvoiceFaiureResponseToExchange(e, recordIndex, exchange);
             }
         }
+
+        addInvoiceItemsToInvoiceDocument(oleInvoiceDocument, invoiceItemMap);
 
         if (oleInvoiceDocument.getPaymentMethodId() == null) {
             oleInvoiceDocument.setPaymentMethodId(Integer.parseInt(OLEConstants.OleInvoiceImport.PAY_METHOD));
@@ -193,20 +191,63 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         return oleInvoiceDocument;
     }
 
+    private void addInvoiceItemsToInvoiceDocument(OleInvoiceDocument oleInvoiceDocument, Map<Integer, List<OleInvoiceItem>> invoiceItemMap) {
+        List<InvoiceItemDetail> invoiceItemDetailsUnlinked = new ArrayList<>();
+        Set<InvoiceItemDetail> invoiceItemDetailsLinked = new HashSet<>();
+        int lineOrderNo = 1;
+        for (Iterator<Integer> iterator = invoiceItemMap.keySet().iterator(); iterator.hasNext(); ) {
+            Integer lineNumber = iterator.next();
+            List<OleInvoiceItem> oleInvoiceItems = invoiceItemMap.get(lineNumber);
+            if (CollectionUtils.isNotEmpty(oleInvoiceItems)) {
+                for (Iterator<OleInvoiceItem> oleInvoiceItemIterator = oleInvoiceItems.iterator(); oleInvoiceItemIterator.hasNext(); ) {
+                    OleInvoiceItem oleInvoiceItem = oleInvoiceItemIterator.next();
+                    InvoiceItemDetail invoiceItemDetail = new InvoiceItemDetail();
+                    invoiceItemDetail.setSubscriptionPeriod(oleInvoiceItem.getSubscriptionPeriod());
+                    invoiceItemDetail.setPoNumber(oleInvoiceItem.getPurchaseOrderIdentifier());
+                    invoiceItemDetail.setOleInvoiceItem(oleInvoiceItem);
+                    invoiceItemDetail.setLineNo(lineOrderNo);
+                    lineOrderNo++;
+                    if(null == invoiceItemDetail.getPoNumber() || invoiceItemDetail.getPoNumber() == 0) {
+                        invoiceItemDetailsUnlinked.add(invoiceItemDetail);
+                    }else {
+                        if(!invoiceItemDetailsLinked.contains(invoiceItemDetail)) {
+                            invoiceItemDetailsLinked.add(invoiceItemDetail);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        List<InvoiceItemDetail> finalInvoiceItemsDetails = new ArrayList<>();
+        finalInvoiceItemsDetails.addAll(invoiceItemDetailsLinked);
+        finalInvoiceItemsDetails.addAll(invoiceItemDetailsUnlinked);
+        sortByLineOrderNumber(finalInvoiceItemsDetails);
+
+        lineOrderNo = 1;
+        for (Iterator<InvoiceItemDetail> iterator = finalInvoiceItemsDetails.iterator(); iterator.hasNext(); ) {
+            InvoiceItemDetail invoiceItemDetail = iterator.next();
+            OleInvoiceItem oleInvoiceItem = invoiceItemDetail.getOleInvoiceItem();
+            oleInvoiceItem.setSequenceNumber(lineOrderNo);
+            oleInvoiceDocument.getItems().add(oleInvoiceItem);
+            lineOrderNo++;
+        }
+    }
+
+    private void sortByLineOrderNumber(List<InvoiceItemDetail> finalInvoiceItemsDetails) {
+        Collections.sort(finalInvoiceItemsDetails, new Comparator<InvoiceItemDetail>() {
+            public int compare(InvoiceItemDetail invoiceItemDetail1, InvoiceItemDetail invoiceItemDetail2) {
+                int lineNo1 = invoiceItemDetail1.getLineNo();
+                int lineNo2 = invoiceItemDetail2.getLineNo();
+                return new Integer(lineNo1).compareTo(new Integer(lineNo2));
+            }
+        });
+    }
+
     @Override
     public OleInvoiceDocument saveInvoiceDocument(OleInvoiceDocument oleInvoiceDocument) {
         getInvoiceService().autoApprovePaymentRequest(oleInvoiceDocument);
         return oleInvoiceDocument;
-    }
-
-    //Todo : need to verify this method functionality.
-    private boolean isUnlinkPO(Map purchaseOrderItemMap) {
-        if(purchaseOrderItemMap.containsKey("noOfItems")){
-            return true;
-        } else if(!purchaseOrderItemMap.containsKey("noOfUnlinkItems")) {
-            return true;
-        }
-        return false;
     }
 
     private OleInvoiceDocument initiateInvoiceDocument(OleInvoiceDocument invoiceDocument, Person currentUser) throws Exception {
@@ -249,27 +290,6 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                 invoiceDocument.setInvoiceCurrencyExchangeRate(invoiceRecord.getInvoiceCurrencyExchangeRate());
             }
         }
-    }
-
-    private List<OlePurchaseOrderItem> getPurchaseOrderItemByVendorIdAndPOId(OleInvoiceRecord invoiceRecord, String[] vendorIds) {
-        Map parameterMap = new HashMap();
-        parameterMap.put("vendorItemPoNumber", invoiceRecord.getVendorItemIdentifier()); // Todo  : Need to verify the vendorItemPoNumber
-        parameterMap.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-        parameterMap.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-        if(invoiceRecord.getPurchaseOrderNumber()!=null) {
-            parameterMap.put("purchaseOrder.purapDocumentIdentifier", invoiceRecord.getPurchaseOrderNumber());
-        }
-        return (List<OlePurchaseOrderItem>) getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, parameterMap);
-    }
-
-
-    private List<OlePurchaseOrderItem> sortAndProcessPurchaseOrderItems(HashMap purchaseOrderItemMap, List<OlePurchaseOrderItem> matchedPurchaseOrderItems) {
-        Collections.sort(matchedPurchaseOrderItems, new Comparator<OlePurchaseOrderItem>() {
-            public int compare(OlePurchaseOrderItem dummyPurchaseOrderItems1, OlePurchaseOrderItem dummyPurchaseOrderItems2) {
-                return dummyPurchaseOrderItems2.getDocumentNumber().compareTo(dummyPurchaseOrderItems1.getDocumentNumber());
-            }
-        });
-        return validateAndProcessPurchaseOrderItems(matchedPurchaseOrderItems, purchaseOrderItemMap);
     }
 
     private List<OlePurchaseOrderItem> validateAndProcessPurchaseOrderItems(List<OlePurchaseOrderItem> dummyPurchaseOrderItems, HashMap itemMap) {
@@ -359,6 +379,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                     }
                     oleInvoiceItem.setSourceAccountingLines(accountingLine);
                     oleInvoiceItem.setPostingYear(postingYear);
+                    oleInvoiceItem.setSubscriptionPeriod(invoiceRecord.getSubscriptionPeriod());
                     oleInvoiceItems.add(oleInvoiceItem);
                 }
             }
@@ -377,6 +398,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         oleInvoiceItem.setItemDiscountType(invoiceRecord.getDiscountType());
         oleInvoiceItem.setItemUnitPrice(new BigDecimal(invoiceRecord.getUnitPrice()));
         oleInvoiceItem.setPostingYear(postingYear);
+        oleInvoiceItem.setSubscriptionPeriod(invoiceRecord.getSubscriptionPeriod());
         // oleInvoiceItem.setItemTitleId(poItem.getItemTitleId()); // Todo: Need to set
         if (CollectionUtils.isNotEmpty(invoiceRecord.getItemNote())) {
             oleInvoiceItem.setNotes(invoiceRecord.getItemNote());
@@ -542,6 +564,64 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         }
     }
 
+    static class InvoiceItemDetail {
+        private String subscriptionPeriod;
+        private Integer poNumber;
+        private int lineNo;
+        private OleInvoiceItem oleInvoiceItem;
+
+        public String getSubscriptionPeriod() {
+            return subscriptionPeriod;
+        }
+
+        public void setSubscriptionPeriod(String subscriptionPeriod) {
+            this.subscriptionPeriod = subscriptionPeriod;
+        }
+
+        public Integer getPoNumber() {
+            return poNumber;
+        }
+
+        public void setPoNumber(Integer poNumber) {
+            this.poNumber = poNumber;
+        }
+
+        public int getLineNo() {
+            return lineNo;
+        }
+
+        public void setLineNo(int lineNo) {
+            this.lineNo = lineNo;
+        }
+
+        public OleInvoiceItem getOleInvoiceItem() {
+            return oleInvoiceItem;
+        }
+
+        public void setOleInvoiceItem(OleInvoiceItem oleInvoiceItem) {
+            this.oleInvoiceItem = oleInvoiceItem;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            InvoiceItemDetail that = (InvoiceItemDetail) o;
+
+            if (subscriptionPeriod != null ? !subscriptionPeriod.equals(that.subscriptionPeriod) : that.subscriptionPeriod != null) return false;
+            return !(poNumber != null ? !poNumber.equals(that.poNumber) : that.poNumber != null);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = subscriptionPeriod != null ? subscriptionPeriod.hashCode() : 0;
+            result = 31 * result + (poNumber != null ? poNumber.hashCode() : 0);
+            return result;
+        }
+    }
+
     public OlePurapService getOlePurapService() {
         if (olePurapService == null) {
             olePurapService = SpringContext.getBean(OlePurapService.class);
@@ -573,4 +653,5 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
     public void setBatchUtil(BatchUtil batchUtil) {
         this.batchUtil = batchUtil;
     }
+
 }

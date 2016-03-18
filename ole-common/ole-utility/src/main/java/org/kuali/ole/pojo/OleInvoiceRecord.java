@@ -83,6 +83,7 @@ public class OleInvoiceRecord {
     private String lineItemTaxAmount;
     private String summaryTaxAmount;
     private String summaryTaxableAmount;
+    private String subscriptionPeriod;
 
     // Summary of all Charges
     private String summaryAmount;
@@ -592,6 +593,14 @@ public class OleInvoiceRecord {
 
     public void setMatchPointType(String matchPointType) {
         this.matchPointType = matchPointType;
+    }
+
+    public String getSubscriptionPeriod() {
+        return subscriptionPeriod;
+    }
+
+    public void setSubscriptionPeriod(String subscriptionPeriod) {
+        this.subscriptionPeriod = subscriptionPeriod;
     }
 
     public Integer getRecordIndex() {

@@ -53,6 +53,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel[0].matchPointTypes = orderFields;
             $scope.dataMappingsPanel[0].dataMappingFields = orderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
+            $scope.mainSectionPanel.orderType = "Holdings and Item",
             clearProfileValues();
         } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
@@ -711,6 +712,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "profileName": $scope.mainSectionPanel.profileName,
             "description": $scope.mainSectionPanel.profileDescription,
             "batchProcessType": $scope.mainSectionPanel.batchProcessType,
+            "orderType": $scope.mainSectionPanel.orderType,
             "bibImportProfileForOrderImport": $scope.mainSectionPanel.bibImportProfileForOrderImport,
             "requisitionForTitlesOption": $scope.mainSectionPanel.requisitionForTitlesOption,
             "marcOnly": $scope.mainSectionPanel.marcOnly,
@@ -745,6 +747,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.mainSectionPanel.profileId = data.profileId;
                     $scope.mainSectionPanel.profileName = data.profileName;
                     $scope.mainSectionPanel.profileDescription = data.description;
+                    $scope.mainSectionPanel.orderType = data.orderType,
                     //$scope.mainSectionPanel.batchProcessType = data.batchProcessType;
                     $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
                     $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;

@@ -1,11 +1,15 @@
 package org.kuali.ole.oleng.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.document.EHoldings;
+import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -65,41 +69,62 @@ public class OrderImportServiceImpl implements OrderImportService {
                 }
             }
 
-            overlayBibProfile(oleTxRecord, marcRecord, batchProcessProfile.getBibImportProfileForOrderImport(), datamappingTypes);
+            String orderType = batchProcessProfile.getOrderType();
+            String holdingsType = PHoldings.PRINT;
+            if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
+                holdingsType = EHoldings.ELECTRONIC;
+            }
+
+            overlayBibProfile(oleTxRecord, marcRecord,holdingsType, batchProcessProfile.getBibImportProfileForOrderImport(), datamappingTypes);
         }
         return oleTxRecord;
     }
 
-    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String bibImportProfileForOrderImport, ArrayList<String> datamappingTypes) {
+    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String holdingsType, String bibImportProfileForOrderImport, ArrayList<String> datamappingTypes) {
         BatchProcessProfile bibProfile = getBatchUtil().getProfileByNameAndType(bibImportProfileForOrderImport, OleNGConstants.BIB_IMPORT);
         if(null != bibProfile) {
             try {
                 BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
                 List<Record> marcRecords = Collections.singletonList(marcRecord);
-                List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
-                        OleNGConstants.HOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
-                List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
-                        OleNGConstants.HOLDINGS, OleNGConstants.POST_MARC_TRANSFORMATION, false);
+                if (holdingsType.equalsIgnoreCase(PHoldings.PRINT)) {
+                    List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.HOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
+                    List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.HOLDINGS, OleNGConstants.POST_MARC_TRANSFORMATION, false);
 
-                List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
+                    List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
 
-                if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
-                    overlayLocation(oleTxRecord, dataMappingForHoldings.get(0));
-                }
+                    if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
+                        overlayLocation(oleTxRecord, dataMappingForHoldings.get(0));
+                    }
 
-                List<JSONObject> preTransformForItem = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
-                        OleNGConstants.ITEM, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
-                List<JSONObject> postTransformForItem = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
-                        OleNGConstants.ITEM, OleNGConstants.POST_MARC_TRANSFORMATION, false);
+                    List<JSONObject> preTransformForItem = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.ITEM, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
+                    List<JSONObject> postTransformForItem = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.ITEM, OleNGConstants.POST_MARC_TRANSFORMATION, false);
 
-                List<JSONObject> dataMappingForItem = batchBibFileProcessor.buildOneObjectForList(preTransformForItem, postTransformForItem);
-                if(CollectionUtils.isNotEmpty(dataMappingForItem)) {
-                    JSONObject dataMapping = dataMappingForItem.get(0);
-                    overlayDonor(oleTxRecord, dataMapping);
-                    overlayItemType(oleTxRecord, dataMapping);
-                    overlayItemStatus(oleTxRecord, dataMapping);
-                    overlayCopyNumber(oleTxRecord, dataMapping);
-                    overlayEnumeration(oleTxRecord, dataMapping);
+                    List<JSONObject> dataMappingForItem = batchBibFileProcessor.buildOneObjectForList(preTransformForItem, postTransformForItem);
+                    if(CollectionUtils.isNotEmpty(dataMappingForItem)) {
+                        JSONObject dataMapping = dataMappingForItem.get(0);
+                        overlayDonor(oleTxRecord, dataMapping);
+                        overlayItemType(oleTxRecord, dataMapping);
+                        overlayItemStatus(oleTxRecord, dataMapping);
+                        overlayCopyNumber(oleTxRecord, dataMapping);
+                        overlayEnumeration(oleTxRecord, dataMapping);
+                    }
+                } else {
+                    List<JSONObject> preTransformForEHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.EHOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
+                    List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
+                            OleNGConstants.EHOLDINGS, OleNGConstants.POST_MARC_TRANSFORMATION, false);
+
+                    List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForEHoldings, postTransformForHoldings);
+
+                    if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
+                        JSONObject dataMapping = dataMappingForHoldings.get(0);
+                        overlayLocation(oleTxRecord, dataMapping);
+                        overlayDonor(oleTxRecord, dataMapping);
+                    }
                 }
 
             } catch (JSONException e) {

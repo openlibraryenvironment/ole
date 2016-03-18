@@ -1,12 +1,14 @@
 package org.kuali.ole.oleng.util;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
@@ -59,6 +61,16 @@ public class OleNGPOHelperUtil {
                 final OleOrderRecord oleOrderRecord = new OleOrderRecord();
                 oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
                 oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+                String orderType = batchProcessProfile.getOrderType();
+                String linkToOption = "";
+                if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
+                    linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC;
+                }
+
+                if(StringUtils.isBlank(linkToOption)) {
+                    linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
+                }
+
                 oleOrderRecord.setOleTxRecord(oleTxRecord);
 
                 OleBibRecord oleBibRecord = new OleBibRecord();
@@ -68,7 +80,7 @@ public class OleNGPOHelperUtil {
                 oleBibRecord.setBib(bib);
                 oleOrderRecord.setOleBibRecord(oleBibRecord);
 
-                oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+                oleOrderRecord.setLinkToOrderOption(linkToOption);
 
                 String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
                 oleOrderRecord.setBibImportProfileName(bibProfileName);

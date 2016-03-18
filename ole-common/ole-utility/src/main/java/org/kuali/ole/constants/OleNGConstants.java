@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
  * Created by SheikS on 1/6/2016.
  */
 public class OleNGConstants {
-    
+
     public static final class BatchProcess {
         public static final String ACCOUNT_NUMBER = "Account Number";
         public static final String VENDOR_INFO_CUSOTMER_NUMBER = "Acquisition Unit\'s Vendor account / Vendor Info Customer #";
@@ -116,6 +116,9 @@ public class OleNGConstants {
         public final static String HOLDINGS_LOCATION_LEVEL_3 = "Holdings Location Level3";
         public final static String HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
         public final static String HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
+
+        public final static String ORDER_TYPE_HOLDINGS_AND_ITEM = "Holdings and Item";
+        public final static String ORDER_TYPE_EHOLDINGS = "Eholdings";
     }
 
     public static final String TAG_001 = "001";
@@ -258,6 +261,9 @@ public class OleNGConstants {
     public static final String UPDATE_ITEM = "/updateItem";
     public static final String PROCESS_BIB_HOLDINGS_ITEMS = "/processBibHoldingsItems";
     public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
+
+    public static final String CREATE_DUMMY_HOLDINGS = "/createDummyHoldings";
+    public static final String HOLDINGS_TYPE = "holdingsType";
 
     public static final String BIB = "bib";
     public static final String BIB_RECORD = "bibRecord";
