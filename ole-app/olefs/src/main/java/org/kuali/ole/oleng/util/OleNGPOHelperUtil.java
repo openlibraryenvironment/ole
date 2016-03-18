@@ -55,40 +55,42 @@ public class OleNGPOHelperUtil {
         for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
             RecordDetails recordDetails = iterator.next();
             Integer recordIndex = recordDetails.getIndex();
-            try {
-                OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
+            String bibUUID = recordDetails.getBibUUID();
+            if (StringUtils.isNotBlank(bibUUID)) {
+                try {
+                    OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
 
-                final OleOrderRecord oleOrderRecord = new OleOrderRecord();
-                oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-                oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
-                String orderType = batchProcessProfile.getOrderType();
-                String linkToOption = "";
-                if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
-                    linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC;
+                    final OleOrderRecord oleOrderRecord = new OleOrderRecord();
+                    oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+                    oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+                    String orderType = batchProcessProfile.getOrderType();
+                    String linkToOption = "";
+                    if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
+                        linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC;
+                    }
+
+                    if(StringUtils.isBlank(linkToOption)) {
+                        linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
+                    }
+
+                    oleOrderRecord.setOleTxRecord(oleTxRecord);
+
+                    OleBibRecord oleBibRecord = new OleBibRecord();
+                    Bib bib = getBibDetails(bibUUID);
+                    oleBibRecord.setBibUUID(bibUUID);
+                    oleBibRecord.setBib(bib);
+                    oleOrderRecord.setOleBibRecord(oleBibRecord);
+
+                    oleOrderRecord.setLinkToOrderOption(linkToOption);
+
+                    String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
+                    oleOrderRecord.setBibImportProfileName(bibProfileName);
+                    oleOrderRecord.setRecordIndex(recordIndex);
+                    oleOrderRecords.add(oleOrderRecord);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
                 }
-
-                if(StringUtils.isBlank(linkToOption)) {
-                    linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
-                }
-
-                oleOrderRecord.setOleTxRecord(oleTxRecord);
-
-                OleBibRecord oleBibRecord = new OleBibRecord();
-                String bibUUID = recordDetails.getBibUUID();
-                Bib bib = getBibDetails(bibUUID);
-                oleBibRecord.setBibUUID(bibUUID);
-                oleBibRecord.setBib(bib);
-                oleOrderRecord.setOleBibRecord(oleBibRecord);
-
-                oleOrderRecord.setLinkToOrderOption(linkToOption);
-
-                String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
-                oleOrderRecord.setBibImportProfileName(bibProfileName);
-                oleOrderRecord.setRecordIndex(recordIndex);
-                oleOrderRecords.add(oleOrderRecord);
-            } catch (Exception e) {
-                e.printStackTrace();
-                getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
             }
 
         }
