@@ -6669,6 +6669,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
         , JOB_ID INTEGER(10)
         , PROFILE_TYPE VARCHAR(40)
         , PROFILE_NAME VARCHAR(100)
+        , FILE_NAME VARCHAR(100)
         , CREATED_BY VARCHAR(40)
         , START_TIME DATETIME
         , END_TIME DATETIME
@@ -6676,6 +6677,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
         , TIME_SPENT VARCHAR(40)
         , TOTAL_RECORDS VARCHAR(40)
         , TOTAL_RECORDS_PRCSD VARCHAR(40)
+        , TOTAL_FAILURE_RECORDS VARCHAR(40)
         , STATUS VARCHAR(40)
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
@@ -6687,7 +6689,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX OLE_NG_BAT_JOB_I (JOB_ID )
 
