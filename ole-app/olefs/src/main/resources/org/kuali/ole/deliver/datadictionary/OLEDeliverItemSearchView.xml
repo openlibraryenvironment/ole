@@ -262,7 +262,10 @@
                 <ref bean="OLEDeliverItemSearchResult-Borrower"/>
                 <ref bean="OLEDeliverItemSearchResult-AdditionalCopies"/>
                 <ref bean="OLEDeliverItemSearchResult-Request"/>
-                <ref bean="OLEDeliverItemSearchResult-ItemFlags"/>
+                <!--<ref bean="OLEDeliverItemSearchResult-ItemFlags"/>-->
+                <ref bean="OLEDeliverItemClaimsReturn-Flag"/>
+                <ref bean="OLEDeliverItemDamaged-Flag"/>
+                <ref bean="OLEDeliverItemMissingPiece-Flag"/>
                 <ref bean="OLEDeliverItemSearchResult-Notes"/>
                 <ref bean="OLEDeliverItemSearchResult-OutstandingFines"/>
                 <ref bean="OLEDeliverItemSearchResult-IDNumbers"/>
@@ -460,11 +463,10 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OLEDeliverItemSearchResult-ItemFlags" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="@{oleSingleItemResultDisplayRow.claimsReturnedFlag ne null and oleSingleItemResultDisplayRow.claimsReturnedFlag eq 'true' or oleSingleItemResultDisplayRow.itemDamagedStatusFlag ne null and oleSingleItemResultDisplayRow.itemDamagedStatusFlag eq 'true' or oleSingleItemResultDisplayRow.missingPieceFlag ne null and oleSingleItemResultDisplayRow.missingPieceFlag eq 'true'}">
-        <property name="headerText" value="Item Flags"/>
+    <bean id="OLEDeliverItemClaimsReturn-Flag" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
+                <ref bean="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory"/>
                 <bean parent="Uif-InputField" p:label="Claims Returned Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedFlag">
                     <property name="control">
@@ -482,7 +484,14 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemDamaged-Flag" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean = "OLEDeliverItemSearchResult-ItemDamagedHistory"/>
                 <bean parent="Uif-InputField" p:label="Damaged Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.itemDamagedStatusFlag">
                     <property name="control">
@@ -498,7 +507,14 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean = "OLEDeliverItemSearchResult-ItemDamagedHistory"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemMissingPiece-Flag" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="OLEMissingPieceItem-History"/>
                 <bean parent="Uif-InputField" p:label="Missing Pieces Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.missingPieceFlag">
                     <property name="control">
@@ -518,13 +534,79 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="OLEMissingPieceItem-History"/>
             </list>
         </property>
     </bean>
 
+
+    <!--<bean id="OLEDeliverItemSearchResult-ItemFlags" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="@{oleSingleItemResultDisplayRow.claimsReturnedFlag ne null and oleSingleItemResultDisplayRow.claimsReturnedFlag eq 'true' or oleSingleItemResultDisplayRow.itemDamagedStatusFlag ne null and oleSingleItemResultDisplayRow.itemDamagedStatusFlag eq 'true' or oleSingleItemResultDisplayRow.missingPieceFlag ne null and oleSingleItemResultDisplayRow.missingPieceFlag eq 'true'}">
+        <property name="headerText" value="Item Flags"/>
+        <property name="items">
+            <list>
+                &lt;!&ndash;<ref bean="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory"/>
+                <bean parent="Uif-InputField" p:label="Claims Returned Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.claimsReturnedFlag ne null and oleSingleItemResultDisplayRow.claimsReturnedFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Claims Returned Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedDate"/>
+                            <bean parent="Uif-DataField" p:label="Claims Returned Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedNote"/>
+                        </list>
+                    </property>
+                </bean>&ndash;&gt;
+
+                &lt;!&ndash;<ref bean = "OLEDeliverItemSearchResult-ItemDamagedHistory"/>
+                <bean parent="Uif-InputField" p:label="Damaged Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemDamagedStatusFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.itemDamagedStatusFlag ne null and oleSingleItemResultDisplayRow.itemDamagedStatusFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Damaged Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.itemDamagedNote"/>
+                        </list>
+                    </property>
+                </bean>&ndash;&gt;
+
+                &lt;!&ndash;<ref bean="OLEMissingPieceItem-History"/>
+                <bean parent="Uif-InputField" p:label="Missing Pieces Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.missingPieceFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.missingPieceFlag ne null and oleSingleItemResultDisplayRow.missingPieceFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Total Pieces"
+                                  p:propertyName="oleSingleItemResultDisplayRow.noOfPieces"/>
+                            <bean parent="Uif-DataField" p:label="Total Missing Pieces"
+                                  p:propertyName="oleSingleItemResultDisplayRow.missingPieceCount"/>
+                            <bean parent="Uif-DataField" p:label="Missing Pieces Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.missingPieceNote"/>
+                        </list>
+                    </property>
+                </bean>&ndash;&gt;
+
+            </list>
+        </property>
+    </bean>-->
+
     <bean id="OLEMissingPieceItem-History" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
-        <property name="headerText" value="Missing Piece Item History"/>
+        <property name="headerText" value="Missing Piece Item"/>
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.missingPieceItemRecordList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -687,7 +769,7 @@
 
     <bean id="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Claims Returned History" />
+        <property name="headerText" value="Claims Returned" />
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.itemClaimsReturnedRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -714,7 +796,7 @@
 
     <bean id="OLEDeliverItemSearchResult-ItemDamagedHistory" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="Damaged History" />
+        <property name="headerText" value="Damaged" />
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.itemDamagedRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>

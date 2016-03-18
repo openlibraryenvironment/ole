@@ -86,13 +86,13 @@
 </kul:documentPage>
 <script type="text/javascript">
     window.onload = function () {
-        document.getElementById('document.vendorAliasName').focus();
+        if(document.getElementById('document.vendorName').value == '') {
+            document.getElementById('document.vendorAliasName').focus();
+        }
         if (${KualiForm.document.vendorEnterKeyEvent}) {
             document.getElementById('attachExistingBibId').checked = true;
             document.getElementById('attachExistingBibId').click();
-            if (document.getElementsByName('methodToCall.toggleTab.tabVendor')[0].title == 'close Vendor') {
-                document.getElementsByName('methodToCall.toggleTab.tabVendor')[0].click();
-            }
+            document.getElementById('tab-Titles-div').scrollIntoView();
         }
         var itemCount = getItemCount() - 4;
         document.getElementById('document.item[' + itemCount + '].newSourceLine.accountNumber').focus();

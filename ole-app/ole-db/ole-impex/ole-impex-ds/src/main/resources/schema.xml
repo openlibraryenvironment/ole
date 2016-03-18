@@ -214,6 +214,9 @@
         <column default="" name="ADMIN_PASSWORD" size="100" type="VARCHAR"/>
         <column default="" name="ACCESS_USERNAME" size="100" type="VARCHAR"/>
         <column default="" name="ACCESS_PASSWORD" size="100" type="VARCHAR"/>
+        <column default="" name="MATERIALS_SPECIFIED" size="100" type="VARCHAR"/>
+        <column default="" name="FIRST_INDICATOR" size="20" type="VARCHAR"/>
+        <column default="" name="SECOND_INDICATOR" size="20" type="VARCHAR"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column default="" name="DATE_CREATED" type="TIMESTAMP"/>
         <column name="UPDATED_BY" size="40" type="VARCHAR"/>
@@ -272,6 +275,7 @@
         <column default="" name="CALL_NUMBER" size="100" type="VARCHAR"/>
         <column default="" name="SHELVING_ORDER" size="300" type="VARCHAR"/>
         <column default="" name="ENUMERATION" size="100" type="VARCHAR"/>
+        <column default="" name="VOLUME_NUMBER" size="100" type="VARCHAR"/>
         <column default="" name="CHRONOLOGY" size="100" type="VARCHAR"/>
         <column default="" name="COPY_NUMBER" size="20" type="VARCHAR"/>
         <column default="" name="NUM_PIECES" size="10" type="VARCHAR"/>

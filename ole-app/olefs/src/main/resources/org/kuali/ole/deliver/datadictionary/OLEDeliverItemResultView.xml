@@ -18,7 +18,10 @@
                             <ref bean="OLEDeliverItemSearchResult-Borrower"/>
                             <ref bean="OLEDeliverItemSearchResult-AdditionalCopies"/>
                             <ref bean="OLEDeliverItemSearchResult-Request"/>
-                            <ref bean="OLEDeliverItemSearchResult-ItemFlags"/>
+                           <!-- <ref bean="OLEDeliverItemSearchResult-ItemFlags"/>-->
+                            <ref bean="OLEDeliverItemClaimsReturn-Flag"/>
+                            <ref bean="OLEDeliverItemDamaged-Flag"/>
+                            <ref bean="OLEDeliverItemMissingPiece-Flag"/>
                             <ref bean="OLEDeliverItemSearchResult-Notes"/>
                             <ref bean="OLEDeliverItemSearchResult-OutstandingFines"/>
                             <ref bean="OLEDeliverItemSearchResult-IDNumbers"/>

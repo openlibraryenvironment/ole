@@ -25,6 +25,7 @@ then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
  rule "Available Check based on shelving lag time"
@@ -42,6 +43,7 @@ then
 $i.setItemStatusToBeUpdatedTo("AVAILABLE");
 $i.updateCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
 rule "InTransitCheck for item location mapped to circulation desk"
@@ -58,6 +60,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 end
@@ -76,6 +79,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);

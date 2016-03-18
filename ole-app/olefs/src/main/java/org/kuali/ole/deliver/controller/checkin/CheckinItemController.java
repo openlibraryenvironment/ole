@@ -259,11 +259,27 @@ public class CheckinItemController extends OLEUifControllerBase {
                 printSlip(checkinForm, result, request, response);
             } else if (null != droolsExchangeContext.get(DroolsConstants.AUTO_CHECKOUT)) {
                 autoCheckout(checkinForm, result, request, response);
+            } else if(null != droolsExchangeContext.get(DroolsConstants.SHOW_LOCATION_POPUP)) {
+                showLocationPopupMessage(checkinForm, result, request, response);
             } else {
                 checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus();validateCheckInDate();");
             }
         }
         checkinForm.reset();
+        if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
+        return getUIFModelAndView(checkinForm);
+    }
+
+    @RequestMapping(params = "methodToCall=showLocationPopupMessage")
+    public ModelAndView showLocationPopupMessage(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                 HttpServletRequest request, HttpServletResponse response) {
+        CheckinForm checkinForm = (CheckinForm) form;
+        DroolsResponse droolsResponse = getCheckinUIController(checkinForm).locationPopupMessageCheck(checkinForm);
+        if(null != droolsResponse) {
+            showDialog("checkinLocationPopupMsg", checkinForm, request, response);
+        }
         if(StringUtils.isBlank(checkinForm.getLightboxScript())) {
             checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
         }

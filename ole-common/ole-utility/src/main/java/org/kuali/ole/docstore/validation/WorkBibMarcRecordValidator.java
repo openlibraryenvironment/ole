@@ -178,6 +178,10 @@ public class WorkBibMarcRecordValidator {
                                 .equals("")) {
                             isSubfield =true;
                         }
+                        if (subField.getCode() != null && subField.getCode().equals("k") && !subField.getValue()
+                                .equals("")) {
+                            isSubfield =true;
+                        }
                     }
                 }
             }

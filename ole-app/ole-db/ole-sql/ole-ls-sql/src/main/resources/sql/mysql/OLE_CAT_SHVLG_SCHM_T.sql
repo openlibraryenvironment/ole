@@ -22,5 +22,11 @@ INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID
   VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7de','Y','TITLE',7,'Title','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',STR_TO_DATE( '20120322000000', '%Y%m%d%H%i%s' ),1)
 /
 INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR)
-  VALUES ('4f3ce4a3-5017-4812-9c23-99e45945507a','Y','OTHER',8,'Other Schema','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',STR_TO_DATE( '20120322000000', '%Y%m%d%H%i%s' ),1)
+  VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7df','Y','SIX',8,'Shelved separately','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',STR_TO_DATE( '20120322000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR)
+  VALUES ('fb8119a1-eafb-4150-ad72-0f9c67e7d7dg','Y','SEVEN',9,'Source specified in subfield $2','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',STR_TO_DATE( '20120322000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_SHVLG_SCHM_T (OBJ_ID,ROW_ACT_IND,SHVLG_SCHM_CD,SHVLG_SCHM_ID,SHVLG_SCHM_NM,SRC,SRC_DT,VER_NBR)
+  VALUES ('4f3ce4a3-5017-4812-9c23-99e45945507a','Y','EIGHT',10,'Other Schema','MFHD 852 1st Indicator: http://www.loc.gov/marc/holdings/hd852.html',STR_TO_DATE( '20120322000000', '%Y%m%d%H%i%s' ),1)
 /

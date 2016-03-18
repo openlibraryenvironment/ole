@@ -99,9 +99,10 @@
                             <bean id="create_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
                             <bean id="create_staffed" parent="Uif-InputField" p:propertyName="staffed"/>
                             <bean id="create_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
+                            <bean id="create_fromEmail" parent="Uif-InputField" p:propertyName="fromEmailAddress"/>
                             <bean id="create_defaultPickupLocation" parent="Uif-InputField" p:propertyName="defaultPickupLocationId" p:label="Default Pickup Location">
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.deliver.keyvalue.PickupLocationKeyValueFinder"/>
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleCirculationDeskPickUpLocationKeyValues"/>
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
@@ -113,7 +114,7 @@
 
                             <bean id="create_defaultRequestTypeCode" parent="Uif-InputField" p:propertyName="defaultRequestTypeCode" p:label="Default Request Type">
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleCirculationDeskRequestTypeKeyValues"/>
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
@@ -123,6 +124,7 @@
                     </property>
                 </bean>
                 <ref bean="OleCirculationDesk-Locations" />
+                <ref bean="OleCirculationDesk-FeeType"/>
                 <ref bean="OleCirculationDesk-Pickup-Locations" />
             </list>
         </property>
@@ -149,7 +151,7 @@
             </list>
         </property>
     </bean>-->
-    <bean id="OleCirculationDesk-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+    <bean id="OleCirculationDesk-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="3" p:disclosure.defaultOpen="true">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
         <property name="headerText" value="Location" />
 
@@ -159,21 +161,6 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-InputField" p:propertyName="circulationFullLocationCode" p:label="Location" p:required="true">
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocation"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="locationId" value="circulationDeskLocation"/>
-                            <entry key="locationCode" value="circulationLocationCode"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.lookupParameters">
-                        <map>
-                            <entry key="circulationDeskLocation" value="locationId"/>
-                            <entry key="circulationLocationCode" value="locationCode"/>
-                        </map>
-                    </property>
-                </bean>-->
                 <bean id="shelvingLocation" parent="Uif-InputField" p:propertyName="circulationFullLocationCode"
                       p:label="Location  (Type * for all locations, other letters for matching locations)"  p:required="true">
                     <property name="suggest">
@@ -191,6 +178,18 @@
                         </bean>
                     </property>
                 </bean>
+                <bean id="locationPopup" parent="Uif-InputField" p:propertyName="locationPopup" p:label="Pop-up Message on Return" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean id="locationPopupMessage" parent="Uif-InputField" p:propertyName="locationPopupMsg"
+                      p:label="Text for Pop-up Message">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="1" p:cols="100"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="addLineActions">
@@ -204,6 +203,46 @@
             </list>
         </property>
     </bean>
+
+    <bean id="OleCirculationDesk-FeeType" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Fee Type" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskFeeType" />
+        <property name="propertyName" value="oleCirculationDeskFeeTypeList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+        <list>
+            <bean id="feeType" parent="Uif-InputField" p:propertyName="feeTypeCode"
+                  p:label="FeeType" p:required="true">
+                <property name="suggest">
+                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                        <property name="suggestQuery">
+                            <bean parent="Uif-AttributeQueryConfig"
+                                  p:queryMethodToCall="retrieveFeeTypeForSuggest"
+                                  p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.OLEFeeTypeValueBuilder"/>
+                        </property>
+                        <property name="templateOptions">
+                            <map merge="true">
+                                <entry key="minLength" value="1"/>
+                            </map>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="feeType_addLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addCirculationFeeType" p:actionLabel="Add" p:title="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="feeType_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
     <bean id="OleCirculationDesk-Pickup-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
         <property name="headerText" value="Pick up location for" />

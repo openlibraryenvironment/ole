@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronNotes;
+import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,8 +63,6 @@ public class CheckoutPatronController extends CheckoutItemController {
             circForm.setErrorMessage(droolsResponse.getErrorMessage());
             if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.GENERAL_MESSAGE_FLAG)) {
                 showDialog("generalMessageAndResetUIDialog", circForm, request, response);
-            } else {
-                showErrorMessageDialog(circForm, request, response);
             }
         } else {
             return handleProxyPatronsIfExists(circForm, result, request, response);
@@ -83,24 +83,23 @@ public class CheckoutPatronController extends CheckoutItemController {
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         circForm.setPageSize("10");
-        if (!circForm.isProxyCheckDone()) {
-            DroolsExchange droolsExchange = new DroolsExchange();
-            droolsExchange.addToContext("circForm", circForm);
-            boolean proxyPatrons = getPatronLookupCircUIController().hasProxyPatrons(droolsExchange);
-            if (!proxyPatrons) {
-                setProceedWithCheckoutFlag(circForm);
-                circForm.setProxyCheckDone(true);
-            } else {
-                String overrideParameters = "{closeBtn:false,autoSize : false}";
-                showDialogWithOverrideParameters("proxyListCheckoutDialog", circForm,overrideParameters);
-            }
+        DroolsExchange droolsExchange = new DroolsExchange();
+        droolsExchange.addToContext("circForm", circForm);
+        boolean proxyPatrons = getPatronLookupCircUIController().hasProxyPatrons(droolsExchange);
+        if (!proxyPatrons) {
+            circForm.setProxyCheckDone(true);
         } else {
-            setProceedWithCheckoutFlag(circForm);
+            String overrideParameters = "{closeBtn:false,autoSize : false}";
+            showDialogWithOverrideParameters("proxyListCheckoutDialog", circForm,overrideParameters);
         }
-        if(circForm.isProxyCheckDone() && checkForPatronUserNotes(circForm.getDroolsExchange())) {
-            showDialog("patronUserNotesDialog", circForm, request, response);
-        } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
-            return lookupItemAndSaveLoan(circForm,result,request,response);
+        if(circForm.isProxyCheckDone()) {
+            DroolsResponse droolsResponse = getPatronLookupCircUIController().processPatronValidation(droolsExchange);
+            if (null != droolsResponse && StringUtils.isNotBlank(droolsResponse.retrieveErrorMessage())) {
+                circForm.setErrorMessage(droolsResponse.getErrorMessage());
+                showErrorMessageDialog(circForm, request, response);
+            } else {
+                postPatronValidation(circForm, result, request, response);
+            }
         }
         if(StringUtils.isBlank(circForm.getLightboxScript())){
             circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
@@ -112,11 +111,26 @@ public class CheckoutPatronController extends CheckoutItemController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=postPatronValidation")
+    public ModelAndView postPatronValidation(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        setProceedWithCheckoutFlag(circForm);
+        if(checkForPatronUserNotes(circForm.getDroolsExchange())) {
+            showDialog("patronUserNotesDialog", circForm, request, response);
+        } else if(circForm.isAutoCheckout()) {
+            return lookupItemAndSaveLoan(circForm, result, request, response);
+        }
+        return getUIFModelAndView(circForm);
+    }
+
     @RequestMapping(params = "methodToCall=processPatronSearchPostProxyHandling")
     public ModelAndView processPatronSearchPostProxyHandling(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         DroolsExchange droolsExchange = new DroolsExchange();
+        String selectedBarcode = request.getParameter("selectedBarcode");
+        setSelectedPatron(circForm, selectedBarcode);
         droolsExchange.addToContext("circForm", circForm);
         DroolsResponse droolsResponse = getPatronLookupCircUIController().processPatronSearchPostProxyHandling(droolsExchange);
         if(null != droolsResponse && StringUtils.isNotEmpty(droolsResponse.retrieveErrorMessage())){
@@ -137,6 +151,28 @@ public class CheckoutPatronController extends CheckoutItemController {
             circForm.setLightboxScript(patronLightBoxScript);
         }
         return getUIFModelAndView(circForm);
+    }
+
+    private void setSelectedPatron(CircForm circForm, String selectedBarcode) {
+        if(StringUtils.isNotBlank(selectedBarcode)) {
+            OlePatronDocument patronDocument = circForm.getPatronDocument();
+            if(patronDocument.getBarcode().equalsIgnoreCase(selectedBarcode)) {
+                patronDocument.setCheckoutForSelf(true);
+            } else {
+                List<OleProxyPatronDocument> oleProxyPatronDocuments = patronDocument.getOleProxyPatronDocumentList();
+                if(CollectionUtils.isNotEmpty(oleProxyPatronDocuments)) {
+                    for (Iterator<OleProxyPatronDocument> iterator = oleProxyPatronDocuments.iterator(); iterator.hasNext(); ) {
+                        OleProxyPatronDocument oleProxyPatronDocument = iterator.next();
+                        OlePatronDocument olePatronDocument = oleProxyPatronDocument.getOlePatronDocument();
+                        String proxyPatronBarcode = olePatronDocument.getBarcode();
+                        if(selectedBarcode.equalsIgnoreCase(proxyPatronBarcode)) {
+                            oleProxyPatronDocument.getOlePatronDocument().setCheckoutForSelf(true);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @RequestMapping(params = "methodToCall=deletePatronUserNotes")
@@ -171,7 +207,7 @@ public class CheckoutPatronController extends CheckoutItemController {
 
     private void setProceedWithCheckoutFlag(CircForm circForm) {
         OlePatronDocument patronDocumentForItemValidation = getCheckoutUIController(circForm.getFormKey()).getPatronDocumentForItemValidation(circForm);
-        if (GlobalVariables.getUserSession() != null) {
+        if (GlobalVariables.getUserSession() != null && null != patronDocumentForItemValidation) {
             patronDocumentForItemValidation.setPatronRecordURL(getOlePatronRecordUtil().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), patronDocumentForItemValidation.getOlePatronId()));
         }
         circForm.getDroolsExchange().addToContext("circForm", circForm);
@@ -184,7 +220,7 @@ public class CheckoutPatronController extends CheckoutItemController {
     public boolean checkForPatronUserNotes(DroolsExchange droolsExchange) {
         boolean hasNotes = false;
         OlePatronDocument olePatronDocument = getPatronLookupCircUIController().getPatronDocument(droolsExchange);
-        if (CollectionUtils.isNotEmpty(olePatronDocument.getOlePatronUserNotes())) {
+        if (null != olePatronDocument && CollectionUtils.isNotEmpty(olePatronDocument.getOlePatronUserNotes())) {
             hasNotes = true;
         }
         return hasNotes;

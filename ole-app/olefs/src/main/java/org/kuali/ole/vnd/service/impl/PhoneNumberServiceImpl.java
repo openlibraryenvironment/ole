@@ -87,9 +87,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      * @return A String array of the phone number format regular expressions.
      */
     protected String[] parseFormats() {
-        if (ObjectUtils.isNull(phoneNumberFormats)) {
-            phoneNumberFormats = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS) );
-        }
+        phoneNumberFormats = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS) );
         return phoneNumberFormats.toArray(new String[] {});
     }
 

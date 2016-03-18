@@ -16,11 +16,11 @@
         <tbody>
             <#list manager.searchLines as line>
             <tr class="odd">
-                <td class="patronCheckBoxListClass"><@proxy_checkbox_control line 'olePatronDocument.checkoutForSelf' container "" /></td>
-                <td>${line.row.proxyPatronId!}</td>
+                <td><@proxy_checkbox_control line 'olePatronDocument.checkoutForSelf' container "" /></td>
+                <td>${line.row.olePatronDocument.olePatronId!}</td>
                 <td>${line.row.olePatronDocument.entity.names[0].firstName!}</td>
                 <td>${line.row.olePatronDocument.entity.names[0].lastName!}</td>
-                <td>${line.row.olePatronDocument.barcode!}</td>
+                <td id="${line.lineId}_proxyBarcode_control">${line.row.olePatronDocument.barcode!}</td>
                 <td>${line.row.olePatronDocument.oleBorrowerType.borrowerTypeName!}</td>
             </tr>
             </#list>
@@ -43,7 +43,7 @@
 <#macro proxy_checkbox_control line prop container label>
     <@proxy_control_wrapper "${line.lineId}_${prop}" container label>
         <@spring.formCheckbox id="${line.lineId}_control" label=""
-        attributes='class="uif-checkboxControl" data-role="Control" data-control_for="${line.lineId}_${prop}"'
+        attributes='class="uif-checkboxControl patronCheckBoxListClass" data-role="Control" data-control_for="${line.lineId}_${prop}"'
         path="KualiForm.${line.bindPath}.${prop}" />
     </@proxy_control_wrapper>
 </#macro>

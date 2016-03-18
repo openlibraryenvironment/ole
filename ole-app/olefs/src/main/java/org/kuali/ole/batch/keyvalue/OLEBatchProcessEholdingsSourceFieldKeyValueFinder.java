@@ -45,6 +45,9 @@ public class OLEBatchProcessEholdingsSourceFieldKeyValueFinder extends KeyValues
         keyValues.add(new ConcreteKeyValue("Donor Note","Donor Note"));
         keyValues.add(new ConcreteKeyValue("EResource Name","EResource Name"));
         keyValues.add(new ConcreteKeyValue("EResource Id","EResource Id"));
+        keyValues.add(new ConcreteKeyValue("Materials Specified","Materials Specified"));
+        keyValues.add(new ConcreteKeyValue("First Indicator","First Indicator"));
+        keyValues.add(new ConcreteKeyValue("Second Indicator","Second Indicator"));
         return keyValues;
     }
 }

@@ -341,12 +341,12 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
         Map<Date,Date> map=new HashMap<>();
         for (int i = 0; i < addressBoList.size(); i++) {
             oleEntityAddressBo = addressBoList.get(i);
-            if (oleEntityAddressBo.getEntityAddressBo().isDefaultValue()) {
+/*            if (oleEntityAddressBo.getEntityAddressBo().isDefaultValue()) {
                 if (oleEntityAddressBo.getOleAddressBo().getAddressValidFrom() != null || oleEntityAddressBo.getOleAddressBo().getAddressValidTo() != null) {
                     GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_DEFAULT_DATE);
                     flag= false;
                 }
-            }
+            }*/
             if(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom()!=null && oleEntityAddressBo.getOleAddressBo().getAddressValidTo()!=null && oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())>0){
                 GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_VALID_ADDRESS_TO_DATE);
                 flag= false;
@@ -395,9 +395,9 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
     public boolean validateRequiredField(OlePatronDocument olePatronDocument) {
         boolean valid = true;
         List<OleEntityAddressBo> addressBoList = olePatronDocument.getOleEntityAddressBo();
-        List<EntityEmailBo> emailBoList = olePatronDocument.getEmails();
-        if (!(addressBoList.size() > 0 || emailBoList.size() > 0)) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_REQUIRED_ADDRESS);
+        List<OleEntityEmailBo> entityEmailBos = olePatronDocument.getOleEntityEmailBo();
+        if ((!(addressBoList.size() > 0)) && (!(entityEmailBos.size() > 0))) {
+             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_REQUIRED_ADDRESS);
             valid = false;
         }
        /* if ( affiliationBoList.size() == 0 ) {

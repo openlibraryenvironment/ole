@@ -1280,6 +1280,9 @@ public class DocstoreServiceImpl implements DocstoreService {
                         (oleHoldings.getHoldingsAccessInformation().getAccessPassword() != null && !oleHoldings.getHoldingsAccessInformation().getAccessPassword().isEmpty()) ||
                         (oleHoldings.getHoldingsAccessInformation().getAuthenticationType() != null && !oleHoldings.getHoldingsAccessInformation().getAuthenticationType().isEmpty()) ||
                         (oleHoldings.getHoldingsAccessInformation().getProxiedResource() != null && !oleHoldings.getHoldingsAccessInformation().getProxiedResource().isEmpty()) ||
+                        (oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified() != null && !oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified().isEmpty()) ||
+                        (oleHoldings.getHoldingsAccessInformation().getFirstIndicator() != null && !oleHoldings.getHoldingsAccessInformation().getFirstIndicator().isEmpty()) ||
+                        (oleHoldings.getHoldingsAccessInformation().getSecondIndicator() != null && !oleHoldings.getHoldingsAccessInformation().getSecondIndicator().isEmpty()) ||
                         (oleHoldings.getHoldingsAccessInformation().getAccessLocation() != null && !oleHoldings.getHoldingsAccessInformation().getAccessLocation().isEmpty()))) {
             existingOleHoldings.setHoldingsAccessInformation(oleHoldings.getHoldingsAccessInformation());
         }

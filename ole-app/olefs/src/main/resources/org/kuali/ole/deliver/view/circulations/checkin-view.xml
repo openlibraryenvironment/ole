@@ -55,6 +55,7 @@
                 <bean id="checkinDamagedItemDialog" parent="checkinDamagedItemNoteDialog"/>
                 <bean id="checkinMissingPieceDialog" parent="checkinMissingPieceNoteDialog"/>
                 <bean id="checkinRouteToDialog" parent="routeToDialog"/>
+                <bean id="checkinLocationPopupMsg" parent="checkinLocationPopup"/>
             </list>
         </property>
 

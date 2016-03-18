@@ -47,6 +47,7 @@ import org.kuali.ole.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.ole.sys.service.impl.OleParameterConstants;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.ole.vnd.VendorConstants;
 import org.kuali.ole.vnd.VendorConstants.AddressTypes;
 import org.kuali.ole.vnd.businessobject.*;
@@ -1851,7 +1852,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         String autoCloseOrderFromDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_FROM_DATE);
         String autoCloseOrderToDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_TO_DATE);
+        Collection<String> orderTypeString = null;
 
+        if (parameterService.parameterExists(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_ORDER_TYPE)) {
+            orderTypeString = parameterService.getParameterValuesAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_ORDER_TYPE);
+            if(orderTypeString.size() == 0) {
+                orderTypeString = null;
+            }
+            else if(orderTypeString.toString().replaceAll("\\[","").replaceAll("\\]","").equalsIgnoreCase("All")) {
+                orderTypeString = null;
+            }
+        }
         boolean validFromDate = true;
         java.sql.Date autoCloseOrderFromDate = null;
         try {
@@ -1868,7 +1879,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         } catch (Exception e) {
             autoCloseOrderToDate = null;
         }
-        autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes(), autoCloseOrderFromDate, autoCloseOrderToDate);
+        autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes(), autoCloseOrderFromDate, autoCloseOrderToDate, orderTypeString);
         UserSession userSession = GlobalVariables.getUserSession();
         for (AutoClosePurchaseOrderView poAutoClose : autoCloseList) {
             if (LOG.isDebugEnabled()) {

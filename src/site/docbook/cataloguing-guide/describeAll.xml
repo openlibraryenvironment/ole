@@ -124,7 +124,7 @@
                 <orderedlist>
                     <listitem>
                         <para role="Normal">Select <emphasis role="bold">Title</emphasis> from the
-                            element drop down Enter the name by which the resource is formally
+                            element drop down. Enter the name by which the resource is formally
                             known.</para>
                     </listitem>
                     <listitem>
@@ -168,9 +168,9 @@
                             </inlinemediaobject></para>
                         <para role="Normal">OLE will refresh the screen and redisplay the record. <note>
                                 <para>Upon Submit, you will receive the message "Failed to save
-                                    record". This is a bug in OLE 2.0. If you search for the record
-                                    from the search workbench, you will see that the record has been
-                                    created. This bug is scheduled to be fixed. See <link
+                                    record". If you search for the record from the search workbench,
+                                    you will see that the record has been created. This bug is
+                                    scheduled to be fixed. See <link
                                         xlink:href="https://jira.kuali.org/browse/OLE-6325"
                                         >OLE-6325</link>.</para>
                             </note></para>
@@ -192,14 +192,13 @@
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                                 </imageobject>
-                            </inlinemediaobject>s to add additional Holdings or E-Holdings
-                            records or <inlinemediaobject>
+                            </inlinemediaobject>s to add additional Holdings or E-Holdings records
+                            or <inlinemediaobject>
                                 <alt>E</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                                 </imageobject>
-                            </inlinemediaobject> to add additional E-Holdings
-                            records.</para>
+                            </inlinemediaobject> to add additional E-Holdings records.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -498,7 +497,7 @@
                                         </itemizedlist>
                                     </listitem>
                                     <listitem>
-                                        <para>For version 2.0, there is no validation for the
+                                        <para>For this release, there is no validation for the
                                             Control Fields. If data in the text string includes
                                             coding that is not found in the drop down menus, the
                                             record can still be saved and will not reject invalid
@@ -667,15 +666,6 @@
                                 to the search screen. Clicking <emphasis role="bold">Stay on
                                     Page</emphasis> will keep you at the Bib Editor screen but does
                                 not remove edits.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Click <inlinemediaobject>
-                                    <alt>Close</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-94.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> to cancel the edits and close the
-                                window.</para>
                         </listitem>
                         <listitem>
                             <para>Click <inlinemediaobject>
@@ -899,6 +889,166 @@
             </section>
         </section>
         <section>
+            <title><anchor xml:id="_MarcEditorWorkform"/>MARC Editor Workform</title>
+            <para role="Normal"><inlinemediaobject>
+                    <alt>Describe</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                    <alt>Create/Edit Titles, Holdings or Items</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-Cataloging.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>MARC Editor Workform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-238a.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>MARC Editor Workform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-239.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para>The Marc Editor workform is a brief screen of essential prompts for monographic
+                bibliographic data. It is intended for use by staff who are not catalogers but may
+                have to create brief records as placeholders for later overlay or enhancement to
+                full cataloging records.</para>
+            <para>You can use the tab key to move from field to field and key the bibliographic
+                data. </para>
+            <note>
+                <para>At present, the tab does not always move the cursor to the correct location
+                    (for example, after |a) in all cases and it may be necessary to use the mouse to
+                    set the cursor in the correct subfield. </para>
+                <para>You may begin keying before the |a but will need to remove the |a at the end
+                    of the field in order to avoid an error message. </para>
+            </note>
+            <section>
+                <title>Process Overview</title>
+                <para>Enter bibliographic data into the workform. Note that the 245 field is the
+                    only required field; if absent, the system will display an error message and the
+                    record will not be saved. </para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>MARC Editor Workform</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-244.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">MARC Editor Workform field
+                        definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">020</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ISBN - International Standard Book
+                                        Number</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">022</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ISSN - International Standard Serial
+                                        Number</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">100</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Author (Personal Name)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">245</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">250</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Edition statement</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">260</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">|a Place of publication, distribution,
+                                        etc</para>
+                                    <para>|b Name of publisher</para>
+                                    <para>|c Date of publication</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">300</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Physical description: number of pages,
+                                        size, etc.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">490</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Series statement</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Once all the desired data has been keyed, submit the record. The system
+                    assigns a local identifier. </para>
+                <para>In order to modify or add data after the record is submitted, click on the bib
+                    local identifier displayed at the top of the page. Alternatively, you may use
+                    the Search workbench to search for the bibliographic record, which will display
+                    the record in the regular Marc editor to edit the bibliographic fields or to add
+                    holdings/item records.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>MARC Editor Workform submitted</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-250.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+        </section>
+        <section>
             <title><anchor xml:id="_Instance_Editor_1"/>Holdings and Item Records</title>
             <para role="Normal (Web)">In OLE, holdings and item records may be created automatically
                 when bibliographic records are imported individually or in batch, but they can also
@@ -1010,7 +1160,7 @@
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                             </imageobject>
-                        </inlinemediaobject>.  For more information about the OLE E-Holdings Editor,
+                        </inlinemediaobject>. For more information about the OLE E-Holdings Editor,
                         see <link linkend="_EInstanceEditor">E-Holding Editor</link></para>
                 </note>
                 <para>Right click on the call number to delete a holdings record or add an item
@@ -1065,7 +1215,7 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
                         </imageobject>
-                    </inlinemediaobject> button to delete the bibliographic record.  You will be
+                    </inlinemediaobject> button to delete the bibliographic record. You will be
                     asked to confirm that you actually want to delete the record before you may
                     proceed. If you do not wish to delete the record, click on “Cancel”; you will
                     then be returned to the OLE Search Workbench instead of the record you have been
@@ -1617,7 +1767,7 @@
                             (often used for course reserves or "new books" collections).</para>
                         <note>
                             <para>Your institution may decide to supress this tab through the
-                                parameter  ITEM_LOCATION_DISCLOSURE. </para>
+                                parameter ITEM_LOCATION_DISCLOSURE. </para>
                         </note>
                         <para role="Normal"/>
                         <para role="Normal">
@@ -1747,14 +1897,6 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item ID</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>System supplied unique ID.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Barcode</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -1762,27 +1904,8 @@
                                                 attached to an item as a unique identifier. Indexed
                                                 to permit retrieval when the barcode is scanned or
                                                 typed in as a search term. Used for identification
-                                                of physical item and for circulation purposes. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Barcode ARSL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> A free-text field for a separate barcode for the
-                                                Automated Retrieval System Location (ARSL).</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Former Identifiers</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> A free text field for recording previous barcodes
-                                                of an item here in order to track changes and
-                                                replacements.  At the present time, this data
-                                                element is not indexed.</para>
+                                                of physical item and for circulation purposes.
+                                            </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1799,14 +1922,17 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Temp Item Type</para>
+                                            <para role="Table Cells">Copy Number</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>To temporarily change the item type, select a
-                                                temporary item type from the drop down list. For
-                                                example, an item on reserve needs to circulate
-                                                according to a different circulation rule for a
-                                                while.</para>
+                                            <para> Library-assigned to distinguish each copy of the
+                                                same title.  If two or more copies of a work with
+                                                the same call number are shelved together in the
+                                                same place, you may record the copy number here.  If
+                                                different copies have different call numbers and/or
+                                                shelve in different locations, it is recommended
+                                                that different holdings records be used and that the
+                                                copies not be identified at the item level. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1832,17 +1958,44 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Copy Number</para>
+                                            <para role="Table Cells">Item Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Library-assigned to distinguish each copy of the
-                                                same title.  If two or more copies of a work with
-                                                the same call number are shelved together in the
-                                                same place, you may record the copy number here.  If
-                                                different copies have different call numbers and/or
-                                                shelve in different locations, it is recommended
-                                                that different holdings records be used and that the
-                                                copies not be identified at the item level. </para>
+                                            <para> Used in conjunction with Patron Type to determine
+                                                a circulation policy for a particular item when a
+                                                circulation transaction occurs.  Each OLE library
+                                                determines what Item Types it wishes to use.
+                                                 Typically, Item Types identify either a particular
+                                                format of material (“Book”) or a particular loan
+                                                length (“2-hour loan”). </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Item ID</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>System supplied unique ID.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Barcode ARSL</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> A free-text field for a separate barcode for the
+                                                Automated Retrieval System Location (ARSL).</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Former Identifiers</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> A free text field for recording previous barcodes
+                                                of an item here in order to track changes and
+                                                replacements.  At the present time, this data
+                                                element is not indexed.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1860,16 +2013,14 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Type</para>
+                                            <para role="Table Cells">Temp Item Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Used in conjunction with Patron Type to determine
-                                                a circulation policy for a particular item when a
-                                                circulation transaction occurs.  Each OLE library
-                                                determines what Item Types it wishes to use.
-                                                 Typically, Item Types identify either a particular
-                                                format of material (“Book”) or a particular loan
-                                                length (“2-hour loan”). </para>
+                                            <para>To temporarily change the item type, select a
+                                                temporary item type from the drop down list. For
+                                                example, an item on reserve needs to circulate
+                                                according to a different circulation rule for a
+                                                while.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1885,11 +2036,24 @@
                                             <note>
                                                 <para>This is an uncontrolled free-text field, so it
                                                   is possible to enter something other than a
-                                                  number.  However, entering any value other than a
+                                                  number. However, entering any value other than a
                                                   number will cause an error on Return of the item;
                                                   the item cannot be returned until record has been
                                                   corrected.</para>
                                             </note>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description of Pieces</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>Record a description of the pieces counted in the
+                                                  <emphasis role="bold">Number of Pieces</emphasis>
+                                                field.  For example "1 CD-ROM and 1 booklet in
+                                                pocket inside back cover".  This description will
+                                                display during a loan and a return of the item.
+                                            </para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1899,17 +2063,7 @@
                     </section>
                     <section>
                         <title>Acquisition Information tab</title>
-                        <para role="Normal">Information from the purchase order is stored here. You
-                            may also track information about a donor if applicable. Click <inlinemediaobject>
-                                <alt>Add</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to add donor information.</para>
-                        <note>
-                            <para>In a future release, an electronic book plate will be linkable in
-                                this tab.</para>
-                        </note>
+                        <para role="Normal">Information from the purchase order is stored here. </para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
@@ -1978,12 +2132,55 @@
                                                 Free text, editable.</para>
                                         </entry>
                                     </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                    </section>
+                    <section>
+                        <title>Donor tab</title>
+                        <para>You may track information about a donor if applicable. Click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add donor information.</para>
+                        <note>
+                            <para>In a future release, an electronic book plate will be linkable in
+                                this tab.</para>
+                        </note><para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Donor</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-245.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para role="TableHeading"><emphasis role="bold">Donor tab
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Donor Code</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The Code of the donor.  </para>
+                                            <para role="Table Cells">The Code of the donor. </para>
                                             <para role="Table Cells">Select the donor from the drop
                                                 down list: </para>
                                             <para role="Table Cells">Begin typing and a list of
@@ -2015,6 +2212,84 @@
                                 </tbody>
                             </tgroup>
                         </informaltable>
+                    </section>
+                    <section>
+                        <title>Extended Information tab</title>
+                        <para role="Normal">The Extended Information tab contains notes for the
+                            public or for staff and identifies high density storage
+                            information.</para>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add additional notes.</para>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Remove</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-123.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to remove excess notes.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Extended Information</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-140.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="TableHeading"><emphasis role="bold">Extended Information tab
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Item Note</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>Select public or nonpublic type from the drop down
+                                                list to determine whether the note will be viewable
+                                                from the discovery layer.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"/>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>Enter a note about the item.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">High Density Storage</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> A free-text field intended to identify the row,
+                                                module, shelf, and tray information for the item's
+                                                high density storage location.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <para role="Normal"/>
                     </section>
                     <section>
                         <title><anchor xml:id="_circulationInformation"/>Circulation Information
@@ -2151,29 +2426,13 @@
                     </section>
                     <section>
                         <title>Claims Returned History tab</title>
-                        <note>
-                            <para>It’s important to note that the history tab for each flag
-                                currently displays below the flag. It can therefore be somewhat
-                                confusing to tell which section one is viewing, as the next flag
-                                appears below the previous history tab. For example, the Damaged
-                                flag appears to be the last part of the Claims Returned History tab,
-                                but is, in fact, the beginning of a new section.</para>
-                            <para>This is particularly problematic for the Missing Piece History
-                                tab, because the Missing Piece flag appears after the Damaged
-                                History tab but the Missing Piece History tab appears after the In
-                                Transit History Tab. This is a known bug and is scheduled to be
-                                fixed.</para>
-                            <para>In general, the display of the flags and history tabs is a known
-                                issue and an enhancement request is being developed.</para>
-                        </note>
-                        <para>Just above the Claims Returned History tab, is the <emphasis
-                                role="bold">Claim Return Flag</emphasis>, <emphasis role="bold"
-                                >Claim Returned Create Date</emphasis>, and the <emphasis
-                                role="bold">Claims Return Note</emphasis>.  The flag may be checked
+                        <para>The <emphasis role="bold">Claim Return Flag</emphasis> may be checked
                             if a borrower claims to have returned an item from circulation but there
                             has been no circulation check-in transaction for the item. When checked,
-                            enter a corresponding Claims Return Date and note.  This flag is
-                            typically checked by an operator from the Loan screen.</para>
+                            enter a corresponding <emphasis role="bold">Claim Returned Create
+                                Date</emphasis> and <emphasis role="bold">Claim Return
+                                Note</emphasis>. This flag is typically checked by an operator from
+                            the Loan screen.</para>
                         <note>
                             <para>For more information about claiming items from the Loan screen,
                                 see <link linkend="_claimsReturn">Claims Return</link> under the
@@ -2197,8 +2456,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Item Record Editor: Claims Return Flag and History
-                                        Tab</alt>
+                                    <alt>Item Record Editor: Claims Return Tab</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-221.png"
                                             width="100%"/>
@@ -2209,12 +2467,10 @@
                     </section>
                     <section>
                         <title>Damaged History</title>
-                        <para>Just above the Damaged History tab, is the <emphasis role="bold">Item
-                                Damaged Status</emphasis> and the <emphasis role="bold">Damaged Item
-                                Note</emphasis>.  This flag may be checked if an item has been
-                            damaged.  When checked, enter a note to be displayed with circulation
-                            transactions.  This flag is typically checked by an operator from the
-                            Loan screen</para>
+                        <para>The <emphasis role="bold">Item Damaged Status</emphasis> flag may be
+                            checked if an item has been damaged. When checked, enter a note to be
+                            displayed with circulation transactions. This flag is typically checked
+                            by an operator from the Loan screen</para>
                         <note>
                             <para>For more information about marking an item damaged from the Loan
                                 screen, see <link linkend="_damaged">Damaged</link> under the <link
@@ -2228,8 +2484,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Item Record Editor: Damaged Item Status and History
-                                        Tab</alt>
+                                    <alt>Item Record Editor: Damaged Tab</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-227.png"
                                             width="100%"/>
@@ -2240,14 +2495,10 @@
                     </section>
                     <section>
                         <title>Missing Piece Item History tab</title>
-                        <para>Just above the Intransit Loan History tab, is the <emphasis
-                                role="bold">Missing Piece Flag</emphasis>, the <emphasis role="bold"
-                                >No of missing pieces count</emphasis>, the <emphasis role="bold"
-                                >Missing Pieces Effective Date</emphasis>and the <emphasis
-                                role="bold">Missing Piece Note</emphasis>.  This flag may be checked
-                            if an item is missing pieces.  When checked, enter the number of pieces
+                        <para>The <emphasis role="bold">Missing Piece Flag</emphasis> may be checked
+                            if an item is missing pieces. When checked, enter the number of pieces
                             missing, the effective date, and note to be displayed with circulation
-                            transactions.  </para>
+                            transactions. </para>
                         <note>
                             <para>If you enter any missing pieces, you must include the full count
                                 in the <emphasis role="bold">Number of Pieces</emphasis> field of
@@ -2269,8 +2520,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Item Record Editor: Missing Piece Flag and Item History
-                                        Tab</alt>
+                                    <alt>Item Record Editor: Missing Piece Tab</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-226.png"
                                             width="100%"/>
@@ -2295,16 +2545,16 @@
                             the return.</para>
                     </section>
                     <section>
-                        <title>Intransit Loan History tab</title>
-                        <para>The Intransit Loan History tab allows circulation desk staff to see
-                            recent transit history of an item to help resolve problems with missing
+                        <title>Return History tab</title>
+                        <para>The Return History tab allows circulation desk staff to see recent
+                            transit history of an item to help resolve problems with missing
                             materials. This tab displays the Item Barcode, the Operator who checked
-                            in the item, the routing locations (from and to), and the date of
-                            transit (when the item was first returned).</para>
-                        <para>This information does not show when or if the item was returned to its
-                            home circulation desk. Nor does it record if the same or different
-                            operators return the item at different times at the same circulation
-                            desk, which means in-house use transaction are not captured.</para>
+                            in the item, the return location/circulation desk, the location/circ
+                            desk to which the item was routed in transit (if applicable), the status
+                            of the item when it was returned (ON HOLD, RECENTLY RETURNED, IN
+                            TRANSIT, etc.), and the date and time of the return.</para>
+                        <para>This information is captured each time an item is scanned via the
+                            Return screen.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -2325,8 +2575,6 @@
                                 view basic history about Claims, Damaged, and Missing flags. The
                                 history for each of those flags now lives in the sections
                                 above.</para>
-                            <para>Clicking on “View all records” in this section is a broken
-                                link.</para>
                         </note>
                         <para>When an item with multiple pieces is loaned or returned, and a missing
                             pieces flag is set with the number of missing pieces and a missing
@@ -2364,84 +2612,6 @@
                             to the patron record, the patron name, the flag type (missing or claims
                             return), and the patron note recorded with the check in
                             information.</para>
-                    </section>
-                    <section>
-                        <title>Extended Information tab</title>
-                        <para role="Normal">The Extended Information tab contains notes for the
-                            public or for staff and identifies high density storage
-                            information.</para>
-                        <para role="Normal">Click <inlinemediaobject>
-                                <alt>Add</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to add additional notes.</para>
-                        <para role="Normal">Click <inlinemediaobject>
-                                <alt>Remove</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-123.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to remove excess notes.</para>
-                        <para role="Normal"/>
-                        <para role="Normal">
-                            <screenshot>
-                                <mediaobject>
-                                    <alt>Item Record Editor: Extended Information</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-140.png"
-                                            width="100%"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </screenshot>
-                        </para>
-                        <para role="Normal"/>
-                        <para role="TableHeading"><emphasis role="bold">Extended Information tab
-                                definition</emphasis></para>
-                        <informaltable frame="topbot">
-                            <tgroup cols="2">
-                                <colspec colname="col1" colnum="1"/>
-                                <colspec colname="col2" colnum="2"/>
-                                <tbody>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Title </para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Description </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Note</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Select public or nonpublic type from the drop down
-                                                list to determine whether the note will be viewable
-                                                from the discovery layer.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"/>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Enter a note about the item.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">High Density Storage</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> A free-text field intended to identify the row,
-                                                module, shelf, and tray information for the item's
-                                                high density storage location.</para>
-                                        </entry>
-                                    </row>
-                                </tbody>
-                            </tgroup>
-                        </informaltable>
-                        <para role="Normal"/>
                     </section>
                 </section>
             </section>
@@ -2507,14 +2677,6 @@
                             the search screen. Clicking <emphasis role="bold">Stay on
                                 Page</emphasis> will keep you at the Bib Editor screen but does not
                             remove edits.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Click <inlinemediaobject>
-                                <alt>Close</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-94.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to cancel the edits and close the window.</para>
                     </listitem>
                     <listitem>
                         <para>Click <inlinemediaobject>
@@ -2783,7 +2945,7 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                         </imageobject>
-                    </inlinemediaobject> to add an OLE E-Holdings records.  When creating a new
+                    </inlinemediaobject> to add an OLE E-Holdings records. When creating a new
                     E-Instance, the ‘E-Holdings’ label will appear in the left pane after clicking
                         <emphasis role="bold">Save</emphasis> if you do not add a Location field and
                     the E-Instance is not linked to an E-Resource.</para>
@@ -2826,8 +2988,8 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para> A confirmation screen will appear.  Press <emphasis role="bold"
-                        >Continue</emphasis> to delete the E-Holdings record.  You can also select
+                <para> A confirmation screen will appear. Press <emphasis role="bold"
+                        >Continue</emphasis> to delete the E-Holdings record. You can also select
                     the E-Holdings in the left pane and click the <emphasis role="bold"
                         >Delete</emphasis> button in the E-Holdings Editor. </para>
                 <para>Click the <inlinemediaobject>
@@ -3003,6 +3165,184 @@
                                 </tbody>
                             </tgroup>
                         </informaltable>
+                    </section>
+                    <section>
+                        <title>Access Information tab</title>
+                        <para role="Normal">The Access Information tab contains all information
+                            about accessing the electronic title including the links, user names and
+                            passwords.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>E-Holdings Editor: Access Information Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-42.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="TableHeading"><emphasis role="bold">Access Information tab
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">URL</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>The URL for users to access the electronic
+                                                resource.  Click <inlinemediaobject>
+                                                  <alt>Add</alt>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/LicensingNoTitlePage-29.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject>, the text box will expand to
+                                                display the entire URL.  See also <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link>.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Link Text</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"> Publicly displayable
+                                                information aside from coverage statement associated
+                                                with a specific link. For example "PDF version".
+                                            </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">No. of Simultaneous
+                                                Users</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The number of users who can
+                                                simultaneously access the electronic resource at one
+                                                time. This is pulled from the E-Resource record but
+                                                can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Location</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The institutional location(s)
+                                                where the electronic resource may be accessed.
+                                                Select a locally configured option(s) from the drop
+                                                down list. This is pulled from the E-Resource record
+                                                but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Username</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The user name to use to access
+                                                the electronic resource, if necessary. This is
+                                                pulled from the E-Resource record but can be
+                                                modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Access Password</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> The password to use to access the electronic
+                                                resource, if necessary. This is pulled from the
+                                                E-Resource record but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Authentication Type</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The type of Authentication
+                                                needed for the electronic resource. Select the type
+                                                from the drop down list. This is pulled from the
+                                                E-Resource record but can be modified. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Persistent Link</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> The locally assigned persistent link for the
+                                                electronic resource. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin Username</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative user name
+                                                used to access the platform portal to manage the
+                                                electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin Password</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative password
+                                                used to access the platform portal to manage the
+                                                electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Admin URL</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">The administrative URL to
+                                                access the platform portal to manage the electronic
+                                                resource. This is site users would go to enter their
+                                                IP ranges, input their link-resolver URL, manage the
+                                                look and feel of the platform for their users,
+                                                gather usage stats, etc. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Proxied</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Check the box if access to the
+                                                electronic resource is proxied.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <para role="Normal"/>
                     </section>
                     <section>
                         <title>Location Information tab</title>
@@ -3562,177 +3902,6 @@
                         </informaltable>
                     </section>
                     <section>
-                        <title>Access Information tab</title>
-                        <para role="Normal">The Access Information tab contains all information
-                            about accessing the electronic title including the links, user names and
-                            passwords.</para>
-                        <para role="Normal"/>
-                        <para role="Normal">
-                            <screenshot>
-                                <mediaobject>
-                                    <alt>E-Holdings Editor: Access Information Tab</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-42.png"
-                                            width="100%"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </screenshot>
-                        </para>
-                        <para role="Normal"/>
-                        <para role="TableHeading"><emphasis role="bold">Access Information tab
-                                definition</emphasis></para>
-                        <informaltable frame="topbot">
-                            <tgroup cols="2">
-                                <colspec colname="col1" colnum="1"/>
-                                <colspec colname="col2" colnum="2"/>
-                                <tbody>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Title </para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Description </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">No. of Simultaneous
-                                                Users</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The number of users who can
-                                                simultaneously access the electronic resource at one
-                                                time. This is pulled from the E-Resource record but
-                                                can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Location</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The institutional location(s)
-                                                where the electronic resource may be accessed.
-                                                Select a locally configured option(s) from the drop
-                                                down list. This is pulled from the E-Resource record
-                                                but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Username</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The user name to use to access
-                                                the electronic resource, if necessary. This is
-                                                pulled from the E-Resource record but can be
-                                                modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Access Password</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The password to use to access the electronic
-                                                resource, if necessary. This is pulled from the
-                                                E-Resource record but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Authentication Type</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The type of Authentication
-                                                needed for the electronic resource. Select the type
-                                                from the drop down list. This is pulled from the
-                                                E-Resource record but can be modified. </para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Persistent Link</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The locally assigned persistent link for the
-                                                electronic resource. See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Username</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative user name
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Password</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative password
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin URL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative URL to
-                                                access the platform portal to manage the electronic
-                                                resource. This is site users would go to enter their
-                                                IP ranges, input their link-resolver URL, manage the
-                                                look and feel of the platform for their users,
-                                                gather usage stats, etc.  See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Proxied</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Check the box if access to the
-                                                electronic resource is proxied.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">URL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>The URL for users to access the electronic
-                                                resource.  See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Link Text</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"> Publicly displayable
-                                                information aside from coverage statement associated
-                                                with a specific link. For example "PDF version".
-                                            </para>
-                                        </entry>
-                                    </row>
-                                </tbody>
-                            </tgroup>
-                        </informaltable>
-                        <para role="Normal"/>
-                    </section>
-                    <section>
                         <title>License Details tab</title>
                         <para role="Normal">The License Details tab identifies any License Requests
                             that are associated with an E-Resource to which this E-Holdings is
@@ -3950,9 +4119,9 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-61.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will delete the E-Holdings.  Click
+                                </inlinemediaobject> button will delete the E-Holdings. Click
                                     <emphasis role="bold">Continue</emphasis> to confirm the
-                                deletion.  </para>
+                                deletion. </para>
                         </listitem>
                     </itemizedlist>
                 </section>
@@ -4410,8 +4579,7 @@
                                             Results</alt>
                                         <imageobject>
                                             <imagedata
-                                                fileref="../images/DescribeNoTitlePage-138.png"
-                                                width="100%"/>
+                                                fileref="../images/DescribeNoTitlePage-138.png"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -4459,8 +4627,7 @@
                                             results with several titles selected</alt>
                                         <imageobject>
                                             <imagedata
-                                                fileref="../images/DescribeNoTitlePage-139.png"
-                                                width="100%"/>
+                                                fileref="../images/DescribeNoTitlePage-139.png"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -4469,9 +4636,13 @@
                         </listitem>
                         <listitem>
                             <para>Once you have selected the records on the screen to be globally
-                                edited or have used the “select all” option, click on <emphasis
-                                    role="bold">Add To Global Edit List</emphasis> to add the
-                                records to the list to be globally edited.</para>
+                                edited or have used the “select all” option, click on <inlinemediaobject>
+                                    <alt>Add To Global Edit List</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-4.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> to add the records to the list to be globally
+                                edited.</para>
                             <note>
                                 <para>If you are selecting records screen-by-screen, click <emphasis
                                         role="bold">Add To Global Edit List</emphasis> on each
@@ -4507,8 +4678,12 @@
                         </listitem>
                         <listitem>
                             <para>Once you have selected the records for global editing have been
-                                selected, click on <emphasis role="bold">View Global Edit
-                                    List</emphasis> to review the list of selected records. </para>
+                                selected, click on <inlinemediaobject>
+                                    <alt>View Global Edit List</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-94.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> to review the list of selected records. </para>
                             <para/>
                             <para role="Normal">
                                 <screenshot>
@@ -4579,9 +4754,9 @@
                                 </imageobject>
                             </inlinemediaobject></para>
                         <para> to complete the global editing process. You can also click <inlinemediaobject>
-                                <alt>Close</alt>
+                                <alt>Cancel</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-94.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-96.png"/>
                                 </imageobject>
                             </inlinemediaobject> to end the process, close the editor, and return
                             the user to the global edit list.</para>
@@ -4675,166 +4850,6 @@
                             Local IDs and Barcodes. </para>
                     </listitem>
                 </itemizedlist>
-            </section>
-        </section>
-        <section>
-            <title><anchor xml:id="_MarcEditorWorkform"/>MARC Editor Workform</title>
-            <para role="Normal"><inlinemediaobject>
-                    <alt>Describe</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
-                    <alt>Create/Edit Titles, Holdings or Items</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DescribeNoTitlePage-Cataloging.png"/>
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
-                        <alt>MARC Editor Workform</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-238a.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>MARC Editor Workform</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-239.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para>The Marc Editor workform is a brief screen of essential prompts for monographic
-                bibliographic data. It is intended for use by staff who are not catalogers but may
-                have to create brief records as placeholders for later overlay or enhancement to
-                full cataloging records.</para>
-            <para>You can use the tab key to move from field to field and key the bibliographic
-                data. </para>
-            <note>
-                <para>At present, the tab does not always move the cursor to the correct location
-                    (for example, after |a) in all cases and it may be necessary to use the mouse to
-                    set the cursor in the correct subfield. </para>
-                <para>You may begin keying before the |a but will need to remove the |a at the end
-                    of the field in order to avoid an error message. </para>
-            </note>
-            <section>
-                <title>Process Overview</title>
-                <para>Enter bibliographic data into the workform.  Note that the 245 field is the
-                    only required field; if absent, the system will display an error message and the
-                    record will not be saved. </para>
-                <para role="Normal">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>MARC Editor Workform</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-244.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
-                <para role="TableHeading"><emphasis role="bold">MARC Editor Workform field
-                        definitions</emphasis></para>
-                <informaltable frame="topbot">
-                    <tgroup cols="2">
-                        <colspec colname="col1" colnum="1"/>
-                        <colspec colname="col2" colnum="2"/>
-                        <tbody>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Title</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Description</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">020</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">ISBN - International Standard Book
-                                        Number</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">022</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">ISSN - International Standard Serial
-                                        Number</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">100</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Author (Personal Name)</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">245</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Title</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">250</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Edition statement</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">260</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">|a Place of publication, distribution,
-                                        etc</para>
-                                    <para>|b Name of publisher</para>
-                                    <para>|c Date of publication</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">300</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Physical description: number of pages,
-                                        size, etc.</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">490</para>
-                                </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Series statement</para>
-                                </entry>
-                            </row>
-                        </tbody>
-                    </tgroup>
-                </informaltable>
-                <para>Once all the desired data has been keyed, submit the record.  The system
-                    assigns a local identifier. </para>
-                <para>In order to modify or add data after the record is submitted, click on the bib
-                    local identifier displayed at the top of the page.  Alternatively, you may use
-                    the Search workbench to search for the bibliographic record, which will display
-                    the record in the regular Marc editor to edit the bibliographic fields or to add
-                    holdings/item records.</para>
-                <para role="Normal">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>MARC Editor Workform submitted</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-250.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
             </section>
         </section>
     </section>
@@ -5080,8 +5095,7 @@
                                     <alt>"SH" and "AI" codes beside the record identifiers in the
                                         Editor</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-172.png"
-                                            width="100%"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-172.png"/>
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -5260,8 +5274,7 @@
                                 the series, or a record for a title in the series.</para>
                         </listitem>
                         <listitem>
-                            <para> In the left navigation pane, click on <emphasis
-                                    >either</emphasis>
+                            <para> In the left navigation pane, click on <emphasis>either</emphasis>
                                 “SH” or “AI” (it does not matter which you choose):</para>
                             <para/>
                             <para>
@@ -5814,9 +5827,9 @@
                     <imagedata fileref="../images/DescribeNoTitlePage-3.png"/>
                 </imageobject>
             </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
-                <alt>Single Record Export/Import Links</alt>
+                <alt>Single Record Import</alt>
                 <imageobject>
-                    <imagedata fileref="../images/DescribeNoTitlePage-4.png"/>
+                    <imagedata fileref="../images/DescribeNoTitlePage-58.png"/>
                 </imageobject>
             </inlinemediaobject></para>
         <para role="Normal"/>
@@ -5824,6 +5837,9 @@
             provides access for users to export and import single records. For multiple record
             import and export see the <link linkend="batchProcessesAdminDocuments">Batch
                 Processes</link> section of <emphasis>Administrative Functions</emphasis>.</para>
+        <note>
+            <para>Export functionality is not available in this release.</para>
+        </note>
         <section>
             <title><anchor xml:id="_Importing_Bibliographic_Records"/>Single Record Import</title>
             <para role="Body Text"><inlinemediaobject>

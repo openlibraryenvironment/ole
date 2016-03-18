@@ -326,10 +326,7 @@
     <bean id="Editor_Common_Buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="Editor_Copy_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Copy" p:actionScript="copyBib('copy')"
-                      p:style="float:left;margin-left:0.2em" p:render="@{newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
-
-                <bean id="Bib_Print_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:actionScript="printBib()"
+                 <bean id="Bib_Print_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:actionScript="printBib()"
                       p:style="float:left;margin-left:0.2em" p:render="@{bibliographic eq true and showEditorFooter eq true and showPrint eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
 
                 <bean id="Item_Print_Slip_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print Call Slip" p:style="float:left;margin-left:0.2em"
@@ -380,6 +377,9 @@
 
                 <bean id="globalEditClose_button" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
                       p:actionLabel="Cancel" p:style="position: relative;float:left;top:1%;margin-right: -50%;transform: translate(-300%, 0%);justify-content: center;align-items: center;" p:render="@{globalEditFlag eq 'true'}"/>
+
+                <bean id="Editor_Copy_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Copy" p:actionScript="copyBib('copy')"
+                      p:style="float:left;margin-left:0.2em" p:render="@{canCopyBib eq true and newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
             </list>
         </property>
     </bean>

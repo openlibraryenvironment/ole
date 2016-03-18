@@ -3,13 +3,16 @@ package org.kuali.ole.select.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEPropertyConstants;
+import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
+import org.kuali.ole.select.document.service.DonorEncumberReportDAOService;
 import org.kuali.ole.select.form.OLEEncumberedReportForm;
 import org.kuali.ole.service.impl.OleLicenseRequestServiceImpl;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -48,6 +51,7 @@ public class OLEEncumberedReportController extends UifControllerBase {
     private BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
     private static final Logger LOG = Logger.getLogger(OLEEResourceSearchController.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(org.kuali.ole.OLEConstants.OLEEResourceRecord.CREATED_DATE_FORMAT);
+    private DonorEncumberReportDAOService donorEncumberReportDAOService;
 
     private LookupService getLookupService() {
         return KRADServiceLocatorWeb.getLookupService();
@@ -58,111 +62,45 @@ public class OLEEncumberedReportController extends UifControllerBase {
         return new OLEEncumberedReportForm();
     }
 
-    @RequestMapping(params = "methodToCall=search")
+    @RequestMapping(params="methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception{
         OLEEncumberedReportForm oleEncumberedReportForm = (OLEEncumberedReportForm) form;
-        List<OLEDonor> oleDonorList = new ArrayList<>();
-        List<OLELinkPurapDonor> oleLinkPurapDonors = new ArrayList<>();
-        if (StringUtils.isEmpty(oleEncumberedReportForm.getDonorCode())) {
-            oleLinkPurapDonors = (List<OLELinkPurapDonor>) KRADServiceLocator.getBusinessObjectService().findAll(OLELinkPurapDonor.class);
-        } else {
-            Map map = new HashMap();
-            map.put(OLEConstants.DONOR_CODE, oleEncumberedReportForm.getDonorCode());
-            List<OLEDonor> donorList = (List<OLEDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, map);
-            if (donorList != null && donorList.size() > 0) {
-                oleLinkPurapDonors = (List<OLELinkPurapDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
+        Map<String, Object> queryCriteriaMap=buildCriteria(oleEncumberedReportForm);
+        boolean isValid=isValidDonor(oleEncumberedReportForm.getDonorCode());
+        List<OLEDonor> oleDonorList;
+        if (isValid) {
+            oleDonorList = getDonorEncumberReportDAOService().getDonorEncumberList(queryCriteriaMap);
+            if (oleDonorList.size()>0) {
+                oleEncumberedReportForm.setEncumberedReportDocumentList(oleDonorList);
             } else {
                 oleEncumberedReportForm.setEncumberedReportDocumentList(null);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.DONOR_NOT_FOUND);
-                return getUIFModelAndView(oleEncumberedReportForm);
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, org.kuali.ole.OLEConstants.NO_RECORD_FOUND);
             }
-        }
-        Map<String, List<Integer>> donorMap = new HashMap<>();
-        for (OLELinkPurapDonor oleLinkPurapDonor : oleLinkPurapDonors) {
-            Map poItemIdList = new HashMap();
-            poItemIdList.put("itemIdentifier", oleLinkPurapDonor.getPoItemId());
-            OlePurchaseOrderItem olePurchaseOrderItem = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderItem.class, poItemIdList);
-            if (oleLinkPurapDonor.getDonorCode() != null && olePurchaseOrderItem != null && olePurchaseOrderItem.getItemIdentifier() != null) {
-                if (!(oleEncumberedReportForm.getFromDate() == null && oleEncumberedReportForm.getToDate() == null)) {
-                    Map map = new HashMap();
-                    map.put(org.kuali.ole.OLEConstants.DOC_NUM, olePurchaseOrderItem.getDocumentNumber());
-                    OlePurchaseOrderDocument olePurchaseOrderDocument = boService.findByPrimaryKey(OlePurchaseOrderDocument.class, map);
-                    Date purchaseOrderDate = olePurchaseOrderDocument.getPurchaseOrderCreateTimestamp();
-                    try {
-                        String begin = null;
-                        if (oleEncumberedReportForm.getFromDate() != null) {
-                            begin = dateFormat.format(oleEncumberedReportForm.getFromDate());
-                        }
-                        String end = null;
-                        if (oleEncumberedReportForm.getToDate() != null) {
-                            end = dateFormat.format(oleEncumberedReportForm.getToDate());
-                        }
-                        boolean isValid = false;
-                        OleLicenseRequestServiceImpl oleLicenseRequestService = GlobalResourceLoader.getService(org.kuali.ole.OLEConstants.OleLicenseRequest.LICENSE_REQUEST_SERVICE);
-                        isValid = oleLicenseRequestService.validateDate(purchaseOrderDate, begin, end);
-                        if (isValid) {
-                            if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
-                                donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
-                            } else {
-                                List<Integer> poItemIds = new ArrayList<>();
-                                poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
-                                donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
-                            }
-                        }
-                    } catch (Exception e) {
-                        LOG.error("Exception while calling the licenseRequest service" + e.getMessage());
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    if (donorMap.containsKey(oleLinkPurapDonor.getDonorCode())) {
-                        donorMap.get(oleLinkPurapDonor.getDonorCode()).add(olePurchaseOrderItem.getItemIdentifier());
-                    } else {
-                        List<Integer> poItemIds = new ArrayList<>();
-                        poItemIds.add(olePurchaseOrderItem.getItemIdentifier());
-                        donorMap.put(oleLinkPurapDonor.getDonorCode(), poItemIds);
-                    }
-                }
-            }
-        }
-        for (Object donorKey : donorMap.keySet()) {
-            OLEDonor oleDonor = new OLEDonor();
-            oleDonor.setDonorCode((String) donorKey);
-            Map map = new HashMap();
-            map.put(OLEConstants.DONOR_CODE, oleDonor.getDonorCode());
-            OLEDonor donor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-            if (donor != null) {
-                oleDonor.setDonorAmount(donor.getDonorAmount() != null ? donor.getDonorAmount() : KualiDecimal.ZERO);
-                oleDonor.setDonorNote(donor.getDonorNote());
-                oleDonor.setDonorId(donor.getDonorId());
-            }
-            if (oleDonor.getDonorAmount() != null) {
-                KualiDecimal encAmt = KualiDecimal.ZERO;
-                KualiDecimal expAmt = KualiDecimal.ZERO;
-                List<Integer> poLineItemIds = (ArrayList) donorMap.get((String) donorKey);
-                for (Integer poLineItemId : poLineItemIds) {
-                    map.clear();
-                    map.put(org.kuali.ole.OLEConstants.BIB_ITEM_ID, poLineItemId);
-                    OlePurchaseOrderItem olePurchaseOrderItem = boService.findByPrimaryKey(OlePurchaseOrderItem.class, map);
-                    if (olePurchaseOrderItem.getItemOutstandingEncumberedAmount() != null) {
-                        encAmt = encAmt.add(olePurchaseOrderItem.getItemOutstandingEncumberedAmount().divide(new KualiDecimal(olePurchaseOrderItem.getOleDonors().size())));
-                    }
-                    if (olePurchaseOrderItem.getItemInvoicedTotalAmount() != null) {
-                        expAmt = expAmt.add(olePurchaseOrderItem.getItemInvoicedTotalAmount().divide(new KualiDecimal(olePurchaseOrderItem.getOleDonors().size())));
-                    }
-                }
-                oleDonor.setEncumberedAmount(encAmt);
-                oleDonor.setExpensedAmount(expAmt);
-            }
-            oleDonorList.add(oleDonor);
-        }
-        if (oleDonorList.size() == 0) {
-            oleEncumberedReportForm.setEncumberedReportDocumentList(null);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.NO_RECORD_FOUND);
         } else {
-            oleEncumberedReportForm.setEncumberedReportDocumentList(oleDonorList);
+            oleEncumberedReportForm.setEncumberedReportDocumentList(null);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.DONOR_NOT_FOUND);
         }
         return getUIFModelAndView(oleEncumberedReportForm);
+    }
+
+    private boolean isValidDonor(String donorCode){
+        Map map = new HashMap();
+        map.put(OLEConstants.DONOR_CODE, donorCode);
+        List<OLEDonor> donorList = (List<OLEDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, map);
+        if(donorList.size()>0 || donorCode.equals("")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private Map<String, Object> buildCriteria(OLEEncumberedReportForm oleEncumberedReportForm){
+        Map<String, Object> queryCriteriaMap = new HashMap<>();
+        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.DONOR_CODE,oleEncumberedReportForm.getDonorCode());
+        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.FROM_DATE,oleEncumberedReportForm.getFromDate());
+        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.TO_DATE,oleEncumberedReportForm.getToDate());
+        return queryCriteriaMap;
     }
 
     @RequestMapping(params = "methodToCall=clearSearch")
@@ -189,4 +127,14 @@ public class OLEEncumberedReportController extends UifControllerBase {
         return performRedirect(form, url, props);
     }
 
+    public DonorEncumberReportDAOService getDonorEncumberReportDAOService() {
+        if(donorEncumberReportDAOService==null){
+            donorEncumberReportDAOService=SpringContext.getBean(DonorEncumberReportDAOService.class);
+        }
+        return donorEncumberReportDAOService;
+    }
+
+    public void setDonorEncumberReportDAOService(DonorEncumberReportDAOService donorEncumberReportDAOService) {
+        this.donorEncumberReportDAOService = donorEncumberReportDAOService;
+    }
 }

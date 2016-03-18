@@ -43,6 +43,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <bean id="errorMessage_proxyPatron" parent="Uif-MessageField" p:messageText="Please select anyone patron!" p:hidden="true" p:cssClasses="alert-error" />
                             <bean id="proxyListInfoMessage" parent="Uif-MessageField" p:style="font-size:15px"
                                   p:messageText="The current patron is a proxy borrower. Please select the correct one for this transaction and click OK."/>
                             <ref bean="selfCheckOut-HorizontalBoxSection"/>
@@ -114,9 +115,7 @@
         <property name="items">
             <list>
                 <bean id="btnProceed" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="submitForm('processPatronSearchPostProxyHandling',null,null,true,
-                      function (){jq('#checkoutItem_control').focus();}
-                      );jq.fancybox.close();"
+                      p:actionScript="processProxySelection();"
                       p:actionLabel="OK"/>
                 <bean id="realPatronCloseBtn"
                       parent="Uif-SecondaryActionButton-Small"

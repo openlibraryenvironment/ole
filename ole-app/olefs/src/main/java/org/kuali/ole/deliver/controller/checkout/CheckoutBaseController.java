@@ -121,7 +121,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed = identifyPatron(oleForm);
         OlePatronDocument patronDocument = getPatronDocument(patronForWhomLoanIsBeingProcessed);
         OlePatronDocument scanedPatron = getCircForm(oleForm).getPatronDocument();
-        if(!StringUtils.equals(scanedPatron.getOlePatronId(),patronDocument.getOlePatronId())){
+        if(null != patronDocument && null != scanedPatron && !StringUtils.equals(scanedPatron.getOlePatronId(),patronDocument.getOlePatronId())){
             patronDocument.setSelectedProxyForPatron(scanedPatron);
         }
         return patronDocument;
@@ -383,7 +383,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         if (null == currentLoanDocument.getCirculationPolicyId()) {
             droolsResponse.addErrorMessage("No Circulation Policy found that matches the patron/item combination. Please select a due date manually!");
             droolsResponse.addErrorMessageCode(DroolsConstants.CUSTOM_DUE_DATE_REQUIRED_FLAG);
-            currentLoanDocument.setCirculationPolicyId("No Circ Policy Found");
+            currentLoanDocument.setCirculationPolicyId(OLEConstants.NO_CIRC_POLICY_FOUND);
             noticeInfo.setNoticeType(DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG);
             return droolsResponse;
         }
@@ -489,17 +489,6 @@ public abstract class CheckoutBaseController extends CircUtilController {
             oleCirculationHistory.setTemporaryItemTypeId(itemRecord.getTempItemTypeId());
             oleCirculationHistory.setProxyPatronId(currentLoanDocument.getProxyPatronId());
             oleCirculationHistory.setOperatorCreateId(currentLoanDocument.getLoanOperatorId());
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Timestamp checkInDate = new Timestamp(System.currentTimeMillis());
-            try{
-                Date date = dateFormat.parse("1/1/1000");
-                long time = date.getTime();
-                checkInDate=new Timestamp(time);
-            }catch(Exception e){
-                LOG.info("Exception occured while setting the checkin date for circulation history record for the item with item Barcode : "+oleCirculationHistory.getItemId()+" Loan Id : "+oleCirculationHistory.getLoanId());
-                LOG.error(e,e);
-            }
-            oleCirculationHistory.setCheckInDate(checkInDate);
             getBusinessObjectService().save(oleCirculationHistory);
         }
     }

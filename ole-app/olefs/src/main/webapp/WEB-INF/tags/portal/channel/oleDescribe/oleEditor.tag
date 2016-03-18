@@ -32,6 +32,9 @@
     <portal:portalLink displayTitle="true" title="Global Edit of Holdings/Items/EHoldings"
                        url="${ConfigProperties.application.url}/ole-kr-krad/globaleditController?viewId=GlobalEditView&methodToCall=start"/> <br/>
 
+        <portal:portalLink displayTitle="true" title="New Search Workbench"
+                           url="${ConfigProperties.application.url}/oleNgSearch.jsp"/> <br/>
+
 
 
 

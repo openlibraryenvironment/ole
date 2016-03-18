@@ -70,6 +70,9 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         for (Item item : holdingsTree.getItems()) {
             Holdings holdings = new PHoldings();
             holdings.setId(holdingsTree.getHoldings().getId());
+            if(holdingsTree.getHoldings().isStaffOnly()){
+                item.setStaffOnly(holdingsTree.getHoldings().isStaffOnly());
+            }
             item.setHolding(holdings);
             createItem(item);
         }

@@ -9,6 +9,7 @@ public class DroolsConstants {
     public static final String PRINT_SLIP_FLAG = "PRINT_SLIP_FLAG";
     public static final String ROUTE_TO_LOCATION_SELECTOR = "ROUTE_TO_LOCATION_SELECTOR";
     public static final String AUTO_CHECKOUT = "AUTO_CHECKOUT";
+    public static final String SHOW_LOCATION_POPUP = "SHOW_LOCATION_POPUP";
     public static enum ERROR_CODES
     {
         CUSTOM_LOAN_DUE_DATE_REQUIRED(DroolsConstants.CUSTOM_DUE_DATE_REQUIRED_FLAG),

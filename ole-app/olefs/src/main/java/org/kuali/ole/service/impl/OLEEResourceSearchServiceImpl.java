@@ -4000,7 +4000,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                     eResourcePO.setTitle(oleeResourceRecordDocument.getTitle());
                     eResourcePO.setGokbId(oleeResourceRecordDocument.getGokbId());
                     eResourcePO.setIsbnNIssn(oleeResourceRecordDocument.getIsbn());
-                    eResourcePO.setPrice(oleeResourceRecordDocument.getEstimatedPrice());
+                    eResourcePO.setPrice(oleCreatePO.getPrice());
                     eResourcePO.setVendorId(oleCreatePO.getVendorId());
                     eResourcePO.setOrderTypeId(oleCreatePO.getOrderTypeId().toString());
                     eResourcePO.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());

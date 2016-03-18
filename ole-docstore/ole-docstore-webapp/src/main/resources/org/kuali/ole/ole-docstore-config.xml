@@ -19,7 +19,8 @@
     <param name="application.url">${ole.docstore.url.base}</param>
     <param name="appserver.url">${application.url}</param>
     <param name="jdbc.username">OLE</param>
-
+    <param name="work.directory">${project.home}/work</param>
+    <param name="staging.directory">${work.directory}/staging</param>
     <param name="config.location">classpath:META-INF/${project.groupId.path}/${project.artifactId}/project-rice-properties.xml</param>
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:${project.groupId.path}/oledocstore-config-defaults.xml</param>

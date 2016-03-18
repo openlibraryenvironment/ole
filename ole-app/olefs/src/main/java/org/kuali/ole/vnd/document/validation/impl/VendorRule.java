@@ -1490,14 +1490,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             VendorAlias vendorAlias = (VendorAlias) bo;
             success &= validateVendorAlias(vendorAlias);
         }*/
-
-        if (bo instanceof VendorTransmissionFormatDetail) {
-            VendorDetail newVendorDetail  = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
-            newVendorDetail.refreshNonUpdateableReferences();
-            VendorTransmissionFormatDetail vendorTransmissionFormatDetail = (VendorTransmissionFormatDetail) bo;
-            success &= validateVendorTransmissionFormatDetail(vendorTransmissionFormatDetail,newVendorDetail);
-        }
-
         if (bo instanceof VendorDefaultAddress) {
             VendorDefaultAddress defaultAddress = (VendorDefaultAddress) bo;
             String parentName = StringUtils.substringBeforeLast(collectionName, ".");
@@ -1507,31 +1499,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
 
         return success;
-    }
-
-
-      boolean validateVendorTransmissionFormatDetail(VendorTransmissionFormatDetail vendorTransmissionFormatDetail,VendorDetail vendorDetail){
-       boolean valid = true;
-       boolean preferredTransmissionFlag = false;
-       int oldPreferredTransmissionFlagCount = 0;
-       boolean newVendorPreferredTransmissionFormat = vendorTransmissionFormatDetail.isVendorPreferredTransmissionFormat();
-          for (VendorTransmissionFormatDetail oldVendorTransmissionFormatDetail : vendorDetail.getVendorTransmissionFormat()) {
-              oldVendorTransmissionFormatDetail.refreshNonUpdateableReferences();
-              if(oldVendorTransmissionFormatDetail.isVendorPreferredTransmissionFormat()){
-                preferredTransmissionFlag = true;
-                oldPreferredTransmissionFlagCount = oldPreferredTransmissionFlagCount + 1;
-             }
-          }
-         if(oldPreferredTransmissionFlagCount > 1){
-             GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_PREFERRED_TRANSMISSION, OLEKeyConstants.ERROR_DUPLICATE_PREFERRED_FORMAT, "preferred transmission format");
-             valid &= false;
-         }
-         if(newVendorPreferredTransmissionFormat && preferredTransmissionFlag){
-            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_PREFERRED_TRANSMISSION, OLEKeyConstants.ERROR_DUPLICATE_PREFERRED_FORMAT, "preferred transmission format");
-            valid &= false;
-         }
-
-       return valid;
     }
 
     /**

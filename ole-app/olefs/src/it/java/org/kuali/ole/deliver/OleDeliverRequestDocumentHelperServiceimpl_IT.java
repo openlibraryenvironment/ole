@@ -486,7 +486,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends KFSTestCaseBa
         oleDeliverRequestType.setRequestTypeCode("10101");
 
         oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestType);
-        oleDeliverRequestBo.setCreateDate(new Date(System.currentTimeMillis()));
+        oleDeliverRequestBo.setCreateDate(new Timestamp(System.currentTimeMillis()));
         oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
         oleDeliverRequestBo.setOlePatron(olePatronDocument);
 

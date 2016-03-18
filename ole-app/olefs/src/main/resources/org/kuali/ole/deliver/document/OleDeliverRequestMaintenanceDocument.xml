@@ -116,9 +116,9 @@
                         <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload"
                               p:actionLabel="reload"
                               p:render="false"/>
-                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove"
+                       <!-- <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove"
                               p:actionLabel="Blanket Approve" p:performClientSideValidation="true"
-                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>-->
                         <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve"
                               p:actionLabel="Approve" p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
@@ -131,8 +131,8 @@
                         <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge"
                               p:actionLabel="Acknowledge"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-                        <bean parent="Uif-BackAction"  p:actionLabel="Close" p:ajaxSubmit="false"
-                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Cancel'}"/>
+                        <!--<bean parent="Uif-BackAction"  p:actionLabel="Close" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Cancel'}"/>-->
                         <bean parent="OleRequest-Uif-CancelAction" p:ajaxSubmit="false"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Cancel'} "/>
                         <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"

@@ -19,6 +19,7 @@ public class OleLocation extends PersistableBusinessObjectBase {
     private OleLocation oleLocation;
     private OleLocationLevel oleLocationLevel;
     private String fullLocationPath;
+    private boolean active;
 
     /**
      * Gets the levelCode string value from this OleLocation class
@@ -167,6 +168,24 @@ public class OleLocation extends PersistableBusinessObjectBase {
         this.oleLocationLevel = oleLocationLevel;
     }
 
+
+    /**
+     * Gets the boolean value of active property
+     *
+     * @return active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the boolean value for active property
+     *
+     * @param active
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     /**
      * This method returns a map that contains the Primary Key value of this OleLocation class
      *

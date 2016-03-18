@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.util;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.DroolsEngineLogger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -39,13 +40,21 @@ public class OlePatronRecordUtil extends CircUtilController {
                     olePatronDocument.setPatronRecordURL(patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
                 }
                 return olePatronDocument;
-            } else {
-                LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
-                throw new Exception(OLEConstants.PTRN_BARCD_NOT_EXT);
+            }else {
+                Map<String,String> lostBarCodeMap=new HashMap<>();
+                lostBarCodeMap.put(OLEConstants.OlePatron.PATRON_LOST_BARCODE_FLD, barcode);
+                List<OlePatronLostBarcode> lostBarcode = (List<OlePatronLostBarcode>) getBusinessObjectService().findMatching(OlePatronLostBarcode.class, lostBarCodeMap);
+                if(lostBarcode != null && lostBarcode.size() > 0){
+                    LOG.error(OLEConstants.PTRN_LOST_BARCODE);
+                    throw new Exception(OLEConstants.PTRN_LOST_BARCODE);
+                }else{
+                    LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
+                    throw new Exception(OLEConstants.PTRN_BARCD_NOT_EXT);
+                }
             }
         } catch (Exception e) {
-            LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT + e, e);
-            values_StringBuffer.append(OLEConstants.PTRN_BARCD_NOT_EXT + "  " + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
+            LOG.error(e.getMessage() + e, e);
+            values_StringBuffer.append(e.getMessage());
             throw new Exception(values_StringBuffer.toString());
         }
 

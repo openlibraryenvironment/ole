@@ -1,5 +1,8 @@
 package org.kuali.ole.docstore.process;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -8,34 +11,36 @@ import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.RepositoryBrowser;
 import org.kuali.ole.RepositoryManager;
-import org.kuali.ole.docstore.common.document.*;
+import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.BibMarc;
+import org.kuali.ole.docstore.common.document.BibTree;
+import org.kuali.ole.docstore.common.document.BibTrees;
 import org.kuali.ole.docstore.common.document.content.instance.FormerIdentifier;
 import org.kuali.ole.docstore.common.document.content.instance.Instance;
+import org.kuali.ole.docstore.common.document.content.instance.InstanceCollection;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.InstanceOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.common.util.BibInfoStatistics;
 import org.kuali.ole.docstore.common.util.ReindexBatchStatistics;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.discovery.solr.work.bib.marc.WorkBibMarcDocBuilder;
-import org.kuali.ole.docstore.document.rdbms.RdbmsWorkBibMarcDocumentManager;
 import org.kuali.ole.docstore.document.rdbms.RdbmsWorkEInstanceDocumentManager;
 import org.kuali.ole.docstore.document.rdbms.RdbmsWorkInstanceDocumentManager;
 import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.DocumentIndexer;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.dao.RebuildIndexDao;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.InstanceRecord;
 import org.kuali.ole.docstore.indexer.solr.IndexerService;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingBatchStatus;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.InstanceRecord;
-import org.kuali.ole.docstore.model.xmlpojo.ingest.AdditionalAttributes;
 import org.kuali.ole.docstore.model.xmlpojo.ingest.Content;
 import org.kuali.ole.docstore.model.xmlpojo.ingest.RequestDocument;
 import org.kuali.ole.docstore.model.xmlpojo.ingest.ResponseDocument;
-import org.kuali.ole.docstore.common.document.content.instance.InstanceCollection;
 import org.kuali.ole.docstore.model.xstream.work.oleml.WorkEInstanceOlemlRecordProcessor;
 import org.kuali.ole.docstore.service.BeanLocator;
 import org.kuali.ole.docstore.service.DocumentIngester;
@@ -43,23 +48,27 @@ import org.kuali.ole.docstore.service.ServiceLocator;
 import org.kuali.ole.pojo.OleException;
 import org.kuali.ole.repository.CheckoutManager;
 import org.kuali.ole.repository.NodeHandler;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import javax.jcr.Binary;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Session;
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Class to Rebuild Indexes.
@@ -978,6 +987,11 @@ public class RebuildIndexesHandler
         bibInfoStatistics.setTotalTime(totalTime);
         BatchBibTreeDBUtil.writeStatusToFile(filePath, STORAGE_STATUS_FILE_NAME, "Total Time taken " + totalTime);
         return bibInfoStatistics.toString();
+    }
+
+
+    public String  reindexFromFile(String filePath, RebuildIndexDao rebuildIndexDao) throws Exception {
+        return rebuildIndexDao.indexFromFile(filePath);
     }
 
 }

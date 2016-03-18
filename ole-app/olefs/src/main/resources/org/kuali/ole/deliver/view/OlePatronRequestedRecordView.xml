@@ -102,6 +102,8 @@
                 <bean id="viewRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType" />
                 <bean id="viewRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus" />
                 <bean id="viewRequest_pickUpLocationCode" parent="Uif-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode" />
+                <bean id="viewRequest_recallDueDate" parent="Uif-DataField" p:label="Recall Due Date" p:propertyName="recallDueDate"/>
+                <bean id="viewRequest_inTransitDate" parent="Uif-DataField" p:label="InTransit Date" p:propertyName="inTransitDate"/>
                 <bean id="viewRequest_requestExpirationDate" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="requestExpiryDate"/>
                 <bean id="viewRequest_onHoldExpirationDate" parent="Uif-DataField" p:label="OnHold Expiration Date" p:propertyName="holdExpirationDate"/>
             </list>
@@ -112,7 +114,7 @@
     <bean id="OlePatronRequestedRecordView-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" >
         <property name="items">
             <list>
-                <bean id="close" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em" p:onClickScript="parent.window.close();"  p:actionLabel="Close"  />
+                <bean id="close" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:15em" p:onClickScript="parent.window.close();"  p:actionLabel="Close"  />
             </list>
         </property>
     </bean>

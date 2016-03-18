@@ -42,6 +42,7 @@
         <bean id="locationName" parent="Uif-LookupCriteriaInputField" p:propertyName="locationName" />
        <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="parentLevelId"/>-->
          <bean id="levelId" parent="Uif-LookupCriteriaInputField" p:propertyName="levelId" />
+          <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
       </list>
     </property>
     <property name="resultFields">
@@ -51,6 +52,7 @@
         <bean id="resultFields_locationName" parent="Uif-DataField" p:propertyName="locationName" />
         <bean id="resultFields_parentLocationId" parent="Uif-DataField" p:propertyName="parentLocationId" />
         <bean id="resultFields_levelCode" parent="Uif-DataField" p:propertyName="levelCode" p:label="Location Level"/>
+        <bean id="resultFields_active" parent="Uif-DataField" p:propertyName="active" p:label="Active Indicator"/>
       </list>
     </property>
   </bean>

@@ -1316,5 +1316,26 @@ public class LoanDateTimeUtil_IT {
         System.out.println(loanDueDate);
     }
 
+    @Test
+    public void getOpenAndClosingTimeForTheGivenDayFromWeekList() throws Exception {
+        OleCalendarWeek oleCalendarWeek = new OleCalendarWeek();
+        oleCalendarWeek.setOpenTime("09:30");
+        oleCalendarWeek.setOpenTimeSession("AM");
+        oleCalendarWeek.setCloseTime("09:25");
+        oleCalendarWeek.setCloseTimeSession("AM");
+        oleCalendarWeek.setStartDay("6");
+        oleCalendarWeek.setEndDay("5");
 
+        List<OleCalendarWeek> oleCalendarWeekList = new ArrayList<>();
+        oleCalendarWeekList.add(oleCalendarWeek);
+        LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
+        Map<String, Map<String, String>> openingAndClosingTimeMap = loanDateTimeUtil.getOpenAndClosingTimeForTheGivenDayFromWeekList(new Date(), oleCalendarWeekList);
+        Map<String, String> openTimeMap = openingAndClosingTimeMap.get("openTime");
+        Map<String, String> closeTimeMap = openingAndClosingTimeMap.get("closeTime");
+
+        String openTime = openTimeMap.keySet().iterator().hasNext() ? openTimeMap.keySet().iterator().next() : "";
+        String closeTime = closeTimeMap.keySet().iterator().hasNext() ? closeTimeMap.keySet().iterator().next() : "";
+        System.out.println("Open Time : " + openTime);
+        System.out.println("Close Time : " + closeTime);
+    }
 }

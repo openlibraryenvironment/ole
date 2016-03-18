@@ -182,6 +182,7 @@ public class AlertServiceImpl implements AlertService{
         alertBo1.setAlertNote(alertBo.getAlertNote());
         alertBo1.setReceivingUserId(alertBo.getReceivingUserId());
         alertBo1.setAlertStatus(alertBo.isAlertStatus());
+        alertBo1.setStatus(alertBo.getStatus());
         alertBo1.setAlertApproverId(alertBo.getAlertApproverId());
         alertBo1.setAlertApprovedDate(alertBo.getAlertApprovedDate());
         alertBo1.setReceivingGroupId(alertBo.getReceivingGroupId());

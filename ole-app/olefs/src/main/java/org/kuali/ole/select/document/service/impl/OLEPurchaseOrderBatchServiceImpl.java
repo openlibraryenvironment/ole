@@ -490,12 +490,13 @@ public class OLEPurchaseOrderBatchServiceImpl implements OLEPurchaseOrderBatchSe
             Exception {
 
         String fileDirectory = getPOBACSVDirectory();
-        String fileName = fileDirectory + fileSeparator + OLEConstants.POBA_DIRECTORY + fileSeparator + olePurchaseOrderBatchDocument.getDocIdIngestFile().getOriginalFilename();
+        File fileName = new File(fileDirectory + fileSeparator + OLEConstants.POBA_DIRECTORY + fileSeparator + olePurchaseOrderBatchDocument.getDocIdIngestFile().getOriginalFilename());
         BufferedWriter documentOut = new BufferedWriter(new FileWriter(fileName));
         String documentFileContent = new String(olePurchaseOrderBatchDocument.getDocIdIngestFile().getBytes());
         documentOut.write(documentFileContent);
         documentOut.close();
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+       // BufferedReader br = new BufferedReader(new FileReader(fileName));
         String text = null;
         List<String> poIds = new ArrayList<String>();
         while ((text = br.readLine()) != null) {

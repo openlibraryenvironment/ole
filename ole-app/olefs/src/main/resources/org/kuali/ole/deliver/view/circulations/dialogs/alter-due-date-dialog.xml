@@ -35,6 +35,7 @@
         <property name="items">
             <list merge="false">
                 <ref bean="infoMessage"/>
+                <ref bean="alterDueDate-assignDateAndTimeToAll"/>
                 <ref bean="alterDueDate-HorizontalBoxSection"/>
                 <ref bean="alterDueDate-buttons"/>
             </list>
@@ -43,7 +44,42 @@
 
     <bean id="infoMessage" parent="Uif-MessageField" p:messageText="Select due date or leave blank to set due date to indefinite" p:cssClasses="alert-info" />
 
-    <bean id="alterDueDate-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:style="width:1000px">
+    <bean id="alterDueDate-assignDateAndTimeToAll" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+        <list>
+            <bean id="alterDueDate-assignDueDateToAll" parent="Loan-Uif-InputField" p:propertyName="loanDueDateToAllEntries" p:label="Due Date">
+                <property name="control">
+                    <bean parent="Uif-DateControl" p:size="10"/>
+                </property>
+                <property name="validCharactersConstraint">
+                    <bean parent="BasicDatePatternConstraint">
+                        <property name="allowedFormats">
+                            <list>
+                                <value>${allowedFormats.dateFormat1}</value>
+                                <value>${allowedFormats.dateFormat2}</value>
+                                <value>${allowedFormats.dateFormat3}</value>
+                                <value>${allowedFormats.dateFormat4}</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+            <bean id="alterDueDate-assignTimeToAll" parent="Loan-Uif-InputField" p:propertyName="loanTimeToAllEntries" p:label="Time">
+                <property name="control">
+                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                </property>
+                <property name="validCharactersConstraint">
+                    <bean parent="Time24HPatternConstraint"/>
+                </property>
+            </bean>
+
+            <bean id="alterDueDate-assignToAll" parent="Uif-SecondaryActionButton" p:actionLabel="Update All items" p:actionScript="
+                assignDueDateAndTimeToAll();"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="alterDueDate-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:style="width:1000px;margin-top:50px">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="loanDocumentsForAlterDueDate"/>
         <property name="layoutManager.renderSequenceField" value="false"/>

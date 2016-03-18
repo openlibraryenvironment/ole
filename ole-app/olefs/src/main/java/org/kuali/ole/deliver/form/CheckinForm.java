@@ -41,6 +41,8 @@ public class CheckinForm extends OLEForm {
     private boolean printOnHoldSlipQueue;
     private String printFormat;
 
+    private String locationPopupMsg;
+
     public String getSelectedCirculationDesk() {
         return selectedCirculationDesk;
     }
@@ -254,5 +256,13 @@ public class CheckinForm extends OLEForm {
 
     public void setPrintFormat(String printFormat) {
         this.printFormat = printFormat;
+    }
+
+    public String getLocationPopupMsg() {
+        return locationPopupMsg;
+    }
+
+    public void setLocationPopupMsg(String locationPopupMsg) {
+        this.locationPopupMsg = locationPopupMsg;
     }
 }

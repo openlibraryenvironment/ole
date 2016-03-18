@@ -45,7 +45,7 @@ public class PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation extend
             }
         }
         String documentType = getDocumentTypeLabel(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-        GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+        GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NO_ACTIVE_ITEMS, documentType);
 
         return false;
     }

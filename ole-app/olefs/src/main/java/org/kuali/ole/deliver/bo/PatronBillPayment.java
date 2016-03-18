@@ -43,6 +43,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     private List<org.kuali.ole.deliver.bo.SystemGeneratedBill> sysGeneratedBill = new ArrayList<org.kuali.ole.deliver.bo.SystemGeneratedBill>();
     private boolean reviewed;
     private String firstName;
+    private String middleName;
     private String lastName;
     private String patronName;
     private boolean selectBill;
@@ -53,6 +54,16 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     private boolean requiredFeeAmount;
     private KualiDecimal paidAmount = new KualiDecimal(0);
     private Timestamp lastTransactionDate;
+    private KualiDecimal creditIssued = new KualiDecimal(0);
+    private KualiDecimal creditRemaining = new KualiDecimal(0);
+    private boolean manualProcessBill = false;
+    private String patronBarcode;
+    private String patronTypeId;
+    private String feeTypeId;
+    private String itemBarcode;
+    private String paymentStatusId;
+    private KualiDecimal fineAmountFrom;
+    private KualiDecimal fineAmountTo;
 
     private OlePatronDocument olePatron = new OlePatronDocument();
 
@@ -131,6 +142,14 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
@@ -488,7 +507,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     }
 
     public OlePatronDocument getOlePatron() {
-        if (null == olePatron) {
+        if (null == olePatron || StringUtils.isEmpty(olePatron.getOlePatronId())) {
             String patronId = getPatronId();
             if (StringUtils.isNotEmpty(patronId)) {
                 Map<String, String> parameterMap = new HashMap<>();
@@ -544,5 +563,85 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setViewBillNumber(Integer viewBillNumber) {
         this.viewBillNumber = viewBillNumber;
+    }
+
+    public KualiDecimal getCreditIssued() {
+        return creditIssued;
+}
+
+    public void setCreditIssued(KualiDecimal creditIssued) {
+        this.creditIssued = creditIssued;
+    }
+
+    public KualiDecimal getCreditRemaining() {
+        return creditRemaining;
+    }
+
+    public void setCreditRemaining(KualiDecimal creditRemaining) {
+        this.creditRemaining = creditRemaining;
+    }
+
+    public boolean isManualProcessBill() {
+        return manualProcessBill;
+    }
+
+    public void setManualProcessBill(boolean manualProcessBill) {
+        this.manualProcessBill = manualProcessBill;
+    }
+
+    public String getPatronBarcode() {
+        return patronBarcode;
+    }
+
+    public void setPatronBarcode(String patronBarcode) {
+        this.patronBarcode = patronBarcode;
+    }
+
+    public String getPatronTypeId() {
+        return patronTypeId;
+    }
+
+    public void setPatronTypeId(String patronTypeId) {
+        this.patronTypeId = patronTypeId;
+    }
+
+    public String getFeeTypeId() {
+        return feeTypeId;
+    }
+
+    public void setFeeTypeId(String feeTypeId) {
+        this.feeTypeId = feeTypeId;
+    }
+
+    public String getItemBarcode() {
+        return itemBarcode;
+    }
+
+    public void setItemBarcode(String itemBarcode) {
+        this.itemBarcode = itemBarcode;
+    }
+
+    public String getPaymentStatusId() {
+        return paymentStatusId;
+    }
+
+    public void setPaymentStatusId(String paymentStatusId) {
+        this.paymentStatusId = paymentStatusId;
+    }
+
+    public KualiDecimal getFineAmountFrom() {
+        return fineAmountFrom;
+    }
+
+    public void setFineAmountFrom(KualiDecimal fineAmountFrom) {
+        this.fineAmountFrom = fineAmountFrom;
+    }
+
+    public KualiDecimal getFineAmountTo() {
+        return fineAmountTo;
+    }
+
+    public void setFineAmountTo(KualiDecimal fineAmountTo) {
+        this.fineAmountTo = fineAmountTo;
     }
 }

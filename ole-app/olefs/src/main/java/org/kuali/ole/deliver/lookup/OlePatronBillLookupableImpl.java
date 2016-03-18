@@ -1,18 +1,20 @@
 package org.kuali.ole.deliver.lookup;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.FeeType;
+import org.kuali.ole.deliver.bo.OLEPatronEntityViewBo;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.LookupView;
@@ -30,10 +32,18 @@ import java.util.*;
 public class OlePatronBillLookupableImpl extends LookupableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronBillLookupableImpl.class);
     OlePatronHelperService olePatronHelperService = new OlePatronHelperServiceImpl();
-    private String firstName;
-    private String middleName;
-    private String lastName;
+    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
 
+    public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
+        if(oleLoanDocumentDaoOjb == null){
+            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return oleLoanDocumentDaoOjb;
+    }
+
+    public void setOleLoanDocumentDaoOjb(OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb) {
+        this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
+    }
 
     /**
      * Generates a URL to perform a maintenance action on the given result data object
@@ -85,131 +95,80 @@ public class OlePatronBillLookupableImpl extends LookupableImpl {
     @Override
     public Collection<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
         LOG.debug("Inside performSearch()");
-        List<PatronBillPayment> patronBillPayments = new ArrayList<PatronBillPayment>();
-        List<PatronBillPayment> billPayments = new ArrayList<PatronBillPayment>();
-        List<PatronBillPayment> finalResult = new ArrayList<PatronBillPayment>();
-        List<String> olePatronIdList = new ArrayList<String>();
-        Map<String, String> searchEntityMap = new HashMap<String, String>();
+        List<PatronBillPayment> patronBillPayments = new ArrayList<>();
+        List<PatronBillPayment> finalResult = new ArrayList<>();
         LookupUtils.preprocessDateFields(searchCriteria);
-        firstName = searchCriteria.get(OLEConstants.OlePatron.PATRON_FIRST_NAME);
-        lastName = searchCriteria.get(OLEConstants.OlePatron.PATRON_LAST_NAME);
-        searchCriteria.remove("firstName");
-        searchCriteria.remove("lastName");
-        if (StringUtils.isNotEmpty(firstName)) {
-            searchEntityMap.put("firstName", firstName);
-        }
-        if (StringUtils.isNotEmpty(lastName)) {
-            searchEntityMap.put("lastName", lastName);
-        }
-        Integer searchResultsLimit = null;
-        try {
-            //By firstName,lastName,middleName
-            if (searchEntityMap.size() > 0) {
-                try {
-                    List<?> searchResults;
-                    Map<String, String> searchEntityCriteria = new HashMap<String, String>();
-                    for (Map.Entry<String, String> entry : searchEntityMap.entrySet()) {
-                        int counter=0;
-                        for( int i=0; i<entry.getValue().length(); i++ ) {
-                            if( entry.getValue().charAt(i) == '*' ) {
-                                counter++;
-                            }
-                        }
-                        if (counter==0 || (counter!=entry.getValue().length())) {
-                            searchEntityCriteria.put(entry.getKey(), entry.getValue());
-                        }
-                    }
-                    if (searchEntityCriteria.size() > 0) {
-                        Class entityNameBoClass = Class.forName("org.kuali.rice.kim.impl.identity.name.EntityNameBo");
-                        if (LookupUtils.hasExternalBusinessObjectProperty(entityNameBoClass, searchEntityCriteria)) {
-                            Map<String, String> eboSearchCriteria = adjustCriteriaForNestedEBOs(searchEntityCriteria, bounded);
-                            searchResults = (List<EntityNameBo>) getLookupService().findCollectionBySearchUnbounded(entityNameBoClass, eboSearchCriteria);
-                        } else {
-                            searchResults = (List<EntityNameBo>) getLookupService().findCollectionBySearchUnbounded(entityNameBoClass, searchEntityCriteria);
-                        }
-                    } else {
-                        searchResults = (List<EntityNameBo>) KRADServiceLocator.getBusinessObjectService().findAll(EntityNameBo.class);
-                    }
-                    Iterator iterator = searchResults.iterator();
-                    while (iterator.hasNext()) {
-                        EntityNameBo entityNameBo = (EntityNameBo) iterator.next();
-                        if (!olePatronIdList.contains(entityNameBo.getEntityId()))
-                            olePatronIdList.add(entityNameBo.getEntityId());
-                    }
-                    if (searchCriteria.size() > 0) {
-                        for (String patronId : olePatronIdList) {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("patronId", patronId);
-                            PatronBillPayment patronBillPayment = (PatronBillPayment) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(PatronBillPayment.class, map);
-                            if (patronBillPayment != null) {
-                                patronBillPayments.add(patronBillPayment);
-                            }
-                        }
-                    }
-                    Class entityPatronBoClass = Class.forName("org.kuali.ole.deliver.bo.PatronBillPayment");
-                    if (bounded) {
-                        searchResultsLimit = LookupUtils.getSearchResultsLimit(entityPatronBoClass, form);
-                    }
-                    int count=0;
-                    if (searchResultsLimit != null) {
-                        iterator = patronBillPayments.iterator();
-                        while (iterator.hasNext()) {
-                            PatronBillPayment billPayment = (PatronBillPayment) iterator.next();
-                            if (count < searchResultsLimit.intValue()) {
-                                billPayments.add(billPayment);
-                                count++;
-                            } else {
-                                break;
-                            }
-                        }
-                    } else {
-                        billPayments.addAll(patronBillPayments);
-                    }
-                    String resultsPropertyName = "LookupResultMessages";
-                    GlobalVariables.getMessageMap().clearErrorMessages();
-                    GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(resultsPropertyName);
-                    GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(resultsPropertyName);
-                    if (billPayments.size() == 0) {
-                        GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
-                                RiceKeyConstants.INFO_LOOKUP_RESULTS_NONE_FOUND);
-                    } else if (billPayments.size() == 1) {
-                        GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
-                                RiceKeyConstants.INFO_LOOKUP_RESULTS_DISPLAY_ONE);
-                    } else if (billPayments.size() > 1) {
-                        Boolean resultsExceedsLimit = bounded && searchResultsLimit != null && billPayments.size() > 0 && billPayments.size() > searchResultsLimit ? true : false;
-                        if (resultsExceedsLimit) {
-                            GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
-                                    RiceKeyConstants.INFO_LOOKUP_RESULTS_EXCEEDS_LIMIT, billPayments.size() + "",
-                                    searchResultsLimit.toString());
-                        } else {
 
-                            GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
-                                    RiceKeyConstants.INFO_LOOKUP_RESULTS_DISPLAY_ALL, billPayments.size() + "");
+        Map<String, String> searchPatronCriteria = processSearchPatronCriteria(searchCriteria);
+
+        Criteria searchFeeTypeCriteria = processSearchFeeTypeCriteria(searchCriteria);
+
+        List<?> searchResults;
+        boolean patronFlag = searchPatronCriteria.size() > 0 && !(searchPatronCriteria.size() == 1 && searchPatronCriteria.containsKey(OLEConstants.PTRN_ID));
+        boolean feeFlag = !searchFeeTypeCriteria.isEmpty();
+        if (patronFlag || feeFlag) {
+            Iterator iterator;
+
+            Set<String> olePatronIdList = new HashSet<>();
+            Set<String> billNumberList = new HashSet<>();
+            if (feeFlag) {
+                List<FeeType> feeTypes = getOleLoanDocumentDaoOjb().getFeeTypes(searchFeeTypeCriteria);
+                if (CollectionUtils.isNotEmpty(feeTypes)){
+                    for (FeeType feeType : feeTypes){
+                        String patronId = feeType != null && feeType.getPatronBillPayment() != null ? feeType.getPatronBillPayment().getPatronId() : null;
+                        if (StringUtils.isNotBlank(patronId)) {
+                            olePatronIdList.add(patronId);
+                        }
+                        String billNumber = feeType != null && feeType.getPatronBillPayment() != null ? feeType.getPatronBillPayment().getBillNumber() : null;
+                        if (StringUtils.isNotBlank(billNumber)){
+                            billNumberList.add(billNumber);
                         }
                     }
-                patronBillPayments.clear();
-                patronBillPayments.addAll(billPayments);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("Error trying to perform search", e);
-                } catch (InstantiationException e1) {
-                    throw new RuntimeException("Error trying to perform search", e1);
                 }
-            } else {
-                patronBillPayments =(List<PatronBillPayment>) super.performSearch(form, searchCriteria, bounded);
             }
 
-        } catch (Exception e) {
-            LOG.error("Exception Occurred In Searching of Patrons------>Patron Bill Lookup");
+            if (!searchPatronCriteria.isEmpty() && !(feeFlag && CollectionUtils.isEmpty(olePatronIdList))) {
+                Set<String> patronIdList = new HashSet<>();
+                Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+                searchResults = (List<?>) getLookupService().findCollectionBySearchHelper(OLEPatronEntityViewBo.class,
+                        searchPatronCriteria, !bounded, searchResultsLimit);
+                iterator = searchResults.iterator();
+                while (iterator.hasNext()) {
+                    OLEPatronEntityViewBo olePatronEntityViewBo = (OLEPatronEntityViewBo) iterator.next();
+                    String patronId = olePatronEntityViewBo.getPatronId();
+                    if (StringUtils.isNotBlank(patronId)) {
+                        if (feeFlag) {
+                            if (olePatronIdList.contains(patronId)) {
+                                patronIdList.add(patronId);
+                            }
+                        } else {
+                            patronIdList.add(patronId);
+                        }
+                    }
+                }
+                olePatronIdList = patronIdList;
+            }
+
+            if (CollectionUtils.isNotEmpty(olePatronIdList)) {
+                Map map = new HashMap<>();
+                map.put(OLEConstants.PTRN_ID, olePatronIdList);
+                if (CollectionUtils.isNotEmpty(billNumberList)){
+                    map.put(OLEConstants.OlePatron.BILL_PAYMENT_ID, billNumberList);
+                }
+                patronBillPayments = (List<PatronBillPayment>) getBusinessObjectService().findMatching(PatronBillPayment.class, map);
+            }
+            patronBillPayments = processBillPayments(form, bounded, patronBillPayments);
+        } else {
+            patronBillPayments = (List<PatronBillPayment>) super.performSearch(form, searchCriteria, bounded);
         }
-        List<PatronBillPayment> sortedPatronBillPayments = new ArrayList<PatronBillPayment>();
 
-
+        List<PatronBillPayment> sortedPatronBillPayments = new ArrayList<>();
         Iterator iterator = patronBillPayments.iterator();
         while (iterator.hasNext()){
             PatronBillPayment patronBillPayment=(PatronBillPayment)iterator.next();
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("entityId", patronBillPayment.getPatronId());
-            EntityNameBo entityNameBo=(EntityNameBo)KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EntityNameBo.class,map);
+            Map<String, String> map = new HashMap<>();
+            map.put(OLEConstants.ENTITY_ID, patronBillPayment.getPatronId());
+            EntityNameBo entityNameBo=getBusinessObjectService().findByPrimaryKey(EntityNameBo.class,map);
             if(entityNameBo!=null){
                 patronBillPayment.setFirstName(entityNameBo.getFirstName());
                 patronBillPayment.setLastName(entityNameBo.getLastName());
@@ -223,8 +182,140 @@ public class OlePatronBillLookupableImpl extends LookupableImpl {
                 return Integer.parseInt(patronBillPayment1.getBillNumber()) > Integer.parseInt(patronBillPayment2.getBillNumber()) ? 1 : -1;
             }
         });
-
         return sortedPatronBillPayments;
+    }
+
+    private Criteria processSearchFeeTypeCriteria(Map<String, String> searchCriteria) {
+        String feeTypeId = searchCriteria.get(OLEConstants.OleFeeType.FEE_TYPE_ID);
+        String itemBarcode = searchCriteria.get(OLEConstants.ITEM_BARCODE);
+        String paymentStatusId = searchCriteria.get(OLEConstants.PAY_STATUS_ID);
+        String fineAmountFrom = searchCriteria.get(OLEConstants.FINE_AMOUNT_FROM);
+        String fineAmountTo = searchCriteria.get(OLEConstants.FINE_AMOUNT_TO);
+
+        searchCriteria.remove(OLEConstants.OleFeeType.FEE_TYPE_ID);
+        searchCriteria.remove(OLEConstants.ITEM_BARCODE);
+        searchCriteria.remove(OLEConstants.PAY_STATUS_ID);
+        searchCriteria.remove(OLEConstants.FINE_AMOUNT);
+
+        Criteria criteria = new Criteria();
+        if (StringUtils.isNotBlank(feeTypeId)) {
+            criteria.addEqualTo(OLEConstants.FEE_TYPE_FIELD, feeTypeId);
+        }
+        if (StringUtils.isNotBlank(itemBarcode)) {
+            itemBarcode = itemBarcode.replace("*", "%");
+            criteria.addLike(OLEConstants.ITEM_BARCODE, itemBarcode);
+        }
+        if (StringUtils.isNotBlank(paymentStatusId)) {
+            criteria.addEqualTo(OLEConstants.PAY_STATUS, paymentStatusId);
+        }
+        if (StringUtils.isNotBlank(fineAmountFrom)){
+            criteria.addGreaterOrEqualThan("patronBillPayment.unPaidBalance", fineAmountFrom);
+        }
+        if (StringUtils.isNotBlank(fineAmountTo)){
+            criteria.addLessOrEqualThan("patronBillPayment.unPaidBalance", fineAmountTo);
+        }
+        return criteria;
+    }
+
+    private Map<String, String> processSearchPatronCriteria(Map<String, String> searchCriteria) {
+        Map<String, String> searchPatronMap = new HashMap<>();
+        String patronBarcode = searchCriteria.get(OLEConstants.PATRON_BAR);
+        String firstName = searchCriteria.get(OLEConstants.OlePatron.PATRON_FIRST_NAME);
+        String middleName = searchCriteria.get(OLEConstants.OlePatron.PATRON_MIDDLE_NAME);
+        String lastName = searchCriteria.get(OLEConstants.OlePatron.PATRON_LAST_NAME);
+        String patronTypeId = searchCriteria.get(OLEConstants.PTRN_TYPE_ID);
+        String patronId = searchCriteria.get(OLEConstants.PTRN_ID);
+
+        searchCriteria.remove(OLEConstants.PATRON_BAR);
+        searchCriteria.remove(OLEConstants.OlePatron.PATRON_FIRST_NAME);
+        searchCriteria.remove(OLEConstants.OlePatron.PATRON_MIDDLE_NAME);
+        searchCriteria.remove(OLEConstants.OlePatron.PATRON_LAST_NAME);
+        searchCriteria.remove(OLEConstants.PTRN_TYPE_ID);
+
+        if (StringUtils.isNotBlank(patronBarcode)) {
+            searchPatronMap.put(OLEConstants.PATRON_BAR, patronBarcode);
+        }
+        if (StringUtils.isNotBlank(firstName)) {
+            searchPatronMap.put(OLEConstants.OlePatron.PATRON_FIRST_NAME, firstName);
+        }
+        if (StringUtils.isNotBlank(middleName)) {
+            searchPatronMap.put(OLEConstants.OlePatron.PATRON_MIDDLE_NAME, middleName);
+        }
+        if (StringUtils.isNotBlank(lastName)) {
+            searchPatronMap.put(OLEConstants.OlePatron.PATRON_LAST_NAME, lastName);
+        }
+        if (StringUtils.isNotBlank(patronTypeId)) {
+            searchPatronMap.put(OLEConstants.PTRN_TYPE_ID, patronTypeId);
+        }
+        if (StringUtils.isNotBlank(patronId)) {
+            searchPatronMap.put(OLEConstants.PTRN_ID, patronId);
+        }
+        Map<String, String> searchPatronCriteria = new HashMap<>();
+        if (searchPatronMap.size() > 0) {
+            for (Map.Entry<String, String> entry : searchPatronMap.entrySet()) {
+                int counter = 0;
+                for (int i = 0; i < entry.getValue().length(); i++) {
+                    if (entry.getValue().charAt(i) == '*') {
+                        counter++;
+                    }
+                }
+                if (counter == 0 || (counter != entry.getValue().length())) {
+                    searchPatronCriteria.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+        return searchPatronCriteria;
+    }
+
+    private List<PatronBillPayment> processBillPayments(LookupForm form, boolean bounded, List<PatronBillPayment> patronBillPayments) {
+        List<PatronBillPayment> billPayments = new ArrayList<>();
+        try {
+            Class entityPatronBoClass = Class.forName("org.kuali.ole.deliver.bo.PatronBillPayment");
+            Integer searchResultsLimit = null;
+            if (bounded) {
+                searchResultsLimit = LookupUtils.getSearchResultsLimit(entityPatronBoClass, form);
+            }
+            int count = 0;
+            if (searchResultsLimit != null) {
+                Iterator iterator = patronBillPayments.iterator();
+                while (iterator.hasNext()) {
+                    PatronBillPayment billPayment = (PatronBillPayment) iterator.next();
+                    if (count < searchResultsLimit.intValue()) {
+                        billPayments.add(billPayment);
+                        count++;
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                billPayments.addAll(patronBillPayments);
+            }
+            String resultsPropertyName = "LookupResultMessages";
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(resultsPropertyName);
+            GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(resultsPropertyName);
+            if (billPayments.size() == 0) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
+                        RiceKeyConstants.INFO_LOOKUP_RESULTS_NONE_FOUND);
+            } else if (billPayments.size() == 1) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
+                        RiceKeyConstants.INFO_LOOKUP_RESULTS_DISPLAY_ONE);
+            } else if (billPayments.size() > 1) {
+                Boolean resultsExceedsLimit = bounded && searchResultsLimit != null && patronBillPayments.size() > 0 && patronBillPayments.size() > searchResultsLimit ? true : false;
+                if (resultsExceedsLimit) {
+                    GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
+                            RiceKeyConstants.INFO_LOOKUP_RESULTS_EXCEEDS_LIMIT, patronBillPayments.size() + "",
+                            searchResultsLimit.toString());
+                } else {
+
+                    GlobalVariables.getMessageMap().putInfoForSectionId(resultsPropertyName,
+                            RiceKeyConstants.INFO_LOOKUP_RESULTS_DISPLAY_ALL, billPayments.size() + "");
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception Occurred In Searching of Patrons------>Patron Bill Lookup");
+        }
+        return billPayments;
     }
 
     public boolean isWildCardMatches(String word, String wildCardString) {

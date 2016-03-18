@@ -29,6 +29,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(LostNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
+    private PatronBillHelperService patronBillHelperService;
 
 
     public ItemOlemlRecordProcessor getItemOlemlRecordProcessor() {
@@ -55,8 +56,8 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
             for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
                 LOG.info("LostNoticesExecutor thread id---->" + Thread.currentThread().getId() + "current thread---->" + Thread.currentThread() + "Loan id-->" + loanDocument.getLoanId() + "notice id--->" + oleDeliverNotice.getId());
                 Timestamp toBeSendDate = oleDeliverNotice.getNoticeToBeSendDate();
-                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST) && toBeSendDate.compareTo(getSendToDate(OLEConstants.LOST_NOTICE_TO_DATE)) <
-                        0) {
+                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST) && (toBeSendDate.compareTo(getSendToDate(OLEConstants.LOST_NOTICE_TO_DATE)) <
+                        0 || loanDocument.isManualBill())) {
                     try {
                         itemUUIDS.add(loanDocument.getItemUuid());
                     } catch (Exception e) {
@@ -95,15 +96,18 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         feeType.setFeeType(getFeeTypeId(OLEConstants.REPLACEMENT_FEE));
         feeType.setFeeAmount(new KualiDecimal(fineAmount));
         feeType.setItemBarcode(oleLoanDocument.getItemId());
-        feeType.setItemType(oleLoanDocument.getItemTypeName());
-        feeType.setItemTitle(oleLoanDocument.getTitle());
         feeType.setItemUuid(oleLoanDocument.getItemUuid());
+        getPatronBillHelperService().setFeeTypeInfo(feeType,oleLoanDocument.getItemUuid());
         feeType.setPaymentStatus(getOlePaymentStatus().getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
         feeType.setDueDate(oleLoanDocument.getLoanDueDate());
         feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
         feeType.setCheckOutDate(oleLoanDocument.getCreateDate());
+        feeType.setManualProcessBill(oleLoanDocument.isManualBill());
+        if(null != oleLoanDocument.getItemLostNote()) {
+            feeType.setGeneralNote(oleLoanDocument.getItemLostNote());
+        }
 
         List<FeeType> feeTypes = new ArrayList<FeeType>();
         feeTypes.add(feeType);
@@ -111,6 +115,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
 
 
         PatronBillPayment patronBillPayment = new PatronBillPayment();
+        patronBillPayment.setManualProcessBill(oleLoanDocument.isManualBill());
         patronBillPayment.setBillDate(oleLoanDocument.getCheckInDate() != null ? new java.sql.Date(oleLoanDocument.getCheckInDate().getTime()) : new java.sql.Date(billdate.getTime()));
         patronBillPayment.setFeeType(feeTypes);
         //commented for jira OLE-5675
@@ -119,6 +124,9 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         patronBillPayment.setTotalAmount(new KualiDecimal(fineAmount));
         patronBillPayment.setUnPaidBalance(new KualiDecimal(fineAmount));
         oleLoanDocument.setReplacementBill(fineAmount);
+        if(null != oleLoanDocument.getItemLostNote()) {
+            patronBillPayment.setNote(oleLoanDocument.getItemLostNote());
+        }
         PatronBillPayment patronBillPayments = getBusinessObjectService().save(patronBillPayment);
         return patronBillPayments.getBillNumber();
     }
@@ -152,7 +160,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
             for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
                 LOG.info("LostNoticesExecutor thread id---->" + Thread.currentThread().getId() + "current thread---->" + Thread.currentThread() + "Loan id-->" + loanDocument.getLoanId() + "notice id--->" + oleDeliverNotice.getId());
                 Timestamp toBeSendDate = oleDeliverNotice.getNoticeToBeSendDate();
-                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST) && toBeSendDate.compareTo(lostNoticetoSendDate) < 0) {
+                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST) && (toBeSendDate.compareTo(lostNoticetoSendDate) < 0 || loanDocument.isManualBill())) {
                     try {
                         //itemUUIDS.add(loanDocument.getItemUuid());
                         oleDeliverNotices.add(oleDeliverNotice);
@@ -259,5 +267,16 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         oleItem.setItemStatusEffectiveDate(String.valueOf(new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE).format(new Date())));
         String itemContent = getItemOlemlRecordProcessor().toXML(oleItem);
         return itemContent;
+    }
+
+    public PatronBillHelperService getPatronBillHelperService() {
+        if(patronBillHelperService==null){
+            patronBillHelperService=new PatronBillHelperService();
+        }
+        return patronBillHelperService;
+    }
+
+    public void setPatronBillHelperService(PatronBillHelperService patronBillHelperService) {
+        this.patronBillHelperService = patronBillHelperService;
     }
 }

@@ -684,6 +684,10 @@
         <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.ole.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="vendorShippingPaymentTermsCode" />
         </reference-descriptor>
+        <reference-descriptor name="orderType" class-ref="org.kuali.ole.module.purap.businessobject.PurchaseOrderType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="purchaseOrderTypeId" target-field-ref="purchaseOrderTypeId"/>
+        </reference-descriptor>
         <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
@@ -6026,6 +6030,9 @@
         <field-descriptor name="numberSimultaneousUsers" column="NUMBER_SIMULT_USERS" jdbc-type="VARCHAR"/>
         <field-descriptor name="accessUserName" column="ACCESS_USERNAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="accessPassword" column="ACCESS_PASSWORD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="materialsSpecified" column="MATERIALS_SPECIFIED" jdbc-type="VARCHAR"/>
+        <field-descriptor name="firstIndicator" column="FIRST_INDICATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="secondIndicator" column="SECOND_INDICATOR" jdbc-type="VARCHAR"/>
         <field-descriptor name="statusDate" column="ACCESS_STATUS_DATE_UPDATED" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="eResourceId" column="E_RESOURCE_ID" jdbc-type="VARCHAR"/>
 

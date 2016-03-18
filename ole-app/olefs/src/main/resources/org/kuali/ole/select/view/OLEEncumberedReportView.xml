@@ -97,7 +97,7 @@
     </bean>
 
     <bean id="EncumberedReportSearchResultsPanel" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="5"
+          p:layoutManager.numberOfColumns="6"
           p:layoutManager.applyDefaultCellWidths="false">
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEDonor"/>
         <property name="propertyName" value="EncumberedReportDocumentList"/>
@@ -115,6 +115,8 @@
             <list>
                 <bean parent="Uif-DataField" p:label="Donor Code" p:propertyName="donorCode"/>
                 <bean parent="Uif-DataField" p:label="Donor Note" p:propertyName="donorNote"/>
+                <bean parent="Uif-LinkField" p:label="PO #" p:linkText="@{#line.poNumber}"
+                      p:href="@{#line.poLinkUrl}" p:target="_blank" />
                 <bean parent="Uif-DataField" p:label="Donor Amount" p:propertyName="donorAmount"/>
                 <bean parent="Uif-DataField" p:label="Encumbered Amount" p:propertyName="encumberedAmount"/>
                 <bean parent="Uif-DataField" p:label="Expensed Amount" p:propertyName="expensedAmount"/>

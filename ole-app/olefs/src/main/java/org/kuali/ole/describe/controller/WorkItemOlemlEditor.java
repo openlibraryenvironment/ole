@@ -269,7 +269,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     }
                 }
                 this.addItemInformation(editorForm);
-                editorForm.setStaffOnlyFlagForItem(false);
+                setStaffOnly(editorForm);
                 editorForm.setItemCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
                 editorForm.setItemCreatedDate(dateStr);
                 editorForm.setItemUpdatedBy(null);
@@ -948,15 +948,14 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         damagedRecord.setItemId(itemData.getItemIdentifier());
                     } else {
                         if (itemDamagedRecordList.get(index).getDamagedItemDate() != null && !itemDamagedRecordList.get(index).getDamagedItemDate().toString().isEmpty()) {
-                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date itemDamagedDate = null;
                             try {
                                 itemDamagedDate = format2.parse(itemDamagedRecordList.get(index).getDamagedItemDate().toString());
                             } catch (ParseException e) {
                                 LOG.error("format string to Date " + e);
                             }
-                            damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
+                            damagedRecord.setDamagedItemDate(df.format(itemDamagedDate).toString());
                         }
                         damagedRecord.setDamagedItemNote(itemDamagedRecordList.get(index).getDamagedItemNote());
                         damagedRecord.setPatronBarcode(itemDamagedRecordList.get(index).getPatronBarcode());
@@ -1019,8 +1018,8 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         claimsReturnedRecord.setItemId(itemData.getItemIdentifier());
                     } else {
                         if (claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString() != null) {
-                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date claimsReturnedDate = null;
                             try {
                                 claimsReturnedDate = format2.parse(claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString());

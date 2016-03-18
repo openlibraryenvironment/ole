@@ -10,7 +10,15 @@
         <div align="right">
         <button id="{{node.id}}"class="btn-xs" ng-click="previous(node.id)"  style="" ng-show="node.docType == 'holdings' ">previous</button>
         <button class="btn-xs" ng-click="next(node.id)"  style="" ng-show="node.docType == 'holdings' ">next</button>
-            </div>
+        </div>
+        <!--<div align="right">
+        <dir-pagination-controls max-size="5"
+                                 direction-links="true"
+                                 boundary-links="true"
+                                 on-page-change="nextItemSearchSolr(newPageNumber)" pagination-id="nodes_renderer1"  ng-show="node.docType == 'holdings' ">
+        </dir-pagination-controls>
+        </div>-->
+        <!--<li dir-paginate="node in node.nodes | itemsPerPage: itemPageSize" total-items="{{node.nodes.length}}" pagination-id="nodes_renderer1" ui-tree-node ng-include="'nodes_renderer1.html'"></li>-->
         <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer1.html'">
         </li>
     </ol>
@@ -31,7 +39,7 @@
 
 
 
-<div class="row" ng-controller="treesController" ng-hide="searched">
+<div class="row" ng-controller="treesController" ng-show="searched">
     <div align="center">
         <button class="btn btn-primary btn-sm" ng-click="copyToTree1()">Copy to Tree1</button>
         <button class="btn btn-primary btn-sm" ng-click="copyToTree2()">Copy to Tree2</button>
@@ -39,14 +47,14 @@
 
     <div class="col-sm-6">
         <h3>Tree 1</h3>
-        <span class="messageClass" ng-bind="message" ng-show="message!=null"/>
+        <span class="messageClass" ng-bind="message" ng-show="message!='' "/>
 
         <div ui-tree id="tree1-root">
             <ol ui-tree-nodes="" ng-model="tree1">
                 <li ng-repeat="node in tree1" ui-tree-node ng-include="'nodes_renderer1.html'">
                 </li>
             </ol>
-            </div>
+        </div>
 
         <!--<ul id="tree1" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home"></a></li>

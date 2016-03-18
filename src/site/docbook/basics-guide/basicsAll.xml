@@ -29,9 +29,9 @@
                     >Describe</emphasis> tab displays e-docs and interfaces for cataloging
                 processes.  The<emphasis role="bold">Select/Acquire</emphasis> tab displays the list
                 of transactions and functions that are associated with the financial processes and
-                purchases as well as Electronic Resources and Licensing. The <emphasis role="bold">Maintenance</emphasis> tab includes the related maintenance documents for the
-                four other tabs.  The <emphasis role="bold"
-                    >Administration</emphasis> menu tab
+                purchases as well as Electronic Resources and Licensing. The <emphasis role="bold"
+                    >Maintenance</emphasis> tab includes the related maintenance documents for the
+                four other tabs.  The <emphasis role="bold">Administration</emphasis> menu tab
                 displays the list of functions that only technical staff or super users in the
                 functional area are likely to use. It also contains batch processing e-docs and
                 interfaces.</para>
@@ -2064,7 +2064,8 @@
                             </para>
                         </listitem>
                         <listitem>
-                            <para> Click one of the buttons and follow the standard prompts. </para>
+                            <para> Click one of the buttons and follow the standard prompts.  The
+                                entire result set will be downloaded.</para>
                         </listitem>
                     </orderedlist>
                     <note>
@@ -2331,14 +2332,14 @@
                     <title>Fund Codes</title>
                     <para>The OLE accounting string on transactional documents currently contains a
                         mix of data elements, Chart, Account Number, etc. Inputting this string can
-                        take some time if a library is using all the data elements.  Therefore, the
-                        fund code may be entered on the Requistions and Invoices as a short cut.
-                        The Fund Code will auto-populate the accounting string for you.</para>
+                        take some time if a library is using all the data elements. Therefore, the
+                        fund code may be entered on the Requistions and Invoices as a short cut. The
+                        Fund Code will auto-populate the accounting string for you.</para>
                     <para>Enter the Fund Code or search for it from the lookup <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="../images/Lookup.png"/>
                             </imageobject>
-                        </inlinemediaobject>.  Click <inlinemediaobject>
+                        </inlinemediaobject>. Click <inlinemediaobject>
                             <alt>Add</alt>
                             <imageobject>
                                 <imagedata
@@ -2347,9 +2348,9 @@
                             </imageobject>
                         </inlinemediaobject> to add the fund code.</para>
                     <note>
-                        <para>Fund Codes are maintained with the Fund Code maintenance document.
-                            For information about the maintenance document and creating the codes,
-                            see <link>Fund Code</link> under the <emphasis>Select and Acquire
+                        <para>Fund Codes are maintained with the Fund Code maintenance document. For
+                            information about the maintenance document and creating the codes, see
+                                <link>Fund Code</link> under the <emphasis>Select and Acquire
                                 Module</emphasis>.</para>
                     </note>
                 </section>
@@ -3366,7 +3367,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis>Complete:</emphasis> Complete the document.  You may cancel a
+                            <emphasis>Complete:</emphasis> Complete the document. You may cancel a
                             document when you have a Complete action request on it. </para>
                         <para>Complete and Approve are essentially the same: A Complete action
                             satisfies an Approve request, and an Approve action satisfies a Complete
@@ -4340,7 +4341,7 @@
                         <orderedlist>
                             <listitem>
                                 <para>First select a <emphasis role="bold">Document Type</emphasis>
-                                    from the drop down menu provided.  Available <emphasis
+                                    from the drop down menu provided. Available <emphasis
                                         role="bold">Document Types</emphasis> are:</para>
                                 <itemizedlist>
                                     <listitem>
@@ -4392,7 +4393,7 @@
                                 <note>
                                     <para>The <emphasis role="bold">In Doc Type</emphasis> selection
                                         drives the menu of available search fields in the <emphasis
-                                            role="bold">In Field</emphasis> menu.  Unless you make a
+                                            role="bold">In Field</emphasis> menu. Unless you make a
                                         different selection, <emphasis role="bold">In Doc
                                             Type</emphasis> and <emphasis role="bold">Document Type
                                         </emphasis>will have the same content.</para>
@@ -4417,8 +4418,8 @@
                                 <note>
                                     <para>In the current version of OLE, if you search for an
                                         E-Holdings record by Local Identifier do not include the
-                                        prefix (who-).  Instead only search by the number after the
-                                        prefix.  This issue has been reported and will be fixed in a
+                                        prefix (who-). Instead only search by the number after the
+                                        prefix. This issue has been reported and will be fixed in a
                                         future release, see <link
                                             xlink:href="https://jira.kuali.org/browse/OLE-8047"
                                             >OLE-8047</link>. </para>
@@ -4582,7 +4583,7 @@
                                                   <imagedata
                                                   fileref="../images/DescribeNoTitlePage-71.png"/>
                                                 </imageobject>
-                                            </inlinemediaobject> to perform the search.  </para>
+                                            </inlinemediaobject> to perform the search. </para>
                                         <tip>
                                             <para role="Body Text">Keyboard shortcut: alternatively,
                                                 press "Enter".</para>
@@ -4664,8 +4665,7 @@
                                 <para>To the right of the search results, click <emphasis
                                         role="bold">Narrow Search</emphasis> to open facet options.
                                     You can click on any blue facet to narrow the search results.
-                                    You can click <emphasis
-                                        role="bold">more </emphasis>above any
+                                    You can click <emphasis role="bold">more </emphasis>above any
                                     facet section for additional facet options. Note that facets are
                                     presented only with a bibliographic search.</para>
                                 <para>The search results will provide the title regardless of the
@@ -8931,14 +8931,20 @@
             </section>
             <section>
                 <title>Circulation</title>
-                <para> Circulation loan policy - <link
+                <para> Circulation loan policy - OLE started using Drools for circulation policies
+                    beginning in 1.6.2.  Several OLE libraries have made their .drl files available
+                    through OLE's <link
+                        xlink:href="https://github.com/openlibraryenvironment/ole/tree/develop/ole-app/olefs/src/it/resources/org/kuali/ole/deliver/rules"
+                        >GitHub repository</link>
+                </para>
+                <para>Alternatively, you may use KRMS rules, a sample is available: <link
                         xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/deliver.xml"
                         >deliver.xml</link> (Not imported via Batch Process but XML Import) </para>
                 <note>
-                    <para>Beginning in 1.6.2, OLE will begin using Drools for circulation policies.
-                        While this policy will still work, changes will be available in the next few
-                        releases.  See <link xlink:href="https://jira.kuali.org/browse/OLE-7475"
-                            >OLE-7475</link>.</para>
+                    <para>For more information about implementing circulation policies, see <link
+                            xlink:href="https://wiki.kuali.org/display/OLE/Circulation+policies"
+                            >Circulation policies</link> part of our implementation guide available
+                        on the wiki.</para>
                 </note>
             </section>
             <section>

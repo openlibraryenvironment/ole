@@ -23,6 +23,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.coa.businessobject.Account;
+import org.kuali.ole.coa.businessobject.OleFundCode;
+import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.gl.Constant;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.gl.OJBUtility;
@@ -42,6 +44,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -92,8 +95,19 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
             fieldValues.put(Constant.SUB_ACCOUNT_OPTION, OLEConstants.getDashSubAccountNumber());
             isConsolidated = false;
-        } 
-        
+        }
+
+        String fundCode = (String) fieldValues.get("fundCode");
+        if(fundCode != null && validateFundCode(fundCode)) {
+            List buildResult = null;
+            Map searchMap = new java.util.HashMap();
+            searchMap.put(OLEConstants.FUND_CODE_ID, fundCode);
+            List<OleFundCodeAccountingLine> OleFundCodeAccountingList =(List<OleFundCodeAccountingLine>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCodeAccountingLine.class, searchMap);
+            for(OleFundCodeAccountingLine oleFundCodeAccountingLine : OleFundCodeAccountingList) {
+                fieldValues.remove("fundCode");
+                fieldValues.put("accountNumber",oleFundCodeAccountingLine.getAccountNumber());
+                fieldValues.put("chartOfAccountsCode",oleFundCodeAccountingLine.getChartCode());
+                fieldValues.put("objectCode",oleFundCodeAccountingLine.getObjectCode());
         // get the search result collection
         Iterator cashBalanceIterator = balanceService.lookupCashBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildCashBalanceCollection(cashBalanceIterator, isConsolidated);
@@ -104,8 +118,28 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         // get the actual size of all qualified search results
         Integer recordCount = balanceService.getCashBalanceRecordCount(fieldValues, isConsolidated);
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new Balance());
+                if(buildResult != null) {
+                    buildResult.addAll(this.buildSearchResultList(searchResultsCollection, actualSize));
+                }
+                else {
+                    buildResult = this.buildSearchResultList(searchResultsCollection, actualSize);
+                }
+            }
+            return buildResult;
+        }
+        else {
+            Iterator cashBalanceIterator = balanceService.lookupCashBalance(fieldValues, isConsolidated);
+            Collection searchResultsCollection = this.buildCashBalanceCollection(cashBalanceIterator, isConsolidated);
 
-        return this.buildSearchResultList(searchResultsCollection, actualSize);
+            // update search results according to the selected pending entry option
+            updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
+
+            // get the actual size of all qualified search results
+            Integer recordCount = balanceService.getCashBalanceRecordCount(fieldValues, isConsolidated);
+            Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new Balance());
+
+            return this.buildSearchResultList(searchResultsCollection, actualSize);
+        }
     }
 
     /**
@@ -261,4 +295,13 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         return rows;
     }
 
+    public boolean validateFundCode(String fundCode) {
+        Map searchMap = new java.util.HashMap();
+        searchMap.put(OLEConstants.FUND_CODE_ID, fundCode);
+        List<OleFundCode> oleFundCodeList =(List<OleFundCode>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCode.class, searchMap);
+        if (oleFundCodeList.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 }

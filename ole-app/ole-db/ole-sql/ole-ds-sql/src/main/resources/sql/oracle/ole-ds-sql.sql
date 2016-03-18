@@ -1,3 +1,4 @@
+
 -----------------------------------------------------------------------------
 -- OLE_DS_ACCESS_LOCATION_CODE_T
 -----------------------------------------------------------------------------
@@ -597,6 +598,9 @@ CREATE TABLE OLE_DS_HOLDINGS_T
         , ADMIN_PASSWORD VARCHAR2(100)
         , ACCESS_USERNAME VARCHAR2(100)
         , ACCESS_PASSWORD VARCHAR2(100)
+        , MATERIALS_SPECIFIED VARCHAR2(100)
+        , FIRST_INDICATOR VARCHAR2(20)
+        , SECOND_INDICATOR VARCHAR2(20)
         , CREATED_BY VARCHAR2(40)
         , DATE_CREATED TIMESTAMP
         , UPDATED_BY VARCHAR2(40)
@@ -746,6 +750,7 @@ CREATE TABLE OLE_DS_ITEM_T
         , CALL_NUMBER VARCHAR2(100)
         , SHELVING_ORDER VARCHAR2(300)
         , ENUMERATION VARCHAR2(100)
+        , VOLUME_NUMBER VARCHAR2(100)
         , CHRONOLOGY VARCHAR2(100)
         , COPY_NUMBER VARCHAR2(20)
         , NUM_PIECES VARCHAR2(10)

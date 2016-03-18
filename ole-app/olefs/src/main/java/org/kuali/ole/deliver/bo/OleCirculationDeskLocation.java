@@ -27,6 +27,8 @@ public class OleCirculationDeskLocation extends PersistableBusinessObjectBase {
     private OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
     private OleLocation location = new OleLocation();
     private OleLocation pickupLocation = new OleLocation();
+    private boolean locationPopup;
+    private String locationPopupMsg;
 
     public String getCirculationDeskLocationId() {
         return circulationDeskLocationId;
@@ -170,5 +172,21 @@ public class OleCirculationDeskLocation extends PersistableBusinessObjectBase {
 
     public void setCirculationPickUpLocationCode(String circulationPickUpLocationCode) {
         this.circulationPickUpLocationCode = circulationPickUpLocationCode;
+    }
+
+    public boolean isLocationPopup() {
+        return locationPopup;
+    }
+
+    public void setLocationPopup(boolean locationPopup) {
+        this.locationPopup = locationPopup;
+    }
+
+    public String getLocationPopupMsg() {
+        return locationPopupMsg;
+    }
+
+    public void setLocationPopupMsg(String locationPopupMsg) {
+        this.locationPopupMsg = locationPopupMsg;
     }
 }
