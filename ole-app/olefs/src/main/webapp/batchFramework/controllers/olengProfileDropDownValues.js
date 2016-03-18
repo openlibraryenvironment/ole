@@ -77,8 +77,6 @@ var dataMappingObject = {
         {id: 'type', name: 'Item Type'},
         {id: 'status', name: 'Item Status'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'enumeration', name: 'Enumeration'},
         {id: 'chronology', name: 'Chronology'},
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},
@@ -98,8 +96,6 @@ var dataMappingObject = {
         {id: 'persistentLink', name: 'Persistent Link'},
         {id: 'linkText', name: 'Link Text'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'statisticalCode', name: 'Statistical Code'},
         {id: 'platform', name: 'Platform'},
         {id: 'publisher', name: 'Publisher'},
@@ -184,8 +180,6 @@ var dataMappingObject = {
         {id: 'type', name: 'Item Type'},
         {id: 'status', name: 'Item Status'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'enumeration', name: 'Enumeration'},
         {id: 'chronology', name: 'Chronology'},
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},
@@ -206,8 +200,6 @@ var dataMappingObject = {
         {id: 'persistentLink', name: 'Persistent Link'},
         {id: 'linkText', name: 'Link Text'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'statisticalCode', name: 'Statistical Code'},
         {id: 'platform', name: 'Platform'},
         {id: 'publisher', name: 'Publisher'},
@@ -413,8 +405,6 @@ var eHoldingsDataMappings = [
     {id: 'persistentLink', name: 'Persistent Link'},
     {id: 'linkText', name: 'Link Text'},
     {id: 'donorCode', name: 'Donor Code'},
-    {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-    {id: 'donorNote', name: 'Donor Note'},
     {id: 'statisticalCode', name: 'Statistical Code'},
     {id: 'platform', name: 'Platform'},
     {id: 'publisher', name: 'Publisher'},
@@ -657,11 +647,18 @@ var unmatchedOrderOperations = [
     {id: 'createReqOnly', name: 'Create Requisition Only'}
 ];
 
+var orderTypes = [
+    {id: 'holdingsAndItem', name: 'Holdings and Item'},
+    {id: 'eholdings', name: 'Eholdings'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: batchProcessTypeValues,
     requisitionForTitlesValues: requisitionForTitlesValues,
     requisitionForTitlesOption: 'One Requisition Per Title',
+    orderTypes: orderTypes,
+    orderType: "Holdings and Item",
     marcOnly: false,
     collapsed: false
 };

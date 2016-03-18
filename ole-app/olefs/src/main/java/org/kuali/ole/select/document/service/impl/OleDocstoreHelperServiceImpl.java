@@ -340,23 +340,51 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
     }
 
     private void createEInstance(OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors, BibTree bibTree, String initiatorName)throws Exception{
+        boolean create = true;
+        Holdings eHoldings = (Holdings) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":holdings");
+        Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap = new HashMap<>();
+        if(StringUtils.isNotBlank(oleCopy.getBibId())) {
+            String bibId = oleCopy.getBibId();
+            bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId, EHoldings.ELECTRONIC);
+            String holdingsUUID = getLocationMatchedHoldingsId(bibHoldingsDetailsMap, oleCopy.getLocation(), bibId);
+            if(StringUtils.isNotBlank(holdingsUUID)) {
+                eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsUUID);
+                oleCopy.setInstanceId(holdingsUUID);
+                Map map = new HashMap();
+                map.put(org.kuali.ole.OLEConstants.INSTANCE_ID, holdingsUUID);
+                List<OleCopy> oleCopyList = (List) getBusinessObjectService().findMatching(OleCopy.class, map);
+                if(CollectionUtils.isEmpty(oleCopyList)) {
+                    create = false;
+                }
+            }
+        }
+
+        if(null == eHoldings) {
+            eHoldings = new EHoldings();
+        }
+
         List<DonorInfo> donorInfoList = new ArrayList<>();
         HoldingsTree holdingsTree = new HoldingsTree();
         org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = setHoldingDetails(oleCopy);
-        oleHoldings.setHoldingsIdentifier(null);
         donorInfoList = setDonorInfoToItem(oleDonors, oleHoldings.getDonorInfo());
         oleHoldings.setDonorInfo(donorInfoList);
-        Holdings eHoldings = new EHoldings();
         eHoldings.setCategory(DocCategory.WORK.getCode());
         eHoldings.setType(org.kuali.ole.docstore.common.document.content.enums.DocType.HOLDINGS.getCode());
         eHoldings.setFormat(org.kuali.ole.docstore.common.document.content.enums.DocFormat.OLEML.getCode());
         eHoldings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
+        eHoldings.setContentObject(oleHoldings);
         eHoldings.setCreatedBy(initiatorName);
         Bib bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibTree.getBib().getId());
         eHoldings.setBib(bib);
         holdingsTree.setHoldings(eHoldings);
-        getDocstoreClientLocator().getDocstoreClient().createHoldingsTree(holdingsTree);
-        oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+        if (create) {
+            oleHoldings.setHoldingsIdentifier(null);
+            getDocstoreClientLocator().getDocstoreClient().createHoldingsTree(holdingsTree);
+            oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+        } else {
+            oleHoldings.setHoldingsIdentifier(oleCopy.getInstanceId());
+            getDocstoreClientLocator().getDocstoreClient().updateHoldings(eHoldings);
+        }
     }
 
     private void updateEInstance(OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors) throws Exception{
@@ -1269,7 +1297,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
             Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap = new HashMap<>();
             if(StringUtils.isNotBlank(copy.getBibId())) {
                 String bibId = copy.getBibId();
-                bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId);
+                bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId, PHoldings.PRINT);
                 String holdingsUUID = getLocationMatchedHoldingsId(bibHoldingsDetailsMap, copy.getLocation(), bibId);
                 if(StringUtils.isNotBlank(holdingsUUID)) {
                     pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsUUID);
@@ -1372,7 +1400,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         return null;
     }
 
-    private Map<String, List<HoldingsDetails>> getBibHoldingsDetailsMap(String bibUUID) {
+    private Map<String, List<HoldingsDetails>> getBibHoldingsDetailsMap(String bibUUID, String type) {
         Map<String, List<HoldingsDetails>> bibDetailsMap = new HashMap<>();
         String bibId = DocumentUniqueIDPrefix.getDocumentId(bibUUID);
         BibRecord matchedRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, bibId);
@@ -1383,7 +1411,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                 for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
                     HoldingsRecord holdingsRecord = iterator.next();
                     String holdingsType = holdingsRecord.getHoldingsType();
-                    if (StringUtils.isNotBlank(holdingsType) && holdingsType.equalsIgnoreCase(PHoldings.PRINT)) {
+                    if (StringUtils.isNotBlank(holdingsType) && holdingsType.equalsIgnoreCase(type)) {
                         HoldingsDetails holdingsDetails = new HoldingsDetails();
                         holdingsDetails.setHoldingsId(holdingsRecord.getHoldingsId());
                         holdingsDetails.setLocation(holdingsRecord.getLocation());

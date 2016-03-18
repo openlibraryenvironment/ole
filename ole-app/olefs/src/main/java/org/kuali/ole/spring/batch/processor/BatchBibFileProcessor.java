@@ -75,6 +75,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                             jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
                             unmatchedRecords.add(marcRecord);
                         }
+                    } else {
+                        jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
+                        unmatchedRecords.add(marcRecord);
                     }
                 } else {
                     jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);

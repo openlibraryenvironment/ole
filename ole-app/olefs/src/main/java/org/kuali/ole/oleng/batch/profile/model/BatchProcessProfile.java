@@ -39,6 +39,9 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     @JsonProperty("marcOnly")
     private Boolean marcOnly;
 
+    @JsonProperty("marcOnly")
+    private String orderType;
+
     @JsonIgnore
     private byte[] content;
 
@@ -167,5 +170,13 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setContent(byte[] content) {
         this.content = content;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 }

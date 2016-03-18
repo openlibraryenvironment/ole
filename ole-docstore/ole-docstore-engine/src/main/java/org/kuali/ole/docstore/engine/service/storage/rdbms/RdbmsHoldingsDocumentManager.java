@@ -911,7 +911,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 //        saveAccessUriRecord(oleHoldings.getUri(), holdingsRecord.getHoldingsId());
     }
 
-    protected Holdings buildHoldingsFromHoldingsRecord(HoldingsRecord holdingsRecord) {
+    public Holdings buildHoldingsFromHoldingsRecord(HoldingsRecord holdingsRecord) {
         OleHoldings oleHoldings = new OleHoldings();
         oleHoldings.setBibIdentifier(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" + holdingsRecord.getBibId());
         oleHoldings.setHoldingsIdentifier(DocumentUniqueIDPrefix.getPrefixedId(holdingsRecord.getUniqueIdPrefix(), holdingsRecord.getHoldingsId()));

@@ -82,11 +82,17 @@
                             <span ng-show="inquiry" ng-bind="mainSectionPanel.requisitionForTitlesOption"></span>
                         </td>
                         <td class="col-sm-6">
-                            <label class="col-sm-4">Marc Only:</label>
-                            <input class="form-control" id="marcOnly" name="marcOnly" type="checkbox"
-                                   ng-model="mainSectionPanel.marcOnly" style="width: 170px; height: 20px;"
-                                   ng-hide="inquiry" ng-disabled="submitted">
-                            <span ng-show="inquiry" ng-bind="mainSectionPanel.marcOnly"></span>
+                            <label class="col-sm-4">Order Type:</label>
+                            <select class="form-control" id="orderType" name="orderType"
+                                    ng-model="mainSectionPanel.orderType"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option ng-selected="{{option.name == mainSectionPanel.orderType}}"
+                                        ng-repeat="option in mainSectionPanel.orderTypes"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.orderType"></span>
                         </td>
                     </tr>
                     </tbody>
