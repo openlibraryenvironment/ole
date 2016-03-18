@@ -121,6 +121,29 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
     private ParameterValueResolver parameterResolverInstance;
     private OleMailer oleMailer;
+    private String numberOfRecords = null;
+    private Map<String,String> itemTypeNameMap = null;
+    private Map<String,String> itemTypeIdMap = null;
+
+    public OleDeliverRequestDocumentHelperServiceImpl(){
+        processItemType();
+    }
+
+    public void processItemType(){
+        List<OleInstanceItemType>  oleInstanceItemTypeList = new ArrayList<OleInstanceItemType>(); /* (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class)*/;
+       if(itemTypeIdMap==null || itemTypeNameMap==null){
+        itemTypeNameMap = new HashMap<String,String>();
+        itemTypeIdMap = new HashMap<String,String>();
+        if (oleInstanceItemTypeList != null && oleInstanceItemTypeList.size() > 0) {
+            for (OleInstanceItemType oleInstanceItemType : oleInstanceItemTypeList) {
+                itemTypeNameMap.put(oleInstanceItemType.getInstanceItemTypeName(), oleInstanceItemType.getInstanceItemTypeCode());
+                itemTypeIdMap.put(oleInstanceItemType.getInstanceItemTypeName(),oleInstanceItemType.getInstanceItemTypeId());
+            }
+        }
+       }
+    }
+
+
     public ParameterValueResolver getParameterResolverInstance() {
         if (null == parameterResolverInstance) {
             parameterResolverInstance = ParameterValueResolver.getInstance();
@@ -1767,7 +1790,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(lostNoticeToDate, OLEConstants.NOTICE_LOST);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,true);
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue =ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1809,7 +1832,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,true);
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1851,7 +1874,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,true);
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -2486,7 +2509,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemLocation);
+                    Map<String, String> locationMap = new HashMap<String,String>();/*getCircDeskLocationResolver().getLocationMap(itemLocation)*/;
                     oleDeliverRequestBo.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                     oleDeliverRequestBo.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                     oleDeliverRequestBo.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
@@ -3861,7 +3884,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleLoanDocuments
      * @return
      */
-    public List<OleLoanDocument> getLoanDocumentWithItemInfo(List<OleLoanDocument> oleLoanDocuments) throws Exception {
+    public List<OleLoanDocument> getLoanDocumentWithItemInfo(List<OleLoanDocument> oleLoanDocuments,boolean updateClaimsCount) throws Exception {
         Long startTime = System.currentTimeMillis();
         List<OleLoanDocument> loanDocumentsWithItemInfo = new ArrayList<OleLoanDocument>();
         if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
@@ -3869,7 +3892,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             SearchParams searchParams = new SearchParams();
             List<SearchCondition> searchConditions = new ArrayList<>();
             SearchResponse searchResponse = new SearchResponse();
-            String numberOfRecords = getLoanProcessor().getParameter(OLEConstants.NUMBER_OF_ITEM_INFO);
+             if(numberOfRecords == null){
+               numberOfRecords =   getLoanProcessor().getParameter(OLEConstants.NUMBER_OF_ITEM_INFO);
+             }
             List<List<OleLoanDocument>> slicedList = (List<List<OleLoanDocument>>) splitListToSubList(oleLoanDocuments, Integer.valueOf(numberOfRecords).intValue());
             for (List<OleLoanDocument> oleLoanDocumentList : slicedList) {
                 try {
@@ -3890,7 +3915,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         throw new Exception("Exception occured while fetching data from solr");
                     }
                     try {
-                        List<OleLoanDocument> processedLoanDocuments = buildSearchResultsFields(searchResponse, loanDocumentMap);
+                        List<OleLoanDocument> processedLoanDocuments = buildSearchResultsFields(searchResponse, loanDocumentMap,updateClaimsCount);
                         loanDocumentsWithItemInfo.addAll(processedLoanDocuments);
                     } catch (Exception e) {
                         LOG.error(e, e);
@@ -3916,15 +3941,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @return
      * @throws Exception
      */
-    public List<OleLoanDocument> buildSearchResultsFields(SearchResponse searchResponse, Map<String, OleLoanDocument> loanDocumentMap) throws Exception {
+    public List<OleLoanDocument> buildSearchResultsFields(SearchResponse searchResponse, Map<String, OleLoanDocument> loanDocumentMap,boolean updateClaimsCount) throws Exception {
         int count = 0;
-        Map<String, String> itemTypeNameMap = new HashMap<String, String>();
-        List<OleInstanceItemType> instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class);
-        if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
-            for (OleInstanceItemType oleInstanceItemType : instanceItemTypeList) {
-                itemTypeNameMap.put(oleInstanceItemType.getInstanceItemTypeName(), oleInstanceItemType.getInstanceItemTypeCode());
-            }
-        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         List<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
         if (searchResponse != null) {
@@ -3961,25 +3979,29 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                     String location= searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
                                     getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(location, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
+                                    oleLoanDocument.setItemsLocation(searchResultField.getFieldValue());
+                                    if(updateClaimsCount){
                                     Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                                     oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
                                     oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
                                     oleLoanDocument.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                                     oleLoanDocument.setItemLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
-
+                                    }
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display") &&
                                         (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
                                     String location= searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
                                     getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(location, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
-                                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
+                                    oleLoanDocument.setHoldingsLocation(searchResultField.getFieldValue());
+                                    if(updateClaimsCount){
+                                    Map<String, String> locationMap =getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                                     oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
                                     oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
                                     oleLoanDocument.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                                     oleLoanDocument.setItemLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
-
+                                    }
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("claimsReturnedFlagCreateDate")) {
                                     String[] formatStrings = new String[]{"MM/dd/yyyy hh:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd hh:mm:ss"};
                                     Date date = getOleLoanDocumentsFromSolrBuilder().tryParse(formatStrings, searchResultField.getFieldValue());
@@ -3990,10 +4012,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
                                     oleLoanDocument.setItemTypeName(searchResultField.getFieldValue());
                                     oleLoanDocument.setItemType(itemTypeNameMap.get(oleLoanDocument.getItemTypeName()));
-                                } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display") &&
-                                        (oleLoanDocument.getItemTypeName() == null || oleLoanDocument.getItemTypeName().isEmpty())) {
+                                    oleLoanDocument.setTempItemTypeId(itemTypeIdMap.get(oleLoanDocument.getItemTypeName()));
+                                } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display")) {
+                                    if(oleLoanDocument.getItemTypeName() == null || oleLoanDocument.getItemTypeName().isEmpty()){
                                     oleLoanDocument.setItemTypeName(searchResultField.getFieldValue());
                                     oleLoanDocument.setItemType(itemTypeNameMap.get(oleLoanDocument.getItemTypeName()));
+                                    }
+                                    oleLoanDocument.setItemTypeId(itemTypeIdMap.get(oleLoanDocument.getItemTypeName()));
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Enumeration_display")) {
                                     oleLoanDocument.setEnumeration(searchResultField.getFieldValue());
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Chronology_display")) {
@@ -4034,7 +4059,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
                     }
                     found = false;
-                    if (oleLoanDocument.getOlePatron() != null) {
+                    if (updateClaimsCount && oleLoanDocument.getOlePatron() != null) {
                         oleLoanDocument.getOlePatron().setNumberOfClaimsReturned(count);
                     }
                     oleLoanDocuments.add(oleLoanDocument);
