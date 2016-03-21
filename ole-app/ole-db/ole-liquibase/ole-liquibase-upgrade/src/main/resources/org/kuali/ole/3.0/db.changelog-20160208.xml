@@ -260,7 +260,7 @@
     <changeSet context="bootstrap" author="ole" id="OLE_LOCN_T_ROW_IND">
         <addColumn
                 tableName="OLE_LOCN_T">
-            <column name="ROW_ACT_IND"   type="VARCHAR(1)"/>
+            <column name="ROW_ACT_IND"   type="VARCHAR(1)" defaultValue="Y"/>
         </addColumn>
     </changeSet>
 
