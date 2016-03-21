@@ -495,6 +495,7 @@ public class OlePatronConverterService {
                     olePatronDocument.setOleProxyPatronDocuments(patronDocument.getOleProxyPatronDocuments());
                     olePatronDocument.setOlePatronLocalIds(patronDocument.getOlePatronLocalIds());
                     olePatronDocument.setLostBarcodes(patronDocument.getLostBarcodes());
+                    olePatronDocument.setNotes(patronDocument.getNotes());
                     persistLocalIdentifications(olePatron, olePatronDocument);
                     patronUpdateFlag &= persistPatronNames(olePatron, olePatronDocument);
                     if (patronUpdateFlag)
