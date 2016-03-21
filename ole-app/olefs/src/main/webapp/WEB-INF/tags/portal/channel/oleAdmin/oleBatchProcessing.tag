@@ -38,7 +38,8 @@
     <portal:portalLink displayTitle="true" title="Special Batch File Upload" url="batchFileUpload" /><br/>
     <portal:portalLink displayTitle="true" title="Compute Loan Overdue Notice Dates"
                        url="${ConfigProperties.application.url}/ole-kr-krad/oleNoticeController?viewId=OleNoticeView&methodToCall=start"/> <br/>
-
+    <portal:portalLink displayTitle="true" title="Update Circ Histoy Table For Existing Loans"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/loanHistoryUpdateController?viewId=LoanHistoryUpdateView&methodToCall=start"/> <br/>
 
 
 
