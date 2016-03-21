@@ -81,7 +81,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
-
+                future.get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
