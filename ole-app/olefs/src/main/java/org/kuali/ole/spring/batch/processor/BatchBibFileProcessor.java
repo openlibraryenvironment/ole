@@ -181,6 +181,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
         bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
         bibData.put(OleNGConstants.ADDED_OPS, getAddedOps(batchProcessProfile));
+        bibData.put(OleNGConstants.ADDITIONAL_OVERLAY_OPS, getAdditionalOverlayOps(batchProcessProfile));
         bibData.put(OleNGConstants.ACTION_OPS, getActionOps(batchProcessProfile));
         bibData.put(OleNGConstants.FIELD_OPS, getFieldOps(batchProcessProfile));
 
@@ -405,6 +406,19 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return addedOps;
     }
 
+    public JSONObject getAdditionalOverlayOps(BatchProcessProfile batchProcessProfile) {
+        JSONObject additionalOverlayOps = new JSONObject();
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        try {
+            JSONObject bibAdditionalOverayOps = getAdditionalOverlayOps(batchProfileAddOrOverlayList, OleNGConstants.BIBLIOGRAPHIC);
+            additionalOverlayOps.put(OleNGConstants.BIB, bibAdditionalOverayOps);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return additionalOverlayOps;
+    }
+
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
         String addedOpsValue = null;
 
@@ -454,6 +468,28 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
         }
         return addedOpsValue;
+    }
+
+    public JSONObject getAdditionalOverlayOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            if (matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+                String operation = batchProfileAddOrOverlay.getOperation();
+                String addOrOverlayField = batchProfileAddOrOverlay.getAddOrOverlayField();
+                String addOrOverlayFieldOperation = batchProfileAddOrOverlay.getAddOrOverlayFieldOperation();
+                List<String> addOrOverlayFieldValue = batchProfileAddOrOverlay.getAddOrOverlayFieldValue();
+                if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY) && StringUtils.isNotBlank(addOrOverlayField) && StringUtils.isNotBlank(addOrOverlayFieldOperation)
+                        && CollectionUtils.isNotEmpty(addOrOverlayFieldValue)) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.WHERE, addOrOverlayField);
+                    jsonObject.put(OleNGConstants.CONDITION, addOrOverlayFieldOperation);
+                    jsonObject.put(OleNGConstants.VALUE, addOrOverlayFieldValue);
+                    return jsonObject;
+                }
+            }
+        }
+        return null;
     }
 
     /**

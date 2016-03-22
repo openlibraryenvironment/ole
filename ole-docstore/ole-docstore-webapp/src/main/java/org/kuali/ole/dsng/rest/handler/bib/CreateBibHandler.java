@@ -56,6 +56,7 @@ public class CreateBibHandler extends BibHandler {
                 setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
                 getBibDAO().save(bibRecord);
+                bibRecord.setOperationType(OleNGConstants.CREATED);
 
                 saveBibInfoRecord(bibRecord,true);
             }

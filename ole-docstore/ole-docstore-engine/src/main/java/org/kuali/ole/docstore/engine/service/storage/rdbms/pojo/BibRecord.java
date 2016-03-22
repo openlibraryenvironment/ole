@@ -78,6 +78,8 @@ public class BibRecord extends PersistableBusinessObjectBase
     @JsonProperty("bibInfoRecord")
     private BibInfoRecord bibInfoRecord;
 
+    private String operationType;
+
     /*  public byte[] getBinaryContent() {
           return binaryContent;
       }
@@ -229,5 +231,13 @@ public class BibRecord extends PersistableBusinessObjectBase
 
     public void setBibInfoRecord(BibInfoRecord bibInfoRecord) {
         this.bibInfoRecord = bibInfoRecord;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }
