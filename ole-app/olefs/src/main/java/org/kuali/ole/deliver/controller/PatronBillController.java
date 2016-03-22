@@ -1105,7 +1105,7 @@ public class PatronBillController extends UifControllerBase {
                 if (patronBillHelperService.checkOutstsndingBills(patronBillForm.getPatronId())) {
                     return showDialogAndRunCustomScript("refundConfirmationDialog", form, "jq('#refundOKButton').focus()");
                 } else {
-                    patronBillForm.setAmountRemaining(patronBillForm.getTransferAmount());
+                    patronBillForm.getAmountDetails().setAmountRemaining(patronBillForm.getTransferAmount());
                     return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
                 }
             } else {
@@ -1117,7 +1117,7 @@ public class PatronBillController extends UifControllerBase {
                 if (patronBillHelperService.checkOutstsndingBills(patronBillForm.getPatronId())) {
                     return showDialogAndRunCustomScript("refundConfirmationDialog", form, "jq('#refundOKButton').focus()");
                 } else {
-                    patronBillForm.setAmountRemaining(patronBillForm.getTransferAmount());
+                    patronBillForm.getAmountDetails().setAmountRemaining(patronBillForm.getTransferAmount());
                     return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
                 }
             } else {
@@ -1151,7 +1151,7 @@ public class PatronBillController extends UifControllerBase {
             KualiDecimal sumOfCreditRemaining = patronBillHelperService.updateRemainingCreditAmountForItem(creditRefunded, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
             if(sumOfCreditRemaining.isGreaterThan(KualiDecimal.ZERO) ) {
                 sumOfCreditRemaining=sumOfCreditRemaining.subtract(creditRefunded);
-                patronBillForm.setAmountRemaining(sumOfCreditRemaining);
+                patronBillForm.getAmountDetails().setAmountRemaining(sumOfCreditRemaining);
                 return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
             }
         }
@@ -1166,7 +1166,7 @@ public class PatronBillController extends UifControllerBase {
                                      HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         patronBillForm.setLightboxScript("jq.fancybox.close();");
-        patronBillForm.setAmountRemaining(patronBillForm.getTransferAmount());
+        patronBillForm.getAmountDetails().setAmountRemaining(patronBillForm.getTransferAmount());
         return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
     }
 
@@ -1177,11 +1177,20 @@ public class PatronBillController extends UifControllerBase {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         List<FeeType> feeTypes = patronBillForm.getFeeTypes();
         PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
+        if(patronBillForm.getRefundAmountToPatron() == null) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ENTRR_REFUND_AMT);
+            return getUIFModelAndView(patronBillForm);
+        }
+        if(patronBillForm.getRefundAmountToPatron().isGreaterThan(patronBillForm.getAmountDetails().getAmountRemaining())) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OVER_PAYMENT);
+            return getUIFModelAndView(patronBillForm);
+        }
         patronBillForm.setLightboxScript("jq.fancybox.close();");
         KualiDecimal refundAmount = patronBillForm.getRefundAmountToPatron();
         if (patronBillForm.getRefundType().equalsIgnoreCase("immediately")) {
             patronBillHelperService.refundToPatron(refundAmount, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
         } else if (patronBillForm.getRefundType().equalsIgnoreCase("later")) {
+            patronBillHelperService.refundToPatron(refundAmount, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
             String patronAddress = patronBillForm.getOlePatronDocument().getPreferredAddress();
             patronBillForm.setDefaultPatronAddress(patronAddress);
             return showDialogAndRunCustomScript("patronMailingAddressDialog", form, "jq('#refundOKButton').focus()");
