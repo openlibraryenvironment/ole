@@ -139,6 +139,11 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
 
         List<OLESerialReceivingRecord> oleSerialReceivingRecordList = new ArrayList<>();
         SerialReceivingSearchService serialReceivingSearchService = new SerialReceivingSearchServiceImpl();
+        HashMap<String,String> criteriaMap=new HashMap<>();
+        criteriaMap.put(OLEConstants.TITLE,title);
+        criteriaMap.put(OLEConstants.ISSN,issn);
+        criteriaMap.put(OLEConstants.LOCAL_IDENTIFIER,localIdentifier);
+        criteriaMap.put(OLEConstants.JOURNAL_TITLE_SEARCH,journalTitle);
         if (title.isEmpty() && issn.isEmpty() && poId.isEmpty() && localIdentifier.isEmpty() && serialRecordNo.isEmpty() && journalTitle.isEmpty()) {
             SearchResponse searchResponse = serialReceivingSearchService.holdingSearch(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),serialsReceivingRecordForm.getSortOrder());
             this.totalRecCount = searchResponse.getTotalRecordCount();
@@ -148,11 +153,6 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
             serialsReceivingRecordForm.setPaginationFlag("true");
             serialsReceivingRecordForm.setPageResultDisplay(getPageShowEntries());
         } else if ((!title.isEmpty() || !issn.isEmpty() || !localIdentifier.isEmpty() || !journalTitle.isEmpty()) && (poId.isEmpty() && serialRecordNo.isEmpty())) {
-            HashMap<String,String> criteriaMap=new HashMap<>();
-            criteriaMap.put(OLEConstants.TITLE,title);
-            criteriaMap.put(OLEConstants.ISSN,issn);
-            criteriaMap.put(OLEConstants.LOCAL_IDENTIFIER,localIdentifier);
-            criteriaMap.put(OLEConstants.JOURNAL_TITLE_SEARCH,journalTitle);
             SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
                     new HashSet<String>(), criteriaMap,serialsReceivingRecordForm.getSortOrder());
 
@@ -165,11 +165,6 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
         } else if ((!poId.isEmpty() && !poId.contains("*") && serialRecordNo.isEmpty() && StringUtils.isNumeric(poId))) {
             Set<String> instanceIds = serialReceivingSearchService.getInstanceIdList(poId);
             if ((instanceIds != null && instanceIds.size() > 0)) {
-                HashMap<String,String> criteriaMap=new HashMap<>();
-                criteriaMap.put(OLEConstants.TITLE,title);
-                criteriaMap.put(OLEConstants.ISSN,issn);
-                criteriaMap.put(OLEConstants.LOCAL_IDENTIFIER,localIdentifier);
-                criteriaMap.put(OLEConstants.JOURNAL_TITLE_SEARCH,journalTitle);
                 SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
                         instanceIds, criteriaMap,serialsReceivingRecordForm.getSortOrder());
                 this.totalRecCount = searchResponse.getTotalRecordCount();
@@ -187,11 +182,6 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
                     for (OLESerialReceivingDocument oleSerialReceivingDocument : oleSerialReceivingDocuments) {
                         instanceIds.add(oleSerialReceivingDocument.getInstanceId());
                     }
-                    HashMap<String,String> criteriaMap=new HashMap<>();
-                    criteriaMap.put(OLEConstants.TITLE,title);
-                    criteriaMap.put(OLEConstants.ISSN,issn);
-                    criteriaMap.put(OLEConstants.LOCAL_IDENTIFIER,localIdentifier);
-                    criteriaMap.put(OLEConstants.JOURNAL_TITLE_SEARCH,journalTitle);
                     SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
                             instanceIds, criteriaMap,serialsReceivingRecordForm.getSortOrder());
                     this.totalRecCount = searchResponse.getTotalRecordCount();
