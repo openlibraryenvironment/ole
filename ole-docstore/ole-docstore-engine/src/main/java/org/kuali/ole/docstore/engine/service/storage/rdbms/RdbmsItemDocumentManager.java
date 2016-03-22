@@ -1461,27 +1461,32 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Map map = new HashMap();
         map.put("itemId", itemId);
         List<OLEItemDonorRecord> itemDonorRecordList = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
-        if(itemDonorRecordList!=null && itemDonorRecordList.size() >= 0) {
-            getBusinessObjectService().delete(itemDonorRecordList);
-            itemDonorRecordList.clear();
-        }
+        List<OLEItemDonorRecord> newItemDonorRecordList = new ArrayList<>();
         if (donorslist.size() > 0) {
-            for (int i = 0; i < donorslist.size(); i++) {
-                DonorInfo donorinfo = donorslist.get(i);
+            for (DonorInfo donorinfo : donorslist) {
                 if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
                     oleItemDonorRecord.setDonorNote(donorinfo.getDonorNote());
                     oleItemDonorRecord.setItemId(itemId);
-                    itemDonorRecordList.add(oleItemDonorRecord);
+                    for (OLEItemDonorRecord itemDonorRecord : itemDonorRecordList) {
+                        if (StringUtils.isNotBlank(oleItemDonorRecord.getDonorCode()) && oleItemDonorRecord.getDonorCode().equalsIgnoreCase(itemDonorRecord.getDonorCode())) {
+                            oleItemDonorRecord.setDonorId(itemDonorRecord.getDonorId());
+                        }
+                    }
+                    newItemDonorRecordList.add(oleItemDonorRecord);
                 }
             }
-            if (itemDonorRecordList.size() > 0) {
-                getBusinessObjectService().save(itemDonorRecordList);
+            if (itemDonorRecordList != null && itemDonorRecordList.size() >= 0) {
+                getBusinessObjectService().delete(itemDonorRecordList);
+                itemDonorRecordList.clear();
+            }
+            if (newItemDonorRecordList.size() > 0) {
+                getBusinessObjectService().save(newItemDonorRecordList);
             }
         }
-        return itemDonorRecordList;
+        return newItemDonorRecordList;
     }
 
     protected ItemTypeRecord saveItemTypeRecord(ItemType itemType) {
