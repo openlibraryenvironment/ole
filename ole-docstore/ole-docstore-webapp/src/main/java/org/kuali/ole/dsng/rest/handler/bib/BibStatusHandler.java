@@ -14,11 +14,9 @@ import java.util.List;
  */
 public class BibStatusHandler extends BibHandler {
 
-    private final String TYPE = "Bib Status";
-
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BIB_STATUS);
     }
 
 
@@ -29,7 +27,7 @@ public class BibStatusHandler extends BibHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BIB_STATUS);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String bibStatus = listFromJSONArray.get(0);

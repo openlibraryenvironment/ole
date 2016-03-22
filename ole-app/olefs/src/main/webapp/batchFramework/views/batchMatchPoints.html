@@ -63,7 +63,7 @@
                             <select class="form-control" id="matchPointType_{{$index}}" name="matchPointType_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine"
-                                    ng-change="populateDestinationFieldValues(matchPoint,matchPoint.matchPointDocType, matchPoint.matchPointType)">
+                                    ng-change="populateDestinationFieldValues($index, matchPoint,matchPoint.matchPointDocType, matchPoint.matchPointType)">
                                 <option value=""></option>
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
                                         ng-repeat="option in matchPoint.matchPointTypes  | orderBy:'name'" value="{{option.name}}">

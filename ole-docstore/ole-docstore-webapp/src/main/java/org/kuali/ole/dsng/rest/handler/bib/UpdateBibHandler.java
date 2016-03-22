@@ -7,10 +7,12 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.dsng.rest.handler.AdditionalOverlayOpsHandler;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +20,9 @@ import java.util.List;
  * Created by pvsubrah on 12/23/15.
  */
 public class UpdateBibHandler extends BibHandler {
+
+    public List<AdditionalOverlayOpsHandler> additionalOverlayOpsHandlers;
+
     @Override
     public Boolean isInterested(String operation) {
         List<String> operationsList = getListFromJSONArray(operation);
@@ -40,32 +45,38 @@ public class UpdateBibHandler extends BibHandler {
             if (requestJsonObject.has(OleNGConstants.ID)) {
                 String bibId = requestJsonObject.getString(OleNGConstants.ID);
                 BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
-                bibRecord.setUpdatedBy(updatedBy);
-                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                boolean validForOverlay = isValidForOverlay(bibRecord, requestJsonObject);
 
-                bibRecord.setDateEntered(updatedDate);
+                if (validForOverlay) {
+                    bibRecord.setUpdatedBy(updatedBy);
+                    bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                String newContent = process001And003(newBibContent, bibId);
+                    Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-                newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
+                    bibRecord.setDateEntered(updatedDate);
 
-                bibRecord.setContent(newContent);
-                exchange.add(OleNGConstants.BIB, bibRecord);
-                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+                    String newContent = process001And003(newBibContent, bibId);
 
-                Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
-                if(null != statusUpdated && statusUpdated == Boolean.TRUE) {
-                    bibRecord.setStatusUpdatedBy(updatedBy);
-                    bibRecord.setStatusUpdatedDate(updatedDate);
+                    newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
+
+                    bibRecord.setContent(newContent);
+                    exchange.add(OleNGConstants.BIB, bibRecord);
+                    bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+
+                    Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
+                    if(null != statusUpdated && statusUpdated == Boolean.TRUE) {
+                        bibRecord.setStatusUpdatedBy(updatedBy);
+                        bibRecord.setStatusUpdatedDate(updatedDate);
+                    }
+
+                    processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
+
+                    getBibDAO().save(bibRecord);
+                    bibRecord.setOperationType(OleNGConstants.UPDATED);
+
+                    saveBibInfoRecord(bibRecord,false);
                 }
-
-                processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
-
-                getBibDAO().save(bibRecord);
-
-                saveBibInfoRecord(bibRecord,false);
 
             }
 
@@ -74,6 +85,27 @@ public class UpdateBibHandler extends BibHandler {
             addFailureReportToExchange(requestJsonObject, exchange,"bib", e , null);
         }
 
+    }
+
+    private boolean isValidForOverlay(BibRecord bibRecord, JSONObject requestJsonObject) {
+        boolean isValid = true;
+        if(null != bibRecord) {
+            JSONObject additionalOverlayOps = getJSONObjectFromJSONObject(requestJsonObject, OleNGConstants.ADDITIONAL_OVERLAY_OPS);
+            if(null !=  additionalOverlayOps && additionalOverlayOps.has(OleNGConstants.BIB)) {
+                JSONObject bibAdditionalOverlayOps = getJSONObjectFromJSONObject(additionalOverlayOps, OleNGConstants.BIB);
+                String where = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.WHERE);
+                String condition = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.CONDITION);
+                String value = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.VALUE);
+                for (Iterator<AdditionalOverlayOpsHandler> iterator = getAdditionalOverlayOpsHandlers().iterator(); iterator.hasNext(); ) {
+                    AdditionalOverlayOpsHandler additionalOverlayOpsHandler = iterator.next();
+                    List<String> values = getListFromJSONArray(value);
+                    if(additionalOverlayOpsHandler.isInterested(where) && CollectionUtils.isNotEmpty(values)) {
+                        isValid = isValid & additionalOverlayOpsHandler.isValid(condition, values, bibRecord);
+                    }
+                }
+            }
+        }
+        return isValid;
     }
 
     private String processFieldOptions(String oldMarcContent,String newMarcContent, JSONObject requestJSON) {
@@ -117,5 +149,17 @@ public class UpdateBibHandler extends BibHandler {
             }
         }
         return null;
+    }
+
+    public List<AdditionalOverlayOpsHandler> getAdditionalOverlayOpsHandlers() {
+        if(null == additionalOverlayOpsHandlers) {
+            additionalOverlayOpsHandlers = new ArrayList<AdditionalOverlayOpsHandler>();
+            additionalOverlayOpsHandlers.add(new BibStatusOverlayOpsHandler());
+        }
+        return additionalOverlayOpsHandlers;
+    }
+
+    public void setAdditionalOverlayOpsHandlers(List<AdditionalOverlayOpsHandler> additionalOverlayOpsHandlers) {
+        this.additionalOverlayOpsHandlers = additionalOverlayOpsHandlers;
     }
 }

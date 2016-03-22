@@ -131,6 +131,7 @@ public class OleNGConstants {
     public static final String OPS = "ops";
     public static final String MATCHPOINT_FOR_DATAMAPPING = "matchpointForDataMapping";
     public static final String ADDED_OPS = "addedOps";
+    public static final String ADDITIONAL_OVERLAY_OPS = "additionalOverlayOps";
     public static final String ACTION_OPS = "actionOps";
     public static final String FIELD_OPS = "fieldOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
@@ -195,6 +196,8 @@ public class OleNGConstants {
     public static final String DESCRIPTION = "description";
     public static final String STATUS = "stauts";
     public static final String ID = "id";
+    public static final String WHERE = "where";
+    public static final String CONDITION = "condition";
     public static final String VALUE = "value";
     public static final String FIELD_OPERATION_TYPE = "fieldOperationType";
     public static final String DATA_FIELD = "dataField";
@@ -205,6 +208,9 @@ public class OleNGConstants {
     public static final String IGNORE_GPF = "ignoreGPF";
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
+    public static final String BIB_STATUS = "Bib Status";
+    public static final String EQUAL_TO = "Equals To";
+    public static final String NOT_EQUAL_TO = "Not Equals To";
 
     public static final String JOB_ID = "jobId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";

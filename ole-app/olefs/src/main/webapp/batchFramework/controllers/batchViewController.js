@@ -130,7 +130,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel[index].matchPointTypes = getMatchPointType($scope.matchPointsPanel[index].matchPointDocType);
             $scope.matchPointsPanel[index].isAddLine = false;
             $scope.matchPointsPanel[index].title = 'Match Points';
-            $scope.populateDestinationFieldValues($scope.matchPointsPanel[index], $scope.matchPointsPanel[index].matchPointDocType, $scope.matchPointsPanel[index].matchPointType);
+            $scope.populateDestinationFieldValues(index, $scope.matchPointsPanel[index], $scope.matchPointsPanel[index].matchPointDocType, $scope.matchPointsPanel[index].matchPointType);
         }
     };
 
@@ -187,6 +187,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel[0].subField = null;
         $scope.addOrOverlayPanel[0].linkField = null;
         $scope.addOrOverlayPanel[0].operations = bibMatchOperations;
+        $scope.addOrOverlayPanel[0].operation = "Add";
+        $scope.resetAddOrOverlayFieldDropdownSize(0);
     };
 
     $scope.addOrOverlayCopyRow = function (index) {
@@ -209,7 +211,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.addOrOverlayPanel[index].unmatchedOrderOperations = unmatchedOrderOperations;
             $scope.addOrOverlayPanel[index].addOrOverlayFields = addOrOverlayFields;
             $scope.addOrOverlayPanel[index].addOrOverlayFieldOperations = addOrOverlayFieldOperations;
-            $scope.populateDestinationFieldValues($scope.addOrOverlayPanel[index], $scope.addOrOverlayPanel[index].addOrOverlayDocType, $scope.addOrOverlayPanel[index].addOrOverlayField);
+            $scope.populateDestinationFieldValues(index, $scope.addOrOverlayPanel[index], $scope.addOrOverlayPanel[index].addOrOverlayDocType, $scope.addOrOverlayPanel[index].addOrOverlayField);
             var addOperationWithMultipleOptions = getAddOperationWithMultipleOptions($scope.mainSectionPanel.batchProcessType,$scope.addOrOverlayPanel[index]);
             $scope.addOrOverlayPanel[index].addOperationsWithMultiple = addOperationWithMultipleOptions;
             $scope.addOrOverlayPanel[index].isAddLine = false;
@@ -221,6 +223,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel[index] = updatedRow;
         $scope.addOrOverlayPanel[index].isEdit = false;
         $scope.rowToEdit = null;
+        $scope.resetAddOrOverlayFieldDropdownSize(index);
     };
 
     $scope.addOrOverlayCancelUpdate = function(index) {
@@ -228,6 +231,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.addOrOverlayPanel[index] = $scope.rowToEdit;
         $scope.addOrOverlayPanel[index].isAddLine = true;
         $scope.rowToEdit = null;
+        $scope.resetAddOrOverlayFieldDropdownSize(index);
     };
 
     $scope.addOrOverlayRemove = function (addOrOverlay) {
@@ -329,7 +333,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
                 $scope.populateDestinationFields($scope.dataMappingsPanel[index]);
             }
-            $scope.populateDestinationFieldValues(null, $scope.dataMappingsPanel[index].dataMappingDocType, $scope.dataMappingsPanel[index].field);
+            $scope.populateDestinationFieldValues(index, null, $scope.dataMappingsPanel[index].dataMappingDocType, $scope.dataMappingsPanel[index].field);
             $scope.dataMappingsPanel[index].isAddLine = false;
         }
     };
@@ -553,7 +557,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         } else if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
             $scope.populateDestinationFields(dataMapping);
         }
-        $scope.populateDestinationFieldValues(null, dataMapping.dataMappingDocType, dataMapping.field);
+        $scope.populateDestinationFieldValues(index, null, dataMapping.dataMappingDocType, dataMapping.field);
     }
 
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
@@ -661,7 +665,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
 
     };
 
-    $scope.populateDestinationFieldValues = function (dataObject, dataType, fieldType) {
+    $scope.populateDestinationFieldValues = function (index, dataObject, dataType, fieldType) {
         if (dataType !== 'Bib Marc' || (dataObject != undefined && dataObject != null && dataObject.title == 'Match Points')) {
             $scope.constantValues = [];
             if (fieldType === 'Staff Only') {
@@ -671,9 +675,28 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             } else if (fieldType === 'Receiving Required' || fieldType === 'Use Tax Indicator' || fieldType === 'Pay Req Positive Approval Req' || fieldType === 'Purchase Order Confirmation Indicator' || fieldType === 'Route To Requestor') {
                 $scope.constantValues = booleanOptionsYorN;
             }
+
+            var addOrOverlayField = dataObject.addOrOverlayField;
+            if(addOrOverlayField !== null && addOrOverlayField !== undefined && addOrOverlayField !== '') {
+                if(addOrOverlayField === 'Bib Status') {
+                    $scope.increateFieldSizeForAddOrOverlayFieldDropdown(index);
+                } else {
+                    $scope.resetAddOrOverlayFieldDropdownSize(index);
+                }
+            }
             getMaintenanceDataForFieldTypeForDropDown(fieldType, $scope, $http);
         }
     };
+
+    $scope.increateFieldSizeForAddOrOverlayFieldDropdown = function(index) {
+        $('#addOrOverlayFieldValue_' + index).css('height', '200px');
+        $('#addOrOverlayFieldValue_' + index).attr('multiple', true);
+    }
+
+    $scope.resetAddOrOverlayFieldDropdownSize = function(index) {
+        $('#addOrOverlayFieldValue_' + index).css('height', '30px');
+        $('#addOrOverlayFieldValue_' + index).attr('multiple', false);
+    }
 
     $scope.populationDestinations = function (dataMapping) {
         makeDataMappingValid($scope);

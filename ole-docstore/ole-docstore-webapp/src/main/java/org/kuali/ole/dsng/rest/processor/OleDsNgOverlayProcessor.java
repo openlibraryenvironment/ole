@@ -78,8 +78,6 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                     BibRecord bibRecord = prepareBib(bibJSONDataObject);
 
-                    updateOperationForBibResponse(bibResponse, bibRecord, operationsList);
-
                     exchange.add(OleNGConstants.BIB, bibRecord);
 
                     List<HoldingsRecordAndDataMapping> holdingsForUpdateOrCreate = new ArrayList<HoldingsRecordAndDataMapping>();
@@ -107,14 +105,13 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                     processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 
-                    bibResponse.setBibId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" +bibRecord.getBibId());
-
                     processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
 
                     processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
                     processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
+                    bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
                     buildBibResponses(bibResponse, bibRecord, exchange, operationsList);
 
                     if (CollectionUtils.isNotEmpty(createHoldingsRecordAndDataMappings)) {
@@ -224,25 +221,26 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         return response;
     }
 
-    private void updateOperationForBibResponse(BibResponse bibResponse, BibRecord bibRecord, List options) {
-        if (StringUtils.isNotBlank(bibRecord.getBibId())) {
-            if(options.contains("112")){
-                bibResponse.setOperation(OleNGConstants.UPDATED);
-            } else {
-                bibResponse.setOperation(OleNGConstants.DISCARDED);
-            }
-        } else {
-            bibResponse.setOperation(OleNGConstants.CREATED);
-        }
-    }
-
     public void buildBibResponses(BibResponse bibResponse, BibRecord bibRecord, Exchange exchange, List<String> options) {
-        if (StringUtils.isBlank(bibRecord.getBibId())) {
-            bibResponse.setOperation(OleNGConstants.DISCARDED);
-            bibResponse.setBibId(" ");
-        }
+        updateBibOperation(bibResponse, bibRecord);
         buildHoldingResponses(bibResponse, exchange, options);
         buildEHoldingResponses(bibResponse, exchange, options);
+    }
+
+    private void updateBibOperation(BibResponse bibResponse, BibRecord bibRecord) {
+        bibResponse.setOperation(OleNGConstants.DISCARDED);
+        if(StringUtils.isNotBlank(bibRecord.getBibId())) {
+            bibResponse.setBibId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" +bibRecord.getBibId());
+        } else {
+            bibResponse.setBibId(" ");
+        }
+        if(StringUtils.isNotBlank(bibRecord.getOperationType())) {
+            if(bibRecord.getOperationType().equalsIgnoreCase(OleNGConstants.CREATE_BIB)) {
+                bibResponse.setOperation(OleNGConstants.CREATED);
+            } else if(bibRecord.getOperationType().equalsIgnoreCase(OleNGConstants.UPDATED)) {
+                bibResponse.setOperation(OleNGConstants.UPDATED);
+            }
+        }
     }
 
     public void buildEHoldingResponses(BibResponse bibResponse, Exchange exchange, List<String> options) {
