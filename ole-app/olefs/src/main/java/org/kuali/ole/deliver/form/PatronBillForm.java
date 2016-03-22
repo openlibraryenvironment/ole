@@ -54,7 +54,6 @@ public class PatronBillForm extends DocumentFormBase {
     private KualiDecimal transferAmount;
     private String refundNote;
     private String refundType;
-    private KualiDecimal amountRemaining;
     private KualiDecimal totalCreditRemaining;
     private String userPaidAmount;
     private String creditRemainingAmt;
@@ -66,6 +65,7 @@ public class PatronBillForm extends DocumentFormBase {
     private List<FeeType> closedFeeTypes;
     private List<FeeType> openFeeTypes;
     private KualiDecimal refundAmountToPatron;
+    private AmountDetails amountDetails;
 
     public PatronBillForm() {
         this.userAmount=OLEConstants.ZERO;
@@ -351,14 +351,6 @@ public class PatronBillForm extends DocumentFormBase {
         this.refundType = refundType;
     }
 
-    public KualiDecimal getAmountRemaining() {
-        return amountRemaining;
-    }
-
-    public void setAmountRemaining(KualiDecimal amountRemaining) {
-        this.amountRemaining = amountRemaining;
-    }
-
     public KualiDecimal getTotalCreditRemaining() {
         return totalCreditRemaining;
     }
@@ -446,5 +438,29 @@ public class PatronBillForm extends DocumentFormBase {
 
     public void setRefundAmountToPatron(KualiDecimal refundAmountToPatron) {
         this.refundAmountToPatron = refundAmountToPatron;
+    }
+
+    public AmountDetails getAmountDetails() {
+        if(null == amountDetails) {
+            amountDetails = new AmountDetails();
+        }
+        return amountDetails;
+    }
+
+    public void setAmountDetails(AmountDetails amountDetails) {
+        this.amountDetails = amountDetails;
+    }
+
+    public class AmountDetails {
+
+        private KualiDecimal amountRemaining;
+
+        public KualiDecimal getAmountRemaining() {
+            return amountRemaining;
+        }
+
+        public void setAmountRemaining(KualiDecimal amountRemaining) {
+            this.amountRemaining = amountRemaining;
+        }
     }
 }

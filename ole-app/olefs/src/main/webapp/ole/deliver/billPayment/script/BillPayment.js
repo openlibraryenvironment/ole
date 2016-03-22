@@ -160,7 +160,8 @@ function collapseAll(){
 function closeForgiveNote(){
     if(jq("#forgiveNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('forgive', null, null, null, null);
+        var forgiveNote = jq('#forgiveNote_control').val();
+        submitForm('forgive', {forgiveNote:forgiveNote}, null, null, null);
     }else{
         jq("#forgiveNote_control").focus().click();
     }
@@ -169,7 +170,8 @@ function closeForgiveNote(){
 function closeErrorNote(){
     if(jq("#errorNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('error', null, null, null, null);
+        var errorNote = jq('#errorNote_control').val();
+        submitForm('error', {errorNote:errorNote}, null, null, null);
     }else{
         jq("#errorNote_control").focus().click();
     }
@@ -178,7 +180,8 @@ function closeErrorNote(){
 function closeCreditNote(){
     if(jq("#creditNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('credit', null, null, null, null);
+        var creditNote = jq('#creditNote_control').val();
+        submitForm('credit',  {creditNote:creditNote}, null, null, null);
     }else{
         jq("#creditNote_control").focus().click();
     }
@@ -187,7 +190,8 @@ function closeCreditNote(){
 function closeCancelNote(){
     if(jq("#cancellationNote_cancel_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('cancellationNote', null, null, null, null);
+        var cancellationNote = jq('#cancellationNote_cancel_control').val();bill
+        submitForm('cancellationNote', {cancellationNote:cancellationNote}, null, null, null);
     }else{
         jq("#cancellationNote_cancel_control").focus().click();
     }
@@ -196,7 +200,8 @@ function closeCancelNote(){
 function closeTransferDebitNote(){
     if(jq("#transferDebitNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('transferDebit', null, null, null, null);
+        var transferDebitNote = jq('#transferDebitNote_control').val();
+        submitForm('transferDebit', {transferDebitNote:transferDebitNote}, null, null, null);
     }else{
         jq("#transferDebitNote_control").focus().click();
     }
@@ -205,7 +210,8 @@ function closeTransferDebitNote(){
 function closeTransferCreditNote(){
     if(jq("#transferCreditNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('transferCredit', null, null, null, null);
+        var transferCreditNote = jq('#transferCreditNote_control').val();
+        submitForm('transferCredit', {transferCreditNote:transferCreditNote}, null, null, null);
     }else{
         jq("#transferCreditNote_control").focus().click();
     }
@@ -214,7 +220,8 @@ function closeTransferCreditNote(){
 function closeRefundNote(){
     if(jq("#refundNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('refund', null, null, null, null);
+        var refundNote = jq('#refundNote_control').val();
+        submitForm('refund', {refundNote:refundNote}, null, null, null);
     }else{
         jq("#refundNote_control").focus().click();
     }
@@ -223,7 +230,8 @@ function closeRefundNote(){
 function closecancelCreditNote(){
     if(jq("#cancelCreditNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('cancelCredit', null, null, null, null);
+        var cancelCreditNote = jq('#cancelCreditNote_control').val();
+        submitForm('cancelCredit', {cancelCreditNote:cancelCreditNote}, null, null, null);
     }else{
         jq("#cancelCreditNote_control").focus().click();
     }
@@ -375,6 +383,7 @@ function removeCurrencyPattern(){
         jq("input#billView_paymentDetails_paidAmount_control").val(amt);
     }
 }
+
 
 
 

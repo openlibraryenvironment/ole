@@ -3800,4 +3800,6 @@ public class OLEConstants {
     public static final String PAY_APPL_CRDT = "Applied Credit";
     public static final String RECALL_DELIVERY_REQUEST="Recall/Delivery Request";
     public static final String RECALL_HOLD_REQUEST="Recall/Hold Request";
+    public static final String OVER_PAYMENT="refund.over.payment";
+    public static final String ENTRR_REFUND_AMT="enter.refund.amount";
 }

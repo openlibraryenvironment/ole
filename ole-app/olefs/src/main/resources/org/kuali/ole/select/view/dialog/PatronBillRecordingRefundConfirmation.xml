@@ -35,7 +35,7 @@
                 <bean id="refundRecordConfirmation_id" parent="Uif-DataField" p:propertyName="patronId" p:label="Patron ID" />
                 <bean id="refundRecordConfirmation-firstName" parent="Uif-DataField" p:propertyName="olePatronDocument.firstName" p:label="First Name" />
                 <bean id="refundRecordConfirmation-lastName" parent="Uif-DataField" p:propertyName="olePatronDocument.lastName" p:label="Last Name" />
-                <bean id="refundRecordConfirmation_amountRemaining" parent="Uif-DataField" p:propertyName="amountRemaining" p:label="Amount Remaining"  />
+                <bean id="refundRecordConfirmation_amountRemaining" parent="Uif-DataField" p:propertyName="amountDetails.amountRemaining" p:label="Amount Remaining"  />
                 <bean id="refundRecordConfirmation_refundAmount_inputFields" parent="Uif-InputField" p:propertyName="refundAmountToPatron"  p:required="true" p:label="Enter Refund Amount" />
                 <bean id="refundRecordConfirmation_radioButtons" parent="Uif-InputField" p:propertyName="refundType" p:label="Refund Type" p:defaultValue="immediately">
                     <property name="control">
