@@ -31,6 +31,7 @@ public class SerialsReceivingRecordSearchByKeyValueFinder extends KeyValuesBase 
         keyValues.add(new ConcreteKeyValue(OLEConstants.SERIAL_SEARCH, "Serials Receiving Record No"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.LOCALID_SEARCH, "Local Identifier"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.PO_SEARCH, "Purchase Order No"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.JOURNAL_TITLE_SEARCH, "Journal Title"));
         return keyValues;
     }
 }
