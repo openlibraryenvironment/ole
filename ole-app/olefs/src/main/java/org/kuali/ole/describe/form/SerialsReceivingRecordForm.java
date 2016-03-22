@@ -98,11 +98,14 @@ public class SerialsReceivingRecordForm extends UifFormBase {
         bibId.setDocField(OLEConstants.LOCALID_SEARCH);
         SearchCondition poId = new SearchCondition();
         poId.setDocField(OLEConstants.PO_SEARCH);
+        SearchCondition journalTitle = new SearchCondition();
+        journalTitle.setDocField(OLEConstants.JOURNAL_TITLE_SEARCH);
         searchConditions.add(title);
         searchConditions.add(issn);
         searchConditions.add(serialId);
         searchConditions.add(bibId);
         searchConditions.add(poId);
+        searchConditions.add(journalTitle);
     }
 
     public SearchParams getSearchParams() {

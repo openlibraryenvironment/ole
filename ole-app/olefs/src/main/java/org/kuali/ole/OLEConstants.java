@@ -138,10 +138,13 @@ public class OLEConstants {
     public static final String INDEX_RCV_REC_TYP = "Index";
     public static final String SERIAL_SEARCH = "serial_search";
     public static final String PO_SEARCH = "po_search";
+    public static final String JOURNAL_TITLE_SEARCH = "JournalTitle_search";
     public static final String TITLE_SEARCH = "Title_search";
     public static final String ISSN_SEARCH = "ISSN_search";
     public static final String BIB_SEARCH = "bibIdentifier";
     public static final String LOCALID_SEARCH = "LocalId_display";
+    public static final String LOCAL_IDENTIFIER = "localIdentifier";
+    public static final String ISSN = "issn";
     public static final String INSTANCE_SEARCH = "instanceIdentifier";
     public static final String BIB_ID = "bibId";
     public static final String DOC_NUM = "documentNumber";

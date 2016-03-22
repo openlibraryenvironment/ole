@@ -6,6 +6,7 @@ import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.pojo.OLESerialReceivingRecord;
 import org.kuali.ole.select.bo.OLESerialReceivingDocument;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public interface SerialReceivingSearchService {
 
     public Set<String> getInstanceIdList(String poId);
 
-    public SearchResponse searchDataFromDocstore(int startIndex, int searchLimit, Set<String> bibIds, String title, String issn, String localIdentifier,String sortingOrder);
+    public SearchResponse searchDataFromDocstore(int startIndex, int searchLimit, Set<String> bibIds, HashMap<String,String> criteriaMap,String sortingOrder);
 
     public OLESerialReceivingRecord getSerialRecord(SearchResult searchResult);
 
