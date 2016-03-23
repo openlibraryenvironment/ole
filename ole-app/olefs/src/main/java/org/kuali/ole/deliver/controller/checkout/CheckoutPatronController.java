@@ -62,7 +62,11 @@ public class CheckoutPatronController extends CheckoutItemController {
         if (null != droolsResponse && StringUtils.isNotBlank(droolsResponse.retrieveErrorMessage())) {
             circForm.setErrorMessage(droolsResponse.getErrorMessage());
             if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.GENERAL_MESSAGE_FLAG)) {
-                showDialog("generalMessageAndResetUIDialog", circForm, request, response);
+                String createNewPatronLink = (String) droolsExchange.getContext().get("createNewPatronLink");
+                if(StringUtils.isNotBlank(createNewPatronLink)) {
+                    circForm.setCreateNewPatronLink(createNewPatronLink);
+                }
+                showDialog("patronInvalidOrLostDialog", circForm, request, response);
             }
         } else {
             return handleProxyPatronsIfExists(circForm, result, request, response);
