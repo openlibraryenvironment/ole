@@ -104,7 +104,6 @@ public class EInstanceMappingHelper {
     }
 
     protected void generateSubFieldsForEHolding(OleHoldings oleHoldings, Map<String, String> dataFieldEHoldingMap, Map<String, String> dataFieldCoverageMap, Map<String, String> dataFieldsDonorMap) throws Exception {
-        List<DataField> linkList = new ArrayList<>();    
         try {
             for (Map.Entry<String, String> entry : dataFieldEHoldingMap.entrySet()) {
                 DataField dataField;
@@ -181,10 +180,17 @@ public class EInstanceMappingHelper {
                         generateCallNumberPrefix(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
-                    for (Link link : oleHoldings.getLink()) {
-                        DataField dataField1 = getDataField(entry);
-                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField1);
-                        if (!dataField1.getSubFields().isEmpty()) linkList.add(dataField1);
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                            if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                        }
+                    }else {
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                        }
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERSISTENTLINK)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -196,10 +202,17 @@ public class EInstanceMappingHelper {
                         generatePersistentLink(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                    for (Link link : oleHoldings.getLink()) {
-                        DataField dataField1 = getDataField(entry);
-                        generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField1);
-                        if (!dataField1.getSubFields().isEmpty()) linkList.add(dataField1);
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
+                            if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                        }
+                    }else{
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
+                        }
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_STATISTICAL_CODE)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -273,9 +286,6 @@ public class EInstanceMappingHelper {
             }
             if (!CollectionUtils.isEmpty(dataFieldCoverageMap)) {
                 generateCoverageFields(oleHoldings, dataFieldCoverageMap);
-            }
-            if (!CollectionUtils.isEmpty(linkList)) {
-                dataFieldList.addAll(linkList);
             }
             if (!CollectionUtils.isEmpty(dataFieldsDonorMap)) {
                 generateDonorFields(oleHoldings, dataFieldsDonorMap);
