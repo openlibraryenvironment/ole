@@ -60,7 +60,9 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
         } catch (Exception e) {
             droolsResponse = new DroolsResponse();
             if(e.getMessage().equalsIgnoreCase(OLEConstants.PTRN_BARCD_NOT_EXT)){
-                droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
+                String createNewPatronLink = "patronMaintenance?viewTypeName=MAINTENANCE&amp;returnLocation=" + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/portal.do&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument";
+                droolsExchange.addToContext("createNewPatronLink", createNewPatronLink);
+                droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT);
                 droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
             } else {
                 droolsResponse.addErrorMessage(e.getMessage());

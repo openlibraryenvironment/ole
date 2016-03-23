@@ -111,6 +111,8 @@ public class CircForm extends OLEForm {
 
     private String itemLostNote;
 
+    private String createNewPatronLink;
+
     public String getPageSize() {
         return pageSize;
     }
@@ -219,6 +221,7 @@ public class CircForm extends OLEForm {
         this.itemLostNote = null;
         this.missingPieceCount = null;
         this.numberOfPiece=null;
+        this.createNewPatronLink = null;
     }
 
     public OlePatronDocument getPatronDocument() {
@@ -561,6 +564,14 @@ public class CircForm extends OLEForm {
 
     public void setCreateBillUrl(String createBillUrl) {
         this.createBillUrl = createBillUrl;
+    }
+    
+    public String getCreateNewPatronLink() {
+        return createNewPatronLink;
+    }
+
+    public void setCreateNewPatronLink(String createNewPatronLink) {
+        this.createNewPatronLink = createNewPatronLink;
     }
 
     public String getItemLostNote() {
