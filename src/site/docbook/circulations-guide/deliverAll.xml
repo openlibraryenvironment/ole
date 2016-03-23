@@ -522,6 +522,17 @@
                                 your loan periods are hourly, if you do not specify a time, OLE will
                                 assume 23:59:59. This assumed time can be changed from the parameter
                                 DEF_CLOSE_TIME.</para>
+                            <tip>
+                                <para>If there are multiple items that need updated due dates, enter
+                                    a single <emphasis role="bold">Due Date</emphasis> and time at
+                                    the top of the pop-up and click <inlinemediaobject>
+                                        <alt>Update All Items</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DeliverNoTitlePage-209.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </tip>
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
@@ -3021,7 +3032,7 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Valid From</para>
+                                        <para role="Table Cells">Begin Date</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">The date at which an address
@@ -3031,7 +3042,7 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Valid To</para>
+                                        <para role="Table Cells">End Date</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">The date at which an address is no
@@ -3702,9 +3713,10 @@
                                 patron would like to pay.</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Select the <emphasis role="bold">Payment
-                                    Mode</emphasis> from the drop down list if you plan to accept a
-                                payment.</para>
+                            <para role="List Paragraph">From the <emphasis role="bold">Payment and
+                                    Transaction Details</emphasis> tab, select the <emphasis
+                                    role="bold">Payment Mode</emphasis> from the drop down list if
+                                you plan to accept a payment.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Enter the <emphasis role="bold">Pay
@@ -5270,6 +5282,14 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Show On-Hold Item</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Request Expiration Days</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -5288,7 +5308,7 @@
                                         <para role="Table Cells">Required. The amount of time, in
                                             minutes, between check-in and reshelving.</para>
                                         <note>
-                                            <para>This time is dependant on the batch job
+                                            <para>This time is dependent on the batch job
                                                 updateStatusIntoAvailableAfterReShelvingJob.
                                                 Statuses will not be updated to "available" until
                                                 this job has run. If the Shelving Lag Time is set to
@@ -5317,6 +5337,14 @@
                                         <para role="Table Cells">Indicates whether this circulation
                                             desk can be used as a pick up location for items on hold
                                             from an Automated Storage Retrieval System (ASR).</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Renew Lost Item</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
                                     </entry>
                                 </row>
                                 <row>
@@ -5390,6 +5418,30 @@
                                             instead.</para>
                                     </entry>
                                 </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Sender Email</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Default Pickup Location</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Default Request Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
                             </tbody>
                         </tgroup>
                     </informaltable>
@@ -5419,6 +5471,12 @@
                         <para>Select the location from the drop down list: </para>
                         <para>Begin typing and a list of options will appear. Enter “*” (asterisk)
                             to display the complete list.</para>
+                        <note>
+                            <para>An inactive location will not appear in the drop down and will
+                                disappear in edit mode.  For additional information, see the <link
+                                    linkend="_Location">Location</link> maintenance document.
+                            </para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para role="Normal">Click <inlinemediaobject>
@@ -5452,6 +5510,20 @@
                 </orderedlist>
             </section>
             <section>
+                <title>Fee Type tab</title>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Circulation Desk Document: Fee TypeTab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-137.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
                 <title>Pick Up Location For tab</title>
                 <para role="Normal">A circulation desk can be the pick up location for multiple
                     shelving locations. On the <emphasis role="bold">Pick up location for</emphasis>
@@ -5461,6 +5533,12 @@
                         <para>Select the location from the drop down list: </para>
                         <para>Begin typing and a list of options will appear. Enter “*” (asterisk)
                             to display the complete list.</para>
+                        <note>
+                            <para>An inactive location will not appear in the drop down and will
+                                disappear in edit mode.  For additional information, see the <link
+                                    linkend="_Location">Location</link> maintenance document.
+                            </para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para role="Normal">Click <inlinemediaobject>
@@ -6059,6 +6137,27 @@
                                         parent location by clicking on the magnifying glass icon. A
                                         valid parent location must be at a higher level than the new
                                         location being created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Leave checked if you wish
+                                        this location to be active. Uncheck the box if you wish to
+                                        inactivate the location. </para>
+                                    <note>
+                                        <para>An inactive location will not appear in the drop downs
+                                            for Holdings, Items, and E-Holdings Locations nor
+                                            Circulation Desk Locations or Pickup Locations. However,
+                                            inactive locations still appear in the Requisition
+                                            Location drop down.</para>
+                                        <para>When an inactive location exists on a record or
+                                            circulation desk, it will appear in view mode but not
+                                            once it is in edit mode.  You will need to choose a new
+                                            location.</para>
+                                    </note>
                                 </entry>
                             </row>
                         </tbody>

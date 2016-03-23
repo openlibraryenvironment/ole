@@ -1531,6 +1531,10 @@
                                             <para role="Table Cells">Select the location of the item
                                                 being specified on this line from the drop down
                                                 list. </para>
+                                            <note>
+                                                <para>An inactive location will still appear in the
+                                                  drop down. </para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -7193,10 +7197,10 @@
                     </imageobject>
                 </inlinemediaobject> button on a Purchase Order</para>
             <para role="Body Text">When you amend a PO, the system creates a PO Amend (POA) document
-                based on the existing PO. Enter a reason when initiating the amendment.  Once you
+                based on the existing PO. Enter a reason when initiating the amendment. Once you
                 supply a reason, OLE will display the Purchase Order, and allow you to change
-                fields.  When the amendment is submitted, the fiscal officer receives an FYI. This
-                is his or her notification that the order has changed. </para>
+                fields. When the amendment is submitted, the fiscal officer receives an FYI. This is
+                his or her notification that the order has changed. </para>
             <para role="Body Text"/>
             <para role="Normal">If you add titles to the Purchase Order or change prices, click the <inlinemediaobject>
                     <alt>Calculate</alt>
@@ -9615,16 +9619,10 @@
                                 </mediaobject>
                             </screenshot>
                         </para>
-                        <para>You may change the order of the purchase orders added to the Invoice by
-                            editing the sequence number (Seq No) field.</para>
+                        <para>You may change the order of the purchase orders added to the Invoice
+                            by editing the sequence number (Seq No) field.</para>
                         <para>To add or view line item notes for the invoice, click <emphasis
-                                role="bold">Details</emphasis> next to the listed item. If you add a
-                            note, do not forget to click the <inlinemediaobject>
-                                <alt>Add</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-36.png"/>
-                                </imageobject>
-                            </inlinemediaobject> button.</para>
+                                role="bold">Details</emphasis> next to the listed item. </para>
                         <para role="Illustration">
                             <screenshot>
                                 <mediaobject>
@@ -16358,7 +16356,7 @@
                             <para>Select the appropriate Receiving Record Type.</para>
                             <tip>
                                 <para>When using the Serials Receiving Record Search interface,
-                                    press "Enter" to search.  Following a search, the system
+                                    press "Enter" to search. Following a search, the system
                                     automatically sets focus on the first occurrence of "Show" in
                                     the Action column (you may need to scroll down to find it). If
                                     the focus is on the title you want, just press "Enter" to
@@ -22704,7 +22702,8 @@
                                 <mediaobject>
                                     <alt>E-Resource Workflow Status tab</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/eresource-38.png" width="100%"/>
+                                        <imagedata fileref="../images/eresource-38.png" width="100%"
+                                        />
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -22719,7 +22718,8 @@
                                 <mediaobject>
                                     <alt>E-Resource Variant Title tab</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/eresource-76.png" width="100%"/>
+                                        <imagedata fileref="../images/eresource-76.png" width="100%"
+                                        />
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -23820,7 +23820,7 @@
                         <note>
                             <para>There is an option to create a PO on an E-Resource record from
                                 this screen, or you can choose to create a PO through the
-                                Requisition function from the Select/Acquire menu.  See <link
+                                Requisition function from the Select/Acquire menu. See <link
                                     linkend="_Requisition">Requisition</link>.</para>
                         </note>
                         <para>To create a purchase order for the e-resource record, click <inlinemediaobject>
@@ -23828,7 +23828,7 @@
                                 <imageobject>
                                     <imagedata fileref="../images/eresource-84.png"/>
                                 </imageobject>
-                            </inlinemediaobject>.  A new tab (or window) will open in your
+                            </inlinemediaobject>. A new tab (or window) will open in your
                             browser:</para>
                         <para>
                             <screenshot>
@@ -23847,8 +23847,8 @@
                             identical.</para>
                         <para>Select a <emphasis role="bold">Vendor</emphasis>, <emphasis
                                 role="bold">Purpose</emphasis>, and <emphasis role="bold">Order
-                                Type</emphasis> from the drop down menus.  Enter the <emphasis
-                                role="bold">Estimated Price</emphasis>.  These are all mandatory
+                                Type</emphasis> from the drop down menus. Enter the <emphasis
+                                role="bold">Estimated Price</emphasis>. These are all mandatory
                             fields. </para>
                         <para>Click <emphasis role="bold">Details</emphasis> to add accounting
                             information.</para>
@@ -23865,7 +23865,7 @@
                                 hinders users.</para>
                             <para>Second, clicking on <emphasis role="bold">return value</emphasis>
                                 also collapses the “Details” and hides the Accounting Line from the
-                                user.  These are documented bugs in 2.1.</para>
+                                user. These are documented bugs in 2.1.</para>
                         </warning>
                         <para>
                             <screenshot>
@@ -23902,7 +23902,7 @@
                             </screenshot>
                         </para>
                         <para>To see the created purchase Order, close the tab and return to the
-                                <emphasis role="bold">Select &amp; Acquire</emphasis> menu.  Search
+                                <emphasis role="bold">Select &amp; Acquire</emphasis> menu. Search
                             by the purchase order number from the Purchase Order Search listed under
                             the heading <emphasis role="bold">Ordering</emphasis>.</para>
                     </section>
@@ -24351,8 +24351,8 @@
                     <para>An e-holdings dialogue box will appear listing all e-holdings that were
                         deleted. If any e-holdings are linked to purchase orders, they will not be
                         deleted. Those are listed separately in a “Not Deleted e-holdings details”
-                        section of the dialogue box.  You will need to unlink the POs and then
-                        delete the e-holdings.</para>
+                        section of the dialogue box. You will need to unlink the POs and then delete
+                        the e-holdings.</para>
                     <para><inlinemediaobject>
                             <alt>E-Holdings Instances Not Deleted Dialog box</alt>
                             <imageobject>
@@ -33170,7 +33170,7 @@
                                     <para role="Table Cells">Chart Code </para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required.  The chart code to which the
+                                    <para role="Table Cells">Required. The chart code to which the
                                         account generating the offset entry belongs.</para>
                                 </entry>
                             </row>
@@ -33200,7 +33200,7 @@
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells">Required. The chart code to which the
                                         offset account is a part. Existing offset charts may be
-                                        retrieved from the lookup  <inlinemediaobject>
+                                        retrieved from the lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
@@ -33214,7 +33214,7 @@
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells">Required. The account to which offsets
                                         transactions for the specified account should be applied.
-                                        Existing offset accounts may be retrieved from the lookup  <inlinemediaobject>
+                                        Existing offset accounts may be retrieved from the lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
@@ -35091,8 +35091,8 @@
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells"> Optional. The Sub-Object Code you
                                             want to represent in the fund code. Enter the sub-object
-                                            code or search for it from the <emphasis
-                                                role="bold">Sub-Object</emphasis> lookup <inlinemediaobject>
+                                            code or search for it from the <emphasis role="bold"
+                                                >Sub-Object</emphasis> lookup <inlinemediaobject>
                                                 <imageobject>
                                                   <imagedata fileref="../images/Lookup2.png"/>
                                                 </imageobject>
