@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.controller.checkout.CheckoutValidationController;
@@ -892,14 +893,21 @@ public class CircController extends CheckoutValidationController {
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
         List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
-        if (loanDocumentList.size() > 0) {
+        OLEDeliverNotice oleDeliverNotice;
+         if (loanDocumentList.size() > 0) {
             List<OleLoanDocument> loanDocuments = new ArrayList<>();
             for (OleLoanDocument oleLoanDocument : loanDocumentList) {
                 String itemFullLocation = getItemFullLocation(oleLoanDocument.getItemId());
                 if(itemFullLocation != null) {
                     oleLoanDocument.setItemFullLocation(itemFullLocation);
                 }
+                oleDeliverNotice = getLostNotice(oleLoanDocument.getDeliverNotices());
+                if(oleDeliverNotice!=null)
                 oleLoanDocument.setItemLostNote(itemLostDescription);
+                oleLoanDocument.getDeliverNotices().clear();
+                if(oleDeliverNotice!=null){
+                    oleLoanDocument.getDeliverNotices().add(oleDeliverNotice);
+                }
                 oleLoanDocument.setIsManualBill(true);
                 oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
                 loanDocuments.add(oleLoanDocument);
@@ -909,8 +917,27 @@ public class CircController extends CheckoutValidationController {
             lostMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocumentList);
             Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+           for(OleLoanDocument loanDocument : loanDocumentList) {
+                        Map map = new HashMap();
+                map.put("loanId",loanDocument.getLoanId());
+                getBusinessObjectService().deleteMatching(OLEDeliverNotice.class,map);
+            }
         }
         return getUIFModelAndView(circForm);
+    }
+
+
+    public OLEDeliverNotice getLostNotice(List<OLEDeliverNotice> oleDeliverNotices){
+        OLEDeliverNotice oleDeliverNotice = null;
+        if(oleDeliverNotices!=null && oleDeliverNotices.size()>0){
+            for(OLEDeliverNotice oleDeliverNotice1 : oleDeliverNotices){
+                if(oleDeliverNotice1.getNoticeType().equals("Lost")){
+                    oleDeliverNotice = oleDeliverNotice1;
+                    break;
+                }
+            }
+        }
+        return oleDeliverNotice;
     }
 
     public String getItemFullLocation(String itemBarcode) {
