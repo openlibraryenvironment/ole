@@ -111,7 +111,8 @@
         <title>Learn More and Get Involved</title>
         <tip>
             <para>If there is anything missing in the documentation, please let us know in <link
-                xlink:href="https://jira.kuali.org/browse/OLEFDBK">OLEFDBK</link>.</para>
+                    xlink:href="https://openlibraryenvironment.atlassian.net/projects/OLEFDBK/"
+                    >OLEFDBK</link>.</para>
             <para>For instructions on creating an issue, see <link
                 xlink:href="https://wiki.kuali.org/display/OLE/Reporting+an+Issue+in+OLE"
                 >Reporting an Issue in OLE</link>.</para>

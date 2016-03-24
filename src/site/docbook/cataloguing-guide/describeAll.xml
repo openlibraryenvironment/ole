@@ -1255,7 +1255,8 @@
                         be shown. </para>
                     <para> A check box allows the holdings record to be flagged as Staff Only. The
                         purpose of the flag is to make it possible to hide that particular holdings
-                        record from end users in the library's discovery layer (OPAC). </para>
+                        record, and its related records, from end users in the library's discovery
+                        layer (OPAC). </para>
                     <para> The Local Identifier is a system-generated number assigned by OLE to the
                         holdings record. It is stored within the OLE system.</para>
                     <para>The Holding record includes the following tabs: <emphasis role="bold"
@@ -1305,6 +1306,15 @@
                                             <para>Begin typing and a list of options will appear.
                                                 Enter “*” (asterisk) to display the complete
                                                 list.</para>
+                                            <note>
+                                                <para>An inactive location will not appear in the
+                                                  drop down and will disappear in edit mode.  For
+                                                  additional information, see the <link
+                                                  linkend="_Location">Location</link> maintenance
+                                                  document under the <emphasis>Deliver
+                                                  Module</emphasis>
+                                                </para>
+                                            </note>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1720,7 +1730,8 @@
                         shown. </para>
                     <para> A check box allows the item record to be flagged as Staff Only. The
                         purpose of the flag is to make it possible to hide that particular item
-                        record from end users in the library's discovery layer (OPAC). </para>
+                        record, and its related records, from end users in the library's discovery
+                        layer (OPAC). </para>
                     <para> The Local Identifier is the number of the item record within the OLE
                         system. </para>
                     <para>The Item record includes unique tabs with some information inherited from
@@ -1796,6 +1807,26 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Location</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>Select the location from the drop down list: </para>
+                                            <para>Begin typing and a list of options will appear.
+                                                Enter “*” (asterisk) to display the complete
+                                                list.</para>
+                                            <note>
+                                                <para>An inactive location will not appear in the
+                                                  drop down and will disappear in edit mode.  For
+                                                  additional information, see the <link
+                                                  linkend="_Location">Location</link> maintenance
+                                                  document under the <emphasis>Deliver
+                                                  Module</emphasis>
+                                                </para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -1946,36 +1977,45 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Chronology</para>
+                                            <para role="Table Cells">Temp Item Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Designation used to identify the issue date of a
-                                                specific part of a multipart title.  Enumeration
-                                                and/or chronology data are typically included at the
-                                                end of a call number to identify the specific volume
-                                                of a multi-part item.</para>
+                                            <para>To temporarily change the item type, select a
+                                                temporary item type from the drop down list. For
+                                                example, an item on reserve needs to circulate
+                                                according to a different circulation rule for a
+                                                while.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Type</para>
+                                            <para role="Table Cells">Number Of Pieces</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Used in conjunction with Patron Type to determine
-                                                a circulation policy for a particular item when a
-                                                circulation transaction occurs.  Each OLE library
-                                                determines what Item Types it wishes to use.
-                                                 Typically, Item Types identify either a particular
-                                                format of material (“Book”) or a particular loan
-                                                length (“2-hour loan”). </para>
+                                            <para> Record here the number of pieces of an item
+                                                intended to circulate as a unit.  For example, if
+                                                the item is a book with an accompanying map in a
+                                                separate pocket, you may wish to record “2” here. </para>
+                                            <note>
+                                                <para>This is an uncontrolled free-text field, so it
+                                                  is possible to enter something other than a
+                                                  number. However, entering any value other than a
+                                                  number will cause an error on Return of the item;
+                                                  the item cannot be returned until record has been
+                                                  corrected.</para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item ID</para>
+                                            <para role="Table Cells">Description of Pieces</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>System supplied unique ID.</para>
+                                            <para>Record a description of the pieces counted in the
+                                                  <emphasis role="bold">Number of Pieces</emphasis>
+                                                field. For example "1 CD-ROM and 1 booklet in pocket
+                                                inside back cover". This description will display
+                                                during a loan and a return of the item. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -2013,48 +2053,51 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Temp Item Type</para>
+                                            <para role="Table Cells">Volume Number</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>To temporarily change the item type, select a
-                                                temporary item type from the drop down list. For
-                                                example, an item on reserve needs to circulate
-                                                according to a different circulation rule for a
-                                                while.</para>
+                                            <para role="Table Cells">A free text field that allows
+                                                the recording of additional or alternative volume
+                                                numbering of a multi-part item.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Number Of Pieces</para>
+                                            <para role="Table Cells">Chronology</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Record here the number of pieces of an item
-                                                intended to circulate as a unit.  For example, if
-                                                the item is a book with an accompanying map in a
-                                                separate pocket, you may wish to record “2” here.
-                                                 </para>
-                                            <note>
-                                                <para>This is an uncontrolled free-text field, so it
-                                                  is possible to enter something other than a
-                                                  number. However, entering any value other than a
-                                                  number will cause an error on Return of the item;
-                                                  the item cannot be returned until record has been
-                                                  corrected.</para>
-                                            </note>
+                                            <para> Designation used to identify the issue date of a
+                                                specific part of a multipart title.  Enumeration
+                                                and/or chronology data are typically included at the
+                                                end of a call number to identify the specific volume
+                                                of a multi-part item.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Description of Pieces</para>
+                                            <para role="Table Cells">Item Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Record a description of the pieces counted in the
-                                                  <emphasis role="bold">Number of Pieces</emphasis>
-                                                field.  For example "1 CD-ROM and 1 booklet in
-                                                pocket inside back cover".  This description will
-                                                display during a loan and a return of the item.
-                                            </para>
+                                            <para> Used in conjunction with Patron Type to determine
+                                                a circulation policy for a particular item when a
+                                                circulation transaction occurs.  Each OLE library
+                                                determines what Item Types it wishes to use.
+                                                 Typically, Item Types identify either a particular
+                                                format of material (“Book”) or a particular loan
+                                                length (“2-hour loan”). </para>
                                         </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Item ID</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>System supplied unique ID.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"/>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top"/>
                                     </row>
                                 </tbody>
                             </tgroup>
@@ -2147,7 +2190,8 @@
                         <note>
                             <para>In a future release, an electronic book plate will be linkable in
                                 this tab.</para>
-                        </note><para role="Normal"/>
+                        </note>
+                        <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -3033,6 +3077,13 @@
                             </mediaobject>
                         </screenshot>
                     </para>
+                    <para> The top of the e-holdings record shows the ID of the user who created it
+                        and the date it was created. If the record has been subsequently updated,
+                        the ID of the last user to update it and the date of last update will also
+                        be shown. </para>
+                    <para> A check box allows the holdings record to be flagged as Staff Only. The
+                        purpose of the flag is to make it possible to hide that particular
+                        e-holdings record from end users in the library's discovery layer (OPAC). </para>
                     <para> The E-Holdings ID is a system generated identification number. </para>
                     <para>The E-Holdings record includes these tabs -- <emphasis role="bold"
                             >Overview</emphasis>, <emphasis role="bold">Location
@@ -3092,16 +3143,6 @@
                                             <para role="Table Cells">System generated and display
                                                 only. Displays the date that the Access Status was
                                                 last modified and saved.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Staff Only</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"> Staff only indicator. Check to
-                                                keep the E-Holdings from being displayed in the
-                                                public view. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3205,14 +3246,14 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para>The URL for users to access the electronic
-                                                resource.  Click <inlinemediaobject>
+                                                resource. Click <inlinemediaobject>
                                                   <alt>Add</alt>
                                                   <imageobject>
                                                   <imagedata
                                                   fileref="../images/LicensingNoTitlePage-29.png"/>
                                                   </imageobject>
                                                 </inlinemediaobject>, the text box will expand to
-                                                display the entire URL.  See also <link
+                                                display the entire URL. See also <link
                                                   linkend="_testingURIsInTheEHoldingsEditor">Testing
                                                   URIs in the E-Holdings Editor</link>.</para>
                                         </entry>
@@ -3275,6 +3316,17 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Local Persistent Link</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> The locally assigned persistent link for the
+                                                electronic resource. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Authentication Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -3286,13 +3338,11 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Persistent Link</para>
+                                            <para role="Table Cells">Proxied</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The locally assigned persistent link for the
-                                                electronic resource. See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
+                                            <para role="Table Cells">Check the box if access to the
+                                                electronic resource is proxied.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3331,13 +3381,8 @@
                                         </entry>
                                     </row>
                                     <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Proxied</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Check the box if access to the
-                                                electronic resource is proxied.</para>
-                                        </entry>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"/>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top"/>
                                     </row>
                                 </tbody>
                             </tgroup>
@@ -3380,11 +3425,19 @@
                                             <para role="Table Cells">Location </para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Select the location from the drop down
-                                                list.</para>
+                                            <para>Select the location from the drop down list: </para>
                                             <para>Begin typing and a list of options will appear.
                                                 Enter “*” (asterisk) to display the complete
                                                 list.</para>
+                                            <note>
+                                                <para>An inactive location will not appear in the
+                                                  drop down and will disappear in edit mode.  For
+                                                  additional information, see the <link
+                                                  linkend="_Location">Location</link> maintenance
+                                                  document under the <emphasis>Deliver
+                                                  Module</emphasis>
+                                                </para>
+                                            </note>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -3840,6 +3893,14 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Cancellation Candidate?</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"/>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Cancellation Decision
                                                 Date</para>
                                         </entry>
@@ -3864,17 +3925,61 @@
                                             <para role="Table Cells"/>
                                         </entry>
                                     </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                    </section>
+                    <section>
+                        <title>Donor tab</title>
+                        <para>You may track information about a donor if applicable. Click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add donor information.</para>
+                        <note>
+                            <para>In a future release, an electronic book plate will be linkable in
+                                this tab.</para>
+                        </note>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Donor</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-245.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para role="TableHeading"><emphasis role="bold">Donor tab
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Donor Code</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The Code of the donor. Enter
-                                                the code or search for it from the lookup <inlinemediaobject>
-                                                  <imageobject>
-                                                  <imagedata fileref="../images/Lookup2.png"/>
-                                                  </imageobject>
-                                                </inlinemediaobject>.</para>
+                                            <para role="Table Cells">The Code of the donor. </para>
+                                            <para role="Table Cells">Select the donor from the drop
+                                                down list: </para>
+                                            <para role="Table Cells">Begin typing and a list of
+                                                options will appear. Enter “*” (asterisk) to display
+                                                the complete list.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3883,8 +3988,8 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para> A free-text, editable note regarding the donor of
-                                                a particular electronic resource, to be used in the
-                                                library’s discover layer (OPAC). </para>
+                                                a particular item, to be used in the library’s
+                                                discover layer (OPAC). </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3893,8 +3998,9 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para> A free-text, editable note regarding the donor of
-                                                a particular electronic resource to be used by
-                                                library staff only.  Example: gifts </para>
+                                                a particular item, or other source of acquisition,
+                                                to be used by library staff only.  Example: gifts
+                                            </para>
                                         </entry>
                                     </row>
                                 </tbody>
