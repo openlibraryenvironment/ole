@@ -16,6 +16,7 @@
 package org.kuali.ole.sys.businessobject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -92,12 +93,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     protected OriginationCode referenceOrigin;
     protected DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
     protected SalesTax salesTax;
+    protected BigDecimal foreignAmount;
 
     /**
      * This constructor sets up empty instances for the dependent objects.
      */
     public AccountingLineBase() {
         setAmount(KualiDecimal.ZERO);
+        setForeignAmount(BigDecimal.ZERO);
         chart = new Chart();
         account = new Account();
         objectCode = new ObjectCode();
@@ -1051,5 +1054,13 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
     public void setReferenceFinancialSystemDocumentTypeCode(DocumentTypeEBO referenceFinancialSystemDocumentTypeCode) {
         this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
+    }
+
+    public BigDecimal getForeignAmount() {
+        return foreignAmount;
+    }
+
+    public void setForeignAmount(BigDecimal foreignAmount) {
+        this.foreignAmount = foreignAmount;
     }
 }
