@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -1185,6 +1184,8 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
         , OLE_CRCL_DSK_ID VARCHAR(40) NOT NULL
         , OLE_CRCL_DSK_LOCN VARCHAR(40) NOT NULL
         , OLE_CRCL_PICKUP_DSK_LOCN VARCHAR(40)
+        , LOCN_POPUP VARCHAR(1) default 'N'
+        , LOCN_POPUP_MSG VARCHAR(4000)
     
     , CONSTRAINT OLE_CRCL_DSK_LOCN_TP1 PRIMARY KEY(OLE_CRCL_DSK_LOCN_ID)
 
@@ -1193,11 +1194,11 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
 
 
     
-                                                                                                                                                                        
+                                                                                                                                                                                                                
                                     
 , INDEX OLE_CRCL_DSK_LOCN_constr (OLE_CRCL_DSK_LOCN )
     
-                                                                                                                                                                        
+                                                                                                                                                                                                                
                                     
 , INDEX OLE_CRCL_LOCN_FK (OLE_CRCL_DSK_ID )
 
@@ -1956,12 +1957,13 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , ITM_ENUM VARCHAR(100)
         , ITM_CHRON VARCHAR(100)
         , ITM_LOC VARCHAR(600)
-        , CRDT_ISSUED DECIMAL(10,4)
-        , CRDT_REMAINING DECIMAL(10,4)
+        , CRDT_ISSUED DECIMAL(10,4) default 0.00
+        , CRDT_REMAINING DECIMAL(10,4) default 0.00
         , PAY_CREDIT_NOTE VARCHAR(500)
         , PAY_TRANSFER_NOTE VARCHAR(500)
         , PAY_REFUND_NOTE VARCHAR(500)
         , PAY_CAN_CRDT_NOTE VARCHAR(500)
+        , MANUAL_BILL VARCHAR(1) default 'N'
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
 
@@ -1970,7 +1972,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -2037,8 +2039,9 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , PAY_NOTE VARCHAR(500)
         , NOTE VARCHAR(500)
         , BILL_REVIEWED VARCHAR(1)
-        , CRDT_ISSUED DECIMAL(10,4)
-        , CRDT_REMAINING DECIMAL(10,4)
+        , CRDT_ISSUED DECIMAL(10,4) default 0.00
+        , CRDT_REMAINING DECIMAL(10,4) default 0.00
+        , MANUAL_BILL VARCHAR(1) default 'Y'
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_TP1 PRIMARY KEY(PTRN_BILL_ID)
 
@@ -2047,7 +2050,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_DLVR_PTRN_BILL_TI1 (OLE_PTRN_ID )
 
@@ -3423,6 +3426,7 @@ CREATE TABLE OLE_LOCN_T
         , LOCN_NAME VARCHAR(100) NOT NULL
         , LEVEL_ID VARCHAR(40) NOT NULL
         , PARENT_LOCN_ID VARCHAR(40)
+        , ROW_ACT_IND VARCHAR(1) default 'Y'
     
     , CONSTRAINT OLE_LOCN_TP1 PRIMARY KEY(LOCN_ID)
 
@@ -3432,11 +3436,11 @@ CREATE TABLE OLE_LOCN_T
 
 
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_LOCN_FK1 (PARENT_LOCN_ID )
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_LOCN_FK2 (LEVEL_ID )
 

@@ -425,4 +425,18 @@ public class OleSelectConstant {
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
     public static final String POBA_VIEW = "OLEPurchaseOrderBatchView";
     public static final String PRORATE_OPTION_REQ = "error.prorate.option.required";
+
+    public static class EncumberReportConstant{
+        public static final String DONORCODE="donorCode";
+        public static final String FROM_DATE="fromDate";
+        public static final String TO_DATE="toDate";
+        public static final String DONORID="DONORID";
+        public static final String DONOR_CODE="DONOR_CODE";
+        public static final String PONUM ="PONUM";
+        public static final String DOCID ="DOCID";
+        public static final String DONOR_NOTE="DONOR_NOTE";
+        public static final String DONOR_AMT="DONOR_AMT";
+        public static final String ENCUMBERAMT="ENCUMBERAMT";
+        public static final String EXPENSEDAMT="EXPENSEDAMT";
+    }
 }

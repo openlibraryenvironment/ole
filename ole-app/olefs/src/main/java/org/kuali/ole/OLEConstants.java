@@ -138,10 +138,13 @@ public class OLEConstants {
     public static final String INDEX_RCV_REC_TYP = "Index";
     public static final String SERIAL_SEARCH = "serial_search";
     public static final String PO_SEARCH = "po_search";
+    public static final String JOURNAL_TITLE_SEARCH = "JournalTitle_search";
     public static final String TITLE_SEARCH = "Title_search";
     public static final String ISSN_SEARCH = "ISSN_search";
     public static final String BIB_SEARCH = "bibIdentifier";
     public static final String LOCALID_SEARCH = "LocalId_display";
+    public static final String LOCAL_IDENTIFIER = "localIdentifier";
+    public static final String ISSN = "issn";
     public static final String INSTANCE_SEARCH = "instanceIdentifier";
     public static final String BIB_ID = "bibId";
     public static final String DOC_NUM = "documentNumber";
@@ -1692,6 +1695,7 @@ public class OLEConstants {
     public static final String PTRN_START_LINK = "<a id=\"u20\" href=\"patronMaintenance?viewTypeName=MAINTENANCE&amp;returnLocation=";
     public static final String PTRN_END_LINK = "/portal.do&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument\" target=\"_blank\" title=\"Create New Patron with\" class=\"uif-field uif-link uif-createNewLink\">Create New Patron</a>";
     public static final String PTRN_BARCD_NOT_EXT = "Patron barcode does not exist.";
+    public static final String PTRN_LOST_BARCODE = "Patron barcode is reported lost/stolen. Do Not Loan";
     public static final String ERROR_PTRN_BARCD_NOT_EXT = "error.patron.barcode.not.exist";
     public static final String ITM_BARCD_NT_AVAL_DOC = "Item barcode does not exist.";
     public static final String TIT_NT_EXT = "Title does not exist.";
@@ -3798,4 +3802,8 @@ public class OLEConstants {
     public static final String PAY_PAR_PAID_CRDT ="PAY_FULLY_PAID_CRDT";
     public static final String PAY_REFUNDED_ISSUED ="Refund Issued";
     public static final String PAY_APPL_CRDT = "Applied Credit";
+    public static final String RECALL_DELIVERY_REQUEST="Recall/Delivery Request";
+    public static final String RECALL_HOLD_REQUEST="Recall/Hold Request";
+    public static final String OVER_PAYMENT="refund.over.payment";
+    public static final String ENTRR_REFUND_AMT="enter.refund.amount";
 }

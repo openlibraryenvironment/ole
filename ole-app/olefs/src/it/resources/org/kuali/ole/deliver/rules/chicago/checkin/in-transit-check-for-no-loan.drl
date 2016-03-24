@@ -80,6 +80,7 @@ then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateInHouseCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
 
@@ -118,6 +119,7 @@ then
 $i.setItemStatusToBeUpdatedTo("AVAILABLE");
 $i.updateInHouseCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
   rule "Recently returned for item in-transit"
@@ -133,6 +135,7 @@ $d.setRuleMatched(true);
  $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
  $i.updateInHouseCheckinCount();
  $d.setRuleMatched(true);
+ $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
   end
 
    rule "Intransit for item in-transit"
@@ -167,5 +170,6 @@ then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateInHouseCheckinCount();
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 

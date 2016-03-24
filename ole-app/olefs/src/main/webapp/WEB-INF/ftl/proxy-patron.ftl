@@ -17,10 +17,10 @@
             <#list manager.searchLines as line>
             <tr class="odd">
                 <td><@proxy_checkbox_control line 'olePatronDocument.checkoutForSelf' container "" /></td>
-                <td>${line.row.proxyPatronId!}</td>
+                <td>${line.row.olePatronDocument.olePatronId!}</td>
                 <td>${line.row.olePatronDocument.entity.names[0].firstName!}</td>
                 <td>${line.row.olePatronDocument.entity.names[0].lastName!}</td>
-                <td>${line.row.olePatronDocument.barcode!}</td>
+                <td id="${line.lineId}_proxyBarcode_control">${line.row.olePatronDocument.barcode!}</td>
                 <td>${line.row.olePatronDocument.oleBorrowerType.borrowerTypeName!}</td>
             </tr>
             </#list>

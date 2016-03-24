@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="patronInvalidOrLostMsgDialog" parent="Uif-DialogGroup">
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="patronInvalidOrLostMsgSection"/>
+                <ref bean="patronInvalidOrLostBtnSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="patronInvalidOrLostMsgSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="invalidOrLostPatronMsg" parent="Uif-MessageField" p:style="font-size:15px"
+                      p:messageText="@{errorMessage.errorMessage}"/>
+                <bean id="patronCreateNewLink" parent="Uif-InputField" p:propertyName="createNewPatronLink" p:hidden="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="patronInvalidOrLostBtnSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="patronBtnOkClearUI" parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:style="width:50px"
+                      p:methodToCall="clearUI" p:ajaxSubmit="true"
+                      p:successCallback="jq.fancybox.close();"/>
+                <bean id="patronBtnCreateNew" parent="Uif-SecondaryActionButton"
+                      p:actionLabel="Create New Patron"
+                      p:actionScript="var link = jq('#patronCreateNewLink_control').val();
+                      window.open(link);"
+                      p:render="@{createNewPatronLink ne null and createNewPatronLink ne ''}"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

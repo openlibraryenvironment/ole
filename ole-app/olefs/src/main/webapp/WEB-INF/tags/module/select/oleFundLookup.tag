@@ -40,7 +40,18 @@
                  	    attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode"/>
                  	<kul:lookup boClassName="org.kuali.ole.coa.businessobject.Chart" fieldConversions="chartOfAccountsCode:document.chartOfAccountsCode"/>
                 </td>  
-            </tr>   
+            </tr>
+            <tr>
+                <th align=right valign=middle class="bord-l-b" width="25%">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell" width="25%">
+                    <kul:htmlControlAttribute
+                            attributeEntry="${documentAttributes.fundCode}" property="document.fundCode"/>
+                    <kul:lookup boClassName="org.kuali.ole.coa.businessobject.OleFundCode" fieldConversions="fundCode:document.fundCode,fundCodeId:document.fundCodeId"
+                                lookupParameters="document.chartOfAccountsCode:chartOfAccountsCode,document.accountNumber:accountNumber,document.fundCode:fundCode"/>
+                </td>
+            </tr>
             <tr>
                 <th align=right valign=middle class="bord-l-b" width="25%">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationCode}" /></div>

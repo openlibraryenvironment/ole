@@ -89,11 +89,15 @@ public class SerialReceivingSearchServiceImpl implements SerialReceivingSearchSe
         return searchResponse;
     }
 
-    public SearchResponse searchDataFromDocstore(int startIndex, int searchLimit, Set<String> instance_Ids, String title, String issn, String localIdentifier,String sortingOrder) {
+    public SearchResponse searchDataFromDocstore(int startIndex, int searchLimit, Set<String> instance_Ids, HashMap<String,String> criteriaMap,String sortingOrder) {
         SearchResponse searchResponse = new SearchResponse();
         org.kuali.ole.docstore.common.search.SearchParams searchParam = new org.kuali.ole.docstore.common.search.SearchParams();
         searchParam.setStartIndex(startIndex);
         searchParam.setPageSize(searchLimit);
+        String title=criteriaMap.get(OLEConstants.TITLE);
+        String issn=criteriaMap.get(OLEConstants.ISSN);
+        String localIdentifier=criteriaMap.get(OLEConstants.LOCAL_IDENTIFIER);
+        String journalTitle=criteriaMap.get(OLEConstants.JOURNAL_TITLE_SEARCH);
         if (!title.isEmpty()) {
             searchParam.getSearchConditions().add(searchParam.buildSearchCondition("AND", searchParam.buildSearchField(DocType.HOLDINGS.getCode(), Bib.TITLE, title), "AND"));
         }
@@ -103,6 +107,9 @@ public class SerialReceivingSearchServiceImpl implements SerialReceivingSearchSe
         if (!localIdentifier.isEmpty()) {
             searchParam.getSearchConditions().add(searchParam.buildSearchCondition("", searchParam.buildSearchField(DocType.HOLDINGS.getCode(), OLEConstants.LOCALID_SEARCH, localIdentifier), "AND"));
 
+        }
+        if (!journalTitle.isEmpty()) {
+            searchParam.getSearchConditions().add(searchParam.buildSearchCondition("AND", searchParam.buildSearchField(DocType.BIB.getCode(), OLEConstants.JOURNAL_TITLE_SEARCH, journalTitle), "AND"));
         }
         if (instance_Ids != null && instance_Ids.size() > 0) {
             for (String instanceId : instance_Ids) {

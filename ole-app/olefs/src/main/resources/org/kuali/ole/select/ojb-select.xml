@@ -684,6 +684,10 @@
         <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.ole.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="vendorShippingPaymentTermsCode" />
         </reference-descriptor>
+        <reference-descriptor name="orderType" class-ref="org.kuali.ole.module.purap.businessobject.PurchaseOrderType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="purchaseOrderTypeId" target-field-ref="purchaseOrderTypeId"/>
+        </reference-descriptor>
         <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />

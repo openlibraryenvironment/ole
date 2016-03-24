@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -1517,6 +1516,8 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
         , OLE_CRCL_DSK_ID VARCHAR2(40) NOT NULL
         , OLE_CRCL_DSK_LOCN VARCHAR2(40) NOT NULL
         , OLE_CRCL_PICKUP_DSK_LOCN VARCHAR2(40)
+        , LOCN_POPUP VARCHAR2(1) default 'N'
+        , LOCN_POPUP_MSG VARCHAR2(4000)
     
 
 )
@@ -2464,12 +2465,13 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , ITM_ENUM VARCHAR2(100)
         , ITM_CHRON VARCHAR2(100)
         , ITM_LOC VARCHAR2(600)
-        , CRDT_ISSUED NUMBER(10,4)
-        , CRDT_REMAINING NUMBER(10,4)
+        , CRDT_ISSUED NUMBER(10,4) default 0.00
+        , CRDT_REMAINING NUMBER(10,4) default 0.00
         , PAY_CREDIT_NOTE VARCHAR2(500)
         , PAY_TRANSFER_NOTE VARCHAR2(500)
         , PAY_REFUND_NOTE VARCHAR2(500)
         , PAY_CAN_CRDT_NOTE VARCHAR2(500)
+        , MANUAL_BILL VARCHAR2(1) default 'N'
     
 
 )
@@ -2561,8 +2563,9 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , PAY_NOTE VARCHAR2(500)
         , NOTE VARCHAR2(500)
         , BILL_REVIEWED VARCHAR2(1)
-        , CRDT_ISSUED NUMBER(10,4)
-        , CRDT_REMAINING NUMBER(10,4)
+        , CRDT_ISSUED NUMBER(10,4) default 0.00
+        , CRDT_REMAINING NUMBER(10,4) default 0.00
+        , MANUAL_BILL VARCHAR2(1) default 'Y'
     
 
 )
@@ -4259,6 +4262,7 @@ CREATE TABLE OLE_LOCN_T
         , LOCN_NAME VARCHAR2(100) NOT NULL
         , LEVEL_ID VARCHAR2(40) NOT NULL
         , PARENT_LOCN_ID VARCHAR2(40)
+        , ROW_ACT_IND VARCHAR2(1) default 'Y'
     
     , CONSTRAINT LOCN_CD UNIQUE (LOCN_CD)
 

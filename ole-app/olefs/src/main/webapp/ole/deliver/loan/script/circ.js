@@ -3,17 +3,9 @@ function openLightboxOnLoad(dialogId) {
     jQuery('.uif-dialogButtons').button();
 }
 
-function toggleCurrentLoanSection(){
-    jq( "#currentLoanListSection-HorizontalBoxSection" ).click(function() {
-        jq( "#currentLoanList-HorizontalBoxSection" ).toggle();
-    });
-}
 
-function toggleExistingLoanSection(){
-    jq( "#existingLoanItemListSection-HorizontalBoxSection" ).click(function() {
-        jq( "#existingLoanItemList-HorizontalBoxSection" ).toggle();
-    });
-}
+
+
 
 function openLightboxOnLoadWithOverrideParameters(dialogId,overrideParameters) {
     showLightboxComponent(dialogId, overrideParameters);
@@ -170,6 +162,18 @@ jq(document).ready(function () {
             }
         }
     });
+
+
+        jq( "#existingLoanItemListSection-HorizontalBoxSection h3").live("click",function() {
+            jq( "#existingLoanItemList-HorizontalBoxSection" ).toggle();
+
+        });
+
+         jq( "#currentLoanListSection-HorizontalBoxSection h3" ).live("click",function() {
+            jq( "#currentLoanList-HorizontalBoxSection" ).toggle();
+        });
+
+
 });
 
 function setTimeoutInterval(interval){
@@ -260,3 +264,27 @@ function destroyDataTableForExistingLoanAndCreateNewDataTable(){
 
 
 window.onload=enableDataTableForExistingLoanedItem
+
+function processProxySelection() {
+    if(!jq('.patronCheckBoxClass:checked').length == 0 || !jq('.patronCheckBoxListClass:checked').length == 0){
+        var isChecked = false;
+        var patronBarcode = '';
+        if(!jq('.patronCheckBoxListClass:checked').length == 0) {
+            var divLength= jq('#proxyForPatronList-HorizontalBoxSection tbody tr').length;
+            for(var index=0;index<divLength;index++){
+                var checked=  jq('#proxyForPatronList-HorizontalBoxSection_line' + index + '_control').prop('checked');
+                if(checked) {
+                    patronBarcode =  jq('#proxyForPatronList-HorizontalBoxSection_line'+ index +'_proxyBarcode_control').text().trim();
+                    break;
+                }
+            }
+        } else {
+            patronBarcode = jq('#patronBarcode_line0_control').text().trim();
+        }
+        submitForm('processPatronSearchPostProxyHandling',{selectedBarcode:patronBarcode},null,true,
+            function (){jq('#checkoutItem_control').focus();}
+        );jq.fancybox.close();
+    } else {
+        jq('#errorMessage_proxyPatron').attr('style','display:inline');
+    }
+}

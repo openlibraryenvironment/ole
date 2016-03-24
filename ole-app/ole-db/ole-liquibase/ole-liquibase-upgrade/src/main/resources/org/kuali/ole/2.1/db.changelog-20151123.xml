@@ -665,5 +665,26 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ID_MYSQL" dbms="mysql">
+        <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_ISSUED=0.0</sql>
+        <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_REMAINING=0.0</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ID_ORACLE" dbms="oracle">
+        <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_ISSUED=0.0</sql>
+        <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_REMAINING=0.0</sql>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ID_MYSQL" dbms="mysql">
+        <sql>update OLE_DLVR_PTRN_BILL_T set CRDT_ISSUED=0.0</sql>
+        <sql>update OLE_DLVR_PTRN_BILL_T set CRDT_REMAINING=0.0</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ID_ORACLE" dbms="oracle">
+        <sql>update OLE_DLVR_PTRN_BILL_T set CRDT_ISSUED=0.0</sql>
+        <sql>update OLE_DLVR_PTRN_BILL_T set CRDT_REMAINING=0.0</sql>
+    </changeSet>
+
 
 </databaseChangeLog>

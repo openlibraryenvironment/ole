@@ -844,6 +844,8 @@
         <field-descriptor name="circulationDeskId" column="OLE_CRCL_DSK_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="circulationDeskLocation" column="OLE_CRCL_DSK_LOCN" jdbc-type="VARCHAR"/>
         <field-descriptor name="circulationPickUpDeskLocation" column="OLE_CRCL_PICKUP_DSK_LOCN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="locationPopup" column="LOCN_POPUP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="locationPopupMsg" column="LOCN_POPUP_MSG" jdbc-type="VARCHAR"/>
         <reference-descriptor name="location" class-ref="org.kuali.ole.describe.bo.OleLocation"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="circulationDeskLocation"/>
@@ -1412,6 +1414,8 @@
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="creditIssued" column="CRDT_ISSUED" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="creditRemaining" column="CRDT_REMAINING" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="manualProcessBill" column="MANUAL_BILL" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <collection-descriptor name="feeType" element-class-ref="org.kuali.ole.deliver.bo.FeeType"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
@@ -1460,6 +1464,8 @@
         <field-descriptor name="transferNote" column="PAY_TRANSFER_NOTE" jdbc-type="VARCHAR" />
         <field-descriptor name="refundNote" column="PAY_REFUND_NOTE" jdbc-type="VARCHAR" />
         <field-descriptor name="cancelCreditNote" column="PAY_CAN_CRDT_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="manualProcessBill" column="MANUAL_BILL" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <reference-descriptor name="patronBillPayment" class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="billNumber"/>

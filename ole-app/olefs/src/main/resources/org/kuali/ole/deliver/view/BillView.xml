@@ -157,6 +157,7 @@
                 <bean id="BillSection_note" parent="Uif-DataField" p:label="Text Note" p:width="10%" p:propertyName="note"/>
                 <bean id="BillSection_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="10%" p:propertyName="lastTransactionDate"/>
                 <bean id="BillView_Pay_Note" parent="Uif-DataField" p:label="Last Transaction Information" p:propertyName="freeTextNote"/>
+                <bean id="BillView_isManualBill" parent="Uif-DataField" p:label="Manually Created Replacement Bill" p:propertyName="manualProcessBill"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -242,6 +243,7 @@
                 <bean id="paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
                 <bean id="creditIssued" parent="Uif-DataField" p:label="Credit Issued" p:width="5%" p:propertyName="creditIssued" p:cssClasses="creditFont"/>
                 <bean id="creditRemaining" parent="Uif-DataField" p:label="Credit Remaining" p:width="5%" p:propertyName="creditRemaining" p:cssClasses="creditFont"/>
+                <bean id="isManualBill" parent="Uif-DataField" p:label="Manually Created Replacement Bill" p:propertyName="manualProcessBill"/>
                 <bean id="Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="8%" p:propertyName="lastTransactionDate"/>
                 <bean id="DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="10%" p:propertyName="generalNote"/>
             </list>
@@ -292,6 +294,7 @@
                 <bean id="closedBill_paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
                 <bean id="closedBill_creditIssued" parent="Uif-DataField" p:label="Credit Issued" p:width="5%" p:propertyName="creditIssued" p:cssClasses="creditFont"/>
                 <bean id="closedBill_creditRemaining" parent="Uif-DataField" p:label="Credit Remaining" p:width="5%" p:propertyName="creditRemaining" p:cssClasses="creditFont"/>
+                <bean id="closeBill_isManualBill" parent="Uif-DataField" p:label="Manually Created Replacement Bill" p:propertyName="manualProcessBill"/>
                 <bean id="closedBill_Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="8%" p:propertyName="lastTransactionDate"/>
                 <bean id="closedBill_DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="10%" p:propertyName="generalNote"/>
             </list>

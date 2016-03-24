@@ -193,6 +193,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String sentNoticesUrl;
     private ItemFineRate itemFineRate = new ItemFineRate();
     private boolean overrideCheckInTime;
+    private String  itemLostNote;
+    private boolean isManualBill = false;
 
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
@@ -2221,5 +2223,21 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setOverrideCheckInTime(boolean overrideCheckInTime) {
         this.overrideCheckInTime = overrideCheckInTime;
+    }
+
+    public String getItemLostNote() {
+        return itemLostNote;
+    }
+
+    public void setItemLostNote(String itemLostNote) {
+        this.itemLostNote = itemLostNote;
+    }
+
+    public boolean isManualBill() {
+        return isManualBill;
+    }
+
+    public void setIsManualBill(boolean isManualBill) {
+        this.isManualBill = isManualBill;
     }
 }

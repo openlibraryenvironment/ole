@@ -27,6 +27,7 @@ public class OleFundLookup extends PersistableBusinessObjectBase implements Seri
 
     private String chartOfAccountsCode;
     private String accountNumber;
+    private String fundCode;
     private String objectCode;
     private String organizationCode;
     private String keyword;
@@ -53,6 +54,14 @@ public class OleFundLookup extends PersistableBusinessObjectBase implements Seri
 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getAccountNumber() {

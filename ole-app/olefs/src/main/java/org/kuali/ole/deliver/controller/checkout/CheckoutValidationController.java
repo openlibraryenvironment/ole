@@ -23,7 +23,7 @@ public class CheckoutValidationController extends CheckoutPatronController {
         CircForm circForm = (CircForm) form;
         boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
         if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
-            return handleProxyPatronsIfExists(circForm, result, request, response);
+            return postPatronValidation(circForm, result, request, response);
         } else {
             if ((hasValidOverridePermissions)) {
                 if (circForm.isProxyCheckDone() && circForm.isItemValidationDone() && !circForm.isItemOverride() && !circForm.isRequestExistOrLoanedCheck()) {
@@ -37,7 +37,7 @@ public class CheckoutValidationController extends CheckoutPatronController {
                     circForm.setRequestExistOrLoanedCheck(false);
                     return proceedToValidateItemAndSaveLoan(circForm, result, request, response);
                 }
-                return handleProxyPatronsIfExists(circForm, result, request, response);
+                return postPatronValidation(circForm, result, request, response);
             } else {
                 circForm.setOverridingPrincipalName(null);
                 return showDialog("overrideMessageDialog", circForm, request, response);

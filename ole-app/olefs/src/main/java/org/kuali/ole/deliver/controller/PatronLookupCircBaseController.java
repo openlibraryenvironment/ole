@@ -57,12 +57,17 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
                 }
                 setPatronDocument(droolsExchange, patronDocument);
             }
-            String[] expectedRules = {};
-            droolsResponse = processRules(droolsExchange, patronDocument, expectedRules);
         } catch (Exception e) {
             droolsResponse = new DroolsResponse();
-            droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT + OLEConstants.PTRN_START_LINK + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + OLEConstants.PTRN_END_LINK);
-            droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            if(e.getMessage().equalsIgnoreCase(OLEConstants.PTRN_BARCD_NOT_EXT)){
+                String createNewPatronLink = "patronMaintenance?viewTypeName=MAINTENANCE&amp;returnLocation=" + ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/portal.do&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument";
+                droolsExchange.addToContext("createNewPatronLink", createNewPatronLink);
+                droolsResponse.addErrorMessage(OLEConstants.PTRN_BARCD_NOT_EXT);
+                droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            } else {
+                droolsResponse.addErrorMessage(e.getMessage());
+                droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_MESSAGE_FLAG);
+            }
             LOG.error("Exception while search patron time", e);
             return droolsResponse;
         }
@@ -88,8 +93,19 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
                     droolsResponse = processRules(droolsExchange,realOlePatronDocument, expectedRules);
                 }
             }
+        } else {
+            String[] expectedRules = {};
+            droolsResponse = processRules(droolsExchange,patronDocument, expectedRules);
         }
 
+        return droolsResponse;
+    }
+
+    public DroolsResponse processPatronValidation(DroolsExchange droolsExchange) {
+        DroolsResponse droolsResponse = null;
+        OlePatronDocument patronDocument = getPatronDocument(droolsExchange);
+        String[] expectedRules = {};
+        droolsResponse = processRules(droolsExchange, patronDocument, expectedRules);
         return droolsResponse;
     }
 

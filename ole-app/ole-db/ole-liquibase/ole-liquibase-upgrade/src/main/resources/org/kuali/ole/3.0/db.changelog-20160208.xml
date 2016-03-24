@@ -109,18 +109,159 @@
             E.TOTAL_ENCUMBRANCE,
             SUMMATION.TOTAL_AMOUNT,
             P.PO_CRTE_DT AS PO_CRTE_DT,
-            E.INVOICED_QUANTITY AS INVOICED_QUANTITY
+            E.INVOICED_QUANTITY AS INVOICED_QUANTITY,
+            POTYPE.OLE_PO_TYPE
             FROM
             PUR_PO_T P,
             KREW_DOC_HDR_T D,
+            OLE_PUR_PO_TYP_T POTYPE,
             PUR_PO_ITM_TOT_ENC_V E,
             PUR_PO_ITM_TOT_AMT_V SUMMATION
             WHERE
             P.FDOC_NBR = E.FDOC_NBR
             AND
             P.FDOC_NBR=D.DOC_HDR_ID
-            AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+            AND P.FDOC_NBR = SUMMATION.FDOC_NBR
+            AND P.OLE_PO_TYPE_ID = POTYPE.OLE_PO_TYPE_ID)
         </createView>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ADD_LOCN_POPUP">
+        <addColumn tableName="OLE_CRCL_DSK_LOCN_T">
+            <column name="LOCN_POPUP" type="VARCHAR(1)"/>
+            <column name="LOCN_POPUP_MSG" type="VARCHAR(4000)"/>
+        </addColumn>
+
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="LOCN_POPUP"
+                defaultValue="N"
+                tableName="OLE_CRCL_DSK_LOCN_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_ADD">
+        <addColumn
+                tableName="OLE_DS_ITEM_T">
+            <column name="VOLUME_NUMBER"   type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDT">
+        <update tableName="CA_SUB_FUND_GRP_T">
+            <column name="SUB_FUND_GRP_CD" value="DEPOSI"/>
+            <where>SUB_FUND_GRP_CD = 'CLRREV'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDATE">
+        <update tableName="CA_SUB_FUND_GRP_T">
+            <column name="FUND_GRP_CD" value="DP"/>
+            <column name="SUB_FUND_GRP_DESC" value="DEPOSIT ACCOUNT"/>
+            <where>SUB_FUND_GRP_CD = 'DEPOSI'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRCR_PARM_T_UPDATE">
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="DEPOSI"/>
+            <column name="PARM_DESC_TXT" value="Sub Fund Group Code DEPOSI."/>
+            <where>PARM_NM = 'SUB_FUND_GRP_CD'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_ALTER">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="GL_BALANCE_T">
+            <column name="FUND_CD" type="VARCHAR(10)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="FUND_CD"
+                                 baseTableName="GL_BALANCE_T"
+                                 constraintName="GL_BALANCE_FUND_CD_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="FUND_CD_ID"
+                                 referencedTableName="OLE_FUND_CD_T" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_ALTER">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="GL_ACCT_BALANCES_T">
+            <column name="FUND_CD" type="VARCHAR(10)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="FUND_CD"
+                                 baseTableName="GL_ACCT_BALANCES_T"
+                                 constraintName="GL_ACCT_BALANCES_FUND_CD_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="FUND_CD_ID"
+                                 referencedTableName="OLE_FUND_CD_T" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ADD_COLUMN">
+        <addColumn tableName="OLE_DLVR_PTRN_BILL_T ">
+            <column name="MANUAL_BILL" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ADD_COLUMN">
+        <addColumn tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="MANUAL_BILL" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_DEFAULTVAL">
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="MANUAL_BILL"
+                defaultValue="N"
+                tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_DEFAULTVAL">
+        <addDefaultValue
+                columnDataType="VARCHAR(1)"
+                columnName="MANUAL_BILL"
+                defaultValue="N"
+                tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOCN_T_ROW_IND">
+        <addColumn
+                tableName="OLE_LOCN_T">
+            <column name="ROW_ACT_IND"   type="VARCHAR(1)" defaultValue="Y"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

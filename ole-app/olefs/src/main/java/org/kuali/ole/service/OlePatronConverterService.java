@@ -495,6 +495,7 @@ public class OlePatronConverterService {
                     olePatronDocument.setOleProxyPatronDocuments(patronDocument.getOleProxyPatronDocuments());
                     olePatronDocument.setOlePatronLocalIds(patronDocument.getOlePatronLocalIds());
                     olePatronDocument.setLostBarcodes(patronDocument.getLostBarcodes());
+                    olePatronDocument.setNotes(patronDocument.getNotes());
                     persistLocalIdentifications(olePatron, olePatronDocument);
                     patronUpdateFlag &= persistPatronNames(olePatron, olePatronDocument);
                     if (patronUpdateFlag)
@@ -992,36 +993,31 @@ public class OlePatronConverterService {
      */
     private boolean persistPatronNotes(OlePatron olePatron, OlePatronDocument olePatronDocument) {
         boolean notesFlag = false;
-        List<OlePatronNotes> olePatronNotesList = new ArrayList<OlePatronNotes>();
-        OlePatronNotes olePatronNotes;
         List<OlePatronNote> olePatronNoteList = olePatron.getNotes();
-        if(CollectionUtils.isNotEmpty(olePatronNoteList)) {
+        if (CollectionUtils.isEmpty(olePatronNoteList)) {
+            notesFlag = true;
+        } else {
             for (Iterator<OlePatronNote> iterator = olePatronNoteList.iterator(); iterator.hasNext(); ) {
                 OlePatronNote olePatronNote = iterator.next();
-                olePatronNotes = new OlePatronNotes();
-                if (olePatronNote.getNoteType() != null && !"".equals(olePatronNote.getNoteType())) {
+                if (StringUtils.isNotBlank(olePatronNote.getNoteType())) {
                     Map criteria = new HashMap<String, String>();
                     criteria.put(OLEConstants.PATRON_NOTE_TYPE_CODE, olePatronNote.getNoteType());
                     List<OlePatronNoteType> olePatronNoteTypes = (List<OlePatronNoteType>) getBusinessObjectService().findMatching(OlePatronNoteType.class, criteria);
                     if (olePatronNoteTypes.size() > 0) {
+                        OlePatronNotes olePatronNotes = new OlePatronNotes();
                         olePatronNotes.setOlePatronNoteType(olePatronNoteTypes.get(0));
                         olePatronNotes.setPatronNoteTypeId(olePatronNoteTypes.get(0).getPatronNoteTypeId());
                         olePatronNotes.setPatronNoteText(olePatronNote.getNote());
                         olePatronNotes.setActive(olePatronNote.isActive());
-                        olePatronNotesList.add(olePatronNotes);
-                        olePatronDocument.setNotes(olePatronNotesList);
+                        olePatronDocument.getNotes().add(olePatronNotes);
                         notesFlag = true;
                     } else {
                         olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_ERROR);
                     }
-
                 } else {
                     olePatron.setErrorMessage(OLEPatronConstant.NOTETYPE_BLANK_ERROR);
                 }
             }
-        }
-        if (CollectionUtils.isEmpty(olePatronNoteList)) {
-            notesFlag = true;
         }
         return notesFlag;
     }

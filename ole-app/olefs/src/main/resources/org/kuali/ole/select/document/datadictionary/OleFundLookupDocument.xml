@@ -40,6 +40,8 @@
 			<list>
 				<ref bean="OleFundLookupDocument-keyword" />
 				<ref bean="OleFundLookupDocument-chartOfAccountsCode"/>
+                <ref bean="OleFundLookupDocument-fundCode"/>
+                <ref bean="OleFundLookupDocument-fundCodeId"/>
 				<ref bean="OleFundLookupDocument-organizationCode" />				
 				<ref bean="OleFundLookupDocument-accountNumber"/>
 				<ref bean="OleFundLookupDocument-objectCode" />
@@ -84,24 +86,48 @@
 	<bean id="OleFundLookupDocument-organizationCode" parent="OleFundLookupDocument-organizationCode-parentBean" />
 	<bean id="OleFundLookupDocument-organizationCode-parentBean" abstract="true"
 		parent="Organization-organizationCode" /> -->
+
+
+    <bean id="OleFundLookupDocument-fundCodeId" parent="OleFundLookupDocument-fundCodeId-parent"/>
+
+    <bean id="OleFundLookupDocument-fundCodeId-parent" abstract="true"
+          parent="AttributeDefinition" p:name="fundCodeId"
+          p:label="Fund Code ID"
+          p:maxLength="10"
+          p:required="true"
+          p:shortLabel="Fund Cd Id">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
 	
+	<bean id="OleFundLookupDocument-fundCode" parent="OleFundLookupDocument-fundCode-parent"/>
 	
-	
-	
-	<bean id="OleFundLookupDocument-chartOfAccountsCode" parent="OleFundLookupDocument-chartOfAccountsCode-parent"/>
-	
-	<bean id="OleFundLookupDocument-chartOfAccountsCode-parent" abstract="true"
-		parent="AttributeDefinition" p:name="chartOfAccountsCode"
-		p:label="Chart Code"
-		p:maxLength="2"
+	<bean id="OleFundLookupDocument-fundCode-parent" abstract="true"
+		parent="AttributeDefinition" p:name="fundCode"
+		p:label="Fund Code"
+		p:maxLength="15"
 		p:required="true"
-		p:shortLabel="Chart #">
+		p:shortLabel="Fund #">
 		<property name="control"> 
-		 	<bean parent="TextControlDefinition" p:size="2"/>
+		 	<bean parent="TextControlDefinition" p:size="15"/>
 		</property>
-	</bean> 
-		
-	 <bean id="OleFundLookupDocument-organizationCode" parent="OleFundLookupDocument-organizationCode-parent"/>
+	</bean>
+
+    <bean id="OleFundLookupDocument-chartOfAccountsCode" parent="OleFundLookupDocument-chartOfAccountsCode-parent"/>
+
+    <bean id="OleFundLookupDocument-chartOfAccountsCode-parent" abstract="true"
+          parent="AttributeDefinition" p:name="chartOfAccountsCode"
+          p:label="Chart Code"
+          p:maxLength="2"
+          p:required="true"
+          p:shortLabel="Chart #">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="2"/>
+        </property>
+    </bean>
+
+    <bean id="OleFundLookupDocument-organizationCode" parent="OleFundLookupDocument-organizationCode-parent"/>
 	
 	<bean id="OleFundLookupDocument-organizationCode-parent" abstract="true"
 		parent="AttributeDefinition" p:name="organizationCode"
@@ -157,32 +183,8 @@
 	
 	<bean id="OleFundLookupDocument-workflowAttributes" parent="OleFundLookupDocument-workflowAttributes-parentBean"/>
     <bean id="OleFundLookupDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
-    
-     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-   
-   
-    
-    
-    
-    
-    
-    
-    
+
+
     <!-- Business Object Inquiry Definition -->
 
 	<bean id="OleFundLookupDocument-inquiryDefinition" parent="OleFundLookupDocument-inquiryDefinition-parentBean" />
@@ -206,6 +208,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="keyword" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="fundCode" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="objectCode" />
@@ -235,6 +238,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="keyword" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="fundCode" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="objectCode" />
@@ -245,6 +249,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="keyword" />
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="fundCode" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="objectCode" />

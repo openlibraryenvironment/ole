@@ -24,6 +24,7 @@ import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.select.document.service.OlePaymentRequestFundCheckService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
+import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.UniversityDateService;
@@ -182,6 +183,9 @@ public class OlePaymentRequestFundCheckServiceImpl implements OlePaymentRequestF
         OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
                 .findByPrimaryKey(OleSufficientFundCheck.class, encMap);
         KualiDecimal amount = KualiDecimal.ZERO;
+        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForObject(chartCode,accountNumber,objectCode);
+        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForObject(chartCode,accountNumber,objectCode);
+        initialBudgetAmount = initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
         if (oleSufficientFundCheck != null) {
             if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
@@ -233,6 +237,10 @@ public class OlePaymentRequestFundCheckServiceImpl implements OlePaymentRequestF
         OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
                 .findByPrimaryKey(OleSufficientFundCheck.class, encMap);
         KualiDecimal amount = KualiDecimal.ZERO;
+        KualiDecimal budgetIncrease = getBudgetAdjustmentIncreaseForAccount(chartCode,accountNumber,objectCode);
+        KualiDecimal budgetDecrease = getBudgetAdjustmentDecreaseForAccount(chartCode,accountNumber,objectCode);
+        initialBudgetAmount = initialBudgetAmount.add(budgetIncrease).subtract(budgetDecrease);
+
         if (oleSufficientFundCheck != null) {
             if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
                     .getEncumbExpenseConstraintType())) {
@@ -260,6 +268,96 @@ public class OlePaymentRequestFundCheckServiceImpl implements OlePaymentRequestF
             }
         }
         return initialBudgetAmount;
+    }
+
+    public KualiDecimal getBudgetAdjustmentIncreaseForAccount(String chartCode, String accountNo,
+                                                              String objectCode) {
+        Map searchMap = new HashMap();
+        searchMap.put("chartOfAccountsCode", chartCode);
+        searchMap.put("accountNumber", accountNo);
+        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
+        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
+        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
+        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
+        KualiDecimal budgetIncrease = KualiDecimal.ZERO;
+        if (generalLedgerPendingEntryList.size() > 0) {
+            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
+                if (entry.getTransactionLedgerEntryAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    budgetIncrease = budgetIncrease.add(entry.getTransactionLedgerEntryAmount());
+                }
+            }
+        }
+
+        return budgetIncrease;
+    }
+
+    public KualiDecimal getBudgetAdjustmentDecreaseForAccount(String chartCode, String accountNo,
+                                                              String objectCode) {
+        Map searchMap = new HashMap();
+        searchMap.put("chartOfAccountsCode", chartCode);
+        searchMap.put("accountNumber", accountNo);
+        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
+        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
+        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
+        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
+        KualiDecimal budgetDecrease = KualiDecimal.ZERO;
+        if (generalLedgerPendingEntryList.size() > 0) {
+            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
+                if (entry.getTransactionLedgerEntryAmount().isLessThan(KualiDecimal.ZERO)) {
+                    budgetDecrease = budgetDecrease.add(entry.getTransactionLedgerEntryAmount());
+                }
+            }
+        }
+
+        return budgetDecrease.negated();
+    }
+
+    public KualiDecimal getBudgetAdjustmentIncreaseForObject(String chartCode, String accountNo,
+                                                             String objectCode) {
+        Map searchMap = new HashMap();
+        searchMap.put("chartOfAccountsCode", chartCode);
+        searchMap.put("accountNumber", accountNo);
+        searchMap.put("financialObjectCode", objectCode);
+        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
+        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
+        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
+        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
+        KualiDecimal budgetIncrease = KualiDecimal.ZERO;
+        if (generalLedgerPendingEntryList.size() > 0) {
+            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
+                if (entry.getTransactionLedgerEntryAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    budgetIncrease = budgetIncrease.add(entry.getTransactionLedgerEntryAmount());
+                }
+            }
+        }
+
+        return budgetIncrease;
+    }
+
+    public KualiDecimal getBudgetAdjustmentDecreaseForObject(String chartCode, String accountNo,
+                                                             String objectCode) {
+        Map searchMap = new HashMap();
+        searchMap.put("chartOfAccountsCode", chartCode);
+        searchMap.put("accountNumber", accountNo);
+        searchMap.put("financialObjectCode", objectCode);
+        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
+        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
+        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
+        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
+        KualiDecimal budgetDecrease = KualiDecimal.ZERO;
+        if (generalLedgerPendingEntryList.size() > 0) {
+            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
+                if (entry.getTransactionLedgerEntryAmount().isLessThan(KualiDecimal.ZERO)) {
+                    budgetDecrease = budgetDecrease.add(entry.getTransactionLedgerEntryAmount());
+                }
+            }
+        }
+
+        return budgetDecrease.negated();
     }
 
 

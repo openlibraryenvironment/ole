@@ -281,6 +281,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setBarcodeARSL(itemRecord.getBarCodeArsl());
         item.setCopyNumber(itemRecord.getCopyNumber());
         item.setEnumeration(itemRecord.getEnumeration());
+        item.setVolumeNumber(itemRecord.getVolumeNumber());
         item.setChronology(itemRecord.getChronology());
         item.setNumberOfPieces(itemRecord.getNumberOfPieces());
         item.setDescriptionOfPieces(itemRecord.getDescriptionOfPieces());
@@ -646,6 +647,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         if (StringUtils.isNotEmpty(itemRecord.getEnumeration())) {
             addDataToLabel(sortedValue, getNormalized(itemRecord.getEnumeration()));
         }
+        if (StringUtils.isNotEmpty(itemRecord.getVolumeNumber())) {
+            addDataToLabel(sortedValue, getNormalized(itemRecord.getVolumeNumber()));
+        }
         if (StringUtils.isNotEmpty(itemRecord.getChronology())) {
             addDataToLabel(sortedValue, itemRecord.getChronology());
         }
@@ -665,6 +669,10 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         if (StringUtils.isNotEmpty(itemRecord.getEnumeration())) {
             addDataToLabel(labelName, itemRecord.getEnumeration());
+        }
+
+        if (StringUtils.isNotEmpty(itemRecord.getVolumeNumber())) {
+            addDataToLabel(labelName, itemRecord.getVolumeNumber());
         }
         if (StringUtils.isNotEmpty(itemRecord.getChronology())) {
             addDataToLabel(labelName, itemRecord.getChronology());
@@ -856,7 +864,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setChronology(item.getChronology());
         itemRecord.setCopyNumber(item.getCopyNumber());
         itemRecord.setEnumeration(item.getEnumeration());
-
+        itemRecord.setVolumeNumber(item.getVolumeNumber());
         itemRecord.setNumberOfPieces(item.getNumberOfPieces());
         itemRecord.setDescriptionOfPieces(item.getDescriptionOfPieces());
         itemRecord.setPurchaseOrderItemLineId(item.getPurchaseOrderLineItemIdentifier());
@@ -1453,27 +1461,32 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Map map = new HashMap();
         map.put("itemId", itemId);
         List<OLEItemDonorRecord> itemDonorRecordList = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
-        if(itemDonorRecordList!=null && itemDonorRecordList.size() >= 0) {
-            getBusinessObjectService().delete(itemDonorRecordList);
-            itemDonorRecordList.clear();
-        }
+        List<OLEItemDonorRecord> newItemDonorRecordList = new ArrayList<>();
         if (donorslist.size() > 0) {
-            for (int i = 0; i < donorslist.size(); i++) {
-                DonorInfo donorinfo = donorslist.get(i);
+            for (DonorInfo donorinfo : donorslist) {
                 if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
                     oleItemDonorRecord.setDonorNote(donorinfo.getDonorNote());
                     oleItemDonorRecord.setItemId(itemId);
-                    itemDonorRecordList.add(oleItemDonorRecord);
+                    for (OLEItemDonorRecord itemDonorRecord : itemDonorRecordList) {
+                        if (StringUtils.isNotBlank(oleItemDonorRecord.getDonorCode()) && oleItemDonorRecord.getDonorCode().equalsIgnoreCase(itemDonorRecord.getDonorCode())) {
+                            oleItemDonorRecord.setDonorId(itemDonorRecord.getDonorId());
+                        }
+                    }
+                    newItemDonorRecordList.add(oleItemDonorRecord);
                 }
             }
-            if (itemDonorRecordList.size() > 0) {
-                getBusinessObjectService().save(itemDonorRecordList);
+            if (itemDonorRecordList != null && itemDonorRecordList.size() >= 0) {
+                getBusinessObjectService().delete(itemDonorRecordList);
+                itemDonorRecordList.clear();
+            }
+            if (newItemDonorRecordList.size() > 0) {
+                getBusinessObjectService().save(newItemDonorRecordList);
             }
         }
-        return itemDonorRecordList;
+        return newItemDonorRecordList;
     }
 
     protected ItemTypeRecord saveItemTypeRecord(ItemType itemType) {

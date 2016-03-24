@@ -306,6 +306,32 @@ public abstract class CheckinBaseController extends CircUtilController {
         return droolsResponse;
     }
 
+    public DroolsResponse locationPopupMessageCheck(OLEForm oleForm) {
+        DroolsResponse droolsResponse = null;
+        CheckinForm checkinForm = getCheckinForm(oleForm);
+        if(null != checkinForm) {
+            OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(getSelectedCirculationDesk(oleForm));
+            OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) checkinForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+            String itemFullLocationPath = null != oleItemRecordForCirc ? oleItemRecordForCirc.getItemFullPathLocation() : "";
+            if(null != oleCirculationDesk && StringUtils.isNotBlank(itemFullLocationPath)) {
+                List<OleCirculationDeskLocation> oleCirculationDeskLocationList = oleCirculationDesk.getOleCirculationDeskLocations();
+                for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList) {
+                    String circDeskFullLocationPath = null != oleCirculationDeskLocation.getLocation() ? oleCirculationDeskLocation.getLocation().getFullLocationPath() : "";
+                    if(StringUtils.isBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) &&
+                            itemFullLocationPath.equals(circDeskFullLocationPath)) {
+                        if(oleCirculationDeskLocation.isLocationPopup() &&
+                                StringUtils.isNotBlank(oleCirculationDeskLocation.getLocationPopupMsg())) {
+                            droolsResponse = new DroolsResponse();
+                            checkinForm.setLocationPopupMsg(oleCirculationDeskLocation.getLocationPopupMsg());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return droolsResponse;
+    }
+
     private DroolsResponse processIfCheckinRequestExist(ItemRecord itemRecord, OLEForm oleForm) {
         OleDeliverRequestBo prioritizedRequest = ItemInfoUtil.getInstance().getPrioritizedRequest(itemRecord.getBarCode());
         if (null != prioritizedRequest) {

@@ -120,11 +120,6 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                         LOG.error("Error occured while generating the notices " + e, e);  //To change body of catch statement use File | Settings | File Templates.
                     }
                 }
-                if (!oleDeliverRequestBo.getRequestTypeId().equals("8")) {
-                    oleDeliverRequestBo = service.updateLoanDocument(oleDeliverRequestBo);
-                    oleDeliverRequestBo.setOlePatron(null);
-                    oleDeliverRequestBo.setOleProxyPatron(null);
-                }
             } else {
                 service.processRequestType(oleDeliverRequestBo);
             }

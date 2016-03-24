@@ -62,7 +62,9 @@ public class HoldingsCallNumberProcessor implements Callable {
                     }
                     String[] arraysqls = holdingsQuerylist.toArray(new String[holdingsQuerylist.size()]);
                     holdingsQuerylist.clear();
-                    jdbcTemplate.batchUpdate(arraysqls);
+                    if(arraysqls.length > 0){
+                        jdbcTemplate.batchUpdate(arraysqls);
+                    }
                     stopWatch.stop();
                     LOG.debug("Time Taken " + arraysqls.length + " for holdings Migration :: " + stopWatch.prettyPrint());
                     return null;

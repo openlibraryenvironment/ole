@@ -531,7 +531,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                             invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
                             if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
                                 invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
-                                if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0) {
+                                if ((invoiceItem.getPoItemIdentifier()!=null&&oleCopy.getPoItemId()!=null)&&(invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0)) {
                                     invoiceItem.setRequisitionItemIdentifier(oleCopy.getReqItemId());
                                 }
                                 paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),

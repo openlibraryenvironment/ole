@@ -27,10 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -119,6 +116,7 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
         String serialRecordNo = "";
         String localIdentifier = "";
         String poId = "";
+        String journalTitle = "";
         for (SearchCondition sc : searchConditionList) {
             if (sc.getDocField().equalsIgnoreCase(OLEConstants.TITLE_SEARCH) && sc.getSearchText() != null && !sc.getSearchText().isEmpty()) {
                 title = sc.getSearchText() != null ? sc.getSearchText() : "";
@@ -130,6 +128,8 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
                 localIdentifier = sc.getSearchText() != null ? sc.getSearchText() : "";
             } else if (sc.getDocField().equalsIgnoreCase(OLEConstants.PO_SEARCH) && sc.getSearchText() != null && !sc.getSearchText().isEmpty()) {
                 poId = sc.getSearchText() != null ? sc.getSearchText() : "";
+            }else if (sc.getDocField().equalsIgnoreCase(OLEConstants.JOURNAL_TITLE_SEARCH) && sc.getSearchText() != null && !sc.getSearchText().isEmpty()) {
+                journalTitle = sc.getSearchText() != null ? sc.getSearchText() : "";
             }
         }
         if (serialsReceivingRecordForm.getSearchFlag().equalsIgnoreCase("search")) {
@@ -139,7 +139,12 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
 
         List<OLESerialReceivingRecord> oleSerialReceivingRecordList = new ArrayList<>();
         SerialReceivingSearchService serialReceivingSearchService = new SerialReceivingSearchServiceImpl();
-        if (title.isEmpty() && issn.isEmpty() && poId.isEmpty() && localIdentifier.isEmpty() && serialRecordNo.isEmpty()) {
+        HashMap<String,String> criteriaMap=new HashMap<>();
+        criteriaMap.put(OLEConstants.TITLE,title);
+        criteriaMap.put(OLEConstants.ISSN,issn);
+        criteriaMap.put(OLEConstants.LOCAL_IDENTIFIER,localIdentifier);
+        criteriaMap.put(OLEConstants.JOURNAL_TITLE_SEARCH,journalTitle);
+        if (title.isEmpty() && issn.isEmpty() && poId.isEmpty() && localIdentifier.isEmpty() && serialRecordNo.isEmpty() && journalTitle.isEmpty()) {
             SearchResponse searchResponse = serialReceivingSearchService.holdingSearch(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),serialsReceivingRecordForm.getSortOrder());
             this.totalRecCount = searchResponse.getTotalRecordCount();
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
@@ -147,9 +152,10 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
             }
             serialsReceivingRecordForm.setPaginationFlag("true");
             serialsReceivingRecordForm.setPageResultDisplay(getPageShowEntries());
-        } else if ((!title.isEmpty() || !issn.isEmpty() || !localIdentifier.isEmpty()) && (poId.isEmpty() && serialRecordNo.isEmpty())) {
+        } else if ((!title.isEmpty() || !issn.isEmpty() || !localIdentifier.isEmpty() || !journalTitle.isEmpty()) && (poId.isEmpty() && serialRecordNo.isEmpty())) {
             SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
-                    new HashSet<String>(), title, issn, localIdentifier,serialsReceivingRecordForm.getSortOrder());
+                    new HashSet<String>(), criteriaMap,serialsReceivingRecordForm.getSortOrder());
+
             this.totalRecCount = searchResponse.getTotalRecordCount();
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
                 oleSerialReceivingRecordList.add(serialReceivingSearchService.getSerialRecord(searchResult));
@@ -160,7 +166,7 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
             Set<String> instanceIds = serialReceivingSearchService.getInstanceIdList(poId);
             if ((instanceIds != null && instanceIds.size() > 0)) {
                 SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
-                        instanceIds, title, issn, localIdentifier,serialsReceivingRecordForm.getSortOrder());
+                        instanceIds, criteriaMap,serialsReceivingRecordForm.getSortOrder());
                 this.totalRecCount = searchResponse.getTotalRecordCount();
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     oleSerialReceivingRecordList.add(serialReceivingSearchService.getSerialRecord(searchResult));
@@ -176,8 +182,8 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
                     for (OLESerialReceivingDocument oleSerialReceivingDocument : oleSerialReceivingDocuments) {
                         instanceIds.add(oleSerialReceivingDocument.getInstanceId());
                     }
-                    SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(0, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
-                            instanceIds, title, issn, localIdentifier,serialsReceivingRecordForm.getSortOrder());
+                    SearchResponse searchResponse = serialReceivingSearchService.searchDataFromDocstore(this.start, Integer.parseInt(serialsReceivingRecordForm.getSearchLimit()),
+                            instanceIds, criteriaMap,serialsReceivingRecordForm.getSortOrder());
                     this.totalRecCount = searchResponse.getTotalRecordCount();
                     for (SearchResult searchResult : searchResponse.getSearchResults()) {
                         oleSerialReceivingRecordList.add(serialReceivingSearchService.getSerialRecord(searchResult));
@@ -230,11 +236,14 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
         bibId.setDocField(OLEConstants.LOCALID_SEARCH);
         SearchCondition poId = new SearchCondition();
         poId.setDocField(OLEConstants.PO_SEARCH);
+        SearchCondition journalTitle = new SearchCondition();
+        journalTitle.setDocField(OLEConstants.JOURNAL_TITLE_SEARCH);
         searchConditions.add(title);
         searchConditions.add(issn);
         searchConditions.add(serialId);
         searchConditions.add(bibId);
         searchConditions.add(poId);
+        searchConditions.add(journalTitle);
         serialsReceivingRecordForm.setOleSerialReceivingRecordList(null);
         serialsReceivingRecordForm.setTempSerialReceivingRecordList(null);
         serialsReceivingRecordForm.setErrorAuthorisedUserMessage("");

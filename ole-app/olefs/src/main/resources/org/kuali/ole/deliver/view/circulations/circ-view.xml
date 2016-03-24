@@ -69,6 +69,8 @@
                 <bean id="dueDateTruncated" parent="dueDateTruncatedDialog"/>
                 <bean id="itemAlreadyLoaned" parent="itemAlreadyLoanedDialog"/>
                 <bean id="blockCheckinProcessDialog" parent="blockCheckinDialog"/>
+                <bean id="itemLostDialog" parent="itemLostNoteDialog"/>
+                <bean id="patronInvalidOrLostDialog" parent="patronInvalidOrLostMsgDialog"/>
             </list>
         </property>
 
