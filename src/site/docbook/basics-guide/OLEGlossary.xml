@@ -948,6 +948,20 @@
                     rules.</para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Consortia Library</glossterm>
+            <glossdef>
+                <para>Libraries that have an administrative or legal warrant, or a business
+                    arrangement that privileges cooperative activities that effectively share the
+                    collections, patrons, funding, and/or other library activities of participants
+                    in the consortia. Relevant to OLE implementations that require OLE functions
+                    that scale to multi-campus installations, and that need to leverage
+                    multi-institutional cooperative functions such as resource sharing or collection
+                    management. See definition document: <link
+                        xlink:href="https://docs.google.com/a/kuali.org/document/d/1mcPgucq8CKDyJkBSPe-5GzwktBsaLlsYbHpYo8ZcfTM/edit?usp=sharing"
+                        >https://docs.google.com/a/kuali.org/document/d/1mcPgucq8CKDyJkBSPe-5GzwktBsaLlsYbHpYo8ZcfTM/edit?usp=sharing</link></para>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="context">
             <glossterm>Context</glossterm>
             <glossdef>
@@ -2936,6 +2950,18 @@
                     metadata.</para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Multi-tenant</glossterm>
+            <glossdef>
+                <para>A software deployment model and business practice for hosting multiple tenants
+                    on a single software instance that are logically separate and secure. Relevant
+                    to OLE implementations that operate OLE for multiple clients, such as the GBV or
+                    hbz, or for single instance implementations that want a commercial or
+                    centralized hosted solution for OLE. See definition document: <link
+                        xlink:href="https://docs.google.com/a/kuali.org/document/d/1WezORtYjQgm4bOw1ZjHRqGO2JnpDOliOREMuqjrsfVM/edit?usp=sharing"
+                        >https://docs.google.com/a/kuali.org/document/d/1WezORtYjQgm4bOw1ZjHRqGO2JnpDOliOREMuqjrsfVM/edit?usp=sharing</link></para>
+            </glossdef>
+        </glossentry>
     </glossdiv>
     <glossdiv>
         <title>N</title>
@@ -3349,6 +3375,16 @@
                     examples of persons include a user of a resource (such as a library user), a
                     creator of a resource (such as an author), or a creator of metadata (such as a
                     library staff member).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Phase 1</glossterm>
+            <glossdef>
+                <para>A series of code releases that satisfy the requirements of all partners for a
+                    minimum deployment and migration to production of OLE by the end of December
+                    2017. See definition document: <link
+                        xlink:href="https://docs.google.com/a/kuali.org/document/d/156f3ubrKXxe3GweKConaZVioXgQOMe5EQJ-3l1MOnDA/edit?usp=sharing"
+                        >https://docs.google.com/a/kuali.org/document/d/156f3ubrKXxe3GweKConaZVioXgQOMe5EQJ-3l1MOnDA/edit?usp=sharing</link></para>
             </glossdef>
         </glossentry>
         <glossentry>
