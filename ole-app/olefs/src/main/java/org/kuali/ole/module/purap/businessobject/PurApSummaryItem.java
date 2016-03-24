@@ -18,12 +18,15 @@ package org.kuali.ole.module.purap.businessobject;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
+import java.math.BigDecimal;
+
 /**
  * Purap Summary Item Business Object.
  */
 public class PurApSummaryItem extends PurApItemBase {
 
     private KualiDecimal estimatedEncumberanceAmount;
+    private BigDecimal estimatedEncumberanceForeignAmount = BigDecimal.ZERO;
 
     public PurApSummaryItem() {
         this(KualiDecimal.ZERO);
@@ -65,5 +68,13 @@ public class PurApSummaryItem extends PurApItemBase {
     @Override
     public void resetAccount() {
         // do nothing
+    }
+
+    public BigDecimal getEstimatedEncumberanceForeignAmount() {
+        return estimatedEncumberanceForeignAmount;
+    }
+
+    public void setEstimatedEncumberanceForeignAmount(BigDecimal estimatedEncumberanceForeignAmount) {
+        this.estimatedEncumberanceForeignAmount = estimatedEncumberanceForeignAmount;
     }
 }

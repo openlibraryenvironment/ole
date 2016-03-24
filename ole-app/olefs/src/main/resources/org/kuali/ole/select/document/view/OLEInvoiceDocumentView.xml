@@ -772,6 +772,7 @@
                                 <property name="bindingInfo.bindingObjectPath" value="document"/>
                             </bean>-->
                             <bean parent="Uif-DataField" p:propertyName="account.amount" p:label="Amount" />
+                            <bean parent="Uif-DataField" p:propertyName="account.foreignAmount" p:label="Foreign Amount" />
                         </list>
                     </property>
                     <property name="subCollections">
@@ -800,6 +801,7 @@
                 <bean parent="Uif-DataField" p:propertyName="itemType.itemTypeDescription" p:label="Item" />
                 <bean parent="Uif-DataField" p:propertyName="itemDescription" p:label="Description"  />
                 <bean parent="Uif-DataField" p:propertyName="estimatedEncumberanceAmount" p:label="Amount" />
+                <bean parent="Uif-DataField" p:propertyName="estimatedEncumberanceForeignAmount" p:label="Foreign Amount" />
             </list>
         </property>
     </bean>
