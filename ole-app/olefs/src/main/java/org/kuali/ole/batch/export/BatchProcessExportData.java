@@ -171,6 +171,19 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         return response;
     }
 
+    public SearchResponse getDeleteIncrementalSolrQuery() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat(SOLR_DT_FORMAT);
+        String fromDate = format.format(lastExportDate);
+        searchParams = new SearchParams();
+        SearchField searchField = searchParams.buildSearchField("", "dateUpdated", "[" + fromDate + " TO NOW]");
+        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(null, "bibIdentifier"));
+        searchField = searchParams.buildSearchField("", "staffOnlyFlag", Boolean.TRUE.toString());
+        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
+        response = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+        return response;
+    }
+
     /**
      * adds the filter criteria from the profile to search conditions as field value pair
      */
@@ -849,43 +862,35 @@ public class BatchProcessExportData extends AbstractBatchProcess {
 
     private void incrementalFilterExport(OLEBatchProcessProfileBo profileBo) throws Exception {
         Object[] resultMap = null;
-        if (response.getSearchResults().size() > 0) {
-            service = new ExportDataServiceImpl();
-            resultMap = batchExport(profileBo);
-        }
+
         //Write deleted bibid's  to a file
         if (profileBo.getExportScope().equals(EXPORT_INC)
                 || profileBo.getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
             if (lastExportDate != null) {
                 StringBuilder deleteId = new StringBuilder();
                 if ( profileBo.getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
-                    List<String> incrementalBibIds = new ArrayList<>();
-                    List<Bib> incrementalBibs = new ArrayList<>();
                      response = getIncrementalSolrQuery();
-                    for (SearchResult searchResult : response.getSearchResults()) {
-                        for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                            if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
-                                if (!incrementalBibIds.contains(searchResultField.getFieldValue())) {
-                                    incrementalBibIds.add(searchResultField.getFieldValue());
-                                }
+                }
+
+                if (response.getSearchResults().size() > 0) {
+                    service = new ExportDataServiceImpl();
+                    resultMap = batchExport(profileBo);
+                }
+                SearchResponse responseDelete= getDeleteIncrementalSolrQuery();
+                Set<String> incrementalBibIds = new HashSet<>();
+                for (SearchResult searchResult : responseDelete.getSearchResults()) {
+                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                        if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                            if (incrementalBibIds.add(searchResultField.getFieldValue())) {
+                                deleteId.append(DocumentUniqueIDPrefix.getDocumentId(searchResultField.getFieldValue())).append(COMMA);
                             }
                         }
-                    }
-                    if (!CollectionUtils.isEmpty(incrementalBibIds)) {
-                        incrementalBibs = getDocstoreClientLocator().getDocstoreClient().retrieveBibs(incrementalBibIds);
-                        for (Bib bib : incrementalBibs) {
-                            if (bib.isStaffOnly()) {
-                                deleteId.append(DocumentUniqueIDPrefix.getDocumentId(bib.getId())).append(COMMA);
-                            }
-                        }
-                        incrementalBibIds.clear();
-                        incrementalBibs.clear();
                     }
                 }
-                response = getDeleteSolrQuery();
-                if (response.getSearchResults().size() > 0 || deleteId != null) {
-                    if (response.getSearchResults().size() > 0) {
-                        Iterator<SearchResult> iterator = response.getSearchResults().iterator();
+                responseDelete = getDeleteSolrQuery();
+                if (responseDelete.getSearchResults().size() > 0 || deleteId != null) {
+                    if (responseDelete.getSearchResults().size() > 0) {
+                        Iterator<SearchResult> iterator = responseDelete.getSearchResults().iterator();
                         while (iterator.hasNext()) {
                             SearchResult searchresult = iterator.next();
                             if (null != searchresult && searchresult.getSearchResultFields() != null) {
@@ -925,6 +930,11 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                         job.setNoOfSuccessRecords(String.valueOf(response.getSearchResults().size()));
                     }
                 }
+            }
+        }else{
+            if (response.getSearchResults().size() > 0) {
+                service = new ExportDataServiceImpl();
+                resultMap = batchExport(profileBo);
             }
         }
 
