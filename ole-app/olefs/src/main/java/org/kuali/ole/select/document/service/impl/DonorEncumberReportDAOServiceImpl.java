@@ -43,16 +43,18 @@ public class DonorEncumberReportDAOServiceImpl extends PlatformAwareDaoBaseJdbc 
                 "DNR.DONOR_ID AS DONORID,PUR_DNR.DONOR_CODE AS DONOR_CODE, PO.PO_ID AS PONUM,PO.FDOC_NBR AS DOCID, DNR.DONOR_NOTE AS DONOR_NOTE, DNR.DONOR_AMT AS DONOR_AMT\n" +
                 ",(SELECT COUNT(*) FROM OLE_LINK_PURAP_DONOR_T PUR_DNR_TEMP WHERE POITM.PO_ITM_ID=PUR_DNR_TEMP.PO_ITM_ID GROUP BY PUR_DNR_TEMP.PO_ITM_ID) AS DONOR_COUNT\n" +
                 ", POITM.ITM_OSTND_ENC_AMT AS ENCUM,POITM.ITM_INV_TOT_AMT AS EXPENSE\n" +
-                "FROM OLE_DONOR_T DNR, OLE_LINK_PURAP_DONOR_T PUR_DNR, PUR_PO_ITM_T POITM, PUR_PO_T PO\n" +
+                "FROM OLE_DONOR_T DNR, OLE_LINK_PURAP_DONOR_T PUR_DNR, PUR_PO_ITM_T POITM, PUR_PO_T PO, KREW_DOC_HDR_T DOCHDRT\n" +
                 "WHERE \n" +
                 "DNR.DONOR_ID=PUR_DNR.DONOR_ID AND \n" +
                 "PUR_DNR.PO_ITM_ID=POITM.PO_ITM_ID AND\n" +
-                "PO.FDOC_NBR=POITM.FDOC_NBR"+
+                " PO.FDOC_NBR=POITM.FDOC_NBR AND " +
+                " DOCHDRT.DOC_HDR_ID=PO.FDOC_NBR AND\n" +
+                " DOCHDRT.APP_DOC_STAT NOT IN ('"+PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION+"') " +
                 getQueryCriteriaString(criteria,OleSelectConstant.EncumberReportConstant.DONORCODE)+
                 getQueryCriteriaString(criteria,OleSelectConstant.EncumberReportConstant.FROM_DATE)+
                 getQueryCriteriaString(criteria,OleSelectConstant.EncumberReportConstant.TO_DATE)+
-                ")  DONOR_DATA ORDER BY DONOR_CODE ASC"+
-                getResultSetLimit();
+                getResultSetLimit()+
+                ")  DONOR_DATA ORDER BY DONOR_CODE ASC";
         if(LOG.isInfoEnabled()){
             LOG.info("Donor encumber query----->" + query);
         }
@@ -94,14 +96,14 @@ public class DonorEncumberReportDAOServiceImpl extends PlatformAwareDaoBaseJdbc 
 
     private String getQueryCriteriaString(Map<String,Object> criteria,String criteriaString){
         String queryCriteriaString = "";
-        if((criteriaString.equals(OleSelectConstant.EncumberReportConstant.DONORCODE)&&criteria.get(OleSelectConstant.EncumberReportConstant.DONORCODE)!=null)){
-            queryCriteriaString="PUR_DNR.DONOR_CODE= '"+criteria.get(OleSelectConstant.EncumberReportConstant.DONORCODE).toString()+"' ";
+        if((criteriaString.equals(OleSelectConstant.EncumberReportConstant.DONORCODE)&&!criteria.get(OleSelectConstant.EncumberReportConstant.DONORCODE).toString().isEmpty())){
+            queryCriteriaString=" AND PUR_DNR.DONOR_CODE= '"+criteria.get(OleSelectConstant.EncumberReportConstant.DONORCODE).toString()+"' ";
         }
         if((criteriaString.equals(OleSelectConstant.EncumberReportConstant.FROM_DATE)&&criteria.get(OleSelectConstant.EncumberReportConstant.FROM_DATE)!=null)){
             queryCriteriaString=" AND PO.PO_CRTE_DT >=(DATE '"+criteria.get(OleSelectConstant.EncumberReportConstant.FROM_DATE).toString()+"') ";
         }
         if((criteriaString.equals(OleSelectConstant.EncumberReportConstant.TO_DATE)&&criteria.get(OleSelectConstant.EncumberReportConstant.TO_DATE)!=null)){
-            queryCriteriaString=" AND PO.PO_CRTE_DT <=(DATE '"+criteria.get(OleSelectConstant.EncumberReportConstant.TO_DATE).toString()+"'+1) ";
+            queryCriteriaString=" AND PO.PO_CRTE_DT <=(DATE '"+criteria.get(OleSelectConstant.EncumberReportConstant.TO_DATE).toString()+"') ";
         }
         return queryCriteriaString;
     }
