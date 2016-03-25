@@ -36,6 +36,8 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
                 $scope.mainSectionPanel.batchProcessType = profile.batchProcessType;
                 $scope.mainSectionPanel.bibImportProfileForOrderImport = profile.bibImportProfileForOrderImport;
                 $scope.mainSectionPanel.requisitionForTitlesOption = profile.requisitionForTitlesOption;
+                $scope.mainSectionPanel.matchPointToUse = profile.matchPointToUse;
+                $scope.mainSectionPanel.orderType = profile.orderType;
                 $scope.mainSectionPanel.marcOnly = profile.marcOnly;
                 $scope.matchPointsPanel = profile.batchProfileMatchPointList;
                 $scope.addOrOverlayPanel = profile.batchProfileAddOrOverlayList;

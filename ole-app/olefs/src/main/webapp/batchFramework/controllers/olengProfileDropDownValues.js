@@ -652,13 +652,20 @@ var orderTypes = [
     {id: 'eholdings', name: 'Eholdings'}
 ];
 
+var matchPointToUseOptions = [
+    {id: 'orderImport', name: 'Order Import'},
+    {id: 'bibImport', name: 'Bib Import'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: batchProcessTypeValues,
     requisitionForTitlesValues: requisitionForTitlesValues,
     requisitionForTitlesOption: 'One Requisition Per Title',
     orderTypes: orderTypes,
+    matchPointToUseOptions: matchPointToUseOptions,
     orderType: "Holdings and Item",
+    matchPointToUse: "Order Import",
     marcOnly: false,
     collapsed: false
 };
