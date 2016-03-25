@@ -269,6 +269,7 @@ public class OleNGConstants {
     public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
 
     public static final String CREATE_DUMMY_HOLDINGS = "/createDummyHoldings";
+    public static final String CREATE_DUMMY_ITEM = "/createDummyItem";
     public static final String HOLDINGS_TYPE = "holdingsType";
 
     public static final String BIB = "bib";

@@ -7,12 +7,12 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.EHoldings;
-import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsHoldingsDocumentManager;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsItemDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -21,6 +21,8 @@ import org.kuali.ole.dsng.indexer.HoldingIndexer;
 import org.kuali.ole.dsng.indexer.ItemIndexer;
 import org.kuali.ole.dsng.indexer.OleDsNgIndexer;
 import org.kuali.ole.dsng.rest.handler.eholdings.CreateEHoldingsHandler;
+import org.kuali.ole.dsng.rest.handler.holdings.CreateHoldingsHanlder;
+import org.kuali.ole.dsng.rest.handler.items.CreateItemHandler;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -122,6 +124,8 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
             if(StringUtils.isNotBlank(holdingsType)) {
                 if(holdingsType.equalsIgnoreCase(EHoldings.ELECTRONIC)) {
                     serializedContent = createEHoldings(dataMappings);
+                } else if(holdingsType.equalsIgnoreCase(PHoldings.PRINT)) {
+                    serializedContent = createHoldings(dataMappings);
                 }
             }
         } catch (Exception e) {
@@ -155,6 +159,69 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         Holdings holdings = rdbmsHoldingsDocumentManager.buildHoldingsFromHoldingsRecord(holdingsRecord);
         holdings.serializeContent();
         String serializedContent = new EHoldings().serialize(holdings);
+        return serializedContent;
+    }
+
+    private String createHoldings(JSONObject dataMappings) {
+        HoldingsRecord holdingsRecord = new HoldingsRecord();
+        holdingsRecord.setHoldingsType(PHoldings.PRINT);
+        CreateHoldingsHanlder createHoldingsHandler = new CreateHoldingsHanlder();
+        holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
+
+        Exchange exchange = new Exchange();
+        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+        exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
+        try {
+            createHoldingsHandler.processDataMappings(dataMappings, exchange);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
+        RdbmsHoldingsDocumentManager rdbmsHoldingsDocumentManager = new RdbmsHoldingsDocumentManager();
+        Holdings holdings = rdbmsHoldingsDocumentManager.buildHoldingsFromHoldingsRecord(holdingsRecord);
+        holdings.serializeContent();
+        String serializedContent = new PHoldings().serialize(holdings);
+        return serializedContent;
+    }
+
+    public String createDummyItem(String body) {
+        String serializedContent = null;
+        JSONObject responseObject = new JSONObject();
+        try {
+            JSONObject requestJson = new JSONObject(body);
+            JSONObject dataMappings = getJSONObjectFromJSONObject(requestJson, OleNGConstants.DATAMAPPING);
+            serializedContent = createItem(dataMappings);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            responseObject.put(OleNGConstants.CONTENT, serializedContent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseObject.toString();
+    }
+
+    private String createItem(JSONObject dataMappings) {
+        ItemRecord itemRecord = new ItemRecord();
+        CreateItemHandler createItemHandler = new CreateItemHandler();
+        itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
+
+        Exchange exchange = new Exchange();
+        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+        exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
+        try {
+            createItemHandler.processDataMappings(dataMappings, exchange);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
+        RdbmsItemDocumentManager rdbmsHoldingsDocumentManager = new RdbmsItemDocumentManager();
+        Item item = rdbmsHoldingsDocumentManager.buildItemContent(itemRecord);
+        item.serializeContent();
+        String serializedContent = new ItemOleml().serialize(item);
         return serializedContent;
     }
 }

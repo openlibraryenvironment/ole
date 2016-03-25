@@ -235,7 +235,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             bibResponse.setBibId(" ");
         }
         if(StringUtils.isNotBlank(bibRecord.getOperationType())) {
-            if(bibRecord.getOperationType().equalsIgnoreCase(OleNGConstants.CREATE_BIB)) {
+            if(bibRecord.getOperationType().equalsIgnoreCase(OleNGConstants.CREATED)) {
                 bibResponse.setOperation(OleNGConstants.CREATED);
             } else if(bibRecord.getOperationType().equalsIgnoreCase(OleNGConstants.UPDATED)) {
                 bibResponse.setOperation(OleNGConstants.UPDATED);

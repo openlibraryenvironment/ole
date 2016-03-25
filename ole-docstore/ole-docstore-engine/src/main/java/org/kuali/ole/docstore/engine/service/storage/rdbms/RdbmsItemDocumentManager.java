@@ -210,7 +210,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
     }
 
 
-    protected Item buildItemContent(ItemRecord itemRecord) {
+    public Item buildItemContent(ItemRecord itemRecord) {
 
         org.kuali.ole.docstore.common.document.content.instance.Item item = new org.kuali.ole.docstore.common.document.content.instance.Item();
         item.setItemIdentifier(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), itemRecord.getItemId()));

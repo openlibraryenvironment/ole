@@ -268,6 +268,11 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                 }
             }
         }
+        //Removing the dummy eholdings object from dataCarrierService.
+        for (Iterator<OleCopy> iterator = oleCopyList.iterator(); iterator.hasNext(); ) {
+            OleCopy oleCopy = iterator.next();
+            getDataCarrierService().removeData("reqItemId:" + oleCopy.getReqItemId() + ":holdings");
+        }
     }
 
     public void setItemDetails(Item itemContent, OleCopy oleCopy, OlePurchaseOrderItem singleItem, List<OLELinkPurapDonor> oleDonors, String poNumber) {
@@ -568,7 +573,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         if(null != itemDocument) {
             String content = itemDocument.getContent();
             if(StringUtils.isNotBlank(content)) {
-                item = new ItemOlemlRecordProcessor().fromXML(content);
+                item = (Item) new ItemOleml().deserializeContent(content);
             }
         }
 
