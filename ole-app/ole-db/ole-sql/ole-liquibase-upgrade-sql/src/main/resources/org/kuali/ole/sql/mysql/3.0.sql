@@ -143,7 +143,10 @@ SET sql_mode='NO_BACKSLASH_ESCAPES'
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-PURAP', 'AutoClosePurchaseOrdersStep', 'AUTO_CLOSE_PO_ORDER_TYPE', 'OLEAC1001', '1', 'CONFG', 'Firm, Fixed;Approval;Blanket;', 'Order Types Included in AutoClose Job PO Job. Change it to ''All'' to include all open PO for AutoClose Job', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:6af24b8b122a629979c0067963a1c2e7', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'POBA_CANCEL_PDF_CREATION', 'OLE7057', '1', 'CONFG', 'false', 'This parameter is to stop the PDF creation process while creating POA document using Purchase Order Bulk Amendment', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:9c8e7f4de703c39c35f7f2f2f3a57528', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/3.0/db.changelog-20160208.xml::OLE_DS_ITEM_T_ADD::ole

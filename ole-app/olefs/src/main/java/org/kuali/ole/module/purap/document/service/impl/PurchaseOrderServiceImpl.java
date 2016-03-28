@@ -2485,7 +2485,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                             }
                             isSuccess = savePurchaseOrderEdi(po, file, item);
                         }
-                        if (vendorTransmissionFormatDetail.getVendorTransmissionFormat() != null &&
+                        if (!getParameterValue(OLEConstants.CANCEL_PDF_CREATION).equalsIgnoreCase("true") && vendorTransmissionFormatDetail.getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OLEConstants.OLE_VENDOR_PDF_OPTION)) {
                             if (!(po.getDocumentNumber().equals(documentNumber))) {
