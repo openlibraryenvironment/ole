@@ -553,5 +553,13 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
 
     }
 
-
+    public OleDeliverRequestBo getPrioritizedRequest(String itemId) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan("requestExpiryDate", new Timestamp(System.currentTimeMillis()));
+        criteria.addEqualTo("itemId", itemId);
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria);
+        query.addOrderBy("borrowerQueuePosition");
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return CollectionUtils.isNotEmpty(oleDeliverRequestBoList) ? oleDeliverRequestBoList.get(0) : null;
+    }
 }

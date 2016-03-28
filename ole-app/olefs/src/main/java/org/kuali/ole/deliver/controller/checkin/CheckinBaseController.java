@@ -333,7 +333,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private DroolsResponse processIfCheckinRequestExist(ItemRecord itemRecord, OLEForm oleForm) {
-        OleDeliverRequestBo prioritizedRequest = ItemInfoUtil.getInstance().getPrioritizedRequest(itemRecord.getBarCode());
+        OleDeliverRequestBo prioritizedRequest = getLoanDaoOjb().getPrioritizedRequest(itemRecord.getBarCode());
         if (null != prioritizedRequest) {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM);
