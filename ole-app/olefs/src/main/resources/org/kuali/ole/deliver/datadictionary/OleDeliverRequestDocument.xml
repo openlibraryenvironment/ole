@@ -635,6 +635,11 @@
         </property>
         <property name="resultFields">
             <list>
+                <bean id="result_select" parent="Uif-InputField" p:propertyName="select" p:label="Select" p:cssClasses="select">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                 <bean id="result-borrowerQueuePosition" parent="Uif-DataField" p:propertyName="borrowerQueuePosition" />
                 <bean id="result-requestType" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="inquiry?methodToCall=start&amp;docCategory=work&amp;requestId=@{#line.requestId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:target="_blank" p:label="Request Type Code" p:linkText="@{#line.requestTypeCode}"/>
                 <bean id="result-olePatronFN" parent="Uif-DataField" p:propertyName="firstName" p:label="Patron First Name" />
@@ -1034,9 +1039,16 @@
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-LookupResultsFooter"
-                  p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
-        </property>
+            <bean id="extraButtons" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+            <bean id="selectAll" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:render="@{ lookupResults != null and !lookupResults.empty}"/>
+            <bean id="deSelectAll" parent="Uif-SecondaryActionButton" p:actionLabel="De-Select All" p:render="@{lookupResults != null and !lookupResults.empty}"/>
+            <bean id="cancel_Requests" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel Request" p:methodToCall="cancelRequests" p:render="@{lookupResults != null and !lookupResults.empty}"/>
+        </list>
+                    </property>
+            </bean>
+                </property>
     </bean>
 
 </beans>

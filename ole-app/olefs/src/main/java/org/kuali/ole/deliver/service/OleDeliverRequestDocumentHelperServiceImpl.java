@@ -4887,6 +4887,14 @@ return oleLoanDocument;
         return noticeContent;
     }
 
+
+    public void cancelRequests(List<OleDeliverRequestBo> oleDeliverRequestBos){
+        if(oleDeliverRequestBos!=null && oleDeliverRequestBos.size()>0){
+            for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
+            cancelDocument(oleDeliverRequestBo);
+            }
+        }
+    }
 }
 
 
