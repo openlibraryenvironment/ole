@@ -16,6 +16,7 @@ import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.batch.reports.OrderImportReportLogHandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
@@ -89,7 +90,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         orderData.setRecordNumber(String.valueOf(index));
                         orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
 
-                        String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+                        List<BatchProfileMatchPoint> batchProfileMatchPointList = getMatchPointToUse(batchProcessProfile, bibImportProfile);
+                        String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProfileMatchPointList);
 
                         if (StringUtils.isNotBlank(query)) {
                             query = query.replace("\\", "\\\\");
@@ -122,6 +124,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                 }
                 recordForBibImportsMap.putAll(matchedRecordMap);
                 recordForBibImportsMap.putAll(unMatchedRecordMap);
+                recordForBibImportsMap.putAll(multipleMatchedRecordMap);
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (recordForBibImportsMap.size() > 0) {
@@ -188,6 +191,16 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(orderFailureResponseList));
 
         return oleNgBatchResponse;
+    }
+
+    private List<BatchProfileMatchPoint> getMatchPointToUse(BatchProcessProfile orderImportProfile, BatchProcessProfile bibImportProfile) {
+        String matchPointToUse = orderImportProfile.getMatchPointToUse();
+        if(StringUtils.isNotBlank(matchPointToUse)) {
+            if(matchPointToUse.equalsIgnoreCase(OleNGConstants.BIB_IMPORT)) {
+                return bibImportProfile.getBatchProfileMatchPointList();
+            }
+        }
+        return orderImportProfile.getBatchProfileMatchPointList();
     }
 
     private void prepareResponse(String processType, List<OrderData> orderDatas, OleNGOrderImportResponse oleNGOrderImportResponse) {

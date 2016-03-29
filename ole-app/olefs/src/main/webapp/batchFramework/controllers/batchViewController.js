@@ -30,6 +30,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsActivePanel = [];
             $scope.dataTransformationsActivePanel = [];
             $scope.mainSectionPanel.requisitionForTitlesOption = null;
+            $scope.mainSectionPanel.matchPointToUse = null;
             $scope.mainSectionPanel.marcOnly = false;
             $scope.matchPointsPanel[0].matchPointType = null;
             $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
@@ -54,6 +55,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsPanel[0].dataMappingFields = orderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
             $scope.mainSectionPanel.orderType = "Holdings and Item",
+            $scope.mainSectionPanel.matchPointToUse = "Order Import",
             clearProfileValues();
         } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
@@ -676,12 +678,14 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                 $scope.constantValues = booleanOptionsYorN;
             }
 
-            var addOrOverlayField = dataObject.addOrOverlayField;
-            if(addOrOverlayField !== null && addOrOverlayField !== undefined && addOrOverlayField !== '') {
-                if(addOrOverlayField === 'Bib Status') {
-                    $scope.increateFieldSizeForAddOrOverlayFieldDropdown(index);
-                } else {
-                    $scope.resetAddOrOverlayFieldDropdownSize(index);
+            if (null !== dataObject && dataObject !== undefined) {
+                var addOrOverlayField = dataObject.addOrOverlayField;
+                if (addOrOverlayField !== null && addOrOverlayField !== undefined && addOrOverlayField !== '') {
+                    if (addOrOverlayField === 'Bib Status') {
+                        $scope.increateFieldSizeForAddOrOverlayFieldDropdown(index);
+                    } else {
+                        $scope.resetAddOrOverlayFieldDropdownSize(index);
+                    }
                 }
             }
             getMaintenanceDataForFieldTypeForDropDown(fieldType, $scope, $http);
@@ -738,6 +742,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "orderType": $scope.mainSectionPanel.orderType,
             "bibImportProfileForOrderImport": $scope.mainSectionPanel.bibImportProfileForOrderImport,
             "requisitionForTitlesOption": $scope.mainSectionPanel.requisitionForTitlesOption,
+            "matchPointToUse": $scope.mainSectionPanel.matchPointToUse,
             "marcOnly": $scope.mainSectionPanel.marcOnly,
             "forceLoad": $scope.matchPointsActivePanel.forceLoad,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
@@ -774,6 +779,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     //$scope.mainSectionPanel.batchProcessType = data.batchProcessType;
                     $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
                     $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;
+                    $scope.mainSectionPanel.matchPointToUse = data.matchPointToUse;
                     $scope.mainSectionPanel.marcOnly = data.marcOnly;
                     $scope.matchPointsActivePanel.forceLoad = data.forceLoad;
                     $scope.matchPointsPanel = data.batchProfileMatchPointList;

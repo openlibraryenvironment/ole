@@ -95,6 +95,21 @@
                             <span ng-show="inquiry" ng-bind="mainSectionPanel.orderType"></span>
                         </td>
                     </tr>
+                    <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Match Point to use:</label>
+                            <select class="form-control" id="matchPointToUse" name="matchPointToUse"
+                                    ng-model="mainSectionPanel.matchPointToUse"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option ng-selected="{{option.name == mainSectionPanel.matchPointToUse}}"
+                                        ng-repeat="option in mainSectionPanel.matchPointToUseOptions"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.requisitionForTitlesOption"></span>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

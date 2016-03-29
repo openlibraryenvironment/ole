@@ -183,7 +183,7 @@ function getHoldingsFromHoldingsResponse(holdingsResponse, bib) {
         "holdingsId" : holdingsResponse["holdingsId"],
         "bibId" : bib.bibId,
         "operation" : holdingsResponse["operation"],
-        "recordIndex" : holdingsResponse["recordIndex"]
+        "recordIndex" : bib["recordIndex"]
     };
     return holdings;
 }
@@ -194,7 +194,7 @@ function getItemFromItemResponse(itemResponse, holdings, bib) {
         "holdingsId" : holdings.holdingsId,
         "bibId" : bib.bibId,
         "operation" : itemResponse["operation"],
-        "recordIndex" : itemResponse["recordIndex"]
+        "recordIndex" : bib["recordIndex"]
     };
     return item;
 }

@@ -13,10 +13,7 @@ import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.EHoldings;
-import org.kuali.ole.docstore.common.document.Holdings;
-import org.kuali.ole.docstore.common.document.Item;
-import org.kuali.ole.docstore.common.document.PHoldings;
+import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.instance.DonorInfo;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -122,107 +119,62 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     }
 
     private Holdings createDummyHoldingsFromDataMapping(List<JSONObject> dataMappingForHoldings) {
-        Holdings holdings = new PHoldings();
-        if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
-            JSONObject itemMappings = dataMappingForHoldings.get(0);
-            for (Iterator iterator = itemMappings.keys(); iterator.hasNext(); ) {
-                String key = (String) iterator.next();
-                if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        holdings.setField(Holdings.DESTINATION_FIELD_CALL_NUMBER, listOfValue.get(0));
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        holdings.setField(Holdings.DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX, listOfValue.get(0));
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER_TYPE)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordByName(listOfValue.get(0));
-                        if(null != callNumberTypeRecord){
-                            holdings.setField(Holdings.DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE, callNumberTypeRecord.getCode());
-                        }
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.COPY_NUMBER)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.COPY_NUMBER);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        holdings.setField(Holdings.DESTINATION_FIELD_COPY_NUMBER, listOfValue.get(0));
-                    }
-                }
+        JSONObject request = new JSONObject();
+        try {
+            if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
+                request.put(OleNGConstants.DATAMAPPING, dataMappingForHoldings.get(0));
             }
+            request.put(OleNGConstants.HOLDINGS_TYPE, PHoldings.PRINT);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        String response = getOleDsNgRestClient().postData(OleNGConstants.CREATE_DUMMY_HOLDINGS, request, OleDsNgRestClient.Format.JSON);
+
+        Holdings holdings = null;
+        try {
+            JSONObject responseObject = new JSONObject(response);
+            String content = getStringValueFromJsonObject(responseObject, OleNGConstants.CONTENT);
+            holdings = (PHoldings) new PHoldings().deserialize(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(null == holdings) {
+            holdings = new PHoldings();
+        }
+        OleHoldings oleHoldings = holdings.getContentObject();
+        holdings.setContentObject(oleHoldings);
         holdings.serializeContent();
         return holdings;
-
     }
+
     private Item createDummyItemFromDataMapping(List<JSONObject> dataMappingForItem) {
-        if(CollectionUtils.isNotEmpty(dataMappingForItem)) {
-            Item item = new Item();
-            JSONObject itemMappings = dataMappingForItem.get(0);
-            for (Iterator iterator = itemMappings.keys(); iterator.hasNext(); ) {
-                String key = (String) iterator.next();
-                if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.DESTINATION_FIELD_CALL_NUMBER, listOfValue.get(0));
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER_PREFIX);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX, listOfValue.get(0));
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.CALL_NUMBER_TYPE)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        CallNumberTypeRecord callNumberTypeRecord = fetchCallNumberTypeRecordByName(listOfValue.get(0));
-                        if(null != callNumberTypeRecord){
-                            item.setField(Item.DESTINATION_FIELD_CALL_NUMBER_TYPE, callNumberTypeRecord.getCode());
-                        }
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.COPY_NUMBER)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.COPY_NUMBER);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.DESTINATION_FIELD_COPY_NUMBER, listOfValue.get(0));
-                    }
-                }  else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.ENUMERATION)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.ENUMERATION);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.ENUMERATION, listOfValue.get(0));
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.ITEM_BARCODE)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.ITEM_BARCODE);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.DESTINATION_FIELD_ITEM_ITEM_BARCODE, listOfValue.get(0));
-                    }
-                }  else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.ITEM_STATUS)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.ITEM_STATUS);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        ItemStatusRecord itemStatusRecord = fetchItemStatusByName(listOfValue.get(0));
-                        if(null != itemStatusRecord) {
-                            item.setField(Item.DESTINATION_ITEM_STATUS, itemStatusRecord.getCode());
-                        }
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.ITEM_TYPE)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.ITEM_TYPE);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        ItemTypeRecord itemTypeRecord = fetchItemTypeByName(listOfValue.get(0));
-                        if(null != itemTypeRecord){
-                            item.setField(Item.DESTINATION_ITEM_TYPE, itemTypeRecord.getCode());
-                        }
-                    }
-                } else if(key.equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_LINE_ITEM_IDENTIFIER)) {
-                    List<String> listOfValue = getListOfValue(itemMappings, OleNGConstants.BatchProcess.VENDOR_LINE_ITEM_IDENTIFIER);
-                    if(CollectionUtils.isNotEmpty(listOfValue)) {
-                        item.setField(Item.DESTINATION_FIELD_ITEM_VENDOR_LINE_ITEM_IDENTIFIER, listOfValue.get(0));
-                    }
-                }
+        JSONObject request = new JSONObject();
+        try {
+            if(CollectionUtils.isNotEmpty(dataMappingForItem)) {
+                request.put(OleNGConstants.DATAMAPPING, dataMappingForItem.get(0));
             }
-            item.serializeContent();
-            return item;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        String response = getOleDsNgRestClient().postData(OleNGConstants.CREATE_DUMMY_ITEM, request, OleDsNgRestClient.Format.JSON);
+
+        ItemOleml itemOleml = new ItemOleml();
+        Item item = null;
+        try {
+            JSONObject responseObject = new JSONObject(response);
+            String content = getStringValueFromJsonObject(responseObject, OleNGConstants.CONTENT);
+            item = (Item) itemOleml.deserialize(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(null == item) {
+            item = new Item();
+        }
+        return item;
     }
 
     private Holdings createDummyEHoldingsFromDataMapping(List<JSONObject> dataMappingForHoldings) {
