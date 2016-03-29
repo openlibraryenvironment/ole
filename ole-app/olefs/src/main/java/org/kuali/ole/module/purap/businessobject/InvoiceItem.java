@@ -254,7 +254,7 @@ public class InvoiceItem extends AccountsPayableItemBase {
 
     public KualiDecimal getPoOutstandingQuantity() {
         PurchaseOrderItem poi = this.getPoItem()!=null ? this.getPoItem() : getPurchaseOrderItem();
-        if (this.getInvoice().getPurchaseOrderDocument().getOrderType()!=null && !getRecurringOrderTypes().contains(this.getInvoice().getPurchaseOrderDocument().getOrderType().getPurchaseOrderType())) {
+        if (this.getInvoice().getPurchaseOrderDocument() != null && this.getInvoice().getPurchaseOrderDocument().getOrderType()!=null && !getRecurringOrderTypes().contains(this.getInvoice().getPurchaseOrderDocument().getOrderType().getPurchaseOrderType())) {
             if (poi == null) {
                 return KualiDecimal.ZERO;
             } else {
