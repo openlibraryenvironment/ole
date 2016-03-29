@@ -239,12 +239,15 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setBibSearchResultDisplayRowList(null);
         oleSearchForm.setHoldingSearchResultDisplayRowList(null);
         oleSearchForm.setShowTime(true);
+        setDefaultParameter(oleSearchForm,null);
         return super.navigate(oleSearchForm, result, request, response);
     }
 
-    private void setDefaultParameter(OLESearchForm oleSearchForm) {
+    private void setDefaultParameter(OLESearchForm oleSearchForm,String collectionIndex) {
 
-        String collectionIndex = oleSearchForm.getCollectionIndex();
+         if(collectionIndex == null){
+             collectionIndex = oleSearchForm.getCollectionIndex();
+         }
         if(oleSearchForm.getSearchConditions().size()>0){
             SearchCondition searchCondition = oleSearchForm.getSearchConditions().get(Integer.valueOf(collectionIndex));
             SearchField searchField = searchCondition.getSearchField();
@@ -293,7 +296,7 @@ public class OLESearchController extends UifControllerBase {
     public ModelAndView changeDocType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        setDefaultParameter(oleSearchForm);
+        setDefaultParameter(oleSearchForm,null);
         oleSearchForm.setSearchResultDisplayRowList(null);
         oleSearchForm.setFacetResultFields(null);
         return getUIFModelAndView(oleSearchForm);
@@ -947,6 +950,7 @@ public class OLESearchController extends UifControllerBase {
         searchField.setFieldName("any");
         searchCondition.setSearchField(searchField);
         searchConditions.add(index,searchCondition);
+        setDefaultParameter(oleSearchForm,Integer.toString(index));
         return getUIFModelAndView(uifForm);
     }
 
