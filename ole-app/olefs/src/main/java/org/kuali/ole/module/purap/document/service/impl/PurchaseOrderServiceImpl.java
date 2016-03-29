@@ -174,14 +174,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     }
                 }
             }
-            List<InvoiceView> invViews = purchaseOrderDocument.getRelatedViews().getRelatedInvoiceViews();
+           /* List<InvoiceView> invViews = purchaseOrderDocument.getRelatedViews().getRelatedInvoiceViews();
             if (invViews != null) {
                 for (InvoiceView invView : invViews) {
                     if (!purapService.isInvoiceFullDocumentEntryCompleted(invView.getApplicationDocumentStatus())) {
                         return false;
                     }
                 }
-            }
+            }*/
 
         }
 

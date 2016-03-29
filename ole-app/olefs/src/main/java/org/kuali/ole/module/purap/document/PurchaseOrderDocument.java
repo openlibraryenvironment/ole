@@ -1417,7 +1417,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 }
             }// endfor
         }
-        if (getRelatedViews().getRelatedInvoiceViews() != null) {
+       /* if (getRelatedViews().getRelatedInvoiceViews() != null) {
             for (InvoiceView element : getRelatedViews().getRelatedInvoiceViews()) {
                 // If the invoice is neither cancelled nor voided, check whether the invoice has been paid.
                 // If it has not been paid, then this method will return true.
@@ -1427,7 +1427,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     }
                 }
             }// endfor
-        }
+        }*/
 
         return false;
     }
