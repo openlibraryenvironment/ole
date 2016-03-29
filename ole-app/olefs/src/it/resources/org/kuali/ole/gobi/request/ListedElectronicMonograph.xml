@@ -1,0 +1,70 @@
+<PurchaseOrder>
+  <CustomerDetail>
+    <BaseAccount>5095</BaseAccount>
+    <SubAccount>509596</SubAccount>
+  </CustomerDetail>
+  <Order>
+    <ListedElectronicMonograph>
+      <collection>
+        <record>
+          <leader>00585nam  22001813  4500</leader>
+          <controlfield tag="001"></controlfield>
+          <controlfield tag="003">NhCcYBP</controlfield>
+          <controlfield tag="005">20150813163447.0</controlfield>
+          <controlfield tag="006">m||||||||d||||||||</controlfield>
+          <controlfield tag="007">cr||||||||||||</controlfield>
+          <controlfield tag="008">150813q2012    xx |||||o|||||||| | eng d</controlfield>
+          <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780817913465 (electronic bk.)</subfield>
+          </datafield>
+          <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)808344423</subfield>
+          </datafield>
+          <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">NhCcYBP</subfield>
+            <subfield code="c">NhCcYBP</subfield>
+          </datafield>
+          <datafield tag="100" ind1=" " ind2=" ">
+            <subfield code="a">ANDERSON, KENNETH, 1956-</subfield>
+          </datafield>
+          <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">LIVING WITH THE UN</subfield>
+            <subfield code="h">[electronic resource] :</subfield>
+            <subfield code="b">AMERICAN RESPONSIBILITIES AND INTERNATIONAL ORDER.</subfield>
+          </datafield>
+          <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">STANFORD :</subfield>
+            <subfield code="b">HOOVER INSTITUTION PRESS,</subfield>
+            <subfield code="c">2012.</subfield>
+          </datafield>
+          <datafield tag="490" ind1="0" ind2=" ">
+            <subfield code="a">HOOVER INSTITUTION PRESS PUBLICATION.</subfield>
+            <subfield code="v">609</subfield>
+          </datafield>
+        </record>
+      </collection>
+      <OrderDetail>
+        <BatchPONumber />
+        <ItemPONumber>.o22310460</ItemPONumber>
+        <FundCode>xnath</FundCode>
+        <MappedFundCode />
+        <OrderNotes />
+        <OtherLocalId>.o22310460</OtherLocalId>
+        <Location>NATH</Location>
+        <Quantity>1</Quantity>
+        <YBPOrderKey>99952919209</YBPOrderKey>
+        <OrderPlaced>2013-03-20T14:35:35</OrderPlaced>
+        <ListPrice>
+          <Amount>14.95</Amount>
+          <Currency>USD</Currency>
+        </ListPrice>
+        <PurchaseOption>
+          <VendorPOCode>EBRSU</VendorPOCode>
+          <Code>SU</Code>
+          <Description>EBRARY - Single User Option (SUPO)</Description>
+          <VendorCode>EBR</VendorCode>
+        </PurchaseOption>
+      </OrderDetail>
+    </ListedElectronicMonograph>
+  </Order>
+</PurchaseOrder>

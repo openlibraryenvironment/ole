@@ -37,7 +37,8 @@ public class BibliographicRecordHandler_UT {
 
         Collection bibliographicRecordCollection = bibliographicRecordHandler.fromXML(xmlContent);
         assertNotNull(bibliographicRecordCollection);
-        assertTrue(!bibliographicRecordCollection.getRecords().isEmpty());
+        List<BibliographicRecord> records = bibliographicRecordCollection.getRecords();
+        assertTrue(!records.isEmpty());
 
     }
 

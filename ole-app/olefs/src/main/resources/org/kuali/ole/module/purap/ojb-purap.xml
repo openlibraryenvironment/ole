@@ -3717,6 +3717,8 @@
         <field-descriptor name="purchaseOrderCreateTimestamp" column="PO_CRTE_DT" jdbc-type="DATE"/>
         <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="invoicedQuantity" column="INVOICED_QUANTITY" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="purchaseOrderType" column="OLE_PO_TYPE" jdbc-type="VARCHAR" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.module.purap.businessobject.PurchaseOrderQuoteLanguage" table="PUR_PO_QT_LANG_T">

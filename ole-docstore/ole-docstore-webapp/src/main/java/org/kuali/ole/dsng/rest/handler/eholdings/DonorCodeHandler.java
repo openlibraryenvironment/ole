@@ -5,11 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
+import org.kuali.ole.select.bo.OLEDonor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,23 +58,35 @@ public class DonorCodeHandler extends HoldingsHandler {
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    for (Iterator<OLEHoldingsDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
-                        OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator1.next();
-                        oleHoldingsDonorRecord.setDonorCode(donorCode);
+                    OLEDonor donor = getDonorCode(donorCode);
+                    if(null != donor) {
+                        for (Iterator<OLEHoldingsDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
+                            OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator1.next();
+                            oleHoldingsDonorRecord.setDonorCode(donor.getDonorCode());
+                            oleHoldingsDonorRecord.setDonorNote(donor.getDonorNote());
+                            oleHoldingsDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
+                        }
                     }
                 }
             } else {
                 donorList = new ArrayList<OLEHoldingsDonorRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
-                    oleHoldingsDonorRecord.setDonorCode(donorCode);
-                    oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
-                    oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                    OLEDonor donor = getDonorCode(donorCode);
+                    if(null != donor) {
+                        OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
+                        oleHoldingsDonorRecord.setDonorCode(donor.getDonorCode());
+                        oleHoldingsDonorRecord.setDonorNote(donor.getDonorNote());
+                        oleHoldingsDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
+                        oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
+                        oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
+                        donorList.add(oleHoldingsDonorRecord);
+                    }
                 }
                 holdingRecord.setDonorList(donorList);
             }
 
         }
     }
+
 }

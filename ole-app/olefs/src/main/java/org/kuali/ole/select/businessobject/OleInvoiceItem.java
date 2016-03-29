@@ -147,6 +147,7 @@ public class OleInvoiceItem extends InvoiceItem {
 
     private BibInfoRecord bibInfoRecord;
     private String fundCode;
+    private String subscriptionPeriod;
 
     public BibInfoRecord getBibInfoRecord() {
         return bibInfoRecord;
@@ -1343,5 +1344,13 @@ public class OleInvoiceItem extends InvoiceItem {
 
     public void setItemExtendedPrice(BigDecimal itemExtendedPrice) {
         this.itemExtendedPrice = itemExtendedPrice;
+    }
+
+    public String getSubscriptionPeriod() {
+        return subscriptionPeriod;
+    }
+
+    public void setSubscriptionPeriod(String subscriptionPeriod) {
+        this.subscriptionPeriod = subscriptionPeriod;
     }
 }

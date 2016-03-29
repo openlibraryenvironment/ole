@@ -1,0 +1,63 @@
+<div class="panel-group" ng-model="reportMainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="reportMainSectionPanel.collapsed = !reportMainSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': reportMainSectionPanel.collapsed, 'glyphicon-chevron-down': !reportMainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div>
+                        <div class="form-group">
+                            <table class="table table-bordered row-border hover">
+                                <thead>
+                                <tr>
+                                    <th>Job Name</th>
+                                    <th>Job Execution Id</th>
+                                    <th ng-show="reportMainSectionPanel.matchedBibsCount > 0">Matched Bibs Count</th>
+                                    <th ng-show="reportMainSectionPanel.unmatchedBibsCount > 0">Unmatched Bibs Count</th>
+                                    <th ng-show="reportMainSectionPanel.multipleMatchedBibsCount > 0">Multiple Matched Bibs Count</th>
+                                    <th ng-show="reportMainSectionPanel.matchedHoldingsCount > 0">Matched Holdings Count</th>
+                                    <th ng-show="reportMainSectionPanel.unmatchedHoldingsCount > 0">Unmatched Holdings Count</th>
+                                    <th ng-show="reportMainSectionPanel.multipleMatchedHoldingsCount > 0">Multiple Matched Holdings Count</th>
+                                    <th ng-show="reportMainSectionPanel.matchedItemsCount > 0">Matched Items Count</th>
+                                    <th ng-show="reportMainSectionPanel.unmatchedItemsCount > 0">Unmatched Items Count</th>
+                                    <th ng-show="reportMainSectionPanel.multipleMatchedItemsCount > 0">Multiple Matched Items Count</th>
+                                    <th ng-show="reportMainSectionPanel.matchedEHoldingsCount > 0">Matched EHoldings Count</th>
+                                    <th ng-show="reportMainSectionPanel.unmatchedEHoldingsCount > 0">Unmatched EHoldings Count</th>
+                                    <th ng-show="reportMainSectionPanel.multipleMatchedEHoldingsCount > 0">Multiple Matched EHoldings Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span ng-bind="reportMainSectionPanel.jobName"></span></td>
+                                    <td><span ng-bind="reportMainSectionPanel.jobDetailId"></span></td>
+                                    <td ng-show="reportMainSectionPanel.matchedBibsCount > 0"><span ng-bind="reportMainSectionPanel.matchedBibsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.unmatchedBibsCount > 0"><span ng-bind="reportMainSectionPanel.unmatchedBibsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.multipleMatchedBibsCount > 0"><span ng-bind="reportMainSectionPanel.multipleMatchedBibsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.matchedHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.matchedHoldingsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.unmatchedHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.unmatchedHoldingsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.multipleMatchedHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.multipleMatchedHoldingsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.matchedItemsCount > 0"><span ng-bind="reportMainSectionPanel.matchedItemsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.unmatchedItemsCount > 0"><span ng-bind="reportMainSectionPanel.unmatchedItemsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.multipleMatchedItemsCount > 0"><span ng-bind="reportMainSectionPanel.multipleMatchedItemsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.matchedEHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.matchedEHoldingsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.unmatchedEHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.unmatchedEHoldingsCount"></span></td>
+                                    <td ng-show="reportMainSectionPanel.multipleMatchedEHoldingsCount > 0"><span ng-bind="reportMainSectionPanel.multipleMatchedEHoldingsCount"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

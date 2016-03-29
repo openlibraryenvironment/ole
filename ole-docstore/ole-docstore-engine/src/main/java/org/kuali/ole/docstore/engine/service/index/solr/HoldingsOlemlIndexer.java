@@ -652,7 +652,9 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
         }
 
         //Add the holdings ids being transfered to the bib, along with the existing holdings ids
-        holdingsIdsList.addAll(holdingsIds);
+        if(!holdingsIdsList.contains(holdingsIds.get(0))){
+            holdingsIdsList.addAll(holdingsIds);
+        }
         Map holdingsIdsMap = new HashMap();
         holdingsIdsMap.put(AtomicUpdateConstants.SET, holdingsIdsList);
         destBibInputSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
@@ -666,8 +668,8 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             String itemIdentifier = (String) itemField;
             itemIdsList.add(itemIdentifier);
         } else if(itemField instanceof List) {
-            List<String> holdingsIdentifierList = (List<String>) itemField;
-            itemIdsList.addAll(holdingsIdentifierList);
+            List<String> itemIdentifierList = (List<String>) itemField;
+            itemIdsList.addAll(itemIdentifierList);
         }
 
         //Get item ids from the holdings being transfered and add to destination bib document, along with the existing item ids.
@@ -676,10 +678,16 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             Object object = solrDocument.get(ITEM_IDENTIFIER);
             if (object instanceof String) {
                 String itemIdentifier = (String) object;
-                itemIdsList.add(itemIdentifier);
+                if(!itemIdsList.contains(itemIdentifier)){
+                    itemIdsList.add(itemIdentifier);
+                }
             } else if (object instanceof List) {
                 List<String> itemIdentifierList = (List<String>) object;
-                itemIdsList.addAll(itemIdentifierList);
+                for(String id:itemIdentifierList){
+                    if(!itemIdsList.contains(id)){
+                        itemIdsList.add(id);
+                    }
+                }
             }
         }
         Map<String, List<String>> itemIdsMap = new HashMap<>();

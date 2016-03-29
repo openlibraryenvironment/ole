@@ -673,7 +673,11 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
                 existingItemIds.addAll(existingItemIdentifierList);
             }
             Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
-            existingItemIds.addAll(itemIds);
+            for(String id:itemIds){
+                if(!existingItemIds.contains(id)){
+                    existingItemIds.add(id);
+                }
+            }
             itemIdMap.put(AtomicUpdateConstants.SET, existingItemIds);
             destBibSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdMap);
             solrInputDocumentListFinal.add(destBibSolrInputDocument);
@@ -692,7 +696,11 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
                     List<String> existingItemIdentifierList = (List<String>) itemIdentifier;
                     existingItemIds.addAll(existingItemIdentifierList);
                 }
-                existingItemIds.addAll(itemIds);
+                for(String id:itemIds){
+                    if(!existingItemIds.contains(id)){
+                        existingItemIds.add(id);
+                    }
+                }
                 destBibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
                 Map<String, List<String>> itemIdMap = new HashMap<String, List<String>>();
                 itemIdMap.put(AtomicUpdateConstants.ADD, existingItemIds);

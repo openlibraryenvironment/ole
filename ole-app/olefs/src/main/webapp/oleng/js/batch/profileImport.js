@@ -27,17 +27,13 @@ batchProfileImportApp.service('fileUpload', ['$http', function ($http) {
         $scope.profileImportStatus = "Batch Profile Import initiated....";
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
-        $http.post(uploadUrl, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-            .success(function(response){
-                var totalTime = response.processTime;
+        doPostRequestWithMultiPartData($scope, $http, uploadUrl, fd, function(response){
+                var data = response.data;
+                var totalTime = data.processTime;
                 var report = "Profile imported successfully .\nTotal time taken : " +totalTime;
                 $scope.profileImportStatus = report;
 
-            })
-            .error(function(){
+            }, function(){
                 $scope.profileImportStatus = "Profile import failed failed.";
             });
     }

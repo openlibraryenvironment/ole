@@ -29,6 +29,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(LostNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
+    private PatronBillHelperService patronBillHelperService;
 
 
     public ItemOlemlRecordProcessor getItemOlemlRecordProcessor() {
@@ -95,9 +96,8 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         feeType.setFeeType(getFeeTypeId(OLEConstants.REPLACEMENT_FEE));
         feeType.setFeeAmount(new KualiDecimal(fineAmount));
         feeType.setItemBarcode(oleLoanDocument.getItemId());
-        feeType.setItemType(oleLoanDocument.getItemTypeName());
-        feeType.setItemTitle(oleLoanDocument.getTitle());
         feeType.setItemUuid(oleLoanDocument.getItemUuid());
+        getPatronBillHelperService().setFeeTypeInfo(feeType,oleLoanDocument.getItemUuid());
         feeType.setPaymentStatus(getOlePaymentStatus().getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
@@ -259,5 +259,16 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         oleItem.setItemStatusEffectiveDate(String.valueOf(new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE).format(new Date())));
         String itemContent = getItemOlemlRecordProcessor().toXML(oleItem);
         return itemContent;
+    }
+
+    public PatronBillHelperService getPatronBillHelperService() {
+        if(patronBillHelperService==null){
+            patronBillHelperService=new PatronBillHelperService();
+        }
+        return patronBillHelperService;
+    }
+
+    public void setPatronBillHelperService(PatronBillHelperService patronBillHelperService) {
+        this.patronBillHelperService = patronBillHelperService;
     }
 }

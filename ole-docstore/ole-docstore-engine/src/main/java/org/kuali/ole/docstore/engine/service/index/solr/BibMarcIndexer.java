@@ -748,9 +748,8 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
                 includeTags = "";
             }
             return getDataFieldValue(includeTags, excludeTags, record, false, fieldName);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.common.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 public class BibResponse {
     private String bibId;
-    private int recordIndex;
+    private Integer recordIndex;
     private String operation;
     private List<HoldingsResponse> holdingsResponses;
 
@@ -28,6 +29,9 @@ public class BibResponse {
     }
 
     public List<HoldingsResponse> getHoldingsResponses() {
+        if(null == holdingsResponses) {
+            holdingsResponses = new ArrayList<>();
+        }
         return holdingsResponses;
     }
 
@@ -35,11 +39,11 @@ public class BibResponse {
         this.holdingsResponses = holdingsResponses;
     }
 
-    public int getRecordIndex() {
+    public Integer getRecordIndex() {
         return recordIndex;
     }
 
-    public void setRecordIndex(int recordIndex) {
+    public void setRecordIndex(Integer recordIndex) {
         this.recordIndex = recordIndex;
     }
 }

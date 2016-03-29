@@ -192,6 +192,37 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
     private String sentNoticesUrl;
     private ItemFineRate itemFineRate = new ItemFineRate();
+    private boolean overrideCheckInTime;
+    private String itemTypeId;
+    private String tempItemTypeId;
+    private String itemsLocation;
+
+
+
+
+    public String getItemTypeId() {
+        return itemTypeId;
+    }
+
+    public void setItemTypeId(String itemTypeId) {
+        this.itemTypeId = itemTypeId;
+    }
+
+    public String getTempItemTypeId() {
+        return tempItemTypeId;
+    }
+
+    public void setTempItemTypeId(String tempItemTypeId) {
+        this.tempItemTypeId = tempItemTypeId;
+    }
+
+    public String getItemsLocation() {
+        return itemsLocation;
+    }
+
+    public void setItemsLocation(String itemsLocation) {
+        this.itemsLocation = itemsLocation;
+    }
 
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
@@ -2212,5 +2243,13 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setItemFineRate(ItemFineRate itemFineRate) {
         this.itemFineRate = itemFineRate;
+    }
+
+    public boolean isOverrideCheckInTime() {
+        return overrideCheckInTime;
+    }
+
+    public void setOverrideCheckInTime(boolean overrideCheckInTime) {
+        this.overrideCheckInTime = overrideCheckInTime;
     }
 }

@@ -1206,6 +1206,37 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_T
 
 
 # -----------------------------------------------------------------------
+# OLE_CRCL_DSK_FEE_TYPE_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_CRCL_DSK_FEE_TYPE_T
+/
+
+CREATE TABLE OLE_CRCL_DSK_FEE_TYPE_T
+(
+      OLE_CRCL_DSK_FEE_TYPE_ID VARCHAR(40) default '0'
+        , OLE_CRCL_DSK_ID VARCHAR(40) NOT NULL
+        , FEE_TYP_ID VARCHAR(40) NOT NULL
+    
+    , CONSTRAINT OLE_CRCL_DSK_FEE_TYPE_TP1 PRIMARY KEY(OLE_CRCL_DSK_FEE_TYPE_ID)
+
+
+
+
+
+    
+                                                                                                                                                    
+                                    
+, INDEX OLE_CRCL_FEE_TYPE_I (FEE_TYP_ID )
+    
+                                                                                                                                                    
+                                    
+, INDEX OLE_CRCL_DSK_I (OLE_CRCL_DSK_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_CRCL_DSK_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_CRCL_DSK_T
@@ -1233,6 +1264,7 @@ CREATE TABLE OLE_CRCL_DSK_T
         , SHOW_ONHOLD_ITM VARCHAR(50) default 'CurrentCirculationDesk'
         , DFLT_RQST_TYP_ID VARCHAR(40)
         , DFLT_PICK_UP_LOCN_ID VARCHAR(40)
+        , FROM_EMAIL VARCHAR(100)
     
     , CONSTRAINT OLE_CRCL_DSK_TP1 PRIMARY KEY(OLE_CRCL_DSK_ID)
 
@@ -1674,7 +1706,8 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
         , OVERDUE_NOTICE_DATE DATETIME
         , OLE_RQST_ID VARCHAR(40)
         , REPMNT_FEE_PTRN_BILL_ID VARCHAR(40)
-        , CHECK_IN_DT_TIME DATETIME NOT NULL
+        , CHECK_IN_DT_TIME DATETIME
+        , CHECK_IN_DT_TIME_OVR_RD DATETIME
         , CHECK_IN_OPTR_ID VARCHAR(40)
         , CHECK_IN_MACH_ID VARCHAR(100)
         , ITEM_TYP_ID VARCHAR(100)
@@ -1688,15 +1721,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 
@@ -1913,7 +1946,22 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , DUE_DT_TIME DATETIME
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
+        , CHECK_IN_DT_TIME_OVR_RD DATETIME
         , OPERATOR_ID VARCHAR(40)
+        , ITM_TITLE VARCHAR(600)
+        , ITM_AUTHOR VARCHAR(200)
+        , ITM_TYPE VARCHAR(100)
+        , ITM_CALL_NUM VARCHAR(100)
+        , ITM_COPY_NUM VARCHAR(20)
+        , ITM_ENUM VARCHAR(100)
+        , ITM_CHRON VARCHAR(100)
+        , ITM_LOC VARCHAR(600)
+        , CRDT_ISSUED DECIMAL(10,4) default 0.00
+        , CRDT_REMAINING DECIMAL(10,4) default 0.00
+        , PAY_CREDIT_NOTE VARCHAR(500)
+        , PAY_TRANSFER_NOTE VARCHAR(500)
+        , PAY_REFUND_NOTE VARCHAR(500)
+        , PAY_CAN_CRDT_NOTE VARCHAR(500)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_FEE_TYP_P1 PRIMARY KEY(ID)
 
@@ -1922,7 +1970,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -1946,6 +1994,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
         , TRNS_NUMBER VARCHAR(40)
         , TRNS_NOTE VARCHAR(500)
         , TRNS_MODE VARCHAR(40)
+        , NOTE VARCHAR(500)
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_PAY_TP1 PRIMARY KEY(ID)
 
@@ -1954,7 +2003,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_PAY_T
 
 
     
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX BILL_PAY_ID (ITM_LINE_ID )
 
@@ -1988,6 +2037,8 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
         , PAY_NOTE VARCHAR(500)
         , NOTE VARCHAR(500)
         , BILL_REVIEWED VARCHAR(1)
+        , CRDT_ISSUED DECIMAL(10,4) default 0.00
+        , CRDT_REMAINING DECIMAL(10,4) default 0.00
     
     , CONSTRAINT OLE_DLVR_PTRN_BILL_TP1 PRIMARY KEY(PTRN_BILL_ID)
 
@@ -1996,7 +2047,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_DLVR_PTRN_BILL_TI1 (OLE_PTRN_ID )
 
@@ -6366,6 +6417,32 @@ CREATE TABLE OLE_GOKB_ARCHIVE_T
 
 
 # -----------------------------------------------------------------------
+# GOBI_ADDR_MAPR_T
+# -----------------------------------------------------------------------
+drop table if exists GOBI_ADDR_MAPR_T
+/
+
+CREATE TABLE GOBI_ADDR_MAPR_T
+(
+      ID INTEGER
+        , SUB_ACCOUNT VARCHAR(100)
+        , BUILDING_CODE VARCHAR(100)
+        , ROOM_NUMBER VARCHAR(100)
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT GOBI_ADDR_MAPR_TP1 PRIMARY KEY(ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_NOTC_FIELD_LABEL_MAPNG_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_NOTC_FIELD_LABEL_MAPNG_T
@@ -6552,25 +6629,26 @@ drop table if exists OLE_NG_BAT_PRCS_JOB_T
 
 CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
 (
-      PROCESS_ID INTEGER(10)
-        , PROCESS_NAME VARCHAR(100)
-        , PROCESS_TYPE VARCHAR(40)
+      JOB_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , PROFILE_TYPE VARCHAR(40)
         , PRF_ID INTEGER(10)
         , JOB_TYPE VARCHAR(40)
         , CRON_EXP VARCHAR(100)
         , CREATED_BY VARCHAR(40)
         , CREATED_ON DATETIME
+        , NEXT_RUN_TIME DATETIME
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(PROCESS_ID)
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(JOB_ID)
 
 
 
 
 
     
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
 
@@ -6586,11 +6664,12 @@ drop table if exists OLE_NG_BAT_JOB_DETAILS_T
 
 CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
 (
-      JOB_ID INTEGER(10)
+      JOB_DETAIL_ID INTEGER(10)
         , JOB_NAME VARCHAR(100)
-        , PROCESS_ID INTEGER(10)
-        , PROCESS_TYPE VARCHAR(40)
+        , JOB_ID INTEGER(10)
+        , PROFILE_TYPE VARCHAR(40)
         , PROFILE_NAME VARCHAR(100)
+        , FILE_NAME VARCHAR(100)
         , CREATED_BY VARCHAR(40)
         , START_TIME DATETIME
         , END_TIME DATETIME
@@ -6598,20 +6677,21 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
         , TIME_SPENT VARCHAR(40)
         , TOTAL_RECORDS VARCHAR(40)
         , TOTAL_RECORDS_PRCSD VARCHAR(40)
+        , TOTAL_FAILURE_RECORDS VARCHAR(40)
         , STATUS VARCHAR(40)
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
-    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_ID)
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_DETAIL_ID)
 
 
 
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                
+
                                     
-, INDEX OLE_NG_BAT_JOB_I (PROCESS_ID )
+, INDEX OLE_NG_BAT_JOB_I (JOB_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -7213,6 +7293,20 @@ CREATE TABLE OLE_CRCL_DSK_LOCN_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_CRCL_DSK_LOCN_S auto_increment = 24
+/
+
+# -----------------------------------------------------------------------
+# OLE_CRCL_DSK_FEE_TYPE_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_CRCL_DSK_FEE_TYPE_S
+/
+
+CREATE TABLE OLE_CRCL_DSK_FEE_TYPE_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_CRCL_DSK_FEE_TYPE_S auto_increment = 24
 /
 
 # -----------------------------------------------------------------------
@@ -9299,6 +9393,20 @@ CREATE TABLE OLE_NOTICE_TYPE_CONFIG_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_NOTICE_TYPE_CONFIG_S auto_increment = 7
+/
+
+# -----------------------------------------------------------------------
+# GOBI_ADDR_MAPR_S
+# -----------------------------------------------------------------------
+drop table if exists GOBI_ADDR_MAPR_S
+/
+
+CREATE TABLE GOBI_ADDR_MAPR_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE GOBI_ADDR_MAPR_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------

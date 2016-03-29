@@ -1,4 +1,3 @@
-
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -8,7 +7,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.util.ItemUtil;
 
 import java.util.Iterator;
@@ -18,17 +17,16 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class ItemStatusHandler extends ItemHandler {
-    private final String TYPE = "Item Status";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.ITEM_STATUS);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String itemStatusName = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String itemStatusName = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ITEM_STATUS);
         List<String> parsedValues = parseCommaSeperatedValues(itemStatusName);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String itemStatusNameValue = iterator.next();
@@ -42,7 +40,7 @@ public class ItemStatusHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ITEM_STATUS);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String itemStatusName = listFromJSONArray.get(0);

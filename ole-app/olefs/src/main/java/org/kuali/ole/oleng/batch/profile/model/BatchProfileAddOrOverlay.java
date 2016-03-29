@@ -3,6 +3,8 @@ package org.kuali.ole.oleng.batch.profile.model;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by rajeshbabuk on 12/14/15.
  */
@@ -15,17 +17,11 @@ public class BatchProfileAddOrOverlay extends MarcDataField {
     private String dataType;
     private String operation;
     private String addOperation;
-    @JsonProperty("addOrOverlayField")
-    private String field;
-    @JsonProperty("addOrOverlayFieldOperation")
-    private String fieldOperation;
-    @JsonProperty("addOrOverlayFieldValue")
-    private String fieldValue;
     private boolean addItems;
 
     private String addOrOverlayField;
     private String addOrOverlayFieldOperation;
-    private String addOrOverlayFieldValue;
+    private List<String> addOrOverlayFieldValue;
     private String linkField;
 
     public String getAddOrOverlayField() {
@@ -44,11 +40,11 @@ public class BatchProfileAddOrOverlay extends MarcDataField {
         this.addOrOverlayFieldOperation = addOrOverlayFieldOperation;
     }
 
-    public String getAddOrOverlayFieldValue() {
+    public List<String> getAddOrOverlayFieldValue() {
         return addOrOverlayFieldValue;
     }
 
-    public void setAddOrOverlayFieldValue(String addOrOverlayFieldValue) {
+    public void setAddOrOverlayFieldValue(List<String> addOrOverlayFieldValue) {
         this.addOrOverlayFieldValue = addOrOverlayFieldValue;
     }
 
@@ -82,30 +78,6 @@ public class BatchProfileAddOrOverlay extends MarcDataField {
 
     public void setAddOperation(String addOperation) {
         this.addOperation = addOperation;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getFieldOperation() {
-        return fieldOperation;
-    }
-
-    public void setFieldOperation(String fieldOperation) {
-        this.fieldOperation = fieldOperation;
-    }
-
-    public String getFieldValue() {
-        return fieldValue;
-    }
-
-    public void setFieldValue(String fieldValue) {
-        this.fieldValue = fieldValue;
     }
 
     public boolean isAddItems() {

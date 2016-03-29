@@ -658,4 +658,22 @@
     </class-descriptor>
 
 
+    <class-descriptor class="org.kuali.ole.select.bo.OLEDonor" table="OLE_DONOR_T">
+        <field-descriptor name="donorId" column="DONOR_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="OLE_DONOR_S"/>
+        <field-descriptor name="donorCode" column="DONOR_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorName" column="DONOR_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorNote" column="DONOR_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorPublicDisplay" column="DONOR_PUBLIC_DISPLAY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorAmount" column="DONOR_AMT" jdbc-type="DECIMAL"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="bookPlateUrl" column="DONOR_BOOKPLATE_URL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorPublicUrl" column="DONOR_PUBLIC_URL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+
 </descriptor-repository>

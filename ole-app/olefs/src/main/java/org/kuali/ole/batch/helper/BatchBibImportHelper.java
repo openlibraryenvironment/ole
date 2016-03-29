@@ -1717,6 +1717,7 @@ public class BatchBibImportHelper {
 
     public OLEBatchBibImportDataObjects processOrderBatch(List<OrderBibMarcRecord> orderBibMarcRecords, OLEBatchProcessProfileBo profile, OLEBatchBibImportStatistics batchBibImportStatistics, String user) {
         OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = new OLEBatchBibImportDataObjects();
+        this.userName = user;
         bibImportStatistics = batchBibImportStatistics;
         MatchingProfile matchingProfile = profile.getMatchingProfileObj();
         for (OrderBibMarcRecord orderBibMarcRecord : orderBibMarcRecords) {

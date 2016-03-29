@@ -39,6 +39,12 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     @JsonProperty("marcOnly")
     private Boolean marcOnly;
 
+    @JsonProperty("orderType")
+    private String orderType;
+
+    @JsonProperty("matchPointToUse")
+    private String matchPointToUse;
+
     @JsonIgnore
     private byte[] content;
 
@@ -167,5 +173,21 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setContent(byte[] content) {
         this.content = content;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getMatchPointToUse() {
+        return matchPointToUse;
+    }
+
+    public void setMatchPointToUse(String matchPointToUse) {
+        this.matchPointToUse = matchPointToUse;
     }
 }

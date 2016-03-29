@@ -4,21 +4,24 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.BibFailureResponse;
+import org.kuali.ole.docstore.common.response.FailureResponse;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
-import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
+import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +45,48 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private SolrRequestReponseHandler solrRequestReponseHandler;
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
-    public void processBatch(String  rawMarc, String profileId) {
+    public JSONObject processBatch(String rawContent ,String fileType, String profileId, String reportDirectoryName, BatchJobDetails batchJobDetails) {
+        JSONObject response = new JSONObject();
+        BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
+        String responseData = "";
         try {
-            BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(profileId);
-            List<Record> records = getMarcXMLConverter().convertRawMarchToMarc(rawMarc);
-            String responseData = processRecords(records, batchProcessProfile);
-            String date = simpleDateFormat.format(new Date());
-            String batchProcessProfileName = batchProcessProfile.getBatchProcessProfileName();
-            String fileName = getReportingFilePath()+ File.separator+batchProcessProfileName+"_"+  date+".txt";
-            FileUtils.write(new File(fileName), responseData);
+            batchProcessProfile = fetchBatchProcessProfile(profileId);
+            List<Record> records = new ArrayList<>();
+            if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
+                records = getMarcXMLConverter().convertRawMarchToMarc(rawContent);
+                batchJobDetails.setTotalRecords(String.valueOf(records.size()));
+                getBusinessObjectService().save(batchJobDetails);
+            }
+            Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+            for(int index = 0; index < records.size(); index++){
+                RecordDetails recordDetails = new RecordDetails();
+                int position = index + 1;
+                recordDetails.setRecord(records.get(index));
+                recordDetails.setIndex(position);
+                recordDetailsMap.put(position, recordDetails);
+            }
+            OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordDetailsMap, fileType, batchProcessProfile, reportDirectoryName, batchJobDetails);
+            int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
+            batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
+            responseData = oleNgBatchResponse.getResponse();
+            response.put(OleNGConstants.STATUS, true);
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
+            batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
+            batchProcessFailureResponse.setResponseData(responseData);
+            batchProcessFailureResponse.setFailureReason(e.toString());
+            batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
+            batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
+            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();;
+            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse,reportDirectoryName);
+            throw e;
         }
+        return response;
     }
 
-    private BatchProcessProfile fetchBatchProcessProfile(String profileId) {
+    public BatchProcessProfile fetchBatchProcessProfile(String profileId) {
         BatchProcessProfile batchProcessProfile = null;
 
         Map parameterMap = new HashedMap();
@@ -76,7 +104,9 @@ public abstract class BatchFileProcessor extends BatchUtil {
         return batchProcessProfile;
     }
 
-    public abstract String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException;
+    public abstract OleNgBatchResponse processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType,
+                                                      BatchProcessProfile batchProcessProfile, String reportDirectoryName,
+                                                      BatchJobDetails batchJobDetails) throws JSONException;
     public abstract String getReportingFilePath();
 
     public String getUpdatedUserName() {
@@ -118,5 +148,19 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
         this.matchPointProcessor = matchPointProcessor;
+    }
+
+    public int getFailureRecordsCount(List<? extends FailureResponse> failureResponses) {
+        int failureRecordCount = 0;
+        if(CollectionUtils.isNotEmpty(failureResponses)) {
+            for (Iterator<? extends FailureResponse> iterator = failureResponses.iterator(); iterator.hasNext(); ) {
+                FailureResponse bibFailureResponse = iterator.next();
+                Integer index = bibFailureResponse.getIndex();
+                if(null != index && index != 0) {
+                    failureRecordCount++;
+                }
+            }
+        }
+        return  failureRecordCount;
     }
 }

@@ -1,10 +1,12 @@
 package org.kuali.ole.constants;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by SheikS on 1/6/2016.
  */
 public class OleNGConstants {
-    
+
     public static final class BatchProcess {
         public static final String ACCOUNT_NUMBER = "Account Number";
         public static final String VENDOR_INFO_CUSOTMER_NUMBER = "Acquisition Unit\'s Vendor account / Vendor Info Customer #";
@@ -79,16 +81,57 @@ public class OleNGConstants {
         public static final String ITEM_DESCRIPTION = "Item Description";
         public static final String REQUESTOR = "Requestor";
         public static final String VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
+        public static final String PO_NUMBER = "Purchase Order Number";
+
+        public static final String CALL_NUMBER = "Call Number";
+        public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
+        public static final String CALL_NUMBER_TYPE = "Call Number Type";
+        public static final String CHRONOLOGY = "Chronology";
+        public static final String COPY_NUMBER = "Copy Number";
+        public static final String DONOR_CODE = "Donor Code";
+        public static final String DONOR_NOTE = "Donor Note";
+        public static final String DONOR_PUBLIC_DISPLAY = "Donor Public Display";
+        public static final String ENUMERATION = "Enumeration";
+        public static final String ITEM_BARCODE = "Item Barcode";
+        public static final String NO_OF_PIECES = "Number of Pieces";
+        public static final String STAFF_ONLY = "Staff Only";
+        public static final String ITEM_TYPE = "Item Type";
+        public static final String STATISTICAL_CODE = "Statistical Code";
+        public static final String VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
+        public static final String ACCESS_STATUS = "Access Status";
+        public static final String SUBSCRIPTION_STATUS = "Subscription Status";
+        public static final String CREATE_REQ_PO = "Create Requisition and PO";
+        public static final String CREATE_REQ_ONLY = "Create Requisition Only";
+        public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
+
+
+        public final static String LOCATION_LEVEL_1 = "Location Level1";
+        public final static String LOCATION_LEVEL_2 = "Location Level2";
+        public final static String LOCATION_LEVEL_3 = "Location Level3";
+        public final static String LOCATION_LEVEL_4 = "Location Level4";
+        public final static String LOCATION_LEVEL_5 = "Location Level5";
+
+        public final static String HOLDINGS_LOCATION_LEVEL_1 = "Holdings Location Level1";
+        public final static String HOLDINGS_LOCATION_LEVEL_2 = "Holdings Location Level2";
+        public final static String HOLDINGS_LOCATION_LEVEL_3 = "Holdings Location Level3";
+        public final static String HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
+        public final static String HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
+
+        public final static String ORDER_TYPE_HOLDINGS_AND_ITEM = "Holdings and Item";
+        public final static String ORDER_TYPE_EHOLDINGS = "Eholdings";
     }
 
     public static final String TAG_001 = "001";
     public static final String TAG_003 = "003";
     public static final String UPDATED_BY = "updatedBy";
     public static final String UPDATED_DATE = "updatedDate";
+    public static final String BIB_STATUS_UPDATED = "BIB_STATUS_UPDATED";
     public static final String UNMODIFIED_CONTENT = "unmodifiedContent";
     public static final String MODIFIED_CONTENT = "modifiedContent";
     public static final String OPS = "ops";
+    public static final String MATCHPOINT_FOR_DATAMAPPING = "matchpointForDataMapping";
     public static final String ADDED_OPS = "addedOps";
+    public static final String ADDITIONAL_OVERLAY_OPS = "additionalOverlayOps";
     public static final String ACTION_OPS = "actionOps";
     public static final String FIELD_OPS = "fieldOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
@@ -112,6 +155,7 @@ public class OleNGConstants {
     public static final String POST_MARC_TRANSFORMATION = "Post Marc Transformation";
     public static final String ADD = "Add";
     public static final String OVERLAY = "Overlay";
+    public static final String DELETE_ALL = "Delete All";
     public static final String DISCARD = "Discard";
     public static final String IF_MATCH_FOUND = "If Match Found";
     public static final String IF_NOT_MATCH_FOUND = "If Match Not Found";
@@ -130,10 +174,13 @@ public class OleNGConstants {
     public static final String MDF_ = "mdf_";
     public static final String CONTROL_FIELD_ = "controlfield_";
     public static final String BIB_QUERY_BEGIN = "((DocType:bibliographic) AND (";
-    public static final String NEW = "New";
-    public static final String DELETE_TAG = "Delete Tag";
-    public static final String DELETE_VALUE = "Delete Value";
-    public static final String MOVE = "Move";
+    public static final String ADD_FIELD = "Add Field";
+    public static final String ADD_SUBFIELD = "Add Subfield";
+    public static final String DELETE_FIELD = "Delete Field";
+    public static final String DELETE_SUBFIELD = "Delete Subfield";
+    public static final String REMOVE_VALUE = "Remove Value";
+    public static final String COPY_PASTE = "Copy and Paste";
+    public static final String CUT_PASTE = "Cut and Paste";
     public static final String PREPEND_WITH_PREFIX = "Prepend with Prefix";
     public static final String REPLACE = "Replace";
     public static final String SPACE_SPLIT = "[' ']";
@@ -141,6 +188,7 @@ public class OleNGConstants {
     public static final String PROFILE_NAME = "profileName";
     public static final String PROFILE_ID = "profileId";
     public static final String PROFILE_TYPE = "profileType";
+    public static final String FILE_NAME = "fileName";
     public static final String CONTENT = "content";
     public static final String ACTION = "action";
     public static final String COPY = "copy";
@@ -148,6 +196,8 @@ public class OleNGConstants {
     public static final String DESCRIPTION = "description";
     public static final String STATUS = "stauts";
     public static final String ID = "id";
+    public static final String WHERE = "where";
+    public static final String CONDITION = "condition";
     public static final String VALUE = "value";
     public static final String FIELD_OPERATION_TYPE = "fieldOperationType";
     public static final String DATA_FIELD = "dataField";
@@ -158,27 +208,43 @@ public class OleNGConstants {
     public static final String IGNORE_GPF = "ignoreGPF";
     public static final String IS_ADDLINE = "isAddLine";
     public static final String DOC_TYPE = "docType";
+    public static final String BIB_STATUS = "Bib Status";
+    public static final String EQUAL_TO = "Equals To";
+    public static final String NOT_EQUAL_TO = "Not Equals To";
 
     public static final String BATCH_PROCESS_JOBS = "rest/describe/getBatchProcessJobs";
     public static final String PROCESS_ID = "processId";
+    public static final String JOB_ID = "jobId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";
     public static final String PROCESS_NAME = "batchProcessName";
     public static final String PROCESS_TYPE = "batchProcessType";
     public static final String JOB_TYPE = "jobType";
     public static final String CRON_EXPRESSION = "cronExpression";
-    public static final String JOB_ID = "jobId";
+    public static final String JOB_DETAIL_ID = "jobDetailId";
     public static final String JOB_NAME = "jobName";
     public static final String CREATED_BY = "createdBy";
     public static final String START_TIME = "startTime";
-    public static final String END_TIME = "startTime";
+    public static final String END_TIME = "endTime";
     public static final String PER_COMPLETED = "perCompleted";
     public static final String TIME_SPENT = "timeSpent";
     public static final String TOTAL_RECORDS = "totalRecords";
     public static final String TOTAL_RECORDS_PROCESSED = "totalRecordsProcessed";
+    public static final String TOTAL_FAILURE_RECORDS = "totalFailureRecords";
     public static final String JOB_STATUS = "status";
     public static final String CREATED_ON = "createdOn";
+    public static final String NEXT_RUN_TIME = "nextRunTime";
     public static final String EXECUTION_COUNT = "executionCount";
     public static final String LAST_EXECUTION_STATUS = "lastExecutionStatus";
+    public static final String SCHEDULE_OPTION = "scheduleOption";
+    public static final String SCHEDULE_TYPE = "scheduleType";
+    public static final String SCHEDULE_DATE = "scheduleDate";
+    public static final String SCHEDULE_TIME = "scheduleTime";
+    public static final String WEEK_DAY = "weekDay";
+    public static final String MONTH_DAY = "monthDay";
+    public static final String MONTH_FREQUENCY = "monthFrequency";
+    public static final String SCHEDULE = "schedule";
+    public static final String COMPLETED = "COMPLETED";
+    public static final String FAILED = "FAILED";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
@@ -204,6 +270,10 @@ public class OleNGConstants {
     public static final String PROCESS_BIB_HOLDINGS_ITEMS = "/processBibHoldingsItems";
     public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
 
+    public static final String CREATE_DUMMY_HOLDINGS = "/createDummyHoldings";
+    public static final String CREATE_DUMMY_ITEM = "/createDummyItem";
+    public static final String HOLDINGS_TYPE = "holdingsType";
+
     public static final String BIB = "bib";
     public static final String BIB_RECORD = "bibRecord";
     public static final String HOLDINGS_RECORD = "holdingsRecord";
@@ -223,9 +293,25 @@ public class OleNGConstants {
 
     public final static String CREATED = "Created";
     public final static String UPDATED = "Updated";
-    public final static String INDEX = "index";
+    public final static String DISCARDED = "Discarded";
+    public final static String RECORD_INDEX = "recordIndex";
+    public final static String MARC = "mrc";
+    public final static String EDI = "edi";
+    public final static String INV = "inv";
+    public final static String BIB_IMPORT = "Bib Import";
 
     public static final String FORWARD_SLASH = "/";
 
+    public static final String TIMESTAMP_FOR_CAMEL = "-${date:now:yyyy-MMM-dd-hh-mm-ss-a}";
+    public static final String QUICK_LAUNCH = "QuickLaunch-";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss-a");
+    public static final String UTF_8 = "UTF-8";
+    public static final String UTF_8_XML_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    public static final String COMMON_IDENTIFIER_SEARCH = "common_identifier_search";
+    public static final String FAILURE_RESPONSE = "failureResponse";
+    public static final String NO_OF_FAILURE_HOLDINGS = "noOfFailureHoldings";
+    public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
+    public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
 
 }

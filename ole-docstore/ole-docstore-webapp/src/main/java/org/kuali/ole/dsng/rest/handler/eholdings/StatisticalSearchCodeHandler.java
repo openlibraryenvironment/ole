@@ -5,12 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.StatisticalSearchCodeUtil;
 
@@ -73,12 +71,14 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
                     StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
-                    HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
-                    holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
-                    holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
-                    holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
-                    holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
-                    holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                    if (null != statisticalSearchRecord) {
+                        HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
+                        holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                        holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                        holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
+                        holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
+                        holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                    }
 
                 }
                 holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
