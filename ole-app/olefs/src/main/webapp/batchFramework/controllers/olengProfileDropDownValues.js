@@ -77,11 +77,11 @@ var dataMappingObject = {
         {id: 'type', name: 'Item Type'},
         {id: 'status', name: 'Item Status'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'enumeration', name: 'Enumeration'},
         {id: 'chronology', name: 'Chronology'},
-        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
+        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},
+        {id: 'staffOnly', name: 'Staff Only'},
+        {id: 'numberOfPieces', name: 'Number of Pieces'}
     ],
     destinationFieldsForBibMarcEHoldings :  [
         {id: 'callNumber', name: 'Call Number'},
@@ -96,8 +96,6 @@ var dataMappingObject = {
         {id: 'persistentLink', name: 'Persistent Link'},
         {id: 'linkText', name: 'Link Text'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'statisticalCode', name: 'Statistical Code'},
         {id: 'platform', name: 'Platform'},
         {id: 'publisher', name: 'Publisher'},
@@ -182,11 +180,11 @@ var dataMappingObject = {
         {id: 'type', name: 'Item Type'},
         {id: 'status', name: 'Item Status'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'enumeration', name: 'Enumeration'},
         {id: 'chronology', name: 'Chronology'},
-        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
+        {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},
+        {id: 'staffOnly', name: 'Staff Only'},
+        {id: 'numberOfPieces', name: 'Number of Pieces'}
     ],
     destinationFieldsForConstantsEHoldings : [
         {id: 'accessStatus', name: 'Access Status'},
@@ -202,8 +200,6 @@ var dataMappingObject = {
         {id: 'persistentLink', name: 'Persistent Link'},
         {id: 'linkText', name: 'Link Text'},
         {id: 'donorCode', name: 'Donor Code'},
-        {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-        {id: 'donorNote', name: 'Donor Note'},
         {id: 'statisticalCode', name: 'Statistical Code'},
         {id: 'platform', name: 'Platform'},
         {id: 'publisher', name: 'Publisher'},
@@ -409,8 +405,6 @@ var eHoldingsDataMappings = [
     {id: 'persistentLink', name: 'Persistent Link'},
     {id: 'linkText', name: 'Link Text'},
     {id: 'donorCode', name: 'Donor Code'},
-    {id: 'donorPublicDisplay', name: 'Donor Public Display'},
-    {id: 'donorNote', name: 'Donor Note'},
     {id: 'statisticalCode', name: 'Statistical Code'},
     {id: 'platform', name: 'Platform'},
     {id: 'publisher', name: 'Publisher'},
@@ -460,10 +454,17 @@ var matchOptions = [
     {id: 'matchNotFound', name: 'If Match Not Found'}
 ];
 
-var operations = [
+var bibMatchOperations = [
     {id: 'add', name: 'Add'},
     {id: 'overlay', name: 'Overlay'},
     {id: 'discard', name: 'Discard'}
+];
+
+var operations = [
+    {id: 'add', name: 'Add'},
+    {id: 'overlay', name: 'Overlay'},
+    {id: 'discard', name: 'Discard'},
+    {id: 'deleteAll', name: 'Delete All'}
 ];
 
 var addOrOverlayFields = [
@@ -542,17 +543,21 @@ var transferOptions = [
 ];
 
 var transformationOperations = [
-    {id: 'new', name: 'New'},
-    {id: 'deleteTag', name: 'Delete Tag'},
-    {id: 'deleteValue', name: 'Delete Value'},
-    {id: 'replace', name: 'Replace'},
-    {id: 'move', name: 'Move'},
-    {id: 'prepend', name: 'Prepend with Prefix'}
+    {id: 'deleteField', name: 'Delete Field'},
+    {id: 'deleteSubfield', name: 'Delete SubField'},
+    {id: 'removeValue', name: 'Remove Value'},
+    {id: 'copyPaste', name: 'Copy and Paste'},
+    {id: 'cutPaste', name: 'Cut and Paste'},
+    {id: 'addField', name: 'Add Field'},
+    {id: 'addSubfield', name: 'Add Subfield'},
+    {id: 'prepend', name: 'Prepend with Prefix'},
+    {id: 'replace', name: 'Replace'}
 ];
 
 var invoiceFieldObject = {
     matchPoint : [
-        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'}
+        {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
+        {id: 'purchaseOrderNumber', name: 'Purchase Order Number'}
     ],
     dataMapping : [
         {id: 'accountNumber', name: 'Account Number'},
@@ -642,11 +647,25 @@ var unmatchedOrderOperations = [
     {id: 'createReqOnly', name: 'Create Requisition Only'}
 ];
 
+var orderTypes = [
+    {id: 'holdingsAndItem', name: 'Holdings and Item'},
+    {id: 'eholdings', name: 'Eholdings'}
+];
+
+var matchPointToUseOptions = [
+    {id: 'orderImport', name: 'Order Import'},
+    {id: 'bibImport', name: 'Bib Import'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: batchProcessTypeValues,
     requisitionForTitlesValues: requisitionForTitlesValues,
     requisitionForTitlesOption: 'One Requisition Per Title',
+    orderTypes: orderTypes,
+    matchPointToUseOptions: matchPointToUseOptions,
+    orderType: "Holdings and Item",
+    matchPointToUse: "Order Import",
     marcOnly: false,
     collapsed: false
 };
@@ -668,7 +687,7 @@ var addOrOverlay = {
     matchOption: 'If Match Found',
     addOrOverlayDocTypes: addOrOverlayDocumentTypes,
     addOrOverlayDocType: 'Bibliographic',
-    operations: operations,
+    operations: bibMatchOperations,
     addOrOverlayFields: addOrOverlayFields,
     addOrOverlayFieldOperations: addOrOverlayFieldOperations,
     linkFields: dataMappingObject.destinationFieldsForBibMarcHoldings,

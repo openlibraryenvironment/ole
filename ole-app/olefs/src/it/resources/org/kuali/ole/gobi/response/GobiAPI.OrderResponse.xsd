@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This document is confidential and proprietary to YBP Library Services. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:annotation>
+		<xs:documentation>YBP Library Services Response API XSD</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="ResponseError">
+		<xs:annotation>
+			<xs:documentation>API Error Response</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Message" type="ResponseErrorMessage" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PoLineNumber">
+		<xs:annotation>
+			<xs:documentation>This is the PO Line Number created on the ILS system</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResponseErrorMessage">
+		<xs:annotation>
+			<xs:documentation>API Response Error Message</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Response">
+		<xs:annotation>
+			<xs:documentation>This is the returned API response</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="PoLineNumber" type="PoLineNumber">
+					<xs:annotation>
+						<xs:documentation>This is the created PO-Line number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Error" type="ResponseError">
+					<xs:annotation>
+						<xs:documentation>This is a container for the error code and error message</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

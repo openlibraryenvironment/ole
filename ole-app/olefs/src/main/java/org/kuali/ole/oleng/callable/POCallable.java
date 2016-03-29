@@ -5,11 +5,13 @@ import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.module.purap.PurapConstants;
-import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.service.OrderImportService;
@@ -18,16 +20,14 @@ import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
 public class POCallable implements Callable {
 
     private static final Logger LOG = Logger.getLogger(POCallable.class);
-    private final Set<String> bibIds;
+    private final List<RecordDetails> recordDetailsList;
 
     private BatchProcessProfile batchProcessProfile;
     private OrderImportService oleOrderImportService;
@@ -44,35 +44,49 @@ public class POCallable implements Callable {
     private PlatformTransactionManager transactionManager;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     private List<OleOrderRecord> oleOrderRecords;
+    private BatchUtil batchUtil;
+    private Exchange exchange;
 
-    public POCallable(Set<String> bibIds, BatchProcessProfile batchProcessProfile, CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler) {
-        this.bibIds = bibIds;
+    public POCallable(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile, CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler) {
+        this.recordDetailsList = recordDetailsList;
         this.batchProcessProfile = batchProcessProfile;
         this.createReqAndPOServiceHandler = createReqAndPOServiceHandler;
+        this.exchange = exchange;
     }
 
     @Override
     public Object call() throws Exception {
         oleOrderRecords = new ArrayList<>();
         Integer purapId = null;
-        for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
-            String bibId = iterator.next();
-            OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(bibId, batchProcessProfile);
+        for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
+            RecordDetails recordDetails = iterator.next();
+            Integer recordIndex = recordDetails.getIndex();
+            try {
+                OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
 
-            final OleOrderRecord oleOrderRecord = new OleOrderRecord();
-            oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-            oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
-            oleOrderRecord.setOleTxRecord(oleTxRecord);
+                final OleOrderRecord oleOrderRecord = new OleOrderRecord();
+                oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+                oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+                oleOrderRecord.setOleTxRecord(oleTxRecord);
 
-            OleBibRecord oleBibRecord = new OleBibRecord();
-            Bib bib = getBibDetails(bibId);
-            oleBibRecord.setBibUUID(bibId);
-            oleBibRecord.setBib(bib);
-            oleOrderRecord.setOleBibRecord(oleBibRecord);
+                OleBibRecord oleBibRecord = new OleBibRecord();
+                String bibUUID = recordDetails.getBibUUID();
+                Bib bib = getBibDetails(bibUUID);
+                oleBibRecord.setBibUUID(bibUUID);
+                oleBibRecord.setBib(bib);
+                oleOrderRecord.setOleBibRecord(oleBibRecord);
 
-            oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
 
-            oleOrderRecords.add(oleOrderRecord);
+                oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+
+                String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
+                oleOrderRecord.setBibImportProfileName(bibProfileName);
+                oleOrderRecord.setRecordIndex(recordIndex);
+                oleOrderRecords.add(oleOrderRecord);
+            } catch (Exception e) {
+                e.printStackTrace();
+                getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
+            }
 
         }
 
@@ -80,19 +94,22 @@ public class POCallable implements Callable {
 
         try {
             try {
-                purapId = (Integer) template.execute(new TransactionCallback<Object>() {
+                Exchange reponseObject = (Exchange) template.execute(new TransactionCallback<Object>() {
                     Integer response;
-
+                    Exchange exchange = new Exchange();
                     @Override
                     public Object doInTransaction(TransactionStatus status) {
                         try {
-                            response = createReqAndPOServiceHandler.processOrder(oleOrderRecords);
+                            response = createReqAndPOServiceHandler.processOrder(oleOrderRecords, exchange);
+                            exchange.add("purapId",response);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        return response;
+                        return exchange;
                     }
                 });
+                Map context = reponseObject.getContext();
+                this.exchange.getContext().putAll(context);
             } catch (Exception ex) {
                 throw ex;
             } finally {
@@ -152,5 +169,13 @@ public class POCallable implements Callable {
             solrRequestReponseHandler = new SolrRequestReponseHandler();
         }
         return solrRequestReponseHandler;
+    }
+
+
+    public BatchUtil getBatchUtil() {
+        if(null == batchUtil) {
+            batchUtil = new BatchUtil();
+        }
+        return batchUtil;
     }
 }

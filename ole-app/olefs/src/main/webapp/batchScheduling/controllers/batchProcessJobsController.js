@@ -1,4 +1,4 @@
-var batchSchedulingApp = angular.module('batchScheduling', ['datatables']);
+var batchProcessJobsApp = angular.module('batchProcessJobs', ['datatables', 'customDirectives']);
 
 var jobTypes = [
     {id: 'adhoc', name: 'Adhoc'},
@@ -27,17 +27,33 @@ var weekDays = [
     {id: 'sunday', name: 'Sunday'}
 ];
 
-batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', function ($scope, $http) {
+var monthDays = [];
+
+batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', 'DTOptionsBuilder', function ($scope, $http, $interval, DTOptionsBuilder) {
+
+    for (var i = 1; i <= 31; i++) {
+        monthDays.push({id: i,name: i});
+    }
+
+    $scope.quickLaunch = {};
+    $scope.batchSchedule = {
+        scheduleOption: 'Provide Cron Expression',
+        scheduleOptions: scheduleOptions,
+        scheduleTypes: scheduleTypes,
+        weekDays: weekDays,
+        monthDays: monthDays
+    };
 
     $scope.init = function() {
-        $scope.initializeCreateJob();
+        $scope.initializeJobs();
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('aaSorting', [[0, 'desc']]);
     };
 
     $scope.initializeCreateJob = function() {
         $scope.batchProcessCreateTab = {};
         $scope.selected = 1;
         $scope.page = 'batchScheduling/views/batchCreateJob.html';
-        $scope.batchProcessTypeValues = batchProcessTypeValues;
+        $scope.profileTypeValues = batchProcessTypeValues;
         $scope.jobTypes = jobTypes;
         $scope.scheduleOptions = scheduleOptions;
         $scope.scheduleTypes = scheduleTypes;
@@ -61,52 +77,58 @@ batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', f
     };
 
     $scope.populateProfileNames = function() {
-        $http.get(OLENG_CONSTANTS.PROFILE_GET_NAMES, {params: {"batchType": $scope.batchProcessCreateTab.batchProcessType}}).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_NAMES, {"batchType": $scope.batchProcessCreateTab.profileType},function(response) {
+            var data = response.data;
             $scope.profileNames = data;
         });
     };
 
     $scope.onChangeJobType = function() {
-        $scope.batchProcessCreateTab.scheduleOption = 'Provide Cron Expression';
-        $scope.batchProcessCreateTab.cronExpression = null;
-        $scope.batchProcessCreateTab.scheduleType = null;
-        $scope.batchProcessCreateTab.scheduleDate = null;
-        $scope.batchProcessCreateTab.weekDay = null;
-        $scope.batchProcessCreateTab.monthDay = null;
-        $scope.batchProcessCreateTab.monthFrequency = null;
-        $scope.batchProcessCreateTab.scheduleTime = null;
+        clearScheduleValues();
     };
 
     $scope.onChangeScheduleOption = function() {
-        $scope.batchProcessCreateTab.cronExpression = null;
-        $scope.batchProcessCreateTab.scheduleType = null;
-        $scope.batchProcessCreateTab.scheduleDate = null;
-        $scope.batchProcessCreateTab.weekDay = null;
-        $scope.batchProcessCreateTab.monthDay = null;
-        $scope.batchProcessCreateTab.monthFrequency = null;
-        $scope.batchProcessCreateTab.scheduleTime = null;
+        $scope.batchSchedule.cronExpression = null;
+        $scope.batchSchedule.scheduleType = null;
+        $scope.batchSchedule.scheduleDate = null;
+        $scope.batchSchedule.weekDay = null;
+        $scope.batchSchedule.monthDay = null;
+        $scope.batchSchedule.monthFrequency = null;
+        $scope.batchSchedule.scheduleTime = null;
     };
+
+    function clearScheduleValues() {
+        $scope.batchSchedule.scheduleOption = 'Provide Cron Expression';
+        $scope.batchSchedule.cronExpression = null;
+        $scope.batchSchedule.scheduleType = null;
+        $scope.batchSchedule.scheduleDate = null;
+        $scope.batchSchedule.weekDay = null;
+        $scope.batchSchedule.monthDay = null;
+        $scope.batchSchedule.monthFrequency = null;
+        $scope.batchSchedule.scheduleTime = null;
+    }
 
     $scope.submit = function () {
         getProfileNameById();
         var batchProcessJob = {
-            "processId": $scope.batchProcessCreateTab.processId,
-            "batchProcessName": $scope.batchProcessCreateTab.batchProcessName,
-            "batchProcessType": $scope.batchProcessCreateTab.batchProcessType,
+            "jobId": $scope.batchProcessCreateTab.jobId,
+            "jobName": $scope.batchProcessCreateTab.jobName,
+            "profileType": $scope.batchProcessCreateTab.profileType,
             "profileId": $scope.batchProcessCreateTab.profileId,
             "profileName": $scope.batchProcessCreateTab.profileName,
             "jobType": $scope.batchProcessCreateTab.jobType,
-            "cronExpression": $scope.batchProcessCreateTab.cronExpression
+            "schedule": getBatchSchedule()
         };
 
-        $http.post(OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob).success(function (data) {
+        angular.element(document.getElementById('submit'))[0].disabled = true;
+        angular.element(document.getElementById('jobType'))[0].disabled = true;
+        angular.element(document.getElementById('profileId'))[0].disabled = true;
+        angular.element(document.getElementById('profileType'))[0].disabled = true;
+        angular.element(document.getElementById('jobName'))[0].disabled = true;
+        doPostRequest($scope, $http, OLENG_CONSTANTS.PROCESS_SUBMIT, batchProcessJob, function (response) {
+            var data = response.data;
             $scope.batchProcessJob = data;
             $scope.initializeJobs();
-            /*if ($scope.batchProcessJob.jobType === 'Adhoc') {
-                $scope.initializeExecutions();
-            } else if ($scope.batchProcessJob.jobType === 'Scheduled') {
-                $scope.initializeJobs();
-            }*/
         });
     };
 
@@ -118,29 +140,104 @@ batchSchedulingApp.controller('batchSchedulingController', ['$scope', '$http', f
         })
     }
 
+    function getBatchSchedule() {
+        var batchSchedule = {
+            scheduleOption: $scope.batchSchedule.scheduleOption,
+            scheduleType: $scope.batchSchedule.scheduleType,
+            scheduleDate: $scope.batchSchedule.scheduleDate,
+            scheduleTime: $scope.batchSchedule.scheduleTime,
+            weekDay: $scope.batchSchedule.weekDay,
+            monthDay: $scope.batchSchedule.monthDay,
+            monthFrequency: $scope.batchSchedule.monthFrequency,
+            cronExpression: $scope.batchSchedule.cronExpression
+        };
+        return batchSchedule;
+    }
+
     function getBatchProcessJobs() {
-        $http.get(OLENG_CONSTANTS.PROCESS_JOBS).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROCESS_JOBS, null, function(response) {
+            var data = response.data;
             $scope.batchProcessJobs = data;
         });
     }
 
     function getBatchJobs() {
-        $http.get(OLENG_CONSTANTS.BATCH_JOBS).success(function(data) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.BATCH_JOBS, null, function(response) {
+            var data = response.data;
             $scope.batchJobs = data;
         });
     }
 
-    $scope.launchJob = function (jobId) {
-        $http.get(OLENG_CONSTANTS.PROCESS_LAUNCH, {params: {"jobId": jobId}}).success(function (data) {
+    $scope.quickLaunchPopUp = function (jobId) {
+        document.getElementById('modalContentId').style.width = '550px';
+        $scope.jobId = jobId;
+        $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
+    };
+
+    $scope.schedulePopUp = function (jobId) {
+        clearScheduleValues();
+        document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
+        $scope.jobId = jobId;
+        $scope.batchSchedule.showModal = !$scope.batchSchedule.showModal;
+    };
+
+    $scope.closeModal = function() {
+        $scope.jobId = null;
+        if ($scope.quickLaunch.showModal) {
+            $scope.quickLaunch.selectedFile = null;
+            document.getElementById('selectedFile').value = null;
+            $scope.quickLaunch.showModal = false;
+        } else if ($scope.batchSchedule.showModal) {
+            $scope.batchSchedule.showModal = false;
+        }
+    };
+
+    $scope.scheduleJob = function() {
+        var fd = new FormData();
+        fd.append('jobId', $scope.jobId);
+        fd.append('file', $scope.batchSchedule.scheduleJobFile);
+        fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
+        doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {
+            var data = response.data;
+            $scope.message = "Job Scheduled";
+            $scope.batchSchedule.showModal = false;
+            $scope.closeModal();
+        });
+        $scope.batchSchedule.showModal = false;
+        $scope.closeModal();
+    };
+
+    $scope.submitQuickLaunchJob = function() {
+        var fd = new FormData();
+        fd.append('jobId', $scope.jobId);
+        fd.append('file', $scope.quickLaunch.selectedFile);
+        doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, function(response) {
+            var data = response.data;
             $scope.message = "Job Launched";
-            $scope.initializeExecutions();
+            $scope.quickLaunch.showModal = false;
+            $scope.closeModal();
+            //$scope.initializeExecutions();
+        });
+        document.getElementById('selectedFile').value = null;
+        $scope.quickLaunch.showModal = false;
+        $scope.closeModal();
+    };
+
+    $scope.destroyJob = function(index,jobId) {
+        var jobIdToDelete = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DESTROY_PROCESS, {"jobId": jobIdToDelete}, function(response) {
+            var data = response.data;
+            $scope.message = "Job Destroyed";
+            $scope.batchProcessJobs.splice(index, 1);
         });
     };
 
-    $scope.destroyJob = function(jobId) {
-        $http.get(OLENG_CONSTANTS.DESTROY_PROCESS, {params: {"jobId": jobId}}).success(function(data) {
-            $scope.message = "Job Destroyed";
-        });
+    $scope.enableAutoRefresh = function() {
+        $interval(function() {
+            if ($scope.selected == 3) {
+                $scope.initializeExecutions()
+            }
+        }, 5000);
     }
 
 }]);

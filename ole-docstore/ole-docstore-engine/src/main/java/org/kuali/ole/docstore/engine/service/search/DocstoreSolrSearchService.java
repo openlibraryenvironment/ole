@@ -840,7 +840,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
         StringBuffer addDocType = new StringBuffer();
         if (searchConditions != null && searchConditions.size() > 0) {
             for (SearchCondition searchCondition : searchConditions) {
-                if (searchCondition.getSearchField() != null && searchCondition.getSearchField().getDocType() != null) {
+                if (searchCondition.getSearchField() != null && StringUtils.isNotBlank(searchCondition.getSearchField().getDocType())) {
                     addDocType.append("(DocType:");
                     addDocType.append(searchCondition.getSearchField().getDocType());
                     addDocType.append(")");

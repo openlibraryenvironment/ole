@@ -68,7 +68,7 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private String existingAddressType;
     private boolean displayRequestType=false;
     private boolean addressUpdated;
-
+    private boolean showOk=false;
     private String requestNote;
 
     private String pickUpLocation;
@@ -504,5 +504,13 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setRequestNote(String requestNote) {
         this.requestNote = requestNote;
+    }
+
+    public boolean isShowOk() {
+        return showOk;
+    }
+
+    public void setShowOk(boolean showOk) {
+        this.showOk = showOk;
     }
 }

@@ -129,7 +129,7 @@
                 <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton"
                       p:methodToCall="clearSearch" p:actionLabel="Clear Values"/>
                 <bean id="itemSearch_cancel_button" parent="Uif-SecondaryActionButton"
-                      p:actionLabel="Cancel" p:actionScript="submitForm('returnToDeliverTab',null,null,null,null);"/>
+                      p:actionLabel="Cancel" p:methodToCall="returnToHub"/>
             </list>
         </property>
     </bean>

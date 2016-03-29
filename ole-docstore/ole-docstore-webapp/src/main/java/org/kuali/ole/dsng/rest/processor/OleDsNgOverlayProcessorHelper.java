@@ -12,8 +12,6 @@ import org.kuali.ole.dsng.rest.handler.holdings.CallNumberTypeHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CopyNumberHandler;
 import org.kuali.ole.dsng.rest.handler.items.*;
 import org.kuali.ole.dsng.rest.handler.items.DonorCodeHandler;
-import org.kuali.ole.dsng.rest.handler.items.DonorNoteHandler;
-import org.kuali.ole.dsng.rest.handler.items.DonorPublicDisplayHandler;
 import org.kuali.ole.dsng.rest.handler.items.StatisticalSearchCodeHandler;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 
@@ -67,13 +65,12 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
             itemMetaDataHandlers.add(new ChronologyHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CopyNumberHandler());
             itemMetaDataHandlers.add(new DonorCodeHandler());
-            itemMetaDataHandlers.add(new DonorNoteHandler());
-            itemMetaDataHandlers.add(new DonorPublicDisplayHandler());
             itemMetaDataHandlers.add(new EnumerationHandler());
             itemMetaDataHandlers.add(new ItemHoldingLocationHandler());
             itemMetaDataHandlers.add(new ItemBarcodeHandler());
             itemMetaDataHandlers.add(new ItemStatusHandler());
             itemMetaDataHandlers.add(new ItemTypeHandler());
+            itemMetaDataHandlers.add(new NoOfPiecesHandler());
             itemMetaDataHandlers.add(new ItemLocationHandler());
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
@@ -110,8 +107,6 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
             eholdingMetaDataHandlers.add(new CurrentSubscriptionEndDateHandler());
             eholdingMetaDataHandlers.add(new CurrentSubscriptionStartDateHandler());
             eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorCodeHandler());
-            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorNoteHandler());
-            eholdingMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorPublicDisplayHandler());
             eholdingMetaDataHandlers.add(new EResourceIdHandler());
             eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
             eholdingMetaDataHandlers.add(new InitialSubscriptionEndDateHandler());
@@ -146,6 +141,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
             holdingHandlers = new ArrayList<Handler>();
             holdingHandlers.add(new CreateHoldingsHanlder());
             holdingHandlers.add(new UpdateHoldingsHandler());
+            holdingHandlers.add(new DiscardHoldingsHandler());
         }
         return holdingHandlers;
     }

@@ -6,7 +6,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,17 +15,16 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class ChronologyHandler extends ItemHandler {
-    private final String TYPE = "Chronology";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.CHRONOLOGY);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String chronology = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String chronology = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CHRONOLOGY);
         List<String> parsedValues = parseCommaSeperatedValues(chronology);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String chronologyValue = iterator.next();
@@ -38,7 +37,7 @@ public class ChronologyHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CHRONOLOGY);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String chronology = listFromJSONArray.get(0);

@@ -1,6 +1,7 @@
 package org.kuali.ole.serviceimpl;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.kuali.ole.OLESruItemHandler;
 import org.kuali.ole.OleSRUConstants;
@@ -415,6 +416,22 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         LOG.info("Inside processInstanceCollectionXml method");
         String sruTrueValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_TRUE_FORMAT);
         String sruFalseValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_FALSE_FORMAT);
+        String availableItemStatus = getParameter(OleSRUConstants.SRU_AVAILABLE_STATUSES);
+        String holdItemStatus = getParameter(OleSRUConstants.SRU_ON_HOLD_STATUSES);
+        List<String> availableItemStatuses = new ArrayList<String>();
+        List<String> holdItemStatuses = new ArrayList<String>();
+
+        if(StringUtils.isNotEmpty(availableItemStatus)){
+            String[] availableStatus =  availableItemStatus.split(";");
+            Collections.addAll(availableItemStatuses, availableStatus);
+        }
+
+
+        if(StringUtils.isNotEmpty(holdItemStatus)){
+            String[] holdStatus =  holdItemStatus.split(";");
+            Collections.addAll(holdItemStatuses, holdStatus);
+        }
+
         InstanceOlemlRecordProcessor instanceOlemlRecordProcessor = new InstanceOlemlRecordProcessor();
         InstanceCollection instanceCollection = instanceOlemlRecordProcessor.fromXML(instanceXml);
         OleSRUInstanceDocument oleSRUInstanceDocument = null;
@@ -464,12 +481,12 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
                             OleSRUCirculationDocument oleSRUCirculationDocument = new OleSRUCirculationDocument();
                             oleSRUCirculationDocument.setItemId(item.getBarcodeARSL());
                             StringBuffer locationName = new StringBuffer();
-                            if (item.getItemStatus() != null && item.getItemStatus().getCodeValue().equalsIgnoreCase(OleSRUConstants.ITEM_STATUS_AVAILABLE)) {
+                            if (item.getItemStatus() != null && availableItemStatuses.contains(item.getItemStatus().getCodeValue())) {
                                 oleSRUCirculationDocument.setAvailableNow(sruTrueValue);
                             } else {
                                 oleSRUCirculationDocument.setAvailableNow(sruFalseValue);
                             }
-                            if (item.getItemStatus() != null && item.getItemStatus().getCodeValue().equalsIgnoreCase(OleSRUConstants.ITEM_STATUS_ONHOLD)) {
+                            if (item.getItemStatus() != null && holdItemStatuses.contains(item.getItemStatus().getCodeValue())) {
                                 oleSRUCirculationDocument.setOnHold(sruTrueValue);
                             } else {
                                 oleSRUCirculationDocument.setOnHold(sruFalseValue);

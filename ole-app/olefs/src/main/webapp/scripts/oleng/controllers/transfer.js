@@ -2,17 +2,19 @@ var app = angular.module("transferApp", ['ngAnimate', 'ngSanitize', 'mgcrea.ngSt
 
 app.controller('searchController', ['$scope', '$http', '$rootScope', searchConditions]);
 function searchConditions($scope, $http, $rootScope) {
-    $scope.pageno = 1;
+    //$scope.pageno = 1;
     $scope.total_count;
     $scope.itemsPerPage = 10;
-    $rootScope.baseUri = '/oledocstore/bib/select?q='
-    $rootScope.searched = true;
-    $scope.rows = 10;
+    $rootScope.solrUri = '/bib/select?q='
+    $rootScope.baseUri;
+    $rootScope.searched = false;
+    $scope.showEntryInfo;
+    //$scope.rows = 10;
     $scope.start = 0;
-    $scope.pageSize = 10;
-    $scope.showNext = false;
-    $scope.showPrevious = false;
-    $scope.totalRecords = 0;
+    //$scope.pageSize = 10;
+    //$scope.showNext = false;
+    //$scope.showPrevious = false;
+    //$scope.totalRecords = 0;
     $scope.searchConditionActivePanel = [0];
     $scope.searchConditionPanel = searchCondition;
     var searchCondition = {
@@ -23,6 +25,28 @@ function searchConditions($scope, $http, $rootScope) {
     var searchResult = {
         collapsed: false
     };
+
+    $scope.init = function () {
+        getUri();
+    };
+
+    function getUri(){
+        $http.get("rest/ngTransferController/url")
+            .success(function (data) {
+                console.log(data.docstoreUrl)
+                $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
+            });
+    }
+
+    $scope.showEntry = '10';
+    $scope.showEntires = [
+        {id: '10', name: '10'},
+        {id: '25', name: '25'},
+        {id: '50', name: '50'},
+        {id: '75', name: '75'},
+        {id: '100', name: '100'}
+    ];
+
     $scope.documentType = 'bibliographic';
     $scope.documentTypes = [
         {id: 'bibliographic', name: 'Bibliographic'},
@@ -166,7 +190,7 @@ function searchConditions($scope, $http, $rootScope) {
     ];
 
     $scope.conditions = [
-        {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'any', operator:'AND'}
+        {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator:'AND'}
     ];
 
     $scope.removeCondition = function (conditionToRemove) {
@@ -177,7 +201,7 @@ function searchConditions($scope, $http, $rootScope) {
     };
 
     $scope.addCondition = function (condition) {
-        $scope.conditions[0] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'any', operator: 'AND'};
+        $scope.conditions[0] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator: 'AND'};
         $scope.conditions.push({value: condition.value, searchScope: condition.searchScope, inDocumentType: condition.inDocumentType, inField: condition.inField, operator:condition.operator});
     };
 
@@ -186,7 +210,7 @@ function searchConditions($scope, $http, $rootScope) {
             condition.value = '';
             condition.searchScope = 'AND';
             condition.inDocumentType = 'bibliographic';
-            condition.inField = 'any'
+            condition.inField = 'all_text'
             condition.operator = 'AND';
         }, "");
     };
@@ -200,19 +224,33 @@ function searchConditions($scope, $http, $rootScope) {
         }, "");
     };
 
+    $scope.searchOnChange = function (showEntry) {
+        $scope.start = 0;
+        $scope.itemsPerPage = showEntry;
+        $scope.total_count;
+        $rootScope.searchResults;
+        $scope.searchResults;
+        searchSolrForResults();
+    };
 
     $scope.search = function () {
+        $scope.start = 0;
+        $scope.itemsPerPage = 10;
+        $scope.total_count;
+        $rootScope.searchResults;
+        $scope.searchResults;
         buildSearchConditionsWithJoin();
-        //searchSolrForResults();
         searchSolrForResults();
     };
 
     function buildSearchConditions(){
-        console.log($scope.conditions.length);
-        $scope.searchQuery= "(DocType:" + $scope.documentType + ') AND (';
+        $scope.searchQuery = "(DocType:" + $scope.documentType + ') AND (';
         var queryCondition = new String();
         if($scope.conditions.length == 1 && $scope.conditions[0].value==''){
             $scope.searchQuery = $scope.searchQuery+ '*:*)'
+        }else if($scope.conditions.length == 1 && $scope.conditions[0].value != ''){
+            var query = new String();
+            $scope.searchQuery = $scope.searchQuery + query.concat("("+ $scope.conditions[0].inField, ":", $scope.conditions[0].value, "))" );
         }else{
             angular.forEach($scope.conditions, function (condition) {
                 var index = $scope.conditions.indexOf(condition);
@@ -220,12 +258,8 @@ function searchConditions($scope, $http, $rootScope) {
                     var query = new String();
                     queryCondition = queryCondition + query.concat("("+ condition.inField, ":", condition.value, ")" );
                     if(index!= $scope.conditions.length-1){
-                        console.log(index!= $scope.conditions.length-1);
                         queryCondition = queryCondition + query.concat(condition.searchScope);
                     }
-                    /*if($scope.conditions.length==2){
-                        $scope.searchQuery = $scope.searchQuery + queryCondition + ")";
-                    }*/
                 }
             }, "");
             if($scope.conditions.length >= 2){
@@ -243,14 +277,10 @@ function searchConditions($scope, $http, $rootScope) {
         angular.forEach($scope.conditions, function (condition) {
             if(condition.inDocumentType == $scope.documentType && condition.value!= ''){
                 $scope.nonCrossDocTypeCondition.push(condition);
-            }else if(condition.inDocumentType != $scope.documentType) {
+            }else if(condition.inDocumentType != $scope.documentType && condition.value!= '') {
                 $scope.crossDocTypeCondition.push(condition);
             }
         }, "");
-
-        console.log($scope.nonCrossDocTypeCondition.length);
-        console.log($scope.crossDocTypeCondition.length);
-        console.log($scope.nonCrossDocTypeCondition.length >= 0 && $scope.crossDocTypeCondition.length == 0);
 
         if($scope.crossDocTypeCondition.length > 0){
 
@@ -265,7 +295,7 @@ function searchConditions($scope, $http, $rootScope) {
                 if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'holdings'){
 
                     if(joinQuery.indexOf('holdingsIdentifier}(DocType:holdings)') ==-1){
-                        joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND((');
+                        joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND(');
                         joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
                     }else{
                         joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
@@ -284,12 +314,9 @@ function searchConditions($scope, $http, $rootScope) {
                     if(joinQuery.indexOf('itemIdentifier}(DocType:item)') ==-1){
                         joinQuery = joinQuery.concat('itemIdentifier}(DocType:item)AND(');
                         joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
-                        console.log(joinQuery);
                     }else{
                         joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
                     }
-
-                    console.log(joinQuery);
 
                     var index = $scope.crossDocTypeCondition.indexOf(condition);
                     if(index == $scope.crossDocTypeCondition.length-1){
@@ -299,11 +326,10 @@ function searchConditions($scope, $http, $rootScope) {
                         }
                     }
 
-                    console.log(joinQuery);
                 }else if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'bibliographic'){
 
                     if(joinQuery.indexOf('bibIdentifier}(DocType:bibliographic)') ==-1){
-                        joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND((');
+                        joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND(');
                         joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
                     }else{
                         joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
@@ -333,9 +359,8 @@ function searchConditions($scope, $http, $rootScope) {
                 }
             }, "");
 
-            console.log(joinQuery);
-
             $scope.searchQuery = joinQuery;
+            console.log($scope.searchQuery);
 
         } else if($scope.nonCrossDocTypeCondition.length >= 0 && $scope.crossDocTypeCondition.length == 0){
             buildSearchConditions();
@@ -345,49 +370,49 @@ function searchConditions($scope, $http, $rootScope) {
     }
 
     /*function searchSolr(){
-        //var url = " DocType:" + condition.inDocumentType;
-        var url = $scope.searchQuery;
-        $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
-            success(function (data) {
-                $scope.totalRecords = data.response.numFound;
-                vm.total_count = data.response.numFound;
-                $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.totalRecords).
-                    success(function (data) {
-                        //console.log(data.response.docs);
-                        $rootScope.searchResults = data.response.docs;
-                        vm.searchResults = data.response.docs;
-                        $rootScope.searched = false;
-                        paginate();
-                    });
+     //var url = " DocType:" + condition.inDocumentType;
+     var url = $scope.searchQuery;
+     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
+     success(function (data) {
+     $scope.totalRecords = data.response.numFound;
+     vm.total_count = data.response.numFound;
+     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.totalRecords).
+     success(function (data) {
+     //console.log(data.response.docs);
+     $rootScope.searchResults = data.response.docs;
+     vm.searchResults = data.response.docs;
+     $rootScope.searched = false;
+     paginate();
+     });
 
-            });
+     });
 
-    }*/
+     }*/
 
     function searchSolrForResults(){
         //var url = " DocType:" + condition.inDocumentType;
         var url = $scope.searchQuery;
         console.log(url);
         //$timeout(function(){
-                /*$http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
-                    success(function (data) {
-                        $scope.totalRecords = data.response.numFound;
-                        $scope.total_count = data.response.numFound;
-                        console.log($scope.total_count);*/
-                        console.log($rootScope.baseUri + url + '&wt=json&rows=' + $scope.itemsPerPage);
-                        $http.get($rootScope.baseUri + url + '&wt=json&rows=' + $scope.itemsPerPage).
-                            success(function (data) {
-                                //console.log(data.response.docs);
-                                //$scope.totalRecords = data.response.numFound;
-                                $scope.total_count = data.response.numFound;
-                                $rootScope.searchResults = data.response.docs;
-                                $scope.searchResults = data.response.docs;
-                                //vm.searchResults = data.response.docs;
-                                //console.log(vm.searchResults);
-                                $rootScope.searched = false;
-                                paginate();
-                            });
-                    //});
+        /*$http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
+         success(function (data) {
+         $scope.totalRecords = data.response.numFound;
+         $scope.total_count = data.response.numFound;
+         console.log($scope.total_count);*/
+        console.log($rootScope.baseUri + url + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start);
+        $http.get($rootScope.baseUri + url + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
+            success(function (data) {
+                //console.log(data.response.docs);
+                //$scope.totalRecords = data.response.numFound;
+                $scope.total_count = data.response.numFound;
+                $rootScope.searchResults = data.response.docs;
+                $scope.searchResults = data.response.docs;
+                $rootScope.searched = true;
+                $scope.showEntryInfo = 'Showing ' + parseInt($scope.start + 1) + ' to ' + $scope.itemsPerPage + ' of ' + $scope.total_count +' entries'
+                //paginate();
+
+            });
+        //});
         //},5000,false);
     }
 
@@ -396,62 +421,60 @@ function searchConditions($scope, $http, $rootScope) {
         $scope.searchResults;
         var url = $scope.searchQuery;
         $scope.start = (pageNo * $scope.itemsPerPage) - $scope.itemsPerPage;
-        console.log($scope.start);
-             /*$http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
+        $http.get($rootScope.baseUri + url + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
             success(function (data) {
-                $scope.totalRecords = data.response.numFound;
-                $scope.total_count = data.response.numFound;*/
-                $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
-                    success(function (data) {
-                        $rootScope.searchResults = data.response.docs;
-                        $scope.searchResults = data.response.docs;
-                        $rootScope.searched = false;
-                        //paginate();
-                    });
-            //});
+                $rootScope.searchResults = data.response.docs;
+                $scope.searchResults = data.response.docs;
+                $rootScope.searched = true;
+                var displayedItems;
+                if(parseInt($scope.start + $scope.itemsPerPage) < $scope.total_count){
+                    displayedItems = parseInt($scope.start + $scope.itemsPerPage);
+                }else{
+                    displayedItems = $scope.total_count;
+                }
+                $scope.showEntryInfo = 'Showing ' + parseInt($scope.start + 1) + ' to ' + displayedItems + ' of ' + $scope.total_count +' entries'
+            });
     }
 
-    $scope.previous = function () {
-        //searchResult previous
-        angular.forEach($scope.conditions, function (condition) {
-            $scope.start = $scope.start - $scope.pageSize;
-            var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
-                success(function (data) {
-                    //console.log(data.response.docs);
-                    $rootScope.searchResults = data.response.docs;
-                    $rootScope.searched = false;
-                    paginate();
-                });
-        }, "");
-    };
+    /*$scope.previous = function () {
+     //searchResult previous
+     angular.forEach($scope.conditions, function (condition) {
+     $scope.start = $scope.start - $scope.pageSize;
+     var url = " DocType:" + condition.inDocumentType;
+     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
+     success(function (data) {
+     $rootScope.searchResults = data.response.docs;
+     $rootScope.searched = false;
+     paginate();
+     });
+     }, "");
+     };
 
-    $scope.next = function () {
-        //searchResult next
-        $scope.start = $scope.start + $scope.pageSize;
-        angular.forEach($scope.conditions, function (condition) {
-            var url = " DocType:" + condition.inDocumentType;
-            $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
-                success(function (data) {
-                    //console.log(data.response.docs);
-                    $rootScope.searchResults = data.response.docs;
-                    $rootScope.searched = false;
-                    paginate();
-                });
-        }, "");
-    };
+     $scope.next = function () {
+     //searchResult next
+     $scope.start = $scope.start + $scope.pageSize;
+     angular.forEach($scope.conditions, function (condition) {
+     var url = " DocType:" + condition.inDocumentType;
+     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&start=' + $scope.start).
+     success(function (data) {
+     $rootScope.searchResults = data.response.docs;
+     $rootScope.searched = false;
+     paginate();
+     });
+     }, "");
+     };
 
-    function paginate(){
-        if( $scope.start > 0){
-            $scope.showPrevious = true;
-        }else{
-            $scope.showPrevious = false;
-        }
-        if($scope.start + $scope.pageSize <= $scope.totalRecords){
-            $scope.showNext = true;
-        }else{
-            $scope.showNext = false;
-        }
-    }
+     function paginate(){
+     if( $scope.start > 0){
+     $scope.showPrevious = true;
+     }else{
+     $scope.showPrevious = false;
+     }
+     if($scope.start + $scope.pageSize <= $scope.totalRecords){
+     $scope.showNext = true;
+     }else{
+     $scope.showNext = false;
+     }
+     }*/
 
 };

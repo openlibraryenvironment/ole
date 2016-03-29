@@ -11,7 +11,7 @@
   <param name="config.location">classpath:${project.groupId.path}/jdbc-rice-properties.xml</param>
 
   <!--Additional Spring files -->
-  <param name="spring.source.files" override="false">classpath:org/kuali/ole/spring-ole-imported-rice-beans.xml,classpath:org/kuali/ole/spring-additional-rice-beans.xml,classpath:org/kuali/rice/core/CommonSpringBeans.xml,classpath:org/kuali/ole/KRMSLocalSpringBeans.xml,classpath:org/kuali/ole/ole-cache-config.xml,classpath:org/kuali/ole/sys/spring-sys.xml,classpath:org/kuali/ole/coa/spring-coa.xml,classpath:org/kuali/ole/fp/spring-fp.xml,classpath:org/kuali/ole/gl/spring-gl.xml,classpath:org/kuali/ole/pdp/spring-pdp.xml,classpath:org/kuali/ole/vnd/spring-vnd.xml,classpath:org/kuali/ole/spring-ole-batch.xml,classpath:org/kuali/ole/integration/spring-integration.xml,classpath:org/kuali/ole/module/cg/spring-cg.xml,classpath:org/kuali/ole/module/purap/spring-purap.xml,classpath:org/kuali/ole/select/spring-select.xml,classpath:org/kuali/ole/ole-SpringBeans.xml,classpath:org/kuali/ole/deliver/spring-deliver.xml,classpath:org/kuali/ole/describe/spring-describe.xml,classpath:org/kuali/ole/batch/spring-batch.xml,classpath:org/kuali/ole/ncip/spring-ncip.xml,classpath:org/kuali/ole/olekrad/spring-olekrad.xml</param>
+  <param name="spring.source.files" override="false">classpath:org/kuali/ole/spring-ole-imported-rice-beans.xml,classpath:org/kuali/ole/spring-additional-rice-beans.xml,classpath:org/kuali/rice/core/CommonSpringBeans.xml,classpath:org/kuali/ole/KRMSLocalSpringBeans.xml,classpath:org/kuali/ole/ole-cache-config.xml,classpath:org/kuali/ole/sys/spring-sys.xml,classpath:org/kuali/ole/coa/spring-coa.xml,classpath:org/kuali/ole/fp/spring-fp.xml,classpath:org/kuali/ole/gl/spring-gl.xml,classpath:org/kuali/ole/pdp/spring-pdp.xml,classpath:org/kuali/ole/vnd/spring-vnd.xml,classpath:org/kuali/ole/spring-ole-batch.xml,classpath:org/kuali/ole/integration/spring-integration.xml,classpath:org/kuali/ole/module/cg/spring-cg.xml,classpath:org/kuali/ole/module/purap/spring-purap.xml,classpath:org/kuali/ole/select/spring-select.xml,classpath:org/kuali/ole/ole-SpringBeans.xml,classpath:org/kuali/ole/deliver/spring-deliver.xml,classpath:org/kuali/ole/describe/spring-describe.xml,classpath:org/kuali/ole/batch/spring-batch.xml,classpath:org/kuali/ole/ncip/spring-ncip.xml,classpath:org/kuali/ole/olekrad/spring-olekrad.xml,classpath:org/kuali/ole/gobi/spring-gobi.xml</param>
   <param name="rice.core.additionalSpringFiles" override="false"></param>
   <param name="rice.coreservice.additionalSpringFiles" override="false"></param>
   <param name="rice.kr.additionalSpringFiles" override="false">classpath:org/kuali/ole/spring-rice-krad-overrides.xml</param>
@@ -414,7 +414,7 @@
 
     <!--OLE Feedback Link-->
     <param name="ole.provide.feedback.link.text">Provide Feedback</param>
-    <param name="ole.provide.feedback.link">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10792</param>
+    <param name="ole.provide.feedback.link">https://openlibraryenvironment.atlassian.net/secure/CreateIssue.jspa?pid=10792</param>
 
     <!--Describe related params-->
     <param name="ole.docstore.url">${ole.docstore.url.base}/discovery</param>
@@ -452,8 +452,8 @@
     <param name="transaction.timeout" override="false">100000</param>
     <param name="batch.transaction.timeout" override="false">500000</param>
     <param name="batch.delete.directory">${staging.directory}/batchDelete</param>
-    <!--<param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>-->
-    <!--<param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>-->
+    <param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>
+    <param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>
     <param name="batch.gokbImport.directory">${staging.directory}/batchGOKbImport</param>
     <param name="batch.patron.directory">${staging.directory}/batchPatron</param>
     <param name="batch.location.directory">${staging.directory}/batchLocation</param>
@@ -478,7 +478,7 @@
     <param name="sip2.port">21711</param>
     <param name="sip2.startOnLoad">false</param>
     <param name="sip2.url">${application.url}</param>
-    
+
     <!-- This parameter is used to set solr max page size for the batch job 'updateStatusIntoAvailableAfterReShelvingJob' -->
     <param name="solr.max.page.size.for.update.item.status.job">100000</param>
 
@@ -492,14 +492,13 @@
 
     <param name="ole.reports.url">${ole.reports.url.base}</param>
 
-  <param name="batch.invoice.import.pending.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.invoice.import.done.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.invoice.import.problem.directory">${staging.directory}/batch/invoice</param>
-  <param name="batch.order.import.pending">${staging.directory}/batch/ordder</param>
-  <param name="batch.order.import.done">${staging.directory}/batch/ordder</param>
-  <param name="batch.order.import.problem">${staging.directory}/batch/ordder</param>
-  <param name="batch.bib.import.pending.directory">${staging.directory}/batch/bib</param>
-  <param name="batch.bib.import.done.directory">${staging.directory}/batch/bib</param>
-  <param name="batch.bib.import.problem.directory">${staging.directory}/batch/bib</param>
+  <param name="solr.core.name">bib</param>
+  <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
 
+
+  <param name="report.directory">${project.home}/reports</param>
+
+    <!-- Config for OCLC -->
+    <param name="oclc.port">10001</param>
+    <param name="oclc.url">${application.url}</param>
 </config>

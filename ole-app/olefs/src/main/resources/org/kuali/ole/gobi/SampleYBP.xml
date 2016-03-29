@@ -1,0 +1,2008 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim" xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00407nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780748636358</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">WHONG, MELINDA</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">LANGUAGE TEACHING : LINGUISTIC THEORY IN PRACTICE.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">EDINBURGH</subfield>
+      <subfield code="b">EDINBURGH UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">65</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">32.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744781</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">CM</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100552240</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00471nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780521734325</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">WATT, ADAM A. (ADAM ANDREW), 1979-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE INTRODUCTION TO MARCEL PROUST.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE</subfield>
+      <subfield code="b">CAMBRIDGE UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE INTRODUCTIONS TO LITERATURE.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">19.99</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744801</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3588594</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00452nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9783110251623</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">FROM SCHOLARS TO SCHOLIA : CHAPTERS IN THE HISTORY OF ANCIENT GREEK SCHOLARSHIP</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">BERLIN</subfield>
+      <subfield code="b">DE GRUYTER</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">TRENDS IN CLASSICS--SUPPLEMENTARY VOLUMES.9</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">120.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744802</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3593743</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00509nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780415880381</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">MODENA, LETIZIA</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ITALO CALVINO'S ARCHITECTURE OF LIGHTNESS : THE UTOPIAN IMAGINATION IN AN AGE OF URBAN CRISIS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">NEW YORK</subfield>
+      <subfield code="b">ROUTLEDGE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">ROUTLEDGE STUDIES IN TWENTIETH-CENTURY LITERATURE.17</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">125.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744803</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3482712</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00444nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781843911937</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">DE AMICIS, EDMONDO, 1846-1908</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">LOVE AND GYMNASTICS; TRANS. BY DAVID CHAPMAN.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">HESPERUS PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">HESPERUS CLASSICS.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">14.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744804</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100525961</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00436nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780674059047</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">OVID, 43 B.C.-17 OR 18 A.D</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">LOVE POEMS, LETTERS, AND REMEDIES OF OVID; TRANS. BY DAVID R. SLAVITT.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE</subfield>
+      <subfield code="b">HARVARD UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">26.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744805</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3569064</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00412nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780199580781</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">LEPORE, ERNEST, 1950-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">MEANING, MIND, AND MATTER : PHILOSOPHICAL ESSAYS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">OXFORD</subfield>
+      <subfield code="b">OXFORD UNIVERSITY PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">65.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744806</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3460560</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00491nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781846822735</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">HARVEY, CAROL J., 1941-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">MEDIEVAL FRENCH MIRACLE PLAYS : SEVEN FALSELY ACCUSED WOMEN.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">DUBLIN</subfield>
+      <subfield code="b">FOUR COURTS PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">DUBLIN STUDIES IN MEDIEVAL AND RENAISSANCE LITERATURE.4</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">50.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744807</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3650208</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00448nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780521118903</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">NEWARK, CORMAC, 1972-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">OPERA IN THE NOVEL FROM BALZAC TO PROUST.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE</subfield>
+      <subfield code="b">CAMBRIDGE UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE STUDIES IN OPERA.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">90.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744808</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3588562</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00493nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781421400648</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">AESCHYLUS</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">PERSIANS, SEVEN AGAINST THEBES, AND SUPPLIANTS; TRANS. BY AARON POOCHIGIAN.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">BALTIMORE</subfield>
+      <subfield code="b">JOHNS HOPKINS UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">JOHNS HOPKINS NEW TRANSLATIONS FROM ANTIQUITY.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">25.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744809</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3605615</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00441nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780819570703</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">CESAIRE, AIME</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">SOLAR THROAT SLASHED : THE UNEXPURGATED 1948 EDITION.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">MIDDLETOWN</subfield>
+      <subfield code="b">WESLEYAN UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">WESLEYAN POETRY.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">26.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744810</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3634757</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00390nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780521134781</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">SOPHOCLES</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">SOPHOCLES' ANTIGONE : A NEW TRANSLATION</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CAMBRIDGE</subfield>
+      <subfield code="b">CAMBRIDGE UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">12.99</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744811</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3587434</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00478nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781409400622</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">BLACK, ROBERT, 1946-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">STUDIES IN RENAISSANCE HUMANISM AND POLITICS : FLORENCE AND AREZZO.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">FARNHAM</subfield>
+      <subfield code="b">VARIORUM ASHGATE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">VARIORUM COLLECTED STUDIES SERIES.969</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">165.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744812</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3618923</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00533nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781433113635</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">DIDEROT, DENIS, 1713-1784</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">TWO PLAYS BY DENIS DIDEROT : THE ILLEGITIMATE SON AND THE FATHER OF THE FAMILY; TRANS. BY KIKI GOUNAR</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">BERLIN</subfield>
+      <subfield code="b">PETER LANG</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">CURRENTS IN COMPARATIVE ROMANCE LANGUAGES AND LITERATURES.188</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">73.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744813</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3635494</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00370nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780802144423</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">BECKETT, SAMUEL, 1906-1989</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">WAITING FOR GODOT.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">NEW YORK</subfield>
+      <subfield code="b">GROVE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">37</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">14.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744814</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3615687</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00439nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781421400075</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">APOLLINAIRE, GUILLAUME, 1880-1918</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">BESTIARY, OR, PROCESSION OF ORPHEUS; TRANS. BY X.J. KENNEDY.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">BALTIMORE</subfield>
+      <subfield code="b">JOHNS HOPKINS UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">19.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744875</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3605463</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00427nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781604862058</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">TAIBO, PACO IGNACIO, 1949-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">CALLING ALL HEROES : A MANUAL FOR TAKING POWER; TRANS. BY GREGORY NIPPER.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">OAKLAND</subfield>
+      <subfield code="b">PM PRESS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">12.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744876</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3602381</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00392nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781933996202</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">DOPPELT, SUZANNE</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">FIELD IS LETHAL; TRANS. BY COLE SWENSON.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">DENVER</subfield>
+      <subfield code="b">COUNTERPATH PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">14.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744877</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3602109</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00465nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781840027617</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">RACINE, JEAN, 1639-1699</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">THREE PLAYS : BRITANNICUS/BERENICE/PHEDRA; TRANS. BY ROBERT DAVID MACDONALD.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">OBERON BOOKS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">OBERON CLASSICS.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">29.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744878</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100468756</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00467nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781847491541</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">CHATEAUBRIAND, FRANCOIS-RENE, COMTE DE, 1768-1848</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ATALA/RENE; TRANS. BY RAYNER HEPPENSTALL.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">RICHMOND</subfield>
+      <subfield code="b">ONEWORLD PUBLICATIONS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">ONEWORLD CLASSICS.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">12.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744879</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3640209</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00374nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781553801122</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">ISRAEL, INGE</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">BECKETT SOUNDINGS : POEMS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">VANCOUVER</subfield>
+      <subfield code="b">RONSDALE PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">15.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744880</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3646309</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00423nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781903517925</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">GERMAIN, SYLVIE, 1954-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">HIDDEN LIVES; TRANS. BY MIKE MITCHELL.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CAMBS</subfield>
+      <subfield code="b">DEDALUS LTD</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">DEDALUS EUROPE.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">15.99</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744881</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100525565</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00437nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780896727212</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">LISBOA, ADRIANA, 1970-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">HUT OF FALLEN PERSIMMONS; TRANS. BY SARAH GREEN.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LUBBOCK</subfield>
+      <subfield code="b">TEXAS TECH UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">AMERICAS.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">24.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744882</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3632207</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00395nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9789881909046</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">MARTEL, D. DE</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">SILHOUETTES OF PEKING; TRANS. BY D. DE WARZEE.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">HONG KONG</subfield>
+      <subfield code="b">EARNSHAW BOOKS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">14.99</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744883</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3599747</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00400nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781442641242</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">PYRHONEN, HETA</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">BLUEBEARD GOTHIC : JANE EYRE AND ITS PROGENY.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">TORONTO</subfield>
+      <subfield code="b">UNIV OF TORONTO PRESS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">65.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745032</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3125019</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00441nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781442610408</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">CHO, LILY</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">EATING CHINESE : CULTURE ON THE MENU IN SMALL TOWN CANADA.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">TORONTO</subfield>
+      <subfield code="b">UNIV OF TORONTO PRESS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">CULTURAL SPACES.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">24.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745033</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3123954</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00397nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780786460748</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">MORTON, LISA, 1958-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">HALLOWEEN ENCYCLOPEDIA.</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">2ND ED.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">JEFFERSON</subfield>
+      <subfield code="b">MCFARLAND</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">75.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745034</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3540433</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00394nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780813124896</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">BIAL, RAYMOND</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">SHAKER VILLAGE.</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">REV. ED.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LEXINGTON</subfield>
+      <subfield code="b">UNIV PR OF KENTUCKY</subfield>
+      <subfield code="c">2008</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">24.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745035</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">2774449</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00456nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780199590353</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">IRWIN, ROBERT</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">VISIONS OF THE JINN : ILLUSTRATORS OF THE ARABIAN NIGHTS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">ARCADIAN LIBRARY</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">STUDIES IN THE ARCADIAN LIBRARY.7</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">225.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745036</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3608384</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00453nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781442610675</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">STRANGELOVE, MICHAEL</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">WATCHING YOUTUBE : EXTRAORDINARY VIDEOS BY ORDINARY PEOPLE.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">TORONTO</subfield>
+      <subfield code="b">UNIV OF TORONTO PRESS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">DIGITAL FUTURES.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">35</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">29.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745037</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3123944</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00497nam  2200169z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780313385797</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">CHAPMAN, BERT</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">GEOPOLITICS : A GUIDE TO THE ISSUES.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">SANTA BARBARA</subfield>
+      <subfield code="b">PRAEGER</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">CONTEMPORARY MILITARY, STRATEGIC, AND SECURITY ISSUES.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">43</subfield>
+    </datafield>
+    <datafield tag="961" ind1=" " ind2=" ">
+      <subfield code="d">Notify: malcomb@indiana.edu</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">49.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745053</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3538471</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00438nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781458825568</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">FOBES, WALTER K</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ELOCUTION SIMPLIFIED : WITH AN APPENDIX ON LISPING, STAMMERING, STUTTERING, AND OTHER DEFECTS OF...</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="b">GENERAL BOOKS</subfield>
+      <subfield code="c">2010</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">50</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">11.47</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745216</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3244868</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00416nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780763779757</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">COMMUNICATION SCIENCES AND DISORDERS : FROM SCIENCE TO CLINICAL PRACTICE</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">2ND ED.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">SUDBURY</subfield>
+      <subfield code="b">JONES &amp; BARTLETT</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">50</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">102.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943745217</subfield>
+      <subfield code="b">524010</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3107685</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00393nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781442208377</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">SHERMIS, MARK D., 1953-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">CLASSROOM ASSESSMENT IN ACTION.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LANHAM</subfield>
+      <subfield code="b">ROWMAN &amp; LITTLEFIELD</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">75.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744912</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3586758</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00512nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781611226478</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">WIGGAN, GREG</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">EDUCATION IN A STRANGE LAND : GLOBALIZATION, URBANIZATION AND URBAN SCHOOLS--THE SOCIAL AND EDUCATION</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">NEW YORK</subfield>
+      <subfield code="b">NOVA SCIENCE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">EDUCATION IN A COMPETITIVE AND GLOBALIZING WORLD.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">43.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744913</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3538595</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00466nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9789400706644</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">ZAMBRANA-ORTIZ, NELLIE J</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">PEDAGOGY IN (E)MOTION : RETHINKING SPACES AND RELATIONS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">DORDRECHT</subfield>
+      <subfield code="b">SPRINGER</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">EXPLORATIONS OF EDUCATIONAL PURPOSE.16</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">139.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744914</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3630640</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00406nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781412981163</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">COOKSON, PETER W</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">SACRED TRUST : A CHILDREN'S EDUCATION BILL OF RIGHTS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">THOUSAND OAKS</subfield>
+      <subfield code="b">CORWIN SAGE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">31.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744915</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3622188</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00421nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781433112911</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">TEACHER LEADERSHIP : THE "NEW" FOUNDATIONS OF TEACHER EDUCATION: A READER</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">NEW YORK</subfield>
+      <subfield code="b">PETER LANG</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">COUNTERPOINTS.408</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">55.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744916</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3670604</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00478nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781441975812</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">THEORIES OF LEARNING AND STUDIES OF INSTRUCTIONAL PRACTICE</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">NEW YORK</subfield>
+      <subfield code="b">SPRINGER</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">EXPLORATIONS IN THE LEARNING SCIENCES, INSTRUCTIONAL SYSTEMS AND PERFORMANCE TECHNOLOGIES.</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">179.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744917</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3532279</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00400nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781849206013</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">KNOWLES, GIANNA</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">DIVERSITY, EQUALITY AND ACHIEVEMENT IN EDUCATION.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">SAGE PUBLICATIONS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">39.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744918</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3645489</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00399nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780826499776</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">BATES, JANE (JANE E.)</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">EDUCATION POLICY, PRACTICE AND THE PROFESSIONAL.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">CONTINUUM</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">39.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744919</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100555595</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00412nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781441188861</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">DIXIE, GERERD</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ULTIMATE TEACHING MANUAL : A ROUTE TO SUCCESS FOR BEGINNING TEACHERS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">CONTINUUM</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">34.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744920</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100555702</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00443nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781118091333</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ASSESSING COMPLEX GENERAL EDUCATION STUDENT LEARNING OUTCOMES</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">SAN FRANCISCO</subfield>
+      <subfield code="b">JOSSEY-BASS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">NEW DIRECTIONS FOR INSTITUTIONAL RESEARCH.149</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">29.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744986</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">4240376</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00422nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781405190053</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">COMPANION TO THE ANTHROPOLOGY OF EDUCATION</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">CHICHESTER</subfield>
+      <subfield code="b">WILEY-BLACKWELL</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">BLACKWELL COMPANIONS TO ANTHROPOLOGY.12</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">199.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744987</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100561735</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00396nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781849204712</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">HAYTHORNTHWAITE, CAROLINE A</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">E-LEARNING THEORY AND PRACTICE.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">SAGE PUBLICATIONS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">43.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744988</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100557612</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00344nam  2200133z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781849201742</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">LEADERSHIP AND LEARNING</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">SAGE PUBLICATIONS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">42.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744989</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100557606</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00473nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9789460913839</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">WAIN, KENNETH</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">ON ROUSSEAU : AN INTRODUCTION TO HIS RADICAL THINKING ON EDUCATION AND POLITICS.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">ROTTERDAM</subfield>
+      <subfield code="b">SENSE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">KEY CRITICAL THINKERS IN EDUCATION.3</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">49.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744990</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">5413492</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00456nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9789400705692</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">PROMOTING SOCIAL JUSTICE FOR YOUNG CHILDREN : ADVANCES IN THEORY AND RESEARCH, IMPLICATIONS FOR PRACT</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">BERLIN</subfield>
+      <subfield code="b">SPRINGER</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="490" ind1=" " ind2=" ">
+      <subfield code="a">EDUCATING THE YOUNG CHILD.3</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">139.00</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744991</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3630618</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00403nam  2200157z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780415583367</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">COHEN, LOUIS, 1928-</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">RESEARCH METHODS IN EDUCATION.</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">7TH ED.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">ROUTLEDGE</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">46.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744992</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100550239</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00443nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781579225964</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">WHITE TEACHERS/DIVERSE CLASSROOMS : CREATING INCLUSIVE SCHOOLS, BUILDING ON STUDENTS' DIVERSITY, AND</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">2ND ED.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">DULLES</subfield>
+      <subfield code="b">STYLUS PUBLISHING</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">27</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">29.95</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744993</subfield>
+      <subfield code="b">524014</subfield>
+      <subfield code="d">Paper</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">US</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">3630733</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00405nam  2200145z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9781906694999</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">CLAUDEL, PHILIPPE</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">MONSIEUR LINH AND HIS CHILD; TRANS. BY EUAN CAMERON.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">LONDON</subfield>
+      <subfield code="b">MACLEHOSE PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="960" ind1=" " ind2=" ">
+      <subfield code="a">21</subfield>
+    </datafield>
+    <datafield tag="980" ind1=" " ind2=" ">
+      <subfield code="b">19.19</subfield>
+      <subfield code="q">1</subfield>
+    </datafield>
+    <datafield tag="982" ind1=" " ind2=" ">
+      <subfield code="a">99943744884</subfield>
+      <subfield code="b">524061</subfield>
+      <subfield code="d">Cloth</subfield>
+      <subfield code="f">JLL</subfield>
+    </datafield>
+    <datafield tag="984" ind1=" " ind2=" ">
+      <subfield code="a">20110629</subfield>
+      <subfield code="c">UK</subfield>
+    </datafield>
+    <datafield tag="987" ind1=" " ind2=" ">
+      <subfield code="a">100549374</subfield>
+    </datafield>
+  </record>
+</collection>

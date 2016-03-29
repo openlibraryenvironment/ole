@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="refundRecordConfirmation" parent="Uif-DialogGroup">
+        <property name="promptText" value="Recording a refund"/>
+        <property name="availableResponses">
+            <list>
+
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="refundRecordConfirmation_id" parent="Uif-DataField" p:propertyName="patronId" p:label="Patron ID" />
+                <bean id="refundRecordConfirmation-firstName" parent="Uif-DataField" p:propertyName="olePatronDocument.firstName" p:label="First Name" />
+                <bean id="refundRecordConfirmation-lastName" parent="Uif-DataField" p:propertyName="olePatronDocument.lastName" p:label="Last Name" />
+                <bean id="refundRecordConfirmation_amountRemaining" parent="Uif-DataField" p:propertyName="amountDetails.amountRemaining" p:label="Amount Remaining"  />
+                <bean id="refundRecordConfirmation_refundAmount_inputFields" parent="Uif-InputField" p:propertyName="refundAmountToPatron"  p:required="true" p:label="Enter Refund Amount" />
+                <bean id="refundRecordConfirmation_radioButtons" parent="Uif-InputField" p:propertyName="refundType" p:label="Refund Type" p:defaultValue="immediately">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="immediately" p:value="immediately"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="later" p:value="later"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="recordRefundBtnSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="recordRefundBtnSection" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="recordingRefundOKButton" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:100px"
+                      p:methodToCall="refundToPatron"/>
+                <bean id="recordingRefundCancelButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Proceed" p:style="width:100px"
+                     p:methodToCall="noRefund"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -15,8 +15,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
-import org.kuali.ole.dsng.rest.handler.Handler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,7 @@ public class OleDsNgOverlayProcessor_IT extends DocstoreTestCaseBase {
 
         JSONObject holdingsDta = new JSONObject();
         JSONObject matchpointsForHoldings = new JSONObject();
-        matchpointsForHoldings.put(Handler.LOCATION_LEVEL_1, "UC");
+        matchpointsForHoldings.put(OleNGConstants.BatchProcess.LOCATION_LEVEL_1, "UC");
         holdingsDta.put(OleNGConstants.MATCH_POINT, matchpointsForHoldings);
         JSONArray dataMappingsForHoldings = new JSONArray();
         JSONArray callNumbers = new JSONArray();
@@ -190,7 +189,7 @@ public class OleDsNgOverlayProcessor_IT extends DocstoreTestCaseBase {
 
         JSONObject eholdingsDta = new JSONObject();
         JSONObject matchpointsForEHoldings = new JSONObject();
-        matchpointsForEHoldings.put(Handler.LOCATION_LEVEL_1, "UC");
+        matchpointsForEHoldings.put(OleNGConstants.BatchProcess.LOCATION_LEVEL_1, "UC");
         eholdingsDta.put(OleNGConstants.MATCH_POINT, matchpointsForEHoldings);
         JSONArray dataMappingsForEHoldings = new JSONArray();
         JSONArray callNumbers = new JSONArray();

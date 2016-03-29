@@ -18,7 +18,6 @@
 <%@ attribute name="riceUrl" required="false" type="java.lang.String"%>
 <td class="content" valign="top">
    <oleAdminChannel:oleBatchProcessing/>
-   <oleAdminChannel:oleNewBatch/>
 </td>
 <td class="content" valign="top">
     <oleAdminChannel:oleMonitoring/>

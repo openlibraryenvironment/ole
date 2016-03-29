@@ -182,7 +182,7 @@ public abstract class AbstractIngestProcessor {
         orderImportHelperBo.setOrderImportFailureCount(0);
         orderImportHelperBo.setOleBatchProcessProfileBo(oleBatchProcessProfileBo);
         orderImportHelperBo.setFailureReason(new ArrayList<String>());
-        oleOrderRecordService = SpringContext.getBean(OleOrderRecordService.class);
+        oleOrderRecordService = getOleOrderRecordService();
         BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
         BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(marcXMLContent);
         List<BibMarcRecord> records = bibMarcRecords.getRecords();
@@ -269,6 +269,17 @@ public abstract class AbstractIngestProcessor {
         job.setCreateHoldingsCount(0);
         LOG.info("----End of marcProcess()------------------------------");
         return true;
+    }
+
+    private OleOrderRecordService getOleOrderRecordService() {
+        if (null == oleOrderRecordService) {
+            oleOrderRecordService = SpringContext.getBean(OleOrderRecordService.class);
+        }
+        return oleOrderRecordService;
+    }
+
+    public void setOleOrderRecordService(OleOrderRecordService oleOrderRecordService) {
+        this.oleOrderRecordService = oleOrderRecordService;
     }
 
     private void setOleOrderRecordAsFailureRecord(OLEBatchProcessJobDetailsBo job) {
@@ -438,7 +449,7 @@ public abstract class AbstractIngestProcessor {
                 OrderBibMarcRecord orderBibMarcRecord = orderBibMarcRecordList.get(recordCount);
                 if (orderBibMarcRecord != null && orderBibMarcRecord.getBibId() != null && orderBibMarcRecord.getBibId().getId() != null) {
                     String bibId = orderBibMarcRecord.getBibId().getId();
-                    oleOrderRecordService = SpringContext.getBean(OleOrderRecordService.class);
+                    oleOrderRecordService = getOleOrderRecordService();
                     OleOrderRecord oleOrderRecord = oleOrderRecordService.fetchOleOrderRecordForMarcEdi(bibId, ediOrder, records.get(recordCount), recordCount, job);
                     oleOrderRecord.setAgendaName(OLEConstants.PROFILE_AGENDA_NM);
                     if (oleOrderRecord.getMessageMap().get(OLEConstants.IS_VALID_BFN).toString().equalsIgnoreCase(OLEConstants.TRUE)) {
@@ -714,4 +725,11 @@ public abstract class AbstractIngestProcessor {
 
     public abstract void postProcess(OLEBatchProcessJobDetailsBo job);
 
+    public void setMarcXMLContent(String marcXMLContent) {
+        this.marcXMLContent = marcXMLContent;
+    }
+
+    public void setIngestRecord(IngestRecord ingestRecord) {
+        this.ingestRecord = ingestRecord;
+    }
 }

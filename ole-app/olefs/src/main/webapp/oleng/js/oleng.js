@@ -24,9 +24,15 @@ var OLENG_CONSTANTS = {
 
     PROCESS_SUBMIT : "rest/batch/job/create",
     PROCESS_LAUNCH : "rest/batch/job/launch",
+    PROCESS_QUICK_LAUNCH : "rest/batch/job/quickLaunch",
+    PROCESS_SCHEDULE : "rest/batch/job/schedule",
     PROCESS_JOBS : "rest/describe/getBatchProcessJobs",
     BATCH_JOBS : "rest/describe/getBatchJobs",
-    DESTROY_PROCESS : "rest/batch/job/destroy"
+    DESTROY_PROCESS : "rest/batch/job/destroy",
+    REPORT_FILES : "rest/batch/job/getReportsFiles",
+    SPECIFIC_REPORT_FILES : "rest/batch/job/getSpecificReportsFiles",
+    GET_FILE_CONTENT : "rest/batch/job/getFileContent",
+    DOWNLOAD_REPORT_FILE : "rest/batch/job/downloadReportFile"
 
 };
 
@@ -38,3 +44,93 @@ var BATCH_CONSTANTS = {
     ]
 
 };
+
+
+
+var getUrlVars = function () {
+    var vars = {}, hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
+var doGetRequest = function($scope, $http, url, param, successCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        headers:  {
+            "userName" : user
+        }
+    };
+
+    var errorCallback = function(response) {
+        console.log(response);
+    };
+
+    if(param === null || param === undefined) {
+        $http.get(url, config).then(successCallback, errorCallback);
+    } else {
+        $http({
+            method: 'GET',
+            url: url,
+            params: param,
+            headers:  {
+                "userName" : user
+            }
+        }).then(successCallback,errorCallback);
+    }
+};
+
+var doPostRequest = function($scope, $http, url, param, successCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        headers:  {
+            "userName" : user
+        }
+    };
+
+    var errorCallback = function(response) {
+        console.log(response);
+    };
+    if(param === null || param === undefined) {
+        $http.post(url, config).then(successCallback, errorCallback);
+    } else {
+        $http.post(url, param, config).then(successCallback, errorCallback);
+    }
+};
+
+var doPostRequestWithMultiPartData = function($scope, $http, url, param, successCallback, errorCallback) {
+    var user = getLoggedInUserName();
+    var config = {
+        transformRequest: angular.identity,
+        headers:  {
+            "userName" : user,
+            "Content-Type": undefined
+        }
+    };
+    if(errorCallback === null || errorCallback === undefined) {
+        errorCallback = function(response) {
+            console.log(response);
+        };
+    }
+    if(param === null || param === undefined) {
+        $http.post(url, config).then(successCallback, errorCallback);
+    } else {
+        $http.post(url, param, config).then(successCallback, errorCallback);
+    }
+};
+
+function getLoggedInUserName(){
+    var userName = parent.$("div#login-info").text();
+    var user = userName.replace("    Logged in User:","").trim();
+    var strIndex = userName.indexOf('Impersonating User');
+    if(strIndex !== -1) {
+        var index = userName.indexOf("Impersonating User:");
+        var impersonatingUser = userName.substring(index);
+        user = impersonatingUser.replace("Impersonating User:","").trim();
+    }
+    return user;
+}

@@ -53,6 +53,8 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     private boolean requiredFeeAmount;
     private KualiDecimal paidAmount = new KualiDecimal(0);
     private Timestamp lastTransactionDate;
+    private KualiDecimal creditIssued = new KualiDecimal(0);
+    private KualiDecimal creditRemaining = new KualiDecimal(0);
 
     private OlePatronDocument olePatron = new OlePatronDocument();
 
@@ -488,7 +490,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     }
 
     public OlePatronDocument getOlePatron() {
-        if (null == olePatron) {
+        if (null == olePatron || StringUtils.isEmpty(olePatron.getOlePatronId())) {
             String patronId = getPatronId();
             if (StringUtils.isNotEmpty(patronId)) {
                 Map<String, String> parameterMap = new HashMap<>();
@@ -544,5 +546,21 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setViewBillNumber(Integer viewBillNumber) {
         this.viewBillNumber = viewBillNumber;
+    }
+
+    public KualiDecimal getCreditIssued() {
+        return creditIssued;
+}
+
+    public void setCreditIssued(KualiDecimal creditIssued) {
+        this.creditIssued = creditIssued;
+    }
+
+    public KualiDecimal getCreditRemaining() {
+        return creditRemaining;
+    }
+
+    public void setCreditRemaining(KualiDecimal creditRemaining) {
+        this.creditRemaining = creditRemaining;
     }
 }

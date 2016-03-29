@@ -8,21 +8,23 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
+import org.kuali.ole.docstore.common.response.*;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
-import org.kuali.ole.oleng.batch.reports.BatchReportLogHandler;
+import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -36,64 +38,105 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public String processRecords(List<Record> records, BatchProcessProfile batchProcessProfile) throws JSONException {
+    public OleNgBatchResponse processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType,
+                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName, BatchJobDetails batchJobDetails) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         String response = "";
-        int matchedBibsCount = 0;
-        int unmatchedBibsCount = 0;
-        int multipleMatchedBibsCount = 0;
-        for (int index=0 ; index < records.size(); index++){
-            Record marcRecord = records.get(index);
-            JSONObject jsonObject = null;
+        OleNGBibImportResponse oleNGBibImportResponse = null;
+        List<Record> matchedRecords = new ArrayList<>();
+        List<Record> unmatchedRecords = new ArrayList<>();
+        List<Record> multipleMatchedRecords = new ArrayList<>();
+        Exchange exchange = new Exchange();
+        for (Iterator<Integer> iterator = recordsMap.keySet().iterator(); iterator.hasNext(); ) {
+            Integer index = iterator.next();
+            RecordDetails recordDetails = recordsMap.get(index);
+            Record marcRecord = recordDetails.getRecord();
+            try {
+                JSONObject jsonObject = null;
 
-            if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
-                String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
+                if (!batchProcessProfile.getBatchProfileMatchPointList().isEmpty()) {
+                    String query = getMatchPointProcessor().prepareSolrQueryMapForMatchPoint(marcRecord, batchProcessProfile.getBatchProfileMatchPointList());
 
-                if (StringUtils.isNotBlank(query)) {
-                    List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
-                    if (null == results || results.size() > 1) {
-                        System.out.println("**** More than one record found for query : " + query);
-                        multipleMatchedBibsCount = multipleMatchedBibsCount + results.size();
-                        continue;
-                    }
+                    if (StringUtils.isNotBlank(query)) {
+                        query = query.replace("\\", "\\\\");
+                        List results = getSolrRequestReponseHandler().getSolrDocumentList(query);
+                        if (null == results || results.size() > 1) {
+                            System.out.println("**** More than one record found for query : " + query);
+                            multipleMatchedRecords.add(marcRecord);
+                            continue;
+                        }
 
-                    if (null != results && results.size() == 1) {
-                        SolrDocument solrDocument = (SolrDocument) results.get(0);
-                        String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
-                        jsonObject = prepareRequest(index,bibId, marcRecord, batchProcessProfile);
-                        matchedBibsCount = matchedBibsCount + 1;
+                        if (null != results && results.size() == 1) {
+                            SolrDocument solrDocument = (SolrDocument) results.get(0);
+                            String bibId = (String) solrDocument.getFieldValue(DocstoreConstants.LOCALID_DISPLAY);
+                            jsonObject = prepareRequest(index, bibId, marcRecord, batchProcessProfile);
+                            matchedRecords.add(marcRecord);
+                        } else {
+                            jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
+                            unmatchedRecords.add(marcRecord);
+                        }
                     } else {
                         jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
-                        unmatchedBibsCount = unmatchedBibsCount + 1;
+                        unmatchedRecords.add(marcRecord);
                     }
+                } else {
+                    jsonObject = prepareRequest(index, null, marcRecord, batchProcessProfile);
+                    unmatchedRecords.add(marcRecord);
                 }
-            } else {
-                jsonObject = prepareRequest(index,null, marcRecord, batchProcessProfile);
-                unmatchedBibsCount = unmatchedBibsCount + 1;
+                jsonArray.put(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addBibFaiureResponseToExchange(e, index, exchange);
             }
-            jsonArray.put(jsonObject);
         }
 
         if (jsonArray.length() > 0) {
             response = getOleDsNgRestClient().postData(OleDsNgRestClient.Service.PROCESS_BIB_HOLDING_ITEM, jsonArray, OleDsNgRestClient.Format.JSON);
-            try {
-                OleNGBibImportResponse oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
-                oleNGBibImportResponse.setMatchedBibsCount(matchedBibsCount);
-                oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedBibsCount);
-                oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedBibsCount);
-                generateBatchReport(oleNGBibImportResponse);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
-        return response;
+
+        try {
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            addBibFaiureResponseToExchange(e, null, exchange);
+        }
+
+        if(null  == oleNGBibImportResponse) {
+            oleNGBibImportResponse = new OleNGBibImportResponse();
+        }
+
+        List<BibFailureResponse> bibFailureResponses = (List<BibFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(CollectionUtils.isNotEmpty(bibFailureResponses)) {
+            oleNGBibImportResponse.getFailureResponses().addAll(bibFailureResponses);
+        }
+        oleNGBibImportResponse.setMatchedBibsCount(matchedRecords.size());
+        oleNGBibImportResponse.setUnmatchedBibsCount(unmatchedRecords.size());
+        oleNGBibImportResponse.setMultipleMatchedBibsCount(multipleMatchedRecords.size());
+        oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
+        oleNGBibImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
+        oleNGBibImportResponse.setJobName(batchJobDetails.getJobName());
+        oleNGBibImportResponse.setBibImportProfileName(batchProcessProfile.getBatchProcessProfileName());
+        oleNGBibImportResponse.setMatchedRecords(matchedRecords);
+        oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
+        oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
+        oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
+        oleNGBibImportResponse.setRecordsMap(recordsMap);
+        generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
+
+        OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
+        oleNgBatchResponse.setResponse(response);
+
+        oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(bibFailureResponses));
+
+        return oleNgBatchResponse;
     }
 
-    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse) throws Exception {
-        BatchReportLogHandler batchReportLogHandler = BatchReportLogHandler.getInstance();
-        batchReportLogHandler.logMessage(oleNGBibImportResponse);
+    public void generateBatchReport(OleNGBibImportResponse oleNGBibImportResponse, String reportDirectoryName, String profileName) {
+        oleNGBibImportResponse.setDirectoryName(reportDirectoryName);
+        BibImportReportLogHandler bibImportReportLogHandler = BibImportReportLogHandler.getInstance();
+        bibImportReportLogHandler.logMessage(oleNGBibImportResponse,reportDirectoryName);
     }
 
     private String getOperationInd(String operation) {
@@ -120,7 +163,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
      * main bibData json object that contains the respective holdings, items json objects.
      * @throws JSONException
      */
-    private JSONObject prepareRequest(int recordIndex, String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
+    private JSONObject prepareRequest(Integer index, String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {
         LOG.info("Preparing JSON Request for Bib/Holdings/Items");
 
         JSONObject bibData = new JSONObject();
@@ -132,12 +175,13 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             bibData.put("id", bibId);
         }
 
-        bibData.put(OleNGConstants.INDEX, recordIndex);
+        bibData.put(OleNGConstants.RECORD_INDEX , index);
         bibData.put(OleNGConstants.UPDATED_BY, updatedUserName);
         bibData.put(OleNGConstants.UPDATED_DATE, updatedDate);
         bibData.put(OleNGConstants.UNMODIFIED_CONTENT, unmodifiedRecord);
         bibData.put(OleNGConstants.OPS, getOverlayOps(batchProcessProfile));
         bibData.put(OleNGConstants.ADDED_OPS, getAddedOps(batchProcessProfile));
+        bibData.put(OleNGConstants.ADDITIONAL_OVERLAY_OPS, getAdditionalOverlayOps(batchProcessProfile));
         bibData.put(OleNGConstants.ACTION_OPS, getActionOps(batchProcessProfile));
         bibData.put(OleNGConstants.FIELD_OPS, getFieldOps(batchProcessProfile));
 
@@ -182,17 +226,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private JSONArray getFieldOps(BatchProcessProfile batchProcessProfile) {
         JSONArray fieldOps = new JSONArray();
         List<BatchProfileFieldOperation> batchProfileFieldOperationList = batchProcessProfile.getBatchProfileFieldOperationList();
-        if(CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
+        if (CollectionUtils.isNotEmpty(batchProfileFieldOperationList)) {
             for (Iterator<BatchProfileFieldOperation> iterator = batchProfileFieldOperationList.iterator(); iterator.hasNext(); ) {
                 BatchProfileFieldOperation batchProfileFieldOperation = iterator.next();
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.DATA_FIELD,batchProfileFieldOperation.getDataField());
-                    jsonObject.put(OleNGConstants.IND1,batchProfileFieldOperation.getInd1());
-                    jsonObject.put(OleNGConstants.IND2,batchProfileFieldOperation.getInd2());
-                    jsonObject.put(OleNGConstants.SUBFIELD,batchProfileFieldOperation.getSubField());
-                    jsonObject.put(OleNGConstants.VALUE,batchProfileFieldOperation.getValue());
-                    jsonObject.put(OleNGConstants.IGNORE_GPF,batchProfileFieldOperation.getIgnoreGPF());
+                    jsonObject.put(OleNGConstants.DATA_FIELD, batchProfileFieldOperation.getDataField());
+                    jsonObject.put(OleNGConstants.IND1, batchProfileFieldOperation.getInd1());
+                    jsonObject.put(OleNGConstants.IND2, batchProfileFieldOperation.getInd2());
+                    jsonObject.put(OleNGConstants.SUBFIELD, batchProfileFieldOperation.getSubField());
+                    jsonObject.put(OleNGConstants.VALUE, batchProfileFieldOperation.getValue());
+                    jsonObject.put(OleNGConstants.IGNORE_GPF, batchProfileFieldOperation.getIgnoreGPF());
                     fieldOps.put(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -226,7 +270,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return finalObject;
     }
 
-    private List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
+    public List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
         List<JSONObject> finalObjects = new ArrayList<>();
 
         for (int index = 0; index < dataMappingsPreTrans.size(); index++) {
@@ -348,18 +392,31 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         try {
             String holdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.HOLDINGS);
-            addedOps.put(OleNGConstants.HOLDINGS,holdingsAddedOps);
+            addedOps.put(OleNGConstants.HOLDINGS, holdingsAddedOps);
 
             String itemAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.ITEM);
-            addedOps.put(OleNGConstants.ITEM,itemAddedOps);
+            addedOps.put(OleNGConstants.ITEM, itemAddedOps);
 
             String eholdingsAddedOps = getAddedOps(batchProfileAddOrOverlayList, OleNGConstants.EHOLDINGS);
-            addedOps.put(OleNGConstants.EHOLDINGS,eholdingsAddedOps);
+            addedOps.put(OleNGConstants.EHOLDINGS, eholdingsAddedOps);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return addedOps;
+    }
+
+    public JSONObject getAdditionalOverlayOps(BatchProcessProfile batchProcessProfile) {
+        JSONObject additionalOverlayOps = new JSONObject();
+        List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
+        try {
+            JSONObject bibAdditionalOverayOps = getAdditionalOverlayOps(batchProfileAddOrOverlayList, OleNGConstants.BIBLIOGRAPHIC);
+            additionalOverlayOps.put(OleNGConstants.BIB, bibAdditionalOverayOps);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return additionalOverlayOps;
     }
 
     public String getAddedOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
@@ -368,14 +425,14 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
             BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
             String matchOption = batchProfileAddOrOverlay.getMatchOption();
-            if(matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+            if (matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
                 String operation = batchProfileAddOrOverlay.getOperation();
-                if(operation.equalsIgnoreCase(OleNGConstants.ADD)) {
+                if (operation.equalsIgnoreCase(OleNGConstants.ADD)) {
                     addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                     String addOperation = batchProfileAddOrOverlay.getAddOperation();
-                    if(StringUtils.isNotBlank(addOperation)){
-                        switch (addOperation){
-                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD : {
+                    if (StringUtils.isNotBlank(addOperation)) {
+                        switch (addOperation) {
+                            case OleNGConstants.DELETE_ALL_EXISTING_AND_ADD: {
                                 addedOpsValue = OleNGConstants.DELETE_ALL_EXISTING_AND_ADD;
                                 break;
                             }
@@ -401,14 +458,38 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                             }
                         }
                     }
-                } else if(operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
+                } else if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY)) {
                     addedOpsValue = OleNGConstants.OVERLAY;
+                } else if (operation.equalsIgnoreCase(OleNGConstants.DELETE_ALL)) {
+                    addedOpsValue = OleNGConstants.DELETE_ALL;
                 } else {
                     addedOpsValue = OleNGConstants.DISCARD;
                 }
             }
         }
         return addedOpsValue;
+    }
+
+    public JSONObject getAdditionalOverlayOps(List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList, String docType) throws JSONException {
+        for (Iterator<BatchProfileAddOrOverlay> iterator = batchProfileAddOrOverlayList.iterator(); iterator.hasNext(); ) {
+            BatchProfileAddOrOverlay batchProfileAddOrOverlay = iterator.next();
+            String matchOption = batchProfileAddOrOverlay.getMatchOption();
+            if (matchOption.equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND) && batchProfileAddOrOverlay.getDataType().equalsIgnoreCase(docType)) {
+                String operation = batchProfileAddOrOverlay.getOperation();
+                String addOrOverlayField = batchProfileAddOrOverlay.getAddOrOverlayField();
+                String addOrOverlayFieldOperation = batchProfileAddOrOverlay.getAddOrOverlayFieldOperation();
+                List<String> addOrOverlayFieldValue = batchProfileAddOrOverlay.getAddOrOverlayFieldValue();
+                if (operation.equalsIgnoreCase(OleNGConstants.OVERLAY) && StringUtils.isNotBlank(addOrOverlayField) && StringUtils.isNotBlank(addOrOverlayFieldOperation)
+                        && CollectionUtils.isNotEmpty(addOrOverlayFieldValue)) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.WHERE, addOrOverlayField);
+                    jsonObject.put(OleNGConstants.CONDITION, addOrOverlayFieldOperation);
+                    jsonObject.put(OleNGConstants.VALUE, addOrOverlayFieldValue);
+                    return jsonObject;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -461,6 +542,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     private void addMatchPointToDataMapping(Record marcRecord, JSONObject dataMapping, BatchProcessProfile batchProcessProfile, String docType) {
         try {
+            JSONObject matchpointForDataMapping = new JSONObject();
             JSONObject matchPoints = getMatchPointProcessor().prepareMatchPointsForDocType(marcRecord, batchProcessProfile.getBatchProfileMatchPointList(), docType);
             for (Iterator iterator = matchPoints.keys(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
@@ -471,8 +553,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                     String value = matchPointValueTockenize.nextToken();
                     valueArray.put(value);
                 }
-                dataMapping.put(key, valueArray);
+                matchpointForDataMapping.put(key, valueArray);
             }
+            dataMapping.put(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING,matchpointForDataMapping);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -497,86 +580,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         return dataMappings;
     }
 
-    /**
-     * @param valueByPriorityMap
-     * @param destinationField
-     * @param multiValue
-     * @param fieldValues
-     * @param priority
-     * @return The valueByPriorityMap contains valueByPriority pojo for each destination field.
-     */
-    private Map<String, List<ValueByPriority>> buildingValuesForDestinationBasedOnPriority(Map<String, List<ValueByPriority>> valueByPriorityMap, String destinationField, boolean multiValue, List<String> fieldValues, int priority) {
-        List<ValueByPriority> valueByPriorities;
-
-        ValueByPriority valueByPriority = new ValueByPriority();
-        valueByPriority.setField(destinationField);
-        valueByPriority.setPriority(priority);
-        valueByPriority.setMultiValue(multiValue);
-
-        valueByPriority.setValues(fieldValues);
-
-        if (valueByPriorityMap.containsKey(destinationField)) {
-            valueByPriorities = valueByPriorityMap.get(destinationField);
-
-            if (valueByPriorities.contains(valueByPriority)) {
-                ValueByPriority existingValuePriority = valueByPriorities.get(valueByPriorities.indexOf(valueByPriority));
-                List<String> values = existingValuePriority.getValues();
-                values.addAll(fieldValues);
-                StringBuilder stringBuilder = new StringBuilder();
-                if (!multiValue) {
-                    for (Iterator<String> iterator = values.iterator(); iterator.hasNext(); ) {
-                        String value = iterator.next();
-                        stringBuilder.append(value);
-                        if (iterator.hasNext()) {
-                            stringBuilder.append(" ");
-                        }
-                    }
-                    values.clear();
-                    values.add(stringBuilder.toString());
-                }
-            } else {
-                valueByPriorities.add(valueByPriority);
-            }
-        } else {
-            valueByPriorities = new ArrayList<>();
-            valueByPriorities.add(valueByPriority);
-        }
-        valueByPriorityMap.put(destinationField, valueByPriorities);
-
-        return valueByPriorityMap;
-    }
-
-    private List<String> getFieldValues(Record marcRecord, BatchProfileDataMapping batchProfileDataMapping, boolean multiValue) {
-        List<String> marcValues = new ArrayList<>();
-        if (batchProfileDataMapping.getDataType().equalsIgnoreCase(OleNGConstants.BIB_MARC)) {
-            String marcValue;
-            String dataField = batchProfileDataMapping.getDataField();
-            if (StringUtils.isNotBlank(dataField)) {
-                if (getMarcRecordUtil().isControlField(dataField)) {
-                    marcValue = getMarcRecordUtil().getControlFieldValue(marcRecord, dataField);
-                    marcValues.add(marcValue);
-                } else {
-                    String subField = batchProfileDataMapping.getSubField();
-                    if (multiValue) {
-                        marcValues = getMarcRecordUtil().getMultiDataFieldValues(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
-                    } else {
-                        marcValue = getMarcRecordUtil().getDataFieldValueWithIndicators(marcRecord, dataField, batchProfileDataMapping.getInd1(), batchProfileDataMapping.getInd2(), subField);
-                        if (StringUtils.isNotBlank(marcValue)) {
-                            marcValues.add(marcValue);
-                        }
-                    }
-                }
-            }
-        } else {
-            String constantValue = batchProfileDataMapping.getConstant();
-            if (StringUtils.isNotBlank(constantValue)) {
-                marcValues.add(constantValue);
-            }
-        }
-        return marcValues;
-    }
-
-
     private List<BatchProfileDataMapping> filterDataMappingsByTransformationOption(List<BatchProfileDataMapping> batchProfileDataMappingList, String transformationOption) {
         List<BatchProfileDataMapping> batchProfileDataMappings = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
@@ -589,17 +592,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         }
         return batchProfileDataMappings;
     }
-
-    private void sortDataMappings(List<BatchProfileDataMapping> filteredDataMappings) {
-        Collections.sort(filteredDataMappings, new Comparator<BatchProfileDataMapping>() {
-            public int compare(BatchProfileDataMapping dataMapping1, BatchProfileDataMapping dataMapping2) {
-                int priorityForDataMapping1 = dataMapping1.getPriority();
-                int priorityForDataMapping2 = dataMapping2.getPriority();
-                return new Integer(priorityForDataMapping1).compareTo(new Integer(priorityForDataMapping2));
-            }
-        });
-    }
-
     public Map<String, String> getDataMappingMap(List<BatchProfileDataMapping> batchProfileDataMappingList) {
         Map<String, String> dataMappingMap = new HashMap<>();
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
@@ -684,73 +676,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
 
-    private class ValueByPriority {
-        private int priority;
-        private String field;
-        private boolean multiValue;
-        private List<String> values;
-
-        public int getPriority() {
-            return priority;
-        }
-
-        public void setPriority(int priority) {
-            this.priority = priority;
-        }
-
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public boolean isMultiValue() {
-            return multiValue;
-        }
-
-        public void setMultiValue(boolean multiValue) {
-            this.multiValue = multiValue;
-        }
-
-        public List<String> getValues() {
-            if (null == values) {
-                values = new ArrayList<>();
-            }
-            return values;
-        }
-
-        public void setValues(List<String> values) {
-            this.values = values;
-        }
-
-        public void addValues(String value) {
-            if (null != value) {
-                getValues().add(value);
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            ValueByPriority that = (ValueByPriority) o;
-
-            if (priority != that.priority) return false;
-            return field != null ? field.equals(that.field) : that.field == null;
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = priority;
-            result = 31 * result + (field != null ? field.hashCode() : 0);
-            return result;
-        }
-    }
-
     public List<Record> splitRecordByMultiValue(Record record, MarcDataField marcDataField) {
         String dataFieldString = marcDataField.getDataField();
         String ind1 = marcDataField.getInd1();
@@ -761,30 +686,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<Record> records = new ArrayList<>();
         List<VariableField> dataFields = record.getVariableFields(dataFieldString);
 
-        List<VariableField> filteredDataFields = new ArrayList<>();
-        boolean matchedDataField = true;
+        List<VariableField> filteredDataFields = getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subField, null, dataFields);
 
-        for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-            DataField field = (DataField) iterator.next();
-            if (StringUtils.isNotBlank(ind1)) {
-                matchedDataField &= ind1.charAt(0) == field.getIndicator1();
-            }
-            if (StringUtils.isNotBlank(ind2)) {
-                matchedDataField &= ind2.charAt(0) == field.getIndicator2();
-            }
-
-            if (null != subField) {
-                for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
-                    Subfield sf = variableFieldIterator.next();
-                    char subFieldChar = (StringUtils.isNotBlank(subField) ? subField.charAt(0) : ' ');
-                    matchedDataField&= subFieldChar == sf.getCode();
-                }
-            }
-            if (matchedDataField) {
-                filteredDataFields.add(field);
-            }
-
-        }
 
         for (Iterator<VariableField> variableFieldIterator = filteredDataFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
@@ -796,6 +699,31 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
         return CollectionUtils.isNotEmpty(records) ? records : Collections.singletonList(record);
 
+    }
+
+    private BibFailureResponse getBibFailureResponse(Integer index, Exception e) {
+        BibFailureResponse failureResponse = new BibFailureResponse();
+        failureResponse.setFailureMessage(e.toString());
+        failureResponse.setIndex(index);
+        return failureResponse;
+    }
+
+
+    public OleNGBibImportResponse processBibImportForOrderOrInvoiceImport(String rawContent, Map<Integer, RecordDetails> recordsMap,
+                                                   String fileType, BatchProcessProfile bibImportProfile,
+                                                   String reportDirectoryName, BatchJobDetails batchJobDetails, Exchange exchange) {
+        OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
+        try {
+            OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName, batchJobDetails);
+            String response = oleNgBatchResponse.getResponse();
+            if(StringUtils.isNotBlank(response)) {
+                oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            addOrderFaiureResponseToExchange(e, null, exchange);
+        }
+        return oleNGBibImportResponse;
     }
 
 }

@@ -5,7 +5,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 
 import java.util.List;
 
@@ -14,11 +14,9 @@ import java.util.List;
  */
 public class BibStatusHandler extends BibHandler {
 
-    private final String TYPE = "Bib Status";
-
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BIB_STATUS);
     }
 
 
@@ -29,12 +27,13 @@ public class BibStatusHandler extends BibHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BIB_STATUS);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String bibStatus = listFromJSONArray.get(0);
             BibRecord bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
             bibRecord.setStatus(bibStatus);
+            exchange.add(OleNGConstants.BIB_STATUS_UPDATED,Boolean.TRUE);
             exchange.add(OleNGConstants.BIB_RECORD, bibRecord);
         }
     }

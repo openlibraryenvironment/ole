@@ -92,10 +92,19 @@ jq(document).ready(function(){
         jq(this).find("input").attr("id","DetailedView-BillSection _disclosureContent_Search_d");
     })
 
+    jq("div#DetailedView-ClosedBillSection .dataTables_filter").live("keypress",function(e){
+        jq(this).find("input").attr("id","DetailedView-ClosedBillSection _disclosureContent_Search_d");
+    })
+
+
+
+
     jq("div#BillSection .dataTables_filter").live("keypress",function(e){
         jq(this).find("input").attr("id","BillSection_disclosureContent_Search_d");
     })
     jq("input#billpayment_userAmount_control").val(parseFloat("0"));
+    jq("input#billpayment_paidAmount_control").val(parseFloat("0"));
+    jq("input#billpayment_creditRemainingAmount_control").val(parseFloat("0"));
     removeCurrencyPattern();
 
 });
@@ -112,10 +121,47 @@ if(jq("#feeAmt_add_control").val()!=null) {
 }
 }
 
+function expandAll(){
+    if(jq("#patronDetailList_disclosureContent").attr('data-open') == 'false'){
+        jq("#patronDetailList_toggle").focus().click();
+    }
+    if(jq("#BillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#BillSection_toggle").focus().click();
+    }
+    if(jq("#DetailBillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#DetailBillSection_toggle").focus().click();
+    }
+    if(jq("#ClosedBillSection_disclosureContent").attr('data-open') == 'false'){
+        jq("#ClosedBillSection_toggle").focus().click();
+    }
+    if(jq("#billView_payment_transaction_Details_disclosureContent").attr('data-open') == 'false'){
+        jq("#billView_payment_transaction_Details_toggle").focus().click();
+    }
+}
+
+function collapseAll(){
+    if(jq("#patronDetailList_disclosureContent").attr('data-open') == 'true'){
+        jq("#patronDetailList_toggle").focus().click();
+    }
+    if(jq("#BillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#BillSection_toggle").focus().click();
+    }
+    if(jq("#DetailBillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#DetailBillSection_toggle").focus().click();
+    }
+    if(jq("#ClosedBillSection_disclosureContent").attr('data-open') == 'true'){
+        jq("#ClosedBillSection_toggle").focus().click();
+    }
+    if(jq("#billView_payment_transaction_Details_disclosureContent").attr('data-open') == 'true'){
+        jq("#billView_payment_transaction_Details_toggle").focus().click();
+    }
+}
+
 function closeForgiveNote(){
     if(jq("#forgiveNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('forgive', null, null, null, null);
+        var forgiveNote = jq('#forgiveNote_control').val();
+        submitForm('forgive', {forgiveNote:forgiveNote}, null, null, null);
     }else{
         jq("#forgiveNote_control").focus().click();
     }
@@ -124,43 +170,131 @@ function closeForgiveNote(){
 function closeErrorNote(){
     if(jq("#errorNote_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('error', null, null, null, null);
+        var errorNote = jq('#errorNote_control').val();
+        submitForm('error', {errorNote:errorNote}, null, null, null);
     }else{
         jq("#errorNote_control").focus().click();
+    }
+}
+
+function closeCreditNote(){
+    if(jq("#creditNote_control").val().length > 0){
+        jQuery.fancybox.close();
+        var creditNote = jq('#creditNote_control').val();
+        submitForm('credit',  {creditNote:creditNote}, null, null, null);
+    }else{
+        jq("#creditNote_control").focus().click();
     }
 }
 
 function closeCancelNote(){
     if(jq("#cancellationNote_cancel_control").val().length > 0){
         jQuery.fancybox.close();
-        submitForm('cancellationNote', null, null, null, null);
+        var cancellationNote = jq('#cancellationNote_cancel_control').val();bill
+        submitForm('cancellationNote', {cancellationNote:cancellationNote}, null, null, null);
     }else{
         jq("#cancellationNote_cancel_control").focus().click();
     }
 }
 
-function selectBill(amt, obj) {
+function closeTransferDebitNote(){
+    if(jq("#transferDebitNote_control").val().length > 0){
+        jQuery.fancybox.close();
+        var transferDebitNote = jq('#transferDebitNote_control').val();
+        submitForm('transferDebit', {transferDebitNote:transferDebitNote}, null, null, null);
+    }else{
+        jq("#transferDebitNote_control").focus().click();
+    }
+}
+
+function closeTransferCreditNote(){
+    if(jq("#transferCreditNote_control").val().length > 0){
+        jQuery.fancybox.close();
+        var transferCreditNote = jq('#transferCreditNote_control').val();
+        submitForm('transferCredit', {transferCreditNote:transferCreditNote}, null, null, null);
+    }else{
+        jq("#transferCreditNote_control").focus().click();
+    }
+}
+
+function closeRefundNote(){
+    if(jq("#refundNote_control").val().length > 0){
+        jQuery.fancybox.close();
+        var refundNote = jq('#refundNote_control').val();
+        submitForm('refund', {refundNote:refundNote}, null, null, null);
+    }else{
+        jq("#refundNote_control").focus().click();
+    }
+}
+
+function closecancelCreditNote(){
+    if(jq("#cancelCreditNote_control").val().length > 0){
+        jQuery.fancybox.close();
+        var cancelCreditNote = jq('#cancelCreditNote_control').val();
+        submitForm('cancelCredit', {cancelCreditNote:cancelCreditNote}, null, null, null);
+    }else{
+        jq("#cancelCreditNote_control").focus().click();
+    }
+}
+
+
+
+function selectBill(amt,pamt,camt,obj) {
+    camt = camt*-1;
+    var paidAmt = parseFloat("0");
+    var crdtAmt = parseFloat("0");
     var totalAmt = parseFloat("0");
     var userAmount=parseFloat(jq("input#billpayment_userAmount_control").val());
+    var paidAmount=parseFloat(jq("input#billpayment_paidAmount_control").val());
+    var creditRemainingAmount=parseFloat(jq("input#billpayment_creditRemainingAmount_control").val());
     if (jq("input#billView_paymentDetails_paidAmount_control").val() != "") {
         totalAmt = parseFloat(jq("input#billView_paymentDetails_paidAmount_control").val());
     }
+    if (jq("input#billView_paymentDetails_amountPaid_control").val() != "") {
+        paidAmt = parseFloat(jq("input#billView_paymentDetails_amountPaid_control").val());
+    }
+    if (jq("input#billView_paymentDetails_transferAmount_control").val() != "") {
+        crdtAmt = parseFloat(jq("input#billView_paymentDetails_transferAmount_control").val());
+    }
     if (jq("#hdBillPay_control").val() == 'itemwise') {
         jq("input#billView_paymentDetails_paidAmount_control").val(parseFloat("0"));
+        jq("input#billView_paymentDetails_amountPaid_control").val(parseFloat("0"));
+        jq("input#billView_paymentDetails_transferAmount_control").val(parseFloat("0"));
         jq("input#billpayment_userAmount_control").val(parseFloat("0"));
+        jq("input#billpayment_paidAmount_control").val(parseFloat("0"));
+        jq("input#billpayment_creditRemainingAmount_control").val(parseFloat("0"));
         userAmount=parseFloat(jq("input#billpayment_userAmount_control").val());
+        paidAmount=parseFloat(jq("input#billpayment_paidAmount_control").val());
+        creditRemainingAmount=parseFloat(jq("input#billpayment_creditRemainingAmount_control").val());
+
         totalAmt=parseFloat("0");
+        paidAmt=parseFloat("0");
+        crdtAmt=parseFloat("0");
     }
     if (jq(obj).prop('checked')) {
         totalAmt = parseFloat(totalAmt) + parseFloat(amt);
+        paidAmt = parseFloat(paidAmt) + parseFloat(pamt);
+        crdtAmt = parseFloat(crdtAmt) + parseFloat(camt);
         userAmount=userAmount+parseFloat(amt);
+        paidAmount=paidAmount+parseFloat(pamt);
+        creditRemainingAmount=creditRemainingAmount+parseFloat(camt);
     } else {
         totalAmt = parseFloat(totalAmt) - parseFloat(amt);
         userAmount=userAmount-parseFloat(amt);
+        paidAmt = parseFloat(paidAmt) - parseFloat(pamt);
+        crdtAmt = parseFloat(crdtAmt) - parseFloat(camt);
+        paidAmount=paidAmount-parseFloat(pamt);
+        creditRemainingAmount=creditRemainingAmount-parseFloat(camt);
     }
     totalAmt=userAmount;
+    paidAmt = paidAmount;
+    crdtAmt = creditRemainingAmount;
     jq("input#billpayment_userAmount_control").val(userAmount);
+    jq("input#billpayment_paidAmount_control").val(paidAmount);
+    jq("input#billpayment_creditRemainingAmount_control").val(creditRemainingAmount);
     jq("input#billView_paymentDetails_paidAmount_control").val(totalAmt.toFixed(2));
+    jq("input#billView_paymentDetails_amountPaid_control").val(paidAmt.toFixed(2));
+    jq("input#billView_paymentDetails_transferAmount_control").val(crdtAmt.toFixed(2));
     if (jq(".selectBill").is(":checked")) {
         jq(".selectItem").removeAttr("checked");
         jq("#hdBillPay_control").val("billwise");
@@ -171,28 +305,61 @@ function selectBill(amt, obj) {
     }
 
 }
-function selectItem(amt, obj) {
+function selectItem(amt,pamt,camt,obj) {
+    camt = camt*-1;
     var totalAmt = parseFloat("0");
+    var paidAmt = parseFloat("0");
+    var crdtAmt = parseFloat("0");
     var userAmount=parseFloat(jq("input#billpayment_userAmount_control").val());
+    var paidAmount=parseFloat(jq("input#billpayment_paidAmount_control").val());
+    var creditRemainingAmount=parseFloat(jq("input#billpayment_creditRemainingAmount_control").val());
     if (jq("input#billView_paymentDetails_paidAmount_control").val() != "") {
         totalAmt = parseFloat(jq("input#billView_paymentDetails_paidAmount_control").val());
     }
+    if (jq("input#billView_paymentDetails_amountPaid_control").val() != "") {
+        paidAmt = parseFloat(jq("input#billView_paymentDetails_amountPaid_control").val());
+    }
+    if (jq("input#billView_paymentDetails_transferAmount_control").val() != "") {
+        crdtAmt = parseFloat(jq("input#billView_paymentDetails_transferAmount_control").val());
+    }
     if (jq("#hdBillPay_control").val() == 'billwise') {
         jq("input#billView_paymentDetails_paidAmount_control").val(parseFloat("0"));
+        jq("input#billView_paymentDetails_amountPaid_control").val(parseFloat("0"));
+        jq("input#billView_paymentDetails_transferAmount_control").val(parseFloat("0"));
         jq("input#billpayment_userAmount_control").val(parseFloat("0"));
+        jq("input#billpayment_paidAmount_control").val(parseFloat("0"));
+        jq("input#billpayment_creditRemainingAmount_control").val(parseFloat("0"));
         userAmount=parseFloat(jq("input#billpayment_userAmount_control").val());
+        paidAmount=parseFloat(jq("input#billpayment_paidAmount_control").val());
+        creditRemainingAmount=parseFloat(jq("input#billpayment_creditRemainingAmount_control").val());
         totalAmt=parseFloat("0");
+        paidAmt=parseFloat("0");
+        crdtAmt=parseFloat("0");
     }
     if (jq(obj).prop('checked')) {
         totalAmt = parseFloat(totalAmt) + parseFloat(amt);
+        paidAmt = parseFloat(paidAmt) + parseFloat(pamt);
+        crdtAmt = parseFloat(crdtAmt) + parseFloat(camt);
         userAmount=userAmount+parseFloat(amt);
+        paidAmount=paidAmount+parseFloat(pamt);
+        creditRemainingAmount=creditRemainingAmount+parseFloat(camt);
     } else {
         totalAmt = parseFloat(totalAmt) - parseFloat(amt);
+        paidAmt = parseFloat(paidAmt) - parseFloat(pamt);
+        crdtAmt = parseFloat(crdtAmt) - parseFloat(camt);
         userAmount=userAmount-parseFloat(amt);
+        paidAmount=paidAmount-parseFloat(pamt);
+        creditRemainingAmount=creditRemainingAmount-parseFloat(camt);
     }
     totalAmt=userAmount;
+    paidAmt = paidAmount;
+    crdtAmt = creditRemainingAmount;
     jq("input#billpayment_userAmount_control").val(userAmount);
+    jq("input#billpayment_paidAmount_control").val(paidAmount);
+    jq("input#billpayment_creditRemainingAmount_control").val(creditRemainingAmount);
     jq("input#billView_paymentDetails_paidAmount_control").val(totalAmt.toFixed(2));
+    jq("input#billView_paymentDetails_amountPaid_control").val(paidAmt.toFixed(2));
+    jq("input#billView_paymentDetails_transferAmount_control").val(crdtAmt.toFixed(2));
     if (jq(".selectItem").is(":checked")) {
         jq(".selectBill").removeAttr("checked");
         jq("#hdBillPay_control").val("itemwise");
@@ -208,7 +375,7 @@ function printPatronBill(){
 }
 
 function closePatronBillWindow(){
-    self.window.close();
+    parent.window.close();
 }
 function removeCurrencyPattern(){
     if (jq("input#billView_paymentDetails_paidAmount_control").val()!=undefined) {
@@ -216,3 +383,7 @@ function removeCurrencyPattern(){
         jq("input#billView_paymentDetails_paidAmount_control").val(amt);
     }
 }
+
+
+
+

@@ -105,9 +105,9 @@
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
                         <bean id="olePatronBillAcknowledge" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronBillClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-
+                        <!--<bean id="olePatronBillClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>-->
                         <bean id="olePatronBillCancel" parent="OlePatron-Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <!--<bean id="olePatronBillCancel" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:actionScript="parent.window.close();"  />-->
                         <bean id="olePatronBillCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY] and maintenanceAction ne 'Delete'}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP">
                             <property name="cssClasses">

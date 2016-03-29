@@ -100,7 +100,7 @@
                                     name="dataMappingField_{{$index}}" style="height: 30px; width: 200px;"
                                     ng-model="dataMapping.field"
                                     ng-hide="dataMapping.isAddLine"
-                                    ng-change="populateDestinationFieldValues(dataMapping, dataMapping.dataMappingDocType, dataMapping.field)">
+                                    ng-change="populateDestinationFieldValues($index, dataMapping, dataMapping.dataMappingDocType, dataMapping.field)">
                                 <option ng-selected="{{option.name == dataMapping.field}}"
                                         ng-repeat="option in dataMapping.dataMappingFields  | orderBy:'name'"
                                         value="{{option.name}}">

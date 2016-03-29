@@ -59,7 +59,6 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("ONHOLD");
-$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 end
@@ -98,7 +97,6 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
-$i.updateInHouseCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
  end
@@ -133,6 +131,7 @@ $d.setRuleMatched(true);
 
  then
  $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+ $i.updateInHouseCheckinCount();
  $d.setRuleMatched(true);
   end
 
@@ -166,6 +165,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$i.updateInHouseCheckinCount();
 $d.setRuleMatched(true);
  end
 

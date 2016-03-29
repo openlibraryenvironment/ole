@@ -1,25 +1,18 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.document.EHoldings;
-import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.dsng.rest.Exchange;
-import org.marc4j.marc.DataField;
+import org.kuali.ole.Exchange;
+import org.kuali.ole.dsng.rest.handler.AdditionalOverlayOpsHandler;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +20,9 @@ import java.util.List;
  * Created by pvsubrah on 12/23/15.
  */
 public class UpdateBibHandler extends BibHandler {
+
+    public List<AdditionalOverlayOpsHandler> additionalOverlayOpsHandlers;
+
     @Override
     public Boolean isInterested(String operation) {
         List<String> operationsList = getListFromJSONArray(operation);
@@ -49,95 +45,67 @@ public class UpdateBibHandler extends BibHandler {
             if (requestJsonObject.has(OleNGConstants.ID)) {
                 String bibId = requestJsonObject.getString(OleNGConstants.ID);
                 BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
-                bibRecord.setStatusUpdatedBy(updatedBy);
-                bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                boolean validForOverlay = isValidForOverlay(bibRecord, requestJsonObject);
 
-                bibRecord.setStatusUpdatedDate(updatedDate);
+                if (validForOverlay) {
+                    bibRecord.setUpdatedBy(updatedBy);
+                    bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                String newContent = process001And003(newBibContent, bibId);
+                    Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-                newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
+                    bibRecord.setDateEntered(updatedDate);
 
-                bibRecord.setContent(newContent);
-                exchange.add(OleNGConstants.BIB, bibRecord);
-                bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+                    String newContent = process001And003(newBibContent, bibId);
 
-                processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
+                    newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
 
-                getBibDAO().save(bibRecord);
+                    bibRecord.setContent(newContent);
+                    exchange.add(OleNGConstants.BIB, bibRecord);
+                    bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
 
-                saveBibInfoRecord(bibRecord,false);
+                    Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
+                    if(null != statusUpdated && statusUpdated == Boolean.TRUE) {
+                        bibRecord.setStatusUpdatedBy(updatedBy);
+                        bibRecord.setStatusUpdatedDate(updatedDate);
+                    }
+
+                    processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
+
+                    getBibDAO().save(bibRecord);
+                    bibRecord.setOperationType(OleNGConstants.UPDATED);
+
+                    saveBibInfoRecord(bibRecord,false);
+                }
 
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            addFailureReportToExchange(requestJsonObject, exchange,"bib", e , null);
         }
 
     }
 
-    public void processIfDeleteAllExistOpsFound(BibRecord bibRecord, JSONObject requestJsonObject) {
-        ArrayList<HoldingsRecord> holdingsListToDelete = new ArrayList<HoldingsRecord>();
-
-        ArrayList<HoldingsRecord> listOfHoldingsToDelete = getListOfHoldingsToDelete(bibRecord, requestJsonObject);
-        holdingsListToDelete.addAll(listOfHoldingsToDelete);
-
-        ArrayList<HoldingsRecord> listOfEHoldingsToDelete = getListOfEHoldingsToDelete(bibRecord, requestJsonObject);
-        holdingsListToDelete.addAll(listOfEHoldingsToDelete);
-
-        if (CollectionUtils.isNotEmpty(holdingsListToDelete)) {
-            getBusinessObjectService().delete(holdingsListToDelete);
-            StringBuilder holdingIdsString = new StringBuilder();
-            for (Iterator<HoldingsRecord> iterator = holdingsListToDelete.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = iterator.next();
-                String holdingsId = holdingsRecord.getHoldingsId();
-                holdingIdsString.append(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsId);
-                if(iterator.hasNext()) {
-                    holdingIdsString.append(" OR ");
+    private boolean isValidForOverlay(BibRecord bibRecord, JSONObject requestJsonObject) {
+        boolean isValid = true;
+        if(null != bibRecord) {
+            JSONObject additionalOverlayOps = getJSONObjectFromJSONObject(requestJsonObject, OleNGConstants.ADDITIONAL_OVERLAY_OPS);
+            if(null !=  additionalOverlayOps && additionalOverlayOps.has(OleNGConstants.BIB)) {
+                JSONObject bibAdditionalOverlayOps = getJSONObjectFromJSONObject(additionalOverlayOps, OleNGConstants.BIB);
+                String where = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.WHERE);
+                String condition = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.CONDITION);
+                String value = getStringValueFromJsonObject(bibAdditionalOverlayOps, OleNGConstants.VALUE);
+                for (Iterator<AdditionalOverlayOpsHandler> iterator = getAdditionalOverlayOpsHandlers().iterator(); iterator.hasNext(); ) {
+                    AdditionalOverlayOpsHandler additionalOverlayOpsHandler = iterator.next();
+                    List<String> values = getListFromJSONArray(value);
+                    if(additionalOverlayOpsHandler.isInterested(where) && CollectionUtils.isNotEmpty(values)) {
+                        isValid = isValid & additionalOverlayOpsHandler.isValid(condition, values, bibRecord);
+                    }
                 }
             }
-            if(StringUtils.isNotBlank(holdingIdsString.toString())) {
-                String deleteQuery = "id:(" + holdingIdsString + ")";
-                getSolrRequestReponseHandler().deleteFromSolr(deleteQuery);
-            }
         }
-    }
-
-    private ArrayList<HoldingsRecord> getListOfHoldingsToDelete(BibRecord bibRecord, JSONObject requestJsonObject) {
-        String addedOpsValue = getAddedOpsValue(requestJsonObject, OleNGConstants.HOLDINGS);
-        return filterHoldingsOrEholdingsRecordsToDelete(bibRecord,addedOpsValue,PHoldings.PRINT);
-    }
-
-
-    private ArrayList<HoldingsRecord> getListOfEHoldingsToDelete(BibRecord bibRecord, JSONObject requestJsonObject) {
-        String addedOpsValue = getAddedOpsValue(requestJsonObject, OleNGConstants.EHOLDINGS);
-        return filterHoldingsOrEholdingsRecordsToDelete(bibRecord,addedOpsValue,EHoldings.ELECTRONIC);
-    }
-
-    private ArrayList<HoldingsRecord> filterHoldingsOrEholdingsRecordsToDelete(BibRecord bibRecord, String addedOpsValue, String type) {
-        ArrayList<HoldingsRecord> holdingsListToDelete = new ArrayList<HoldingsRecord>();
-        if(StringUtils.isNotBlank(addedOpsValue) && addedOpsValue.equalsIgnoreCase(OleNGConstants.DELETE_ALL_EXISTING_AND_ADD)) {
-            ArrayList<HoldingsRecord> finalHoldingsListForRetain = new ArrayList<HoldingsRecord>();
-            List<HoldingsRecord> holdingsRecords = bibRecord.getHoldingsRecords();
-            for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
-                HoldingsRecord holdingsRecord = iterator.next();
-                if(holdingsRecord.getHoldingsType().equalsIgnoreCase(type)) {
-                    holdingsListToDelete.add(holdingsRecord);
-                } else {
-                    finalHoldingsListForRetain.add(holdingsRecord);
-                }
-            }
-            bibRecord.setHoldingsRecords(finalHoldingsListForRetain);
-        }
-        return holdingsListToDelete;
-    }
-
-
-    private String getAddedOpsValue(JSONObject jsonObject, String docType) {
-        JSONObject addedOps = getJSONObjectFromJSONObject(jsonObject, OleNGConstants.ADDED_OPS);
-        return getStringValueFromJsonObject(addedOps,docType);
+        return isValid;
     }
 
     private String processFieldOptions(String oldMarcContent,String newMarcContent, JSONObject requestJSON) {
@@ -177,58 +145,21 @@ public class UpdateBibHandler extends BibHandler {
 
             if (null != ignoreGPF && ignoreGPF == Boolean.FALSE) {
                 List<VariableField> dataFields = record.getVariableFields(dataField);
-
-                if (CollectionUtils.isNotEmpty(dataFields)) {
-                    if(StringUtils.isBlank(ind1) && StringUtils.isBlank(ind2) && StringUtils.isBlank(subfield)){
-                        return dataFields;
-                    }
-
-                    List<VariableField> fieldsToReturn = new ArrayList<VariableField>();
-
-                    for (Iterator<VariableField> iterator = dataFields.iterator(); iterator.hasNext(); ) {
-                        DataField field = (DataField) iterator.next();
-                        boolean matched = isMatched(field, ind1, ind2, subfield, value);
-                        if(matched) {
-                            fieldsToReturn.add(field);
-                        }
-                    }
-
-                    if(CollectionUtils.isNotEmpty(fieldsToReturn)){
-                        return fieldsToReturn;
-                    }
-                }
+                return getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subfield, value, dataFields);
             }
         }
         return null;
     }
 
-    private boolean isMatched( DataField field, String ind1, String ind2, String subfield, String value) {
-        boolean matchedDataField = true;
-        if (StringUtils.isNotBlank(ind1)) {
-            matchedDataField &= ind1.charAt(0) == field.getIndicator1();
+    public List<AdditionalOverlayOpsHandler> getAdditionalOverlayOpsHandlers() {
+        if(null == additionalOverlayOpsHandlers) {
+            additionalOverlayOpsHandlers = new ArrayList<AdditionalOverlayOpsHandler>();
+            additionalOverlayOpsHandlers.add(new BibStatusOverlayOpsHandler());
         }
-        if (matchedDataField && StringUtils.isNotBlank(ind2)) {
-            matchedDataField &= ind2.charAt(0) == field.getIndicator2();
-        }
+        return additionalOverlayOpsHandlers;
+    }
 
-        if (matchedDataField && StringUtils.isNotBlank(subfield)) {
-            for (Iterator<Subfield> variableFieldIterator = field.getSubfields().iterator(); variableFieldIterator.hasNext(); ) {
-                Subfield sf = variableFieldIterator.next();
-                char subFieldChar = (StringUtils.isNotBlank(subfield) ? subfield.charAt(0) : ' ');
-                if(subFieldChar == sf.getCode()) {
-                    String data = sf.getData();
-                    if (StringUtils.isNotBlank(value)) {
-                        if(StringUtils.equals(data,value)){
-                            return true;
-                        }
-                    } else {
-                        return true;
-                    }
-                }
-            }
-        } else if(matchedDataField && StringUtils.isBlank(subfield)) {
-            return true;
-        }
-        return false;
+    public void setAdditionalOverlayOpsHandlers(List<AdditionalOverlayOpsHandler> additionalOverlayOpsHandlers) {
+        this.additionalOverlayOpsHandlers = additionalOverlayOpsHandlers;
     }
 }

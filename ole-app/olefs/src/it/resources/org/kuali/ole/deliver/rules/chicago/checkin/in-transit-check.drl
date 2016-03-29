@@ -58,6 +58,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 end
@@ -76,6 +77,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);

@@ -1,0 +1,37 @@
+<div class="panel-group" ng-model="reportNeitherReqNorPoSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="reportNeitherReqNorPoSectionPanel.collapsed = !reportNeitherReqNorPoSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !reportNeitherReqNorPoSectionPanel.collapsed, 'glyphicon-chevron-down': reportNeitherReqNorPoSectionPanel.collapsed}"></span>
+                    Neither Requisition Nor Purchase Order
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <table datatable="ng" class="table table-bordered row-border hover">
+                        <thead style="height: 20px">
+                        <tr>
+                            <th>Record Number</th>
+                            <th>Title</th>
+                            <th>Successful Match Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="reportNeitherReqNorPo in reportNeitherReqNorPoSectionPanel">
+                            <td><span ng-bind="reportNeitherReqNorPo.recordNumber"></span></td>
+                            <td><span ng-bind="reportNeitherReqNorPo.title"></span></td>
+                            <td><span ng-bind="reportNeitherReqNorPo.successfulMatchPoints"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
