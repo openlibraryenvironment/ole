@@ -119,4 +119,6 @@ public interface OleInvoiceService extends InvoiceService {
     public void deleteInvoiceItem(OleInvoiceDocument oleInvoiceDocument);
 
     public String getPurchaseOrderVendor(String poId);
+
+    public List<String> getRecurringOrderTypes();
 }
