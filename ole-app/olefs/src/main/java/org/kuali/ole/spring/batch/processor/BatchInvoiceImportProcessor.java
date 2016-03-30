@@ -72,7 +72,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         MatchedDetails matchedDetails = new MatchedDetails();
         Exchange exchange = new Exchange();
 
-        Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = null;
+        Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = new HashMap<>();
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
             if (recordsMap.size() > 0) {
                 BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
@@ -262,8 +262,10 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
             }
         }
 
-        batchJobDetails.setTotalRecords(String.valueOf(totalNoOfRecords));
-        getBusinessObjectService().save(batchJobDetails);
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            batchJobDetails.setTotalRecords(String.valueOf(totalNoOfRecords));
+            getBusinessObjectService().save(batchJobDetails);
+        }
 
         return oleInvoiceRecordMap;
     }
