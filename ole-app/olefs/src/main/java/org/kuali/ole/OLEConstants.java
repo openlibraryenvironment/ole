@@ -2034,6 +2034,7 @@ public class OLEConstants {
         public static final String ITEM_IN_LOAN = "error.deliver.request.item.loan";
         public static final String REQUEST_ID_INVALID = "error.deliver.request.item.invalidrequest";
         public static final String ITEM_ID = "itemId";
+        public static final String LOAN_TRANS_ID = "loanTransactionId";
         public static final String FLAG = "flag";
         public static final String ITEM_UUID = "itemUUID";
         public static final String REQUEST_ID = "requestId";
@@ -2116,6 +2117,7 @@ public class OLEConstants {
         public static final String BORROWER_CODE = "borrowerCode";
         public static final String BORROWER_BARCODE = "borrowerBarcode";
         public static final String INVALID_PATRON_BARCODE = "error.deliver.request.invalidPatronBarcode";
+        public static final String REQUEST_OUTCOME_STATUS = "requestOutComeStatus";
     }
 
     public static final class OlePatronBill {
