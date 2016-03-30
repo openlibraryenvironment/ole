@@ -685,7 +685,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleDeliverRequestBo
      */
     public void cancelDocument(OleDeliverRequestBo oleDeliverRequestBo) {
-        String operatorId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+        String operatorId = "";
+        if (GlobalVariables.getUserSession() != null) {
+            operatorId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+        }
         try {
             List<OleNoticeBo> oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId());
             ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
