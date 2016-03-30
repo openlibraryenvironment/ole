@@ -143,7 +143,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OleInvoiceDocument invoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         invoiceDocument.setDbRetrieval(false);
         Map<String, String> searchCriteria = new HashMap<String, String>();
-
+        String poOrderType=null;
         String poId = invoiceDocument.getPoId();
         OleInvoiceItemService oleInvoiceItemService = (OleInvoiceItemService) SpringContext
                 .getBean("oleInvoiceItemService");
@@ -174,6 +174,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) olePurchaseOrderDocument.getItems();
                         List<OlePurchaseOrderItem> finalItem = new ArrayList<OlePurchaseOrderItem>();
                         olePurchaseOrderDocument.setItems(finalItem);
+                        poOrderType=olePurchaseOrderDocument.getOrderType().getPurchaseOrderType();
                         Integer active_item_count = 0;
                         for (OlePurchaseOrderItem item : items) {
                             if (item.isItemActiveIndicator() &&
@@ -194,7 +195,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                     item.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
                                     item.getItemType().isLineItemIndicator()) {
                                 if (item.getItemTypeCode().equalsIgnoreCase(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
-                                    item.setPoOutstandingQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                                    //item.setPoOutstandingQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                                    calculatePOOutstandingQuantity(item,poOrderType);
                                     item.setNoOfCopiesInvoiced(new KualiInteger(item.getItemQuantity().bigDecimalValue()));
                                     item.setNoOfPartsInvoiced(item.getItemNoOfParts());
                                     item.setInvoiceItemListPrice(item.getItemListPrice().toString());
@@ -335,6 +337,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             }
         }
         return getUIFModelAndView(oleInvoiceForm);
+    }
+
+    private void calculatePOOutstandingQuantity(OlePurchaseOrderItem item,String poOrderType ){
+        if (poOrderType!=null && !getInvoiceService().getRecurringOrderTypes().contains(poOrderType)) {
+            item.setPoOutstandingQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+        }else{
+            item.setPoOutstandingQuantity(KualiDecimal.ZERO);
+        }
     }
 
     @RequestMapping(params = "methodToCall=searchVendor")

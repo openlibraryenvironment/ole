@@ -1910,6 +1910,14 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     invoiceItem.setPostingYear(po.getPostingYear());
                     invoiceItem.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
                     invoiceItem.setReceivingDocumentRequiredIndicator(po.isReceivingDocumentRequiredIndicator());
+                    if(!poi.getOpenQuantity().equals("0.00")){
+                        BigDecimal copiesOrdered=new BigDecimal(invoiceItem.getOleCopiesOrdered());
+                        BigDecimal outStandingQuantity=new BigDecimal(poi.getOpenQuantity());
+                        BigDecimal updatedOpenQuantity=outStandingQuantity.subtract(copiesOrdered);
+                        invoiceItem.setOleOpenQuantity(String.valueOf(updatedOpenQuantity));
+                    }else{
+                        invoiceItem.setOleOpenQuantity(poi.getOpenQuantity());
+                    }
                     if(invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getExtendedPrice()!=null){
                         addChargeItem =addChargeItem.add(invoiceItem.getExtendedPrice().bigDecimalValue());
                     }
@@ -3039,6 +3047,17 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
         return newAccounts;
 
+    }
+
+    public List<String> getRecurringOrderTypes(){
+        List<String> continuingOrderType=new ArrayList<>();
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_STANDING);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_SUBSCRIPTION);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_MEMBERSHIP);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_BLANKET);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_INTEGRATING_RESOURCE);
+        continuingOrderType.add(PurapConstants.ORDER_TYPE_CONTINUING);
+        return continuingOrderType;
     }
 
 }
