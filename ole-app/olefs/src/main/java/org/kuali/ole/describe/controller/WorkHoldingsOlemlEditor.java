@@ -658,6 +658,28 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             ExtentOfOwnership extentOfOwnership = new ExtentOfOwnership();
             extentOfOwnership.getNote().add(new Note());
             extentOfOwnershipForUI.add(index, extentOfOwnership);
+            List<ExtentOfOwnership> basic = new ArrayList<>();
+            List<ExtentOfOwnership> supplementary = new ArrayList<>();
+            List<ExtentOfOwnership> indexes = new ArrayList<>();
+            ExtentOfOwnership extentOfOwnerships = new ExtentOfOwnership();
+            for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipForUI) {
+                if (StringUtils.isNotBlank(extentOfOwnership1.getType())) {
+                    if (extentOfOwnership1.getType().equalsIgnoreCase("Basic Bibliographic Unit")) {
+                        basic.add(extentOfOwnership1);
+                    } else if (extentOfOwnership1.getType().equalsIgnoreCase("Supplementary Material")) {
+                        supplementary.add(extentOfOwnership1);
+                    } else if (extentOfOwnership1.getType().equalsIgnoreCase("Indexes")) {
+                        indexes.add(extentOfOwnership1);
+                    }
+                } else {
+                    extentOfOwnerships = extentOfOwnership1;
+                }
+            }
+            extentOfOwnershipForUI.clear();
+            extentOfOwnershipForUI.add(extentOfOwnerships);
+            extentOfOwnershipForUI.addAll(basic);
+            extentOfOwnershipForUI.addAll(supplementary);
+            extentOfOwnershipForUI.addAll(indexes);
             editorForm.setDocumentForm(workInstanceOlemlForm);
         } else if (methodName.equalsIgnoreCase("removeExtentOfOwnership")) {
             WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
