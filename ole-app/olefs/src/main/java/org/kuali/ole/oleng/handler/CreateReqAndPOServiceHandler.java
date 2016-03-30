@@ -22,7 +22,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
-import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;

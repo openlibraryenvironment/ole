@@ -19,7 +19,6 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.batch.reports.OrderImportReportLogHandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
-import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.oleng.resolvers.CreateNeitherReqNorPOHandler;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionAndPurchaseOrderHander;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;

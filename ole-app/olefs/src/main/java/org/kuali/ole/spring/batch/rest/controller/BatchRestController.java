@@ -80,7 +80,9 @@ public class BatchRestController extends OleNgControllerBase {
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
         JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory, batchJobDetails);
-        getBusinessObjectService().save(batchJobDetails);
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            getBusinessObjectService().save(batchJobDetails);
+        }
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
         response.put("processTime",totalTime + "ms");
@@ -91,9 +93,9 @@ public class BatchRestController extends OleNgControllerBase {
     @ResponseBody
     public String submitApi(@RequestBody String requestBody) throws IOException, JSONException {
         JSONObject requestJson = new JSONObject(requestBody);
-        String rawContent = requestJson.getString("marcContent");
-        String batchType = requestJson.getString("batchType");
-        String profileId = requestJson.getString("profileId");
+        String rawContent = getStringValueFromJsonObject(requestJson, "marcContent");
+        String batchType = getStringValueFromJsonObject(requestJson, "batchType");
+        String profileId = getStringValueFromJsonObject(requestJson, "profileId");
         BatchJobDetails batchJobDetails = new BatchJobDetails();
         batchJobDetails.setProfileName(profileId);
         JSONObject response = processBatch(profileId, batchType, rawContent, OleNGConstants.MARC, batchJobDetails);

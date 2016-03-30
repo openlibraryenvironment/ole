@@ -2,7 +2,6 @@ package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
@@ -12,7 +11,6 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
-import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
@@ -27,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,8 +51,10 @@ public abstract class BatchFileProcessor extends BatchUtil {
             List<Record> records = new ArrayList<>();
             if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
                 records = getMarcXMLConverter().convertRawMarchToMarc(rawContent);
-                batchJobDetails.setTotalRecords(String.valueOf(records.size()));
-                getBusinessObjectService().save(batchJobDetails);
+                if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+                    batchJobDetails.setTotalRecords(String.valueOf(records.size()));
+                    getBusinessObjectService().save(batchJobDetails);
+                }
             }
             Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
             for(int index = 0; index < records.size(); index++){

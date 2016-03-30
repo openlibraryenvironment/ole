@@ -1,13 +1,14 @@
 package org.kuali.ole.oleng.rest.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.ole.utility.JSONHelperUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * Created by SheikS on 12/16/2015.
  */
-public class OleNgControllerBase {
+public class OleNgControllerBase extends JSONHelperUtil {
     private BusinessObjectService businessObjectService;
     private ObjectMapper objectMapper;
 
