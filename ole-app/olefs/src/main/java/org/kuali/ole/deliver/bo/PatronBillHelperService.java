@@ -1548,7 +1548,7 @@ public class PatronBillHelperService {
                                 ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                        oleItemLevelBillPayment.setAmount(transAmount.compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) < 0 ? transAmount : transAmount);
+                        oleItemLevelBillPayment.setAmount(transAmount.negated());
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
@@ -1557,6 +1557,7 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         currentSessionTransactions.add(oleItemLevelBillPayment);
                     } else if(creditRefunded.isGreaterThan(KualiDecimal.ZERO)){
+                        KualiDecimal transactionAmount = creditRefunded;
                         patronFeeType.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
                         patronBillPayment.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
                         creditRefunded = KualiDecimal.ZERO;
@@ -1568,7 +1569,7 @@ public class PatronBillHelperService {
                                 ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                        oleItemLevelBillPayment.setAmount(creditRefunded.compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) < 0 ? creditRefunded : creditRefunded);
+                        oleItemLevelBillPayment.setAmount(transactionAmount);
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
