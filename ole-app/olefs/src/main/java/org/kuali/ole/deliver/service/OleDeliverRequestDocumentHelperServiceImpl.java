@@ -116,7 +116,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OleCirculationPolicyService oleCirculationPolicyService;
     private DateTimeService dateTimeService;
     private List<OleLoanDocument> laonDocumentsFromLaondId;
-    private OlePatronHelperServiceImpl olePatronHelperService;
+    private OlePatronHelperService olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
     private ParameterValueResolver parameterResolverInstance;
@@ -196,7 +196,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return olePatronHelperService;
     }
 
-    public void setOlePatronHelperService(OlePatronHelperServiceImpl olePatronHelperService) {
+    public void setOlePatronHelperService(OlePatronHelperService olePatronHelperService) {
         this.olePatronHelperService = olePatronHelperService;
     }
 
