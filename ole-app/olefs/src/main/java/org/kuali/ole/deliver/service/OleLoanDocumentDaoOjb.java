@@ -10,6 +10,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.sql.Timestamp;
@@ -561,5 +562,15 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         query.addOrderBy("borrowerQueuePosition");
         List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return CollectionUtils.isNotEmpty(oleDeliverRequestBoList) ? oleDeliverRequestBoList.get(0) : null;
+    }
+
+    public List<OleDeliverRequestHistoryRecord> getExpiredRequest(String itemId, Date loanCreatedDate) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(OLEConstants.OleDeliverRequest.ITEM_ID, itemId);
+        criteria.addEqualTo(OLEConstants.OleDeliverRequest.REQUEST_OUTCOME_STATUS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+        criteria.addBetween(OLEConstants.ARCHIVE_DATE, loanCreatedDate, new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestHistoryRecord.class, criteria);
+        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = (List<OleDeliverRequestHistoryRecord>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return oleDeliverRequestHistoryRecords;
     }
 }

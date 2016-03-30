@@ -9,21 +9,46 @@ import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.bo.PatronBillPayment
 
 
-rule "Items hourly fines "
+rule "Requested items hourly fines "
 agenda-group "fine validation"
 activation-group "fine validation"
 when
 
+$l: OleLoanDocument(isItemHasRequest())
+
 $f: ItemFineRate()
 
 $i: OleItemRecordForCirc(getItemType() in ("DAY01"),
-getItemLibraryLocation() in ("B-EDUC"))
+getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("UGRAD"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
 
 then
 $f.setFineRate(5.00);
 $f.setMaxFine(100.00);
-$f.setInterval("h"); //Options are H-Hours; D-Days
+$f.setInterval("H"); //Options are H-Hours; D-Days
+
+ end
+
+
+
+ rule "Items hourly fines "
+ agenda-group "fine validation"
+ activation-group "fine validation"
+ when
+
+ $l: OleLoanDocument(!isItemHasRequest())
+
+ $f: ItemFineRate()
+
+ $i: OleItemRecordForCirc(getItemType() in ("DAY01"),
+ getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"))
+
+ $p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
+
+ then
+ $f.setFineRate(3.00);
+ $f.setMaxFine(100.00);
+ $f.setInterval("H"); //Options are H-Hours; D-Days
 
   end

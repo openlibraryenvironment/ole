@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
@@ -2142,6 +2143,22 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
             dueDate =  new Timestamp(calendar.getTime().getTime());
         }
         return dueDate;
+    }
+
+    public Boolean isItemHasRequest() {
+        Map<String, String> requestHistoryMap = new HashMap<>();
+        if(StringUtils.isNotBlank(this.itemId) && this.createDate != null) {
+            requestHistoryMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, this.itemId);
+            List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestHistoryMap);
+            if(CollectionUtils.isNotEmpty(oleDeliverRequestBoList)) {
+                return true;
+            }
+            List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = getOleLoanDocumentDaoOjb().getExpiredRequest(this.itemId, this.createDate);
+            if(CollectionUtils.isNotEmpty(oleDeliverRequestHistoryRecords)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isDamagedItemIndicator() {

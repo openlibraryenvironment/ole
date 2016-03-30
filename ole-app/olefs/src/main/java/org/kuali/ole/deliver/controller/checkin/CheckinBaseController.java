@@ -223,6 +223,7 @@ public abstract class CheckinBaseController extends CircUtilController {
         OlePatronDocument olePatronDocument = null;
         if (null != loanDocument) {
             olePatronDocument = loanDocument.getOlePatron();
+            loanDocument.setOleDeliverRequestBo(oleItemRecordForCirc.getOleDeliverRequestBo());
             ArrayList<Object> facts = new ArrayList<>();
             facts.add(droolsResponse);
             facts.add(oleItemRecordForCirc);

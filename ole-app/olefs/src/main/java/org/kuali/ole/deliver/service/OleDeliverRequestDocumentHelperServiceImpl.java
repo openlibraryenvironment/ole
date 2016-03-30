@@ -598,7 +598,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if ((fmt.format(activationDate)).compareTo(fmt.format(new Date(System.currentTimeMillis()))) <= 0) {
                 if (expirationDate != null) {
                     if ((fmt.format(expirationDate)).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
-                        expired = OLEConstants.OleDeliverRequest.PATRON_RECORD_EXPIRE;
+                        expired = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OleDeliverRequest.PATRON_RECORD_EXPIRE);
                     }
                 }
             } else {
@@ -1661,7 +1661,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OleDeliverRequest.DATE_FORMAT);
             for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
                 try {
-                    if(oleDeliverRequestBoList.get(i).getHoldExpirationDate()==null || ( oleDeliverRequestBoList.get(i).getHoldExpirationDate()!=null && (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)){
+                    if((oleDeliverRequestBoList.get(i).getHoldExpirationDate()==null && (fmt.format(oleDeliverRequestBoList.get(i).getRequestExpiryDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)
+                            || (oleDeliverRequestBoList.get(i).getHoldExpirationDate()!=null && (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)){
                         //newOleDeliverRequestBoList.add(oleDeliverRequestBoList.get(i));
                         deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
                     }
