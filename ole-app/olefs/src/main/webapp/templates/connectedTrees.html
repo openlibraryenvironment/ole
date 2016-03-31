@@ -1,42 +1,43 @@
 <!-- Nested node template -->
 <script type="text/ng-template" id="nodes_renderer1.html">
-    <div ui-tree-handle class="tree-node tree-node-content">
-        <div class="tree-node-content">
-            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{bibClass: node.docType == 'bibliographic', holdingsClass: node.docType == 'holdings', itemClass: node.docType == 'item'}">
+        <div class="tree-node-content" style="margin-top: -5px; margin-left: -5px;">
+            <a ng-show="node.docType == 'bibliographic'" class="btn btn-primary btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            <a ng-show="node.docType == 'holdings'" class="btn btn-warning btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            <a ng-show="node.docType == 'item'" class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': true}"></span></a>
             {{node.title}}
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
         <div align="right">
-        <button id="{{node.id}}"class="btn-xs" ng-click="previous(node.id)"  style="" ng-show="node.docType == 'holdings' ">previous</button>
-        <button class="btn-xs" ng-click="next(node.id)"  style="" ng-show="node.docType == 'holdings' ">next</button>
+            <button id="leftPrevious_{{node.id}}" class="btn-xs" ng-click="leftTreePrevious(node.id)"  style="" ng-show="node.docType == 'holdings' && node.showPrevious"><i class="fa fa-arrow-left"></i></button>
+            <button id="leftNext_{{node.id}}" class="btn-xs" ng-click="leftTreeNext(node.id)"  style="" ng-show="node.docType == 'holdings' && node.showNext"><i class="fa fa-arrow-right"></i></button>
+            <input class="form-control" type="hidden" id="leftStart_{{node.id}}" name="leftStart_{{node.id}}" ng-value="0"/>
         </div>
-        <!--<div align="right">
-        <dir-pagination-controls max-size="5"
-                                 direction-links="true"
-                                 boundary-links="true"
-                                 on-page-change="nextItemSearchSolr(newPageNumber)" pagination-id="nodes_renderer1"  ng-show="node.docType == 'holdings' ">
-        </dir-pagination-controls>
-        </div>-->
-        <!--<li dir-paginate="node in node.nodes | itemsPerPage: itemPageSize" total-items="{{node.nodes.length}}" pagination-id="nodes_renderer1" ui-tree-node ng-include="'nodes_renderer1.html'"></li>-->
         <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer1.html'">
         </li>
     </ol>
 </script>
+
 <script type="text/ng-template" id="nodes_renderer2.html">
-    <div ui-tree-handle class="tree-node tree-node-content">
-        <div class="tree-node-content">
-            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon"
-                                                                                        ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{bibClass: node.docType == 'bibliographic', holdingsClass: node.docType == 'holdings', itemClass: node.docType == 'item'}">
+        <div class="tree-node-content" style="margin-top: -5px; margin-left: -5px;">
+            <a ng-show="node.docType == 'bibliographic'" class="btn btn-primary btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            <a ng-show="node.docType == 'holdings'" class="btn btn-warning btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            <a ng-show="node.docType == 'item'" class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': true}"></span></a>
             {{node.title}}
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+        <div align="right">
+            <button id="rightPrevious_{{node.id}}" class="btn-xs" ng-click="rightTreePrevious(node.id)"  style="" ng-show="node.docType == 'holdings' && node.showPrevious"><i class="fa fa-arrow-left"></i></button>
+            <button id="rightNext_{{node.id}}" class="btn-xs" ng-click="rightTreeNext(node.id)"  style="" ng-show="node.docType == 'holdings' && node.showNext"><i class="fa fa-arrow-right"></i></button>
+            <input class="form-control" type="hidden" id="rightStart_{{node.id}}" name="rightStart_{{node.id}}" ng-value="0"/>
+        </div>
         <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer2.html'">
         </li>
     </ol>
 </script>
-
 
 
 <div class="row" ng-controller="treesController" ng-show="searched">
@@ -55,34 +56,6 @@
                 </li>
             </ol>
         </div>
-
-        <!--<ul id="tree1" class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home"></a></li>
-            <li><a data-toggle="tab" href="#menu1"></a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
-                <div ui-tree id="tree1-root">
-                    <ol ui-tree-nodes="" ng-model="tree1">
-                        <li ng-repeat="node in tree1" ui-tree-node ng-include="'nodes_renderer1.html'">
-                        </li>
-                    </ol>
-
-                </div>
-            </div>
-            <div id="menu1" class="tab-pane fade">
-                <br/>
-                &lt;!&ndash;<span class="messageClass" ng-bind="message"/>&ndash;&gt;
-                <br/>
-                <div>
-                    <button class="btn btn-primary btn-sm" ng-click="keep()" style="margin-left:100px;">Keep</button>
-                    <button class="btn btn-primary btn-sm" ng-click="delete()">Delete</button>
-                    <button class="btn btn-primary btn-sm" ng-click="cancel()">Cancel</button>
-                </div>
-            </div>
-        </div>-->
-
     </div>
 
     <div class="col-sm-6">

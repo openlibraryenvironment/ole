@@ -8,6 +8,16 @@
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+.errorMessageClass {
+    background-color: #FFEAF0;
+    border: 1px solid #FFDBEB;
+    border-radius: 4px 4px 4px 4px;
+    color: #B94A48;
+    margin-bottom: 18px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 .panel-title {
     color: #1150B0;
     font-size: 18px;
@@ -15,4 +25,28 @@
 
 .panel-title:focus, .panel-title:hover {
     color: #0a306a;
+}
+
+.bibClass {
+    height: 30px;
+    padding-right: 10px;
+    padding-bottom: 40px;
+    margin-bottom: 10px;
+    border-bottom-width: 1px
+}
+
+.holdingsClass {
+    height: 30px;
+    padding-right: 10px;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+    border-bottom-width: 1px
+}
+
+.itemClass {
+    height: 30px;
+    padding-right: 10px;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+    border-bottom-width: 1px
 }
