@@ -240,7 +240,7 @@ public class BatchExcelReportUtil extends BatchUtil{
                 }
 
                 // Requisition Only Section
-                String[] orderSectionReportHeader = {"Record Number", "Title", "Successful Match Points"};
+                String[] orderSectionReportHeader = {"Document Number", "Record Number", "Title", "Successful Match Points"};
                 List<List<String>> requisitionOnlyContent = getOrderResponseContent(oleNGOrderImportResponse.getReqOnlyResponses());
                 rowId = addSection(workbook, spreadsheet, rowId, orderSectionReportHeader,  requisitionOnlyContent, "Requisition Only");
 
@@ -269,6 +269,8 @@ public class BatchExcelReportUtil extends BatchUtil{
             for (Iterator<OrderData> orderDataIterator = orderDatas.iterator(); orderDataIterator.hasNext(); ) {
                 OrderData orderData = orderDataIterator.next();
                 List<String> rowValue = new ArrayList<>();
+                Integer reqDocumentNumber = orderData.getReqDocumentNumber();
+                rowValue.add(null != reqDocumentNumber ? String.valueOf(reqDocumentNumber) : "");
                 rowValue.add(String.valueOf(orderData.getRecordNumber()));
                 rowValue.add(orderData.getTitle());
                 rowValue.add(orderData.getSuccessfulMatchPoints());

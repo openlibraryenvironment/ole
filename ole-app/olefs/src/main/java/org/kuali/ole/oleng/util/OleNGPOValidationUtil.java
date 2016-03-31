@@ -78,7 +78,7 @@ public class OleNGPOValidationUtil {
         String quantity = oleTxRecord.getQuantity();
         if (null == quantity || !NumberUtils.isDigits(quantity)){
             getBatchUtil().addOrderFaiureResponseToExchange(
-                    new ValidationException("Delivery building room number cannot be blank or null and it should be round number."), recordIndex, exchange);
+                    new ValidationException("Quantity cannot be blank or null and it should be round number."), recordIndex, exchange);
             return false;
         }
         return true;
