@@ -23,9 +23,7 @@ import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.spring.batch.BatchUtil;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SheikS on 3/10/2016.
@@ -35,6 +33,7 @@ public class OleNGPOHelperUtil {
     private static  OrderImportService oleOrderImportService;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     private BatchUtil batchUtil;
+    private OleNGPOValidationUtil oleNGPOValidationUtil;
 
     private static OleNGPOHelperUtil oleNGPOHelperUtil;
 
@@ -48,8 +47,9 @@ public class OleNGPOHelperUtil {
         return oleNGPOHelperUtil;
     }
 
-    public Integer processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
+    public Map<Integer, Set<Integer>> processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
                                    CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler, Exchange exchange)  {
+        Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
         List<OleOrderRecord> oleOrderRecords = new ArrayList<>();
         Integer purapId = null;
         for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
@@ -86,7 +86,10 @@ public class OleNGPOHelperUtil {
                     String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
                     oleOrderRecord.setBibImportProfileName(bibProfileName);
                     oleOrderRecord.setRecordIndex(recordIndex);
-                    oleOrderRecords.add(oleOrderRecord);
+                    boolean valid = getOleNGPOValidationUtil().validateOleOrderRecord(oleOrderRecord, exchange, recordIndex);
+                    if(valid) {
+                        oleOrderRecords.add(oleOrderRecord);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
@@ -97,12 +100,25 @@ public class OleNGPOHelperUtil {
         try {
             if(CollectionUtils.isNotEmpty(oleOrderRecords)) {
                 purapId = createReqAndPOServiceHandler.processOrder(oleOrderRecords,exchange);
+                addPOIdToMap(purapId, oleOrderRecords, poIdsMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
             getBatchUtil().addOrderFaiureResponseToExchange(e, null, exchange);
         }
-        return purapId;
+        return poIdsMap;
+    }
+
+    private void addPOIdToMap(Integer purapId, List<OleOrderRecord> oleOrderRecords, Map<Integer, Set<Integer>> poIdsMap) {
+        if (null != purapId) {
+            Set<Integer> recordIndexes = new HashSet<>();
+            for (Iterator<OleOrderRecord> iterator = oleOrderRecords.iterator(); iterator.hasNext(); ) {
+                OleOrderRecord oleOrderRecord = iterator.next();
+                Integer recordIndex = oleOrderRecord.getRecordIndex();
+                recordIndexes.add(recordIndex);
+            }
+            poIdsMap.put(purapId, recordIndexes);
+        }
     }
 
 
@@ -156,5 +172,16 @@ public class OleNGPOHelperUtil {
 
     public void setBatchUtil(BatchUtil batchUtil) {
         this.batchUtil = batchUtil;
+    }
+
+    public OleNGPOValidationUtil getOleNGPOValidationUtil() {
+        if(null == oleNGPOValidationUtil) {
+            oleNGPOValidationUtil = new OleNGPOValidationUtil();
+        }
+        return oleNGPOValidationUtil;
+    }
+
+    public void setOleNGPOValidationUtil(OleNGPOValidationUtil oleNGPOValidationUtil) {
+        this.oleNGPOValidationUtil = oleNGPOValidationUtil;
     }
 }

@@ -269,7 +269,7 @@ public class BatchExcelReportUtil extends BatchUtil{
             for (Iterator<OrderData> orderDataIterator = orderDatas.iterator(); orderDataIterator.hasNext(); ) {
                 OrderData orderData = orderDataIterator.next();
                 List<String> rowValue = new ArrayList<>();
-                rowValue.add(orderData.getRecordNumber());
+                rowValue.add(String.valueOf(orderData.getRecordNumber()));
                 rowValue.add(orderData.getTitle());
                 rowValue.add(orderData.getSuccessfulMatchPoints());
                 itemValues.add(rowValue);

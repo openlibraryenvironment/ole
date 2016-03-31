@@ -20,6 +20,8 @@ import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.marc4j.MarcReader;
+import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,21 +50,13 @@ public abstract class BatchFileProcessor extends BatchUtil {
         String responseData = "";
         try {
             batchProcessProfile = fetchBatchProcessProfile(profileId);
-            List<Record> records = new ArrayList<>();
+            Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
             if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
-                records = getMarcXMLConverter().convertRawMarchToMarc(rawContent);
+                recordDetailsMap = getRecordDetailsMap(rawContent);
                 if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
-                    batchJobDetails.setTotalRecords(String.valueOf(records.size()));
+                    batchJobDetails.setTotalRecords(String.valueOf(recordDetailsMap.size()));
                     getBusinessObjectService().save(batchJobDetails);
                 }
-            }
-            Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
-            for(int index = 0; index < records.size(); index++){
-                RecordDetails recordDetails = new RecordDetails();
-                int position = index + 1;
-                recordDetails.setRecord(records.get(index));
-                recordDetails.setIndex(position);
-                recordDetailsMap.put(position, recordDetails);
             }
             OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordDetailsMap, fileType, batchProcessProfile, reportDirectoryName, batchJobDetails);
             int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
@@ -83,6 +77,27 @@ public abstract class BatchFileProcessor extends BatchUtil {
             throw e;
         }
         return response;
+    }
+
+    private Map<Integer, RecordDetails> getRecordDetailsMap(String rawContent) {
+        Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+        MarcReader reader = new MarcStreamReader(IOUtils.toInputStream(rawContent));
+        Record nextRecord = null;
+        int position = 1;
+        do {
+            RecordDetails recordDetails = new RecordDetails();
+            try {
+                nextRecord = getMarcXMLConverter().getNextRecord(reader);
+                recordDetails.setRecord(nextRecord);
+            } catch (Exception e) {
+                e.printStackTrace();
+                recordDetails.setMessage("Unable to parse the marc file. Allowed format is UTF-8. " + e.toString());
+            }
+            recordDetails.setIndex(position);
+            recordDetailsMap.put(position, recordDetails);
+            position++;
+        } while(reader.hasNext());
+        return recordDetailsMap;
     }
 
     public BatchProcessProfile fetchBatchProcessProfile(String profileId) {
@@ -150,16 +165,16 @@ public abstract class BatchFileProcessor extends BatchUtil {
     }
 
     public int getFailureRecordsCount(List<? extends FailureResponse> failureResponses) {
-        int failureRecordCount = 0;
+        Set<Integer> failureRecords = new HashSet<>();
         if(CollectionUtils.isNotEmpty(failureResponses)) {
             for (Iterator<? extends FailureResponse> iterator = failureResponses.iterator(); iterator.hasNext(); ) {
                 FailureResponse bibFailureResponse = iterator.next();
                 Integer index = bibFailureResponse.getIndex();
                 if(null != index && index != 0) {
-                    failureRecordCount++;
+                    failureRecords.add(index);
                 }
             }
         }
-        return  failureRecordCount;
+        return  failureRecords.size();
     }
 }

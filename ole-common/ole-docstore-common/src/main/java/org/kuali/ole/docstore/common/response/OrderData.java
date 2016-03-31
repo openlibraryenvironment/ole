@@ -5,15 +5,16 @@ package org.kuali.ole.docstore.common.response;
  */
 public class OrderData {
 
-    private String recordNumber;
+    private Integer recordNumber;
     private String title;
+    private Integer reqDocumentNumber;
     private String successfulMatchPoints;
 
-    public String getRecordNumber() {
+    public Integer getRecordNumber() {
         return recordNumber;
     }
 
-    public void setRecordNumber(String recordNumber) {
+    public void setRecordNumber(Integer recordNumber) {
         this.recordNumber = recordNumber;
     }
 
@@ -23,6 +24,14 @@ public class OrderData {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getReqDocumentNumber() {
+        return reqDocumentNumber;
+    }
+
+    public void setReqDocumentNumber(Integer reqDocumentNumber) {
+        this.reqDocumentNumber = reqDocumentNumber;
     }
 
     public String getSuccessfulMatchPoints() {

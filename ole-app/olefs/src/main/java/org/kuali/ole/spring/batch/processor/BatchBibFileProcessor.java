@@ -17,6 +17,7 @@ import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
+import org.kuali.ole.oleng.exception.ValidationException;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -51,6 +52,10 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             Integer index = iterator.next();
             RecordDetails recordDetails = recordsMap.get(index);
             Record marcRecord = recordDetails.getRecord();
+            if(null == marcRecord) {
+                addBibFaiureResponseToExchange(new ValidationException(recordDetails.getMessage()), index, exchange);
+                continue;
+            }
             try {
                 JSONObject jsonObject = null;
 

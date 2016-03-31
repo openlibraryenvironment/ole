@@ -9,6 +9,7 @@ public class RecordDetails {
     private Record record;
     private String bibUUID;
     private Integer index;
+    private String message;
 
     public Record getRecord() {
         return record;
@@ -32,5 +33,13 @@ public class RecordDetails {
 
     public void setIndex(Integer index) {
         this.index = index;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

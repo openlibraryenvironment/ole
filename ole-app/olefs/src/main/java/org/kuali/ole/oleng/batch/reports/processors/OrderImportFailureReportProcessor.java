@@ -30,7 +30,10 @@ public class OrderImportFailureReportProcessor extends OleNGReportProcessor {
                     Integer index = orderFailureResponse.getIndex();
                     if(null != index) {
                         RecordDetails recordDetails = recordsMap.get(index);
-                        marcRecords.add(recordDetails.getRecord());
+                        Record record = recordDetails.getRecord();
+                        if (null != record) {
+                            marcRecords.add(record);
+                        }
                     }
                 }
             }

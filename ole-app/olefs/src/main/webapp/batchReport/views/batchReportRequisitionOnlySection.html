@@ -17,6 +17,7 @@
                     <table datatable="ng" class="table table-bordered row-border hover">
                         <thead style="height: 20px">
                         <tr>
+                            <th>Document Number</th>
                             <th>Record Number</th>
                             <th>Title</th>
                             <th>Successful Match Points</th>
@@ -24,6 +25,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="reportReq in reportReqSectionPanel">
+                            <td><span ng-bind="reportReq.reqDocumentNumber"></span></td>
                             <td><span ng-bind="reportReq.recordNumber"></span></td>
                             <td><span ng-bind="reportReq.title"></span></td>
                             <td><span ng-bind="reportReq.successfulMatchPoints"></span></td>
