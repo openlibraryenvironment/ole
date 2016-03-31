@@ -984,6 +984,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             oleHoldings.setLocation(location);
         }
         CallNumber callNumber = new CallNumber();
+        callNumber.setPrefix(holdingsRecord.getCallNumberPrefix());
         if (holdingsRecord.getCallNumberTypeRecord() != null) {
             callNumber.setNumber(holdingsRecord.getCallNumber());
             ShelvingScheme shelvingScheme = new ShelvingScheme();
@@ -994,10 +995,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             shelvingOrder.setCodeValue(holdingsRecord.getShelvingOrder());
             shelvingOrder.setFullValue(holdingsRecord.getShelvingOrder());
             callNumber.setShelvingOrder(shelvingOrder);
-            callNumber.setPrefix(holdingsRecord.getCallNumberPrefix());
-            //callNumber.setCopyNumber(holdingsRecord.getCopyNumber());
-            oleHoldings.setCallNumber(callNumber);
         }
+        oleHoldings.setCallNumber(callNumber);
         if (holdingsRecord.getGokbIdentifier() != null) {
             oleHoldings.setGokbIdentifier(holdingsRecord.getGokbIdentifier());
         }
