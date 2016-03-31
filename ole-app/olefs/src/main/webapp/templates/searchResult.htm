@@ -1,4 +1,4 @@
-<div id="searchResultsSection" class="bs-component" style="overflow-y:auto;overflow-x:auto;">
+<div id="searchResultsSection" class="bs-component" style="overflow-y:auto;overflow-x:auto;" ng-show="showResults">
 
     <table class="table table-striped table-hover">
         <thead>
@@ -17,6 +17,7 @@
             <dir-pagination-controls max-size="8"
                                      direction-links="true"
                                      boundary-links="true"
+                                     template-url="templates/dirPagination.tpl.html"
                                      on-page-change="nextSearchSolr(newPageNumber)">
             </dir-pagination-controls>
         </div>
@@ -274,6 +275,7 @@
         <dir-pagination-controls max-size="8"
                                  direction-links="true"
                                  boundary-links="true"
+                                 template-url="templates/dirPagination.tpl.html"
                                  on-page-change="nextSearchSolr(newPageNumber)">
         </dir-pagination-controls>
     </div>
