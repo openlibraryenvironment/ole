@@ -1985,7 +1985,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                         account.setAmount(purapItem.getTotalAmount().subtract(new KualiDecimal(sumAmt)));
                     } else {
                         BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
-                    account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
+                        account.setAmount(new KualiDecimal(purapItem.getTotalAmount().bigDecimalValue().multiply(percent)));
                 }
 
                 }
