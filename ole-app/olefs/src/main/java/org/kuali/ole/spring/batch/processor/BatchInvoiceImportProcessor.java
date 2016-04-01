@@ -139,7 +139,6 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
             InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
             invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
             oleNgBatchResponse.setResponse(successResponse);
-            System.out.println(successResponse);
             return oleNgBatchResponse;
         } catch (IOException e) {
             e.printStackTrace();
@@ -523,6 +522,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
             invoiceRecordResolvers.add(new InvoicedPriceValueResolver());
             invoiceRecordResolvers.add(new InvoiceNumberValueResolver());
             invoiceRecordResolvers.add(new ItemDescriptionValueResolver());
+            invoiceRecordResolvers.add(new LineItemNotesValueResolver());
             invoiceRecordResolvers.add(new ObjectCodeValueResolver());
             invoiceRecordResolvers.add(new QuantityValueResolver());
             invoiceRecordResolvers.add(new VendorItemIdentifierValueResolver());

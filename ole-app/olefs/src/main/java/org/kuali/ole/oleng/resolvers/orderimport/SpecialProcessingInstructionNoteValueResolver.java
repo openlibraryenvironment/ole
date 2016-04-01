@@ -1,11 +1,13 @@
 package org.kuali.ole.oleng.resolvers.orderimport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by pvsubrah on 10/4/15.
@@ -24,7 +26,13 @@ public class SpecialProcessingInstructionNoteValueResolver extends TxValueResolv
         if (null == splProcessInstrNotes) {
             splProcessInstrNotes = new ArrayList<>();
         }
-        splProcessInstrNotes.add(attributeValue);
+        if(StringUtils.isNotBlank(attributeValue)) {
+            StringTokenizer stringTokenizer = new StringTokenizer(attributeValue, ",");
+            while(stringTokenizer.hasMoreTokens()) {
+                String note = stringTokenizer.nextToken();
+                splProcessInstrNotes.add(note);
+            }
+        }
         oleTxRecord.setSplProcessInstrNotes(splProcessInstrNotes);
         oleTxRecord.setSplProcessInstrNote("Special Processing Instruction Note");
     }

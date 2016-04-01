@@ -575,7 +575,8 @@ var invoiceFieldObject = {
         {id: 'quantity', name: 'Quantity'},
         {id: 'requestor', name: 'Requestor'},
         {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
-        {id: 'vendorNumber', name: 'Vendor Number'}
+        {id: 'vendorNumber', name: 'Vendor Number'},
+        {id: 'lineItemNote', name: 'Line Item Note'}
     ]
 }
 

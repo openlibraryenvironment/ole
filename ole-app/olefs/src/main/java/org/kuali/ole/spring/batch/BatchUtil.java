@@ -90,6 +90,17 @@ public class BatchUtil extends OleNgUtil{
             ValueByPriority valueByPriority = iterator1.next();
             List<String> values = valueByPriority.getValues();
             if (CollectionUtils.isNotEmpty(values)) {
+                StringBuilder stringBuilder = new StringBuilder();
+                if(valueByPriority.isMultiValue()) {
+                    for (Iterator<String> iterator = values.iterator(); iterator.hasNext(); ) {
+                        String value = iterator.next();
+                        if(StringUtils.isNotBlank(stringBuilder.toString())) {
+                            stringBuilder.append(",");
+                        }
+                        stringBuilder.append(value);
+                    }
+                    return stringBuilder.toString();
+                }
                 return values.get(0);
             }
         }
