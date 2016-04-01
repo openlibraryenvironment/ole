@@ -20,10 +20,10 @@
 <%@ attribute name="frameHeight" required="false" %>
 
 <c:if test="${empty frameHeight || frameHeight == 0}">
-  <c:set var="frameHeight" value="100"/>
+  <c:set var="frameHeight" value="500"/>
 </c:if>
 
-<iframe src="${channelUrl}" onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>' name="iframeportlet" id="iframeportlet" style="height: ${frameHeight}%; width: 100%" title="E-Doc" frameborder="0" height="${frameHeight}%" scrolling="auto" width="100%"></iframe>
+<iframe src="${channelUrl}" onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>' name="iframeportlet" id="iframeportlet" style="height: ${frameHeight}px; width: 100%" title="E-Doc" frameborder="0" height="${frameHeight}%" scrolling="auto" width="100%"></iframe>
 
 <%-- 
   May want to move this to a script a js file at some point.
