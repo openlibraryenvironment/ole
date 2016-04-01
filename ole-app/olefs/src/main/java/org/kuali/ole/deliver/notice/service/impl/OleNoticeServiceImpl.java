@@ -79,6 +79,7 @@ public class OleNoticeServiceImpl implements OleNoticeService {
     @Override
     public OleDeliverRequestBo processNoticeForRequest(OleDeliverRequestBo oleDeliverRequestBo) {
         List<OLEDeliverNotice> oleDeliverNotices = new ArrayList<OLEDeliverNotice>();
+        if(oleDeliverRequestBo.getDeliverNotices() ==null || (oleDeliverRequestBo.getDeliverNotices()!=null && oleDeliverRequestBo.getDeliverNotices().size()==0)){
         OLEDeliverNotice requestExpirationDeliverNotice = createNotice(oleDeliverRequestBo,OLEConstants.REQUEST_EXPIRATION_NOTICE,new java.sql.Timestamp(oleDeliverRequestBo.getRequestExpiryDate().getTime()));
         oleDeliverNotices.add(requestExpirationDeliverNotice);
         OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
@@ -101,6 +102,7 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         oleDeliverNotices.add(onHoldExpiryDeliverNotice);
         }
         oleDeliverRequestBo.setDeliverNotices(oleDeliverNotices);
+        }
         return oleDeliverRequestBo;
     }
 
