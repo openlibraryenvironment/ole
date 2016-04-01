@@ -153,6 +153,7 @@ public class CircBaseController extends OLEUifControllerBase{
         circForm.setRecordNoteForMissingPiece(false);
         circForm.setRecordNoteForDamagedItem(false);
         circForm.setRecordNoteForClaimsReturn(false);
+        circForm.setItemFoundInLibrary(false);
     }
 
     private void setPrincipalInfo(CircForm circForm) {

@@ -740,6 +740,9 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="noOfClaimsReturnedNoticesSent" column="NUM_CLAIMS_RTRN_NOTICES_SENT" jdbc-type="INTEGER"/>
+        <field-descriptor name="claimsSearchCount" column="CLAIMS_SEARCH_COUNT" jdbc-type="INTEGER"/>
+        <field-descriptor name="lastClaimsReturnedSearchedDate" column="LAST_CLAIMS_RTRN_SEARCH_DT" jdbc-type="TIMESTAMP"/>
         <!--<reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="patronId"/>

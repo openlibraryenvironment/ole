@@ -12,6 +12,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverNoticeSearchController?viewId=OLEDeliverNoticeSearchView&methodToCall=start"/> <br/>
     <%--<portal:portalLink displayTitle="true" title="MyAccount"
                        url="${ConfigProperties.application.url}/ole-kr-krad/myaccountcontroller?viewId=RenewalItemView&methodToCall=start"/> <br/><br/>--%>
+    <portal:portalLink displayTitle="true" title="Claimed Returned Items"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/claimedReturnedItemsController?viewId=OLEClaimedReturnedItemsView&methodToCall=start"/> <br/>
 
     </br>
 

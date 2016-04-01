@@ -34,6 +34,7 @@ import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
@@ -3918,7 +3919,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     searchParams = new SearchParams();
                     for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
                         loanDocumentMap.put(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "id", oleLoanDocument.getItemUuid()), "OR"));
+                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), "id", oleLoanDocument.getItemUuid()), "AND"));
+                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.CLAIMS_RETURNED_FLAG_SEARCH, Boolean.FALSE.toString()), "OR"));
                     }
                     searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
                     buildSearchParams(searchParams);

@@ -554,6 +554,10 @@ public class CheckinItemController extends OLEUifControllerBase {
         if (StringUtils.isNotBlank(recordNoteForClaimChecked)) {
             checkinForm.setRecordNoteForClaimsReturn(Boolean.valueOf(recordNoteForClaimChecked));
         }
+        String isItemFoundInLibrary = request.getParameter("isItemFoundInLibrary");
+        if (StringUtils.isNotBlank(isItemFoundInLibrary)) {
+            checkinForm.setItemFoundInLibrary(Boolean.valueOf(isItemFoundInLibrary));
+        }
     }
 
 

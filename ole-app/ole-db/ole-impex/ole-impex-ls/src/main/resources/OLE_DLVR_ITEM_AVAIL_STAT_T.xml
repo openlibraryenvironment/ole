@@ -45,4 +45,7 @@
     <OLE_DLVR_ITEM_AVAIL_STAT_T ITEM_AVAIL_STAT_CD="csp"
                                 ITEM_AVAIL_STAT_ID="14" ITEM_AVAIL_STAT_NM="csp"
                                 OBJ_ID="12" ROW_ACT_IND="Y" VER_NBR="1"/>
+    <OLE_DLVR_ITEM_AVAIL_STAT_T ITEM_AVAIL_STAT_CD="MISSING"
+                                ITEM_AVAIL_STAT_ID="15" ITEM_AVAIL_STAT_NM="MISSING"
+                                OBJ_ID="1abf3de3-2221-4249-a829-2c386ee9f515" ROW_ACT_IND="Y" VER_NBR="1"/>
 </dataset>

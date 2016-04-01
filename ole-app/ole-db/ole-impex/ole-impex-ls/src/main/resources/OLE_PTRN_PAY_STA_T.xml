@@ -54,4 +54,7 @@
     <OLE_PTRN_PAY_STA_T OBJ_ID="9j889f30-96nw-5d4f-8d89-7j17cf97519"
                         PAY_STA_CODE="PAY_CRDT_PAR_CANCELLED" PAY_STA_ID="18"
                         PAY_STA_NAME="Credit Partially Cancelled" VER_NBR="1"/>
+    <OLE_PTRN_PAY_STA_T OBJ_ID="9j889f30-96nw-5d7j-8d89-7j17cf97520"
+                        PAY_STA_CODE="PAY_SUSPENDED" PAY_STA_ID="19"
+                        PAY_STA_NAME="Suspended" VER_NBR="1"/>
 </dataset>

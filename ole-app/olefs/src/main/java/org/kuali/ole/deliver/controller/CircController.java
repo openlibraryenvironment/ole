@@ -239,9 +239,65 @@ public class CircController extends CheckoutValidationController {
             oleLoanDocument.setClaimsReturnNote(claimsDescription);
             oleLoanDocument.setClaimsReturnedIndicator(true);
             oleLoanDocument.setClaimsReturnedDate(new Timestamp(new Date().getTime()));
+            fireClaimsReturnedRules(oleLoanDocument);
         }
         createClaimsReturnForItem(circForm, selectedLoanDocumentList, circForm.getPatronDocument());
         return getUIFModelAndView(form);
+    }
+
+    private void fireClaimsReturnedRules(OleLoanDocument oleLoanDocument) {
+        CircUtilController circUtilController = new CircUtilController();
+        ItemRecord itemRecord = circUtilController.getItemRecordByBarcode(oleLoanDocument.getItemId());
+        if (itemRecord != null && !itemRecord.getClaimsReturnedFlag()) {
+            OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
+            if (StringUtils.isBlank(oleLoanDocument.getItemFullLocation())) {
+                oleLoanDocument.setItemFullLocation(oleItemRecordForCirc.getItemFullPathLocation());
+            }
+            if (oleItemRecordForCirc != null) {
+                DroolsResponse droolsResponse = new DroolsResponse();
+                List<Object> facts = new ArrayList<>();
+                facts.add(oleItemRecordForCirc);
+                facts.add(droolsResponse);
+                circUtilController.fireRules(facts, null, "claims returned validation");
+
+                List<OLEDeliverNotice> oleDeliverNoticeList = createNotices(droolsResponse, oleLoanDocument.getPatronId(), oleLoanDocument.getItemId());
+                if (CollectionUtils.isNotEmpty(oleDeliverNoticeList)) {
+                    oleLoanDocument.getDeliverNotices().addAll(oleDeliverNoticeList);
+                }
+            }
+            sendClaimsReturnedNotice(oleLoanDocument);
+        }
+    }
+
+    private List<OLEDeliverNotice> createNotices(DroolsResponse droolsResponse, String patronId, String itemId) {
+        List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<>();
+        List<String> noticeTypes = new ArrayList<>();
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE);
+
+        for (String noticeType : noticeTypes) {
+            String noticeContentConfigName = null;
+            if (droolsResponse.getDroolsExchange().getFromContext(noticeType) != null) {
+                noticeContentConfigName = (String) droolsResponse.getDroolsExchange().getFromContext(noticeType);
+            }
+            OLEDeliverNotice oleDeliverNotice = createNotice(noticeType, noticeContentConfigName, patronId, itemId);
+            oleDeliverNoticeList.add(oleDeliverNotice);
+        }
+        return oleDeliverNoticeList;
+    }
+
+    private OLEDeliverNotice createNotice(String noticeType, String noticeContentConfigName, String patronId, String itemId) {
+        OLEDeliverNotice oleDeliverNotice = new OLEDeliverNotice();
+        oleDeliverNotice.setNoticeSendType(OLEConstants.EMAIL);
+        oleDeliverNotice.setPatronId(patronId);
+        oleDeliverNotice.setItemBarcode(itemId);
+        oleDeliverNotice.setNoticeType(noticeType);
+        oleDeliverNotice.setNoticeContentConfigName(noticeContentConfigName);
+        return oleDeliverNotice;
     }
 
     @RequestMapping(params = "methodToCall=removeClaimsReturn")

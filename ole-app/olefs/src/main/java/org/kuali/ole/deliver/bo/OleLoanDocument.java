@@ -196,6 +196,9 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private boolean overrideCheckInTime;
     private String  itemLostNote;
     private boolean isManualBill = false;
+    private int noOfClaimsReturnedNoticesSent;
+    private int claimsSearchCount;
+    private Timestamp lastClaimsReturnedSearchedDate;
 
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
@@ -2256,5 +2259,29 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setIsManualBill(boolean isManualBill) {
         this.isManualBill = isManualBill;
+    }
+
+    public int getNoOfClaimsReturnedNoticesSent() {
+        return noOfClaimsReturnedNoticesSent;
+    }
+
+    public void setNoOfClaimsReturnedNoticesSent(int noOfClaimsReturnedNoticesSent) {
+        this.noOfClaimsReturnedNoticesSent = noOfClaimsReturnedNoticesSent;
+    }
+
+    public int getClaimsSearchCount() {
+        return claimsSearchCount;
+    }
+
+    public void setClaimsSearchCount(int claimsSearchCount) {
+        this.claimsSearchCount = claimsSearchCount;
+    }
+
+    public Timestamp getLastClaimsReturnedSearchedDate() {
+        return lastClaimsReturnedSearchedDate;
+    }
+
+    public void setLastClaimsReturnedSearchedDate(Timestamp lastClaimsReturnedSearchedDate) {
+        this.lastClaimsReturnedSearchedDate = lastClaimsReturnedSearchedDate;
     }
 }

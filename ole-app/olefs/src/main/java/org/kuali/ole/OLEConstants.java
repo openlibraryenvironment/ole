@@ -1958,6 +1958,7 @@ public class OLEConstants {
     public static final String FORGIVEN = "PAY_FORGIVEN";
     public static final String FORGIVE = getParameter("PAYMENT_MODE_FORGIVE");
     public static final String CANCELLED = "PAY_CANCELLED";
+    public static final String SUSPENDED = "PAY_SUSPENDED";
     public static final String CANCEL = "Cancel";
     public static final String CANCEL_MESSAGE = "This Bill has been Cancelled ";
     public static final String CANCEL_MESSAGE_AMT = "This bill has been Cancelled with an amount ";
@@ -2107,6 +2108,12 @@ public class OLEConstants {
         public static final String EXP_HOLD_NOTICE_CONTENT = "EXP_HOLD_NOTICE_CONTENT";
         public static final String COURTESY_NOTICE_CONTENT = "COURTESY_NOTICE_CONTENT";
         public static final String OVERDUE_NOTICE_CONTENT = "OVERDUE_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOTICE_CONTENT = "CLAIMS_RETURNED_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT = "CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT = "CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT";
         public static final String PAYMENT_STATUS_NAME = "paymentStatusName";
         public static final String MISSING = "Missing";
         public static final String ONHOLD = "OnHold";
@@ -2162,6 +2169,12 @@ public class OLEConstants {
     public static final String COURTESY_NOTICE = "Courtesy Notice";
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
+    public static final String CLAIMS_RETURNED_NOTICE = "Claims Returned Notice";
+    public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE = "Claims Returned Found No Fees Notice";
+    public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE = "Claims Returned Found Fines Owed Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE = "Claims Returned Not Found Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE = "Claims Returned Not Found No Fees Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE = "Claims Returned Not Found Fines Owed Notice";
     public static final String RETURN_MISSING_PIECE_NOTICE = "Return With Missing Piece Notice";
     public static final String LOST_NOTICE = "Lost Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
@@ -3808,4 +3821,10 @@ public class OLEConstants {
     public static final String RECALL_HOLD_REQUEST="Recall/Hold Request";
     public static final String OVER_PAYMENT="refund.over.payment";
     public static final String ENTRR_REFUND_AMT="enter.refund.amount";
+    public static final String NOTIFY_CLAIMS_RETURNED_TO_PATRON="NOTIFY_CLAIMS_RETURNED_TO_PATRON";
+    public static final String CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT="CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT";
+    public static final String ERROR_SELECT_ANY_ITEM="error.select.any.item";
+    public static final String RECORD_UPDATED_SUCCESSFULLY="record.updated.successfully";
+    public static final String CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED="CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED";
+    public static final String ERROR_CIRC_DESK_REQUIRED = "error.circulation.desk.required";
 }

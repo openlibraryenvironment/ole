@@ -1,0 +1,25 @@
+package org.kuali.ole.rules.demo.claimsReturned
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "Claims Returned Policy Set for Item type Book"
+agenda-group "claims returned validation"
+activation-group "claims returned validation"
+when
+
+$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
+getItemLocation() in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
+$d : DroolsResponse()
+
+then
+
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_NOTICE,"Claims Returned Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE,"Claims Returned Found No Fees Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE,"Claims Returned Found Fines Owed Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE,"Claims Returned Not Found Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE,"Claims Returned Not Found No Fees Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE,"Claims Returned Not Found Fines Owed Notice");
+end
