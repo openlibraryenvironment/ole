@@ -19,6 +19,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
       private ASRHelperServiceImpl asrHelperService = getAsrHelperService();
       private LoanProcessor loanProcessor =getLoanProcessor();
       private OleNoticeService oleNoticeService = getOleNoticeService();
+      private BusinessObjectService businessObjectService;
 
     public ASRHelperServiceImpl getAsrHelperService(){
         if(asrHelperService == null ){
@@ -58,8 +60,17 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
         return oleNoticeService;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+          if(businessObjectService == null){
+              businessObjectService = KRADServiceLocator.getBusinessObjectService();
+          }
+        return businessObjectService;
+    }
+
+
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         OleDeliverRequestBo oleDeliverRequestBo = (OleDeliverRequestBo) document.getNewMaintainableObject().getDataObject();
+        OleDeliverRequestBo oldDeliverRequestBo = (OleDeliverRequestBo)document.getOldMaintainableObject().getDataObject();
         boolean processed = super.processCustomSaveDocumentBusinessRules(document);
         Map<String, String> patronMap = new HashMap<String, String>();
         BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -139,6 +150,20 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
             }
           getOleNoticeService().processNoticeForRequest(oleDeliverRequestBo);
         }
+
+        if((oleDeliverRequestBo.getHoldExpirationDate()!=null && oldDeliverRequestBo.getHoldExpirationDate() == null) ||
+                 (oleDeliverRequestBo.getHoldExpirationDate()==null && oldDeliverRequestBo.getHoldExpirationDate() !=null) ||
+                (oleDeliverRequestBo.getHoldExpirationDate()!=null && oldDeliverRequestBo.getHoldExpirationDate()!=null && oleDeliverRequestBo.getHoldExpirationDate().compareTo(oldDeliverRequestBo.getHoldExpirationDate())!=0)
+                ){
+                 if(oleDeliverRequestBo.getDeliverNotices()!=null){
+                for(OLEDeliverNotice oleDeliverNotice:oleDeliverRequestBo.getDeliverNotices()){
+                if(oleDeliverNotice.getNoticeType().equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
+                oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(oleDeliverRequestBo.getHoldExpirationDate().getTime()));
+                    break;
+                    }
+                }
+                }
+            }
         return processed;
     }
 }
