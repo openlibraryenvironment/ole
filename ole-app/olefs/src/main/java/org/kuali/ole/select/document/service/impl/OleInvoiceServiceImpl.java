@@ -1956,6 +1956,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         BigDecimal totalPercent = BigDecimal.ZERO;
         BigDecimal totalAmt = BigDecimal.ZERO;
         BigDecimal sumAmt = BigDecimal.ZERO;
+        BigDecimal sumPercentage = BigDecimal.ZERO;
         int counter = 0;
         int accLineSize = purApAccountingLines.size();
         for (PurApAccountingLine account : purApAccountingLines) {
@@ -1972,11 +1973,11 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 } else if((account.getAmount()!=null&&account.getAccountLinePercent() != null) ||
                         (account.getAmount()!=null&& account.getAccountLinePercent().intValue()== 100)){
                     if (counter == accLineSize - 1) {
-                        BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
+                        account.setAccountLinePercent(new BigDecimal(100).subtract(sumPercentage));
                         account.setAmount(purapItem.getTotalAmount().subtract(new KualiDecimal(sumAmt)));
                     } else {
                         BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
-                        account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
+                        account.setAmount(new KualiDecimal(purapItem.getTotalAmount().bigDecimalValue().multiply(percent)));
                     }
 
                 }
@@ -1987,6 +1988,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             }
             ++counter;
             sumAmt = sumAmt.add(account.getAmount().bigDecimalValue());
+            sumPercentage = sumPercentage.add(account.getAccountLinePercent());
         }
         // If Total Percent or Total Amount mis matches,percentage is divided across accounting lines.
         if(totalPercent.intValue() != 100 ||
