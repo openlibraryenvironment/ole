@@ -9,7 +9,9 @@ import org.kuali.ole.deliver.PatronBillGenerator;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
-import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
+import org.kuali.ole.deliver.service.*;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Item;
@@ -21,6 +23,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -43,6 +46,7 @@ public class CircUtilController extends RuleExecutor {
     private DocstoreClientLocator docstoreClientLocator;
     private SimpleDateFormat dateFormatForDocstoreDueDate;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
+    private ParameterValueResolver parameterValueResolver;
 
     public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord) {
         List<OLEDeliverNotice> deliverNotices = new ArrayList<>();
@@ -559,6 +563,130 @@ public class CircUtilController extends RuleExecutor {
             return oleLoanDocuments.get(0);
         }
         return null;
+    }
+
+    public void sendClaimReturnedNotice(OleLoanDocument loanDocument, String noticeType, String noticeTitle, String noticeContent) {
+        NoticeMailContentFormatter noticeMailContentFormatter = new ClaimsReturnedNoticeEmailContentFormatter();
+        OLEDeliverNotice deliverNotice = null;
+        for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
+            if (oleDeliverNotice != null && oleDeliverNotice.getNoticeType().equalsIgnoreCase(noticeType)) {
+                deliverNotice =oleDeliverNotice;
+                break;
+            }
+        }
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = getOleNoticeContentConfigurationBo(deliverNotice, noticeType, noticeTitle, noticeContent);
+        List<OleLoanDocument> oleLoanDocuments = Arrays.asList(loanDocument);
+        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo);
+
+        Map claimMap = new HashMap();
+        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocuments);
+        LoanNoticesExecutor claimsReturnedNoticesExecutor = new ClaimsReturnedNoticesExecutor(claimMap);
+        if (StringUtils.isNotBlank(mailContent)) {
+            claimsReturnedNoticesExecutor.sendMail(mailContent);
+            saveDeliverNoticeHistory(deliverNotice, mailContent, noticeType);
+            claimsReturnedNoticesExecutor.getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                    claimsReturnedNoticesExecutor.getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                            claimsReturnedNoticesExecutor.buildMapForIndexToSolr(noticeType, mailContent, oleLoanDocuments))));
+        }
+    }
+
+    private OleNoticeContentConfigurationBo getOleNoticeContentConfigurationBo(OLEDeliverNotice oleDeliverNotice, String noticeType, String noticeTitle, String noticeContent) {
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+        if (oleDeliverNotice != null && StringUtils.isNotBlank(oleDeliverNotice.getNoticeContentConfigName())) {
+            Map<String, String> noticeConfigurationMap = new HashMap<>();
+            noticeConfigurationMap.put("noticeType", noticeType);
+            noticeConfigurationMap.put("noticeName", oleDeliverNotice.getNoticeContentConfigName());
+            oleNoticeContentConfigurationBoList = (List<OleNoticeContentConfigurationBo>) getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class, noticeConfigurationMap);
+        }
+        if (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)) {
+            oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
+        } else {
+            oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+            oleNoticeContentConfigurationBo.setNoticeType(noticeType);
+            oleNoticeContentConfigurationBo.setNoticeTitle(getParameterValueResolver().getParameter(OLEConstants.APPL_ID, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, noticeTitle));
+            oleNoticeContentConfigurationBo.setNoticeBody(getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, noticeContent));
+            oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+        }
+        return oleNoticeContentConfigurationBo;
+    }
+
+    public void saveDeliverNoticeHistory(OLEDeliverNotice oleDeliverNotice, String mailContent, String noticeType) {
+        if (oleDeliverNotice != null) {
+            OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
+            oleDeliverNoticeHistory.setLoanId(oleDeliverNotice.getLoanId());
+            oleDeliverNoticeHistory.setNoticeType(oleDeliverNotice.getNoticeType());
+            oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
+            oleDeliverNoticeHistory.setPatronId(oleDeliverNotice.getPatronId());
+            oleDeliverNoticeHistory.setNoticeSendType(oleDeliverNotice.getNoticeSendType());
+            oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
+            getBusinessObjectService().save(oleDeliverNoticeHistory);
+        }
+    }
+
+    public void updatePaymentStatusToForgive(String itemBarcode, String olePatronId, Timestamp checkinDate, String operatorId, String note) {
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(itemBarcode) && org.apache.commons.lang3.StringUtils.isNotBlank(olePatronId)) {
+            Map criteria = new HashMap<String, String>();
+            criteria.put("patronBillPayment.patronId", olePatronId);
+            criteria.put("itemBarcode", itemBarcode);
+            criteria.put("oleFeeType.feeTypeCode", OLEConstants.FEE_TYPE_CODE_REPL_FEE);
+            List<FeeType> feeTypes = (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
+            if (CollectionUtils.isNotEmpty(feeTypes)) {
+                OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.FORGIVEN);
+                if (paymentStatus != null) {
+                    for (FeeType feeType : feeTypes) {
+                        OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                        oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                        oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
+                        oleItemLevelBillPayment.setCreatedUser(operatorId);
+                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
+                        oleItemLevelBillPayment.setNote(note + checkinDate);
+                        List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                        oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                        feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
+                        feeType.setBalFeeAmount(new KualiDecimal(0));
+                    }
+                    getBusinessObjectService().save(feeTypes);
+                }
+            }
+        }
+    }
+
+    public boolean updatePaymentStatusToOutstanding(String itemBarcode, String olePatronId) {
+        if (StringUtils.isNotBlank(itemBarcode) && StringUtils.isNotBlank(olePatronId)) {
+            Map criteria = new HashMap<String, String>();
+            criteria.put("patronBillPayment.patronId", olePatronId);
+            criteria.put("itemBarcode", itemBarcode);
+            criteria.put("oleFeeType.feeTypeCode", OLEConstants.FEE_TYPE_CODE_REPL_FEE);
+            List<FeeType> feeTypes = (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
+            if (CollectionUtils.isNotEmpty(feeTypes)) {
+                OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
+                if (paymentStatus != null) {
+                    for (FeeType feeType : feeTypes) {
+                        if (feeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
+                            feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
+                        }
+                    }
+                    getBusinessObjectService().save(feeTypes);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if (null == parameterValueResolver) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
     }
 
 }

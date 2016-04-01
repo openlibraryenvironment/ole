@@ -407,7 +407,7 @@ public class PatronBillHelperService {
      *
      * @return paymentStatusName
      */
-    private OlePaymentStatus getPaymentStatus(String paymentStatus) {
+    public OlePaymentStatus getPaymentStatus(String paymentStatus) {
         LOG.debug("Inside the getPaymentStatus method");
         Map statusMap = new HashMap();
         statusMap.put("paymentStatusCode", paymentStatus);

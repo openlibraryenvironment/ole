@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--Claims Return Dialog-->
+    <bean id="ClaimsReturnOperatorPopupDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value=""/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="claimsReturn-billForItem"/>
+                <ref bean="claimsReturn-popupButtons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="claimsReturn-popupButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Ok" p:actionScript="
+                    var billForItem = jq('#claimsReturn-billForItem_control_0').is(':checked');
+                    jq.fancybox.close();
+                    submitForm('processBillForItem',{isBillForItem:billForItem},null,true,function(){
+                    });"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="claimsReturn-billForItem" parent="Return-Uif-InputField" p:propertyName="billForItem"
+          p:label="Max Searches Reached.">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Create Bill For Item"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="false" p:value="Forgive Claim"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
+

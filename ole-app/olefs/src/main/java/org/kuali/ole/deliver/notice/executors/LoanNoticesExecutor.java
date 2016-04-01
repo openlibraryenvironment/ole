@@ -64,14 +64,14 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         getBusinessObjectService().save(loanDocuments);
     }
 
-    private NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+    public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
         if (null == noticeSolrInputDocumentGenerator) {
             noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
         }
         return noticeSolrInputDocumentGenerator;
     }
 
-    private SolrRequestReponseHandler getSolrRequestReponseHandler() {
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
         if (null == solrRequestReponseHandler) {
             solrRequestReponseHandler = new SolrRequestReponseHandler();
         }
@@ -99,7 +99,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         }
     }
 
-    private Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleLoanDocument> oleLoanDocuments) {
+    public Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleLoanDocument> oleLoanDocuments) {
         Map parameterMap = new HashMap();
         parameterMap.put("DocType", noticeType);
         parameterMap.put("DocFormat", "Email");

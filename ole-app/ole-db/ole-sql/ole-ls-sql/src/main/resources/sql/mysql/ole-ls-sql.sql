@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -1872,6 +1873,9 @@ CREATE TABLE OLE_DLVR_LOAN_T
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
         , ITEM_UUID VARCHAR(100) NOT NULL
+        , NUM_CLAIMS_RTRN_NOTICES_SENT INTEGER
+        , CLAIMS_SEARCH_COUNT INTEGER
+        , LAST_CLAIMS_RTRN_SEARCH_DT DATETIME
     
     , CONSTRAINT OLE_DLVR_LOAN_TP1 PRIMARY KEY(LOAN_TRAN_ID)
 
@@ -1881,15 +1885,15 @@ CREATE TABLE OLE_DLVR_LOAN_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX new_fk_constraint2 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX loan_curr_due_date_index (CURR_DUE_DT_TIME )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DLVR_LOAN_TI1 (ITEM_UUID )
 
@@ -5592,7 +5596,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
       ID VARCHAR(40)
         , LOAN_ID VARCHAR(40)
         , PTRN_ID VARCHAR(37)
-        , NTC_TYP VARCHAR(37)
+        , NTC_TYP VARCHAR(100)
         , NTC_CNTNT_CONFIG_NAME VARCHAR(400)
         , NTC_SND_TYP VARCHAR(37)
         , RQST_ID VARCHAR(37)
@@ -5641,7 +5645,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
         , PTRN_ID VARCHAR(37)
         , RQST_ID VARCHAR(37)
         , NTC_SNT_DT DATETIME
-        , NTC_TYP VARCHAR(37)
+        , NTC_TYP VARCHAR(100)
         , NTC_SND_TYP VARCHAR(37)
         , NTC_CNTNT LONGTEXT
         , VER_NBR DECIMAL(8)
@@ -7392,7 +7396,7 @@ CREATE TABLE OLE_DLVR_ITEM_AVAIL_STAT_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_DLVR_ITEM_AVAIL_STAT_S auto_increment = 15
+ALTER TABLE OLE_DLVR_ITEM_AVAIL_STAT_S auto_increment = 16
 /
 
 # -----------------------------------------------------------------------
@@ -8162,7 +8166,7 @@ CREATE TABLE OLE_PTRN_PAY_STA_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_PTRN_PAY_STA_S auto_increment = 7
+ALTER TABLE OLE_PTRN_PAY_STA_S auto_increment = 20
 /
 
 # -----------------------------------------------------------------------

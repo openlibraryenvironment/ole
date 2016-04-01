@@ -953,6 +953,9 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
+        <column name="NUM_CLAIMS_RTRN_NOTICES_SENT" type="INTEGER"/>
+        <column name="CLAIMS_SEARCH_COUNT" type="INTEGER"/>
+        <column name="LAST_CLAIMS_RTRN_SEARCH_DT" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_PTRN_T" name="new_fk_constraint2">
             <reference foreign="OLE_PTRN_ID" local="OLE_PTRN_ID"/>
         </foreign-key>
@@ -3004,7 +3007,7 @@
         <column name="ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="LOAN_ID"  size="40" type="VARCHAR"/>
         <column name="PTRN_ID" size="37" type="VARCHAR"/>
-        <column name="NTC_TYP" size="37" type="VARCHAR"/>
+        <column name="NTC_TYP" size="100" type="VARCHAR"/>
         <column name="NTC_CNTNT_CONFIG_NAME" size="400" type="VARCHAR"/>
         <column name="NTC_SND_TYP" size="37" type="VARCHAR"/>
         <column name="RQST_ID" size="37" type="VARCHAR"/>
@@ -3034,7 +3037,7 @@
         <column name="PTRN_ID" size="37" type="VARCHAR"/>
         <column name="RQST_ID" size="37" type="VARCHAR"/>
         <column name="NTC_SNT_DT" type="DATE"/>
-        <column name="NTC_TYP" size="37" type="VARCHAR"/>
+        <column name="NTC_TYP" size="100" type="VARCHAR"/>
         <column name="NTC_SND_TYP" size="37" type="VARCHAR"/>
         <column name="NTC_CNTNT" type="CLOB"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
@@ -3600,7 +3603,7 @@
     <sequence name="OLE_DLVR_CIRC_RECORD_S" nextval="1"/>
     <sequence name="OLE_DLVR_FIXED_DUE_DATE_S" nextval="1"/>
     <sequence name="OLE_DLVR_FXD_DUE_DT_SPAN_S" nextval="1"/>
-    <sequence name="OLE_DLVR_ITEM_AVAIL_STAT_S" nextval="15"/>
+    <sequence name="OLE_DLVR_ITEM_AVAIL_STAT_S" nextval="16"/>
     <sequence name="OLE_DLVR_LOAN_S" nextval="1"/>
     <sequence name="OLE_DLVR_LOAN_STAT_S" nextval="3"/>
     <sequence name="OLE_DLVR_LOAN_TERM_UNIT_S" nextval="9"/>
@@ -3655,7 +3658,7 @@
     <sequence name="OLE_PTRN_LOST_BAR_S" nextval="1"/>
     <sequence name="OLE_PTRN_NTE_S" nextval="52"/>
     <sequence name="OLE_PTRN_NTE_TYP_S" nextval="6"/>
-    <sequence name="OLE_PTRN_PAY_STA_S" nextval="7"/>
+    <sequence name="OLE_PTRN_PAY_STA_S" nextval="20"/>
     <sequence name="OLE_PTRN_SUM_S" nextval="2"/>
     <sequence name="OLE_PYMT_TYP_S" nextval="1"/>
     <sequence name="OLE_REQ_PRTY_S" nextval="9"/>

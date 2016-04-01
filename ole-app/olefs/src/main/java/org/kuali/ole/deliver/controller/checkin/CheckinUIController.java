@@ -111,4 +111,9 @@ public class CheckinUIController extends CheckinBaseController {
     public String getOperatorId(OLEForm oleForm) {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
+
+    @Override
+    public boolean isItemFoundInLibrary(OLEForm oleForm) {
+        return getCheckinForm(oleForm).isItemFoundInLibrary();
+    }
 }

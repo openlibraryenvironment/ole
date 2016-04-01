@@ -27,6 +27,7 @@ public class CheckinForm extends OLEForm {
     private ErrorMessage errorMessage;
 
     private boolean recordNoteForClaimsReturn;
+    private boolean itemFoundInLibrary;
     private boolean recordNoteForDamagedItem;
     private boolean recordNoteForMissingPiece;
 
@@ -85,6 +86,7 @@ public class CheckinForm extends OLEForm {
         this.missingPieceCount = "";
         this.missingPieceNote = "";
         this.recordNoteForClaimsReturn = false;
+        this.itemFoundInLibrary = false;
         this.recordNoteForDamagedItem = false;
         this.recordNoteForMissingPiece = false;
     }
@@ -264,5 +266,13 @@ public class CheckinForm extends OLEForm {
 
     public void setLocationPopupMsg(String locationPopupMsg) {
         this.locationPopupMsg = locationPopupMsg;
+    }
+
+    public boolean isItemFoundInLibrary() {
+        return itemFoundInLibrary;
+    }
+
+    public void setItemFoundInLibrary(boolean itemFoundInLibrary) {
+        this.itemFoundInLibrary = itemFoundInLibrary;
     }
 }

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
@@ -13,6 +14,7 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OleLoanForm;
+import org.kuali.ole.deliver.service.ClaimsReturnedNoticesExecutor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
@@ -296,6 +298,10 @@ public class CheckoutItemController extends CircFastAddItemController {
         if(StringUtils.isNotBlank(recordNoteForClaimChecked)) {
             circForm.setRecordNoteForClaimsReturn(Boolean.valueOf(recordNoteForClaimChecked));
         }
+        String isItemFoundInLibrary = request.getParameter("isItemFoundInLibrary");
+        if (StringUtils.isNotBlank(isItemFoundInLibrary)) {
+            circForm.setItemFoundInLibrary(Boolean.valueOf(isItemFoundInLibrary));
+        }
     }
 
     @RequestMapping(params = "methodToCall=proceedToValidateItemAndSaveLoan")
@@ -418,6 +424,19 @@ public class CheckoutItemController extends CircFastAddItemController {
                 new OleDeliverRequestDocumentHelperServiceImpl().cancelPendingRequestForClaimsReturnedItem(oleLoanDocument.getItemUuid());
             }
         }
+    }
+
+    public void sendClaimsReturnedNotice(OleLoanDocument oleLoanDocument) {
+        Map claimMap = new HashMap();
+        claimMap.put(OLEConstants.LOAN_DOCUMENTS, Arrays.asList(oleLoanDocument));
+        for (OLEDeliverNotice oleDeliverNotice : oleLoanDocument.getDeliverNotices()) {
+            if (oleDeliverNotice != null && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.CLAIMS_RETURNED_NOTICE)) {
+                claimMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, oleDeliverNotice.getNoticeContentConfigName());
+                break;
+            }
+        }
+        Runnable claimsReturnedNoticesExecutor = new ClaimsReturnedNoticesExecutor(claimMap);
+        claimsReturnedNoticesExecutor.run();
     }
 
     public void deleteClaimsReturnForItem(CircForm circForm, List<OleLoanDocument> loanDocumentList) throws Exception {
