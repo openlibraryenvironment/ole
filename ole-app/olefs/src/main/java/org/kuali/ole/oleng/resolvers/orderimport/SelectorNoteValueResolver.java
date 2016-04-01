@@ -1,11 +1,13 @@
 package org.kuali.ole.oleng.resolvers.orderimport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.pojo.OleTxRecord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by pvsubrah on 9/3/15.
@@ -25,7 +27,13 @@ public class SelectorNoteValueResolver extends TxValueResolver {
         if (null == selectorNotes) {
             selectorNotes = new ArrayList<>();
         }
-        selectorNotes.add(attributeValue);
+        if(StringUtils.isNotBlank(attributeValue)) {
+            StringTokenizer stringTokenizer = new StringTokenizer(attributeValue, ",");
+            while(stringTokenizer.hasMoreTokens()) {
+                String note = stringTokenizer.nextToken();
+                selectorNotes.add(note);
+            }
+        }
         oleTxRecord.setSelectorNotes(selectorNotes);
         oleTxRecord.setSelectorNote("Selector Note");
     }

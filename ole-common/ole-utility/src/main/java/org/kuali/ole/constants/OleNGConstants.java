@@ -50,6 +50,7 @@ public class OleNGConstants {
         public static final String vendorProfileCode = "Vendor Profile Code";
         public static final String vendorReferenceNumber = "Vendor Reference Number";
         public static final String volumeNumber = "Volume Number";
+        public static final String LINE_ITEM_NOTE = "Line Item Note";
 
         public static final String REQUISITION_SOURCE = "requisitionSource";
         public static final String ITEM_PRICE_SOURCE = "itemPriceSource";

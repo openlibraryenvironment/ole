@@ -30,7 +30,10 @@ public class BibImportFailureReportProcessor extends OleNGReportProcessor {
                     Integer index = failureResponse.getIndex();
                     if(null != index) {
                         RecordDetails recordDetails = recordsMap.get(index);
-                        marcRecords.add(recordDetails.getRecord());
+                        Record record = recordDetails.getRecord();
+                        if (null != record) {
+                            marcRecords.add(record);
+                        }
                     }
                 }
             }
