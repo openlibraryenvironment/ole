@@ -72,6 +72,20 @@ public class OleDsNGRestAPIController {
         return new ResponseEntity<String>(overlayResponseObject, HttpStatus.CREATED);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.CREATE_DUMMY_HOLDINGS, produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @ResponseBody
+    public ResponseEntity createDummyHoldings(@RequestBody String body) throws Exception {
+        String holdingsContent = getOleDsNgRestAPIProcessor().createDummyHoldings(body);
+        return new ResponseEntity<String>(holdingsContent, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.CREATE_DUMMY_ITEM, produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @ResponseBody
+    public ResponseEntity createDummyItem(@RequestBody String body) throws Exception {
+        String itemContent = getOleDsNgRestAPIProcessor().createDummyItem(body);
+        return new ResponseEntity<String>(itemContent, HttpStatus.CREATED);
+    }
+
     public OleDsNgRestAPIProcessor getOleDsNgRestAPIProcessor() {
         return oleDsNgRestAPIProcessor;
     }

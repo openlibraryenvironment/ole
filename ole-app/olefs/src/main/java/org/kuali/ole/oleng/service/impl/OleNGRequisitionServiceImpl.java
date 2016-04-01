@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -25,16 +26,14 @@ import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
+import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,13 +57,14 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     private ConfigurationService kualiConfigurationService;
 
     protected DocumentService documentService;
+    private BatchUtil batchUtil;
 
     @Override
-    public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords) throws Exception {
+    public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
 
         OleRequisitionDocument newRequisitionDocument = createNewRequisitionDocument();
 
-        populateReqDocWithOrderInformation(newRequisitionDocument,oleOrderRecords);
+        populateReqDocWithOrderInformation(newRequisitionDocument,oleOrderRecords, exchange);
 
         saveRequsitionDocument(newRequisitionDocument);
 
@@ -89,12 +89,10 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
 
     @Override
     public OleRequisitionDocument populateReqDocWithOrderInformation(OleRequisitionDocument oleRequisitionDocument,
-                                                                     List<OleOrderRecord> oleOrderRecords) throws Exception {
+                                                                     List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         setDocumentValues(oleRequisitionDocument, oleOrderRecords.get(0));
 
-        oleRequisitionDocument.setItems(generateItemList(oleOrderRecords));
-
-        oleRequisitionDocument.setPurchaseOrderTypeId(OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+        oleRequisitionDocument.setItems(generateItemList(oleOrderRecords, exchange));
 
         oleRequisitionDocument.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
 
@@ -123,17 +121,9 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     @Override
     public OleRequisitionDocument routeRequisitionDocument(OleRequisitionDocument oleRequisitionDocument) throws Exception {
         oleRequisitionDocument.populateDocumentForRouting();
-        String purchaseOrderType = "";
-        if (oleRequisitionDocument.getPurchaseOrderTypeId() != null) {
-            Map purchaseOrderTypeIdMap = new HashMap();
-            purchaseOrderTypeIdMap.put("purchaseOrderTypeId", oleRequisitionDocument.getPurchaseOrderTypeId());
-            List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
-            if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
-                PurchaseOrderType purchaseOrderTypeDoc = (PurchaseOrderType) purchaseOrderTypeDocumentList.get(0);
-                purchaseOrderType = purchaseOrderTypeDoc.getPurchaseOrderType();
-            }
+        if (oleRequisitionDocument.getOrderType() != null) {
             if (LOG.isDebugEnabled())
-                LOG.debug("purchaseOrderType >>>>>>>>>>>" + purchaseOrderType);
+                LOG.debug("purchaseOrderType >>>>>>>>>>>" + oleRequisitionDocument.getOrderType().getPurchaseOrderType());
             getDocumentService().routeDocument(oleRequisitionDocument, null, null);
             LOG.debug("After Calling routeDocument >>>>>>>>>>>");
         }
@@ -144,12 +134,17 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         return  oleRequisitionDocument;
     }
 
-    private List<RequisitionItem> generateItemList(List<OleOrderRecord> oleOrderRecords) throws Exception {
+    private List<RequisitionItem> generateItemList(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
         for(int index = 0; index < oleOrderRecords.size(); index++){
             int itemLineNumber = index + 1;
             OleOrderRecord oleOrderRecord = oleOrderRecords.get(index);
-            items.add(createRequisitionItem(oleOrderRecord, itemLineNumber));
+            try {
+                items.add(createRequisitionItem(oleOrderRecord, itemLineNumber));
+            } catch (Exception e) {
+                e.printStackTrace();
+                getBatchUtil().addOrderFaiureResponseToExchange(e, oleOrderRecord.getRecordIndex(), exchange);
+            }
         }
         return items;
     }
@@ -255,8 +250,23 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         requisitionDocument.setReceivingDocumentRequiredIndicator(oleOrderRecord.getOleTxRecord().isReceivingRequired());
         requisitionDocument.setPaymentRequestPositiveApprovalIndicator(oleOrderRecord.getOleTxRecord().isPayReqPositiveApprovalReq());
         requisitionDocument.setRequisitionSourceCode(oleOrderRecord.getOleTxRecord().getRequisitionSource());
+        setOrderType(requisitionDocument, oleOrderRecord.getOleTxRecord());
         return requisitionDocument;
 
+    }
+
+    private void setOrderType(OleRequisitionDocument requisitionDocument, OleTxRecord oleTxRecord) {
+        Map purchaseOrderTypeMap = new HashMap();
+        if (StringUtils.isNotBlank(oleTxRecord.getOrderType())) {
+            purchaseOrderTypeMap.put(OLEConstants.PO_TYPE, oleTxRecord.getOrderType());
+        } else {
+            purchaseOrderTypeMap.put("purchaseOrderTypeId", OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+        }
+        List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, purchaseOrderTypeMap);
+        if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
+            requisitionDocument.setPurchaseOrderTypeId(purchaseOrderTypeDocumentList.get(0).getPurchaseOrderTypeId());
+            requisitionDocument.setOrderType(purchaseOrderTypeDocumentList.get(0));
+        }
     }
 
     public String getDocumentDescription(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
@@ -366,5 +376,12 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
             documentService = (DocumentService) SpringContext.getService("documentService");
         }
         return documentService;
+    }
+
+    public BatchUtil getBatchUtil() {
+        if(null == batchUtil) {
+            batchUtil = new BatchUtil();
+        }
+        return batchUtil;
     }
 }

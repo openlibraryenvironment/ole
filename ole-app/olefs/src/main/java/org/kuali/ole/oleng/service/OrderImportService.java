@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.service;
 
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.pojo.OleTxRecord;
 
@@ -8,5 +9,5 @@ import org.kuali.ole.pojo.OleTxRecord;
  */
 public interface OrderImportService {
 
-    public OleTxRecord processDataMapping(String bibId, BatchProcessProfile batchProcessProfile);
+    public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile);
 }

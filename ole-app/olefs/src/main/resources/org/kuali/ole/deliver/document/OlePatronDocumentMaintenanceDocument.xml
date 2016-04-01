@@ -123,7 +123,7 @@
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
                         <bean id="olePatronAcknowledge" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
-                        <bean id="olePatronClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <!--<bean id="olePatronClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>-->
 
                         <bean id="olePatronCancel" parent="OlePatron-Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
                         <bean id="olePatronCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"

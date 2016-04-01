@@ -1,0 +1,9 @@
+<record type="Bibliographic" id="string">
+  <leader id="string">string</leader>
+  <!--Zero or more repetitions:-->
+  <controlfield id="string" tag="string">string</controlfield>
+  <!--Zero or more repetitions:-->
+  <datafield id="string" tag="string" ind1="string" ind2="string">
+    <subfield id="string" code="string">string</subfield>
+  </datafield>
+</record>

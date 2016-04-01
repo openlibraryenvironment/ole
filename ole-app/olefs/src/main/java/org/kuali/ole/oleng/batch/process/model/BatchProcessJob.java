@@ -16,14 +16,14 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchProcessJob extends PersistableBusinessObjectBase {
 
-    @JsonProperty(OleNGConstants.PROCESS_ID)
-    private long batchProcessId;
+    @JsonProperty(OleNGConstants.JOB_ID)
+    private long jobId;
 
-    @JsonProperty(OleNGConstants.PROCESS_NAME)
-    private String batchProcessName;
+    @JsonProperty(OleNGConstants.JOB_NAME)
+    private String jobName;
 
-    @JsonProperty(OleNGConstants.PROCESS_TYPE)
-    private String batchProcessType;
+    @JsonProperty(OleNGConstants.PROFILE_TYPE)
+    private String profileType;
 
     @JsonProperty(OleNGConstants.PROFILE_ID)
     private long batchProfileId;
@@ -43,6 +43,12 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     @JsonProperty(OleNGConstants.CREATED_ON)
     private Timestamp createdOn;
 
+    @JsonProperty(OleNGConstants.NEXT_RUN_TIME)
+    private Timestamp nextRunTime;
+
+    @JsonProperty(OleNGConstants.SCHEDULE)
+    private BatchScheduleJob batchScheduleJob;
+
     @JsonIgnore
     private BatchProcessProfile batchProcessProfile;
 
@@ -52,28 +58,28 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     @JsonIgnore
     private List<BatchJobDetails> batchJobDetailsList;
 
-    public long getBatchProcessId() {
-        return batchProcessId;
+    public long getJobId() {
+        return jobId;
     }
 
-    public void setBatchProcessId(long batchProcessId) {
-        this.batchProcessId = batchProcessId;
+    public void setJobId(long jobId) {
+        this.jobId = jobId;
     }
 
-    public String getBatchProcessName() {
-        return batchProcessName;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setBatchProcessName(String batchProcessName) {
-        this.batchProcessName = batchProcessName;
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 
-    public String getBatchProcessType() {
-        return batchProcessType;
+    public String getProfileType() {
+        return profileType;
     }
 
-    public void setBatchProcessType(String batchProcessType) {
-        this.batchProcessType = batchProcessType;
+    public void setProfileType(String profileType) {
+        this.profileType = profileType;
     }
 
     public long getBatchProfileId() {
@@ -85,6 +91,9 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     }
 
     public String getBatchProfileName() {
+        if (null != this.batchProcessProfile) {
+            this.batchProfileName = this.batchProcessProfile.getBatchProcessProfileName();
+        }
         return batchProfileName;
     }
 
@@ -101,6 +110,9 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     }
 
     public String getCronExpression() {
+        if (null != this.batchScheduleJob) {
+            this.cronExpression = this.batchScheduleJob.getCronExpression();
+        }
         return cronExpression;
     }
 
@@ -122,6 +134,22 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
 
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public Timestamp getNextRunTime() {
+        return nextRunTime;
+    }
+
+    public void setNextRunTime(Timestamp nextRunTime) {
+        this.nextRunTime = nextRunTime;
+    }
+
+    public BatchScheduleJob getBatchScheduleJob() {
+        return batchScheduleJob;
+    }
+
+    public void setBatchScheduleJob(BatchScheduleJob batchScheduleJob) {
+        this.batchScheduleJob = batchScheduleJob;
     }
 
     public BatchProcessProfile getBatchProcessProfile() {

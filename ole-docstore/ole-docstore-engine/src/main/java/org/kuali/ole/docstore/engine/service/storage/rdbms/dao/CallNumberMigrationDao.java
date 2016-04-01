@@ -9,10 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -79,9 +77,19 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
             futures.add(executorService.submit(new HoldingsCallNumberProcessor(start, end, callNumberType, getJdbcTemplate())));
             start = end;
         }
+
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+            try {
+                future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         executorService.shutdown();
         stopWatch.stop();
-        LOG.debug("Time Taken "+ holdingsTotalCount + " for holdings Migration :: " +stopWatch.prettyPrint());
+        LOG.info("Time Taken for " + holdingsTotalCount + "  holdings Call Number Migration :: " + stopWatch.prettyPrint());
     }
 
 
@@ -104,9 +112,19 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
             futures.add(executorService.submit(new ItemCallNumberProcessor(start, end, callNumberType, getJdbcTemplate())));
             start = end;
         }
+
+
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+            try {
+                future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         executorService.shutdown();
         stopWatch.stop();
-        LOG.error("Time Taken " + itemTotalCount + " for Item Migration :: " + stopWatch.prettyPrint());
+        LOG.info("Time Taken for " + itemTotalCount + "  Items Call Number Migration :: " + stopWatch.prettyPrint());
     }
 
 

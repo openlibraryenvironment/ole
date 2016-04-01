@@ -1,0 +1,85 @@
+{
+  "bibImportProfileName" : "BibForInvoice_YBP",
+  "jobDetailId" : "351",
+  "jobName" : "Invoice Import",
+  "matchedBibsCount" : 4,
+  "unmatchedBibsCount" : 0,
+  "multipleMatchedBibsCount" : 0,
+  "matchedHoldingsCount" : 4,
+  "unmatchedHoldingsCount" : 0,
+  "multipleMatchedHoldingsCount" : 0,
+  "matchedItemsCount" : 4,
+  "unmatchedItemsCount" : 0,
+  "multipleMatchedItemsCount" : 0,
+  "matchedEHoldingsCount" : 0,
+  "unmatchedEHoldingsCount" : 0,
+  "multipleMatchedEHoldingsCount" : 0,
+  "failureResponses" : [ {
+    "noOfFailureHoldings" : 0,
+    "noOfFailureItems" : 1,
+    "noOfFailureEHoldings" : 0,
+    "index" : 2,
+    "failureMessage" : "java.lang.NullPointerException",
+    "detailedMessage" : "Problem while update item."
+  }, {
+    "noOfFailureHoldings" : 0,
+    "noOfFailureItems" : 0,
+    "noOfFailureEHoldings" : 0,
+    "index" : 1,
+    "failureMessage" : "java.lang.NullPointerException",
+    "detailedMessage" : "MatchPointProcessor.processForDataField():line#81\nMatchPointProcessor.formSolrQueryMapForMatchPoint():line#49"
+  } ],
+  "bibResponses" : [ {
+    "operation" : "Updated",
+    "recordIndex" : 2,
+    "bibId" : "wbm-10496964",
+    "holdingsResponses" : [ {
+      "operation" : "Updated",
+      "holdingsType" : "print",
+      "holdingsId" : "who-8681925",
+      "itemResponses" : [ {
+        "operation" : "Updated",
+        "itemId" : "wio-9556621"
+      } ]
+    } ]
+  }, {
+    "operation" : "Updated",
+    "recordIndex" : 3,
+    "bibId" : "wbm-10496965",
+    "holdingsResponses" : [ {
+      "operation" : "Updated",
+      "holdingsType" : "print",
+      "holdingsId" : "who-8681926",
+      "itemResponses" : [ {
+        "operation" : "Updated",
+        "itemId" : "wio-9556622"
+      } ]
+    } ]
+  }, {
+    "operation" : "Updated",
+    "recordIndex" : 4,
+    "bibId" : "wbm-10496966",
+    "holdingsResponses" : [ {
+      "operation" : "Updated",
+      "holdingsType" : "print",
+      "holdingsId" : "who-8681927",
+      "itemResponses" : [ {
+        "operation" : "Updated",
+        "itemId" : "wio-9556623"
+      } ]
+    } ]
+  }, {
+    "operation" : "Updated",
+    "recordIndex" : 5,
+    "bibId" : "wbm-10496967",
+    "holdingsResponses" : [ {
+      "operation" : "Updated",
+      "holdingsType" : "print",
+      "holdingsId" : "who-8681928",
+      "itemResponses" : [ {
+        "operation" : "Updated",
+        "itemId" : "wio-9556624"
+      } ]
+    } ]
+  } ]
+}

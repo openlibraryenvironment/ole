@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.rest.controller;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.pojo.OleOrderRecord;
@@ -25,7 +26,8 @@ public class OleNGOrderController extends OleNgControllerBase {
     @ResponseBody
     public String createOrder(@RequestBody String requestBody) throws Exception {
         OleOrderRecord oleOrderRecord = getObjectMapper().readValue(requestBody, OleOrderRecord.class);
-        Integer purapIdentifier = orderRequestHandler.processOrder(Collections.singletonList(oleOrderRecord));
+        Exchange exchange = new Exchange();
+        Integer purapIdentifier = orderRequestHandler.processOrder(Collections.singletonList(oleOrderRecord), exchange);
         JSONObject jsonObject = new JSONObject();
         if (null != purapIdentifier) {
             jsonObject.put(OleNGConstants.STATUS, OleNGConstants.SUCCESS);

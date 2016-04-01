@@ -71,20 +71,24 @@ public class MatchPointProcessor extends BatchUtil {
     private String processForDataField(Record marcRecord, BatchProfileMatchPoint batchProfileMatchPoint) {
         String field = batchProfileMatchPoint.getDataField();
         String subField = batchProfileMatchPoint.getSubField();
+        String ind1 = batchProfileMatchPoint.getInd1();
+        String ind2 = batchProfileMatchPoint.getInd2();
         String destDataField = batchProfileMatchPoint.getDestDataField();
         String destSubField = batchProfileMatchPoint.getDestSubField();
 
         String query = null;
 
         List<VariableField> dataFields = marcRecord.getVariableFields(field);
-        for (Iterator<VariableField> variableFieldIterator = dataFields.iterator(); variableFieldIterator.hasNext(); ) {
+
+        List<VariableField> filteredFields = getMarcRecordUtil().getMatchedDataFields(ind1, ind2, subField, null, dataFields);
+
+        StringBuilder queryBuilder = new StringBuilder();
+        for (Iterator<VariableField> variableFieldIterator = filteredFields.iterator(); variableFieldIterator.hasNext(); ) {
             DataField dataField = (DataField) variableFieldIterator.next();
-            List<Subfield> subFields = dataField.getSubfields(subField);
-            for (Iterator<Subfield> subfieldIterator = subFields.iterator(); subfieldIterator.hasNext(); ) {
-                Subfield subfield = subfieldIterator.next();
+            if(StringUtils.isNotBlank(subField)) {
+                Subfield subfield = dataField.getSubfield(subField.charAt(0));
                 String matchPointValue = subfield.getData();
                 if (StringUtils.isNotBlank(matchPointValue)) {
-                    //Todo : Need to add ind1 and ind2 to the query.
                     if(StringUtils.isBlank(destDataField)) {
                         query = OleNGConstants.MDF_ + field + subField + ":" + "\"" + matchPointValue + "\"";
                     } else {
@@ -95,9 +99,10 @@ public class MatchPointProcessor extends BatchUtil {
                         }
                     }
                 }
+                appendQuery(queryBuilder,query);
             }
         }
-        return query;
+        return queryBuilder.toString();
     }
 
     private String prepareSolrQueryFromQueryList(List<String> queryList) {
@@ -112,13 +117,6 @@ public class MatchPointProcessor extends BatchUtil {
         } else {
             return null;
         }
-    }
-
-    private void appendQuery(StringBuilder queryBuilder, String query) {
-        if(queryBuilder.length() > 0) {
-            queryBuilder.append(" OR ");
-        }
-        queryBuilder.append(query);
     }
 
     public JSONObject prepareMatchPointsForItem(Record marcRecord, BatchProcessProfile batchProcessProfile) throws JSONException {

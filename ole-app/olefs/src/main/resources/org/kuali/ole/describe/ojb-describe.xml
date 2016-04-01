@@ -537,21 +537,22 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchProcessJob" table="OLE_NG_BAT_PRCS_JOB_T">
-        <field-descriptor name="batchProcessId" column="PROCESS_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+        <field-descriptor name="jobId" column="JOB_ID" jdbc-type="INTEGER" primarykey="true" index="true"
                           autoincrement="true" sequence-name="OLE_NG_BAT_PRCS_JOB_S"></field-descriptor>
-        <field-descriptor name="batchProcessName" column="PROCESS_NAME" jdbc-type="VARCHAR"></field-descriptor>
-        <field-descriptor name="batchProcessType" column="PROCESS_TYPE" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="jobName" column="JOB_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="profileType" column="PROFILE_TYPE" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="batchProfileId" column="PRF_ID" jdbc-type="INTEGER"></field-descriptor>
         <field-descriptor name="jobType" column="JOB_TYPE" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="cronExpression" column="CRON_EXP" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="createdOn" column="CREATED_ON" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="nextRunTime" column="NEXT_RUN_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <collection-descriptor name="batchJobDetailsList" element-class-ref="org.kuali.ole.oleng.batch.process.model.BatchJobDetails"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" orderby="jobId" sort="DESC">
-            <inverse-foreignkey field-ref="batchProcessId"/>
+            <inverse-foreignkey field-ref="jobId"/>
         </collection-descriptor>
         <reference-descriptor name="batchProcessProfile" class-ref="org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="batchProfileId" />
@@ -559,12 +560,13 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.oleng.batch.process.model.BatchJobDetails" table="OLE_NG_BAT_JOB_DETAILS_T">
-        <field-descriptor name="jobId" column="JOB_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+        <field-descriptor name="jobDetailId" column="JOB_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" index="true"
                           autoincrement="true" sequence-name="OLE_NG_BAT_JOB_DETAILS_S"></field-descriptor>
         <field-descriptor name="jobName" column="JOB_NAME" jdbc-type="VARCHAR"></field-descriptor>
-        <field-descriptor name="batchProcessId" column="PROCESS_ID" jdbc-type="INTEGER"></field-descriptor>
-        <field-descriptor name="batchProcessType" column="PROCESS_TYPE" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="jobId" column="JOB_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="profileType" column="PROFILE_TYPE" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="profileName" column="PROFILE_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="startTime" column="START_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="endTime" column="END_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
@@ -572,6 +574,7 @@
         <field-descriptor name="timeSpent" column="TIME_SPENT" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="totalRecords" column="TOTAL_RECORDS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="totalRecordsProcessed" column="TOTAL_RECORDS_PRCSD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="totalFailureRecords" column="TOTAL_FAILURE_RECORDS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

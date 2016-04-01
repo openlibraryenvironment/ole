@@ -16,9 +16,7 @@ import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -230,17 +228,20 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchProcessJob> iterator = batchProcessJobs.iterator(); iterator.hasNext(); ) {
                     BatchProcessJob batchProcessJob = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.PROCESS_ID, batchProcessJob.getBatchProcessId());
-                    jsonObject.put(OleNGConstants.PROCESS_NAME, batchProcessJob.getBatchProcessName());
-                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchProcessJob.getBatchProcessType());
+                    jsonObject.put(OleNGConstants.JOB_ID, batchProcessJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_NAME, batchProcessJob.getJobName());
+                    jsonObject.put(OleNGConstants.PROFILE_TYPE, batchProcessJob.getProfileType());
                     jsonObject.put(OleNGConstants.PROFILE_NAME, batchProcessJob.getBatchProfileName());
                     jsonObject.put(OleNGConstants.CREATED_BY, batchProcessJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.CREATED_ON, batchProcessJob.getCreatedOn());
+                    jsonObject.put(OleNGConstants.NEXT_RUN_TIME, batchProcessJob.getNextRunTime());
                     jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
                     jsonObject.put(OleNGConstants.CRON_EXPRESSION, batchProcessJob.getCronExpression());
-                    jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchProcessJob.getBatchJobDetailsList().size());
-                    if (CollectionUtils.isNotEmpty(batchProcessJob.getBatchJobDetailsList())) {
-                        jsonObject.put(OleNGConstants.LAST_EXECUTION_STATUS, batchProcessJob.getBatchJobDetailsList().get(0).getStatus());
+                    List<BatchJobDetails> batchJobDetailsList = batchProcessJob.getBatchJobDetailsList();
+                    sortExecutions(batchJobDetailsList);
+                    jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchJobDetailsList.size());
+                    if (CollectionUtils.isNotEmpty(batchJobDetailsList)) {
+                        jsonObject.put(OleNGConstants.LAST_EXECUTION_STATUS, batchJobDetailsList.get(batchJobDetailsList.size() - 1).getStatus());
                     }
                     jsonArray.put(jsonObject);
                 }
@@ -259,11 +260,12 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                 for (Iterator<BatchJobDetails> iterator = batchJobs.iterator(); iterator.hasNext(); ) {
                     BatchJobDetails batchJob = iterator.next();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_DETAIL_ID, batchJob.getJobDetailId());
                     jsonObject.put(OleNGConstants.JOB_NAME, batchJob.getJobName());
-                    jsonObject.put(OleNGConstants.PROCESS_ID, batchJob.getBatchProcessId());
-                    jsonObject.put(OleNGConstants.PROCESS_TYPE, batchJob.getBatchProcessType());
+                    jsonObject.put(OleNGConstants.JOB_ID, batchJob.getJobId());
+                    jsonObject.put(OleNGConstants.PROFILE_TYPE, batchJob.getProfileType());
                     jsonObject.put(OleNGConstants.PROFILE_NAME, batchJob.getProfileName());
+                    jsonObject.put(OleNGConstants.FILE_NAME, batchJob.getFileName());
                     jsonObject.put(OleNGConstants.CREATED_BY, batchJob.getCreatedBy());
                     jsonObject.put(OleNGConstants.START_TIME, batchJob.getStartTime());
                     jsonObject.put(OleNGConstants.END_TIME, batchJob.getEndTime());
@@ -271,6 +273,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.TIME_SPENT, batchJob.getTimeSpent());
                     jsonObject.put(OleNGConstants.TOTAL_RECORDS, batchJob.getTotalRecords());
                     jsonObject.put(OleNGConstants.TOTAL_RECORDS_PROCESSED, batchJob.getTotalRecordsProcessed());
+                    jsonObject.put(OleNGConstants.TOTAL_FAILURE_RECORDS, batchJob.getTotalFailureRecords());
                     jsonObject.put(OleNGConstants.JOB_STATUS, batchJob.getStatus());
                     jsonArray.put(jsonObject);
                 }
@@ -285,6 +288,17 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return batchProfileService.fetchValues(dropDownType).toString();
     }
 
+    public void sortExecutions(List<BatchJobDetails> batchJobDetailses) {
+        if (CollectionUtils.isNotEmpty(batchJobDetailses)) {
+            Collections.sort(batchJobDetailses, new Comparator<BatchJobDetails>() {
+                public int compare(BatchJobDetails details1, BatchJobDetails details2) {
+                    long priorityForDataMapping1 = details1.getJobDetailId();
+                    long priorityForDataMapping2 = details2.getJobDetailId();
+                    return new Long(priorityForDataMapping1).compareTo(new Long(priorityForDataMapping2));
+                }
+            });
+        }
+    }
 
 
     public BatchProfileService getBatchProfileService() {

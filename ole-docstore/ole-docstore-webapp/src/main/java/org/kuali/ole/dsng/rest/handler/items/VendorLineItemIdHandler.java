@@ -6,7 +6,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,17 +15,16 @@ import java.util.List;
  * Created by SheikS on 12/20/2015.
  */
 public class VendorLineItemIdHandler extends ItemHandler {
-    private final String TYPE = "Vendor Line Item Identifier";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.VENDOR_LINE_ITEM_IDENTIFIER);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String vendorLineItemIdentifier = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String vendorLineItemIdentifier = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.VENDOR_LINE_ITEM_IDENTIFIER);
         List<String> parsedValues = parseCommaSeperatedValues(vendorLineItemIdentifier);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String vendorLineItemIdentifierValue = iterator.next();
@@ -38,7 +37,7 @@ public class VendorLineItemIdHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.VENDOR_LINE_ITEM_IDENTIFIER);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String vendorLineItemIdentifier = listFromJSONArray.get(0);

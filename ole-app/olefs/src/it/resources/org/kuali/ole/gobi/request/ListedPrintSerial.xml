@@ -1,0 +1,41 @@
+<PurchaseOrder>
+  <CustomerDetail>
+    <BaseAccount>5095</BaseAccount>
+    <SubAccount>509580</SubAccount>
+  </CustomerDetail>
+  <Order>
+    <ListedPrintSerial>
+      <collection>
+        <record>
+          <leader>00246nYm  2200109z  4500</leader>
+          <controlfield tag="001"></controlfield>
+          <controlfield tag="003">NhCcYBP</controlfield>
+          <controlfield tag="005">20150813163613.6</controlfield>
+          <controlfield tag="008">150813nuuuu    xx ||||||||||||||   eng d</controlfield>
+          <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">NhCcYBP</subfield>
+            <subfield code="c">NhCcYBP</subfield>
+          </datafield>
+          <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">GRAECO-ROMAN MEMOIRS.</subfield>
+          </datafield>
+          <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">[S.l.] :</subfield>
+            <subfield code="b">[s.n.],</subfield>
+          </datafield>
+        </record>
+      </collection>
+      <OrderDetail>
+        <BatchPONumber />
+        <ItemPONumber>20236943</ItemPONumber>
+        <FundCode>oris</FundCode>
+        <MappedFundCode />
+        <OrderNotes>Vol. 95 and continuation. |</OrderNotes>
+        <Quantity>1</Quantity>
+        <YBPOrderKey>99940466466</YBPOrderKey>
+        <OrderPlaced>2010-12-14T12:38:06</OrderPlaced>
+        <StartWithVolume></StartWithVolume>
+      </OrderDetail>
+    </ListedPrintSerial>
+  </Order>
+</PurchaseOrder>

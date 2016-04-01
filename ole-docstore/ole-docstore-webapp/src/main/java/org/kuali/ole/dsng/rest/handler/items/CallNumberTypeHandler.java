@@ -7,7 +7,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.util.CallNumberUtil;
 
 import java.util.Iterator;
@@ -18,17 +18,16 @@ import java.util.List;
  */
 public class CallNumberTypeHandler extends ItemHandler {
 
-    private final String TYPE = "Call Number Type";
 
     @Override
     public Boolean isInterested(String operation) {
-        return operation.equals(TYPE);
+        return operation.equals(OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
     }
 
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-        String callNumberType = getStringValueFromJsonObject(requestJsonObject, TYPE);
+        String callNumberType = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
         List<String> parsedValues = parseCommaSeperatedValues(callNumberType);
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String callNumberTypeValue = iterator.next();
@@ -42,7 +41,7 @@ public class CallNumberTypeHandler extends ItemHandler {
 
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
-        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
+        JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberType = listFromJSONArray.get(0);

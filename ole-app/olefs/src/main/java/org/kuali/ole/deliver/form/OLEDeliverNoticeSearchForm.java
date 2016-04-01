@@ -18,7 +18,9 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
     private Date dateSentFrom;
     private Date dateSentTo;
     private String noticeType;
-
+    private int startValue=0;
+    private int pageSize=10;
+    private int totalRecCount;
     private List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResult;
 
     public String getPatronBarcode() {
@@ -74,5 +76,29 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
 
     public void reset(){
         oleDeliverNoticeSearchResult = new ArrayList<>();
+    }
+
+    public int getStartValue() {
+        return startValue;
+    }
+
+    public void setStartValue(int startValue) {
+        this.startValue = startValue;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getTotalRecCount() {
+        return totalRecCount;
+    }
+
+    public void setTotalRecCount(int totalRecCount) {
+        this.totalRecCount = totalRecCount;
     }
 }

@@ -1,17 +1,16 @@
 package org.kuali.ole.dsng.rest.handler.eholdings;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jettison.json.JSONException;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,27 +39,34 @@ public class CreateEHoldingsHandler extends Handler {
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
             for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
-                HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
-                HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
-                holdingsRecord.setBibId(holdingsRecord.getBibRecords().get(0).getBibId());
-                exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                 try {
-                    JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
-                    exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
-                    processDataMappings(holdingsJSONObject, exchange);
-                    setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
-                    holdingsRecords.add(holdingsRecord);
-                } catch (JSONException e) {
+                    HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
+                    HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
+                    String bibId = holdingsRecord.getBibRecords().get(0).getBibId();
+                    if (StringUtils.isNotBlank(bibId)) {
+                        JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
+                        holdingsRecord.setBibId(bibId);
+                        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                        JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
+                        exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
+                        processDataMappings(holdingsJSONObject, exchange);
+                        setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
+                        holdingsRecords.add(holdingsRecord);
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , 1);
                 }
 
             }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
             exchange.remove(OleNGConstants.DATAMAPPING);
-            getHoldingDAO().saveAll(holdingsRecords);
+            try {
+                getHoldingDAO().saveAll(holdingsRecords);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());
+            }
         }
     }
 
@@ -104,8 +110,6 @@ public class CreateEHoldingsHandler extends Handler {
             metaDataHandlers.add(new CurrentSubscriptionEndDateHandler());
             metaDataHandlers.add(new CurrentSubscriptionStartDateHandler());
             metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorCodeHandler());
-            metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorNoteHandler());
-            metaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.eholdings.DonorPublicDisplayHandler());
             metaDataHandlers.add(new EResourceIdHandler());
             metaDataHandlers.add(new NoOfSumultaneousUserHander());
             metaDataHandlers.add(new InitialSubscriptionEndDateHandler());

@@ -27,6 +27,7 @@
         <property name="items">
             <list>
                 <ref bean="checkoutItem" />
+                <ref bean="circFastAddItem"/>
             </list>
         </property>
     </bean>

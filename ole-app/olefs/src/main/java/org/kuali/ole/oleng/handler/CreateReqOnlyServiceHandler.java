@@ -1,6 +1,6 @@
 package org.kuali.ole.oleng.handler;
 
-import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.pojo.OleOrderRecord;
@@ -9,7 +9,6 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,10 +19,10 @@ public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqA
 
     private OleNGRequisitionService oleNGRequisitionService;
 
-    public Integer processOrder(List<OleOrderRecord> oleOrderRecords) throws Exception {
+    public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createNewRequisitionDocument();
-        oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, oleOrderRecords);
+        oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, oleOrderRecords, exchange);
         oleNGRequisitionService.saveRequsitionDocument(requisitionDocument);
         return requisitionDocument.getPurapDocumentIdentifier();
     }

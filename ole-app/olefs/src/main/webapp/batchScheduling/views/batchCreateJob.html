@@ -5,24 +5,24 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-horizontal">
-                        <input class="form-control" type="hidden" id="processId" name="processId" ng-value="createJobTab.processId"
-                               ng-model="batchProcessCreateTab.processId">
+                        <input class="form-control" type="hidden" id="jobId" name="jobId" ng-value="batchProcessCreateTab.jobId"
+                               ng-model="batchProcessCreateTab.jobId">
                         <div class="form-group">
-                            <label for="batchProcessName" class="col-sm-5">Batch Process Name</label>
+                            <label for="jobName" class="col-sm-5">Job Name</label>
 
                             <div class="col-sm-7">
-                                <input class="form-control" id="batchProcessName" name="batchProcessName" type="text"
-                                       ng-model="batchProcessCreateTab.batchProcessName" style="height: 30px; width: 250px;"/>
+                                <input class="form-control" id="jobName" name="jobName" type="text"
+                                       ng-model="batchProcessCreateTab.jobName" style="height: 30px; width: 250px;"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="batchProcessType" class="col-sm-5">Batch Process Type</label>
+                            <label for="profileType" class="col-sm-5">Profile Type</label>
 
                             <div class="col-sm-7">
-                                <select class="form-control" id="batchProcessType" name="batchProcessType"
-                                        ng-model="batchProcessCreateTab.batchProcessType" ng-change="populateProfileNames()"
+                                <select class="form-control" id="profileType" name="profileType"
+                                        ng-model="batchProcessCreateTab.profileType" ng-change="populateProfileNames()"
                                         style="width: 250px">
-                                    <option ng-repeat="option in batchProcessTypeValues | orderBy:'name'"
+                                    <option ng-repeat="option in profileTypeValues | orderBy:'name'"
                                             value="{{option.name}}">
                                         {{option.name}}
                                     </option>
@@ -30,12 +30,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="profileId" class="col-sm-5">Batch Profile Name</label>
+                            <label for="profileId" class="col-sm-5">Profile Name</label>
 
                             <div class="col-sm-7">
-                                <select class="form-control" id="profileId" name="profileName"
+                                <select class="form-control" id="profileId" name="profileId"
                                         ng-model="batchProcessCreateTab.profileId" style="width: 250px">
-                                    <option ng-repeat="option in profileNames"
+                                    <option ng-repeat="option in profileNames   | orderBy:'profileName'"
                                             value="{{option.profileId}}">
                                         {{option.profileName}}
                                     </option>
@@ -56,86 +56,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <table class="table table-condensed table-bordered col-sm-7"
-                                   ng-show="batchProcessCreateTab.jobType === 'Scheduled'">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th ng-show="batchProcessCreateTab.scheduleOption === 'Provide Cron Expression'">Cron</th>
-                                    <th ng-show="batchProcessCreateTab.scheduleOption === 'Schedule'">Type</th>
-                                    <th ng-show="batchProcessCreateTab.scheduleType === 'Once'" style="width: 200px">Date</th>
-                                    <th ng-show="batchProcessCreateTab.scheduleType === 'Every Week' || batchProcessCreateTab.scheduleType === 'Every Month'">
-                                        Day
-                                    </th>
-                                    <th ng-show="batchProcessCreateTab.scheduleType === 'Every Month'">Month Frequency</th>
-                                    <th ng-show="batchProcessCreateTab.scheduleType === 'Once' || batchProcessCreateTab.scheduleType === 'Daily' || batchProcessCreateTab.scheduleType === 'Every Week' || batchProcessCreateTab.scheduleType === 'Every Month'">
-                                        Time
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <select class="form-control" id="scheduleOption" name="scheduleOption"
-                                                ng-model="batchProcessCreateTab.scheduleOption"
-                                                ng-change="onChangeScheduleOption()" style="width: 210px">
-                                            <option ng-repeat="option in scheduleOptions" value="{{option.name}}">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td ng-show="batchProcessCreateTab.scheduleOption === 'Provide Cron Expression'">
-                                        <input class="form-control" id="cronExpression" name="cronExpression"
-                                               type="text"
-                                               ng-model="batchProcessCreateTab.cronExpression"
-                                               style="height: 30px; width: 150px;"/>
-                                    </td>
-                                    <td ng-show="batchProcessCreateTab.scheduleOption === 'Schedule'">
-                                        <select class="form-control" id="scheduleType" name="scheduleType"
-                                                ng-model="batchProcessCreateTab.scheduleType" style="width: 150px">
-                                            <option ng-repeat="option in scheduleTypes" value="{{option.name}}">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td ng-show="batchProcessCreateTab.scheduleType === 'Once'" style="width: 200px">
-                                        <input class="form-control" type="date" id="scheduleDate" name="scheduleDate"
-                                               ng-model="batchProcessCreateTab.scheduleDate" style="height: 30px; width: 200px"/>
-                                        <!--<md-content style="width: 300px">
-                                            <md-datepicker ng-model="batchProcessCreateTab.scheduleDate" md-placeholder="Enter date"></md-datepicker>
-                                        </md-content>-->
-                                    </td>
-                                    <td class="col-sm-6"
-                                        ng-show="batchProcessCreateTab.scheduleType === 'Every Week' || batchProcessCreateTab.scheduleType === 'Every Month'">
-                                        <select class="form-control" id="weekDay" name="weekDay"
-                                                ng-model="batchProcessCreateTab.weekDay" style="width: 150px"
-                                                ng-show="batchProcessCreateTab.scheduleType === 'Every Week'">
-                                            <option ng-repeat="option in weekDays" value="{{option.name}}">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                        <select class="form-control" id="monthDay" name="monthDay"
-                                                ng-model="batchProcessCreateTab.monthDay" style="width: 70px"
-                                                ng-show="batchProcessCreateTab.scheduleType === 'Every Month'">
-                                            <option ng-repeat="option in monthDays" value="{{option.name}}">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td ng-show="batchProcessCreateTab.scheduleType === 'Every Month'">
-                                        <input class="form-control" id="monthFrequency" name="monthFrequency"
-                                               type="text"
-                                               ng-model="batchProcessCreateTab.monthFrequency"
-                                               style="height: 30px; width: 130px;"/>
-                                    </td>
-                                    <td ng-show="batchProcessCreateTab.scheduleType === 'Once' || batchProcessCreateTab.scheduleType === 'Daily' || batchProcessCreateTab.scheduleType === 'Every Week' || batchProcessCreateTab.scheduleType === 'Every Month'">
-                                        <input class="form-control" id="scheduleTime" name="scheduleTime" type="text"
-                                               ng-model="batchProcessCreateTab.scheduleTime" placeholder="HH:MM"
-                                               style="height: 30px; width: 100px;"/>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div ng-include src="'batchScheduling/views/batchScheduleJob.html'" ng-show="batchProcessCreateTab.jobType === 'Scheduled'"></div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-6">

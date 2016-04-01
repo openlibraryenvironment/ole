@@ -1,0 +1,61 @@
+<PurchaseOrder>
+  <CustomerDetail>
+    <BaseAccount>5095</BaseAccount>
+    <SubAccount>509518</SubAccount>
+  </CustomerDetail>
+  <Order>
+    <ListedPrintMonograph>
+      <collection>
+        <record>
+          <leader>00391nam  22001453  4500</leader>
+          <controlfield tag="001"></controlfield>
+          <controlfield tag="003">NhCcYBP</controlfield>
+          <controlfield tag="005">20150813163527.8</controlfield>
+          <controlfield tag="008">150813q2013    xx ||||| |||||0|| 0 eng d</controlfield>
+          <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9781608462223</subfield>
+          </datafield>
+          <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)857663750</subfield>
+          </datafield>
+          <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">NhCcYBP</subfield>
+            <subfield code="c">NhCcYBP</subfield>
+          </datafield>
+          <datafield tag="100" ind1=" " ind2=" ">
+            <subfield code="a">LYDERSEN, KARI</subfield>
+          </datafield>
+          <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">MAYOR 1% :</subfield>
+            <subfield code="b">RAHM EMANUEL AND THE RISE OF CHICAGO'S 99%.</subfield>
+          </datafield>
+          <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">CHICAGO :</subfield>
+            <subfield code="b">HAYMARKET BOOKS,</subfield>
+            <subfield code="c">2013.</subfield>
+          </datafield>
+        </record>
+      </collection>
+      <OrderDetail>
+        <BatchPONumber />
+        <ItemPONumber>76288/ID</ItemPONumber>
+        <FundCode>pol</FundCode>
+        <MappedFundCode />
+        <OrderNotes />
+        <OtherLocalId />
+        <Location />
+        <Quantity>1</Quantity>
+        <YBPOrderKey>99962278218</YBPOrderKey>
+        <OrderPlaced>2015-03-17T17:16:40</OrderPlaced>
+        <ListPrice>
+          <Amount>16</Amount>
+          <Currency>USD</Currency>
+        </ListPrice>
+        <LocalData>
+          <Description>LocalData2</Description>
+          <Value>B\PR</Value>
+        </LocalData>
+      </OrderDetail>
+    </ListedPrintMonograph>
+  </Order>
+</PurchaseOrder>

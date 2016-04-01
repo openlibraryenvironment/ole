@@ -32,8 +32,10 @@ public class StepsProcessor {
             for (Iterator<BatchProfileDataTransformer> iterator = handlersToProcess.keySet().iterator(); iterator.hasNext(); ) {
                 BatchProfileDataTransformer batchProfileDataTransformer = iterator.next();
                 StepHandler stepHandler = handlersToProcess.get(batchProfileDataTransformer);
-                stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
-                stepHandler.processSteps(marcRecord);
+                if (null != stepHandler) {
+                    stepHandler.setBatchProfileDataTransformer(batchProfileDataTransformer);
+                    stepHandler.processSteps(marcRecord);
+                }
             }
 
             handlersToProcess.clear();
@@ -54,11 +56,14 @@ public class StepsProcessor {
     public List<StepHandler> getStepHandlerList() {
         if (null == stepHandlerList) {
             stepHandlerList = new ArrayList<>();
-            stepHandlerList.add(new NewStepHandler());
+            stepHandlerList.add(new AddFieldStepHandler());
+            stepHandlerList.add(new AddSubFieldStepHandler());
+            stepHandlerList.add(new CopyAndPasteStepHandler());
+            stepHandlerList.add(new CutAndPasteStepHandler());
+            stepHandlerList.add(new DeleteFieldStepHandler());
+            stepHandlerList.add(new DeleteSubFieldStepHandler());
+            stepHandlerList.add(new RemoveValueStepHandler());
             stepHandlerList.add(new PrependHandler());
-            stepHandlerList.add(new DeleteTagStepHandler());
-            stepHandlerList.add(new MoveStepHandler());
-            stepHandlerList.add(new DeleteValueStepHandler());
             stepHandlerList.add(new ReplaceStepHandler());
         }
         return stepHandlerList;

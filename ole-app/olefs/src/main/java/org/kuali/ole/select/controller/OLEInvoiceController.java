@@ -1906,7 +1906,6 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         }
                     }
                 }
-                getInvoiceService().calculateAccount(item);
             }
         }
 

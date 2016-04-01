@@ -1,7 +1,7 @@
 package org.kuali.ole.dsng.rest.handler.items;
 
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.dsng.rest.Exchange;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.HoldingsAndItemsGeneralHandler;
 
 /**

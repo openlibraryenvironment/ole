@@ -27,7 +27,7 @@
                         <td>
                             <select class="form-control" name="constantsAndDefaultOrderFields_{{$index}}" id="constantsAndDefaultOrderFields_{{$index}}" style="height: 30px; width: 400px;"
                                     ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
-                                    ng-change="populateDestinationFieldValues(constantsAndDefault, constantsAndDefault.fieldName)">
+                                    ng-change="populateDestinationFieldValues($index, constantsAndDefault, constantsAndDefault.fieldName)">
                                 <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
                                         ng-repeat="option in constantsAndDefault.constantsAndDefaultsFields  | orderBy:'name'"
                                         value="{{option.name}}">{{option.name}}

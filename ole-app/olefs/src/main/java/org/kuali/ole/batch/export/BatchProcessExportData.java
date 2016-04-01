@@ -161,10 +161,10 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         SimpleDateFormat format = new SimpleDateFormat(SOLR_DT_FORMAT);
         String fromDate = format.format(lastExportDate);
         searchParams = new SearchParams();
-        SearchField searchField = searchParams.buildSearchField(null, "dateUpdated", "[" + fromDate + " TO NOW]");
+        SearchField searchField = searchParams.buildSearchField("", "dateUpdated", "[" + fromDate + " TO NOW]");
         searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(null, "bibIdentifier"));
-        searchField = searchParams.buildSearchField(null, "staffOnlyFlag", Boolean.TRUE.toString());
+        searchField = searchParams.buildSearchField("", "staffOnlyFlag", Boolean.FALSE.toString());
         searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
         response = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
         return response;

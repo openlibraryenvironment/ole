@@ -1,5 +1,5 @@
 <div>
-    <div ng-controller="searchController">
+    <div ng-controller="searchController" data-ng-init="init()">
         <!--<form name="searchForm">-->
         <div align="left">
             <label for="DocumentType"> Document Type: </label>
@@ -46,7 +46,7 @@
         <br/>
         <div class="panel-group" ng-model="searchResultActivePanel" data-allow-multiple="true" role="tablist"
         aria-multiselectable="true" bs-collapse>
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-show="searched">
                 <div class="panel-heading" role="tab">
                     <h4 class="panel-title">
                     <a bs-collapse-toggle href="#" ng-click="searchResultPanel.collapsed = !searchResultPanel.collapsed">

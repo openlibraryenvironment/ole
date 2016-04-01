@@ -9,9 +9,14 @@ import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLERestBaseTestCase;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
+import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.Record;
 
@@ -19,9 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -48,7 +51,8 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
         String rawMarc = FileUtils.readFileToString(file);
-        batchFileProcessor.processBatch(rawMarc,profileName);
+        String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
+        batchFileProcessor.processBatch(rawMarc, OleNGConstants.MARC, profileName,reportDirectory, new BatchJobDetails());
     }
 
     @Test
@@ -167,35 +171,38 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         ArrayList<BatchProfileDataTransformer> batchProfileDataTransformers = new ArrayList<>();
 
         BatchProfileDataTransformer batchProfileDataTransformer1 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer1.setOperation("delete");
+        batchProfileDataTransformer1.setOperation(OleNGConstants.REMOVE_VALUE);
         batchProfileDataTransformer1.setConstant("ocm,ocn");
-        batchProfileDataTransformer1.setSourceField("001");
+        batchProfileDataTransformer1.setDataField("001");
         batchProfileDataTransformer1.setStep(1);
         batchProfileDataTransformers.add(batchProfileDataTransformer1);
 
         BatchProfileDataTransformer batchProfileDataTransformer2 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer2.setOperation("Prepend with Prefix");
-        batchProfileDataTransformer2.setDestinationField("001");
-        batchProfileDataTransformer2.setSourceField("003");
+        batchProfileDataTransformer2.setOperation(OleNGConstants.PREPEND_WITH_PREFIX);
+        batchProfileDataTransformer2.setDataField("003");
+        batchProfileDataTransformer2.setDestDataField("001");
         batchProfileDataTransformer2.setStep(2);
         batchProfileDataTransformers.add(batchProfileDataTransformer2);
 
         BatchProfileDataTransformer batchProfileDataTransformer3 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer3.setOperation("add");
-        batchProfileDataTransformer3.setDestinationField("035 $a");
-        batchProfileDataTransformer3.setSourceField("001");
+        batchProfileDataTransformer3.setOperation(OleNGConstants.ADD_FIELD);
+        batchProfileDataTransformer3.setDataField("001");
+        batchProfileDataTransformer3.setDestDataField("035 $a");
+        batchProfileDataTransformer3.setDestInd1(" ");
+        batchProfileDataTransformer3.setDestInd2(" ");
+        batchProfileDataTransformer3.setSubField("a");
         batchProfileDataTransformer3.setStep(3);
         batchProfileDataTransformers.add(batchProfileDataTransformer3);
 
         BatchProfileDataTransformer batchProfileDataTransformer4 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer4.setOperation("delete");
-        batchProfileDataTransformer4.setSourceField("001");
+        batchProfileDataTransformer4.setOperation(OleNGConstants.REPLACE);
+        batchProfileDataTransformer4.setDataField("001");
         batchProfileDataTransformer4.setStep(4);
         batchProfileDataTransformers.add(batchProfileDataTransformer4);
 
         BatchProfileDataTransformer batchProfileDataTransformer5 = new BatchProfileDataTransformer();
-        batchProfileDataTransformer5.setOperation("delete");
-        batchProfileDataTransformer5.setSourceField("003");
+        batchProfileDataTransformer5.setOperation(OleNGConstants.REPLACE);
+        batchProfileDataTransformer5.setDataField("003");
         batchProfileDataTransformer5.setStep(5);
         batchProfileDataTransformers.add(batchProfileDataTransformer5);
 
@@ -232,7 +239,8 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         batchProfileDataMapping1.setField("Call Number");
         batchProfileDataMapping1.setDataField("050");
         batchProfileDataMapping1.setSubField("a");
-        batchProfileDataMapping1.setPriority(1);
+        batchProfileDataMapping1.setSubField("a");
+        batchProfileDataMapping1.setTransferOption(OleNGConstants.PRE_MARC_TRANSFORMATION);
         batchProfileDataMappingList.add(batchProfileDataMapping1);
 
         BatchProfileDataMapping batchProfileDataMapping2 = new BatchProfileDataMapping();
@@ -241,6 +249,7 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         batchProfileDataMapping2.setField("Call Number");
         batchProfileDataMapping2.setDataField("050");
         batchProfileDataMapping2.setSubField("b");
+        batchProfileDataMapping2.setTransferOption(OleNGConstants.PRE_MARC_TRANSFORMATION);
         batchProfileDataMapping2.setPriority(2);
         batchProfileDataMappingList.add(batchProfileDataMapping2);
 
@@ -257,7 +266,18 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
 
         MockSolrRequestReponseHandler mockSolrRequestReponseHandler = new MockSolrRequestReponseHandler();
         mockBatchBibFileProcessor.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        String response = mockBatchBibFileProcessor.processRecords(records, batchProcessProfile);
+        String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
+
+        String rawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(records);
+        Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+        for(int index = 0; index < records.size(); index++){
+            RecordDetails recordDetails = new RecordDetails();
+            recordDetails.setRecord(records.get(index + 1));
+            recordDetailsMap.put(index, recordDetails);
+        }
+        OleNgBatchResponse oleNgBatchResponse = mockBatchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC,
+                batchProcessProfile, reportDirectory, new BatchJobDetails());
+        String response = oleNgBatchResponse.toString();
         assertTrue(StringUtils.isNotBlank(response));
         System.out.println(response);
     }

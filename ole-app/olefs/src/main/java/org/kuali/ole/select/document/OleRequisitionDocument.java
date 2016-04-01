@@ -431,7 +431,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
     }
 
     public static OleCopyHelperService getOleCopyHelperService() {
-        if(oleCopyHelperService  == null){
+        if (oleCopyHelperService == null) {
             oleCopyHelperService = SpringContext.getBean(OleCopyHelperService.class);
         }
         return oleCopyHelperService;
@@ -472,42 +472,54 @@ public class OleRequisitionDocument extends RequisitionDocument {
 
     /**
      * This method is used to set the item while prepareforsave method is executed
+     *
      * @param singleItem
      */
-    private void setItemDetailWhilePrepareForSave(OleRequisitionItem singleItem){
-        if (!this.getRequisitionSourceCode().equalsIgnoreCase(
-                OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT) && !this.getRequisitionSourceCode().equalsIgnoreCase(
-                OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
-            singleItem.setVendorItemPoNumber(this.vendorPoNumber);
+    private void setItemDetailWhilePrepareForSave(OleRequisitionItem singleItem) {
+        String requisitionSourceCode = this.getRequisitionSourceCode();
+        Integer requestSourceTypeId = singleItem.getRequestSourceTypeId();
+        String internalRequestorId = singleItem.getInternalRequestorId();
+        Integer requestorTypeId = singleItem.getRequestorTypeId();
+
+        //TODO: Why are we checking for this?
+//        if (!requisitionSourceCode.equalsIgnoreCase(
+//                OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT) && !requisitionSourceCode.equalsIgnoreCase(
+//                OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
+//            singleItem.setVendorItemPoNumber(this.vendorPoNumber);
+//        }
+
+        //TODO: Why are we checking for null?
+        //if (requestSourceTypeId == null) {
+        setRequestSourceTypeId(singleItem);
+        //TODO: Why are we checking this again?
+        //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
+        if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
+            singleItem.setCopyList(getCopyList(singleItem));
         }
-        if (singleItem.getRequestSourceTypeId() == null) {
-            setRequestSourceTypeId(singleItem);
-            if(this.getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)){
-                if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
-                    singleItem.setCopyList(getCopyList(singleItem));
-                }
-            }
-            if (singleItem.getBibInfoBean() != null) {
-                singleItem.getBibInfoBean().setRequestSource(OleSelectConstant.REQUEST_SRC_TYPE_STAFF);
-            }
+        //}
+        if (singleItem.getBibInfoBean() != null) {
+            singleItem.getBibInfoBean().setRequestSource(OleSelectConstant.REQUEST_SRC_TYPE_STAFF);
         }
-        if (!StringUtils.isEmpty(singleItem.getInternalRequestorId()) && singleItem.getRequestorTypeId() == null) {
+        // }
+
+        if (!StringUtils.isEmpty(internalRequestorId) && requestorTypeId == null) {
             singleItem.setRequestorTypeId(getOlePurapService().getRequestorTypeId(OleSelectConstant.REQUESTOR_TYPE_STAFF));
         }
     }
 
     /**
      * This method is used to creat bib for the given Bib information
+     *
      * @param singleItem
      */
-    private void createBib(OleRequisitionItem singleItem){
+    private void createBib(OleRequisitionItem singleItem) {
         LOG.debug("### Inside createBib() on OleRequisitionDocument ###");
-        try{
+        try {
             if (singleItem.getBibInfoBean() != null && singleItem.getBibInfoBean().getTitle() != null && singleItem.getItemTitleId() == null) {
                 List<BibMarcRecord> bibMarcRecordList = new ArrayList<>();
                 BibMarcRecords bibMarcRecords = new BibMarcRecords();
                 BibMarcRecord bibMarcRecord = new BibMarcRecord();
-                getOlePurapService().setBibMarcRecord(bibMarcRecord,singleItem.getBibInfoBean());
+                getOlePurapService().setBibMarcRecord(bibMarcRecord, singleItem.getBibInfoBean());
                 bibMarcRecordList.add(bibMarcRecord);
                 bibMarcRecords.setRecords(bibMarcRecordList);
                 BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
@@ -525,13 +537,14 @@ public class OleRequisitionDocument extends RequisitionDocument {
                     //setItemDescription(singleItem, newBib);
                 }
             }
-        }catch(Exception e){
-            LOG.error("Exception while creating bib for Preorderservice in OleRequisitionDocument class",e);
+        } catch (Exception e) {
+            LOG.error("Exception while creating bib for Preorderservice in OleRequisitionDocument class", e);
         }
     }
 
     /**
      * This method is used to set the item description on item for the given Bib
+     *
      * @param oleRequisitionItem
      * @param newBib
      */
@@ -546,10 +559,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
         itemDescription = stringEscapeUtils.unescapeHtml(itemDescription);
         oleRequisitionItem.setItemDescription(itemDescription);
     }*/
-
-    private void setRequestSourceTypeId(OleRequisitionItem singleItem){
-        try{
-            if(LOG.isInfoEnabled()){
+    private void setRequestSourceTypeId(OleRequisitionItem singleItem) {
+        try {
+            if (LOG.isInfoEnabled()) {
                 LOG.info("RequisitionSourceCode---->" + this.getRequisitionSourceCode());
             }
             if (this.getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT)) {
@@ -557,18 +569,25 @@ public class OleRequisitionDocument extends RequisitionDocument {
             } else if (this.getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_WEBFORM)) {
                 singleItem.setRequestSourceTypeId(getOleRequestSourceService().getRequestSourceTypeId(OleSelectConstant.REQUEST_SRC_TYPE_WEBFORM));
             } else {
-                singleItem.setRequestSourceTypeId(getOleRequestSourceService().getRequestSourceTypeId(OleSelectConstant.REQUEST_SRC_TYPE_BATCHINGEST));
+                Integer requestSourceTypeId = singleItem.getRequestSourceTypeId();
+                if (null != requestSourceTypeId) {
+                    singleItem.setRequestSourceTypeId(requestSourceTypeId);
+                } else {
+                    singleItem.setRequestSourceTypeId(getOleRequestSourceService().getRequestSourceTypeId(OleSelectConstant.REQUEST_SRC_TYPE_BATCHINGEST));
+                }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             LOG.error("Error while setting RequestSourceTypeId");
         }
     }
+
     /**
      * This method is used to get the copies list for the given line item
+     *
      * @param singleItem
      * @return
      */
-    private List<OleCopy> getCopyList(OleRequisitionItem singleItem){
+    private List<OleCopy> getCopyList(OleRequisitionItem singleItem) {
         LOG.debug("### Inside getCopyList() of OleRequisitionDocument ###");
         List<OleCopies> itemCopies = new ArrayList<>();
         OleRequisitionCopies oleRequisitionCopies = new OleRequisitionCopies();
@@ -623,7 +642,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
         try {
             LOG.debug("###########inside OleRequisitionDocument processAfterRetrieve###########");
             PurchaseOrderType purchaseOrderTypeDoc = getOlePurapService().getPurchaseOrderType(this.getPurchaseOrderTypeId());
-            if(purchaseOrderTypeDoc != null){
+            if (purchaseOrderTypeDoc != null) {
                 this.setOrderType(purchaseOrderTypeDoc);
             }
             if (this.getVendorAliasName() == null) {
@@ -645,10 +664,11 @@ public class OleRequisitionDocument extends RequisitionDocument {
 
     /**
      * This method is used to set the item detail while processafterretrive method is executed
+     *
      * @param singleItem
      */
-    private void setItemDetailWhileProcessAfterRetrive(OleRequisitionItem singleItem){
-        try{
+    private void setItemDetailWhileProcessAfterRetrive(OleRequisitionItem singleItem) {
+        try {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Title id while retriving in REQ------>" + singleItem.getItemTitleId());
             }
@@ -679,15 +699,16 @@ public class OleRequisitionDocument extends RequisitionDocument {
                 getOlePurapService().setInvoiceDocumentsForRequisition(singleItem);
             }
             if (singleItem.getClaimDate() == null) {
-                getOlePurapService().setClaimDateForReq(singleItem,this.vendorDetail);
+                getOlePurapService().setClaimDateForReq(singleItem, this.vendorDetail);
             }
-        }catch (Exception e){
-            LOG.error("Error while setting the requisition item detail.",e);
+        } catch (Exception e) {
+            LOG.error("Error while setting the requisition item detail.", e);
         }
     }
 
     /**
      * This method is used to populated the copies section details
+     *
      * @param singleItem
      */
     private void populateCopiesSection(OleRequisitionItem singleItem) {
@@ -750,7 +771,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
     @Override
     public void initiateDocument() throws WorkflowException {
         String description = getOlePurapService().getParameter(OLEConstants.REQ_DESC);
-        description = getOlePurapService().setDocumentDescription(description,null);
+        description = getOlePurapService().setDocumentDescription(description, null);
         this.getDocumentHeader().setDocumentDescription(description);
         this.setPurchaseOrderTypeId(getParameterService().getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_ORDER_TYPE));
         /*this.setLicensingRequirementCode(getParameterService().getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_LICENSE_STATUS));*/
@@ -781,7 +802,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
             Person personImpl = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId());
             //Modified as per review comments OLE-24
             String defaultRoomNumber = getParameter("DELIVERY_DEFAULT_ROOMNUMBER");
-            if(defaultRoomNumber != null){
+            if (defaultRoomNumber != null) {
                 defaultRoomNumber = defaultRoomNumber.trim();
             }
             document.setDeliveryBuildingLine1Address(personImpl.getAddressLine1());
@@ -1146,9 +1167,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
         return false;
     }
 
-    public String getParameter(String name){
-        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
+    public String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT, name);
         Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
-        return parameter!=null?parameter.getValue():null;
+        return parameter != null ? parameter.getValue() : null;
     }
 }
