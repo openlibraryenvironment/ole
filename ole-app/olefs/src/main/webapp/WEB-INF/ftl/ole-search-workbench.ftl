@@ -42,6 +42,10 @@
                                     <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                                 </div>
                             </#if>
+                        <#else>
+                            <div>
+                                <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true"></a>
+                            </div>
                         </#if>
                     </td>
                 </#if>
