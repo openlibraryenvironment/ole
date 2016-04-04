@@ -737,5 +737,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="ALERT_OLE_PUR_POBA_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar(120)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALERT_OLE_PUR_POBA_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar2(120)</sql>
+    </changeSet>
 
 </databaseChangeLog>
