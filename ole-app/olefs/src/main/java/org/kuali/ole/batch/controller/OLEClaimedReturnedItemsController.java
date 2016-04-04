@@ -190,20 +190,22 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             for (OLEClaimedReturnedItemResult oleClaimedReturnedItemResult : selectedClaimedReturnedItemResults) {
                 OleLoanDocument oleLoanDocument = oleClaimedReturnedItemResult.getOleLoanDocument();
                 if (oleClaimedReturnedItemsForm.isBillForItem()) {
-                    createOrUpdateBillForItem(oleLoanDocument);
-                    oleClaimedReturnedItemResult.setSelect(false);
+                    createOrUpdateBillForItem(isNotifyClaimsReturnedToPatron, oleLoanDocument);
                 } else {
                     forgiveClaimProcess(isNotifyClaimsReturnedToPatron, oleLoanDocument);
-                    oleClaimedReturnedItemsForm.getClaimedReturnedItemResults().remove(oleClaimedReturnedItemResult);
                 }
+                oleClaimedReturnedItemsForm.getClaimedReturnedItemResults().remove(oleClaimedReturnedItemResult);
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, OLEConstants.RECORD_UPDATED_SUCCESSFULLY);
             }
         }
         return getUIFModelAndView(oleClaimedReturnedItemsForm, "OLEClaimedReturnedItemsViewPage");
     }
 
-    private void createOrUpdateBillForItem(OleLoanDocument oleLoanDocument) {
+    private void createOrUpdateBillForItem(boolean isNotifyClaimsReturnedToPatron, OleLoanDocument oleLoanDocument) {
         CircUtilController circUtilController = new CircUtilController();
+        oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
+        oleLoanDocument.setClaimsSearchCount(0);
+        oleLoanDocument.setNoOfClaimsReturnedNoticesSent(0);
         Map parameterMap = new HashMap();
         parameterMap.put("deleteClaimsReturn", null);
         circUtilController.deleteItemInfoInSolr(parameterMap, oleLoanDocument.getItemUuid());
@@ -217,8 +219,12 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+        } else {
+            getBusinessObjectService().save(oleLoanDocument);
         }
-        circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT);
+        if (isNotifyClaimsReturnedToPatron) {
+            circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT);
+        }
     }
 
     private void forgiveClaimProcess(boolean isNotifyClaimsReturnedToPatron, OleLoanDocument oleLoanDocument) {
