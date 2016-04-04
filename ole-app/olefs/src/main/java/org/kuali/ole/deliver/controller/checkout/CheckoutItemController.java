@@ -450,7 +450,11 @@ public class CheckoutItemController extends CircFastAddItemController {
                     oleLoanDocument.setClaimsReturnNote(null);
                     oleLoanDocument.setClaimsReturnedDate(null);
                 }
+                oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
+                oleLoanDocument.setClaimsSearchCount(0);
+                oleLoanDocument.setNoOfClaimsReturnedNoticesSent(0);
             }
+            getBusinessObjectService().save(loanDocumentList);
         }
     }
 

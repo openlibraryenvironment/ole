@@ -249,6 +249,9 @@ public class CircController extends CheckoutValidationController {
         CircUtilController circUtilController = new CircUtilController();
         ItemRecord itemRecord = circUtilController.getItemRecordByBarcode(oleLoanDocument.getItemId());
         if (itemRecord != null && !itemRecord.getClaimsReturnedFlag()) {
+            oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
+            oleLoanDocument.setClaimsSearchCount(0);
+            oleLoanDocument.setNoOfClaimsReturnedNoticesSent(0);
             OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
             if (StringUtils.isBlank(oleLoanDocument.getItemFullLocation())) {
                 oleLoanDocument.setItemFullLocation(oleItemRecordForCirc.getItemFullPathLocation());
