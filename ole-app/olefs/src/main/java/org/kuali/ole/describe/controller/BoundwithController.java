@@ -1822,10 +1822,15 @@ public class BoundwithController extends OLESearchController {
             return getUIFModelAndView(uifForm);
         }
         List<SearchCondition> searchConditions = boundwithForm.getSearchConditions();
+        String previousDocType =boundwithForm.getSearchConditions().get(index).getSearchField().getDocType();
         index++;
-        SearchCondition searchCondition = new SearchCondition();
+        SearchCondition searchCondition=new SearchCondition();
         searchCondition.setOperator("AND");
-        searchConditions.add(index, searchCondition);
+        SearchField searchField = new SearchField();
+        searchField.setDocType(previousDocType);
+        searchField.setFieldName("any");
+        searchCondition.setSearchField(searchField);
+        searchConditions.add(index,searchCondition);
         return getUIFModelAndView(uifForm);
     }
 
