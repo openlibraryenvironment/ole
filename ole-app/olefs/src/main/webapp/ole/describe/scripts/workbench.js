@@ -315,14 +315,15 @@ function selectOrUnselectDeLink(id, url) {
 function selectOrUnselect() {
     jq('.sorting_1').live("click", function (event) {
         var id = event.target.id;
-        var line = id.split("line")[1].substr(0, 1);
-        var url = getUrl(line);
-        if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
-            selectOrUnselectDeLink(id, url)
-        } else {
-            selectOrUnselectLink(id, url);
+        if (id != "") {
+            var line = id.split("line")[1].split("_")[0];
+            var url = getUrl(line);
+            if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
+                selectOrUnselectDeLink(id, url)
+            } else {
+                selectOrUnselectLink(id, url);
+            }
         }
-
     });
 }
 
