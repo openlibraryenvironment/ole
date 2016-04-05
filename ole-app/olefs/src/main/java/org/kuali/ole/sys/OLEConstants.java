@@ -2035,4 +2035,5 @@ public class OLEConstants {
     public static final String THREAD_POOL_SIZE = "AUTO_CLOSE_PO_THREAD_POOL_SIZE";
     public static final String ERESOURCE = "E-Resource";
     public static final String CANCEL_PDF_CREATION = "POBA_CANCEL_PDF_CREATION";
+    public static final String POA_BATCH_NOTE = "Amended in batch by PO document";
 }

@@ -2485,7 +2485,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                             }
                             isSuccess = savePurchaseOrderEdi(po, file, item);
                         }
-                        if (!getParameterValue(OLEConstants.CANCEL_PDF_CREATION).equalsIgnoreCase("true") && vendorTransmissionFormatDetail.getVendorTransmissionFormat() != null &&
+                        if (checkForPdfGeneration(po) && vendorTransmissionFormatDetail.getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OLEConstants.OLE_VENDOR_PDF_OPTION)) {
                             if (!(po.getDocumentNumber().equals(documentNumber))) {
@@ -2686,6 +2686,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
         this.oleSelectDocumentService = oleSelectDocumentService;
+    }
+
+    public boolean checkForPdfGeneration(PurchaseOrderDocument  purchaseOrderDocument) {
+        if (purchaseOrderDocument.getDocumentHeader() != null && purchaseOrderDocument.getDocumentHeader().getWorkflowDocument() != null &&
+                purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_AMENDMENT)
+                && getParameterValue(OLEConstants.CANCEL_PDF_CREATION).equalsIgnoreCase("true")) {
+            if (purchaseOrderDocument.getNotes().size() > 0) {
+                for (Note note : purchaseOrderDocument.getNotes()) {
+                    if (note.getNoteText().contains(OLEConstants.POA_BATCH_NOTE)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public String getParameterValue(String key) {
