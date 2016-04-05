@@ -28,7 +28,7 @@
             <list>
                 <!--<ref bean="OleFundCode-FundCodeAccountingLineId"/>-->
                 <ref bean="OleFundCode-fundCodeId"/>
-                <ref bean="OleFundCode-fundCode"/>
+                <ref bean="OleFundCode-FundCode"/>
                 <ref bean="OleFundCode-active"/>
             </list>
         </property>
@@ -47,8 +47,8 @@
         <property name="name" value="fundCodeId"/>
     </bean>
 
-    <bean id="OleFundCode-fundCode" parent="OleFundCode-fundCode-parentBean"/>
-    <bean id="OleFundCode-fundCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="OleFundCode-FundCode" parent="OleFundCode-FundCode-parentBean"/>
+    <bean id="OleFundCode-FundCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
         <property name="shortLabel" value="Fund Code"/>
         <property name="maxLength" value="15"/>

@@ -35,8 +35,6 @@ public class OleFundLookupDocument extends TransactionalDocumentBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleFundLookupDocument.class);
 
     private String chartOfAccountsCode;
-    private String fundCode;
-    private String fundCodeId;
     private String accountNumber;
     private String objectCode;
     private String organizationCode;
@@ -81,22 +79,6 @@ public class OleFundLookupDocument extends TransactionalDocumentBase {
 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    public String getFundCode() {
-        return fundCode;
-    }
-
-    public void setFundCode(String fundCode) {
-        this.fundCode = fundCode;
-    }
-
-    public String getFundCodeId() {
-        return fundCodeId;
-    }
-
-    public void setFundCodeId(String fundCodeId) {
-        this.fundCodeId = fundCodeId;
     }
 
     public String getAccountNumber() {

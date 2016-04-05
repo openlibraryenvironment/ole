@@ -31,8 +31,6 @@
       <list>
         <ref bean="CashBalance-universityFiscalYear"/>
         <ref bean="CashBalance-chartOfAccountsCode"/>
-        <ref bean="CashBalance-fundCode"/>
-        <ref bean="CashBalance-fundCodeId"/>
         <ref bean="CashBalance-accountNumber"/>
         <ref bean="CashBalance-subAccountNumber"/>
         <ref bean="CashBalance-objectCode"/>
@@ -94,15 +92,6 @@
 	<bean id="CashBalance-chartOfAccountsCode-parentBean" abstract="true"
 		parent="Chart-chartOfAccountsCode">
 	</bean>
-
-    <bean id="CashBalance-fundCodeId" parent="CashBalance-fundCodeId-parentBean"/>
-    <bean id="CashBalance-fundCodeId-parentBean" abstract="true" parent="OleFundCode-fundCodeId">
-    </bean>
-
-    <bean id="CashBalance-fundCode" parent="CashBalance-fundCode-parentBean"/>
-    <bean id="CashBalance-fundCode-parentBean" abstract="true" parent="OleFundCode-fundCode">
-    </bean>
-
 	<bean id="CashBalance-accountNumber" parent="CashBalance-accountNumber-parentBean" />
 
 	<bean id="CashBalance-accountNumber-parentBean" abstract="true"
@@ -359,7 +348,6 @@
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-                <bean parent="FieldDefinition" p:attributeName="fundCode" />
 			</list>
 		</property>
 	</bean>
@@ -387,8 +375,6 @@
 					p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.FiscalYearFinder" />
 				<bean parent="FieldDefinition" p:required="true"
 					p:attributeName="chartOfAccountsCode" />
-                <bean parent="FieldDefinition"
-                      p:attributeName="fundCode" />
 				<bean parent="FieldDefinition" p:required="true"
 					p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber"

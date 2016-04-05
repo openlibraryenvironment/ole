@@ -21,8 +21,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.ObjectCode;
-import org.kuali.ole.coa.businessobject.OleFundCode;
-import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.gl.Constant;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.gl.OJBUtility;
@@ -93,82 +91,8 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
         if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
             fieldValues.put(Constant.SUB_ACCOUNT_OPTION, OLEConstants.getDashSubAccountNumber());
             isConsolidated = false;
-        }
-
-        String fundCode = (String) fieldValues.get("fundCode");
-        if(fundCode != null && validateFundCode(fundCode)) {
-            List buildResult = null;
-            Map searchMap = new HashMap();
-            searchMap.put(OLEConstants.FUND_CODE_ID, fundCode);
-            List<OleFundCodeAccountingLine> OleFundCodeAccountingList =(List<OleFundCodeAccountingLine>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCodeAccountingLine.class, searchMap);
-            for(OleFundCodeAccountingLine oleFundCodeAccountingLine : OleFundCodeAccountingList) {
-                fieldValues.remove("fundCode");
-                fieldValues.put("accountNumber",oleFundCodeAccountingLine.getAccountNumber());
-                fieldValues.put("chartOfAccountsCode",oleFundCodeAccountingLine.getChartCode());
-                fieldValues.put("objectCode",oleFundCodeAccountingLine.getObjectCode());
-                if (isConsolidated) {
-                    Iterator availableBalanceIterator = accountBalanceService.findConsolidatedAvailableAccountBalance(fieldValues);
-                    searchResultsCollection = buildConsolidedAvailableBalanceCollection(availableBalanceIterator);
-                }
-                else {
-                    Iterator availableBalanceIterator = accountBalanceService.findAvailableAccountBalance(fieldValues);
-                    searchResultsCollection = buildDetailedAvailableBalanceCollection(availableBalanceIterator);
-                }
-                List<Map<String, Object>> balanceTableResultSet=getAccountBalanceOffsetObjectCodeDAOService().getBalanceTable(fieldValues);
-                setValuesFromBalanceTableToResults(searchResultsCollection,balanceTableResultSet,fieldValues);
-                // update search results according to the selected pending entry option
-                updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
-
-                // Put the search related stuff in the objects
-                for (Iterator iter = searchResultsCollection.iterator(); iter.hasNext();) {
-                    AccountBalance ab = (AccountBalance) iter.next();
-                    TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
-                    dbo.setConsolidationOption(consolidationOption);
-                    dbo.setPendingEntryOption(pendingEntryOption);
-                }
-
-                // get the actual size of all qualified search results
-                Integer recordCount = accountBalanceService.getAvailableAccountBalanceCount(fieldValues, isConsolidated);
-                Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new AccountBalance());
-                // Get the entry in Account
-                SystemOptions option = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, Integer.parseInt((String)fieldValues.get(OLEConstants.FISCAL_YEAR)));
-                if(option != null){
-                    if(searchResultsCollection.size() < 1) {
-                        String accountNumber = fieldValues.get(OLEConstants.ACCOUNT_NUMBER).toString();
-                        String chartCode = fieldValues.get(OLEConstants.CHART_CODE).toString();
-                        if(!chartCode.equals("*") || !accountNumber.equals("*")){
-                            List<Account> accountList =  checkAccountEntry(accountNumber,chartCode);
-                            for (Iterator<Account> accountIterator = accountList.iterator(); accountIterator.hasNext(); ) {
-                                Account account = accountIterator.next();
-                                AccountBalance balance = new AccountBalance();
-                                balance.setChartOfAccountsCode(account.getChartOfAccountsCode());
-                                balance.setAccountNumber(account.getAccountNumber());
-                                String fiscalYear = fieldValues.get(OLEConstants.FISCAL_YEAR).toString();
-                                balance.setUniversityFiscalYear(Integer.parseInt(fiscalYear));
-                                balance.setObjectCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
-                                balance.setSubAccountNumber(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
-                                balance.setSubObjectCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
-                                balance.setCurrentBudgetLineBalanceAmount(KualiDecimal.ZERO);
-                                balance.setAccountLineActualsBalanceAmount(KualiDecimal.ZERO);
-                                balance.setAccountLineEncumbranceBalanceAmount(KualiDecimal.ZERO);
-                                searchResultsCollection.add(balance);
-                            }
-                        }
-                    }
-                }
-                if(buildResult != null) {
-                    buildResult.addAll(this.buildSearchResultList(searchResultsCollection, actualSize));
-                }
-                else {
-                    buildResult = this.buildSearchResultList(searchResultsCollection, actualSize);
-                }
-
-
-            }
-            return buildResult;
-        }
-        else {
-            fieldValues.remove("fundCode");
+        } 
+        
         if (isConsolidated) {
             Iterator availableBalanceIterator = accountBalanceService.findConsolidatedAvailableAccountBalance(fieldValues);
             searchResultsCollection = buildConsolidedAvailableBalanceCollection(availableBalanceIterator);
@@ -178,7 +102,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
             searchResultsCollection = buildDetailedAvailableBalanceCollection(availableBalanceIterator);
         }
         List<Map<String, Object>> balanceTableResultSet=getAccountBalanceOffsetObjectCodeDAOService().getBalanceTable(fieldValues);
-        setValuesFromBalanceTableToResults(searchResultsCollection, balanceTableResultSet, fieldValues);
+        setValuesFromBalanceTableToResults(searchResultsCollection,balanceTableResultSet,fieldValues);
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
 
@@ -219,9 +143,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
                     }
                 }
             }
-            return this.buildSearchResultList(searchResultsCollection, actualSize);
-        }
-
+        return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 
     private void setValuesFromBalanceTableToResults(Collection searchResultsCollection,List<Map<String, Object>> balanceTableResultSet,Map fieldValues){
@@ -456,15 +378,5 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
 
     public void setAccountBalanceOffsetObjectCodeDAOService(AccountBalanceOffsetObjectCodeDAOService accountBalanceOffsetObjectCodeDAOService) {
         this.accountBalanceOffsetObjectCodeDAOService = accountBalanceOffsetObjectCodeDAOService;
-    }
-
-    public boolean validateFundCode(String fundCode) {
-        Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.FUND_CODE_ID, fundCode);
-        List<OleFundCode> oleFundCodeList =(List<OleFundCode>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCode.class, searchMap);
-        if (oleFundCodeList.size() > 0) {
-            return true;
-        }
-        return false;
     }
 }

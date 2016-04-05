@@ -23,8 +23,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.Chart;
 import org.kuali.ole.coa.businessobject.ObjectCode;
-import org.kuali.ole.coa.businessobject.OleFundCode;
-import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.gl.Constant;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.gl.OJBUtility;
@@ -138,7 +136,6 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
                                 HttpServletResponse response) throws Exception {
 
         List balanceList = null;
-        List fundCodeAcctBalanceList = null;
         List<GeneralLedgerPendingEntry> pendingList = null;
         List<Entry> entryList = null;
         finalSearchResult.clear();
@@ -158,27 +155,12 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
         if(oleFundDocument.getChartOfAccountsCode() != null){
             oleFundDocument.setChartOfAccountsCode(oleFundDocument.getChartOfAccountsCode().toUpperCase());
         }
-        if(oleFundDocument.getFundCode() != null){
-            oleFundDocument.setFundCode(oleFundDocument.getFundCode());
-        }
         if(oleFundDocument.getOrganizationCode() != null){
             oleFundDocument.setOrganizationCode(oleFundDocument.getOrganizationCode().toUpperCase());
         }
         if(oleFundDocument.getObjectCode() != null){
             oleFundDocument.setObjectCode(oleFundDocument.getObjectCode().toUpperCase());
         }
-        if(oleFundDocument.getFundCode() != null) {
-            if(!validateFundCode(oleFundDocument.getFundCode())){
-                GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.FUND_CD_NOT_FOUND});
-                return mapping.findForward(RiceConstants.MAPPING_BASIC);
-            }
-            else if (oleFundDocument.getUniversityFiscalYear() == null) {
-                GlobalVariables.getMessageMap().putError(OLEConstants.OrderQueue.REQUISITIONS,
-                        OLEKeyConstants.FISCAL_YR_REQUIRED);
-                return mapping.findForward(RiceConstants.MAPPING_BASIC);
-            }
-        }
-        else {
         if (oleFundDocument.getChartOfAccountsCode() == null) {
             GlobalVariables.getMessageMap().putError(OLEConstants.OrderQueue.REQUISITIONS,
                     OLEKeyConstants.CHART_CODE_REQUIRED);
@@ -192,8 +174,6 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
                     OLEKeyConstants.OBJ_CODE_REQUIRED);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         } else if (oleFundDocument.getUniversityFiscalYear() == null) {
-            GlobalVariables.getMessageMap().putError(OLEConstants.OrderQueue.REQUISITIONS,
-                    OLEKeyConstants.FISCAL_YR_REQUIRED);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
 
@@ -213,7 +193,6 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
             GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.OBJ_CODE_NOT_FOUND});
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-            }
     /*    if(oleFundDocument.getUniversityFiscalYear() != null){
             UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
             if(!universityDateService.getCurrentFiscalYear().equals(oleFundDocument.getUniversityFiscalYear())){
@@ -224,48 +203,18 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
 */
 
         Map map = new HashMap();
-        if(oleFundDocument.getFundCode() != null) {
-            Map searchMap = new HashMap();
-            searchMap.put(OLEConstants.FUND_CODE_ID, oleFundDocument.getFundCodeId());
-            List<OleFundCodeAccountingLine> OleFundCodeAccountingList =(List<OleFundCodeAccountingLine>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCodeAccountingLine.class, searchMap);
-            for(OleFundCodeAccountingLine oleFundCodeAccountingLine : OleFundCodeAccountingList) {
-                map.put(OLEConstants.OleFundLookupDocument.ACC_NO,oleFundCodeAccountingLine.getAccountNumber());
-                map.put(OLEConstants.OleFundLookupDocument.CHART_CODE,oleFundCodeAccountingLine.getChartCode().toUpperCase());
-                map.put("objectCode",oleFundCodeAccountingLine.getObjectCode());
-                map.put("sunAccountNumber","");
-                map.put("universityFiscalYear",oleFundDocument.getUniversityFiscalYear() );
-                map.put("dummyBusinessObject.pendingEntryOption", "All");
-                map.put("dummyBusinessObject.consolidationOption","Consolidation" );
-                map.put("backLocation", "portal.do");
-                map.put("docFormKey","88888888" );
-                map.put("subObjectCode","" );
-                if(balanceList != null) {
-                    fundCodeAcctBalanceList = getSearchResults(map);
-                    if(fundCodeAcctBalanceList.size() > 0) {
-                        balanceList.addAll(fundCodeAcctBalanceList);
-                    }
-                    fundCodeAcctBalanceList.clear();
-
-                }
-                else {
-                    balanceList = getSearchResults(map);
-                }
-            }
-        }
-        else {
-            map.put(OLEConstants.OleFundLookupDocument.CHART_CODE,oleFundDocument.getChartOfAccountsCode().toUpperCase() );
-            map.put(OLEConstants.OleFundLookupDocument.ACC_NO, oleFundDocument.getAccountNumber().toUpperCase());
-            map.put("objectCode",oleFundDocument.getObjectCode());
-
+        map.put(OLEConstants.OleFundLookupDocument.CHART_CODE,oleFundDocument.getChartOfAccountsCode().toUpperCase() );
+        map.put(OLEConstants.OleFundLookupDocument.ACC_NO, oleFundDocument.getAccountNumber().toUpperCase());
         map.put("sunAccountNumber","");
+        map.put("objectCode",oleFundDocument.getObjectCode());
         map.put("universityFiscalYear",oleFundDocument.getUniversityFiscalYear() );
         map.put("dummyBusinessObject.pendingEntryOption", "All");
         map.put("dummyBusinessObject.consolidationOption","Consolidation" );
         map.put("backLocation", "portal.do");
         map.put("docFormKey","88888888" );
         map.put("subObjectCode","" );
-            balanceList = getSearchResults(map);
-        }
+
+        balanceList = getSearchResults(map);
         if(balanceList.size() <= 0  && !oleFundDocument.getAccountNumber().equals("*")){
             boolean accountAvailable = checkAccountEntry(oleFundDocument.getAccountNumber(),oleFundDocument.getChartOfAccountsCode());
             if(accountAvailable){
@@ -621,16 +570,6 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
         return false;
     }
 
-    public boolean validateFundCode(String fundCode) {
-        Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.FUND_CODE, fundCode);
-        List<OleFundCode> oleFundCodeList =(List<OleFundCode>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleFundCode.class, searchMap);
-        if (oleFundCodeList.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean validateObjectCode(String objectCode) {
         Map searchMap = new HashMap();
         searchMap.put(OLEConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, objectCode);
@@ -648,7 +587,6 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
         oleFundLookDocument.setAccountNumber(null);
         oleFundLookDocument.setKeyword(null);
         oleFundLookDocument.setChartOfAccountsCode(null);
-        oleFundLookDocument.setFundCode(null);
         oleFundLookDocument.setObjectCode(null);
         oleFundLookDocument.setOrganizationCode(null);
         oleFundLookDocument.setUniversityFiscalYear(null);
