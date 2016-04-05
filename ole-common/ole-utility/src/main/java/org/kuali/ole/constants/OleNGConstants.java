@@ -313,4 +313,6 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
 
+    public static final String MARC_SPLIT = "\u001E\u001D";
+
 }

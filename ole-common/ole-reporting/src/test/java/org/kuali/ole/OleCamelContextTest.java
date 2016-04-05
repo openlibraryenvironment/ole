@@ -20,8 +20,8 @@ public class OleCamelContextTest {
         String filePath = System.getProperty("java.io.tmpdir");
         String fileName1 = "testReport1.txt";
         String fileName2 = "testReport2.txt";
-        oleCamelContext.addRoutes("seda:q1", "file:" + filePath +"?fileName="+fileName1, new ArrayList<Processor>());
-        oleCamelContext.addRoutes("seda:q2", "file:" + filePath +"?fileName="+fileName2,new ArrayList<Processor>());
+        oleCamelContext.addDynamicRoute("seda:q1", "file:" + filePath +"?fileName="+fileName1, new ArrayList<Processor>());
+        oleCamelContext.addDynamicRoute("seda:q2", "file:" + filePath +"?fileName="+fileName2,new ArrayList<Processor>());
 
         CamelContext context = oleCamelContext.getContext();
         assertTrue(context.getRoutes().size() == 2);
