@@ -1122,7 +1122,6 @@ public class OLEKeyConstants {
     //Added for OleFundLookup
     public static final String ACC_NO_IS_REQUIRED = "required.acc.no";
     public static final String CHART_CODE_REQUIRED = "required.chart.code";
-    public static final String FISCAL_YR_REQUIRED = "required.fiscal.year";
     public static final String OBJ_CODE_REQUIRED = "required.obj.code";
 
 

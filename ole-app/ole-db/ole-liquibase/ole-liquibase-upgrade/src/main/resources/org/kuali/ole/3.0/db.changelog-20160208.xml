@@ -166,69 +166,6 @@
         </addColumn>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDT">
-        <update tableName="CA_SUB_FUND_GRP_T">
-            <column name="SUB_FUND_GRP_CD" value="DEPOSI"/>
-            <where>SUB_FUND_GRP_CD = 'CLRREV'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDATE">
-        <update tableName="CA_SUB_FUND_GRP_T">
-            <column name="FUND_GRP_CD" value="DP"/>
-            <column name="SUB_FUND_GRP_DESC" value="DEPOSIT ACCOUNT"/>
-            <where>SUB_FUND_GRP_CD = 'DEPOSI'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="KRCR_PARM_T_UPDATE">
-        <update tableName="KRCR_PARM_T">
-            <column name="VAL" value="DEPOSI"/>
-            <column name="PARM_DESC_TXT" value="Sub Fund Group Code DEPOSI."/>
-            <where>PARM_NM = 'SUB_FUND_GRP_CD'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_ALTER">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="GL_BALANCE_T">
-            <column name="FUND_CD" type="VARCHAR(10)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_FK">
-        <addForeignKeyConstraint baseTableCatalogName="ole"
-                                 baseTableSchemaName="ole"
-                                 baseColumnNames="FUND_CD"
-                                 baseTableName="GL_BALANCE_T"
-                                 constraintName="GL_BALANCE_FUND_CD_FK"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="FUND_CD_ID"
-                                 referencedTableName="OLE_FUND_CD_T" />
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_ALTER">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="GL_ACCT_BALANCES_T">
-            <column name="FUND_CD" type="VARCHAR(10)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_FK">
-        <addForeignKeyConstraint baseTableCatalogName="ole"
-                                 baseTableSchemaName="ole"
-                                 baseColumnNames="FUND_CD"
-                                 baseTableName="GL_ACCT_BALANCES_T"
-                                 constraintName="GL_ACCT_BALANCES_FUND_CD_FK"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="FUND_CD_ID"
-                                 referencedTableName="OLE_FUND_CD_T" />
-    </changeSet>
-
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ADD_COLUMN">
         <addColumn tableName="OLE_DLVR_PTRN_BILL_T ">
             <column name="MANUAL_BILL" type="varchar(1)"/>
