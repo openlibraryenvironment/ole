@@ -23,8 +23,11 @@ import org.springframework.scheduling.support.CronTrigger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -224,4 +227,15 @@ public class OleBatchJobScheduler extends HttpServlet {
         // store for cancelling
         scheduledFutures.put(id, scheduledFuture);
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getParameter("id");
+        String jobName = request.getParameter("jobName");
+        String cron = request.getParameter("cron");
+        int idAsInt = Integer.parseInt(id);
+        modifySchedule(idAsInt, jobName, cron);
+        PrintWriter out = response.getWriter();
+        out.println(id + "," + jobName + "," + cron);
+    }
+
 }
