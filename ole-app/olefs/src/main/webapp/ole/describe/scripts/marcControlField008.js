@@ -372,3 +372,6 @@ function controlField008setDepending06and07() {
     jq('#008load').focus().click();
 }
 
+jq(window).load(function () {
+    controlField008setDepending06and07();
+});
