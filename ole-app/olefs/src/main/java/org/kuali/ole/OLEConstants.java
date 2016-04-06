@@ -2893,6 +2893,8 @@ public class OLEConstants {
     public static final String EXTENTOFOWNERSHIP_NOTE_VALUE_DISPLAY = "ExtentOfOwnership_Note_Value_display";
     public static final String EXTENTOFOWNERSHIP_NOTE_TYPE_DISPLAY = "ExtentOfOwnership_Note_Type_display";
     public static final String EXTENTOFOWNERSHIP_Type_display = "ExtentOfOwnership_Type_display";
+    public static final String EXTENTOFOWNERSHIP_ALREADY_EXISTS = "error.extentOfOwnership.already.exists";
+
     public static final String URI_SEARCH = "Uri_search";
     public static final String URI_DISPLAY = "Uri_display";
 

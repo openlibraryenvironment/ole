@@ -657,11 +657,18 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             List<ExtentOfOwnership> extentOfOwnershipForUI = workInstanceOlemlForm.getSelectedHolding().getExtentOfOwnership();
             ExtentOfOwnership extentOfOwnership = new ExtentOfOwnership();
             extentOfOwnership.getNote().add(new Note());
+            Set<String> extentOwnerShipType = new HashSet<>();
+            for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipForUI) {
+                if (!extentOwnerShipType.add(extentOfOwnership1.getType())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId("ExtentOfOwnershipRepeatableSections", OLEConstants.EXTENTOFOWNERSHIP_ALREADY_EXISTS, extentOfOwnership1.getType());
+                    return editorForm;
+                }
+            }
             extentOfOwnershipForUI.add(index, extentOfOwnership);
             List<ExtentOfOwnership> basic = new ArrayList<>();
             List<ExtentOfOwnership> supplementary = new ArrayList<>();
             List<ExtentOfOwnership> indexes = new ArrayList<>();
-            ExtentOfOwnership extentOfOwnerships = new ExtentOfOwnership();
+            extentOfOwnership = new ExtentOfOwnership();
             for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipForUI) {
                 if (StringUtils.isNotBlank(extentOfOwnership1.getType())) {
                     if (extentOfOwnership1.getType().equalsIgnoreCase("Basic Bibliographic Unit")) {
@@ -672,11 +679,11 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                         indexes.add(extentOfOwnership1);
                     }
                 } else {
-                    extentOfOwnerships = extentOfOwnership1;
+                    extentOfOwnership = extentOfOwnership1;
                 }
             }
             extentOfOwnershipForUI.clear();
-            extentOfOwnershipForUI.add(extentOfOwnerships);
+            extentOfOwnershipForUI.add(extentOfOwnership);
             extentOfOwnershipForUI.addAll(basic);
             extentOfOwnershipForUI.addAll(supplementary);
             extentOfOwnershipForUI.addAll(indexes);
