@@ -1,5 +1,7 @@
 package org.kuali.ole.oclc;
 
+import org.kuali.ole.constants.OleNGConstants;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class NettyClient {
         try {
             Socket clientSocket = new Socket(host, port);
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            outToServer.writeBytes(requestMessage);
+            outToServer.write(requestMessage.getBytes(OleNGConstants.UTF_8));
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             response = inFromServer.readLine();
             System.out.println("FROM SERVER: " + response);

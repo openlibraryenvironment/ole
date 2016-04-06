@@ -3,6 +3,9 @@ package org.kuali.ole.oleng.rest.filter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.AuthenticationService;
@@ -50,7 +53,7 @@ public class OleNGRestLoginFilter implements Filter {
         LOG.info("Chaining Rest Login Filter");
         userName = ((HttpServletRequest) servletRequest).getHeader("userName");
         if(StringUtils.isBlank(userName)) {
-            userName = "ole-quickstart";
+            userName = getDefaultUserForRestCall();
         }
         if (servletRequest instanceof HttpServletRequest) {
             HttpServletRequest hsreq = (HttpServletRequest) servletRequest;
@@ -62,6 +65,11 @@ public class OleNGRestLoginFilter implements Filter {
         }
         authenticateUserAndCreateUserSession((HttpServletRequest) servletRequest);
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private String getDefaultUserForRestCall() {
+        return ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OleNGConstants.DEFAULT_USER_FOR_REST_CALLS);
     }
 
     private void authenticateUserAndCreateUserSession(HttpServletRequest request) {
