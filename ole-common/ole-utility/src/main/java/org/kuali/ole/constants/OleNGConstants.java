@@ -313,4 +313,9 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
 
+    public static final String MARC_SPLIT = "\u001E\u001D";
+
+    public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
+    public static final String CHARSET_UTF_8 = ";charset=UTF-8";
+
 }

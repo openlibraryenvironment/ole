@@ -128,7 +128,7 @@ public class OCLCNettyServerHandler extends NettyHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        ByteBuf byteBuf = Unpooled.copiedBuffer(requestContent.getBytes());
+        ByteBuf byteBuf = Unpooled.copiedBuffer(requestContent.getBytes(OleNGConstants.UTF_8));
         requestContent = "";
         processRecord(ctx, byteBuf);
         super.channelInactive(ctx);
