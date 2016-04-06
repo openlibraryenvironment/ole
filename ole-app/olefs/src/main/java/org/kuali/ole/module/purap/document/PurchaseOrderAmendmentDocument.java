@@ -35,8 +35,12 @@ import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -114,10 +118,28 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 
                 // for app doc status
                 updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
+            } else if(this.getApplicationDocumentStatus().equals(PurchaseOrderStatuses.APPDOC_PENDING_PRINT) && checkForPdfGeneration(this)) {
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
         } catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
+    }
+
+
+    public boolean checkForPdfGeneration(PurchaseOrderDocument  purchaseOrderDocument) {
+        if (purchaseOrderDocument.getDocumentHeader() != null && purchaseOrderDocument.getDocumentHeader().getWorkflowDocument() != null &&
+                purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_AMENDMENT)
+                && getParameterValue(OLEConstants.CANCEL_PDF_CREATION).equalsIgnoreCase("true")) {
+            if (purchaseOrderDocument.getNotes().size() > 0) {
+                for (Note note : purchaseOrderDocument.getNotes()) {
+                    if (note.getNoteText().contains(OLEConstants.POA_BATCH_NOTE)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -247,5 +269,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
                 accountLine.setItemAccountOutstandingEncumbranceAmount(accountOutstandingEncumbrance);
             }
         }
+    }
+
+    public String getParameterValue(String key) {
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID_OLE, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT, key);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
     }
 }
