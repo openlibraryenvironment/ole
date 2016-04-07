@@ -401,7 +401,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             LOG.debug(methodName + " started");
         }
 
-        List<SourceAccountingLine> sourceLines = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, useZeroTotals, ALTERNATE_AMOUNT_NOT_USED, useTaxIncluded, false);
+           List<SourceAccountingLine> sourceLines = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, useZeroTotals, ALTERNATE_AMOUNT_NOT_USED, useTaxIncluded, false);
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
             SummaryAccount summaryAccount = new SummaryAccount();
             summaryAccount.setAccount((SourceAccountingLine) ObjectUtils.deepCopy(sourceAccountingLine));
@@ -419,13 +419,18 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         if (ObjectUtils.isNotNull(purApAccountingLine.getAmount())) {
                             amt = purApAccountingLine.getAmount();
                             if(item.getExtendedPrice() != null && item instanceof OleInvoiceItem) {
-                                foreignAmt = purApAccountingLine.getAmount().bigDecimalValue().multiply(((OleInvoiceItem) item).getItemExchangeRate().bigDecimalValue()).setScale(2, BigDecimal.ROUND_HALF_UP);;
+                                if( ((OleInvoiceDocument) ((OleInvoiceItem) purApAccountingLine.getPurapItem()).getInvoiceDocument()) != null && ((OleInvoiceDocument) ((OleInvoiceItem) purApAccountingLine.getPurapItem()).getInvoiceDocument()).getInvoiceCurrencyExchangeRate() != null) {
+                                    BigDecimal exchangeRate = new BigDecimal(((OleInvoiceDocument) ((OleInvoiceItem) purApAccountingLine.getPurapItem()).getInvoiceDocument()).getInvoiceCurrencyExchangeRate());
+                                    foreignAmt = purApAccountingLine.getAmount().bigDecimalValue().multiply(exchangeRate).setScale(2, BigDecimal.ROUND_HALF_UP);
+                                } else if(((OleInvoiceItem) purApAccountingLine.getPurapItem()).getExchangeRate() != null){
+                                    foreignAmt = purApAccountingLine.getAmount().bigDecimalValue().multiply(new BigDecimal(((OleInvoiceItem) purApAccountingLine.getPurapItem()).getExchangeRate())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                                }
                             }
                         }
                         if (summaryItem != null) {
                             if(item instanceof OleInvoiceItem) {
                                 OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) item;
-                                if(!((OleInvoiceItem) item).isDebitItem()) {
+                                if (!((OleInvoiceItem) item).isDebitItem()) {
                                     summaryItem.setEstimatedEncumberanceAmount(amt.negated());
                                     summaryItem.setEstimatedEncumberanceForeignAmount(foreignAmt.negate().setScale(2, BigDecimal.ROUND_HALF_UP));
                                 }
@@ -609,8 +614,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
             if(currentItem instanceof OleInvoiceItem) {
                 OleInvoiceItem invoiceItem = (OleInvoiceItem) currentItem;
-                if(invoiceItem.getItemForeignListPrice() != null) {
+                if(invoiceItem.getItemForeignListPrice() != null ) {
                     totalForeignAmount = totalForeignAmount.add(invoiceItem.getItemForeignListPrice().bigDecimalValue());
+                } else if (invoiceItem.getItemForeignUnitCost() != null) {
+                    totalForeignAmount = totalForeignAmount.add(invoiceItem.getItemForeignUnitCost().bigDecimalValue());
                 }
             }
             if (PurApItemUtils.checkItemActive(currentItem)) {
