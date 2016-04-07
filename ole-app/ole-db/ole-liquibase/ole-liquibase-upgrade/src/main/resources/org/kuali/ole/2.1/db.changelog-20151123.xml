@@ -665,6 +665,58 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_UPDATE_CRDT_ISSUED_MYSQL" dbms="mysql">
+        <modifyDataType columnName="CRDT_ISSUED"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_UPDATE_CRDT_ISSUED_ORACLE"
+               dbms="oracle">
+        <modifyDataType columnName="CRDT_ISSUED"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_UPDATE_CRDT_REMAINING_MYSQL"
+               dbms="mysql">
+        <modifyDataType columnName="CRDT_REMAINING"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_UPDATE_CRDT_REMAINING_ORACLE"
+               dbms="oracle">
+        <modifyDataType columnName="CRDT_REMAINING"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_UPDATE_CRDT_ISSUED_MYSQL" dbms="mysql">
+        <modifyDataType columnName="CRDT_ISSUED"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_UPDATE_CRDT_ISSUED_ORACLE" dbms="oracle">
+        <modifyDataType columnName="CRDT_ISSUED"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_UPDATE_CRDT_REMAINING_MYSQL" dbms="mysql">
+        <modifyDataType columnName="CRDT_REMAINING"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_UPDATE_CRDT_REMAINING_ORACLE" dbms="oracle">
+        <modifyDataType columnName="CRDT_REMAINING"
+                        newDataType="decimal(10,4)"
+                        tableName="OLE_DLVR_PTRN_BILL_T"/>
+    </changeSet>
+
+
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_ID_MYSQL" dbms="mysql">
         <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_ISSUED=0.0</sql>
         <sql>update OLE_DLVR_PTRN_BILL_FEE_TYP_T set CRDT_REMAINING=0.0</sql>
