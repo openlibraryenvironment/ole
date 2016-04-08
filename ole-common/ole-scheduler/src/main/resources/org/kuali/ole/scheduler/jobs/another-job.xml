@@ -1,18 +1,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:batch="http://www.springframework.org/schema/batch"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/batch
-		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-	">
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/batch
+            http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       ">
 
     <import resource="../config/context.xml"/>
 
     <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype"/>
     <bean id="anotherItemProcessor" class="org.kuali.ole.batchxml.AnotherCustomItemProcessor"/>
 
+    <bean id="exampleJobCron3" class="org.kuali.ole.batchxml.Cron">
+        <property name="jobId" value="anotherExampleJob" />
+        <property name="cronPattern" value="0 3 * * * *" />
+    </bean>
+
     <batch:job id="anotherExampleJob">
+        <batch:description>Fiddling about with AnotherCustomItemProcessor's BibImport</batch:description>
         <batch:step id="anotherExampleStep1">
             <batch:tasklet>
                 <batch:chunk reader="cvsFileItemReader" writer="customItemWriter"

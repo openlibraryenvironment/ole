@@ -1,19 +1,13 @@
 package org.kuali.ole.scheduler;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.batchxml.Cron;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.ole.utility.OleHttpRestGet;
+import org.kuali.ole.utility.OleHttpRestGetImpl;
+import org.kuali.ole.utility.OleHttpRestGetStringImpl;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
@@ -26,20 +20,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class OleBatchJobScheduler extends HttpServlet {
-
-    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-    String[] springConfig = {"org/kuali/ole/scheduler/jobs/*.xml"};
-    ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
-    JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-    private String urlBase;
-    private List<String> restResult;
+    private ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+    private String[] springConfig = {"org/kuali/ole/scheduler/jobs/*.xml" };
+    private ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+    private JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
+    private OleHttpRestGet oleHttpRestGet = new OleHttpRestGetImpl();
     /**
      * Maps the scheduleId to the schedule's future
      */
@@ -87,7 +78,7 @@ public class OleBatchJobScheduler extends HttpServlet {
             TimeUnit.SECONDS.sleep(n);
         }
 
-        throw new RuntimeException("REST api not available: " + OleNGConstants.BATCH_PROCESS_JOBS);
+        throw new RuntimeException("REST api not available: " + OleNGConstants.REST_BATCH_PROCESS_JOBS);
     }
 
     /**
@@ -98,29 +89,30 @@ public class OleBatchJobScheduler extends HttpServlet {
      * @throws JSONException    when REST return invalid JSON
      */
     private boolean scheduleAllJobsOneTry() throws IOException, JSONException {
-        String schedulesString = rest(OleNGConstants.BATCH_PROCESS_JOBS);
+        String processString = oleHttpRestGet.rest(OleNGConstants.REST_BATCH_PROCESS_JOBS);
 
         // null if REST API is not yet available (HTTP 404)
-        if (schedulesString == null) {
+        if (processString == null) {
             return false;
         }
 
-        System.err.println("REST schedules string =");
-        System.err.println(schedulesString);
+        System.err.println("REST process string: ");
+        System.err.println(processString);
 
         // The list of schedules, can be an empty list.
-        JSONArray schedules = new JSONArray(schedulesString);
-        List<OleBatchJob> jobs = new ArrayList<>(schedules.length());
-        for (int i = 0; i < schedules.length(); i++) {
+        JSONArray processes = new JSONArray(processString);
+        for (int i = 0; i < processes.length(); i++) {
+            JSONObject process = processes.getJSONObject(i);
             try {
-                JSONObject schedule = schedules.getJSONObject(i);
-                int scheduleId = schedule.getInt(   OleNGConstants.PROCESS_ID);
-                String name    = schedule.optString(OleNGConstants.PROCESS_NAME);
-                String cron    = schedule.optString(OleNGConstants.CRON_EXPRESSION);
+                /** @see org.kuali.ole.oleng.handler.BatchProfileRequestHandlerUtil#prepareBatchProcessJobs() */
 
-                modifySchedule(scheduleId, name, cron);
-                System.err.println("added oleBatchJob: " + scheduleId + " " + name + " " + cron + "\n   " + schedule.toString());
+                int id      = process.getInt(   OleNGConstants.JOB_ID);
+                String name = process.optString(OleNGConstants.PROFILE_NAME);
+                String cron = process.optString(OleNGConstants.CRON_EXPRESSION);
+
+                modifySchedule(id, name, cron);
             } catch (Exception e) {
+                System.err.println("failing Process: " + process.toString());
                 e.printStackTrace();
             }
         }
@@ -128,84 +120,23 @@ public class OleBatchJobScheduler extends HttpServlet {
     }
 
     /**
-     * Set the urlBase, this can be used for regression testing when the ConfigContext
-     * hasn't been initialized.
-     *
-     * @param urlBase URL excluding the trailing slash
-     */
-    void setUrlBase(String urlBase) {
-        this.urlBase = urlBase;
-    }
-
-    private String getUrlBase() {
-        if (urlBase != null) {
-            return urlBase;
-        }
-        urlBase = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
-        return urlBase;
-    }
-
-    /**
      * Set the answers of the REST call.  Used for regression testing.
      * @param restResult    the list of result strings, may contain null
      */
-    void setRestResult(String [] restResult) {
-        if (restResult == null) {
-            this.restResult = null;
-            return;
-        }
-        List<String> list = new LinkedList<>();
-        for (String s : restResult) {
-            list.add(s);
-        }
-        this.restResult = list;
-    }
-
-    /**
-     * Do a HTTP Get at some rest URL.
-     *
-     * @param restPath the path starting with "rest/" of the URL where to do the GET
-     * @return response to the Get request, null if restPath not found (HTTP 404)
-     */
-    private String rest(String restPath) throws IOException {
-        // simlate rest answer for regression testing?
-        if (restResult != null) {
-            if (restResult.isEmpty()) {
-                restResult = null;
-            } else {
-                String result = restResult.get(0);
-                restResult.remove(0);
-                return result;
-            }
-        }
-
-        String url = getUrlBase() + "/" + restPath;
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("ole-quickstart", ""));
-        CloseableHttpClient httpClient = HttpClientBuilder
-                .create()
-                .setDefaultCredentialsProvider(credentialsProvider)
-                .build();
-        HttpResponse response = httpClient.execute(new HttpGet(url));
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-        InputStream body = response.getEntity().getContent();
-        Scanner scanner = new Scanner(body, "UTF-8").useDelimiter("\\A");
-        if (!scanner.hasNext()) {
-            return "";
-        }
-        return scanner.next();
+    void setRestResult(String ... restResult) {
+        oleHttpRestGet = new OleHttpRestGetStringImpl(restResult);
     }
 
     /**
      * Add, alter or delete a schedule.  Use cron for the scheduling, where
      * null means to delete a schedule.
      * @param id    id of the schedule
-     * @param jobName  name of the job
-     * @param cron  cron expression or null
+     * @param scheduleName  name of the job schedule
+     * @param cron  cron expression, or null
      */
-    void modifySchedule(int id, String jobName, String cron) {
+    void modifySchedule(int id, String scheduleName, String cron) {
+        System.err.println("modifySchedule("+id+", "+scheduleName+", "+cron+")");
+
         ScheduledFuture scheduledFuture = scheduledFutures.get(id);
 
         // stop current schedule
@@ -215,12 +146,17 @@ public class OleBatchJobScheduler extends HttpServlet {
             }
         }
 
+        Cron cronBean = context.getBean(scheduleName, Cron.class);
+        String jobName = cronBean.getJobId();
+        Job springBatchJob = (Job) context.getBean(jobName);
+
+        cron = cronBean.getCronPattern();
+
         if (cron == null) {
             return;
         }
 
         // set new schedule
-        Job springBatchJob = (Job) context.getBean(jobName);
         OleBatchJob oleBatchJob = new OleBatchJob(springBatchJob, cron, jobName, jobLauncher);
         scheduledFuture = scheduler.schedule(oleBatchJob, new CronTrigger(oleBatchJob.getCronExpression()));
 

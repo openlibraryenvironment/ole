@@ -1,18 +1,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:batch="http://www.springframework.org/schema/batch"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/batch
-		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-	">
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/batch
+		    http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		    http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        ">
 
     <import resource="../config/context.xml"/>
 
-    <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype"/>
+    <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype" />
     <bean id="itemProcessor" class="org.kuali.ole.batchxml.CustomItemProcessor"/>
 
+    <bean id="exampleJobCron1" class="org.kuali.ole.batchxml.Cron">
+        <property name="jobId" value="exampleJob" />
+        <property name="cronPattern" value="0 1 * * * *" />
+    </bean>
+
     <batch:job id="exampleJob">
+        <batch:description>Patron import excluding alumni</batch:description>
         <batch:step id="exampleStep1">
             <batch:tasklet>
                 <batch:chunk reader="cvsFileItemReader" writer="customItemWriter"
