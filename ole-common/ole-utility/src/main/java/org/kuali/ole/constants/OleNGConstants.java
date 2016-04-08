@@ -212,7 +212,8 @@ public class OleNGConstants {
     public static final String EQUAL_TO = "Equals To";
     public static final String NOT_EQUAL_TO = "Not Equals To";
 
-    public static final String BATCH_PROCESS_JOBS = "rest/describe/getBatchProcessJobs";
+    public static final String REST_BATCH_JOBS         = "rest/describe/getBatchJobs";
+    public static final String REST_BATCH_PROCESS_JOBS = "rest/describe/getBatchProcessJobs";
     public static final String PROCESS_ID = "processId";
     public static final String JOB_ID = "jobId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";
