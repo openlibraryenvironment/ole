@@ -13,7 +13,7 @@
     <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype"/>
     <bean id="anotherItemProcessor" class="org.kuali.ole.batchxml.AnotherCustomItemProcessor"/>
 
-    <bean id="exampleJobCron3" class="org.kuali.ole.batchxml.Cron">
+    <bean id="anotherExampleJobCron3" class="org.kuali.ole.batchxml.Cron">
         <property name="jobId" value="anotherExampleJob" />
         <property name="cronPattern" value="0 3 * * * *" />
     </bean>

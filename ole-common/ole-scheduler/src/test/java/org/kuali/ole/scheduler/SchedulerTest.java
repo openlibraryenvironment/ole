@@ -10,9 +10,9 @@ public class SchedulerTest {
     public void threeProcesses() throws ServletException, InterruptedException {
         String [] restAnswer = {
                 "[" +
-                        "{'jobId':2,'batchProcessName':'exampleJobCron1',       'cronExpression':'0/3 * * * * ?'}," +
-                        "{'jobId':3,'batchProcessName':'exampleJobCron1',       'cronExpression':'0/3 * * * * ?'}," +
-                        "{'jobId':4,'batchProcessName':'exampleJobCron3',       'cronExpression':'0/3 * * * * ?'}" +
+                        "{'jobId':2, 'jobName':'exampleJobCron1',        'cronExpression':'0/3 * * * * ?'}," +
+                        "{'jobId':3, 'jobName':'exampleJobCron1',        'cronExpression':'0/3 * * * * ?'}," +
+                        "{'jobId':4, 'jobName':'anotherExampleJobCron3', 'cronExpression':'0/3 * * * * ?'}" +
                 "]"
         };
         OleBatchJobScheduler oleBatchJobScheduler = new OleBatchJobScheduler();
