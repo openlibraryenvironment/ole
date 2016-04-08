@@ -9377,6 +9377,12 @@
                                             <para role="Table Cells">Display-only. The quantity of
                                                 items that have yet to be invoiced for this line
                                                 item.</para>
+                                            <note>
+                                                <para>The Open Quantity feature has been turned off
+                                                  and will display 0 for the following order types:
+                                                  Standing, Subscription, Membership, Blanket,
+                                                  Integrating resource, and Continuing.</para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -15840,13 +15846,8 @@
                                 <para/>
                             </listitem>
                             <listitem>
-                                <para> Select the search options and type in a search term. Click <inlinemediaobject>
-                                        <alt>Search</alt>
-                                        <imageobject>
-                                            <imagedata
-                                                fileref="../images/DeliverNoTitlePage-164.png"/>
-                                        </imageobject>
-                                    </inlinemediaobject>.</para>
+                                <para> Select the search options and type in a search term. Click
+                                        <emphasis role="bold">Search</emphasis>.</para>
                                 <important>
                                     <para>The Serial Receiving Record Search will only search for
                                         bibliographic records with at least one attached holdings
@@ -17228,6 +17229,10 @@
                             />
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link xlink:href="../../../pdfs/BudgetTechDoc.pdf"
+                        >here</link> for technical documentation.</para>
+            </note>
             <para role="Body Text">The Budget Adjustment (BA) document is used to record income and
                 expense transactions not processed through other e-docs, against an existing budget.
                 It can be used to modify a base budget, a current budget or both. It is a financial
@@ -18143,6 +18148,11 @@
                     <imagedata fileref="../images/LicensingNoTitlePage-5.png"/>
                 </imageobject>
             </inlinemediaobject></para>
+        <note>
+            <para role="Normal">Please click <link
+                    xlink:href="../../../pdfs/LicensingTechnicalDocument.pdf">here</link> for
+                technical documentation.</para>
+        </note>
         <para role="Body Text">On the <emphasis role="bold">Select/Acquire</emphasis> menu, the
             Licensing submenu allows users to view and maintain Licensing E-Docs.</para>
         <para/>
@@ -24447,6 +24457,166 @@
                     E-Resource record.</para>
             </section>
         </section>
+        <section>
+            <title><anchor xml:id="_ReviewDashboard"/>Review Dashboard</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Electronic Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-66.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>E-Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-68.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Review Dashboard</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-91.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>E-Resource Changes Dashboard</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-92.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>E-Resource Change Dashboard</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-93.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title><anchor xml:id="_LocalGOKb"/>Local GOKb</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Electronic Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-66.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>E-Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-68.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Local GOKb</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-94.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Local GOKb</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-95.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Local GOKb</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-96.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title><anchor xml:id="_platform"/>Platform</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Electronic Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-66.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Platform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-101.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Create</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-137.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Platform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-99.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Platform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-100.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title><anchor xml:id="_platformSearch"/>Platform Search</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Electronic Resources</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-66.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Platform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-101.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Search</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-164.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject>&gt; <inlinemediaobject>
+                        <alt>Platform Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Platform Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-98.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
     </section>
     <section>
         <title><anchor xml:id="_importingRecords"/>Import</title>
@@ -28345,6 +28515,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-140.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/ErrorCorrection.pdf">here</link> for technical
+                    documentation.</para>
+            </note>
             <para/>
             <para>If an error is encountered during any part of the validation process, the
                 associated document (s) are not posted. Instead, error records are placed in the
@@ -28655,6 +28830,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-303.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/ErrorCorrection.pdf">here</link> for technical
+                    documentation.</para>
+            </note>
             <note>
                 <para> For general information about entering lookup criteria, interpreting dollar
                     accumulators, drilling down into inquiries to see more detail, and including or
@@ -29035,6 +29215,10 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-148.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link xlink:href="../../../pdfs/POBulkAmend.pdf"
+                        >here</link> for technical documentation.</para>
+            </note>
             <para>The Purchase Order Bulk Amendment (POBA) process allows editing of groups of
                 purchase orders. The process often takes place during Year End Rollover, but can be
                 done at any time a change is needed in a group of purchase orders. This process adds
@@ -29786,7 +29970,12 @@
                             either the original price on the PO, or the amount invoiced during the
                             current fiscal year, plus or minus a dollar amount or a
                             percentage.</para>
-                        <para>Examples:</para>
+                        <note>
+                            <para>This parameter is very particular about punctuation and spacing --
+                                follow these examples exactly. Starting with release 2.1, you should
+                                remove the commas.</para>
+                        </note>
+                        <para>Examples for releases 1.5 and 2.0:</para>
                         <itemizedlist>
                             <listitem>
                                 <para>PO, + 3 %</para>
@@ -29803,10 +29992,21 @@
                         </itemizedlist>
                     </listitem>
                 </itemizedlist>
-                <tip>
-                    <para>This parameter is very particular about punctuation and spacing -- follow
-                        these examples exactly.</para>
-                </tip>
+                <para>Examples for release 2.1 and later:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>PO + 3 %</para>
+                    </listitem>
+                    <listitem>
+                        <para>PO + 5 $</para>
+                    </listitem>
+                    <listitem>
+                        <para>Invoice + 2 %</para>
+                    </listitem>
+                    <listitem>
+                        <para>Invoice + 10 $</para>
+                    </listitem>
+                </itemizedlist>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <para>If you need to restrict creation of acquisitions documents in the system while
                     are you are running rollover, run this job:</para>
@@ -30621,6 +30821,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-23.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Normal">The Account document is used to create new accounts or to edit or
                 copy existing accounts. An account is used to identify a pool of funds assigned to a
                 specific university organizational entity for a specific purpose. Accounts are the
@@ -30938,6 +31143,17 @@
                                             </inlinemediaobject>. This field is NOT allowed unless
                                             Sub Fund Group selected equals “Clearing/Revolving” or
                                             “Deposit”, and then it is required.</para>
+                                        <note>
+                                            <para>In order for Deposit Accounts to work, the Sub
+                                                Fund Group Code and the associated Fund Group Code
+                                                must match the FUND_GRP_CD and SUB_FUND_GRP_CD
+                                                parameters.  For example:</para>
+                                            <para>System Parameters set as follows:</para>
+                                            <para> FUND_GRP_CD=DP</para>
+                                            <para> SUB_FUND_GRP_CD=CLRREV</para>
+                                            <para>Account has Sub-Fund Group Code=CLRREV</para>
+                                            <para>Sub-Fund Group CLRREV has Fund Group=DP</para>
+                                        </note>
                                     </entry>
                                 </row>
                                 <row>
@@ -32143,6 +32359,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-20.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para>The Chart document is used to define the valid charts that make up the high-level
                 structure of the OLE Chart of Accounts. It also indicates who has management
                 responsibilities for each chart and which object codes are used for system-generated
@@ -32487,6 +32708,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-158.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Body Text">The Object Code document is used to establish new object codes or
                 to copy or edit existing object codes. Object codes are a four character codes that
                 represent all income, expense, asset, liability and fund balance classifications
@@ -33279,6 +33505,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-198.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Normal">The Organization document defines the entities representing units at
                 many different levels within the institution (for example, a department,
                 responsibility center, campus). Organizations inside OLE can be used to denote
@@ -33915,6 +34146,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-255.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Body Text">The Sub-Account document is used to define an optional part of
                 the accounting string that allows tracking of financial activity within a particular
                 account at a finer level of detail. Instead of associating budget, actuals and
@@ -34256,6 +34492,11 @@
                             fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-270.png"/>
                     </imageobject>
                 </inlinemediaobject></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/COATechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Body Text">The Sub-Object document is used to define an optional part of the
                 accounting string that allows you to create finer distinctions within a particular
                 object code on an account. </para>
@@ -40351,6 +40592,33 @@
             </section>
         </section>
         <section>
+            <title><anchor xml:id="_eResourceAccessActivation"/>EResource Access Activation</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>EResource Access Activation</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-102.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>EResource Access Activation Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-103.png"/>
+                        </imageobject>
+                    </inlinemediaobject>
+                </emphasis></para>
+            <para role="Body Text"/>
+        </section>
+        <section>
             <title><anchor xml:id="_accessType"/>Access Type</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Maintenance</alt>
@@ -42084,6 +42352,837 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_MobileAccess"/>Mobile Access</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Mobile Access</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-104.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Mobile Access Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-105.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Mobile Access</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-106.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Mobile Access Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-107.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Mobile Access document includes the Add/Edit Mobile
+                    Access tab. The system automatically enters data into both the <emphasis
+                        role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                    sections. Selected data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Mobile Access Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_MARCRecordSourceType"/>MARC Record Source Type</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>MARC Record Source Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-108.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>MARC Record Source Type Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-109.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>MARC Record Source Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-110.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>MARC Record Source Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-111.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The MARC Record Source Type document includes the Add/Edit
+                    MARC Record Source Type tab. The system automatically enters data into both the
+                        <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections. Selected data fields are available for
+                    editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit MARC Record Source Type Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ProblemType"/>Problem Type</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Problem Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Problem Type Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-113.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Problem Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-114.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Problem Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-115.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Problem Type document includes the Add/Edit Problem Type
+                    tab. The system automatically enters data into both the <emphasis role="bold"
+                        >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected
+                    data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Problem Type Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_EventType"/>Event Type</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Event Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-116.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Event Type Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-117.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Event Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-118.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Event Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-119.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Event Type document includes the Add/Edit Event Type
+                    tab. The system automatically enters data into both the <emphasis role="bold"
+                        >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected
+                    data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Event Type Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_eResourceCustomWorkflowConfiguration"/>E-Resource Custom
+                Workflow Configuration</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>E-Resource Custom Workflow Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-120.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>E-Resource Custom Workflow Configuration</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-121.png"/>
+                        </imageobject>
+                    </inlinemediaobject>
+                </emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource Custom Workflow Configuration Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-122.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_PlatformStatus"/>Platform Status</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Platform Status</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-123.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Platform Status Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-124.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Platform Status</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-125.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Platform Status Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-126.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Platform Status document includes the Add/Edit Platform
+                    Status tab. The system automatically enters data into both the <emphasis
+                        role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                    sections. Selected data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Platform Status Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_PlatformAdminURLType"/>Platform Admin URL Type</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Platform Admin URL Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-127.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Platform Admin URL Type Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-128.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Platform Admin URL Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-129.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Platform Admin URL Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-130.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Platform Admin URL Type document includes the Add/Edit
+                    Platform Admin URL Type tab. The system automatically enters data into both the
+                        <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections. Selected data fields are available for
+                    editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Platform Admin URL Type Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_AlertDocumentType"/>Alert Document Type</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Document Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-131.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Document Type Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-132.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Alert Document Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-133.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Alert Document Type Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-134.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Alert Document Type document includes the Add/Edit Alert
+                    Document Type tab. The system automatically enters data into both the <emphasis
+                        role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                    sections. Selected data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Alert Document Type Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_AlertEvent"/>Alert Event</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Event</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-135.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Event Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-136.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Alert Event</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-137.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Alert Event Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-138.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text"> The Alert Event document includes the Add/Edit Alert Event
+                    tab. The system automatically enters data into both the <emphasis role="bold"
+                        >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected
+                    data fields are available for editing.</para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Alert Event Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Include a brief description.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this status is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_AlertDocument"/>Alert Document</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/maintenanceMenu.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>E-Resource Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-139.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Alert Document Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-140.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Alert Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-141.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Body Text"/>
+            <section>
+                <title>Document Layout</title>
+                <para role="Body Text">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Alert Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-142.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
             </section>
         </section>
     </section>

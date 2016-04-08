@@ -10,37 +10,106 @@
             <para>
                 <itemizedlist>
                     <listitem>
+                        <para><link xlink:href="../../../pdfs/BudgetTechDoc.pdf">Budget
+                                Construction/Adjustment</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/COATechnicalDocument.pdf">Chart of
+                                Accounts (COA)</link></para>
+                    </listitem>
+                    <listitem>
                         <para><link xlink:href="../../../pdfs/FYMakerJobTechDoc.pdf">Fiscal Year
-                                Maker Job</link>.</para>
+                                Maker Job</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/ErrorCorrection.pdf">General Ledger
+                                Error Correction</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/LicensingTechnicalDocument.pdf"
+                                >Licensing</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/POBulkAmend.pdf">PO Bulk
+                            Amend</link></para>
                     </listitem>
                 </itemizedlist>
             </para>
         </listitem>
         <listitem>
             <para><emphasis role="bold">Describe</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf"
+                            >Describe Functionalities</link>  This contains:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Editor</para>
+                        </listitem>
+                        <listitem>
+                            <para>Analytics</para>
+                        </listitem>
+                        <listitem>
+                            <para>Bound-With</para>
+                        </listitem>
+                        <listitem>
+                            <para>Transfer</para>
+                        </listitem>
+                        <listitem>
+                            <para>Single Record Import</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/SearchWorkbenchTechnicalDocument.pdf"
+                            >Search Workbench</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/SOLRinOLETechDoc.pdf">SOLR in
+                        OLE</link></para>
+                </listitem>
+            </itemizedlist>
         </listitem>
         <listitem>
             <para><emphasis role="bold">Deliver</emphasis></para>
             <itemizedlist>
                 <listitem>
-                    <para><link xlink:href="../../../pdfs/PatronTechnicalDocument.pdf"
-                        >Patron</link>.</para>
-                </listitem>
-                <listitem>
-                    <para><link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf"
-                            >Location</link>.</para>
-                </listitem>
-                <listitem>
                     <para><link xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf"
-                            >Circulation Processes</link>.</para>
-                </listitem>
-                <listitem>
-                    <para><link xlink:href="../../../pdfs/OLERESTServicesTechDoc.pdf">REST
-                            Services</link>.</para>
+                            >Circulation Processes</link>  This contains</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Loan, Return, Renew</para>
+                        </listitem>
+                        <listitem>
+                            <para>Request</para>
+                        </listitem>
+                        <listitem>
+                            <para>Notice</para>
+                        </listitem>
+                        <listitem>
+                            <para>Patron Bill</para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/DroolsTechnicalDocument.pdf">Drools for
-                            Circulation Rules</link>.</para>
+                            Circulation Rules</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/EDIinOLETechnicalDocument.pdf">EDI in
+                            OLE</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf"
+                            >Location</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/PatronTechnicalDocument.pdf"
+                        >Patron</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLERESTServicesTechDoc.pdf">REST
+                            Services</link></para>
                 </listitem>
             </itemizedlist>
         </listitem>
@@ -48,16 +117,20 @@
             <para><emphasis role="bold">Admin</emphasis></para>
             <itemizedlist>
                 <listitem>
-                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf"
-                            >Batch Process Profile</link>.</para>
+                    <para><link xlink:href="../../../pdfs/BatchProcessTechnicalDocument.pdf">Batch
+                            Process</link></para>
                 </listitem>
                 <listitem>
-                    <para><link xlink:href="../../../pdfs/BatchProcessTechnicalDocument.pdf">Batch
-                            Process</link>.</para>
+                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf"
+                            >Batch Process Profile</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/NewBatchProcessTechnicalDocument.pdf">New
+                            Batch Process</link> (Bib, Invoice, and Order Record Import)</para>
                 </listitem>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf"
-                            >Scheduled Jobs</link>.</para>
+                            >Scheduled Jobs</link></para>
                 </listitem>
             </itemizedlist>
         </listitem>
@@ -66,7 +139,7 @@
             <itemizedlist>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/ReportsTechnicalDocument.pdf"
-                            >Reports</link>.</para>
+                            >Reports</link></para>
                 </listitem>
             </itemizedlist>
         </listitem>
@@ -75,16 +148,16 @@
             <itemizedlist>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/OLE-SIP2Document.pdf">3M
-                            Integration</link>.</para>
+                            Integration</link></para>
                 </listitem>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/DataLoadAtStartupTechDoc.pdf">Data Load at
                             Startup</link> (Includes patrons, circulation policies, ingest profiles,
-                        and e-resources).</para>
+                        and e-resources)</para>
                 </listitem>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
-                            >Internationalization</link> .</para>
+                            >Internationalization</link></para>
                 </listitem>
             </itemizedlist>
         </listitem>
