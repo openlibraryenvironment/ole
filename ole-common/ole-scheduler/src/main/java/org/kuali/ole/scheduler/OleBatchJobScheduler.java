@@ -107,7 +107,7 @@ public class OleBatchJobScheduler extends HttpServlet {
                 /** @see org.kuali.ole.oleng.handler.BatchProfileRequestHandlerUtil#prepareBatchProcessJobs() */
 
                 int id      = process.getInt(   OleNGConstants.JOB_ID);
-                String name = process.optString(OleNGConstants.PROFILE_NAME);
+                String name = process.optString(OleNGConstants.JOB_NAME);
                 String cron = process.optString(OleNGConstants.CRON_EXPRESSION);
 
                 modifySchedule(id, name, cron);
@@ -144,6 +144,10 @@ public class OleBatchJobScheduler extends HttpServlet {
             if (!scheduledFuture.isCancelled()) {
                 scheduledFuture.cancel(false);
             }
+        }
+
+        if (scheduleName == null) {
+            return;
         }
 
         Cron cronBean = context.getBean(scheduleName, Cron.class);
