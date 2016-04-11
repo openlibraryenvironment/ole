@@ -59,9 +59,7 @@
                                     id="constantsAndDefaultItemStatus_{{$index}}"
                                     ng-model="constantsAndDefault.fieldValue"
                                     ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
-                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}"
-                                        ng-repeat="option in constantValues | orderBy:'value'"
-                                        value="{{option.value}}">{{option.value}}
+                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}" value="{{option.value}}">{{option.value}}
                                 </option>
                             </select>
                             <select class="form-control" name="constantsAndDefaultFieldValues_{{$index}}"
