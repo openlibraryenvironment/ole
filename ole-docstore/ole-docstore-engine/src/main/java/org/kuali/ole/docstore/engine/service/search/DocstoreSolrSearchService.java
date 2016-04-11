@@ -868,6 +868,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                 }
                 searchCondition = searchConditions.get(i);
                 searchText = searchCondition.getSearchField().getFieldValue();
+                if(searchFieldsMap.get(Bib.AUTHOR).equalsIgnoreCase(searchCondition.getSearchField().getFieldName())){
+                    searchText = searchText.replaceAll("-"," ");
+                }
                 searchScope = searchCondition.getSearchScope();
                 if (StringUtils.isNotEmpty(searchCondition.getOperator()) && searchCondition.getOperator().equalsIgnoreCase("NOT")) {
                     previousOperator = searchCondition.getOperator();
