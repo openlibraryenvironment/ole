@@ -62,7 +62,7 @@
                         <td>
                             <select class="form-control" id="matchPointType_{{$index}}" name="matchPointType_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
-                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine"
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine"
                                     ng-change="populateDestinationFieldValues($index, matchPoint,matchPoint.matchPointDocType, matchPoint.matchPointType)">
                                 <option value=""></option>
                                 <option ng-selected="{{option.name == matchPoint.matchPointType}}"
@@ -75,7 +75,7 @@
                         <td>
                             <select class="form-control" id="matchPointValues_{{$index}}" name="matchPointValues_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
-                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && !matchPoint.isAddLine && !(matchPoint.matchPointType == 'Call Number'
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine && !(matchPoint.matchPointType == 'Call Number'
                                     || matchPoint.matchPointType == 'Call Number Prefix'
                                     || matchPoint.matchPointType == 'Copy Number'
                                     || matchPoint.matchPointType == 'Holdings Call Number'
@@ -88,9 +88,7 @@
                                     || matchPoint.matchPointType == 'Donor Public Display'
                                     || matchPoint.matchPointType == 'Vendor Line Item Identifier')">
                                 <option value=""></option>
-                                <option ng-selected="{{option.value == matchPoint.matchPointValue}}"
-                                        ng-repeat="option in constantValues | orderBy:'value'"
-                                        value="{{option.value}}">
+                                <option ng-selected="{{option.value == matchPoint.matchPointValue}}" value="{{option.value}}">
                                     {{option.value}}
                                 </option>
                             </select>
