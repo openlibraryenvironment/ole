@@ -60,4 +60,17 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
         });
     }
 
+    $scope.setSessionData = function() {
+        sessionStorage.setItem("batchType", $scope.batchType);
+        sessionStorage.setItem("profileName", $scope.profileName);
+    }
+
+    if(sessionStorage.getItem("batchType") != null && sessionStorage.getItem("batchType") != "undefined") {
+        $scope.batchType = sessionStorage.getItem("batchType");
+        $scope.populationProfileNames();
+        if(sessionStorage.getItem("profileName") != null && sessionStorage.getItem("batchType") != "undefined") {
+            $scope.profileName = sessionStorage.getItem("profileName");
+        }
+    }
+
 }]);
