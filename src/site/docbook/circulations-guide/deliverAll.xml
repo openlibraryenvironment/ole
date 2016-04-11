@@ -367,8 +367,8 @@
                                 role="bold">Enter</emphasis>. Each new item checked-out will appear
                             at the top of the <emphasis role="bold">Items Checked Out This
                                 Session</emphasis> list.</para>
-                        <para>To view all items a patron has checked out, click<emphasis role="bold"
-                                >View Current Loans</emphasis>.</para>
+                        <para>To view all items a patron has checked out, click <emphasis
+                                role="bold">View Current Loans</emphasis>.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -832,8 +832,8 @@
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Select the <emphasis role="bold">Request
-                                Type</emphasis> from the drop down.  Once the Request Type is
-                            chosen, additional fields will display.  See below.</para>
+                                Type</emphasis> from the drop down. Once the Request Type is chosen,
+                            additional fields will display. See below.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Enter the <emphasis role="bold">Patron
@@ -1244,7 +1244,7 @@
                         </imageobject>
                     </inlinemediaobject>
                 </emphasis></para>
-            <para>The Request Search allows you to search for requests that exist within OLE.  You
+            <para>The Request Search allows you to search for requests that exist within OLE. You
                 may also create new requests by clicking <inlinemediaobject>
                     <alt>Create New</alt>
                     <imageobject>
@@ -1366,13 +1366,12 @@
                     </listitem>
                     <listitem>
                         <para role="Normal (Web)">Click <emphasis role="bold">edit</emphasis> to
-                            modify the request or <emphasis role="bold">cancel</emphasis> to remove
-                            the request from OLE.</para>
+                            modify the request.</para>
                         <para role="Normal (Web)">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Request Lookup with Sample Results. Edit, Cancel buttons
-                                        are on the left</alt>
+                                    <alt>Request Lookup with Sample Results. Edit links are on the
+                                        left</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-72.png"
                                             width="100%"/>
@@ -1382,7 +1381,7 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para role="Normal (Web)">If you click edit, you will be able to change
+                        <para role="Normal (Web)">Once you click edit, you will be able to change
                                 <emphasis role="bold">Pickup Location</emphasis>, the <emphasis
                                 role="bold">Request Expiry Date</emphasis>, and, depending on the
                             request type, the <emphasis role="bold">Hold Expiration Date</emphasis>. </para>
@@ -1400,13 +1399,28 @@
                                 </imageobject>
                             </inlinemediaobject></para>
                     </listitem>
+                </orderedlist>
+                <para>Alternatively, you may cancel requests from the search screen.</para>
+                <orderedlist>
                     <listitem>
-                        <para role="Normal">Alternatively, if you click <emphasis role="bold"
-                                >cancel</emphasis> from the search screen, a confirmation screen
-                            will appear. </para>
+                        <para role="Normal">To cancel a single request, click <emphasis role="bold"
+                                >cancel</emphasis> from the search screen.  </para>
+                        <para role="Normal (Web)">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Request Lookup with Sample Results. Cancel link are on the
+                                        left</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-33.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal">A confirmation screen will appear. </para>
                         <para role="Normal">Double check that this is the request you would like to
                             cancel and click <inlinemediaobject>
-                                <alt>Cancel</alt>
+                                <alt>Cancel Request</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-76.png"/>
                                 </imageobject>
@@ -1424,8 +1438,31 @@
                             </screenshot>
                         </para>
                         <para role="Normal"/>
-                        <para role="Normal">The request is canceled and you return to the <emphasis
-                                role="bold">Deliver Menu</emphasis>.</para>
+                        <para role="Normal">The request is canceled and you return to the search
+                            screen.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To cancel multiple requests, select the requests from the list (or
+                            choose <emphasis role="bold">Select All</emphasis> from the bottom of
+                            the screen) and click <inlinemediaobject>
+                                <alt>Cancel Request</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-76.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Request Lookup with Sample Results. Select multiple
+                                        requests and click cancel request</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-94.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>The selected requests will be removed.</para>
                     </listitem>
                 </orderedlist>
             </section>
@@ -3442,6 +3479,8 @@
                     </para>
                     <section>
                         <title>Viewing and Modifying Sent Notices</title>
+                        <para>From the <emphasis role="bold">Loaned Record </emphasis>tab, you may
+                            view, modify, and resend notifications to patrons.  </para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -3453,6 +3492,32 @@
                                 </mediaobject>
                             </screenshot>
                         </para>
+                        <para>Click <emphasis role="bold">View Sent Notices in a New
+                                Window</emphasis>.  The <emphasis role="bold">Sent
+                                Notices</emphasis> screen will open.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sent Notices screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-210.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>Edit any of the notice content.  Click expand <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/expandIcon.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to view and edit the content in it's
+                            entirety.</para>
+                        <para>Click <inlinemediaobject>
+                                <alt>Send Notice</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-33.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to send the notice.</para>
                     </section>
                 </section>
                 <section>
@@ -4402,6 +4467,31 @@
                     </listitem>
                 </itemizedlist>
             </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ClaimedReturnedItems"/>Claimed Returned Items</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Claimed Returned Items</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-240.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Claimed Returned Items</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-241.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
         </section>
     </section>
     <section>
@@ -6661,7 +6751,7 @@
             </section>
         </section>
         <section>
-            <title><anchor/>Notice Type Configuration</title>
+            <title><anchor xml:id="_noticeTypeConfiguration"/>Notice Type Configuration</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Maintenance</alt>
                     <imageobject>

@@ -49,6 +49,11 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-102.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para role="Normal">The Dublin Core Editor described in this document represents a
                 utility (that is a part of OLE) that will allow users to update and created
                 bibliographic records.  The records being updated will have previously been imported
@@ -252,6 +257,11 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-102.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para role="Normal">The Bibliographic (Bib) Editor may be accessed through other menu
                 items listed below the <emphasis role="bold">Describe </emphasis>submenu as well as
                 through the <emphasis role="bold">edit</emphasis> or <emphasis role="bold">create
@@ -5005,6 +5015,11 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-9.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para role="Normal">The <emphasis role="bold">Analytics</emphasis> interface can be used
                 to create a link between the record for a monographic series and the records for
                 individual works within the series. OLE accomplishes this by allowing you to link an
@@ -5461,6 +5476,11 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-47.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para role="Normal">In special cases it is necessary to link a single Holdings record to
                 multiple bibliographic records to account for situations when titles with multiple
                 bibliographic records (i.e., bibliographically unrelated works) are joined together
@@ -5727,6 +5747,11 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-150.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para role="Normal">The Transfer Holdings/Item interface allows OLE users to transfer
                 Holdings records from one bibliographic record to another and transfer Item record
                 from one Holdings to another. </para>
@@ -5939,6 +5964,11 @@
                 </imageobject>
             </inlinemediaobject></para>
         <para role="Normal"/>
+        <note>
+            <para role="Normal">Please click <link
+                    xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf">here</link> for
+                technical documentation.</para>
+        </note>
         <para role="Body Text">On the Describe menu, the Single Record Export/Import submenu
             provides access for users to export and import single records. For multiple record
             import and export see the <link linkend="batchProcessesAdminDocuments">Batch

@@ -4257,6 +4257,11 @@
             </section>
             <section>
                 <title><anchor xml:id="_Describe_Workbench"/>Search Workbench</title>
+                <note>
+                    <para role="Normal">Please click <link
+                            xlink:href="../../../pdfs/SearchWorkbenchTechnicalDocument.pdf"
+                            >here</link> for technical documentation.</para>
+                </note>
                 <para><emphasis role="bold">Search Workbench</emphasis> is an OLE search interface,
                     a portal used to locate bibliographic, holdings, e-holdings or item records in
                     OLE. From the workbench, you can take further actions on records. The Search
