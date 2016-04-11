@@ -902,7 +902,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                         if (searchScope.equalsIgnoreCase("AND")) {
                             searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ AND +");
                         } else if (searchScope.equalsIgnoreCase("OR")) {
-                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ OR +");
+                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+OR+");
                         } else if (searchScope.equalsIgnoreCase("phrase")) {
                             searchTextVal = "\"" + searchText + "\"";
                         } else if (searchScope.equalsIgnoreCase("none")) {
@@ -1152,7 +1152,10 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                 modifiedText.append("\\$");
             } else if (character == '%') {
                 modifiedText.append("\\%");
-            } else {
+            } else if (character == '.') {
+                modifiedText.append("\\ ");
+            }
+            else {
                 // the char is not a special one
                 // add it to the result as is
                 modifiedText.append(character);
