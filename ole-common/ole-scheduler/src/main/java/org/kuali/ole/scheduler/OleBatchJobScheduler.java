@@ -3,7 +3,7 @@ package org.kuali.ole.scheduler;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.batchxml.BatchProcessProfileLoader;
+import org.kuali.ole.batchxml.BatchProcessLoader;
 import org.kuali.ole.batchxml.Cron;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.utility.OleHttpRestGet;
@@ -47,7 +47,7 @@ public class OleBatchJobScheduler extends HttpServlet {
                     scheduler.setThreadNamePrefix("OleBatchJobScheduler");
                     scheduler.initialize();
                     //scheduleAllJobs();
-                    BatchProcessProfileLoader loader = new BatchProcessProfileLoader();
+                    BatchProcessLoader loader = new BatchProcessLoader();
                     loader.load();
                 } catch (Exception e) {
                     e.printStackTrace();
