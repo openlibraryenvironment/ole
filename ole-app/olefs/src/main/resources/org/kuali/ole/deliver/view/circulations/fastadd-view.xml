@@ -34,6 +34,7 @@
                     <property name="items">
                         <list merge="false">
                             <ref bean="fastAddErrorMessage"/>
+                            <ref bean="fastAddItemErrorMessage"/>
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
@@ -89,7 +90,7 @@
                       if(itemType!='' &amp;&amp; checkinNote!='' &amp;&amp; title!='' &amp;&amp; shelvingLocation!=''  &amp;&amp; barcode!=''  &amp;&amp; callNumber!=''){
                         jq('#fastAddErrorMessage').attr('style','display:none');
                         submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
-                        submitForm('returnToDeliverTab',null,null,null,null);
+
                         });
                       }else{
                          jq('#fastAddErrorMessage').attr('style','display:inline');

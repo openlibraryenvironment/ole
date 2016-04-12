@@ -40,6 +40,7 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
+                            <bean id="fastAddItemErrorMessage" parent="Uif-MessageField" p:messageText="Item Barcode Already Exist" p:hidden="true" p:cssClasses="alert-error fast-add-error" />
                             <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please provide the mandatory information" p:hidden="true" p:cssClasses="alert-error fast-add-error" />
                             <ref bean="fastAddItemSection"/>
                             <ref bean="fastAddItem-HorizontalBoxSection-button"/>
@@ -194,8 +195,6 @@
                       if(itemType!='' &amp;&amp; checkinNote!='' &amp;&amp; title!='' &amp;&amp; shelvingLocation!=''  &amp;&amp; barcode!=''  &amp;&amp; callNumber!=''){
                         jq('#fastAddErrorMessage').attr('style','display:none');
                         submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
-                            jq.fancybox.close();
-                            submitForm('refresh',null,null,null,null);
                         });
                       }else{
                          jq('#fastAddErrorMessage').attr('style','display:inline');
