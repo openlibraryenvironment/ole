@@ -235,4 +235,26 @@
         <sql>ALTER TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T MODIFY NTC_TYP varchar2(100)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_RNWL_DT_TIME">
+        <addColumn
+                tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="RNWL_DT_TIME" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_T_LOST_ITM_PRCS_FEE_AMNT">
+        <addColumn
+                tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="LOST_ITM_PRCS_FEE_AMNT" type="DECIMAL(8)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_S values ()</sql>
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_T (FEE_TYP_ID, FEE_TYP_CD, FEE_TYP_NM, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'LOST_ITEM_PRCS_FEE', 'Lost Item Processing Fee', '0cc1a894-d34e-4ec2-8479-9adf974fd72H', '1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_T (FEE_TYP_ID, FEE_TYP_CD, FEE_TYP_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_PTRN_FEE_TYPE_S.NEXTVAL, 'LOST_ITEM_PRCS_FEE', 'Lost Item Processing Fee', '0cc1a894-d34e-4ec2-8479-9adf974fd72H', '1')</sql>
+    </changeSet>
+
 </databaseChangeLog>

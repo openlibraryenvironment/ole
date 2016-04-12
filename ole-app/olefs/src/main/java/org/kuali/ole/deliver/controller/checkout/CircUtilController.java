@@ -419,6 +419,8 @@ public class CircUtilController extends RuleExecutor {
                         }
                     } else if (key.equalsIgnoreCase("numRenewals")) {
                         item.setField(Item.NO_OF_RENEWAL, (String) parameterMap.get(key));
+                    } else if (key.equalsIgnoreCase("itemStatus")) {
+                        item.setField(Item.DESTINATION_ITEM_STATUS, (String) parameterMap.get(key));
                     }
                 }
                 return item;
@@ -626,56 +628,86 @@ public class CircUtilController extends RuleExecutor {
         }
     }
 
-    public void updatePaymentStatusToForgive(String itemBarcode, String olePatronId, Timestamp checkinDate, String operatorId, String note) {
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(itemBarcode) && org.apache.commons.lang3.StringUtils.isNotBlank(olePatronId)) {
-            Map criteria = new HashMap<String, String>();
-            criteria.put("patronBillPayment.patronId", olePatronId);
-            criteria.put("itemBarcode", itemBarcode);
-            criteria.put("oleFeeType.feeTypeCode", OLEConstants.FEE_TYPE_CODE_REPL_FEE);
-            List<FeeType> feeTypes = (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
-            if (CollectionUtils.isNotEmpty(feeTypes)) {
-                OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.FORGIVEN);
-                if (paymentStatus != null) {
-                    for (FeeType feeType : feeTypes) {
-                        OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
-                        oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                        oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
-                        oleItemLevelBillPayment.setCreatedUser(operatorId);
-                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
-                        oleItemLevelBillPayment.setNote(note + checkinDate);
-                        List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
-                        oleItemLevelBillPayments.add(oleItemLevelBillPayment);
-                        feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
-                        feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
-                        feeType.setBalFeeAmount(new KualiDecimal(0));
+    public void updateFees(OleLoanDocument oleLoanDocument, String operatorId, List<String> forgiveFeeTypeCodes, String note, boolean isRenew) {
+        List<FeeType> feeTypes = getFeeTypes(oleLoanDocument, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE));
+        if (CollectionUtils.isNotEmpty(feeTypes)) {
+            OlePaymentStatus forgivePaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.FORGIVEN);
+            OlePaymentStatus outstandingPaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
+            for (FeeType feeType : feeTypes) {
+                if (forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && forgivePaymentStatus != null) {
+                    OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                    oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
+                    oleItemLevelBillPayment.setCreatedUser(operatorId);
+                    oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
+                    if (isRenew) {
+                        oleItemLevelBillPayment.setNote("Item renewed on " + new Timestamp(System.currentTimeMillis()));
+                    } else {
+                        oleItemLevelBillPayment.setNote(note + oleLoanDocument.getCheckInDate());
                     }
-                    getBusinessObjectService().save(feeTypes);
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                    oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                    feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                    feeType.setPaymentStatus(forgivePaymentStatus.getPaymentStatusId());
+                    feeType.setBalFeeAmount(new KualiDecimal(0));
+                } else if (feeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED) && outstandingPaymentStatus != null) {
+                    feeType.setPaymentStatus(outstandingPaymentStatus.getPaymentStatusId());
+                }
+
+                if (isRenew) {
+                    feeType.setRenewalDate(new Timestamp(System.currentTimeMillis()));
+                } else {
+                    if (oleLoanDocument.isOverrideCheckInTime()) {
+                        feeType.setOverrideCheckInDate(oleLoanDocument.getCheckInDate());
+                        feeType.setCheckInDate(new Timestamp(System.currentTimeMillis()));
+                    } else {
+                        feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
+                    }
                 }
             }
+            getBusinessObjectService().save(feeTypes);
         }
     }
 
-    public boolean updatePaymentStatusToOutstanding(String itemBarcode, String olePatronId) {
-        if (StringUtils.isNotBlank(itemBarcode) && StringUtils.isNotBlank(olePatronId)) {
+    public List<FeeType> getFeeTypes(OleLoanDocument oleLoanDocument, List<String> feeTypeCodes) {
+        if (oleLoanDocument != null && oleLoanDocument.getOlePatron() != null && StringUtils.isNotBlank(oleLoanDocument.getOlePatron().getOlePatronId())
+                && StringUtils.isNotBlank(oleLoanDocument.getRepaymentFeePatronBillId()) && StringUtils.isNotBlank(oleLoanDocument.getItemId())) {
             Map criteria = new HashMap<String, String>();
-            criteria.put("patronBillPayment.patronId", olePatronId);
-            criteria.put("itemBarcode", itemBarcode);
-            criteria.put("oleFeeType.feeTypeCode", OLEConstants.FEE_TYPE_CODE_REPL_FEE);
-            List<FeeType> feeTypes = (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
-            if (CollectionUtils.isNotEmpty(feeTypes)) {
-                OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
-                if (paymentStatus != null) {
-                    for (FeeType feeType : feeTypes) {
-                        if (feeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
-                            feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
-                        }
-                    }
-                    getBusinessObjectService().save(feeTypes);
-                }
-                return true;
-            }
+            criteria.put("patronBillPayment.billNumber", oleLoanDocument.getRepaymentFeePatronBillId());
+            criteria.put("patronBillPayment.patronId", oleLoanDocument.getOlePatron().getOlePatronId());
+            criteria.put("itemBarcode", oleLoanDocument.getItemId());
+            criteria.put("oleFeeType.feeTypeCode", feeTypeCodes);
+            return (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
         }
+        return null;
+    }
+
+    public boolean updatePaymentStatusToOutstanding(OleLoanDocument oleLoanDocument) {
+        List<FeeType> feeTypes = getFeeTypes(oleLoanDocument, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE));
+        if (CollectionUtils.isNotEmpty(feeTypes)) {
+            OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
+            if (paymentStatus != null) {
+                for (FeeType feeType : feeTypes) {
+                    if (feeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
+                        feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
+                    }
+                }
+                getBusinessObjectService().save(feeTypes);
+            }
+            return true;
+        }
+
         return false;
+    }
+
+    public void processLostItem(String operatorId, OleLoanDocument loanDocument, boolean isRenew) {
+        String forgiveLostFees = getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FORGIVE_LOST_FEES);
+        List<String> feeTypeCodes = new ArrayList<>();
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(forgiveLostFees)) {
+            feeTypeCodes = Arrays.asList(forgiveLostFees.split(","));
+        }
+        updateFees(loanDocument, operatorId, feeTypeCodes, "Item Returned on ", isRenew);
     }
 
     public ParameterValueResolver getParameterValueResolver() {

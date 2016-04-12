@@ -181,6 +181,13 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     public DroolsResponse preValidations(ItemRecord itemRecord, OLEForm oleForm) {
+        return preValidationForLost(itemRecord, oleForm);
+    }
+
+    public DroolsResponse preValidationForLost(ItemRecord itemRecord, OLEForm oleForm) {
+        DroolsResponse droolsResponse;
+        droolsResponse = checkForLostItem(itemRecord);
+        if (droolsResponse != null) return droolsResponse;
         return preValidationForDamaged(itemRecord, oleForm);
     }
 
@@ -277,8 +284,12 @@ public abstract class CheckinBaseController extends CircUtilController {
                 if (!(claimsReturnedFlag && isItemFoundInLibrary(oleForm))){
                     billNumber = generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, checkinDate, loanDocument.getLoanDueDate());
                 }
-                if (claimsReturnedFlag){
-                    processClaimsReturnedItem(oleForm, loanDocument, checkinDate, billNumber);
+                if (claimsReturnedFlag && oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+                    processClaimsReturnedAndLostItem(oleForm, loanDocument, checkinDate);
+                } else if (claimsReturnedFlag) {
+                    processClaimsReturnedItem(oleForm, loanDocument, billNumber);
+                } else if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+                    processLostItem(getOperatorId(oleForm), loanDocument, false);
                 }
             } catch (Exception e) {
                 LOG.error(e.getStackTrace());
@@ -330,6 +341,19 @@ public abstract class CheckinBaseController extends CircUtilController {
         return droolsResponse;
     }
 
+    private void processClaimsReturnedAndLostItem(OLEForm oleForm, OleLoanDocument loanDocument, Timestamp checkinDate) {
+        if (isItemFoundInLibrary(oleForm)) {
+            updateFees(loanDocument, getOperatorId(oleForm), Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was found by staff on ", false);
+            boolean isNotifyClaimsReturnedToPatron = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE,
+                    OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.NOTIFY_CLAIMS_RETURNED_TO_PATRON);
+            if (isNotifyClaimsReturnedToPatron) {
+                sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
+            }
+        } else {
+            processLostItem(getOperatorId(oleForm), loanDocument, false);
+        }
+    }
+
     public void claimsReturnedCheckInProcess(OleLoanDocument loanDocument, OLEForm oleForm, String itemStatus){
         if (StringUtils.isNotBlank(loanDocument.getItemId())) {
             ItemRecord itemRecord = getItemRecordByBarcode(loanDocument.getItemId());
@@ -364,17 +388,17 @@ public abstract class CheckinBaseController extends CircUtilController {
         }
     }
 
-    private void processClaimsReturnedItem(OLEForm oleForm, OleLoanDocument loanDocument, Timestamp checkinDate, String billNumber) {
+    private void processClaimsReturnedItem(OLEForm oleForm, OleLoanDocument loanDocument, String billNumber) {
         boolean isNotifyClaimsReturnedToPatron = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE,
                 OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.NOTIFY_CLAIMS_RETURNED_TO_PATRON);
         if (isItemFoundInLibrary(oleForm)) {
-            updatePaymentStatusToForgive(loanDocument.getItemId(), loanDocument.getOlePatron().getOlePatronId(), checkinDate, getOperatorId(oleForm), "Claimed item was found by staff on ");
+            updateFees(loanDocument, getOperatorId(oleForm), Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was found by staff on ", false);
             if (isNotifyClaimsReturnedToPatron) {
                 sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE,                        OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
             }
         } else {
+            updatePaymentStatusToOutstanding(loanDocument);
             if (isNotifyClaimsReturnedToPatron) {
-                updatePaymentStatusToOutstanding(loanDocument.getItemId(), loanDocument.getOlePatron().getOlePatronId());
                 if (StringUtils.isBlank(billNumber)) {
                     sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE,
                             OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
@@ -527,6 +551,17 @@ public abstract class CheckinBaseController extends CircUtilController {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_DAMAGED);
             droolsResponse.addErrorMessage("Item is Damaged. Do you want to continue?" + OLEConstants.BREAK + "Damaged Note: " + itemRecord.getDamagedItemNote());
+            return droolsResponse;
+        }
+        return null;
+    }
+
+    private DroolsResponse checkForLostItem(ItemRecord itemRecord) {
+        String itemStatus = itemRecord.getItemStatusRecord().getCode();
+        if (StringUtils.isNotBlank(itemStatus) && itemStatus.equals(OLEConstants.ITEM_STATUS_LOST)) {
+            DroolsResponse droolsResponse = new DroolsResponse();
+            droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_LOST);
+            droolsResponse.addErrorMessage("Item status is 'lost', return item?");
             return droolsResponse;
         }
         return null;

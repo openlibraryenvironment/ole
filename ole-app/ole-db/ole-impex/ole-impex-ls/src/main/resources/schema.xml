@@ -1003,6 +1003,7 @@
         <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_IN_DT_TIME_OVR_RD" type="TIMESTAMP"/>
+        <column name="RNWL_DT_TIME" type="TIMESTAMP"/>
         <column name="OPERATOR_ID" size="40" type="VARCHAR"/>
         <column name="ITM_TITLE"  size="600" type="VARCHAR"/>
         <column name="ITM_AUTHOR"  size="200" type="VARCHAR"/>
@@ -3012,6 +3013,7 @@
         <column name="NTC_SND_TYP" size="37" type="VARCHAR"/>
         <column name="RQST_ID" size="37" type="VARCHAR"/>
         <column name="RPLCMNT_FEE_AMNT" size="8" type="DECIMAL"/>
+        <column name="LOST_ITM_PRCS_FEE_AMNT" size="8" type="DECIMAL"/>
         <column name="NTC_TO_SND_DT" type="DATE"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -3610,7 +3612,7 @@
     <sequence name="OLE_DLVR_PTRN_BILL_FEE_TYP_S" nextval="1"/>
     <sequence name="OLE_DLVR_PTRN_BILL_PAY_S" nextval="1"/>
     <sequence name="OLE_DLVR_PTRN_BILL_S" nextval="1"/>
-    <sequence name="OLE_DLVR_PTRN_FEE_TYPE_S" nextval="4"/>
+    <sequence name="OLE_DLVR_PTRN_FEE_TYPE_S" nextval="5"/>
     <sequence name="OLE_DLVR_RECENTLY_RETURNED_S" nextval="1"/>
     <sequence name="OLE_DLVR_RQST_HSTRY_REC_S" nextval="1"/>
     <sequence name="OLE_DLVR_RQST_S" nextval="1"/>

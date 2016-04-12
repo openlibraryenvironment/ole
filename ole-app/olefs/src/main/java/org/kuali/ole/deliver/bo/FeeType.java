@@ -62,6 +62,7 @@ public class FeeType extends PersistableBusinessObjectBase {
     private String refundNote;
     private String cancelCreditNote;
     private boolean manualProcessBill = false;
+    private Timestamp renewalDate;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -439,5 +440,13 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setManualProcessBill(boolean manualProcessBill) {
         this.manualProcessBill = manualProcessBill;
+    }
+
+    public Timestamp getRenewalDate() {
+        return renewalDate;
+    }
+
+    public void setRenewalDate(Timestamp renewalDate) {
+        this.renewalDate = renewalDate;
     }
 }

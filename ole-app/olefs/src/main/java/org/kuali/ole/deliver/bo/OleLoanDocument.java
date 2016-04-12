@@ -189,7 +189,6 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private Timestamp damagedItemDate;
     private Timestamp missingPieceItemDate;
     private List<FeeType> feeType;
-    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
     private String sentNoticesUrl;
     private ItemFineRate itemFineRate = new ItemFineRate();
@@ -2204,14 +2203,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     }
 
     public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
-        if(oleLoanDocumentDaoOjb == null){
-            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
-        }
-        return oleLoanDocumentDaoOjb;
-    }
-
-    public void setOleLoanDocumentDaoOjb(OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb) {
-        this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
+        return (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
     }
 
     @Override

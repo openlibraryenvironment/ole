@@ -113,6 +113,8 @@ public class CheckinItemController extends OLEUifControllerBase {
 
         if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             postCheckinProcess(checkinForm, result, request, response);
+        } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST)) {
+            handleLostItemProcess(request, response, checkinForm, droolsResponse);
         } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
             handleDamagedItemProcess(request, response, checkinForm, droolsResponse);
         } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
@@ -131,6 +133,30 @@ public class CheckinItemController extends OLEUifControllerBase {
         return getUIFModelAndView(checkinForm);
     }
 
+    @RequestMapping(params = "methodToCall=processDamaged")
+    public ModelAndView processDamaged(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CheckinForm checkinForm = (CheckinForm) form;
+
+        DroolsResponse droolsResponse = getCheckinUIController(checkinForm).
+                preValidationForDamaged((ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), checkinForm);
+
+        if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
+            postCheckinProcess(checkinForm, result, request, response);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
+            handleDamagedItemProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
+            handleClaimsReturnedProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
+            handleMissingPieceProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
+            handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
+        }
+        if (StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
+        return getUIFModelAndView(checkinForm);
+    }
 
     @RequestMapping(params = "methodToCall=processClaimReturned")
     public ModelAndView processClaimReturned(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -515,6 +541,11 @@ public class CheckinItemController extends OLEUifControllerBase {
         checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
         checkinForm.setRecordNoteForDamagedItem(true);
         showDialog("checkinDamagedItemDialog", checkinForm, request, response);
+    }
+
+    private void handleLostItemProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {
+        checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
+        showDialog("checkinLostItemDialogMsg", checkinForm, request, response);
     }
 
     private void processItemInformationIfAvailable(HttpServletRequest request, CheckinForm checkinForm) {

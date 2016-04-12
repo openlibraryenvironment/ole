@@ -57,6 +57,7 @@ public class DroolsConstants {
 
     public static final String INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE = "intervalToGenerateNotice";
     public static final String REPLACEMENT_BILL_AMT = "replacementBill";
+    public static final String LOST_ITEM_PROCESSING_FEE_AMT = "lostItemProcessingFeeAmount";
     public static final String GENERAL_BLOCK_PERMISSION = "Patron has a general block";
 
     public static final String MAX_CHARGES_PERMISSION = "Patron has max amount of all charges";
@@ -154,6 +155,7 @@ public class DroolsConstants {
     public static final String REQUEST_EXITS = "deliver-request";
     public static final String GENERAL_INFO = "GENERAL_INFO";
     public static final String ITEM_DAMAGED = "damaged-item";
+    public static final String ITEM_LOST = "lost-item";
 
     public static final String ITEM_CLAIMS_RETURNED = "claims-returned-item";
     public static final String ITEM_MISSING_PIECE = "missing-piece-item";

@@ -209,7 +209,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         Map parameterMap = new HashMap();
         parameterMap.put("deleteClaimsReturn", null);
         circUtilController.deleteItemInfoInSolr(parameterMap, oleLoanDocument.getItemUuid());
-        boolean billExists = circUtilController.updatePaymentStatusToOutstanding(oleLoanDocument.getItemId(), oleLoanDocument.getOlePatron().getOlePatronId());
+        boolean billExists = circUtilController.updatePaymentStatusToOutstanding(oleLoanDocument);
         if (!billExists) {
             oleLoanDocument.setIsManualBill(true);
             Map lostMap = new HashMap();
@@ -241,7 +241,8 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                 oleAPIForm.setDroolsExchange(droolsExchange);
                 new CheckInAPIController().claimsReturnedCheckInProcess(oleLoanDocument, oleAPIForm, "MISSING");
 
-                circUtilController.updatePaymentStatusToForgive(oleLoanDocument.getItemId(), oleLoanDocument.getOlePatron().getOlePatronId(), new Timestamp(new Date().getTime()), operatorId, "Claimed item was forgiven by staff on ");
+                oleLoanDocument.setCheckInDate(new Timestamp(new Date().getTime()));
+                circUtilController.updateFees(oleLoanDocument, operatorId, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was forgiven by staff on ", false);
                 if (isNotifyClaimsReturnedToPatron) {
                     circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT);
                 }

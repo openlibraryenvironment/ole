@@ -1,5 +1,7 @@
 package org.kuali.ole.deliver.service;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
@@ -73,31 +75,69 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     protected void preProcess(List<OleLoanDocument> loanDocuments) {
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {
             OleLoanDocument loanDocument = iterator.next();
-            BigDecimal fineAmount = getFineAmount(loanDocument);
-            String patronBillPayment = getPatronBillPayment(loanDocument, fineAmount);
+            Map fineAmounts = getFineAmounts(loanDocument);
+            String patronBillPayment = getPatronBillPayment(loanDocument, fineAmounts);
             loanDocument.setRepaymentFeePatronBillId(patronBillPayment);
         }
     }
 
-    private BigDecimal getFineAmount(OleLoanDocument oleLoanDocument) {
-        BigDecimal feeAmount = BigDecimal.ZERO;
+    private Map getFineAmounts(OleLoanDocument oleLoanDocument) {
+        Map fineAmounts = new HashMap<>();
         for (Iterator<OLEDeliverNotice> iterator = oleLoanDocument.getDeliverNotices().iterator(); iterator.hasNext(); ) {
             OLEDeliverNotice deliverNotice = iterator.next();
             if (deliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST)) {
-                BigDecimal replacementFeeAmount = deliverNotice.getReplacementFeeAmount();
-                feeAmount = feeAmount.add(replacementFeeAmount);
+                if (deliverNotice.getReplacementFeeAmount() != null) {
+                    fineAmounts.put(OLEConstants.REPLACEMENT_FEE, deliverNotice.getReplacementFeeAmount());
+                }
+                if (deliverNotice.getLostItemProcessingFeeAmount() != null) {
+                    fineAmounts.put(OLEConstants.LOST_ITEM_PROCESSING_FEE, deliverNotice.getLostItemProcessingFeeAmount());
+                }
+                break;
             }
         }
-        return feeAmount;
+        return fineAmounts;
     }
 
-    public String getPatronBillPayment(OleLoanDocument oleLoanDocument, BigDecimal fineAmount) {
+    private String getPatronBillPayment(OleLoanDocument oleLoanDocument, Map<String, BigDecimal> fineAmounts) {
+        List<FeeType> feeTypes = new ArrayList<FeeType>();
+        BigDecimal totalAmount = new BigDecimal(0);
+        for (String feeTypeName : fineAmounts.keySet()) {
+            BigDecimal fineAmount = fineAmounts.get(feeTypeName);
+            if (StringUtils.isNotBlank(feeTypeName) && fineAmount != null && fineAmount.intValue() > 0) {
+                FeeType feeType = getFeeType(oleLoanDocument, fineAmount, feeTypeName);
+                feeTypes.add(feeType);
+                totalAmount = totalAmount.add(fineAmount);
+            }
+        }
+
+        if (CollectionUtils.isNotEmpty(feeTypes)) {
+            java.util.Date billdate = new java.util.Date();
+            PatronBillPayment patronBillPayment = new PatronBillPayment();
+            patronBillPayment.setManualProcessBill(oleLoanDocument.isManualBill());
+            patronBillPayment.setBillDate(oleLoanDocument.getCheckInDate() != null ? new java.sql.Date(oleLoanDocument.getCheckInDate().getTime()) : new java.sql.Date(billdate.getTime()));
+            patronBillPayment.setFeeType(feeTypes);
+            //commented for jira OLE-5675
+            patronBillPayment.setPatronId(oleLoanDocument.getPatronId());
+            patronBillPayment.setProxyPatronId(oleLoanDocument.getProxyPatronId());
+            patronBillPayment.setTotalAmount(new KualiDecimal(totalAmount));
+            patronBillPayment.setUnPaidBalance(new KualiDecimal(totalAmount));
+            oleLoanDocument.setReplacementBill(totalAmount);
+            if (null != oleLoanDocument.getItemLostNote()) {
+                patronBillPayment.setNote(oleLoanDocument.getItemLostNote());
+            }
+            PatronBillPayment patronBillPayments = getBusinessObjectService().save(patronBillPayment);
+            return patronBillPayments.getBillNumber();
+        }
+        return null;
+    }
+
+    private FeeType getFeeType(OleLoanDocument oleLoanDocument, BigDecimal fineAmount, String feeTypeName) {
         FeeType feeType = new FeeType();
-        feeType.setFeeType(getFeeTypeId(OLEConstants.REPLACEMENT_FEE));
+        feeType.setFeeType(getFeeTypeId(feeTypeName));
         feeType.setFeeAmount(new KualiDecimal(fineAmount));
         feeType.setItemBarcode(oleLoanDocument.getItemId());
         feeType.setItemUuid(oleLoanDocument.getItemUuid());
-        getPatronBillHelperService().setFeeTypeInfo(feeType,oleLoanDocument.getItemUuid());
+        getPatronBillHelperService().setFeeTypeInfo(feeType, oleLoanDocument.getItemUuid());
         feeType.setPaymentStatus(getOlePaymentStatus().getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
@@ -105,30 +145,10 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
         feeType.setCheckOutDate(oleLoanDocument.getCreateDate());
         feeType.setManualProcessBill(oleLoanDocument.isManualBill());
-        if(null != oleLoanDocument.getItemLostNote()) {
+        if (null != oleLoanDocument.getItemLostNote()) {
             feeType.setGeneralNote(oleLoanDocument.getItemLostNote());
         }
-
-        List<FeeType> feeTypes = new ArrayList<FeeType>();
-        feeTypes.add(feeType);
-        java.util.Date billdate = new java.util.Date();
-
-
-        PatronBillPayment patronBillPayment = new PatronBillPayment();
-        patronBillPayment.setManualProcessBill(oleLoanDocument.isManualBill());
-        patronBillPayment.setBillDate(oleLoanDocument.getCheckInDate() != null ? new java.sql.Date(oleLoanDocument.getCheckInDate().getTime()) : new java.sql.Date(billdate.getTime()));
-        patronBillPayment.setFeeType(feeTypes);
-        //commented for jira OLE-5675
-        patronBillPayment.setPatronId(oleLoanDocument.getPatronId());
-        patronBillPayment.setProxyPatronId(oleLoanDocument.getProxyPatronId());
-        patronBillPayment.setTotalAmount(new KualiDecimal(fineAmount));
-        patronBillPayment.setUnPaidBalance(new KualiDecimal(fineAmount));
-        oleLoanDocument.setReplacementBill(fineAmount);
-        if(null != oleLoanDocument.getItemLostNote()) {
-            patronBillPayment.setNote(oleLoanDocument.getItemLostNote());
-        }
-        PatronBillPayment patronBillPayments = getBusinessObjectService().save(patronBillPayment);
-        return patronBillPayments.getBillNumber();
+        return feeType;
     }
 
 

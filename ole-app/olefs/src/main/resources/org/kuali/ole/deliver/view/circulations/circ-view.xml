@@ -62,6 +62,7 @@
                 <bean id="renewOverrideDialog" parent="renewOverrideSectionDialog"/>
                 <bean id="checkoutRenewOptionDialog" parent="checkoutRenewOptionSectionDialog"/>
                 <bean id="checkoutRenewCustomDueDateConfirmationDialog" parent="checkoutRenewCustomDueDateConfirmationSectionDialog"/>
+                <bean id="renewLostItemDialogMsg" parent="renewLostItemDialog"/>
                 <bean id="checkoutClaimsReturnDialog" parent="checkoutClaimsReturnNoteDialog"/>
                 <bean id="checkoutMissingPieceDialog" parent="checkoutMissingPieceNoteDialog"/>
                 <bean id="checkoutDamagedItemDialog" parent="checkoutDamagedItemNoteDialog"/>
