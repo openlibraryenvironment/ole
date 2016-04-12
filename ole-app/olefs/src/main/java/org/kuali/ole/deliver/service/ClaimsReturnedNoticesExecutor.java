@@ -53,7 +53,7 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
             Map criteria = new HashMap<String, String>();
             criteria.put("patronBillPayment.patronId", olePatronId);
             criteria.put("itemBarcode", itemBarcodes);
-            criteria.put("oleFeeType.feeTypeCode", OLEConstants.FEE_TYPE_CODE_REPL_FEE);
+            criteria.put("oleFeeType.feeTypeCode", Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE));
             List<FeeType> feeTypes = (List<FeeType>) getBusinessObjectService().findMatching(FeeType.class, criteria);
             if (CollectionUtils.isNotEmpty(feeTypes)) {
                 OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.SUSPENDED);

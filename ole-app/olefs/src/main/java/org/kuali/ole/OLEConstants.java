@@ -1295,6 +1295,7 @@ public class OLEConstants {
     public static final String CIR_LOC_NULL = "Please select your circulation location.";
     public static final String OVERDUE_FINE = "Overdue Fine";
     public static final String REPLACEMENT_FEE = "Replacement Fee";
+    public static final String LOST_ITEM_PROCESSING_FEE = "Lost Item Processing Fee";
     public static final String SERVICE_FEE = "Service Fee";
     public static final String ADMIN_USER = "admin";
     public static final String CLAIMS_RETURNED_MESSAGE = "Claims Returned item has been found.";
@@ -1775,6 +1776,7 @@ public class OLEConstants {
     public static final String FEE_TYPE_CODE = "feeTypeCode";
     public static final String FEE_TYPE_CODE_OVERDUE = "OVR_DUE";
     public static final String FEE_TYPE_CODE_REPL_FEE = "REPL_FEE";
+    public static final String LOST_ITEM_PRCS_FEE = "LOST_ITEM_PRCS_FEE";
     public static final String LOANED_ITEM_COUNT = "loanedItemCount";
     public static final String FEE_TYPE_PATRON_ID = "patronBillPayment.patronId";
     public static final String ITEM_LOCATION = "itemLocation";
@@ -3829,4 +3831,5 @@ public class OLEConstants {
     public static final String RECORD_UPDATED_SUCCESSFULLY="record.updated.successfully";
     public static final String CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED="CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED";
     public static final String ERROR_CIRC_DESK_REQUIRED = "error.circulation.desk.required";
+    public static final String FORGIVE_LOST_FEES = "FORGIVE_LOST_FEES";
 }

@@ -11,4 +11,7 @@
     <OLE_DLVR_PTRN_FEE_TYPE_T FEE_TYP_CD="SER_FEE" FEE_TYP_ID="3"
         FEE_TYP_NM="Service Fee"
         OBJ_ID="5eea852f-dcd7-4885-9235-c3c20687138f" VER_NBR="1"/>
+    <OLE_DLVR_PTRN_FEE_TYPE_T FEE_TYP_CD="LOST_ITEM_PRCS_FEE" FEE_TYP_ID="4"
+                              FEE_TYP_NM="Lost Item Processing Fee"
+                              OBJ_ID="0cc1a894-d34e-4ec2-8479-9adf974fd72H" VER_NBR="1"/>
 </dataset>

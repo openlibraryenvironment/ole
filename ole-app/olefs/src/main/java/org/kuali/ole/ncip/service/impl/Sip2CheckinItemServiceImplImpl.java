@@ -29,4 +29,9 @@ public class Sip2CheckinItemServiceImplImpl extends CheckinItemServiceImpl {
         return ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, operatorId);
     }
+
+    @Override
+    public String getLostItemResponseMessage() {
+        return "Cannot return item, item is 'lost'.Please go to desk.";
+    }
 }

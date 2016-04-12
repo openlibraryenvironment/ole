@@ -65,6 +65,9 @@ public class RenewItemExecutor implements Callable {
                 ItemRecord itemRecord = getCircUtilController().getItemRecordByBarcode(itemBarcode);
                 if (itemRecord !=null && !itemRecord.getClaimsReturnedFlag()){
                     OleItemRecordForCirc oleItemRecordForCirc = getOleItemRecordForCirc(itemRecord);
+                    if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null) {
+                        oleLoanDocument.setItemStatus(oleItemRecordForCirc.getItemStatusRecord().getCode());
+                    }
                     NoticeInfo noticeInfo = new NoticeInfo();
 
                     finalDroolResponse = fireRules(olePatronDocument, oleLoanDocument, oleItemRecordForCirc, noticeInfo);
@@ -92,6 +95,9 @@ public class RenewItemExecutor implements Callable {
                                         finalDroolResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
 
                                         getCircUtilController().generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                        if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+                                            getCircUtilController().processLostItem("", oleLoanDocument, true);
+                                        }
 
                                     }
                                 } else {

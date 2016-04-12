@@ -7,6 +7,8 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
+import org.kuali.ole.deliver.util.ItemInfoUtil;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -44,6 +46,12 @@ public class Sip2CheckoutItemServiceImpl extends CheckoutItemServiceImpl {
     @Override
     protected String preProcess(Map checkoutParameters) {
         String itemBarcode = (String) checkoutParameters.get("itemBarcode");
+        ItemRecord itemRecord = ItemInfoUtil.getInstance().getItemRecordByBarcode(itemBarcode);
+        if (itemRecord !=null && itemRecord.getItemStatusRecord()!=null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(itemRecord.getItemStatusRecord().getCode())){
+            getOleCheckOutItem().setCode("500");
+            getOleCheckOutItem().setMessage("Cannot loan item, item is 'lost'.Please go to desk.");
+            return prepareResponse();
+        }
         Map map = new HashMap();
         map.put("itemId", itemBarcode);
         map.put("patronId", getOlePatronDocument().getOlePatronId());

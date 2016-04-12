@@ -1952,6 +1952,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
         , CHECK_IN_DT_TIME_OVR_RD DATETIME
+        , RNWL_DT_TIME DATETIME
         , OPERATOR_ID VARCHAR(40)
         , ITM_TITLE VARCHAR(600)
         , ITM_AUTHOR VARCHAR(200)
@@ -1976,7 +1977,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -5601,6 +5602,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
         , NTC_SND_TYP VARCHAR(37)
         , RQST_ID VARCHAR(37)
         , RPLCMNT_FEE_AMNT DECIMAL(8)
+        , LOST_ITM_PRCS_FEE_AMNT DECIMAL(8)
         , NTC_TO_SND_DT DATETIME
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
@@ -5612,19 +5614,19 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
 
 
     
-                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX NTC_TO_SND_DT_INDX (NTC_TO_SND_DT )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX NTC_TYP_INDX (NTC_TYP )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX PTRN_ID_INDX (PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX ODLN_LOAN_ID_INDX (LOAN_ID )
 
@@ -7494,7 +7496,7 @@ CREATE TABLE OLE_DLVR_PTRN_FEE_TYPE_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_DLVR_PTRN_FEE_TYPE_S auto_increment = 4
+ALTER TABLE OLE_DLVR_PTRN_FEE_TYPE_S auto_increment = 5
 /
 
 # -----------------------------------------------------------------------

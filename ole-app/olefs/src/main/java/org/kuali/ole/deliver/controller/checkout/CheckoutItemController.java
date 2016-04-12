@@ -388,7 +388,9 @@ public class CheckoutItemController extends CircFastAddItemController {
         if (droolsResponse != null && org.apache.commons.lang.StringUtils.isNotBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             if (droolsResponse.retriveErrorCode() != null) {
                 droolsResponse.getErrorMessage().clearErrorMessage();
-                if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
+                if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST)) {
+                    droolsResponse.addErrorMessage("Item cannot be loaned, Item statis is ''lost'");
+                } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
                     droolsResponse.addErrorMessage("Item is Claims Returned. So the checkin process has to be handled manually");
                 } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
                     droolsResponse.addErrorMessage("Item has missing pieces. So the checkin process has to be handled manually");

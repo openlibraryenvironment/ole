@@ -14,6 +14,7 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
     private String noticeType;
     private Timestamp noticeToBeSendDate;
     private BigDecimal replacementFeeAmount;
+    private BigDecimal lostItemProcessingFeeAmount;
     private String noticeSendType;
     private String patronId;
     private OleLoanDocument oleLoanDocument;
@@ -60,6 +61,14 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
 
     public void setReplacementFeeAmount(BigDecimal replacementFeeAmount) {
         this.replacementFeeAmount = replacementFeeAmount;
+    }
+
+    public BigDecimal getLostItemProcessingFeeAmount() {
+        return lostItemProcessingFeeAmount;
+    }
+
+    public void setLostItemProcessingFeeAmount(BigDecimal lostItemProcessingFeeAmount) {
+        this.lostItemProcessingFeeAmount = lostItemProcessingFeeAmount;
     }
 
     public String getNoticeSendType() {

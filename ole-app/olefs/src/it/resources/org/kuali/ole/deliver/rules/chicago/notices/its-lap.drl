@@ -20,5 +20,6 @@ $n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICE
 $n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "2");
 $n.addInfo(OLEConstants.OVERDUE_NOTICE, OLEConstants.OVERDUE_NOTICE_CONTENT_CONFIG_NAME,"Overdue Notice");
 $n.addInfo(OLEConstants.LOST_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "1500");
+$n.addInfo(OLEConstants.LOST_NOTICE, DroolsConstants.LOST_ITEM_PROCESSING_FEE_AMT, "575");
 $n.addInfo(OLEConstants.LOST_NOTICE, OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME,"Lost Notice");
  end
