@@ -457,7 +457,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch" p:readOnly="@{maintenanceAction eq 'Edit' }"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
                     </property>
                 </bean>
                 <bean id="OnholdRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
@@ -465,7 +465,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
                     </property>
                 </bean>
                 <bean id="TransitRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
@@ -473,7 +473,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
                     </property>
                 </bean>
                 <bean id="CopyRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
@@ -481,7 +481,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
                     </property>
                 </bean>
                 <bean id="PageRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:readOnly="@{maintenanceAction eq 'Edit' }"
@@ -489,7 +489,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid,chronology:chronology,enumeration:enumeration"
-                              p:lookupParameters="itemId:itemBarCode,title:title,itemUuid:itemUUID"/>
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
                     </property>
                 </bean>
 
