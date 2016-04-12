@@ -80,7 +80,7 @@ public class OleHttpRestImpl implements OleHttpRest {
      */
     @Override
     public String post(final String restPath, final String content, final String format)
-            throws IOException, HttpResponseException {
+            throws IOException {
         String url = getUrlBase() + "/" + restPath;
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(url);
@@ -88,6 +88,12 @@ public class OleHttpRestImpl implements OleHttpRest {
         post.addHeader("Accept",       "application/" + format);
         post.setEntity(new StringEntity(content));
         HttpResponse response = httpClient.execute(post);
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode < 200 || statusCode > 299) {
+            throw new HttpResponseException(statusCode,
+                    url + " - " +
+                    response.getStatusLine().getReasonPhrase());
+        }
         InputStream body = response.getEntity().getContent();
         Scanner scanner = new Scanner(body, "UTF-8").useDelimiter("\\A");
         if (!scanner.hasNext()) {
