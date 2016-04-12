@@ -9,6 +9,6 @@ public class SummaryReportProcessor extends OleNGReportProcessor {
 
     public void process(Object object, String directoryToWrite) throws Exception {
         String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
-        logMessage(directoryToWrite,  "BibImport","txt", message);
+        logMessage(directoryToWrite,  "BibImport","txt", message, false);
     }
 }

@@ -1,9 +1,12 @@
 package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
@@ -20,6 +23,7 @@ import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.marc4j.marc.Record;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -308,6 +312,29 @@ public class BatchUtil extends OleNgUtil{
             }
             queryBuilder.append(query);
         }
+    }
+
+    public String writeBatchRunningStatusToFile(String directoryPath, String status, String totalTimeTaken) {
+        File fileToWrite = new File(directoryPath, "status" + File.separator + "status.json");
+        try {
+            String statusContent = getStatusContent(status, totalTimeTaken);
+            FileUtils.writeStringToFile(fileToWrite, statusContent);
+            return fileToWrite.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getStatusContent(String status, String totalTimeTaken) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(OleNGConstants.STATUS , status);
+            jsonObject.put(OleNGConstants.TIME_SPENT, totalTimeTaken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 
 }

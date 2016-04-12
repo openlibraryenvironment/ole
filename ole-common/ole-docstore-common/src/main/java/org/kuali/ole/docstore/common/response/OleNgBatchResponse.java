@@ -7,6 +7,8 @@ public class OleNgBatchResponse {
     private String response;
     private int totalNoOfRecord;
     private int noOfFailureRecord;
+    private Object batchResponse;
+    private OleNGBibImportResponse bibImportResponse;
 
     public String getResponse() {
         return response;
@@ -30,5 +32,21 @@ public class OleNgBatchResponse {
 
     public void setNoOfFailureRecord(int noOfFailureRecord) {
         this.noOfFailureRecord = noOfFailureRecord;
+    }
+
+    public Object getBatchResponse() {
+        return batchResponse;
+    }
+
+    public void setBatchResponse(Object batchResponse) {
+        this.batchResponse = batchResponse;
+    }
+
+    public OleNGBibImportResponse getBibImportResponse() {
+        return bibImportResponse;
+    }
+
+    public void setBibImportResponse(OleNGBibImportResponse bibImportResponse) {
+        this.bibImportResponse = bibImportResponse;
     }
 }

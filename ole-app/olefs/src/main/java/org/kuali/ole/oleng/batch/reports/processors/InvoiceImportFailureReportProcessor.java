@@ -18,7 +18,7 @@ public class InvoiceImportFailureReportProcessor extends OleNGReportProcessor {
         List<InvoiceFailureResponse> invoiceFailureResponses = oleNGInvoiceImportResponse.getInvoiceFailureResponses();
         if(CollectionUtils.isNotEmpty(invoiceFailureResponses)) {
             String invoiceFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(invoiceFailureResponses);
-            logMessage(directoryToWrite, "Invoice-FailureMessages", "txt", invoiceFailureMessage);
+            logMessage(directoryToWrite, "Invoice-FailureMessages", "txt", invoiceFailureMessage, false);
         }
     }
 }

@@ -9,6 +9,6 @@ public class InvoiceImportReportProcessor extends OleNGReportProcessor {
 
     public void process(Object object, String directoryToWrite) throws Exception {
         String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
-        logMessage(directoryToWrite, "InvoiceImport","txt", message);
+        logMessage(directoryToWrite, "InvoiceImport","txt", message, false);
     }
 }

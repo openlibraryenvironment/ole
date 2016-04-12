@@ -16,11 +16,11 @@ import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.oleng.util.BatchExcelReportUtil;
+import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
-import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,50 +56,69 @@ public class BatchRestController extends OleNgControllerBase {
 
     private BatchExcelReportUtil batchExcelReportUtil;
 
+    private BatchUtil batchUtil;
+
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,
-                             @RequestParam("batchType") String batchType, HttpServletRequest request) throws IOException, JSONException {
+                             @RequestParam("batchType") String batchType, HttpServletRequest request) throws Exception {
         if (null != file && StringUtils.isNotBlank(profileName) && StringUtils.isNotBlank(batchType)) {
-            String rawContent = IOUtils.toString(file.getBytes());
-            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-            BatchJobDetails batchJobDetails = new BatchJobDetails();
-            batchJobDetails.setProfileName(profileName);
-            JSONObject response = processBatch(profileName, batchType, rawContent, extension, batchJobDetails);
-            return response.toString();
+            File uploadedDirectory = storeUploadedFileToFileSystem(file);
+            if(null != uploadedDirectory) {
+                String originalFilename = file.getOriginalFilename();
+                String extension = FilenameUtils.getExtension(originalFilename);
+                BatchJobDetails batchJobDetails = new BatchJobDetails();
+                batchJobDetails.setProfileName(profileName);
+                batchJobDetails.setFileName(originalFilename);
+                JSONObject response = processBatch(uploadedDirectory, batchType, profileName, extension, batchJobDetails);
+                return response.toString();
+            }
+
         }
         return null;
     }
 
-    private JSONObject processBatch(String profileId, String batchType, String rawContent, String fileExtension, BatchJobDetails batchJobDetails) throws JSONException {
-        OleStopWatch oleStopWatch = new OleStopWatch();
-        oleStopWatch.start();
+    private JSONObject processBatch(File uploadDirectory, String batchType, String profileId, String fileExtension, BatchJobDetails batchJobDetails) throws Exception {
         BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
 
         long jobDetailsId = batchJobDetails.getJobDetailId();
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
-        JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory, batchJobDetails);
+        String statusFilePath = getBatchUtil().writeBatchRunningStatusToFile(uploadDirectory.getAbsolutePath(), OleNGConstants.RUNNING, null);
+
+        JSONObject response = batchProcessor.processBatch(uploadDirectory, fileExtension, profileId,reportDirectory, batchJobDetails);
         if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
             getBusinessObjectService().save(batchJobDetails);
         }
-        oleStopWatch.end();
-        long totalTime = oleStopWatch.getTotalTime();
-        response.put("processTime",totalTime + "ms");
+        response.put("filePathName", getStatusFilePathName(statusFilePath));
         return response;
+    }
+
+    private String getStatusFilePathName(String statusFilePath) {
+        String batchUploadLocation = getBatchUploadLocation();
+        File file = new File(batchUploadLocation);
+        return statusFilePath.replace(file.getAbsolutePath() + File.separator,  "");
     }
 
     @RequestMapping(value = "/submit/api", method = RequestMethod.POST, produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
-    public String submitApi(@RequestBody String requestBody) throws IOException, JSONException {
+    public String submitApi(@RequestBody String requestBody) throws Exception {
         JSONObject requestJson = new JSONObject(requestBody);
         String rawContent = getStringValueFromJsonObject(requestJson, "marcContent");
         String batchType = getStringValueFromJsonObject(requestJson, "batchType");
         String profileId = getStringValueFromJsonObject(requestJson, "profileId");
         BatchJobDetails batchJobDetails = new BatchJobDetails();
         batchJobDetails.setProfileName(profileId);
-        JSONObject response = processBatch(profileId, batchType, rawContent, OleNGConstants.MARC, batchJobDetails);
-        return response.toString();
+        String originalFilename = "quicklanch.mrc";
+        batchJobDetails.setFileName(originalFilename);
+        File uploadedDirectory = storeUploadedFileToFileSystem(rawContent, originalFilename);
+        if(null != uploadedDirectory) {
+            String extension = FilenameUtils.getExtension(originalFilename);
+            JSONObject response = processBatch(uploadedDirectory, batchType, profileId, extension, batchJobDetails);
+            return response.toString();
+        }
+        return null;
+
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
@@ -127,19 +146,14 @@ public class BatchRestController extends OleNgControllerBase {
         try {
             BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
             if (null != file) {
-                String originalFilename = file.getOriginalFilename();
-                batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
-                getBusinessObjectService().save(batchJobDetails);
-                String rawContent = IOUtils.toString(file.getBytes());
-                String extension = FilenameUtils.getExtension(originalFilename);
-                JSONObject response = processBatch(String.valueOf(matchedBatchJob.getBatchProfileId()), batchJobDetails.getProfileType(),
-                        rawContent, extension,batchJobDetails);
-                batchJobDetails.setTimeSpent(response.getString("processTime"));
-                batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
-                if(response.has(OleNGConstants.STATUS) && response.getBoolean(OleNGConstants.STATUS)){
-                    batchJobDetails.setStatus(OleNGConstants.COMPLETED);
-                } else {
-                    batchJobDetails.setStatus(OleNGConstants.FAILED);
+                File uploadedDirectory = storeUploadedFileToFileSystem(file);
+                if(null != uploadedDirectory) {
+                    String originalFilename = file.getOriginalFilename();
+                    batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
+                    getBusinessObjectService().save(batchJobDetails);
+                    String extension = FilenameUtils.getExtension(originalFilename);
+                    JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
+                            String.valueOf(matchedBatchJob.getBatchProfileId()) , extension, batchJobDetails);
                 }
             }
         } catch (Exception e) {
@@ -150,6 +164,40 @@ public class BatchRestController extends OleNgControllerBase {
             getBusinessObjectService().save(batchJobDetails);
         }
         return "";
+    }
+
+    private File storeUploadedFileToFileSystem(MultipartFile file) throws IOException {
+        String batchUploadLocation = getBatchUploadLocation();
+        if(StringUtils.isNotBlank(batchUploadLocation)) {
+            batchUploadLocation = batchUploadLocation + File.separator + OleNGConstants.DATE_FORMAT.format(new Date());
+            File uploadDirectory = new File(batchUploadLocation);
+            if (!uploadDirectory.exists() || !uploadDirectory.isDirectory()) {
+                uploadDirectory.mkdirs();
+            }
+            File uploadFile = new File(uploadDirectory, file.getOriginalFilename());
+            file.transferTo(uploadFile);
+            return uploadDirectory;
+        }
+        return null;
+    }
+
+    private String getBatchUploadLocation() {
+        return ConfigContext.getCurrentContextConfig().getProperty("batchUploadLocation");
+    }
+
+    private File storeUploadedFileToFileSystem(String rawContent, String fileName) throws IOException {
+        String batchUploadLocation = getBatchUploadLocation();
+        if(StringUtils.isNotBlank(batchUploadLocation)) {
+            batchUploadLocation = batchUploadLocation + File.separator + OleNGConstants.DATE_FORMAT.format(new Date());
+            File uploadDirectory = new File(batchUploadLocation);
+            if (!uploadDirectory.exists() || !uploadDirectory.isDirectory()) {
+                uploadDirectory.mkdirs();
+            }
+            File uploadFile = new File(uploadDirectory, fileName);
+            FileUtils.writeStringToFile(uploadFile, rawContent);
+            return uploadDirectory;
+        }
+        return null;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
@@ -335,6 +383,29 @@ public class BatchRestController extends OleNgControllerBase {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "job/getBatchStatus", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
+    @ResponseBody
+    public String getBatchStatus(@RequestParam("filePathName") String filePathName) {
+        JSONObject response = new JSONObject();
+        try {
+            String batchUploadLocation = getBatchUploadLocation();
+            File statusFile = new File(batchUploadLocation, filePathName);
+            if(statusFile.exists() && statusFile.isFile()) {
+                String statusContent = FileUtils.readFileToString(statusFile);
+                if(StringUtils.isNotBlank(statusContent)) {
+                    JSONObject statusJson = new JSONObject(statusContent);
+                    String status = getStringValueFromJsonObject(statusJson, OleNGConstants.STATUS);
+                    String timeSpent = getStringValueFromJsonObject(statusJson, OleNGConstants.TIME_SPENT);
+                    response.put(OleNGConstants.STATUS, status);
+                    response.put(OleNGConstants.TIME_SPENT, timeSpent);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response.toString();
+    }
+
 
     private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob, String fileName) {
         BatchJobDetails batchJobDetails = new BatchJobDetails();
@@ -345,7 +416,7 @@ public class BatchRestController extends OleNgControllerBase {
         String loginUser = GlobalVariables.getUserSession().getPrincipalName();
         batchJobDetails.setCreatedBy(loginUser); // Job initiated by
         batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
-        batchJobDetails.setStatus("RUNNING");
+        batchJobDetails.setStatus(OleNGConstants.RUNNING);
         batchJobDetails.setFileName(fileName);
         batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
         return batchJobDetails;
@@ -432,5 +503,16 @@ public class BatchRestController extends OleNgControllerBase {
 
     public void setBatchExcelReportUtil(BatchExcelReportUtil batchExcelReportUtil) {
         this.batchExcelReportUtil = batchExcelReportUtil;
+    }
+
+    public BatchUtil getBatchUtil() {
+        if(null == batchUtil) {
+            batchUtil = new BatchUtil();
+        }
+        return batchUtil;
+    }
+
+    public void setBatchUtil(BatchUtil batchUtil) {
+        this.batchUtil = batchUtil;
     }
 }

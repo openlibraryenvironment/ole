@@ -9,6 +9,6 @@ public class FailedMarcContentProcessor extends OleNGReportProcessor {
     public void process(Object object, String directoryToWrite) throws Exception {
         BatchProcessFailureResponse batchProcessFailureResponse = (BatchProcessFailureResponse) object;
         String failedRawMarcContent = batchProcessFailureResponse.getFailedRawMarcContent();
-        logMessage(directoryToWrite, batchProcessFailureResponse.getBatchProcessProfileName() + "-FailedInputData","mrc", failedRawMarcContent);
+        logMessage(directoryToWrite, batchProcessFailureResponse.getBatchProcessProfileName() + "-FailedInputData","mrc", failedRawMarcContent, true);
     }
 }

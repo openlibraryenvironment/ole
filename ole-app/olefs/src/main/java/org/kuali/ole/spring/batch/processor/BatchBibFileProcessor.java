@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
@@ -39,15 +40,17 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     private static final Logger LOG = Logger.getLogger(BatchBibFileProcessor.class);
 
     @Override
-    public OleNgBatchResponse processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType,
-                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName, BatchJobDetails batchJobDetails) throws JSONException {
+    public OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject,
+                                             BatchProcessProfile batchProcessProfile) throws JSONException {
+        BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
+        String reportDirectoryName = batchProcessTxObject.getReportDirectoryName();
         JSONArray jsonArray = new JSONArray();
         String response = "";
         OleNGBibImportResponse oleNGBibImportResponse = null;
         List<Record> matchedRecords = new ArrayList<>();
         List<Record> unmatchedRecords = new ArrayList<>();
         List<Record> multipleMatchedRecords = new ArrayList<>();
-        Exchange exchange = new Exchange();
+        Exchange exchange = batchProcessTxObject.getExchangeObjectForBibImport();
         for (Iterator<Integer> iterator = recordsMap.keySet().iterator(); iterator.hasNext(); ) {
             Integer index = iterator.next();
             RecordDetails recordDetails = recordsMap.get(index);
@@ -127,8 +130,12 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.setUnmatchedRecords(unmatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
         oleNGBibImportResponse.setMultipleMatchedRecords(multipleMatchedRecords);
-        oleNGBibImportResponse.setRecordsMap(recordsMap);
+        oleNGBibImportResponse.getRecordsMap().putAll(recordsMap);
+        oleNGBibImportResponse = mergeResponse(oleNGBibImportResponse, exchange);
         generateBatchReport(oleNGBibImportResponse,reportDirectoryName, batchProcessProfile.getBatchProcessProfileName());
+        clearMarcRecordObjects(oleNGBibImportResponse);
+        exchange.add(OleNGConstants.BIB_RESPONSE, oleNGBibImportResponse);
+        exchange.remove(OleNGConstants.FAILURE_RESPONSE);
 
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
         oleNgBatchResponse.setResponse(response);
@@ -714,12 +721,11 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     }
 
 
-    public OleNGBibImportResponse processBibImportForOrderOrInvoiceImport(String rawContent, Map<Integer, RecordDetails> recordsMap,
-                                                   String fileType, BatchProcessProfile bibImportProfile,
-                                                   String reportDirectoryName, BatchJobDetails batchJobDetails, Exchange exchange) {
+    public OleNGBibImportResponse processBibImportForOrderOrInvoiceImport(Map<Integer, RecordDetails> recordsMap,
+                                                   BatchProcessTxObject batchProcessTxObject, BatchProcessProfile bibImportProfile, Exchange exchange) {
         OleNGBibImportResponse oleNGBibImportResponse = new OleNGBibImportResponse();
         try {
-            OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordsMap, fileType, bibImportProfile, reportDirectoryName, batchJobDetails);
+            OleNgBatchResponse oleNgBatchResponse = processRecords(recordsMap, batchProcessTxObject, bibImportProfile);
             String response = oleNgBatchResponse.getResponse();
             if(StringUtils.isNotBlank(response)) {
                 oleNGBibImportResponse = getObjectMapper().readValue(response, OleNGBibImportResponse.class);
@@ -729,6 +735,49 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             addOrderFaiureResponseToExchange(e, null, exchange);
         }
         return oleNGBibImportResponse;
+    }
+
+    private OleNGBibImportResponse mergeResponse(OleNGBibImportResponse newResponseObject, org.kuali.ole.Exchange exchange) {
+        OleNGBibImportResponse oldResponseObject = (OleNGBibImportResponse) exchange.get(OleNGConstants.BIB_RESPONSE);
+        if(null == oldResponseObject) {
+            return newResponseObject;
+        }
+        return mergeBibImportResponse(oldResponseObject, newResponseObject);
+    }
+
+    private OleNGBibImportResponse mergeBibImportResponse(OleNGBibImportResponse oldOleNGBibImportResponse, OleNGBibImportResponse newOleNGBibImportResponse) {
+        oldOleNGBibImportResponse.getBibResponses().addAll(newOleNGBibImportResponse.getBibResponses());
+        oldOleNGBibImportResponse.getFailureResponses().addAll(newOleNGBibImportResponse.getFailureResponses());
+
+        oldOleNGBibImportResponse.setMatchedRecords(newOleNGBibImportResponse.getMatchedRecords());
+        oldOleNGBibImportResponse.setUnmatchedRecords(newOleNGBibImportResponse.getUnmatchedRecords());
+        oldOleNGBibImportResponse.setMultipleMatchedRecords(newOleNGBibImportResponse.getMultipleMatchedRecords());
+        oldOleNGBibImportResponse.setRecordsMap(newOleNGBibImportResponse.getRecordsMap());
+
+        oldOleNGBibImportResponse.setMatchedBibsCount(oldOleNGBibImportResponse.getMatchedBibsCount() + newOleNGBibImportResponse.getMatchedBibsCount());
+        oldOleNGBibImportResponse.setUnmatchedBibsCount(oldOleNGBibImportResponse.getUnmatchedBibsCount() + newOleNGBibImportResponse.getUnmatchedBibsCount());
+        oldOleNGBibImportResponse.setMultipleMatchedBibsCount(oldOleNGBibImportResponse.getMultipleMatchedBibsCount() + newOleNGBibImportResponse.getMultipleMatchedBibsCount());
+
+        oldOleNGBibImportResponse.setMatchedHoldingsCount(oldOleNGBibImportResponse.getMatchedHoldingsCount() + newOleNGBibImportResponse.getMatchedHoldingsCount());
+        oldOleNGBibImportResponse.setUnmatchedHoldingsCount(oldOleNGBibImportResponse.getUnmatchedHoldingsCount() + newOleNGBibImportResponse.getUnmatchedHoldingsCount());
+        oldOleNGBibImportResponse.setMultipleMatchedHoldingsCount(oldOleNGBibImportResponse.getMultipleMatchedHoldingsCount() + newOleNGBibImportResponse.getMultipleMatchedHoldingsCount());
+
+        oldOleNGBibImportResponse.setMatchedItemsCount(oldOleNGBibImportResponse.getMatchedItemsCount() + newOleNGBibImportResponse.getMatchedItemsCount());
+        oldOleNGBibImportResponse.setUnmatchedItemsCount(oldOleNGBibImportResponse.getUnmatchedItemsCount() + newOleNGBibImportResponse.getUnmatchedItemsCount());
+        oldOleNGBibImportResponse.setMultipleMatchedItemsCount(oldOleNGBibImportResponse.getMultipleMatchedItemsCount() + newOleNGBibImportResponse.getMultipleMatchedItemsCount());
+
+        oldOleNGBibImportResponse.setMatchedEHoldingsCount(oldOleNGBibImportResponse.getMatchedEHoldingsCount() + newOleNGBibImportResponse.getMatchedEHoldingsCount());
+        oldOleNGBibImportResponse.setUnmatchedEHoldingsCount(oldOleNGBibImportResponse.getUnmatchedEHoldingsCount() + newOleNGBibImportResponse.getUnmatchedEHoldingsCount());
+        oldOleNGBibImportResponse.setMultipleMatchedEHoldingsCount(oldOleNGBibImportResponse.getMultipleMatchedEHoldingsCount() + newOleNGBibImportResponse.getMultipleMatchedEHoldingsCount());
+
+        return  oldOleNGBibImportResponse;
+    }
+
+    private void clearMarcRecordObjects(OleNGBibImportResponse oleNGBibImportResponse) {
+        oleNGBibImportResponse.getMatchedRecords().clear();
+        oleNGBibImportResponse.getUnmatchedRecords().clear();
+        oleNGBibImportResponse.getMultipleMatchedRecords().clear();
+        oleNGBibImportResponse.getRecordsMap().clear();
     }
 
 }

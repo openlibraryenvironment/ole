@@ -13,7 +13,7 @@ public class MatchedRecordsReportProcessor extends OleNGReportProcessor {
         OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse)object;
         if(CollectionUtils.isNotEmpty(oleNGBibImportResponse.getMatchedRecords())) {
             String matchedMarcRawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(oleNGBibImportResponse.getMatchedRecords());
-            logMessage(directoryToWrite, oleNGBibImportResponse.getBibImportProfileName() + "-Matched","mrc", matchedMarcRawContent);
+            logMessage(directoryToWrite, oleNGBibImportResponse.getBibImportProfileName() + "-Matched","mrc", matchedMarcRawContent, true);
         }
     }
 }

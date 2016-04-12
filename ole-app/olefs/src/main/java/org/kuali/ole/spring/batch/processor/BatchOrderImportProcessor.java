@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
@@ -56,10 +57,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private HashMap operationIndMap;
 
     @Override
-    public OleNgBatchResponse processRecords(String rawContent , Map<Integer, RecordDetails> recordsMap, String fileType,
-                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName,
-                                             BatchJobDetails batchJobDetails) throws JSONException {
+    public OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject,
+                                             BatchProcessProfile batchProcessProfile) throws JSONException {
         String response = "";
+        BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
+        String reportDirectoryName = batchProcessTxObject.getReportDirectoryName();
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
         Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
@@ -72,7 +74,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         List<OrderData> matchedOrderDatas = new ArrayList<OrderData>();
         List<OrderData> unmatchedOrderDatas = new ArrayList<OrderData>();
 
-        Exchange exchange = new Exchange();
+        Exchange exchange = batchProcessTxObject.getExchangeForOrderOrInvoiceImport();
 
         BibUtil bibUtil = new BibUtil();
         if (recordsMap.size() > 0) {
@@ -129,12 +131,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                 }
                 recordForBibImportsMap.putAll(matchedRecordMap);
                 recordForBibImportsMap.putAll(unMatchedRecordMap);
-                recordForBibImportsMap.putAll(multipleMatchedRecordMap);
+//                recordForBibImportsMap.putAll(multipleMatchedRecordMap);
 
                 OleNGBibImportResponse oleNGBibImportResponse = null;
                 if (recordForBibImportsMap.size() > 0) {
-                    oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(rawContent, recordForBibImportsMap, fileType,  bibImportProfile,
-                            reportDirectoryName, batchJobDetails, exchange);
+                    oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(recordForBibImportsMap, batchProcessTxObject,bibImportProfile, exchange);
                 }
 
                 List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = batchProcessProfile.getBatchProfileAddOrOverlayList();
@@ -191,7 +192,12 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         oleNGOrderImportResponse.setOrderFailureResponses(orderFailureResponseList);
         oleNGOrderImportResponse.setRecordsMap(recordsMap);
         OrderImportReportLogHandler orderImportReportLogHandler = OrderImportReportLogHandler.getInstance();
+
+        oleNGOrderImportResponse = mergeResponse(oleNGOrderImportResponse, exchange);
         orderImportReportLogHandler.logMessage(oleNGOrderImportResponse,reportDirectoryName);
+        clearMarcRecordObjects(oleNGOrderImportResponse);
+        exchange.add(OleNGConstants.ORDER_RESPONSE, oleNGOrderImportResponse);
+        exchange.remove(OleNGConstants.FAILURE_RESPONSE);
 
         OleNgBatchResponse oleNgBatchResponse = new OleNgBatchResponse();
         oleNgBatchResponse.setResponse(response);
@@ -327,5 +333,33 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             operationIndMap.put("Create neither a Requisition nor a PO", "3");
         }
         return operationIndMap;
+    }
+
+    private OleNGOrderImportResponse mergeResponse(OleNGOrderImportResponse newResponseObject, org.kuali.ole.Exchange exchange) {
+        OleNGOrderImportResponse oldResponseObject = (OleNGOrderImportResponse) exchange.get(OleNGConstants.ORDER_RESPONSE);
+        if(null == oldResponseObject) {
+            return newResponseObject;
+        }
+        return mergeBibImportResponse(oldResponseObject, newResponseObject);
+    }
+
+    private OleNGOrderImportResponse mergeBibImportResponse(OleNGOrderImportResponse oldOleNGOrderImportResponse, OleNGOrderImportResponse newOleNGOrderImportResponse) {
+        oldOleNGOrderImportResponse.getRequisitionIds().addAll(newOleNGOrderImportResponse.getRequisitionIds());
+        oldOleNGOrderImportResponse.getOrderFailureResponses().addAll(newOleNGOrderImportResponse.getOrderFailureResponses());
+        oldOleNGOrderImportResponse.getReqOnlyResponses().addAll(newOleNGOrderImportResponse.getReqOnlyResponses());
+        oldOleNGOrderImportResponse.getReqAndPOResponses().addAll(newOleNGOrderImportResponse.getReqAndPOResponses());
+        oldOleNGOrderImportResponse.getNoReqNorPOResponses().addAll(newOleNGOrderImportResponse.getNoReqNorPOResponses());
+
+        oldOleNGOrderImportResponse.setRecordsMap(newOleNGOrderImportResponse.getRecordsMap());
+
+        oldOleNGOrderImportResponse.setMatchedCount(oldOleNGOrderImportResponse.getMatchedCount() + newOleNGOrderImportResponse.getMatchedCount());
+        oldOleNGOrderImportResponse.setUnmatchedCount(oldOleNGOrderImportResponse.getUnmatchedCount() + newOleNGOrderImportResponse.getUnmatchedCount());
+        oldOleNGOrderImportResponse.setMultiMatchedCount(oldOleNGOrderImportResponse.getMultiMatchedCount() + newOleNGOrderImportResponse.getMultiMatchedCount());
+
+        return  oldOleNGOrderImportResponse;
+    }
+
+    private void clearMarcRecordObjects(OleNGOrderImportResponse oleNGOrderImportResponse) {
+        oleNGOrderImportResponse.getRecordsMap().clear();
     }
 }

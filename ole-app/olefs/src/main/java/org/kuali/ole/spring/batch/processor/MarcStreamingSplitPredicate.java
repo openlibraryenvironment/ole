@@ -18,8 +18,9 @@ public class MarcStreamingSplitPredicate implements Predicate {
 
     public boolean matches(Exchange exchange) {
 
-        if (exchange.getProperty("CamelSplitComplete") != null && Boolean.TRUE
-                .equals(exchange.getProperty("CamelSplitComplete"))) {
+        Object camelSplitComplete = exchange.getProperty("CamelSplitComplete");
+        if (camelSplitComplete != null && Boolean.TRUE
+                .equals(camelSplitComplete)) {
             System.out.println("Processing End Of File: " + exchange.getProperty("CamelFileExchangeFile"));
             return true;
         }

@@ -17,7 +17,7 @@ batchProcessAPP.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 batchProcessAPP.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function($scope,file, profileName,batchType, uploadUrl){
+    this.uploadFileToUrl = function ($scope, file, profileName, batchType, uploadUrl) {
         var fd = new FormData();
         fd.append('file', file);
         fd.append('profileName', profileName);
@@ -26,14 +26,27 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
         angular.element(document.getElementById('profileName'))[0].disabled = true;
-        doPostRequestWithMultiPartData($scope, $http, uploadUrl, fd, function(response){
-                var data = response.data;
-                var totalTime = data.processTime;
-                var report = "Job successfully completed.\nTotal time taken : " +totalTime;
-                $scope.batchProcessStatus = report;
-            }, function(){
-                $scope.batchProcessStatus = "Job failed.";
-            });
+        doPostRequestWithMultiPartData($scope, $http, uploadUrl, fd, function (response) {
+            var data = response.data;
+            var filePathName = data.filePathName;
+            var interval = setInterval(function(){
+                doGetRequest($scope, $http, OLENG_CONSTANTS.BATCH_STATUS, {"filePathName": filePathName}, function (response) {
+                    var data = response.data;
+                    var status = data.status;
+                    if(status === 'COMPLETED') {
+                        var totalTime = data.timeSpent;
+                        var report = "Job successfully completed.\nTotal time taken : " + totalTime;
+                        $scope.batchProcessStatus = report;
+                        clearInterval(interval);
+                    }else if(status === 'COMPLETED') {
+                        $scope.batchProcessStatus = "Job failed.";
+                        clearInterval(interval);
+                    }
+                });
+            }, 3000);
+        }, function () {
+            $scope.batchProcessStatus = "Job failed.";
+        });
     }
 }]);
 

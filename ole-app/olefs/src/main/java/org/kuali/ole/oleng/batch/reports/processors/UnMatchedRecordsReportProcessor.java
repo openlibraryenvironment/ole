@@ -13,7 +13,7 @@ public class UnMatchedRecordsReportProcessor extends OleNGReportProcessor {
         OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse)object;
         if(CollectionUtils.isNotEmpty(oleNGBibImportResponse.getUnmatchedRecords())) {
             String unmatchedMarcRawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(oleNGBibImportResponse.getUnmatchedRecords());
-            logMessage(directoryToWrite,  oleNGBibImportResponse.getBibImportProfileName() + "-UnMatched","mrc", unmatchedMarcRawContent);
+            logMessage(directoryToWrite,  oleNGBibImportResponse.getBibImportProfileName() + "-UnMatched","mrc", unmatchedMarcRawContent, true);
         }
     }
 }

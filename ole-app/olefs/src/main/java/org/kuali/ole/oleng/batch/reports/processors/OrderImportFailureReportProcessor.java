@@ -30,19 +30,21 @@ public class OrderImportFailureReportProcessor extends OleNGReportProcessor {
                     Integer index = orderFailureResponse.getIndex();
                     if(null != index) {
                         RecordDetails recordDetails = recordsMap.get(index);
-                        Record record = recordDetails.getRecord();
-                        if (null != record) {
-                            marcRecords.add(record);
+                        if (null != recordDetails) {
+                            Record record = recordDetails.getRecord();
+                            if (null != record) {
+                                marcRecords.add(record);
+                            }
                         }
                     }
                 }
             }
             if(CollectionUtils.isNotEmpty(marcRecords)) {
                 String failedMarcContent = marcRecordUtil.convertMarcRecordListToRawMarcContent(marcRecords);
-                logMessage(directoryToWrite, "Order-FailedMarcRecords", "mrc", failedMarcContent);
+                logMessage(directoryToWrite, "Order-FailedMarcRecords", "mrc", failedMarcContent, true);
             }
             String orderFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(orderFailureResponses);
-            logMessage(directoryToWrite, "Order-FailureMessages", "txt", orderFailureMessage);
+            logMessage(directoryToWrite, "Order-FailureMessages", "txt", orderFailureMessage, false);
         }
     }
 }

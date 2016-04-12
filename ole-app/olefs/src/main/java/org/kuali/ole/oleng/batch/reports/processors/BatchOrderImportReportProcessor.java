@@ -9,6 +9,6 @@ public class BatchOrderImportReportProcessor extends OleNGReportProcessor{
 
     public void process(Object object, String directoryToWrite) throws Exception {
         String message = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(object);
-        logMessage(directoryToWrite, "OrderImport","txt", message);
+        logMessage(directoryToWrite, "OrderImport","txt", message, false);
     }
 }
