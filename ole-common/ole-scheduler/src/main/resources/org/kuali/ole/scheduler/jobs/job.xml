@@ -13,6 +13,13 @@
     <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype" />
     <bean id="itemProcessor" class="org.kuali.ole.batchxml.CustomItemProcessor"/>
 
+    <bean class="org.kuali.ole.batchxml.BatchProcessProfile" >
+        <property name="batchProcessProfileName" value="Profile 1" />
+        <property name="batchProcessProfileId" value="55" />
+        <property name="batchProcessType" value="Bib Import" />
+        <property name="content" value="asdsadsadsad" />
+    </bean>
+
     <bean id="exampleJobCron1" class="org.kuali.ole.batchxml.Cron">
         <property name="jobId" value="exampleJob" />
         <property name="cronPattern" value="0 1 * * * *" />
