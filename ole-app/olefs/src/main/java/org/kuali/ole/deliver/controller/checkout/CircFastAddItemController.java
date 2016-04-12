@@ -118,7 +118,19 @@ public class CircFastAddItemController extends CircBaseController {
             bibTree.setBib(bib);
             bibTree.getHoldingsTrees().add(holdingsTree);
 
-            NewDocstoreClientLocator.getInstance().getDocstoreClient(true).createBibTree(bibTree);
+            try {
+                NewDocstoreClientLocator.getInstance().getDocstoreClient(true).createBibTree(bibTree);
+                if(circForm.getViewId().equals("fastAddView")){
+                circForm.setLightboxScript("submitForm('returnToDeliverTab',null,null,null,null);");
+                }else{
+                circForm.setLightboxScript("jq.fancybox.close();submitForm('refresh',null,null,null,null);");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                String script = "jq('#fastAddItemErrorMessage').attr('style','display:inline');jq('#fastAddItemErrorMessage').focus();";
+                circForm.setLightboxScript(script);
+                return getUIFModelAndView(circForm);
+            }
 
             if (item.getLocation() != null) {
                 String location = getInstanceEditorFormDataHandler().getLocationCode(item.getLocation().getLocationLevel());
