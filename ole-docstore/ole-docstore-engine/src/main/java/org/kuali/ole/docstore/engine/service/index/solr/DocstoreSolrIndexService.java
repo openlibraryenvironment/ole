@@ -404,8 +404,10 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
                 Set<String> resultField = solrDocMap.keySet();
                 for (Iterator<String> iterator1 = resultField.iterator(); iterator1.hasNext(); ) {
                     String key = iterator1.next();
-                    Object value = solrDocMap.get(key);
-                    solrInputDocument.addField(key, value);
+                    if (!key.equalsIgnoreCase("_​version_​")) {
+                        Object value = solrDocMap.get(key);
+                        solrInputDocument.addField(key, value);
+                    }
                 }
             }
         }
