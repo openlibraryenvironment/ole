@@ -565,12 +565,16 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     }
 
     public List<OleDeliverRequestHistoryRecord> getExpiredRequest(String itemId, Date loanCreatedDate) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(OLEConstants.OleDeliverRequest.ITEM_ID, itemId);
-        criteria.addEqualTo(OLEConstants.OleDeliverRequest.REQUEST_OUTCOME_STATUS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
-        criteria.addBetween(OLEConstants.ARCHIVE_DATE, loanCreatedDate, new Timestamp(System.currentTimeMillis()));
-        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestHistoryRecord.class, criteria);
-        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = (List<OleDeliverRequestHistoryRecord>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<>();
+        if(loanCreatedDate != null) {
+            Criteria criteria = new Criteria();
+            criteria.addEqualTo(OLEConstants.OleDeliverRequest.ITEM_ID, itemId);
+            criteria.addEqualTo(OLEConstants.OleDeliverRequest.REQUEST_OUTCOME_STATUS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+            java.sql.Date loanCreateDate = new java.sql.Date(loanCreatedDate.getTime());
+            criteria.addBetween(OLEConstants.ARCHIVE_DATE, loanCreateDate, new java.sql.Date(System.currentTimeMillis()));
+            QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestHistoryRecord.class, criteria);
+            oleDeliverRequestHistoryRecords = (List<OleDeliverRequestHistoryRecord>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        }
         return oleDeliverRequestHistoryRecords;
     }
 }
