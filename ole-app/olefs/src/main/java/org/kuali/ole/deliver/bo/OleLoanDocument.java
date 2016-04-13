@@ -2149,7 +2149,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public Boolean isItemHasRequest() {
         Map<String, String> requestHistoryMap = new HashMap<>();
-        if(StringUtils.isNotBlank(this.itemId) && this.createDate != null) {
+        if(StringUtils.isNotBlank(this.itemId)) {
             requestHistoryMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, this.itemId);
             List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestHistoryMap);
             if(CollectionUtils.isNotEmpty(oleDeliverRequestBoList)) {
