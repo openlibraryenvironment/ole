@@ -18,7 +18,7 @@ public class RequestNoticeDAO extends LoanHistoryDAO {
         }else{
             distinctQueryPart = "nvl2(RQST_ID,RQST_ID,0)";
         }
-        String query = "SELECT OLE_RQST_ID FROM OLE_DLVR_RQST_T WHERE OLE_RQST_ID NOT IN (SELECT "+distinctQueryPart+" FROM OLE_DLVR_LOAN_NOTICE_T) AND OLE_RQST_TYP_ID IN ('2','4','6');";
+        String query = "SELECT OLE_RQST_ID FROM OLE_DLVR_RQST_T WHERE OLE_RQST_ID NOT IN (SELECT "+distinctQueryPart+" FROM OLE_DLVR_LOAN_NOTICE_T) AND OLE_RQST_TYP_ID IN ('2','4','6')";
         List requestIds = new ArrayList();
         List<Map<String, Object>> queryForList = executeQuery(query);
         for (Iterator<Map<String, Object>> iterator = queryForList.iterator(); iterator.hasNext(); ) {
