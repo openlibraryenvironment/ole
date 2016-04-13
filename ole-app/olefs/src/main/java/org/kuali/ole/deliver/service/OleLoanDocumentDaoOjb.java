@@ -582,4 +582,13 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return CollectionUtils.isNotEmpty(oleDeliverRequestBoList) ? oleDeliverRequestBoList.get(0) : null;
     }
 
+    public List<OleDeliverRequestBo> getAllRequests(List<String> requestIds){
+        Criteria criteria = new Criteria();
+        QueryByCriteria getAllRequestsQuery = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria, true);
+        criteria.addColumnIn("ole_rqst_id",requestIds);
+        getAllRequestsQuery.addOrderBy("borrowerId");
+        return (List<OleDeliverRequestBo>)getPersistenceBrokerTemplate().getCollectionByQuery
+                (getAllRequestsQuery);
+    }
+
 }
