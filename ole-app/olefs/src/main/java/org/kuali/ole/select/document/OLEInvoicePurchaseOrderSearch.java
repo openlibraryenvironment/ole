@@ -3,6 +3,8 @@ package org.kuali.ole.select.document;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: gayathria
@@ -24,6 +26,8 @@ public class OLEInvoicePurchaseOrderSearch extends PersistableBusinessObjectBase
     private String author;
     private String isbn;
     private String vendorName;
+    private Date poDateFrom;
+    private Date poDateTo;
 
     public String getVendorNumber() {
         return vendorNumber;
@@ -113,5 +117,19 @@ public class OLEInvoicePurchaseOrderSearch extends PersistableBusinessObjectBase
         this.isbn = isbn;
     }
 
+    public Date getPoDateFrom() {
+        return poDateFrom;
+    }
 
+    public void setPoDateFrom(Date poDateFrom) {
+        this.poDateFrom = poDateFrom;
+    }
+
+    public Date getPoDateTo() {
+        return poDateTo;
+    }
+
+    public void setPoDateTo(Date poDateTo) {
+        this.poDateTo = poDateTo;
+    }
 }

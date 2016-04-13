@@ -137,7 +137,7 @@ public class OLEInvoiceController_IT extends KualiTestBase {
         if(purchaseOrderDocumentList != null && purchaseOrderDocumentList.size()>0){
             oleInvoiceDocument.getPurchaseOrderDocuments().add(purchaseOrderDocumentList.get(0));
         }
-        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument);
+        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument, purchaseOrderDocumentList);
 
         modelAndView = mockOleInvoiceController.route(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
@@ -179,7 +179,7 @@ public class OLEInvoiceController_IT extends KualiTestBase {
         if(purchaseOrderDocumentList != null && purchaseOrderDocumentList.size()>0){
             oleInvoiceDocument.getPurchaseOrderDocuments().add(purchaseOrderDocumentList.get(0));
         }
-        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument);
+        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument, purchaseOrderDocumentList);
         modelAndView = mockOleInvoiceController.blanketApprove(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
         businessObjectService.save(oleInvoiceDocument);

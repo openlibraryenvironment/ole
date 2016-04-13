@@ -686,7 +686,7 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean id= "ProcessItemsLink" parent="Uif-ActionLink" p:actionLabel="Process Items"
+		      			<bean id= "ProcessItemsLink" parent="Uif-ActionLink" p:actionLabel="Titles"
 			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh" p:ajaxSubmit="true" p:successCallback="removeDollarSymbol();">
 		      				<property name="additionalSubmitData">
 		      					<map>
