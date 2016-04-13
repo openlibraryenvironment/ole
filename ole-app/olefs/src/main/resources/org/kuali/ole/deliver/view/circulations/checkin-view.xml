@@ -57,6 +57,7 @@
                 <bean id="checkinRouteToDialog" parent="routeToDialog"/>
                 <bean id="checkinLocationPopupMsg" parent="checkinLocationPopup"/>
                 <bean id="checkinLostItemDialogMsg" parent="checkinLostItemDialog"/>
+                <bean id="checkinLostItemWithBillDialogMsg" parent="checkinLostItemWithBillDialog"/>
             </list>
         </property>
 
