@@ -577,4 +577,10 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         }
         return oleDeliverRequestHistoryRecords;
     }
+
+    public List<OleCirculationHistory> getReturnedItem(Criteria criteria) {
+        QueryByCriteria query = QueryFactory.newQuery(OleCirculationHistory.class, criteria);
+        List<OleCirculationHistory>  results = ( List<OleCirculationHistory> )getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
 }
