@@ -3593,6 +3593,7 @@ public class OLEConstants {
     public static final String OLE_LOAN_DAO = "oleLoanDao";
     public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
     public static final String LOAN_HISTORY_DAO = "loanHistoryDAO";
+    public static final String REQUEST_NOTICE_DAO="requestNoticeDAO";
     public static final String POBA_DIRECTORY = "poba";
     public static final String SUCCESSFULLEY_UPLOADED = "success.file.upload";
 

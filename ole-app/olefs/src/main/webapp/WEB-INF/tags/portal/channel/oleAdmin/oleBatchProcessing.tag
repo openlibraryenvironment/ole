@@ -40,7 +40,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/oleNoticeController?viewId=OleNoticeView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Update Circ Histoy Table For Existing Loans"
                        url="${ConfigProperties.application.url}/ole-kr-krad/loanHistoryUpdateController?viewId=LoanHistoryUpdateView&methodToCall=start"/> <br/>
-
+    <portal:portalLink displayTitle="true" title="Update Notice Table For Existing Hold Requests"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/requestNoticeUpdateController?viewId=RequestNoticeUpdateView&methodToCall=start"/> <br/>
 
 
 

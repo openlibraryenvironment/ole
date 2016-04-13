@@ -128,6 +128,7 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     <bean id="loanHistoryDAO" parent="loanWithNoticesDAO" class="org.kuali.ole.deliver.service.LoanHistoryDAO"/>
+    <bean id="requestNoticeDAO" parent="loanHistoryDAO" class="org.kuali.ole.deliver.service.RequestNoticeDAO"/>
     <bean id="oleDeliverNoticeHelperService" class="org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl">
         <property name="loanProcessor" ref="loanProcessor"/>
         <property name="businessObjectService" ref="businessObjectService"/>
