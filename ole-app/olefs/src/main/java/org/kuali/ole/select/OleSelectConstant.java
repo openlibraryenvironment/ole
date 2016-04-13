@@ -346,7 +346,7 @@ public class OleSelectConstant {
     public static final String ERROR_SUBSCIPTION_FROM_DATE_REQUIRED = "error.subscription.from.date.required";
     public static final String ERROR_SUBSCIPTION_TO_DATE_REQUIRED = "error.subscription.to.date.required";
     public static final String ERROR_SUBSCIPTION_FROM_DATE_GREATER_THAN_TO_DATE = "error.subscription.from.date.greater.than.to.date";
-    public static final String ERROR_NO_PO_WILD_CARD_SEARCH = "error.no.po.wild.card.search";
+    public static final String ERROR_PO_INVALID_FORMAT = "error.po.invalid.format";
 
     //Added for Requestor Phone Number Validation
     public static final String REQUESTOR_PERSON_PHONE_NUMBER = "requestorPersonPhoneNumber";

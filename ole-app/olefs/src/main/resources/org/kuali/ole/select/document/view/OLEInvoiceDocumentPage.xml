@@ -7,14 +7,19 @@
                 <bean id="OleInvoice_POLookup" parent="Uif-InputField" p:propertyName="poId" p:label="Purchase Order  " >
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch"
-                              p:fieldConversions="vendorNumber:vendorNumber,purapDocumentIdentifier:poId" p:lookupParameters="vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,vendorName:vendorName"/>
+                              p:fieldConversions="vendorNumber:vendorNumber,purapDocumentIdentifier:poId" p:lookupParameters="vendorId:vendorName,poId:purapDocumentIdentifier"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                        <bean parent="Uif-TextControl" p:size="50"/>
+                    </property>
+                </bean>
+                <bean id="OleInvoice_addImmediately" parent="Uif-InputField" p:propertyName="addImmediately" p:label="Add Immediately">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
                 <bean id="addProcessItem-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addProcessItem"
-                	p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" p:successCallback="removeDollarSymbolsForProcessItem()" />
+                	p:actionLabel="add"  p:hidden="true" p:refreshId="OLEInvoiceView-processItems-Wrapper" p:successCallback="removeDollarSymbolsForProcessItem()" />
                 	<!--  p:ajaxSubmit="true"
                 	p:successCallback="toggleCollapseAllSections()"/ -->
             </list>
@@ -22,7 +27,7 @@
     </bean>
 
     <bean id="OleInvoiceView-POItems" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false"  p:style="width:auto">
-        <property name="headerText" value="Process Titles"/>
+        <property name="headerText" value="Purchase Orders eligible to add"/>
         <property name="items">
             <list>
                 <bean  id="OLEInvoiceView-processItems-purchaseOrderDocuments"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
@@ -163,7 +168,7 @@
 		p:fieldBindingObjectPath="purchaseOrderDocuments" p:renderLineActions="false" p:RenderInactiveToggleButton="false"
  		p:renderAddLine="false">
 		<property name="propertyName" value="items" />
-		<property name="header.headerText" value="Current Items" />
+		<property name="header.headerText" value="Line items eligible to add" />
 		<property name="collectionObjectClass"
 			value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
 		<property name="layoutManager">
@@ -336,7 +341,7 @@
 		</property>
 		<property name="header">
 			<bean parent="Uif-SubCollectionHeader">
-				<property name="headerText" value="Current Items" />
+				<property name="headerText" value="Line items added to invoice" />
 				<property name="lowerGroup">
 					<bean parent="Uif-InactiveItemsActionsGroup" />
 				</property>

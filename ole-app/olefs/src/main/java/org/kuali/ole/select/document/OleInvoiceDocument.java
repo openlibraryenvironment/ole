@@ -180,6 +180,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
         return blanketApproveFlag;
     }
     private boolean currencyTypeIndicator = true;
+    private boolean addImmediately;
 
     public void setBlanketApproveFlag(boolean blanketApproveFlag) {
         this.blanketApproveFlag = blanketApproveFlag;
@@ -2810,5 +2811,13 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setCurrencyFormat(String currencyFormat) {
         this.currencyFormat = currencyFormat;
+    }
+
+    public boolean isAddImmediately() {
+        return addImmediately;
+    }
+
+    public void setAddImmediately(boolean addImmediately) {
+        this.addImmediately = addImmediately;
     }
 }
