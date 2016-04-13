@@ -3832,4 +3832,7 @@ public class OLEConstants {
     public static final String CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED="CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED";
     public static final String ERROR_CIRC_DESK_REQUIRED = "error.circulation.desk.required";
     public static final String FORGIVE_LOST_FEES = "FORGIVE_LOST_FEES";
+    public static final String ERROR_FROM_DATE = "error.from.date";
+    public static final String ERROR_TO_DATE = "error.to.date";
+    public static final String REPLACMENT_FEE="REPL_FEE";
 }

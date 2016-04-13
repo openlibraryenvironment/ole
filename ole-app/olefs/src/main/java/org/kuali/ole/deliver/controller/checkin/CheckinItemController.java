@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.controller.checkin;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.FeeType;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.OLEUifControllerBase;
@@ -12,6 +13,7 @@ import org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
+import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.deliver.util.OleItemRecordForCirc;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -108,7 +110,6 @@ public class CheckinItemController extends OLEUifControllerBase {
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         CheckinForm checkinForm = (CheckinForm) form;
         checkinForm.setDroolsExchange(null);
-
         DroolsResponse droolsResponse = getCheckinUIController(checkinForm).checkin(checkinForm);
 
         if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
@@ -132,6 +133,35 @@ public class CheckinItemController extends OLEUifControllerBase {
         }
         return getUIFModelAndView(checkinForm);
     }
+
+    @RequestMapping(params = "methodToCall=processLostItemWithBill")
+    public ModelAndView processLostItemWithBill(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CheckinForm checkinForm = (CheckinForm) form;
+
+        DroolsResponse droolsResponse = getCheckinUIController(checkinForm).
+                preValidationForLostItemWithReplacementBill((ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), checkinForm);
+
+        if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
+            postCheckinProcess(checkinForm, result, request, response);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST_REPLACEMENT_BILL)) {
+            handleLostItemWithBillProcess(request, response, checkinForm, droolsResponse);
+        }
+        else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
+            handleDamagedItemProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
+            handleClaimsReturnedProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
+            handleMissingPieceProcess(request, response, checkinForm, droolsResponse);
+        } else if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKIN_REQUEST_EXITS_FOR_THIS_ITEM)) {
+            handleCheckinRequestExistsProcess(request, response, checkinForm, droolsResponse);
+        }
+        if (StringUtils.isBlank(checkinForm.getLightboxScript())) {
+            checkinForm.setLightboxScript("jq('#checkIn-Item_control').focus(); validateCheckInDate();");
+        }
+        return getUIFModelAndView(checkinForm);
+    }
+
 
     @RequestMapping(params = "methodToCall=processDamaged")
     public ModelAndView processDamaged(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -535,6 +565,11 @@ public class CheckinItemController extends OLEUifControllerBase {
         checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
         checkinForm.setRecordNoteForClaimsReturn(true);
         showDialog("checkinClaimsReturnDialog", checkinForm, request, response);
+    }
+    private void handleLostItemWithBillProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {
+        checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
+        checkinForm.setRecordNoteForLostItemWithBill(true);
+        showDialog("checkinLostItemWithBillDialogMsg", checkinForm, request, response);
     }
 
     private void handleDamagedItemProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {

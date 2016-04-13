@@ -15,6 +15,9 @@
     <portal:portalLink displayTitle="true" title="Claimed Returned Items"
                        url="${ConfigProperties.application.url}/ole-kr-krad/claimedReturnedItemsController?viewId=OLEClaimedReturnedItemsView&methodToCall=start"/> <br/>
 
+    <portal:portalLink displayTitle="true" title="Lost & Returned Item Search"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/returnedLostItemController?viewId=OLEReturnedItemSearchView&methodToCall=start"/> <br/>
+
     </br>
 
 </div>

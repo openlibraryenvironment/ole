@@ -188,6 +188,13 @@ public abstract class CheckinBaseController extends CircUtilController {
         DroolsResponse droolsResponse;
         droolsResponse = checkForLostItem(itemRecord);
         if (droolsResponse != null) return droolsResponse;
+        return preValidationForLostItemWithReplacementBill(itemRecord, oleForm);
+    }
+
+    public DroolsResponse preValidationForLostItemWithReplacementBill(ItemRecord itemRecord, OLEForm oleForm) {
+        DroolsResponse droolsResponse;
+        droolsResponse = checkForLostItemWithReplacemntBill(itemRecord);
+        if (droolsResponse != null) return droolsResponse;
         return preValidationForDamaged(itemRecord, oleForm);
     }
 
@@ -496,7 +503,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_MISSING_PIECE);
             droolsResponse.addErrorMessage(OLEConstants.VERIFY_PIECES + itemRecord.getNumberOfPieces() + OLEConstants.PIECES_RETURNED + OLEConstants.BREAK + "Total No of Pieces :      "
-                    + itemRecord.getNumberOfPieces() + OLEConstants.BREAK +"Description Of Pieces : " + (StringUtils.isNotBlank(itemRecord.getDescriptionOfPieces()) ? itemRecord.getDescriptionOfPieces() : "") + OLEConstants.BREAK + "No of missing Pieces : " + (itemRecord.getMissingPiecesCount() != null ? itemRecord.getMissingPiecesCount() : "0"));
+                    + itemRecord.getNumberOfPieces() + OLEConstants.BREAK + "Description Of Pieces : " + (StringUtils.isNotBlank(itemRecord.getDescriptionOfPieces()) ? itemRecord.getDescriptionOfPieces() : "") + OLEConstants.BREAK + "No of missing Pieces : " + (itemRecord.getMissingPiecesCount() != null ? itemRecord.getMissingPiecesCount() : "0"));
             return droolsResponse;
         }
         return null;
@@ -566,6 +573,25 @@ public abstract class CheckinBaseController extends CircUtilController {
         }
         return null;
     }
+
+    private DroolsResponse checkForLostItemWithReplacemntBill(ItemRecord itemRecord) {
+
+        String itemStatus = itemRecord.getItemStatusRecord().getCode();
+        if (StringUtils.isNotBlank(itemStatus) && itemStatus.equals(OLEConstants.ITEM_STATUS_LOST)) {
+            Map feeTypeMap = new HashMap();
+            feeTypeMap.put("itemBarcode",itemRecord.getBarCode());
+            feeTypeMap.put("oleFeeType.feeTypeCode",OLEConstants.REPLACMENT_FEE);
+            List<FeeType> feeTypes = (List<FeeType>)getBusinessObjectService().findMatching(FeeType.class,feeTypeMap);
+            if(feeTypes.size() > 0) {
+                DroolsResponse droolsResponse = new DroolsResponse();
+                droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_LOST_REPLACEMENT_BILL);
+                droolsResponse.addErrorMessage("The selected item is already billed as Lost");
+                return droolsResponse;
+            }
+        }
+        return null;
+    }
+
 
     public void updateReturnHistory(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
         if(oleItemRecordForCirc != null) {

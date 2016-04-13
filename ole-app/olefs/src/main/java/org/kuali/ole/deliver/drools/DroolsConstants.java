@@ -156,6 +156,7 @@ public class DroolsConstants {
     public static final String GENERAL_INFO = "GENERAL_INFO";
     public static final String ITEM_DAMAGED = "damaged-item";
     public static final String ITEM_LOST = "lost-item";
+    public static final String ITEM_LOST_REPLACEMENT_BILL = "lost-item-replacement-bill";
 
     public static final String ITEM_CLAIMS_RETURNED = "claims-returned-item";
     public static final String ITEM_MISSING_PIECE = "missing-piece-item";

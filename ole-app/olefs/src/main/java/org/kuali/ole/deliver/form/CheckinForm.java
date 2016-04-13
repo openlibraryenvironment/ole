@@ -29,6 +29,7 @@ public class CheckinForm extends OLEForm {
     private boolean recordNoteForClaimsReturn;
     private boolean itemFoundInLibrary;
     private boolean recordNoteForDamagedItem;
+    private boolean recordNoteForLostItemWithBill;
     private boolean recordNoteForMissingPiece;
 
     private String missingPieceMatchCheck;
@@ -89,6 +90,7 @@ public class CheckinForm extends OLEForm {
         this.itemFoundInLibrary = false;
         this.recordNoteForDamagedItem = false;
         this.recordNoteForMissingPiece = false;
+        this.recordNoteForLostItemWithBill = false;
     }
 
     public String getItemBarcode() {
@@ -274,5 +276,13 @@ public class CheckinForm extends OLEForm {
 
     public void setItemFoundInLibrary(boolean itemFoundInLibrary) {
         this.itemFoundInLibrary = itemFoundInLibrary;
+    }
+
+    public boolean isRecordNoteForLostItemWithBill() {
+        return recordNoteForLostItemWithBill;
+    }
+
+    public void setRecordNoteForLostItemWithBill(boolean recordNoteForLostItemWithBill) {
+        this.recordNoteForLostItemWithBill = recordNoteForLostItemWithBill;
     }
 }
