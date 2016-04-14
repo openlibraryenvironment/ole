@@ -78,32 +78,34 @@ public abstract class BatchFileProcessor extends BatchUtil {
                 OleNgBatchResponse oleNgBatchResponse = processRecords(null, batchProcessTxObject, batchProcessProfile);
                 int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
                 batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
+                updateBatchJobDetails(batchJobDetails,OleNGConstants.COMPLETED);
                 responseData = oleNgBatchResponse.getResponse();
                 response.put(OleNGConstants.STATUS, true);
-                updateBatchJobDetails(batchJobDetails);
                 OleStopWatch oleStopWatch = batchProcessTxObject.getOleStopWatch();
                 oleStopWatch.end();
                 String totalTimeTaken = String.valueOf(oleStopWatch.getTotalTime()) + "ms";
                 writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), OleNGConstants.COMPLETED, totalTimeTaken);
             }
         } catch (Exception e) {
-            updateBatchJobDetails(batchJobDetails);
+            updateBatchJobDetails(batchJobDetails,OleNGConstants.FAILED);
+            writeBatchRunningStatusToFile(inputFileDirectoryPath.getAbsolutePath(), OleNGConstants.FAILED, null);
             BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
             batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
             batchProcessFailureResponse.setResponseData(responseData);
             batchProcessFailureResponse.setFailureReason(e.toString());
-            //batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
+//            batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
+            batchProcessFailureResponse.setDetailedMessage(getDetailedMessage(e));
             batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
-            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();;
-            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse,reportDirectoryName);
+            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
+            batchBibFailureReportLogHandler.logMessage(Collections.singletonList(batchProcessFailureResponse),reportDirectoryName);
             throw e;
         }
         return response;
     }
 
-    private void updateBatchJobDetails(BatchJobDetails batchJobDetails) {
+    private void updateBatchJobDetails(BatchJobDetails batchJobDetails, String status) {
         if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
-            batchJobDetails.setStatus(OleNGConstants.FAILED);
+            batchJobDetails.setStatus(status);
             getBusinessObjectService().save(batchJobDetails);
         }
     }

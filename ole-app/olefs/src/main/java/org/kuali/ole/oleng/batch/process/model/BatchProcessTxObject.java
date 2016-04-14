@@ -1,9 +1,13 @@
 package org.kuali.ole.oleng.batch.process.model;
 
 import org.kuali.ole.Exchange;
+import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.ole.utility.OleStopWatch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SheikS on 4/5/2016.
@@ -21,6 +25,7 @@ public class BatchProcessTxObject {
     private int totalNumberOfRecords;
     private int numberOfFailurRecords;
     private boolean exceptionCaught;
+    private List<BatchProcessFailureResponse> batchProcessFailureResponses;
 
     public String getFileExtension() {
         return fileExtension;
@@ -125,5 +130,16 @@ public class BatchProcessTxObject {
 
     public void setExceptionCaught(boolean exceptionCaught) {
         this.exceptionCaught = exceptionCaught;
+    }
+
+    public List<BatchProcessFailureResponse> getBatchProcessFailureResponses() {
+        if(null == batchProcessFailureResponses) {
+            batchProcessFailureResponses = new ArrayList<>();
+        }
+        return batchProcessFailureResponses;
+    }
+
+    public void setBatchProcessFailureResponses(List<BatchProcessFailureResponse> batchProcessFailureResponses) {
+        this.batchProcessFailureResponses = batchProcessFailureResponses;
     }
 }

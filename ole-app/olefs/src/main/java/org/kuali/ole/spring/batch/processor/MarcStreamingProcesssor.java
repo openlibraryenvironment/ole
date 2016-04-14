@@ -6,8 +6,11 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.marc4j.MarcReader;
@@ -33,6 +36,7 @@ public class MarcStreamingProcesssor implements Processor {
     private MarcXMLConverter marcXMLConverter;
     private BatchProcessTxObject batchProcessTxObject;
     private UserSession userSession;
+    private BatchUtil batchUtil;
 
     public MarcStreamingProcesssor(BatchProcessTxObject batchProcessTxObject, UserSession userSession) {
         this.batchProcessTxObject = batchProcessTxObject;
@@ -41,6 +45,7 @@ public class MarcStreamingProcesssor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        BatchProcessProfile batchProcessProfile = batchProcessTxObject.getBatchProcessProfile();
         try {
             System.out.println("Batch : " + batchCount);
             GlobalVariables.setUserSession(userSession);
@@ -60,7 +65,7 @@ public class MarcStreamingProcesssor implements Processor {
             date = new Date();
             Map<Integer, RecordDetails> recordDetailsMap = getRecordDetailsMap(stringBuilder.toString());
             OleNgBatchResponse oleNgBatchResponse = batchProcessTxObject.getBatchFileProcessor().processRecords(recordDetailsMap, batchProcessTxObject,
-                    batchProcessTxObject.getBatchProcessProfile());
+                    batchProcessProfile);
             batchProcessTxObject.setTotalNumberOfRecords(batchProcessTxObject.getTotalNumberOfRecords() + recordDetailsMap.size());
             batchProcessTxObject.setNumberOfFailurRecords(batchProcessTxObject.getNumberOfFailurRecords() + oleNgBatchResponse.getNoOfFailureRecord());
             System.out.println(recordDetailsMap.size());
@@ -69,9 +74,12 @@ public class MarcStreamingProcesssor implements Processor {
             e.printStackTrace();
             exchange.setException(e);
             batchProcessTxObject.setExceptionCaught(true);
+            BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
+            batchProcessFailureResponse.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
+            batchProcessFailureResponse.setFailureReason(e.toString());
+            batchProcessFailureResponse.setDetailedMessage(getBatchUtil().getDetailedMessage(e));
+            batchProcessTxObject.getBatchProcessFailureResponses().add(batchProcessFailureResponse);
             throw e;
-        } finally {
-
         }
     }
 
@@ -100,5 +108,12 @@ public class MarcStreamingProcesssor implements Processor {
             marcXMLConverter = new MarcXMLConverter();
         }
         return marcXMLConverter;
+    }
+
+    public BatchUtil getBatchUtil() {
+        if(null == batchUtil) {
+            batchUtil = new BatchUtil();
+        }
+        return batchUtil;
     }
 }

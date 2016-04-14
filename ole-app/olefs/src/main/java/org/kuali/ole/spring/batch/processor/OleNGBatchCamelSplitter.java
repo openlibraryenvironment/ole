@@ -6,6 +6,7 @@ import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
+import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -51,6 +52,12 @@ public class OleNGBatchCamelSplitter extends Splitter {
                 batchJobDetails.setTotalFailureRecords(String.valueOf(batchProcessTxObject.getNumberOfFailurRecords()));
                 if(batchProcessTxObject.isExceptionCaught()) {
                     batchJobDetails.setStatus(OleNGConstants.FAILED);
+                    try {
+                        BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
+                        batchBibFailureReportLogHandler.logMessage(batchProcessTxObject.getBatchProcessFailureResponses(),batchProcessTxObject.getReportDirectoryName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     batchJobDetails.setStatus(OleNGConstants.COMPLETED);
                 }
