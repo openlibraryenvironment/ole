@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLETranscationalRecordGenerator;
 import org.kuali.ole.converter.OLEINVConverter;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
@@ -9,6 +10,7 @@ import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,20 +31,21 @@ public class InvoiceImportHelperUtil extends BusinessObjectServiceHelperUtil {
     }
 
     public List<INVOrder> readEDIContent(String rawContent) {
-        List<INVOrder> invOrders = null;
-        try {
-            String xmlContent = getOleInvConverter().convertToXML(rawContent);
-            INVOrders invOrderObject = null;
-            if (xmlContent != null) {
-                invOrderObject = getOleTranscationalRecordGenerator().fromInvoiceXml(xmlContent);
-                invOrders = invOrderObject.getInvOrder();
+        List<INVOrder> invOrders =new ArrayList<>();
+        if (StringUtils.isNotBlank(rawContent)) {
+            try {
+                String xmlContent = getOleInvConverter().convertToXML(rawContent);
+                INVOrders invOrderObject = null;
+                if (xmlContent != null) {
+                    invOrderObject = getOleTranscationalRecordGenerator().fromInvoiceXml(xmlContent);
+                    invOrders = invOrderObject.getInvOrder();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
         }
-
         return invOrders;
 
     }

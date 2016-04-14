@@ -3,21 +3,28 @@ package org.kuali.ole.spring.batch.processor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OleCamelContext;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.FailureResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.spring.batch.BatchUtil;
+import org.kuali.ole.spring.batch.util.MarcStreamingUtil;
+import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.marc4j.MarcReader;
@@ -27,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,47 +51,79 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private MarcXMLConverter marcXMLConverter;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
+    private MarcStreamingUtil marcStreamingUtil;
 
-    public JSONObject processBatch(String rawContent ,String fileType, String profileId, String reportDirectoryName, BatchJobDetails batchJobDetails) {
+    public JSONObject processBatch(File inputFileDirectoryPath, String fileType, String profileId, String reportDirectoryName,
+                                   BatchJobDetails batchJobDetails) throws Exception {
         JSONObject response = new JSONObject();
+
         BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
         String responseData = "";
         try {
             batchProcessProfile = fetchBatchProcessProfile(profileId);
-            Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
+            BatchProcessTxObject batchProcessTxObject = new BatchProcessTxObject();
+            batchProcessTxObject.setBatchProcessProfile(batchProcessProfile);
+            batchProcessTxObject.setBatchFileProcessor(this);
+            batchProcessTxObject.setBatchJobDetails(batchJobDetails);
+            batchProcessTxObject.setFileExtension(fileType);
+            batchProcessTxObject.setReportDirectoryName(reportDirectoryName);
+            batchProcessTxObject.getOleStopWatch().start();
+            batchProcessTxObject.setIncomingFileDirectoryPath(inputFileDirectoryPath.getAbsolutePath());
+
             if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
-                recordDetailsMap = getRecordDetailsMap(rawContent);
-                if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
-                    batchJobDetails.setTotalRecords(String.valueOf(recordDetailsMap.size()));
-                    getBusinessObjectService().save(batchJobDetails);
-                }
+                OleCamelContext oleCamelContext = OleCamelContext.getInstance();
+                int chunkSize = getBatchChunkSize();
+                getMarcStreamingUtil().addDynamicMarcStreamRoute(oleCamelContext, inputFileDirectoryPath.getAbsolutePath(), chunkSize, batchProcessTxObject);
+            } else  if (fileType.equalsIgnoreCase(OleNGConstants.EDI) || fileType.equalsIgnoreCase(OleNGConstants.INV)) {
+                OleNgBatchResponse oleNgBatchResponse = processRecords(null, batchProcessTxObject, batchProcessProfile);
+                int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
+                batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
+                updateBatchJobDetails(batchJobDetails,OleNGConstants.COMPLETED);
+                responseData = oleNgBatchResponse.getResponse();
+                response.put(OleNGConstants.STATUS, true);
+                OleStopWatch oleStopWatch = batchProcessTxObject.getOleStopWatch();
+                oleStopWatch.end();
+                String totalTimeTaken = String.valueOf(oleStopWatch.getTotalTime()) + "ms";
+                writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), OleNGConstants.COMPLETED, totalTimeTaken);
             }
-            OleNgBatchResponse oleNgBatchResponse = processRecords(rawContent, recordDetailsMap, fileType, batchProcessProfile, reportDirectoryName, batchJobDetails);
-            int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
-            batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
-            responseData = oleNgBatchResponse.getResponse();
-            response.put(OleNGConstants.STATUS, true);
-        } catch (JSONException e) {
-            e.printStackTrace();
         } catch (Exception e) {
+            updateBatchJobDetails(batchJobDetails,OleNGConstants.FAILED);
+            writeBatchRunningStatusToFile(inputFileDirectoryPath.getAbsolutePath(), OleNGConstants.FAILED, null);
             BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
             batchProcessFailureResponse.setBatchProcessProfileName((null != batchProcessProfile ? batchProcessProfile.getBatchProcessProfileName(): "ProfileId : " + profileId));
             batchProcessFailureResponse.setResponseData(responseData);
             batchProcessFailureResponse.setFailureReason(e.toString());
-            batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
+//            batchProcessFailureResponse.setFailedRawMarcContent(rawContent);
+            batchProcessFailureResponse.setDetailedMessage(getDetailedMessage(e));
             batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
-            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();;
-            batchBibFailureReportLogHandler.logMessage(batchProcessFailureResponse,reportDirectoryName);
+            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
+            batchBibFailureReportLogHandler.logMessage(Collections.singletonList(batchProcessFailureResponse),reportDirectoryName);
             throw e;
         }
         return response;
+    }
+
+    private void updateBatchJobDetails(BatchJobDetails batchJobDetails, String status) {
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            batchJobDetails.setStatus(status);
+            getBusinessObjectService().save(batchJobDetails);
+        }
+    }
+
+    private int getBatchChunkSize() {
+        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.CHUNK_SIZE_FOR_BATCH_PROCESSING);
+        if(NumberUtils.isDigits(parameterValue)) {
+            return Integer.valueOf(parameterValue);
+        }
+        return 1000;
     }
 
     private Map<Integer, RecordDetails> getRecordDetailsMap(String rawContent) {
         Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
         MarcReader reader = new MarcStreamReader(IOUtils.toInputStream(rawContent));
         Record nextRecord = null;
-        int position = 1;
+        int position = getBatchChunkSize();
         do {
             RecordDetails recordDetails = new RecordDetails();
             try {
@@ -118,9 +158,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         return batchProcessProfile;
     }
 
-    public abstract OleNgBatchResponse processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType,
-                                                      BatchProcessProfile batchProcessProfile, String reportDirectoryName,
-                                                      BatchJobDetails batchJobDetails) throws JSONException;
+    public abstract OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject, BatchProcessProfile batchProcessProfile) throws JSONException;
     public abstract String getReportingFilePath();
 
     public String getUpdatedUserName() {
@@ -162,6 +200,17 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public void setMatchPointProcessor(MatchPointProcessor matchPointProcessor) {
         this.matchPointProcessor = matchPointProcessor;
+    }
+
+    public MarcStreamingUtil getMarcStreamingUtil() {
+        if(null == marcStreamingUtil) {
+            marcStreamingUtil = new MarcStreamingUtil();
+        }
+        return marcStreamingUtil;
+    }
+
+    public void setMarcStreamingUtil(MarcStreamingUtil marcStreamingUtil) {
+        this.marcStreamingUtil = marcStreamingUtil;
     }
 
     public int getFailureRecordsCount(List<? extends FailureResponse> failureResponses) {

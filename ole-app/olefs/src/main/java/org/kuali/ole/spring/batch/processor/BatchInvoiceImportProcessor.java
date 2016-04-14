@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
@@ -9,14 +10,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
-import org.kuali.ole.docstore.common.response.InvoiceResponse;
-import org.kuali.ole.docstore.common.response.OleNGBibImportResponse;
-import org.kuali.ole.docstore.common.response.OleNGInvoiceImportResponse;
+import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
-import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
@@ -41,6 +39,7 @@ import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -67,27 +66,27 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     private OleNGInvoiceValidationUtil oleNGInvoiceValidationUtil;
 
     @Override
-    public OleNgBatchResponse processRecords(String rawContent, Map<Integer, RecordDetails> recordsMap, String fileType,
-                                             BatchProcessProfile batchProcessProfile, String reportDirectoryName,
-                                             BatchJobDetails batchJobDetails) throws JSONException {
+    public OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject, BatchProcessProfile batchProcessProfile) throws JSONException {
         JSONObject response = new JSONObject();
+        BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
+        String reportDirectoryName = batchProcessTxObject.getReportDirectoryName();
+        String fileType = batchProcessTxObject.getFileExtension();
         OleNGInvoiceImportResponse oleNGInvoiceImportResponse = new OleNGInvoiceImportResponse();
         MatchedDetails matchedDetails = new MatchedDetails();
-        Exchange exchange = new Exchange();
+        Exchange exchange = batchProcessTxObject.getExchangeForOrderOrInvoiceImport();
 
         Map<String, List<OleInvoiceRecord>> oleinvoiceRecordMap = new HashMap<>();
         if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
             if (recordsMap.size() > 0) {
                 BatchProcessProfile bibImportProfile = getBibImportProfile(batchProcessProfile.getBibImportProfileForOrderImport());
                 if (null != bibImportProfile) {
-                    OleNGBibImportResponse oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(rawContent, recordsMap, fileType,
-                            bibImportProfile, reportDirectoryName, batchJobDetails,exchange);
+                    OleNGBibImportResponse oleNGBibImportResponse = batchBibFileProcessor.processBibImportForOrderOrInvoiceImport(recordsMap, batchProcessTxObject, bibImportProfile, exchange);
                     List<RecordDetails> recordDetailses = new ArrayList<RecordDetails>(recordsMap.values());
                     oleinvoiceRecordMap = prepareInvoiceRecordsForMarc(recordDetailses, batchProcessProfile, matchedDetails, exchange);
                 }
             }
         } else if (fileType.equalsIgnoreCase(OleNGConstants.INV) || fileType.equalsIgnoreCase(OleNGConstants.EDI)) {
-            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(rawContent, batchProcessProfile, matchedDetails, batchJobDetails, exchange);
+            oleinvoiceRecordMap = prepareInvoiceRecordsForEdifact(batchProcessTxObject, batchProcessProfile, matchedDetails, batchJobDetails, exchange);
         }
 
 
@@ -136,8 +135,11 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(invoiceFailureResponseList));
         try {
             String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
+            oleNGInvoiceImportResponse = mergeResponse(oleNGInvoiceImportResponse, exchange);
             InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
             invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
+            exchange.add(OleNGConstants.INVOICE_RESPONSE, oleNGInvoiceImportResponse);
+            exchange.remove(OleNGConstants.FAILURE_RESPONSE);
             oleNgBatchResponse.setResponse(successResponse);
             return oleNgBatchResponse;
         } catch (IOException e) {
@@ -185,9 +187,17 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     }
 
 
-    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForEdifact(String rawContent, BatchProcessProfile batchProcessProfile,
+    private Map<String, List<OleInvoiceRecord>> prepareInvoiceRecordsForEdifact(BatchProcessTxObject batchProcessTxObject, BatchProcessProfile batchProcessProfile,
                                                                                 MatchedDetails matchedDetails, BatchJobDetails batchJobDetails, Exchange exchange) {
         Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap = new TreeMap<>();
+
+        File file = new File(batchProcessTxObject.getIncomingFileDirectoryPath(), batchProcessTxObject.getBatchJobDetails().getFileName());
+        String rawContent = null;
+        try {
+            rawContent = FileUtils.readFileToString(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         List<INVOrder> invOrders = getInvoiceImportHelperUtil().readEDIContent(rawContent);
         int totalNoOfRecords = 0;
@@ -566,6 +576,25 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
     public void setOleNGInvoiceValidationUtil(OleNGInvoiceValidationUtil oleNGInvoiceValidationUtil) {
         this.oleNGInvoiceValidationUtil = oleNGInvoiceValidationUtil;
+    }
+
+    private OleNGInvoiceImportResponse mergeResponse(OleNGInvoiceImportResponse newOleNGInvoiceImportResponse, org.kuali.ole.Exchange exchange) {
+        OleNGInvoiceImportResponse oldResponseObject = (OleNGInvoiceImportResponse) exchange.get(OleNGConstants.ORDER_RESPONSE);
+        if(null == oldResponseObject) {
+            return newOleNGInvoiceImportResponse;
+        }
+        return mergeBibImportResponse(oldResponseObject, newOleNGInvoiceImportResponse);
+    }
+
+    private OleNGInvoiceImportResponse mergeBibImportResponse(OleNGInvoiceImportResponse oldOleNGInvoiceImportResponse, OleNGInvoiceImportResponse newOleNGInvoiceImportResponse) {
+        oldOleNGInvoiceImportResponse.getInvoiceResponses().addAll(newOleNGInvoiceImportResponse.getInvoiceResponses());
+        oldOleNGInvoiceImportResponse.getInvoiceFailureResponses().addAll(newOleNGInvoiceImportResponse.getInvoiceFailureResponses());
+
+        oldOleNGInvoiceImportResponse.setMatchedCount(oldOleNGInvoiceImportResponse.getMatchedCount() + newOleNGInvoiceImportResponse.getMatchedCount());
+        oldOleNGInvoiceImportResponse.setUnmatchedCount(oldOleNGInvoiceImportResponse.getUnmatchedCount() + newOleNGInvoiceImportResponse.getUnmatchedCount());
+        oldOleNGInvoiceImportResponse.setMultiMatchedCount(oldOleNGInvoiceImportResponse.getMultiMatchedCount() + newOleNGInvoiceImportResponse.getMultiMatchedCount());
+
+        return  oldOleNGInvoiceImportResponse;
     }
 
     class MatchedDetails {

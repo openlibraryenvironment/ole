@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.marc4j.marc.Record;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,9 @@ public class OleNGBibImportResponse {
     private List<BibResponse> bibResponses;
 
     public List<BibResponse> getBibResponses() {
+        if(null == bibResponses) {
+            bibResponses = new ArrayList<>();
+        }
         return bibResponses;
     }
 
@@ -229,6 +233,9 @@ public class OleNGBibImportResponse {
     }
 
     public Map<Integer, RecordDetails> getRecordsMap() {
+        if(null == recordsMap) {
+            recordsMap = new HashMap<>();
+        }
         return recordsMap;
     }
 

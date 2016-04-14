@@ -32,7 +32,8 @@ var OLENG_CONSTANTS = {
     REPORT_FILES : "rest/batch/job/getReportsFiles",
     SPECIFIC_REPORT_FILES : "rest/batch/job/getSpecificReportsFiles",
     GET_FILE_CONTENT : "rest/batch/job/getFileContent",
-    DOWNLOAD_REPORT_FILE : "rest/batch/job/downloadReportFile"
+    DOWNLOAD_REPORT_FILE : "rest/batch/job/downloadReportFile",
+    BATCH_STATUS : "rest/batch/job/getBatchStatus"
 
 };
 

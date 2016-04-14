@@ -30,19 +30,21 @@ public class BibImportFailureReportProcessor extends OleNGReportProcessor {
                     Integer index = failureResponse.getIndex();
                     if(null != index) {
                         RecordDetails recordDetails = recordsMap.get(index);
-                        Record record = recordDetails.getRecord();
-                        if (null != record) {
-                            marcRecords.add(record);
+                        if (null != recordDetails) {
+                            Record record = recordDetails.getRecord();
+                            if (null != record) {
+                                marcRecords.add(record);
+                            }
                         }
                     }
                 }
             }
             if(CollectionUtils.isNotEmpty(marcRecords)) {
                 String failedMarcContent = marcRecordUtil.convertMarcRecordListToRawMarcContent(marcRecords);
-                logMessage(directoryToWrite, "Bib-FailedMarcRecords","mrc", failedMarcContent);
+                logMessage(directoryToWrite, "Bib-FailedMarcRecords","mrc", failedMarcContent, true);
             }
             String bibFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(failureResponses);
-            logMessage(directoryToWrite, "Bib-FailureMessages","txt", bibFailureMessage);
+            logMessage(directoryToWrite, "Bib-FailureMessages","txt", bibFailureMessage, false);
         }
     }
 }

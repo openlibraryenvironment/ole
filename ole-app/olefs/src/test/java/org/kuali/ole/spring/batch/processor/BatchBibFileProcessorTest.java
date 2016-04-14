@@ -1,7 +1,6 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.cxf.common.i18n.Exception;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
@@ -10,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -63,6 +64,12 @@ public class BatchBibFileProcessorTest {
     @Mock
     private MarcRecordUtil marcRecordUtil;
 
+    @Mock
+    BatchProcessTxObject mockBatchProcessTxObject;
+
+    @Mock
+    BatchFileProcessor mockBatchFileProcessor;
+
 
     @Before
     public void setUp() throws Exception {
@@ -70,7 +77,7 @@ public class BatchBibFileProcessorTest {
     }
 
     @Test
-    public void processRecords() throws Exception, JSONException {
+    public void processRecords() throws Exception {
         List<Record> records = new ArrayList<>();
         records.add(mockRecord);
 
@@ -84,8 +91,11 @@ public class BatchBibFileProcessorTest {
             recordDetails.setRecord(records.get(index + 1));
             recordDetailsMap.put(index, recordDetails);
         }
-        OleNgBatchResponse oleNgBatchResponse = batchBibFileProcessor.processRecords(rawContent, recordDetailsMap,
-                OleNGConstants.MARC, mockBatchProcesProfile, reportDirectory, new BatchJobDetails());
+
+        JSONObject resposne = new JSONObject();
+        resposne.put("status", "success");
+        Mockito.when(mockBatchFileProcessor.processBatch(new File(""), OleNGConstants.MARC, "1","",new BatchJobDetails())).thenReturn(resposne);
+        OleNgBatchResponse oleNgBatchResponse = batchBibFileProcessor.processRecords(recordDetailsMap,mockBatchProcessTxObject,mockBatchProcesProfile);
         String processedRecords = oleNgBatchResponse.toString();
         assertNotNull(processedRecords);
     }

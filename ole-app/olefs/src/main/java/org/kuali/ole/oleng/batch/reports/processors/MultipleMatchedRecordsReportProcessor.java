@@ -13,7 +13,7 @@ public class MultipleMatchedRecordsReportProcessor extends OleNGReportProcessor 
         OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse)object;
         if(CollectionUtils.isNotEmpty(oleNGBibImportResponse.getMultipleMatchedRecords())) {
             String multipleMatchedMarcRawContent = new MarcRecordUtil().convertMarcRecordListToRawMarcContent(oleNGBibImportResponse.getMultipleMatchedRecords());
-            logMessage(directoryToWrite,  oleNGBibImportResponse.getBibImportProfileName() + "-MultipleMatched","mrc", multipleMatchedMarcRawContent);
+            logMessage(directoryToWrite,  oleNGBibImportResponse.getBibImportProfileName() + "-MultipleMatched","mrc", multipleMatchedMarcRawContent, true);
         }
     }
 }

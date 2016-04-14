@@ -14,6 +14,7 @@ import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.describe.processor.bibimport.MatchPointProcessor;
 import org.kuali.ole.utility.MarcRecordUtil;
@@ -44,15 +45,18 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
         processBatch("InvYBP_1124.mrc", "BibForInvoiceYBP");
     }
 
-    private void processBatch(String fielName, String profileName) throws URISyntaxException, IOException {
+    private void processBatch(String fielName, String profileName) throws Exception {
         OleDsNgRestClient oleDsNgRestClient = new MockOleDsNgRestClient();
         BatchFileProcessor batchFileProcessor = new MockBatchBibFileProcessor();
         URL resource = getClass().getResource(fielName);
         File file = new File(resource.toURI());
         batchFileProcessor.setOleDsNgRestClient(oleDsNgRestClient);
-        String rawMarc = FileUtils.readFileToString(file);
+        String tempLocation = System.getProperty("java.io.tmpdir");
+        String batchUploadLocation = tempLocation + File.separator + OleNGConstants.DATE_FORMAT.format(new Date());
+        File uploadDirectory = new File(batchUploadLocation);
+        FileUtils.writeStringToFile(uploadDirectory, file.getAbsolutePath());
         String reportDirectory = OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
-        batchFileProcessor.processBatch(rawMarc, OleNGConstants.MARC, profileName,reportDirectory, new BatchJobDetails());
+        batchFileProcessor.processBatch(uploadDirectory, OleNGConstants.MARC, profileName,reportDirectory, new BatchJobDetails());
     }
 
     @Test
@@ -275,8 +279,13 @@ public class BatchFileProcessor_IT extends OLERestBaseTestCase{
             recordDetails.setRecord(records.get(index + 1));
             recordDetailsMap.put(index, recordDetails);
         }
-        OleNgBatchResponse oleNgBatchResponse = mockBatchBibFileProcessor.processRecords(rawContent, recordDetailsMap, OleNGConstants.MARC,
-                batchProcessProfile, reportDirectory, new BatchJobDetails());
+        BatchProcessTxObject batchProcessTxObject = new BatchProcessTxObject();
+        batchProcessTxObject.setBatchProcessProfile(batchProcessProfile);
+        batchProcessTxObject.setBatchFileProcessor(mockBatchBibFileProcessor);
+        batchProcessTxObject.setBatchJobDetails(new BatchJobDetails());
+        batchProcessTxObject.setFileExtension(OleNGConstants.MARC);
+        OleNgBatchResponse oleNgBatchResponse = mockBatchBibFileProcessor.processRecords(recordDetailsMap, batchProcessTxObject,
+                batchProcessTxObject.getBatchProcessProfile());
         String response = oleNgBatchResponse.toString();
         assertTrue(StringUtils.isNotBlank(response));
         System.out.println(response);

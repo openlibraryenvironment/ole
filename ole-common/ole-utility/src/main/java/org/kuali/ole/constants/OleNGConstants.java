@@ -195,7 +195,7 @@ public class OleNGConstants {
     public static final String COPY = "copy";
     public static final String EDIT = "edit";
     public static final String DESCRIPTION = "description";
-    public static final String STATUS = "stauts";
+    public static final String STATUS = "status";
     public static final String ID = "id";
     public static final String WHERE = "where";
     public static final String CONDITION = "condition";
@@ -244,6 +244,7 @@ public class OleNGConstants {
     public static final String SCHEDULE = "schedule";
     public static final String COMPLETED = "COMPLETED";
     public static final String FAILED = "FAILED";
+    public static final String RUNNING = "RUNNING";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
@@ -298,6 +299,8 @@ public class OleNGConstants {
     public final static String EDI = "edi";
     public final static String INV = "inv";
     public final static String BIB_IMPORT = "Bib Import";
+    public final static String ORDER_RECORD_IMPORT = "Order Record Import";
+    public final static String INVOICE_IMPORT = "Invoice Import";
 
     public static final String FORWARD_SLASH = "/";
 
@@ -314,8 +317,12 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
 
     public static final String MARC_SPLIT = "\u001E\u001D";
+    public static Object BIB_RESPONSE = "BIB_RESPONSE";
+    public static Object ORDER_RESPONSE = "ORDER_RESPONSE";
+    public static Object INVOICE_RESPONSE = "INVOICE_RESPONSE";
 
     public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
+    public static final String CHUNK_SIZE_FOR_BATCH_PROCESSING = "CHUNK_SIZE_FOR_BATCH_PROCESSING";
     public static final String CHARSET_UTF_8 = ";charset=UTF-8";
 
 }

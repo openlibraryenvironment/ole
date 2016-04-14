@@ -20,6 +20,9 @@ public class BatchProcessFailureResponse {
     @JsonProperty("failureReason")
     private String failureReason;
 
+    @JsonProperty("detailedMessage")
+    private String detailedMessage;
+
     @JsonIgnore
     private String failedRawMarcContent;
 
@@ -64,5 +67,13 @@ public class BatchProcessFailureResponse {
 
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
+    }
+
+    public String getDetailedMessage() {
+        return detailedMessage;
+    }
+
+    public void setDetailedMessage(String detailedMessage) {
+        this.detailedMessage = detailedMessage;
     }
 }
