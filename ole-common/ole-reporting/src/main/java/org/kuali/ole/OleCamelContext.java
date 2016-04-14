@@ -3,13 +3,9 @@ package org.kuali.ole;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,11 +44,16 @@ public class OleCamelContext {
         return context;
     }
 
-    public void addRoutes(String endPoint1, String endPoint2, List<Processor> processors) throws Exception {
-        getContext().addRoutes(new DynamicRouteBuilder(context, endPoint1, endPoint2, processors));
+    public void addRoutes(RouteBuilder routeBuilder) throws Exception {
+        getContext().addRoutes(routeBuilder);
     }
 
     public ProducerTemplate createProducerTemplate() {
         return getContext().createProducerTemplate();
     }
+
+    public void addDynamicRoute(String endPoint1, String endPoint2, List<Processor> processors) throws Exception {
+        addRoutes(new DynamicRouteBuilder(context, endPoint1, endPoint2, processors));
+    }
+
 }

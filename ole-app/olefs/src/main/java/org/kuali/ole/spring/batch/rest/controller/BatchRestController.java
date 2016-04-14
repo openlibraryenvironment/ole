@@ -56,7 +56,7 @@ public class BatchRestController extends OleNgControllerBase {
 
     private BatchExcelReportUtil batchExcelReportUtil;
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,
                              @RequestParam("batchType") String batchType, HttpServletRequest request) throws IOException, JSONException {
@@ -80,27 +80,29 @@ public class BatchRestController extends OleNgControllerBase {
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
 
         JSONObject response = batchProcessor.processBatch(rawContent, fileExtension, profileId,reportDirectory, batchJobDetails);
-        getBusinessObjectService().save(batchJobDetails);
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            getBusinessObjectService().save(batchJobDetails);
+        }
         oleStopWatch.end();
         long totalTime = oleStopWatch.getTotalTime();
         response.put("processTime",totalTime + "ms");
         return response;
     }
 
-    @RequestMapping(value = "/submit/api", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(value = "/submit/api", method = RequestMethod.POST, produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String submitApi(@RequestBody String requestBody) throws IOException, JSONException {
         JSONObject requestJson = new JSONObject(requestBody);
-        String rawContent = requestJson.getString("marcContent");
-        String batchType = requestJson.getString("batchType");
-        String profileId = requestJson.getString("profileId");
+        String rawContent = getStringValueFromJsonObject(requestJson, "marcContent");
+        String batchType = getStringValueFromJsonObject(requestJson, "batchType");
+        String profileId = getStringValueFromJsonObject(requestJson, "profileId");
         BatchJobDetails batchJobDetails = new BatchJobDetails();
         batchJobDetails.setProfileName(profileId);
         JSONObject response = processBatch(profileId, batchType, rawContent, OleNGConstants.MARC, batchJobDetails);
         return response.toString();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/create", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String createBatchJobDetailsEntry(@RequestBody String requestBody) {
         String response = "";
@@ -118,7 +120,7 @@ public class BatchRestController extends OleNgControllerBase {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         BatchJobDetails batchJobDetails = null;
@@ -150,7 +152,7 @@ public class BatchRestController extends OleNgControllerBase {
         return "";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String scheduleJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, @RequestParam("scheduleJob") String scheduleJobString, HttpServletRequest request) {
         try {
@@ -175,7 +177,7 @@ public class BatchRestController extends OleNgControllerBase {
         return String.valueOf(jobId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/job/destroy", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.GET, value = "/job/destroy", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String destroyJob(@RequestParam("jobId") long jobId) {
         try {
@@ -190,7 +192,7 @@ public class BatchRestController extends OleNgControllerBase {
         return String.valueOf(jobId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "job/getReportsFiles", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.GET, value = "job/getReportsFiles", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String getReportsFiles() {
         JSONArray response = new JSONArray();
@@ -207,7 +209,7 @@ public class BatchRestController extends OleNgControllerBase {
 
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "job/getSpecificReportsFiles", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.GET, value = "job/getSpecificReportsFiles", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String getSpecificReportsFiles(@RequestParam("jobDetailsId") long jobDetailsId) {
         JSONArray response = new JSONArray();
@@ -249,7 +251,7 @@ public class BatchRestController extends OleNgControllerBase {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "job/getFileContent", produces = {MediaType.APPLICATION_JSON})
+    @RequestMapping(method = RequestMethod.GET, value = "job/getFileContent", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String getFileContent(@RequestParam("fileName") String fileName, @RequestParam("parent") String parent) {
         JSONObject response = new JSONObject();

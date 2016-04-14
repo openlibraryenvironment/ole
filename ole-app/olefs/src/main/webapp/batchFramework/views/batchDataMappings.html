@@ -165,7 +165,6 @@
                                             || dataMapping.field == 'Fund Code'
                                             || dataMapping.field == 'Currency Type') &&  !dataMapping.isAddLine">
                                 <option ng-selected="{{option.value == dataMapping.constant}}"
-                                        ng-repeat="option in constantValues | orderBy:'value'"
                                         value="{{option.value}}">
                                     {{option.value}}
                                 </option>

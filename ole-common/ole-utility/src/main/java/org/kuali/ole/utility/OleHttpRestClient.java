@@ -1,5 +1,7 @@
 package org.kuali.ole.utility;
 
+import org.kuali.ole.constants.OleNGConstants;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -26,7 +28,7 @@ public class OleHttpRestClient {
             // Send post request
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(requestContent);
+            wr.write(requestContent.getBytes(OleNGConstants.UTF_8));
             wr.flush();
             wr.close();
 

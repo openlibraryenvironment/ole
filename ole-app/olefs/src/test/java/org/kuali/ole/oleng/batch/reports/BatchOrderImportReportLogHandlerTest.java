@@ -25,7 +25,7 @@ public class BatchOrderImportReportLogHandlerTest{
         orderResponse.setProcessType(OleNGConstants.BatchProcess.CREATE_REQ_PO);
         OrderData orderData = new OrderData();
         orderData.setTitle("Test Title");
-        orderData.setRecordNumber("1");
+        orderData.setRecordNumber(1);
         orderData.setSuccessfulMatchPoints("Test MatchPoints");
         orderResponse.addOrderData(orderData);
         oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);

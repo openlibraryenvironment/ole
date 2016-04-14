@@ -19,7 +19,7 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProfileAddOrOverlay;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.batch.reports.OrderImportReportLogHandler;
 import org.kuali.ole.oleng.dao.DescribeDAO;
-import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
+import org.kuali.ole.oleng.exception.ValidationException;
 import org.kuali.ole.oleng.resolvers.CreateNeitherReqNorPOHandler;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionAndPurchaseOrderHander;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;
@@ -62,7 +62,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         String response = "";
         JSONObject jsonObject = new JSONObject();
         OleNGOrderImportResponse oleNGOrderImportResponse = new OleNGOrderImportResponse();
-        List<Integer> purapIds = new ArrayList<>();
+        Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
+        List<Integer> requisitionIds = new ArrayList<>();
 
         Map<Integer,RecordDetails> unMatchedRecordMap = new HashMap<>();
         Map<Integer,RecordDetails> matchedRecordMap = new HashMap<>();
@@ -83,11 +84,15 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     Integer index = iterator.next();
                     RecordDetails recordDetails = recordsMap.get(index);
                     Record marcRecord = recordDetails.getRecord();
+                    if(null == marcRecord) {
+                        addOrderFaiureResponseToExchange(new ValidationException(recordDetails.getMessage()), index, exchange);
+                        continue;
+                    }
 
                     try {
                         Map<String, String> bibInfoMap = bibUtil.buildDataValuesForBibInfo(marcRecord);
                         OrderData orderData = new OrderData();
-                        orderData.setRecordNumber(String.valueOf(index));
+                        orderData.setRecordNumber(index);
                         orderData.setTitle(bibInfoMap.get(DocstoreConstants.TITLE_DISPLAY));
 
                         List<BatchProfileMatchPoint> batchProfileMatchPointList = getMatchPointToUse(batchProcessProfile, bibImportProfile);
@@ -151,8 +156,8 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                                     orderDatasToReport = unmatchedOrderDatas;
                                 }
                                 if (recordsToProcess.size() > 0) {
-                                    purapIds.addAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, exchange));
-                                    prepareResponse(batchProfileAddOrOverlay.getAddOperation(), orderDatasToReport, oleNGOrderImportResponse);
+                                    poIdsMap.putAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, exchange));
+                                    prepareResponse(batchProfileAddOrOverlay.getAddOperation(), orderDatasToReport, oleNGOrderImportResponse, poIdsMap);
                                 }
                                 break;
                             }
@@ -163,8 +168,10 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     }
                 }
 
+
+                requisitionIds = new ArrayList<>(poIdsMap.keySet());
                 jsonObject.put("status", "Success");
-                jsonObject.put("requisitionIds", purapIds);
+                jsonObject.put("requisitionIds", requisitionIds);
                 System.out.println("Order Import Response : " + jsonObject.toString());
                 response = jsonObject.toString();
 
@@ -175,7 +182,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
             response = jsonObject.toString();
         }
         List<OrderFailureResponse> orderFailureResponseList = (List<OrderFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
-        oleNGOrderImportResponse.setRequisitionIds(purapIds);
+        oleNGOrderImportResponse.setRequisitionIds(requisitionIds);
         oleNGOrderImportResponse.setJobName(batchJobDetails.getJobName());
         oleNGOrderImportResponse.setJobDetailId(String.valueOf(batchJobDetails.getJobDetailId()));
         oleNGOrderImportResponse.setMatchedCount(matchedRecordMap.size());
@@ -203,18 +210,41 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
         return orderImportProfile.getBatchProfileMatchPointList();
     }
 
-    private void prepareResponse(String processType, List<OrderData> orderDatas, OleNGOrderImportResponse oleNGOrderImportResponse) {
+    private void prepareResponse(String processType, List<OrderData> orderDatas, OleNGOrderImportResponse oleNGOrderImportResponse, Map<Integer, Set<Integer>> poIdsMap) {
         if (CollectionUtils.isNotEmpty(orderDatas)) {
-            OrderResponse orderResponse = new OrderResponse();
-            orderResponse.setProcessType(processType);
-            orderResponse.setOrderDatas(orderDatas);
-            if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
-                oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
-            } else if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
-                oleNGOrderImportResponse.addReqOnlyResponse(orderResponse);
-            } else if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
+            if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_NEITHER_REQ_NOR_PO)) {
+                OrderResponse orderResponse = new OrderResponse();
+                orderResponse.setProcessType(processType);
+                orderResponse.setOrderDatas(orderDatas);
                 oleNGOrderImportResponse.addNoReqNorPOResponse(orderResponse);
+            } else {
+                if(poIdsMap.size() > 0) {
+                    for (Iterator<Integer> iterator = poIdsMap.keySet().iterator(); iterator.hasNext(); ) {
+                        Integer reqId = iterator.next();
+                        Set<Integer> recordIndexSet = poIdsMap.get(reqId);
+                        List<OrderData> createdOrderDatas = new ArrayList<>();
+                        for (Iterator<OrderData> integerIterator = orderDatas.iterator(); integerIterator.hasNext(); ) {
+                            OrderData orderData = integerIterator.next();
+                            if(recordIndexSet.contains(orderData.getRecordNumber())) {
+                                orderData.setReqDocumentNumber(reqId);
+                                createdOrderDatas.add(orderData);
+                            }
+                        }
+                        if(CollectionUtils.isNotEmpty(createdOrderDatas)) {
+                            OrderResponse orderResponse = new OrderResponse();
+                            orderResponse.setProcessType(processType);
+                            orderResponse.setOrderDatas(createdOrderDatas);
+                            if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_PO)) {
+                                oleNGOrderImportResponse.addReqAndPOResponse(orderResponse);
+                            } else if (processType.equalsIgnoreCase(OleNGConstants.BatchProcess.CREATE_REQ_ONLY)) {
+                                oleNGOrderImportResponse.addReqOnlyResponse(orderResponse);
+                            }
+                        }
+                    }
+                }
             }
+
+
         }
     }
 

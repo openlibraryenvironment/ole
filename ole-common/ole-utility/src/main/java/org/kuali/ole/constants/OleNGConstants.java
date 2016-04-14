@@ -50,6 +50,7 @@ public class OleNGConstants {
         public static final String vendorProfileCode = "Vendor Profile Code";
         public static final String vendorReferenceNumber = "Vendor Reference Number";
         public static final String volumeNumber = "Volume Number";
+        public static final String LINE_ITEM_NOTE = "Line Item Note";
 
         public static final String REQUISITION_SOURCE = "requisitionSource";
         public static final String ITEM_PRICE_SOURCE = "itemPriceSource";
@@ -317,5 +318,10 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_HOLDINGS = "noOfFailureHoldings";
     public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
+
+    public static final String MARC_SPLIT = "\u001E\u001D";
+
+    public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
+    public static final String CHARSET_UTF_8 = ";charset=UTF-8";
 
 }

@@ -1,11 +1,7 @@
 package org.kuali.ole.oleng.handler;
 
-import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.kuali.ole.describe.bo.OleShelvingScheme;
 import org.kuali.ole.oleng.batch.profile.model.*;

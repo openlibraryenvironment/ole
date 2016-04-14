@@ -52,7 +52,8 @@
 
                                 <div class="col-sm-6">
                                     <select class="form-control" id="profileName" name="profileName"
-                                            ng-model="profileName">
+                                            ng-model="profileName"
+                                            ng-change="setSessionData()">
                                         <option ng-repeat="option in profileNames  | orderBy:'profileName'" value="{{option.profileId}}">
                                             {{option.profileName}}
                                         </option>

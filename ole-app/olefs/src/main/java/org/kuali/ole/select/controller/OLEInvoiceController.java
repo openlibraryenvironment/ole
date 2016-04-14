@@ -593,7 +593,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         }
 
         //   SpringContext.getBean(OleInvoiceService.class).populateInvoiceFromPurchaseOrders(payDoc,null);
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(payDoc);
+        //SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(payDoc);
 
         if ((payDoc.getProrateBy() != null) && (payDoc.getProrateBy().equals(OLEConstants.PRORATE_BY_QTY) || payDoc.getProrateBy().equals(OLEConstants.PRORATE_BY_DOLLAR) || payDoc.getProrateBy().equals(OLEConstants.MANUAL_PRORATE))) {
             // set amounts on any empty
@@ -623,11 +623,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
 
             // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
             //Calculate Payment request before rules since the rule check totalAmount.
-            SpringContext.getBean(OleInvoiceService.class).calculateInvoice(payDoc, true);
+            //SpringContext.getBean(OleInvoiceService.class).calculateInvoice(payDoc, true);
             SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(payDoc));
         }
 
         payDoc.setCalculated(true);
+/*
 
         try {
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(payDoc);
@@ -636,6 +637,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             LOG.error("Exception while refreshing the document"+e);
             throw new RuntimeException(e);
         }
+*/
 
 
         //return mapping.findForward(OLEConstants.MAPPING_BASIC);
@@ -1906,6 +1908,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         }
                     }
                 }
+                getInvoiceService().calculateAccount(item);
             }
         }
 

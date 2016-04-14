@@ -254,7 +254,8 @@ function getReqFromResponse(reqResponse) {
     var requisition = {
         "title" : reqResponse["title"],
         "successfulMatchPoints" : reqResponse["successfulMatchPoints"],
-        "recordNumber" : reqResponse["recordNumber"]
+        "recordNumber" : reqResponse["recordNumber"],
+        "reqDocumentNumber" : reqResponse["reqDocumentNumber"]
     };
     return requisition;
 }

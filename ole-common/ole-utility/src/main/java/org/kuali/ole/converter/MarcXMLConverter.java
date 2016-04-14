@@ -78,6 +78,14 @@ public class MarcXMLConverter {
         return records;
     }
 
+    public Record getNextRecord(MarcReader reader) {
+        while (reader.hasNext()) {
+            Record record = reader.next();
+            return record;
+        }
+        return null;
+    }
+
     public List<Record> convertMarcXmlToRecord(String marcXml) {
         marcXml = convertToUTF8(marcXml);
         List<Record> records = new ArrayList<>();

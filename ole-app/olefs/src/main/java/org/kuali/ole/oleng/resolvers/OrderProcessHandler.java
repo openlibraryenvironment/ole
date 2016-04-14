@@ -6,10 +6,8 @@ import org.kuali.ole.Exchange;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
-import org.kuali.ole.oleng.handler.CreateReqAndPOServiceHandler;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.oleng.util.OleNGPOHelperUtil;
-import org.marc4j.marc.Record;
 
 import java.util.*;
 
@@ -25,8 +23,8 @@ public abstract class OrderProcessHandler {
 
     public abstract CreateReqAndPOBaseServiceHandler getCreateReqOrPOServiceHandler();
 
-    public List<Integer> processOrder(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile, Exchange exchange) throws Exception {
-        List<Integer> poIds = new ArrayList<>();
+    public Map<Integer, Set<Integer>> processOrder(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile, Exchange exchange) throws Exception {
+        Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
         OleNGPOHelperUtil oleNGPOHelperUtil = OleNGPOHelperUtil.getInstance();
 
         String requisitionForTitlesOption = batchProcessProfile.getRequisitionForTitlesOption();
@@ -37,20 +35,16 @@ public abstract class OrderProcessHandler {
             multiTitle = true;
         }
         if(multiTitle) {
-            Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(recordDetailsList, batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
-            if (null != purapIdentifier) {
-                poIds.add(purapIdentifier);
-            }
+            Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(recordDetailsList, batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
+            poIdsMap.putAll(poIdMap);
         } else {
             for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
                 RecordDetails recordDetails = iterator.next();
-                Integer purapIdentifier = (Integer) oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails), batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
-                if (null != purapIdentifier) {
-                    poIds.add(purapIdentifier);
-                }
+                Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails), batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
+                poIdsMap.putAll(poIdMap);
             }
         }
-        return poIds;
+        return poIdsMap;
     }
 
     public OleNGRequisitionService getOleNGRequisitionService() {

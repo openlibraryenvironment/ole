@@ -24,6 +24,7 @@
     <script src="scripts/oleng/ui-tree.js"></script>
     <script src="scripts/oleng/controllers/transfer.js"></script>
     <script src="scripts/oleng/controllers/treesController.js"></script>
+    <script src="scripts/oleng/controllers/treeDataHandler.js"></script>
     <script src="scripts/oleng/dirPagination.js"></script>
     <script src="scripts/oleng/lib/angular-animate.js"></script>
     <script src="scripts/oleng/lib/angular-loader.js"></script>
@@ -31,15 +32,20 @@
     <script src="scripts/oleng/lib/angular-scenario.js"></script>
     <script src="scripts/oleng/lib/angular-mocks.js"></script>
     <script src="scripts/oleng/lib/angular-strap.js"></script>
+    <link rel="stylesheet" href="framework/plugins/css/font-awesome.min.css">
     <!--<script src="script/oleng/datatables.min.js"></script>
     <script src="script/oleng/angular-datatables.min.js"></script>-->
 </head>
 <body>
 <form name="searchForm">
-<div class="container">
+<div class="container col-lg-12">
     <div>
         <br><br>
         <h2 style="display:inline !important; font-weight: bold;">Transfer Holdings/Item</h2>
+        <br><br>
+    </div>
+    <div ng-show="errorMessage != null">
+        <span class="errorMessageClass">{{errorMessage}}</span>
         <br><br>
     </div>
     <div ng-include="'templates/searchWorkBench.htm'"></div>
