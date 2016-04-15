@@ -47,14 +47,8 @@ jq(document).ready(function(){
     jq("button#Mail_Button").live("click",function(event){
         submitForm('mailToPatron', null, null, null, null);
     })
-    jq("button#BillView_selectBill").live("click",function(event){
-        submitForm('selectAllBill', null, null, null, null);
-    })
     jq("button#BillView_deselectBill").live("click",function(event){
         submitForm('deSelectAll', null, null, null, null);
-    })
-    jq("button#BillView_selectItem").live("click",function(event){
-        submitForm('selectAllItem', null, null, null, null);
     })
     jq("button#BillView_deselectItem").live("click",function(event){
         submitForm('deSelectAll', null, null, null, null);
@@ -228,19 +222,13 @@ function selectBill(amt,pamt,camt,obj) {
         crdtAmt=parseFloat("0");
     }
     if (jq(obj).prop('checked')) {
-        totalAmt = parseFloat(totalAmt) + parseFloat(amt);
-        paidAmt = parseFloat(paidAmt) + parseFloat(pamt);
-        crdtAmt = parseFloat(crdtAmt) + parseFloat(camt);
-        userAmount=userAmount+parseFloat(amt);
-        paidAmount=paidAmount+parseFloat(pamt);
-        creditRemainingAmount=creditRemainingAmount+parseFloat(camt);
+        userAmount = parseFloat(totalAmt) + parseFloat(amt);
+        paidAmount = parseFloat(paidAmt) + parseFloat(pamt);
+        creditRemainingAmount = parseFloat(crdtAmt) + parseFloat(camt);
     } else {
-        totalAmt = parseFloat(totalAmt) - parseFloat(amt);
-        userAmount=userAmount-parseFloat(amt);
-        paidAmt = parseFloat(paidAmt) - parseFloat(pamt);
-        crdtAmt = parseFloat(crdtAmt) - parseFloat(camt);
-        paidAmount=paidAmount-parseFloat(pamt);
-        creditRemainingAmount=creditRemainingAmount-parseFloat(camt);
+        userAmount = parseFloat(totalAmt) - parseFloat(amt);
+        paidAmount = parseFloat(paidAmt) - parseFloat(pamt);
+        creditRemainingAmount = parseFloat(crdtAmt) - parseFloat(camt);
     }
     totalAmt=userAmount;
     paidAmt = paidAmount;
@@ -293,19 +281,13 @@ function selectItem(amt,pamt,camt,obj) {
         crdtAmt=parseFloat("0");
     }
     if (jq(obj).prop('checked')) {
-        totalAmt = parseFloat(totalAmt) + parseFloat(amt);
-        paidAmt = parseFloat(paidAmt) + parseFloat(pamt);
-        crdtAmt = parseFloat(crdtAmt) + parseFloat(camt);
-        userAmount=userAmount+parseFloat(amt);
-        paidAmount=paidAmount+parseFloat(pamt);
-        creditRemainingAmount=creditRemainingAmount+parseFloat(camt);
+        userAmount = parseFloat(totalAmt) + parseFloat(amt);
+        paidAmount = parseFloat(paidAmt) + parseFloat(pamt);
+        creditRemainingAmount = parseFloat(crdtAmt) + parseFloat(camt);
     } else {
-        totalAmt = parseFloat(totalAmt) - parseFloat(amt);
-        paidAmt = parseFloat(paidAmt) - parseFloat(pamt);
-        crdtAmt = parseFloat(crdtAmt) - parseFloat(camt);
-        userAmount=userAmount-parseFloat(amt);
-        paidAmount=paidAmount-parseFloat(pamt);
-        creditRemainingAmount=creditRemainingAmount-parseFloat(camt);
+        userAmount = parseFloat(totalAmt) - parseFloat(amt);
+        paidAmount = parseFloat(paidAmt) - parseFloat(pamt);
+        creditRemainingAmount = parseFloat(crdtAmt) - parseFloat(camt);
     }
     totalAmt=userAmount;
     paidAmt = paidAmount;
@@ -337,6 +319,10 @@ function removeCurrencyPattern(){
     if (jq("input#billView_paymentDetails_paidAmount_control").val()!=undefined) {
         var amt = jq("input#billView_paymentDetails_paidAmount_control").val().replace(/[^\d.]/g,"");
         jq("input#billView_paymentDetails_paidAmount_control").val(amt);
+        var amtPaid = jq("input#billView_paymentDetails_amountPaid_control").val().replace(/[^\d.]/g,"");
+        jq("input#billView_paymentDetails_amountPaid_control").val(amtPaid);
+        var transferAmt = jq("input#billView_paymentDetails_transferAmount_control").val().replace(/[^\d.]/g,"");
+        jq("input#billView_paymentDetails_transferAmount_control").val(transferAmt);
     }
 }
 
