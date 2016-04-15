@@ -47,29 +47,22 @@ public class MarcStreamingProcesssor implements Processor {
     public void process(Exchange exchange) throws Exception {
         BatchProcessProfile batchProcessProfile = batchProcessTxObject.getBatchProcessProfile();
         try {
-            System.out.println("Batch : " + batchCount);
+            logger.info("MarcStreamingProcesssor --> process() for batch  : " + batchCount);
             GlobalVariables.setUserSession(userSession);
             batchCount++;
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-            Date date = new Date();
-
             StringBuilder stringBuilder = new StringBuilder();
 
-            System.out.println("Bulk ingest: Batch Start time : \t" + dateFormat.format(date));
             if (exchange.getIn().getBody() instanceof List) {
                 for (String content : (List<String>) exchange.getIn().getBody()) {
                     stringBuilder.append(content);
                     stringBuilder.append(OleNGConstants.MARC_SPLIT);
                 }
             }
-            date = new Date();
             Map<Integer, RecordDetails> recordDetailsMap = getRecordDetailsMap(stringBuilder.toString());
             OleNgBatchResponse oleNgBatchResponse = batchProcessTxObject.getBatchFileProcessor().processRecords(recordDetailsMap, batchProcessTxObject,
                     batchProcessProfile);
             batchProcessTxObject.setTotalNumberOfRecords(batchProcessTxObject.getTotalNumberOfRecords() + recordDetailsMap.size());
             batchProcessTxObject.setNumberOfFailurRecords(batchProcessTxObject.getNumberOfFailurRecords() + oleNgBatchResponse.getNoOfFailureRecord());
-            System.out.println(recordDetailsMap.size());
-            System.out.println("Bulk ingest: Batch End time : \t" + dateFormat.format(date));
         } catch (Exception e) {
             e.printStackTrace();
             exchange.setException(e);
