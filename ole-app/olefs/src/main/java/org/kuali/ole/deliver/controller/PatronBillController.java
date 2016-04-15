@@ -902,49 +902,78 @@ public class PatronBillController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=selectAllBill")
     public ModelAndView selectAllBill(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized acceptPayment Method");
-        PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
         PatronBillForm patronBillForm = (PatronBillForm) form;
         KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
-            /*if (patronBillPayment.getUnPaidBalance().bigDecimalValue().compareTo(OLEConstants.BIGDECIMAL_DEF_VALUE)!=0) {
-                patronBillPayment.setSelectBill(true);
-            }*/
-            patronBillPayment.setSelectBill(true);
-            totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(patronBillPayment.getUnPaidBalance().bigDecimalValue()));
-            paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(patronBillPayment.getPaidAmount().bigDecimalValue()));
+            if(patronBillPayment.isSelectBill()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(patronBillPayment.getUnPaidBalance().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(patronBillPayment.getPaidAmount().bigDecimalValue()));
+                totalAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(patronBillPayment.getCreditRemaining().bigDecimalValue()));
+
+            }
         }
         for (FeeType feeType : patronBillForm.getFeeTypes()) {
             feeType.setActiveItem(false);
         }
         patronBillForm.setPaymentAmount(totalAmount);
         patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
         patronBillForm.setBillWisePayment(OLEConstants.BILL_WISE);
         return getUIFModelAndView(patronBillForm);
     }
 
-    @RequestMapping(params = "methodToCall=selectAllItem")
-    public ModelAndView selectAllItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized acceptPayment Method");
-        PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
+    @RequestMapping(params = "methodToCall=selectAllOpenItem")
+    public ModelAndView selectAllOpenItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
             patronBillPayment.setSelectBill(false);
         }
-        for (FeeType feeType : patronBillForm.getFeeTypes()) {
-            /*if (feeType.getBalFeeAmount().bigDecimalValue().compareTo(OLEConstants.BIGDECIMAL_DEF_VALUE) != 0) {
-                feeType.setActiveItem(true);
-            }*/
-            feeType.setActiveItem(true);
-            totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
-            paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+        for(FeeType feeType : patronBillForm.getClosedFeeTypes()) {
+            feeType.setActiveItem(false);
+        }
+        for(FeeType feeType : patronBillForm.getOpenFeeTypes()) {
+            if(feeType.isActiveItem()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+                transferAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(feeType.getCreditRemaining().bigDecimalValue()));
+            }
         }
         patronBillForm.setPaymentAmount(totalAmount);
         patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
+        patronBillForm.setBillWisePayment(OLEConstants.ITEM_WISE);
+        return getUIFModelAndView(patronBillForm);
+    }
+
+    @RequestMapping(params = "methodToCall=selectAllClosedItem")
+    public ModelAndView selectAllClosedItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        PatronBillForm patronBillForm = (PatronBillForm) form;
+        KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
+            patronBillPayment.setSelectBill(false);
+        }
+        for(FeeType feeType : patronBillForm.getOpenFeeTypes()) {
+            feeType.setActiveItem(false);
+        }
+        for(FeeType feeType : patronBillForm.getClosedFeeTypes()) {
+            if(feeType.isActiveItem()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+                transferAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(feeType.getCreditRemaining().bigDecimalValue()));
+            }
+        }
+        patronBillForm.setPaymentAmount(totalAmount);
+        patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
         patronBillForm.setBillWisePayment(OLEConstants.ITEM_WISE);
         return getUIFModelAndView(patronBillForm);
     }
