@@ -18,7 +18,7 @@ public class OleNGInvoiceValidationUtil {
 
     public boolean validateOleInvoiceRecord(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         boolean valid = true;
-       // valid = validateVendorNumber(oleInvoiceRecord, exchange, recordIndex) && valid; // This validation has been done upfront.
+        valid = validateVendorNumber(oleInvoiceRecord, exchange, recordIndex) && valid;
         valid = validateInvoiceNumber(oleInvoiceRecord, exchange, recordIndex) && valid;
         valid = validateInvoiceDate(oleInvoiceRecord, exchange, recordIndex) && valid;
         valid = validateInvoicePrice(oleInvoiceRecord, exchange, recordIndex) && valid;
@@ -30,7 +30,7 @@ public class OleNGInvoiceValidationUtil {
 
     private boolean validateInvoiceNumber(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String invoiceNumber = oleInvoiceRecord.getInvoiceNumber();
-        if (StringUtils.isBlank(invoiceNumber) && NumberUtils.isDigits(invoiceNumber)){
+        if (StringUtils.isBlank(invoiceNumber) || !NumberUtils.isDigits(invoiceNumber)){
             getBatchUtil().addOrderFaiureResponseToExchange(
                     new ValidationException("Invoice number cannot be blank or null and it should be round number"), recordIndex, exchange);
             return false;

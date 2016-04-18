@@ -348,17 +348,17 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     private void addInvoiceRecordToMap(Map<String, List<OleInvoiceRecord>> oleInvoiceRecordMap, OleInvoiceRecord oleInvoiceRecord, Exchange exchange) {
         oleInvoiceRecord.setUnitPrice(oleInvoiceRecord.getListPrice());
 
-        String invoiceNumber = oleInvoiceRecord.getInvoiceNumber();
-
-        List oleInvoiceRecords = oleInvoiceRecordMap.get(invoiceNumber);
-        if (oleInvoiceRecords == null) {
-            oleInvoiceRecords = new ArrayList<OleInvoiceRecord>();
-        }
         boolean valid = getOleNGInvoiceValidationUtil().validateOleInvoiceRecord(oleInvoiceRecord, exchange, oleInvoiceRecord.getRecordIndex());
         if(valid) {
+            String invoiceNumber = oleInvoiceRecord.getInvoiceNumber();
+
+            List oleInvoiceRecords = oleInvoiceRecordMap.get(invoiceNumber);
+            if (oleInvoiceRecords == null) {
+                oleInvoiceRecords = new ArrayList<OleInvoiceRecord>();
+            }
             oleInvoiceRecords.add(oleInvoiceRecord);
+            oleInvoiceRecordMap.put(invoiceNumber, oleInvoiceRecords);
         }
-        oleInvoiceRecordMap.put(invoiceNumber, oleInvoiceRecords);
     }
 
     private List<OlePurchaseOrderItem> processMatchpoint(Record record, BatchProcessProfile batchProcessProfile, OleInvoiceRecord oleInvoiceRecord, Exchange exchange) {
@@ -390,11 +390,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
                         }
                     }
                 }
-
             }
-        } else {
-            addOrderFaiureResponseToExchange(
-                    new ValidationException("Vendor number cannot be blank or null"), oleInvoiceRecord.getRecordIndex(), exchange);
         }
         return null;
     }
