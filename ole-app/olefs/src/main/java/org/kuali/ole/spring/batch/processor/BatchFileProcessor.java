@@ -75,7 +75,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
                 int chunkSize = getBatchChunkSize();
                 getMarcStreamingUtil().addDynamicMarcStreamRoute(oleCamelContext, inputFileDirectoryPath.getAbsolutePath(), chunkSize, batchProcessTxObject);
             } else  if (fileType.equalsIgnoreCase(OleNGConstants.EDI) || fileType.equalsIgnoreCase(OleNGConstants.INV)) {
-                OleNgBatchResponse oleNgBatchResponse = processRecords(null, batchProcessTxObject, batchProcessProfile);
+                OleNgBatchResponse oleNgBatchResponse = processRecords(new HashMap<Integer, RecordDetails>(), batchProcessTxObject, batchProcessProfile);
                 int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
                 batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
                 updateBatchJobDetails(batchJobDetails,OleNGConstants.COMPLETED);
