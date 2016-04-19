@@ -3021,7 +3021,37 @@ public class OLEConstants {
         public static final String ACTIVE = "ACTIVE";
 
     }
-
+    public static final class EDIBatchProfile {
+        public static final String DEFAULT_EDI_FORMAT="Default_EDI_Format";
+        public static final String LINE_ITEM = "Line Item";
+        public static final String PURAP_DOCUMENT_IDENTIFIER = "Purap Document Identifier";
+        public static final String UNIQUE_REF_NUMBER = "Unique Ref Number";
+        public static final String DATE_TIME_FORMAT_YYMMDDHHMM = "yyMMdd:HHmm";
+        public static final String INTERCHANGE_DETAILS = "Interchange Details";
+        public static final String DEFAULT_SEGMENT = "Default Segment";
+        public static final String ORDER_DATE = "Order Date";
+        public static final String VENDOR_USERNAME = "Vendor Username";
+        public static final String VENDOR_SAN = "Vendor SAN";
+        public static final String CURRENCY_CODE = "Currency Code";
+        public static final String PURCHASE_LINE_ITEM = "Purchase Line Item";
+        public static final String ITEM_PRICE = "Item Price";
+        public static final String ITEM_PUBLISHER = "Item Publisher";
+        public static final String ITEM_PUBLISHER_DATE = "Item Publisher Date";
+        public static final String ITEM_QUANTITY = "Item Quantity";
+        public static final String REFERENCE_QUALIFIER_1 ="Reference Qualifier 1";
+        public static final String REFERENCE_QUALIFIER_2 = "Reference Qualifier 2";
+        public static final String ITEM_LOCATION = "Item Location";
+        public static final String DELIVERY_ADDRESS = "Delivery Address";
+        public static final String OTHER_ADDRESS = "Other Address";
+        public static final String SECTION_IDENTIFICATION = "Section Identification";
+        public static final String CONTROL_QUALIFIER_1 = "Control Qualifier 1";
+        public static final String CONTROL_QUALIFIER_2 = "Control Qualifier 2";
+        public static final String NUMBER_OF_SEGMENTS = "Number of Segments";
+        public static final String INTERCHANGE_CONTROL_COUNT = "Interchange Control count";
+        public static final String NUM_0001 = "0001";
+        public static final String SYMBOL_ASTERISK = "*";
+        public static final String DOC_LOOKUP_SERVICE = "docLookupService";
+    }
     public static final class OleSerialReceivingTypeLoader {
         public static final String SER_RCPT_HIS_REC_ID = "SER_RCPT_HIS_REC_ID";
         public static final String SER_RCV_REC_ID = "SER_RCV_REC_ID";

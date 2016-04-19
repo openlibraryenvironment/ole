@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 4:04 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLEBatchProcessProfileBo extends PersistableBusinessObjectBase {
+public class OLEBatchProcessProfileBo extends PersistableBusinessObjectBase implements Comparable<OLEBatchProcessProfileBo> {
 
     private String batchProcessProfileId;
     private String batchProcessProfileName;
@@ -600,6 +600,11 @@ public class OLEBatchProcessProfileBo extends PersistableBusinessObjectBase {
 
     public void setBibImportProfileType(String bibImportProfileType) {
         this.bibImportProfileType = bibImportProfileType;
+    }
+
+    @Override
+    public int compareTo(OLEBatchProcessProfileBo o) {
+        return batchProcessProfileId.compareTo(o.batchProcessProfileId);
     }
 
     public List<OLEBatchProcessProfileMatchPoint> getOleBatchProcessProfileMatchPointList() {

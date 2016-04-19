@@ -3620,7 +3620,7 @@
     <sequence name="OLE_BAT_PRCS_FILTER_S" nextval="5"/>
     <sequence name="OLE_BAT_PRCS_FLE_TYP_S" nextval="1"/>
     <sequence name="OLE_BAT_PRCS_MNTN_FIELD_S" nextval="10"/>
-    <sequence name="OLE_BAT_PRCS_PRFLE_CNST_S" nextval="32"/>
+    <sequence name="OLE_BAT_PRCS_PRFLE_CNST_S" nextval="66"/>
     <sequence name="OLE_BAT_PRCS_TYP_S" nextval="1"/>
     <sequence name="OLE_BAT_PRCS_PRCT_FLD_S" nextval="1"/>
     <sequence name="OLE_BAT_PRF_BIB_DT_MAP_S" nextval="1"/>

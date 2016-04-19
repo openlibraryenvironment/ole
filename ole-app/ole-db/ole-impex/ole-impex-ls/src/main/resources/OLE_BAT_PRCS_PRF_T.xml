@@ -167,4 +167,12 @@
                         OBJ_ID="f6f342ca-d6b6-435f-adea-a6bb6dc5cedf" BAT_PRCS_MARC_ONLY="N"
                         OLE_BAT_PRCS_TYP="Bib Import" VER_NBR="1"/>
 
+    <OLE_BAT_PRCS_PRF_T BAT_PRCS_BIB_OVRL_ADD="add" BAT_PRCS_BIB_NO_MTCH="add"
+                        BAT_PRCS_INST_OVRL_ADD="keepOldAddNew"
+                        BAT_PRCS_INST_NO_MTCH="add"
+                        BAT_PRCS_PRF_DESC="Default EDI Export Format"
+                        BAT_PRCS_PRF_ID="22" BAT_PRCS_PRF_NM="Default_EDI_Format"
+                        OBJ_ID="f6f342ca-d6b6-435f-adea-a6bbc10cey" BAT_PRCS_MARC_ONLY="N"
+                        OLE_BAT_PRCS_TYP="EDI Export" VER_NBR="1"/>
+
 </dataset>

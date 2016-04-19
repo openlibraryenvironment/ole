@@ -1262,7 +1262,7 @@
     </bean>
 
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-profileConstantsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
-          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}">
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'EDI Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}">
         <property name="headerText" value="Constant and Default Values" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileConstantsBo" />
         <property name="propertyName" value="oleBatchProcessProfileConstantsList" />
@@ -1270,7 +1270,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="profileConstants_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Order Record Import' and document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Invoice Import'}">
+                <bean id="profileConstants_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType ne 'EDI Export' and document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Order Record Import' and document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Invoice Import'}">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFileDataTypeValuesFinder" />
                     </property>
@@ -1299,6 +1299,18 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
+                <bean id="ediExport_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'EDI Export'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="EDIExport" p:value="EDI Export"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
 
                 <ref bean="constant-datatype-bibmarc"/>
                 <ref bean="constant-datatype-holdings"/>
@@ -1306,6 +1318,7 @@
                 <ref bean="constant-datatype-eHoldings"/>
                 <ref bean="constant-datatype-orderImport"/>
                 <ref bean="constant-datatype-invoiceImport"/>
+                <ref bean="constant-datatype-ediExport"/>
                 <ref bean="constant-datatype-remaining"/>
 
                 <!--<bean id="profileConstants_attributeName" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name"  p:readOnly="@{!#isAddLine}">
@@ -1318,7 +1331,7 @@
                 </bean>-->
                 <bean id="profileConstants_attributeName1" parent="Uif-InputField" p:propertyName="attributeNameText" p:label="Enter Field Name" p:readOnly="@{!#isAddLine}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="@{!#empty(#line?.attributeName)}"/>
+                        <bean parent="Uif-TextControl" p:disabled="@{!#empty(#line?.attributeName) or #line.dataType eq 'EDIExport'}"/>
                     </property>
                 </bean>
                 <ref bean="constant-attributeNames-StatisticalCode"/>
@@ -1632,6 +1645,14 @@
             <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
         </property>
     </bean>
+    <bean id="constant-datatype-ediExport" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'EDIExport'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.SOASBatchProcessEDIExportSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
 
     <bean id="constant-datatype-holdings" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'Holdings'}" p:readOnly="@{!#isAddLine}">
         <property name="optionsFinder">
@@ -1657,7 +1678,7 @@
             <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
         </property>
     </bean>
-    <bean id="constant-datatype-remaining"  parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType ne 'Item' and #line.dataType ne 'Bibmarc' and #line.dataType ne 'Holdings' and #line.dataType ne 'EHoldings' and #line.dataType ne 'OrderImport' and #line.dataType ne 'InvoiceImport'}" p:readOnly="@{!#isAddLine}">
+    <bean id="constant-datatype-remaining"  parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType ne 'Item' and #line.dataType ne 'Bibmarc' and #line.dataType ne 'Holdings' and #line.dataType ne 'EHoldings' and #line.dataType ne 'OrderImport' and #line.dataType ne 'InvoiceImport' and #line.dataType ne 'EDIExport'}" p:readOnly="@{!#isAddLine}">
         <property name="optionsFinder">
             <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
         </property>
