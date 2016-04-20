@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/batch
+            http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       ">
+
+    <import resource="../config/context.xml"/>
+
+    <bean id="item" class="org.kuali.ole.batchxml.Item" scope="prototype"/>
+    <bean id="anotherItemProcessor" class="org.kuali.ole.batchxml.AnotherCustomItemProcessor"/>
+
+    <bean id="anotherExampleJobCron3" class="org.kuali.ole.batchxml.Cron">
+        <property name="jobId" value="anotherExampleJob" />
+        <property name="cronPattern" value="0 3 * * * *" />
+    </bean>
+
+    <batch:job id="anotherExampleJob">
+        <batch:description>Fiddling about with AnotherCustomItemProcessor's BibImport</batch:description>
+        <batch:step id="anotherExampleStep1">
+            <batch:tasklet>
+                <batch:chunk reader="cvsFileItemReader" writer="customItemWriter"
+                             processor="anotherItemProcessor" commit-interval="10">
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+        <property name="resource" value="classpath:/input/items.csv"/>
+        <property name="lineMapper">
+            <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                        <property name="names" value="id,property"/>
+                    </bean>
+                </property>
+                <property name="fieldSetMapper">
+                    <bean class="org.kuali.ole.batchxml.CustomFieldSetMapper"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="customItemWriter" class="org.kuali.ole.batchxml.CustomItemWriter"/>
+
+</beans>
