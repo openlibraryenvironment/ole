@@ -54,7 +54,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.selected = 1;
         $scope.page = 'batchScheduling/views/batchCreateJob.html';
         $scope.profileTypeValues = batchProcessTypeValues;
-        $scope.jobTypes = jobTypes;
+        //$scope.jobTypes = jobTypes;
         $scope.scheduleOptions = scheduleOptions;
         $scope.scheduleTypes = scheduleTypes;
         $scope.weekDays = weekDays;
@@ -116,12 +116,12 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             "profileType": $scope.batchProcessCreateTab.profileType,
             "profileId": $scope.batchProcessCreateTab.profileId,
             "profileName": $scope.batchProcessCreateTab.profileName,
-            "jobType": $scope.batchProcessCreateTab.jobType,
+            //"jobType": $scope.batchProcessCreateTab.jobType,
             "schedule": getBatchSchedule()
         };
 
         angular.element(document.getElementById('submit'))[0].disabled = true;
-        angular.element(document.getElementById('jobType'))[0].disabled = true;
+        //angular.element(document.getElementById('jobType'))[0].disabled = true;
         angular.element(document.getElementById('profileId'))[0].disabled = true;
         angular.element(document.getElementById('profileType'))[0].disabled = true;
         angular.element(document.getElementById('jobName'))[0].disabled = true;
@@ -174,10 +174,11 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
     };
 
-    $scope.schedulePopUp = function (jobId) {
+    $scope.schedulePopUp = function (index, jobId) {
         clearScheduleValues();
         document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
         $scope.jobId = jobId;
+        $scope.index = index;
         $scope.batchSchedule.showModal = !$scope.batchSchedule.showModal;
     };
 
@@ -199,6 +200,12 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
         doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {
             var data = response.data;
+            var index = $scope.index;
+            var batchProcessJob = $scope.batchProcessJobs[index];
+            batchProcessJob["jobType"] = data["jobType"];
+            batchProcessJob["cronExpression"] = data["cronExpression"];
+            $scope.batchProcessJobs[index] = batchProcessJob;
+            $scope.index = null;
             $scope.message = "Job Scheduled";
             $scope.batchSchedule.showModal = false;
             $scope.closeModal();
@@ -229,6 +236,18 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             var data = response.data;
             $scope.message = "Job Destroyed";
             $scope.batchProcessJobs.splice(index, 1);
+        });
+    };
+
+    $scope.unSchedule = function(index,jobId) {
+        var jobIdToUnschedule = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.UNSCHEDULE_PROCESS, {"jobId": jobIdToUnschedule}, function(response) {
+            var data = response.data;
+            var batchProcessJob = $scope.batchProcessJobs[index];
+            batchProcessJob["jobType"] = data["jobType"];
+            batchProcessJob["cronExpression"] = data["cronExpression"];
+            $scope.batchProcessJobs[index] = batchProcessJob;
+            $scope.message = "Job Unscheduled";
         });
     };
 

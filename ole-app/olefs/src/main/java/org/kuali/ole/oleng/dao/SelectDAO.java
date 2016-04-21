@@ -5,6 +5,8 @@ import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
+import org.kuali.ole.select.document.OLEEResourceRecordDocument;
+import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.vnd.businessobject.*;
@@ -41,5 +43,7 @@ public interface SelectDAO {
     public List<RecurringPaymentType> fetchAllRecurringPaymentType();
     public List<OleFundCode> fetchAllFundCode();
     public List<OleCurrencyType> fetchAllCurrencyType();
+    public List<OLEEResourceRecordDocument> fetchAllEResourceDocuments();
+    public List<OLEPlatformRecordDocument> fetchAllPlatformRecordDocuments();
 
 }

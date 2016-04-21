@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,8 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.BibFailureResponse;
 import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
 import org.kuali.ole.docstore.common.response.OrderFailureResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
+import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
@@ -21,10 +24,12 @@ import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.marc4j.marc.Record;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -335,6 +340,27 @@ public class BatchUtil extends OleNgUtil{
             e.printStackTrace();
         }
         return jsonObject.toString();
+    }
+
+    public BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob, String fileName) {
+        BatchJobDetails batchJobDetails = new BatchJobDetails();
+        batchJobDetails.setJobId(batchProcessJob.getJobId());
+        batchJobDetails.setJobName(batchProcessJob.getJobName());
+        batchJobDetails.setProfileType(batchProcessJob.getProfileType());
+        batchJobDetails.setProfileName(batchProcessJob.getBatchProfileName());
+        String loginUser = GlobalVariables.getUserSession().getPrincipalName();
+        batchJobDetails.setCreatedBy(loginUser); // Job initiated by
+        batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
+        batchJobDetails.setStatus(OleNGConstants.RUNNING);
+        batchJobDetails.setFileName(fileName);
+        batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+        return batchJobDetails;
+    }
+
+    public BatchProcessJob getBatchProcessJobById(Long jobId) {
+        Map map = new HashedMap();
+        map.put(OleNGConstants.JOB_ID, jobId);
+        return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
     }
 
 }

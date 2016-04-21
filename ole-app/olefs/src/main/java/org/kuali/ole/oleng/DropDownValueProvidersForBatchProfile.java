@@ -13,6 +13,8 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRec
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.SelectDAO;
+import org.kuali.ole.select.document.OLEEResourceRecordDocument;
+import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -155,6 +157,80 @@ public class DropDownValueProvidersForBatchProfile {
         return jsonArray;
     }
 
+    public JSONArray prepareAccessStatus(){
+        JSONArray jsonArray = new JSONArray();
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(OleNGConstants.ID,"Active");
+            jsonObject.put(OleNGConstants.VALUE,"Active");
+            jsonArray.put(jsonObject);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put(OleNGConstants.ID,"InActive");
+            jsonObject1.put(OleNGConstants.VALUE,"InActive");
+            jsonArray.put(jsonObject1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public JSONArray prepareEResourceName(){
+        List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = getSelectDAO().fetchAllEResourceDocuments();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(oleeResourceRecordDocuments)) {
+                for (Iterator<OLEEResourceRecordDocument> iterator = oleeResourceRecordDocuments.iterator(); iterator.hasNext(); ) {
+                    OLEEResourceRecordDocument oleeResourceRecordDocument = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.ID,oleeResourceRecordDocument.getTitle());
+                    jsonObject.put(OleNGConstants.VALUE,oleeResourceRecordDocument.getTitle());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public JSONArray prepareEResourceId(){
+        List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = getSelectDAO().fetchAllEResourceDocuments();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(oleeResourceRecordDocuments)) {
+                for (Iterator<OLEEResourceRecordDocument> iterator = oleeResourceRecordDocuments.iterator(); iterator.hasNext(); ) {
+                    OLEEResourceRecordDocument oleeResourceRecordDocument = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.ID,oleeResourceRecordDocument.getOleERSIdentifier());
+                    jsonObject.put(OleNGConstants.VALUE,oleeResourceRecordDocument.getOleERSIdentifier());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public JSONArray preparePlatform(){
+        List<OLEPlatformRecordDocument> olePlatformRecordDocuments = getSelectDAO().fetchAllPlatformRecordDocuments();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(olePlatformRecordDocuments)) {
+                for (Iterator<OLEPlatformRecordDocument> iterator = olePlatformRecordDocuments.iterator(); iterator.hasNext(); ) {
+                    OLEPlatformRecordDocument olePlatformRecordDocument = iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.ID,olePlatformRecordDocument.getName());
+                    jsonObject.put(OleNGConstants.VALUE,olePlatformRecordDocument.getName());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
     public Map<String, Method> getMethodMap() {
         if(null == methodMap) {
             try {
@@ -164,6 +240,10 @@ public class DropDownValueProvidersForBatchProfile {
                 methodMap.put("Receipt Status", this.getClass().getMethod("prepareReceiptStatus"));
                 methodMap.put("Access Location", this.getClass().getMethod("prepareAccessLocation"));
                 methodMap.put("Statistical Code", this.getClass().getMethod("prepareStatisticalSearchCode"));
+                methodMap.put("Access Status", this.getClass().getMethod("prepareAccessStatus"));
+                methodMap.put("EResource Name", this.getClass().getMethod("prepareEResourceName"));
+                methodMap.put("EResource Id", this.getClass().getMethod("prepareEResourceId"));
+                methodMap.put("Platform", this.getClass().getMethod("preparePlatform"));
             } catch (SecurityException e) {
                 e.printStackTrace();
             } catch (NoSuchMethodException e) {

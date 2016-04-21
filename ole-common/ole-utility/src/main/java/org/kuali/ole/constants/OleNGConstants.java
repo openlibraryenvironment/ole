@@ -213,6 +213,13 @@ public class OleNGConstants {
     public static final String EQUAL_TO = "Equals To";
     public static final String NOT_EQUAL_TO = "Not Equals To";
 
+    public static final String REST_BATCH_PROFILE_SEARCH = "rest/describe/profile/search";
+    public static final String REST_BATCH_PROFILE_SUBMIT = "rest/describe/profile/submit";
+    public static final String REST_BATCH_JOB_CREATE     = "rest/batch/job/create";
+    public static final String REST_BATCH_JOB_DESTROY    = "rest/batch/job/destroy";
+    public static final String REST_BATCH_PROCESS_JOBS   = "rest/describe/getBatchProcessJobs";
+    public static final String SCHEDULE_ALL_JOBS   = "rest/schedulerController/scheduleAllJobs";
+    public static final String PROCESS_ID = "processId";
     public static final String JOB_ID = "jobId";
     public static final String BATCH_PROCESS_ID = "batchProcessId";
     public static final String PROCESS_NAME = "batchProcessName";
@@ -242,6 +249,8 @@ public class OleNGConstants {
     public static final String MONTH_DAY = "monthDay";
     public static final String MONTH_FREQUENCY = "monthFrequency";
     public static final String SCHEDULE = "schedule";
+    public static final String SCHEDULED = "Scheduled";
+    public static final String ADHOC = "Adhoc";
     public static final String COMPLETED = "COMPLETED";
     public static final String FAILED = "FAILED";
     public static final String RUNNING = "RUNNING";
@@ -324,5 +333,12 @@ public class OleNGConstants {
     public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
     public static final String CHUNK_SIZE_FOR_BATCH_PROCESSING = "CHUNK_SIZE_FOR_BATCH_PROCESSING";
     public static final String CHARSET_UTF_8 = ";charset=UTF-8";
+
+
+    public static final String JOB_NAME_PFX = "BatchJob_Scheduled_";
+    public static final String TRIGGER_SFX = "_Trigger";
+    public static final String GROUP = "group1";
+    public static final String PROCESSOR = "PROCESSOR";
+    public static final String PRINCIPAL_NAME = "PRINCIPAL_NAME";
 
 }
