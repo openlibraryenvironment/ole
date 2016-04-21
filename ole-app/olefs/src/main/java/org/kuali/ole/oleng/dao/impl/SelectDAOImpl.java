@@ -8,6 +8,8 @@ import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.util.OrderImportFieldValuesUtil;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
+import org.kuali.ole.select.document.OLEEResourceRecordDocument;
+import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
@@ -152,6 +154,16 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     @Override
     public List<OleCurrencyType> fetchAllCurrencyType() {
         return (List<OleCurrencyType>) KRADServiceLocator.getBusinessObjectService().findAll(OleCurrencyType.class);
+    }
+
+    @Override
+    public List<OLEEResourceRecordDocument> fetchAllEResourceDocuments() {
+        return (List<OLEEResourceRecordDocument>) KRADServiceLocator.getBusinessObjectService().findAll(OLEEResourceRecordDocument.class);
+    }
+
+    @Override
+    public List<OLEPlatformRecordDocument> fetchAllPlatformRecordDocuments() {
+        return (List<OLEPlatformRecordDocument>) KRADServiceLocator.getBusinessObjectService().findAll(OLEPlatformRecordDocument.class);
     }
 
     public KeyValuesService getKeyValuesService() {

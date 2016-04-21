@@ -167,6 +167,54 @@ getMaintenanceDataForFieldTypeForDropDown = function (dataObject, index, fieldTy
             $scope.constantValues = $scope.statisticalCodeValues;
             populateOptions(dataObject, index, $scope.constantValues);
         }
+    } else if (fieldType == 'Access Status') {
+        if ($scope.accessStatusValues == undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {"dropDownType": fieldType}, function (response) {
+                var data = response.data;
+                $scope.accessStatusValues = data;
+                $scope.constantValues = data;
+                populateOptions(dataObject, index, $scope.constantValues);
+            });
+        } else {
+            $scope.constantValues = $scope.accessStatusValues;
+            populateOptions(dataObject, index, $scope.constantValues);
+        }
+    } else if (fieldType == 'EResource Name') {
+        if ($scope.eresourceNameValues == undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {"dropDownType": fieldType}, function (response) {
+                var data = response.data;
+                $scope.eresourceNameValues = data;
+                $scope.constantValues = data;
+                populateOptions(dataObject, index, $scope.constantValues);
+            });
+        } else {
+            $scope.constantValues = $scope.eresourceNameValues;
+            populateOptions(dataObject, index, $scope.constantValues);
+        }
+    } else if (fieldType == 'EResource Id') {
+        if ($scope.eresourceIdValues == undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {"dropDownType": fieldType}, function (response) {
+                var data = response.data;
+                $scope.eresourceIdValues = data;
+                $scope.constantValues = data;
+                populateOptions(dataObject, index, $scope.constantValues);
+            });
+        } else {
+            $scope.constantValues = $scope.eresourceIdValues;
+            populateOptions(dataObject, index, $scope.constantValues);
+        }
+    } else if (fieldType == 'Platform') {
+        if ($scope.platformValues == undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_DROP_DOWN_VALUES, {"dropDownType": fieldType}, function (response) {
+                var data = response.data;
+                $scope.platformValues = data;
+                $scope.constantValues = data;
+                populateOptions(dataObject, index, $scope.constantValues);
+            });
+        } else {
+            $scope.constantValues = $scope.platformValues;
+            populateOptions(dataObject, index, $scope.constantValues);
+        }
     } else if (fieldType == 'Chart Code') {
         if ($scope.chartCodeValues == undefined) {
             doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_ORDER_FIELD_VALUES, {"fieldName": fieldType}, function (response) {
