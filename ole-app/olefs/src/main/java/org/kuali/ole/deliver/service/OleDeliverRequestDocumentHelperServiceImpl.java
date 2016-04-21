@@ -621,7 +621,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if ((fmt.format(activationDate)).compareTo(fmt.format(new Date(System.currentTimeMillis()))) <= 0) {
                 if (expirationDate != null) {
                     if ((fmt.format(expirationDate)).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
-                        expired = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OleDeliverRequest.PATRON_RECORD_EXPIRE);
+                        expired = OLEConstants.OleDeliverRequest.PATRON_RECORD_EXPIRE;
                     }
                 }
             } else {
@@ -2543,7 +2543,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                 }*/
                 processRequestTypeByPickUpLocation(oleDeliverRequestBo);
-                String message = this.patronRecordExpired(oleDeliverRequestBo);
+                String message = ConfigContext.getCurrentContextConfig().getProperty(this.patronRecordExpired(oleDeliverRequestBo));
                 if (message != null) {
                     olePlaceRequest.setCode("015");
                     olePlaceRequest.setMessage(message);

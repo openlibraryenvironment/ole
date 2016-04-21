@@ -194,6 +194,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 JSONObject request = new JSONObject();
                 request.put("oldBarcode", oldBarcode);
                 request.put("newBarcode", newBarcode);
+                request.put("itemId",oldItemRecord.getItemId());
                 oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
             }
         } catch (ClassNotFoundException e) {

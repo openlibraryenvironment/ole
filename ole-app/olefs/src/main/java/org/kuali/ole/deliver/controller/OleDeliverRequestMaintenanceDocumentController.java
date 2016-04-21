@@ -199,6 +199,12 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
         oleDeliverRequestBo.setMessage(null);
         oleDeliverRequestBo.setValidToProcess(true);
         oleDeliverRequestBo.setRequestLevel(OLEConstants.ITEM_LEVEL);
+
+        if(!isItemBarcodeOrItemUUIDExist(oleDeliverRequestBo)){
+            oleDeliverRequestBo.setValidToProcess(false);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ITEM_BARCODE_OR_UUID_REQUIRED);
+            return super.route(form, result, request, response);
+        }
         if (oleDeliverRequestBo.getOperatorModifiedId() == null) {
             if (!docstoreUtil.isItemAvailableInDocStore(oleDeliverRequestBo)) {
                 oleDeliverRequestBo.setValidToProcess(false);
@@ -358,6 +364,13 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
         }else{
             return  super.route(form, result, request, response);
         }
+    }
+
+    private boolean isItemBarcodeOrItemUUIDExist(OleDeliverRequestBo oleDeliverRequestBo) {
+        if(StringUtils.isNotBlank(oleDeliverRequestBo.getItemId()) || StringUtils.isNotBlank(oleDeliverRequestBo.getItemUuid())){
+            return true;
+        }
+        return false;
     }
 
 
