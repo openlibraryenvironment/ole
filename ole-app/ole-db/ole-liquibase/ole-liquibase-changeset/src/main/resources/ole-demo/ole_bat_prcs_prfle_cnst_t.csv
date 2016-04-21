@@ -30,3 +30,30 @@ OLE_USR_DEF_VAL_ID,ATT_NM,ATT_VAL,DATA_TYPE,BAT_PRCS_PRF_ID,DEF_VAL,OBJ_ID,VER_N
 "29","vendorNumber","12106-0","InvoiceImport","5","default","1",1
 "30","caption","caption","OrderImport","6","default","1",1
 "31","deliveryBuildingRoomNumber","001","OrderImport","6","default","1",1
+32,Default Segment,UNA:+.? ',EDIExport,22,default,obj31,1
+33,Interchange Details,UNB+UNOC:3+*:ZZ+*:ZZ+*+*',EDIExport,22,default,obj32,1
+34,Unique Ref Number,UNH+*+ORDERS:D:96A:UN:EAN008',EDIExport,22,default,obj33,1
+35,Purap Document Identifier,BGM+220+*+9',EDIExport,22,default,obj34,1
+36,Order Date,DTM+137:*:102',EDIExport,22,default,obj35,1
+37,Vendor Username,NAD+BY+*::31B',EDIExport,22,default,obj36,1
+38,Vendor SAN,NAD+SU+*::31B',EDIExport,22,default,obj37,1
+39,Currency Code,CUX+2:GBP:9',EDIExport,22,default,obj38,1
+40,Line Item,LIN+1++*:EN',EDIExport,22,default,obj39,1
+41,Purchase Line Item,PIA+5+*:IB',EDIExport,22,default,obj40,1
+42,Item Price,PRI+AAA:*',EDIExport,22,default,obj41,1
+43,Item Author,IMD+F+BAU+:::*',EDIExport,22,default,obj42,1
+44,Item Title,IMD+F+BTI+:::*',EDIExport,22,default,obj43,1
+45,Item Publisher,IMD+F+BPU+:::*',EDIExport,22,default,obj44,1
+46,Item Publisher Date,IMD+F+BPD+:::*',EDIExport,22,default,obj45,1
+47,Item Quantity,QTY+21:*',EDIExport,22,default,obj46,1
+48,Reference Qualifier 1,RFF+BFN:*',EDIExport,22,default,obj47,1
+49,Reference Qualifier 2,RFF+LI:*',EDIExport,22,default,obj48,1
+50,Item Location,LOC+7+*::92',EDIExport,22,default,obj49,1
+51,Delivery Address,NAD+DP+*::31B+*',EDIExport,22,default,obj50,1
+52,Other Address,NAD+OB+*::31B+*',EDIExport,22,default,obj51,1
+53,Section Identification,UNS+S',EDIExport,22,default,obj52,1
+54,Control Qualifier 1,CNT+1:*',EDIExport,22,default,obj53,1
+55,Control Qualifier 2,CNT+2:*',EDIExport,22,default,obj54,1
+56,Note,FTX+LIN++::+*',EDIExport,22,default,obj55,1
+57,Number of Segments,UNT+*+*',EDIExport,22,default,obj56,1
+58,Interchange Control count,UNZ+1+*',EDIExport,22,default,obj57,1

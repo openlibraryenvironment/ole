@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -8350,7 +8349,7 @@ CREATE TABLE OLE_BAT_PRCS_PRFLE_CNST_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_S auto_increment = 32
+ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_S auto_increment = 66
 /
 
 # -----------------------------------------------------------------------

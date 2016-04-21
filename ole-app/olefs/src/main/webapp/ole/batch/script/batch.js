@@ -418,6 +418,9 @@ function refreshPageUser(){
         jq('#profileConstants_attributeValue_add_control').val('');
         jq('#hiddenButtonRefresh').focus().click();
     });
+    jq("#constant-datatype-orderImport_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
     jq("#constant-datatype-invoiceImport_add_control").live("change",function() {
         jq('#orderImport_oldAttributeName_add_control').val(null);
         jq('#profileConstants_attributeValue_add_control').val('');
@@ -430,10 +433,16 @@ function refreshPageUser(){
         jq('#profileConstants_attributeValue_add_control').val('');
         jq('#hiddenButtonRefresh').focus().click();
     });
+    jq("#constant-datatype-ediExport_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
     jq("#orderImport_dataType_add_control").live("change",function() {
         jq('#hiddenButtonRefresh').focus().click();
     });
     jq("#invoiceImport_dataType_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
+    jq("#ediExport_dataType_add_control").live("change",function() {
         jq('#hiddenButtonRefresh').focus().click();
     });
 }
