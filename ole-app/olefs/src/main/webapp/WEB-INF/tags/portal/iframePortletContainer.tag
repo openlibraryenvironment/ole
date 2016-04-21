@@ -20,10 +20,10 @@
 <%@ attribute name="frameHeight" required="false" %>
 
 <c:if test="${empty frameHeight || frameHeight == 0}">
-  <c:set var="frameHeight" value="500"/>
+  <c:set var="frameHeight" value="100"/>
 </c:if>
 
-<iframe src="${channelUrl}" onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>' name="iframeportlet" id="iframeportlet" style="height: ${frameHeight}px; width: 100%" title="E-Doc" frameborder="0" height="${frameHeight}px" scrolling="auto" width="100%"></iframe>                   
+<iframe src="${channelUrl}" onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>' name="iframeportlet" id="iframeportlet" style="height: ${frameHeight}%; width: 100%" title="E-Doc" frameborder="0" height="${frameHeight}%" scrolling="auto" width="100%"></iframe>
 
 <%-- 
   May want to move this to a script a js file at some point.
@@ -66,8 +66,8 @@
     /** sets the portlet container's height. */
     function setContainerHeight() {
       //reset the height to shrink the scroll height.  For the usecase where the portlet's contents got smaller.
-      getPortlet().style.height = '${frameHeight}px';
-   	  getPortlet().height = '${frameHeight}px';
+      //getPortlet().style.height = '${frameHeight}px'; //commented for jira  OLE-8655 to fix the frame sizing issue
+   	  getPortlet().height = '${frameHeight}%';
 
       var origionalHeight = '${frameHeight}';
       var height = '${frameHeight}';
@@ -81,12 +81,17 @@
       if(origionalHeight < (height + getHorScrollBarHeight())){
         //set the portlet & portlet container to be the same height - not using 100% for the portlet to avoid the inner scrollbar
         try {
-          getPortletContainer().style.height = height + 'px';
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
+            if(isChrome){
+                getPortletContainer().style.height = height+ 'px';//modified for jira  OLE-8655 to fix the frame sizing issue
+            }else{
+                getPortletContainer().style.height = height+100+ 'px';
+            }
         } catch ( ex ) {
           // do nothing, we can't get to the container
         }
-        getPortlet().style.height = (height + getHorScrollBarHeight()) + 'px';
-        getPortlet().height = (height + getHorScrollBarHeight()) + 'px';
+        //getPortlet().style.height = (height + getHorScrollBarHeight()) + 'px';//commented for jira  OLE-8655 to fix the frame sizing issue
+        getPortlet().height = (height + getHorScrollBarHeight()) + '%';
 
       }
     }
