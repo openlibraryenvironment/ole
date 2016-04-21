@@ -12,6 +12,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.BibTrees;
@@ -389,8 +390,10 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
                 Set<String> resultField = solrDocMap.keySet();
                 for (Iterator<String> iterator1 = resultField.iterator(); iterator1.hasNext(); ) {
                     String key = iterator1.next();
-                    Object value = solrDocMap.get(key);
-                    solrInputDocument.addField(key, value);
+                    if (!key.equalsIgnoreCase(OleNGConstants._VERSION_)) {
+                        Object value = solrDocMap.get(key);
+                        solrInputDocument.addField(key, value);
+                    }
                 }
             }
         }
@@ -404,7 +407,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
                 Set<String> resultField = solrDocMap.keySet();
                 for (Iterator<String> iterator1 = resultField.iterator(); iterator1.hasNext(); ) {
                     String key = iterator1.next();
-                    if (!key.equalsIgnoreCase("_​version_​")) {
+                    if (!key.equalsIgnoreCase(OleNGConstants._VERSION_)) {
                         Object value = solrDocMap.get(key);
                         solrInputDocument.addField(key, value);
                     }

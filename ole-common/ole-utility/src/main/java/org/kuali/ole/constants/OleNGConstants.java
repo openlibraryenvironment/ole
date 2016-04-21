@@ -341,4 +341,6 @@ public class OleNGConstants {
     public static final String PROCESSOR = "PROCESSOR";
     public static final String PRINCIPAL_NAME = "PRINCIPAL_NAME";
 
+    public static final String _VERSION_ = "_version_";
+
 }
