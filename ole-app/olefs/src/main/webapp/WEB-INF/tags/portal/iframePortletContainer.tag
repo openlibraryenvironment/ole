@@ -81,7 +81,12 @@
       if(origionalHeight < (height + getHorScrollBarHeight())){
         //set the portlet & portlet container to be the same height - not using 100% for the portlet to avoid the inner scrollbar
         try {
-          getPortletContainer().style.height = height+100 + 'px';//modified for jira  OLE-8655 to fix the frame sizing issue
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
+            if(isChrome){
+                getPortletContainer().style.height = height+ 'px';//modified for jira  OLE-8655 to fix the frame sizing issue
+            }else{
+                getPortletContainer().style.height = height+100+ 'px';
+            }
         } catch ( ex ) {
           // do nothing, we can't get to the container
         }
