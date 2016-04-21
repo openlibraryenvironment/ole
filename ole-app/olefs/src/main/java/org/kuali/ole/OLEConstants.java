@@ -3865,4 +3865,6 @@ public class OLEConstants {
     public static final String ERROR_FROM_DATE = "error.from.date";
     public static final String ERROR_TO_DATE = "error.to.date";
     public static final String REPLACMENT_FEE="REPL_FEE";
+    public static final String ITEM_BARCODE_OR_UUID_REQUIRED= "item.barcode.or.uuid.required";
+
 }

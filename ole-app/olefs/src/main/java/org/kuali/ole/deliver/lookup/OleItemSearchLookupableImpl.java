@@ -95,6 +95,8 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
         List<OleItemSearch> oleItemSearches = new ArrayList<>();
         //this.pageSize = Integer.parseInt(getParameter(OLEParameterConstants.ITM_SEARCH_DOCSTORE_ROW_SIZE_VALUE));
         this.pageSize = Integer.parseInt(page_Size);
+
+
         if (!pageDisplay.isEmpty() && pageDisplay.equalsIgnoreCase("search")) {
             this.start = 0;
             startIndex = "0";
