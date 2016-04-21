@@ -581,7 +581,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
 
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Level3Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
@@ -631,7 +631,7 @@ public class BrowseServiceImpl implements BrowseService {
         else {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Level3Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
@@ -665,7 +665,7 @@ public class BrowseServiceImpl implements BrowseService {
         else {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("CallNumber_sort","asc"));
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Level3Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
@@ -698,7 +698,7 @@ public class BrowseServiceImpl implements BrowseService {
         else {
 
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getLocation())) {
-                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Location_search", callNumberBrowseParams.getLocation()), "AND"));
+                searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "Level3Location_search", callNumberBrowseParams.getLocation()), "AND"));
             }
             if(StringUtils.isNotEmpty(callNumberBrowseParams.getClassificationScheme())) {
                 searchConditions.add(browseParams.buildSearchCondition("AND", browseParams.buildSearchField(docType, "ShelvingSchemeCode_search", callNumberBrowseParams.getClassificationScheme()), "AND"));
