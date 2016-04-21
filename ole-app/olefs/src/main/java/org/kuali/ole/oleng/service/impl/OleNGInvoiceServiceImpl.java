@@ -79,9 +79,8 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
     @Override
     public OleInvoiceDocument populateInvoiceDocWithOrderInformation(OleInvoiceDocument oleInvoiceDocument, List<OleInvoiceRecord> oleInvoiceRecords, Exchange exchange) throws Exception {
         SimpleDateFormat invoiceDateFormat = new SimpleDateFormat("yyyyMMdd");
-        UserSession userSession = new UserSession("ole-quickstart");
+        UserSession userSession = GlobalVariables.getUserSession();
         Person person = userSession.getPerson();
-        GlobalVariables.setUserSession(userSession);
 
         initiateInvoiceDocument(oleInvoiceDocument,person);
 
