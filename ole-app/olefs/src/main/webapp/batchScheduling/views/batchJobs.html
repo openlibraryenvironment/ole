@@ -34,10 +34,13 @@
                                 name="quickLaunch_{{$index}}" ng-click="quickLaunchPopUp(batchProcessJob.jobId)">Quick Launch
                         </button>
                         <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processSchedule_{{$index}}" ng-click="schedulePopUp(batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
+                                name="processSchedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
                         </button>
                         <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processReschedule_{{$index}}" ng-click="schedulePopUp(batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
+                                name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
+                        </button>
+                        <button type="button" id="processUnschedule_{{$index}}" class="btn btn-info btn-sm"
+                                name="processReschedule_{{$index}}" ng-click="unSchedule($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Unschedule
                         </button>
                         <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
                                 name="processDestroy_{{$index}}" ng-click="destroyJob($index, batchProcessJob.jobId)">Destroy

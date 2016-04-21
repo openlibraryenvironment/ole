@@ -15,6 +15,7 @@ import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
+import org.kuali.ole.oleng.scheduler.OleNGBatchJobScheduler;
 import org.kuali.ole.oleng.util.BatchExcelReportUtil;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
@@ -53,6 +54,9 @@ public class BatchRestController extends OleNgControllerBase {
 
     @Autowired
     private BatchInvoiceImportProcessor batchInvoiceImportProcessor;
+
+    @Autowired
+    private OleNGBatchJobScheduler oleNGBatchJobScheduler;
 
     private BatchExcelReportUtil batchExcelReportUtil;
 
@@ -131,6 +135,7 @@ public class BatchRestController extends OleNgControllerBase {
             String loginUser = GlobalVariables.getUserSession().getPrincipalName();
             batchProcessJob.setCreatedBy(loginUser);
             batchProcessJob.setCreatedOn(new Timestamp(new Date().getTime()));
+            batchProcessJob.setJobType(OleNGConstants.ADHOC);
             getBusinessObjectService().save(batchProcessJob);
             response = getObjectMapper().writeValueAsString(batchProcessJob);
         } catch (Exception e) {
@@ -144,12 +149,12 @@ public class BatchRestController extends OleNgControllerBase {
     public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         BatchJobDetails batchJobDetails = null;
         try {
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
+            BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
             if (null != file) {
                 File uploadedDirectory = storeUploadedFileToFileSystem(file);
                 if(null != uploadedDirectory) {
                     String originalFilename = file.getOriginalFilename();
-                    batchJobDetails = createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
+                    batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
                     getBusinessObjectService().save(batchJobDetails);
                     String extension = FilenameUtils.getExtension(originalFilename);
                     JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
@@ -203,9 +208,10 @@ public class BatchRestController extends OleNgControllerBase {
     @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String scheduleJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, @RequestParam("scheduleJob") String scheduleJobString, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
         try {
             BatchScheduleJob batchScheduleJob = convertJsonToScheduleJob(scheduleJobString);
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(Long.valueOf(jobId));
+            BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
             if (null != file) {
                 saveUploadedFile(matchedBatchJob, file);
             }
@@ -218,21 +224,54 @@ public class BatchRestController extends OleNgControllerBase {
                     matchedBatchJob.setNextRunTime(new Timestamp(date.getTime()));
                 }
             }
+            matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
             getBusinessObjectService().save(matchedBatchJob);
+            oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
+            jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
+            jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
+            jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return String.valueOf(jobId);
+        return jsonObject.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/job/unShedule", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
+    @ResponseBody
+    public String unShedule(@RequestParam("jobId") long jobId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(jobId);
+            if (null != matchedBatchJob) {
+                oleNGBatchJobScheduler.unScheduleJob(String.valueOf(jobId), true);
+                matchedBatchJob.setJobType(OleNGConstants.ADHOC);
+                matchedBatchJob.setCronExpression(null);
+                getBusinessObjectService().save(matchedBatchJob);
+                jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
+                jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
+                jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/job/destroy", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
     public String destroyJob(@RequestParam("jobId") long jobId) {
         try {
-            BatchProcessJob matchedBatchJob = getBatchProcessJobById(jobId);
+            BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(jobId);
             if (null != matchedBatchJob) {
                 getBusinessObjectService().delete(matchedBatchJob);
-                // Todo : Once scheduler come to picture, need to remove the job from quartz-scheduler also.
+                oleNGBatchJobScheduler.unScheduleJob(String.valueOf(jobId), true);
+                String schedulerUploadLocation = ConfigContext.getCurrentContextConfig().getProperty("schedulerUploadLocation");
+                File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
+                try {
+                    FileUtils.deleteDirectory(schedulerFileUploadLocation);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -406,22 +445,6 @@ public class BatchRestController extends OleNgControllerBase {
         return response.toString();
     }
 
-
-    private BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob, String fileName) {
-        BatchJobDetails batchJobDetails = new BatchJobDetails();
-        batchJobDetails.setJobId(batchProcessJob.getJobId());
-        batchJobDetails.setJobName(batchProcessJob.getJobName());
-        batchJobDetails.setProfileType(batchProcessJob.getProfileType());
-        batchJobDetails.setProfileName(batchProcessJob.getBatchProfileName());
-        String loginUser = GlobalVariables.getUserSession().getPrincipalName();
-        batchJobDetails.setCreatedBy(loginUser); // Job initiated by
-        batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
-        batchJobDetails.setStatus(OleNGConstants.RUNNING);
-        batchJobDetails.setFileName(fileName);
-        batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
-        return batchJobDetails;
-    }
-
     public BatchProcessJob convertJsonToProcessJob(String processJsonString) throws JSONException, IOException {
         getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         BatchProcessJob batchProcessJob = getObjectMapper().readValue(processJsonString, BatchProcessJob.class);
@@ -432,12 +455,6 @@ public class BatchRestController extends OleNgControllerBase {
         getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         BatchScheduleJob batchScheduleJob = getObjectMapper().readValue(scheduleJobJsonString, BatchScheduleJob.class);
         return batchScheduleJob;
-    }
-
-    public BatchProcessJob getBatchProcessJobById(Long jobId) {
-        Map map = new HashedMap();
-        map.put(OleNGConstants.JOB_ID, jobId);
-        return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
     }
 
     public BatchFileProcessor getBatchProcessor(String batchType) {
@@ -452,35 +469,23 @@ public class BatchRestController extends OleNgControllerBase {
     }
 
     private void saveUploadedFile(BatchProcessJob matchedBatchJob, MultipartFile multipartFile) throws IOException {
-        String directoryPath = getDirectoryPath(matchedBatchJob.getProfileType(), matchedBatchJob.getJobId());
-        File file = new File(directoryPath + multipartFile.getOriginalFilename());
+        File schedulerFileUploadLocation = getDirectoryPath(matchedBatchJob.getJobId());
+        File file = new File(schedulerFileUploadLocation , multipartFile.getOriginalFilename());
         FileUtils.writeStringToFile(file, IOUtils.toString(multipartFile.getBytes()));
     }
 
-    private String getDirectoryPath(String profileType, long jobId) {
-        String batchFileLocation = null;
-        String fileSeparator = FileSystems.getDefault().getSeparator();
-        String stagingDirectory = ConfigContext.getCurrentContextConfig().getProperty("staging.directory");
-        batchFileLocation = stagingDirectory + fileSeparator + getJobDirectoryName(profileType);
-
-        File profileTypeDirectory = new File(batchFileLocation);
-        if (profileTypeDirectory.isDirectory()) {
-            batchFileLocation = batchFileLocation + fileSeparator + jobId;
-            File jobDirectory = new File(batchFileLocation);
-            if (jobDirectory.isDirectory()) {
-                batchFileLocation = batchFileLocation + fileSeparator;
-            } else {
-                jobDirectory.mkdir();
-                batchFileLocation = batchFileLocation + fileSeparator;
-            }
-        } else {
-            batchFileLocation = batchFileLocation + fileSeparator + jobId;
-            File jobDirectory = new File(batchFileLocation);
-            jobDirectory.mkdirs();
-            batchFileLocation = batchFileLocation + fileSeparator;
+    private File getDirectoryPath(long jobId) {
+        String schedulerUploadLocation = ConfigContext.getCurrentContextConfig().getProperty("schedulerUploadLocation");
+        File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
+        try {
+            FileUtils.deleteDirectory(schedulerFileUploadLocation);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return batchFileLocation;
+        schedulerFileUploadLocation.mkdirs();
+        return schedulerFileUploadLocation;
     }
+
 
     private String getJobDirectoryName(String profileType) {
         String jobDirectoryName = null;
