@@ -315,7 +315,9 @@ public class OleNGConstants {
 
     public static final String TIMESTAMP_FOR_CAMEL = "-${date:now:yyyy-MMM-dd-hh-mm-ss-a}";
     public static final String QUICK_LAUNCH = "QuickLaunch-";
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss-a");
+    public static final String DATE_FORMAT_STRING = "yyyy-MMM-dd";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STRING + "-hh-mm-ss-a");
+    public static final SimpleDateFormat DATE_FORMAT_WITHOUT_TIME = new SimpleDateFormat(DATE_FORMAT_STRING);
     public static final String UTF_8 = "UTF-8";
     public static final String UTF_8_XML_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
@@ -340,6 +342,11 @@ public class OleNGConstants {
     public static final String GROUP = "group1";
     public static final String PROCESSOR = "PROCESSOR";
     public static final String PRINCIPAL_NAME = "PRINCIPAL_NAME";
+    public static final String PROVIDE_CRON_EXPRESSION = "Provide Cron Expression";
+    public static final String ONCE = "Once";
+    public static final String DAILY = "Daily";
+    public static final String WEEKLY = "Weekly";
+    public static final String MONTHLY = "Monthly";
 
     public static final String _VERSION_ = "_version_";
 

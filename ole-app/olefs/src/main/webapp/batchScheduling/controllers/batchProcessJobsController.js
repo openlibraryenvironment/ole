@@ -1,4 +1,4 @@
-var batchProcessJobsApp = angular.module('batchProcessJobs', ['datatables', 'customDirectives']);
+var batchProcessJobsApp = angular.module('batchProcessJobs', ['datatables', 'customDirectives', 'ui.date']);
 
 var jobTypes = [
     {id: 'adhoc', name: 'Adhoc'},
@@ -13,27 +13,52 @@ var scheduleOptions = [
 var scheduleTypes = [
     {id: 'once', name: 'Once'},
     {id: 'daily', name: 'Daily'},
-    {id: 'everyWeek', name: 'Every Week'},
-    {id: 'everyMonth', name: 'Every Month'}
+    {id: 'everyWeek', name: 'Weekly'},
+    {id: 'everyMonth', name: 'Monthly'}
 ];
 
 var weekDays = [
-    {id: 'monday', name: 'Monday'},
-    {id: 'tuesday', name: 'Tuesday'},
-    {id: 'wednesday', name: 'Wednesday'},
-    {id: 'thursday', name: 'Thursday'},
-    {id: 'friday', name: 'Friday'},
-    {id: 'saturday', name: 'Saturday'},
-    {id: 'sunday', name: 'Sunday'}
+    {id: 'mon', name: 'MON'},
+    {id: 'tue', name: 'TUE'},
+    {id: 'wed', name: 'WED'},
+    {id: 'thu', name: 'THU'},
+    {id: 'fri', name: 'FRI'},
+    {id: 'sat', name: 'SAT'},
+    {id: 'sun', name: 'SUN'}
 ];
 
 var monthDays = [];
+frequency = [];
+
+
+
+function enableDatePicker(){
+    $( "#scheduleDate" ).datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $('#scheduleDate').keydown(function(event) {
+        return false;
+    });
+}
 
 batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', 'DTOptionsBuilder', function ($scope, $http, $interval, DTOptionsBuilder) {
+
+
+
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
     }
+    for (var i = 1; i <= 12; i++) {
+        frequency.push({id: i,name: i});
+    }
+
+    $scope.dateOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0'
+    };
 
     $scope.quickLaunch = {};
     $scope.batchSchedule = {
@@ -41,7 +66,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         scheduleOptions: scheduleOptions,
         scheduleTypes: scheduleTypes,
         weekDays: weekDays,
-        monthDays: monthDays
+        monthDays: monthDays,
+        frequency: frequency
     };
 
     $scope.init = function() {
@@ -96,6 +122,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.batchSchedule.monthFrequency = null;
         $scope.batchSchedule.scheduleTime = null;
     };
+
 
     function clearScheduleValues() {
         $scope.batchSchedule.scheduleOption = 'Provide Cron Expression';
@@ -176,6 +203,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     $scope.schedulePopUp = function (index, jobId) {
         clearScheduleValues();
+        $scope.clearValidationMessages();
         document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
         $scope.jobId = jobId;
         $scope.index = index;
@@ -189,29 +217,38 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             document.getElementById('selectedFile').value = null;
             $scope.quickLaunch.showModal = false;
         } else if ($scope.batchSchedule.showModal) {
+            $scope.batchSchedule.scheduleJobFile = null;
+            document.getElementById('scheduleJobFile').value = null;
             $scope.batchSchedule.showModal = false;
         }
     };
 
     $scope.scheduleJob = function() {
+        $scope.clearValidationMessages();
         var fd = new FormData();
-        fd.append('jobId', $scope.jobId);
-        fd.append('file', $scope.batchSchedule.scheduleJobFile);
-        fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
-        doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {
-            var data = response.data;
-            var index = $scope.index;
-            var batchProcessJob = $scope.batchProcessJobs[index];
-            batchProcessJob["jobType"] = data["jobType"];
-            batchProcessJob["cronExpression"] = data["cronExpression"];
-            $scope.batchProcessJobs[index] = batchProcessJob;
-            $scope.index = null;
-            $scope.message = "Job Scheduled";
+        var isValid = $scope.validateSchedulerOptions($scope);
+        isValid = isValid && $scope.validateHhMm();
+        if(isValid) {
+            fd.append('jobId', $scope.jobId);
+            fd.append('file', $scope.batchSchedule.scheduleJobFile);
+            fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
+            doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {
+                var data = response.data;
+                var index = $scope.index;
+                var batchProcessJob = $scope.batchProcessJobs[index];
+                batchProcessJob["jobType"] = data["jobType"];
+                batchProcessJob["cronExpression"] = data["cronExpression"];
+                batchProcessJob["nextRunTime"] = data["nextRunTime"];
+                $scope.batchProcessJobs[index] = batchProcessJob;
+                $scope.index = null;
+                $scope.message = "Job Scheduled";
+                $scope.batchSchedule.showModal = false;
+                $scope.closeModal();
+            });
+            document.getElementById('scheduleJobFile').value = null;
             $scope.batchSchedule.showModal = false;
             $scope.closeModal();
-        });
-        $scope.batchSchedule.showModal = false;
-        $scope.closeModal();
+        }
     };
 
     $scope.submitQuickLaunchJob = function() {
@@ -257,6 +294,111 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
                 $scope.initializeExecutions()
             }
         }, 5000);
+    };
+
+    $scope.validateSchedulerOptions = function() {
+        var isValid = true;
+        if($scope.batchSchedule.scheduleOption === 'Provide Cron Expression') {
+            if($scope.isFieldEmpty($scope.batchSchedule.cronExpression)) {
+                $scope.batchProcessJobsForm['cronExpression'].$dirty = true;
+                $scope.batchProcessJobsForm['cronExpression'].$invalid = true;
+                isValid = false;
+            }
+        } else if($scope.batchSchedule.scheduleOption === 'Schedule'){
+            if($scope.isFieldEmpty($scope.batchSchedule.scheduleType)) {
+                $scope.batchProcessJobsForm['scheduleType'].$dirty = true;
+                $scope.batchProcessJobsForm['scheduleType'].$invalid = true;
+                isValid = false;
+            }
+
+            if($scope.batchSchedule.scheduleType === 'Once') {
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleDate)) {
+                    $scope.batchProcessJobsForm['scheduleDate'].$dirty = true;
+                    $scope.batchProcessJobsForm['scheduleDate'].$invalid = true;
+                    isValid = false;
+                }
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
+                    $scope.batchProcessJobsForm['scheduleTime'].$dirty = true;
+                    $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
+                    isValid = false;
+                }
+            } else if($scope.batchSchedule.scheduleType === 'Daily') {
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
+                    $scope.batchProcessJobsForm['scheduleTime'].$dirty = true;
+                    $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
+                    isValid = false;
+                }
+            } else if($scope.batchSchedule.scheduleType === 'Weekly') {
+                if($scope.isFieldEmpty($scope.batchSchedule.weekDay)) {
+                    $scope.batchProcessJobsForm['weekDay'].$dirty = true;
+                    $scope.batchProcessJobsForm['weekDay'].$invalid = true;
+                    isValid = false;
+                }
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
+                    $scope.batchProcessJobsForm['scheduleTime'].$dirty = true;
+                    $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
+                    isValid = false;
+                }
+
+            } else if($scope.batchSchedule.scheduleType === 'Monthly') {
+                if($scope.isFieldEmpty($scope.batchSchedule.monthDay)) {
+                    $scope.batchProcessJobsForm['monthDay'].$dirty = true;
+                    $scope.batchProcessJobsForm['monthDay'].$invalid = true;
+                    isValid = false;
+                }
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
+                    $scope.batchProcessJobsForm['monthFrequency'].$dirty = true;
+                    $scope.batchProcessJobsForm['monthFrequency'].$invalid = true;
+                    isValid = false;
+                }
+                if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
+                    $scope.batchProcessJobsForm['scheduleTime'].$dirty = true;
+                    $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
+                    isValid = false;
+                }
+
+            }
+
+        }
+        console.log("valid : " + isValid);
+        return isValid;
+    };
+
+    $scope.clearValidationMessages = function() {
+        $scope.batchProcessJobsForm['cronExpression'].$dirty = false;
+        $scope.batchProcessJobsForm['cronExpression'].$invalid = false;
+        $scope.batchProcessJobsForm['scheduleType'].$dirty = false;
+        $scope.batchProcessJobsForm['scheduleType'].$invalid = false;
+        $scope.batchProcessJobsForm['scheduleDate'].$dirty = false;
+        $scope.batchProcessJobsForm['scheduleDate'].$invalid = false;
+        $scope.batchProcessJobsForm['scheduleTime'].$dirty = false;
+        $scope.batchProcessJobsForm['scheduleTime'].$invalid = false;
+        $scope.batchProcessJobsForm['weekDay'].$dirty = false;
+        $scope.batchProcessJobsForm['weekDay'].$invalid = false;
+        $scope.batchProcessJobsForm['monthDay'].$dirty = false;
+        $scope.batchProcessJobsForm['monthDay'].$invalid = false;
+        $scope.batchProcessJobsForm['monthFrequency'].$dirty = false;
+        $scope.batchProcessJobsForm['monthFrequency'].$invalid = false;
+        document.getElementById("scheduleTime").style.backgroundColor = '#ffffff';
+    };
+
+    $scope.validateHhMm = function() {
+        var time = $scope.batchSchedule.scheduleTime;
+        var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
+        if (isValid) {
+            document.getElementById("scheduleTime").style.backgroundColor = '#bfa';
+        } else {
+            document.getElementById("scheduleTime").style.backgroundColor = '#fba';
+        }
+        return isValid;
     }
+
+
+    $scope.isFieldEmpty = function (field) {
+        if (field == undefined || field == null || field == '') {
+            return true;
+        }
+        return false;
+    };
 
 }]);

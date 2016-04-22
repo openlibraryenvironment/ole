@@ -4,10 +4,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.scheduler.job.BatchSchedulerJob;
+import org.kuali.ole.oleng.util.OleNGSchedulerHelperUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
 import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
 import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
@@ -18,7 +18,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -31,7 +30,7 @@ import java.util.List;
  * Created by SheikS on 4/18/2016.
  */
 @Service("oleNGBatchJobScheduler")
-public class OleNGBatchJobScheduler extends BusinessObjectServiceHelperUtil {
+public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
 
     private static final Logger LOG = Logger.getLogger(OleNGBatchJobScheduler.class);
 
