@@ -29,7 +29,8 @@ function buildHoldingWithItems(holdingsId, holdingsData, $http, $scope) {
     var showPrevious = false;
     var showNext = false;
     var itemUrl = '(DocType:item)AND(holdingsIdentifier:' + holdingsId + ')';
-    $http.get($scope.baseUri + itemUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,ItemBarcode_display&start=0&rows=' + $scope.itemPageSize).success(function (data) {
+    doGetRequest($scope, $http, $scope.baseUri + itemUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,ItemBarcode_display&start=0&rows=' + $scope.itemPageSize, null, function (response) {
+        var data = response.data;
         if (data.response.numFound > $scope.itemPageSize) {
             showNext = true;
         }
@@ -40,7 +41,8 @@ function buildHoldingWithItems(holdingsId, holdingsData, $http, $scope) {
 
 function buildHolding(holdingsId, holdingsData, itemData, showPrevious, showNext, $http, $scope) {
     var holdingsUrl = "id" + ":" + holdingsId;
-    $http.get($scope.baseUri + holdingsUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,itemIdentifier,holdingsIdentifier,bibIdentifier').success(function (data) {
+    doGetRequest($scope, $http, $scope.baseUri + holdingsUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,itemIdentifier,holdingsIdentifier,bibIdentifier', null, function (response) {
+        var data = response.data;
         $scope.holdingsResults = data.response.docs;
         var holdingsResponse = $scope.holdingsResults[0];
         var displayLabel = buildLabel(holdingsResponse);
@@ -100,7 +102,8 @@ function next(holdingsId, tree, leftOrRight, $http, $scope, $rootScope) {
 
 function setPageItemsOnHoldings(startId, holdingsId, tree, $http, $scope, $rootScope, leftOrRight, type) {
     var itemUrl = '(DocType:item)AND(holdingsIdentifier:' + holdingsId + ')';
-    $http.get($rootScope.baseUri + itemUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,ItemBarcode_display&start=' + startId + "&rows=" + $scope.itemPageSize).success(function (data) {
+    doGetRequest($scope, $http, $rootScope.baseUri + itemUrl + '&wt=json&fl=id,DocType,Location_display,CallNumberPrefix_display,CallNumber_display,CopyNumber_display,ItemBarcode_display&start=' + startId + "&rows=" + $scope.itemPageSize, null, function (response) {
+        var data = response.data;
         var itemData = buildItemDataFromResponse(data, holdingsId);
         if (data.response.numFound <=  (parseInt(startId) + parseInt($scope.itemPageSize))) {
             document.getElementById(leftOrRight + "Next_" + holdingsId).style.visibility = "hidden";
@@ -177,7 +180,8 @@ function buildBibTree(tree, $http, $scope) {
     var bibTree = [];
     angular.forEach(tree, function (bib) {
         var holdingsData = [];
-        $http.get($scope.baseUri + '(id:' + bib.id + ')' + '&wt=json').success(function (data) {
+        doGetRequest($scope, $http, $scope.baseUri + '(id:' + bib.id + ')' + '&wt=json', null, function (response) {
+            var data = response.data;
             var bibResults = data.response.docs[0];
             var holdingsIdentifiers = bibResults.holdingsIdentifier;
             rebuildHoldingsTreeData(holdingsIdentifiers, holdingsData, $http, $scope);

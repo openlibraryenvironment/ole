@@ -31,12 +31,12 @@ function searchConditions($scope, $http, $rootScope) {
         getUri();
     };
 
-    function getUri(){
-        $http.get("rest/ngTransferController/url")
-            .success(function (data) {
-                console.log(data.docstoreUrl)
-                $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
-            });
+    function getUri() {
+        doGetRequest($scope, $http, "rest/ngTransferController/url", null, function (response) {
+            var data = response.data;
+            console.log(data.docstoreUrl);
+            $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
+        });
     }
 
     $scope.showEntry = '10';
@@ -413,25 +413,25 @@ function searchConditions($scope, $http, $rootScope) {
         }
         var searchUrl = $scope.searchQuery;
         $scope.start = (pageNo * $scope.itemsPerPage) - $scope.itemsPerPage;
-        $http.get($rootScope.baseUri + searchUrl + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
-            success(function (data) {
-                $rootScope.searchResults = data.response.docs;
-                $scope.searchResults = data.response.docs;
-                if ($scope.searchResults.length > 0) {
-                    $rootScope.showResults = true;
-                    $rootScope.errorMessage = null;
-                } else {
-                    $rootScope.showResults = false;
-                    $rootScope.errorMessage = "No search results found";
-                }
-                $scope.total_count = data.response.numFound;
-                $rootScope.searched = true;
-                var noOfItemsOnPage = (pageNo * $scope.itemsPerPage);
-                if (noOfItemsOnPage > $scope.total_count) {
-                    noOfItemsOnPage = $scope.total_count;
-                }
-                buildPageEntriesInfo($scope.start + 1, noOfItemsOnPage, $scope.total_count);
-            });
+        doGetRequest($scope, $http, $rootScope.baseUri + searchUrl + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start, null, function (response) {
+            var data = response.data;
+            $rootScope.searchResults = data.response.docs;
+            $scope.searchResults = data.response.docs;
+            if ($scope.searchResults.length > 0) {
+                $rootScope.showResults = true;
+                $rootScope.errorMessage = null;
+            } else {
+                $rootScope.showResults = false;
+                $rootScope.errorMessage = "No search results found";
+            }
+            $scope.total_count = data.response.numFound;
+            $rootScope.searched = true;
+            var noOfItemsOnPage = (pageNo * $scope.itemsPerPage);
+            if (noOfItemsOnPage > $scope.total_count) {
+                noOfItemsOnPage = $scope.total_count;
+            }
+            buildPageEntriesInfo($scope.start + 1, noOfItemsOnPage, $scope.total_count);
+        });
     }
 
     function buildPageEntriesInfo(start, itemsPerPage, totalCount) {
