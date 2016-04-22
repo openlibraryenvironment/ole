@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.OleException;
 import org.kuali.ole.docstore.common.document.content.instance.Instance;
 import org.kuali.ole.docstore.common.document.content.instance.InstanceCollection;
@@ -822,8 +823,10 @@ public class WorkBibMarcDocBuilder
                 Set<String> resultField = solrDocMap.keySet();
                 for (Iterator<String> iterator1 = resultField.iterator(); iterator1.hasNext(); ) {
                     String key = iterator1.next();
-                    Object value = solrDocMap.get(key);
-                    solrInputDocument.addField(key, value);
+                    if (!key.equalsIgnoreCase(OleNGConstants._VERSION_)) {
+                        Object value = solrDocMap.get(key);
+                        solrInputDocument.addField(key, value);
+                    }
                 }
             }
         }
@@ -837,8 +840,10 @@ public class WorkBibMarcDocBuilder
                 Set<String> resultField = solrDocMap.keySet();
                 for (Iterator<String> iterator1 = resultField.iterator(); iterator1.hasNext(); ) {
                     String key = iterator1.next();
-                    Object value = solrDocMap.get(key);
-                    solrInputDocument.addField(key, value);
+                    if (!key.equalsIgnoreCase(OleNGConstants._VERSION_)) {
+                        Object value = solrDocMap.get(key);
+                        solrInputDocument.addField(key, value);
+                    }
                 }
             }
         }

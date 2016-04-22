@@ -35,7 +35,8 @@
         };
 
         $rootScope.transfer = function (transfer) {
-            $http.post("/olefs/rest/ngTransferController/transfer", transfer).success(function (data) {
+            doPostRequest($scope, $http, "rest/ngTransferController/transfer", transfer, function (response) {
+                var data = response.data;
                 $scope.message = data.message;
             });
         };
