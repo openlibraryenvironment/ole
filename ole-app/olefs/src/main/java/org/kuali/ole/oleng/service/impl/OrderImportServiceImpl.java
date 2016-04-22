@@ -5,7 +5,9 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
@@ -160,6 +162,16 @@ public class OrderImportServiceImpl implements OrderImportService {
         boolean validLocation = getOleDocstoreHelperService().isValidLocation(locationName.toString());
         if(validLocation) {
             oleTxRecord.setDefaultLocation(locationName.toString());
+        }
+
+        if(StringUtils.isBlank(oleTxRecord.getDefaultLocation())) {
+            ParameterValueResolver instance = ParameterValueResolver.getInstance();
+            String defaultLocation = instance.getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.SELECT_NMSPC,
+                    OLEConstants.SELECT_CMPNT, org.kuali.ole.sys.OLEConstants.ITEM_LOCATION_FIRM_FIXD);
+            validLocation = getOleDocstoreHelperService().isValidLocation(defaultLocation);
+            if(validLocation) {
+                oleTxRecord.setDefaultLocation(defaultLocation);
+            }
         }
     }
 

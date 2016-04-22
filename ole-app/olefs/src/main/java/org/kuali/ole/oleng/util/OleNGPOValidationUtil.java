@@ -188,7 +188,7 @@ public class OleNGPOValidationUtil {
         String defaultLocation = oleTxRecord.getDefaultLocation();
         if (StringUtils.isBlank(defaultLocation)){
             getBatchUtil().addOrderFaiureResponseToExchange(
-                    new ValidationException("Default Location cannot be blank or null"), recordIndex, exchange);
+                    new ValidationException("Default Location is invalid or null"), recordIndex, exchange);
             return false;
         }
         return true;
