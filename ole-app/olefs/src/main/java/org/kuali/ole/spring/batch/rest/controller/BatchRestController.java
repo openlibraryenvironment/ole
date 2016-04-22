@@ -212,24 +212,25 @@ public class BatchRestController extends OleNgControllerBase {
         try {
             BatchScheduleJob batchScheduleJob = convertJsonToScheduleJob(scheduleJobString);
             BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
-            if (null != file) {
-                saveUploadedFile(matchedBatchJob, file);
-            }
-            String cronExpression = batchScheduleJob.getCronExpression();
-            if (StringUtils.isNotBlank(cronExpression)) {
-                if (org.quartz.CronExpression.isValidExpression(cronExpression)) {
+            if(matchedBatchJob != null) {
+                String cronExpression = oleNGBatchJobScheduler.getCronExpression(batchScheduleJob);
+                if(StringUtils.isNotBlank(cronExpression) && CronExpression.isValidExpression(cronExpression)) {
+                    if (null != file) {
+                        saveUploadedFile(matchedBatchJob, file);
+                    }
                     matchedBatchJob.setCronExpression(cronExpression);
                     CronExpression cron = new CronExpression(cronExpression);
                     Date date = cron.getNextValidTimeAfter(new Date());
-                    matchedBatchJob.setNextRunTime(new Timestamp(date.getTime()));
+                    matchedBatchJob.setNextRunTime(null != date ? new Timestamp(date.getTime()) : null);
+                    matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
+                    getBusinessObjectService().save(matchedBatchJob);
+                    oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
+                    jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
+                    jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
+                    jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
+                    jsonObject.put(OleNGConstants.NEXT_RUN_TIME, matchedBatchJob.getNextRunTime());
                 }
             }
-            matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
-            getBusinessObjectService().save(matchedBatchJob);
-            oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
-            jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
-            jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
-            jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
         } catch (Exception e) {
             e.printStackTrace();
         }
