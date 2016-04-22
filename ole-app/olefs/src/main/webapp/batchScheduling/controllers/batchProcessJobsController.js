@@ -227,7 +227,6 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.clearValidationMessages();
         var fd = new FormData();
         var isValid = $scope.validateSchedulerOptions($scope);
-        isValid = isValid && $scope.validateHhMm();
         if(isValid) {
             fd.append('jobId', $scope.jobId);
             fd.append('file', $scope.batchSchedule.scheduleJobFile);
@@ -322,12 +321,14 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
                     $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
                     isValid = false;
                 }
+                isValid = isValid && $scope.validateHhMm()
             } else if($scope.batchSchedule.scheduleType === 'Daily') {
                 if($scope.isFieldEmpty($scope.batchSchedule.scheduleTime)) {
                     $scope.batchProcessJobsForm['scheduleTime'].$dirty = true;
                     $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
                     isValid = false;
                 }
+                isValid = isValid && $scope.validateHhMm()
             } else if($scope.batchSchedule.scheduleType === 'Weekly') {
                 if($scope.isFieldEmpty($scope.batchSchedule.weekDay)) {
                     $scope.batchProcessJobsForm['weekDay'].$dirty = true;
@@ -339,6 +340,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
                     $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
                     isValid = false;
                 }
+                isValid = isValid && $scope.validateHhMm()
 
             } else if($scope.batchSchedule.scheduleType === 'Monthly') {
                 if($scope.isFieldEmpty($scope.batchSchedule.monthDay)) {
@@ -356,6 +358,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
                     $scope.batchProcessJobsForm['scheduleTime'].$invalid = true;
                     isValid = false;
                 }
+                isValid = isValid && $scope.validateHhMm()
 
             }
 
