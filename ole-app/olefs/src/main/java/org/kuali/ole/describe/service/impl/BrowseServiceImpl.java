@@ -309,9 +309,10 @@ public class BrowseServiceImpl implements BrowseService {
             }
             holdingsList.add(holdings);
         }
-        previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() +"]";
-        nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
-
+        if(holdingsList.size() > 0){
+            previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() +"]";
+            nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
+        }
         return holdingsList;
     }
 
@@ -363,10 +364,10 @@ public class BrowseServiceImpl implements BrowseService {
             }
             itemList.add(item);
         }
-
-        previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() +"]";
-        nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
-
+        if (itemList.size() > 0) {
+            previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() + "]";
+            nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
+        }
         return itemList;
     }
 
@@ -398,17 +399,22 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.setPageSize(callNumberBrowseParams.getNumRows());
             String docType = callNumberBrowseParams.getDocTye();
             if (DocType.BIB.getCode().equals(docType)) {
-                  list = browseBibs(browseParams);
+                list = browseBibs(browseParams);
             } else {
                 if (docType.equalsIgnoreCase(DocType.ITEM.getCode())) {
                     List<Item> itemList = browseItems(browseParams);
-                    previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() +"]";
-                    nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
+                    if (itemList.size() > 0) {
+                        previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() + "]";
+                        nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
+                    }
                     return itemList;
                 } else {
                     List<Holdings> holdingsList = browseHoldings(browseParams);
-                    previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() +"]";
-                    nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
+                    if (holdingsList.size() > 0) {
+                        previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() + "]";
+                        nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
+                    }
+
                     return holdingsList;
                 }
 
@@ -426,24 +432,28 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.setPageSize(callNumberBrowseParams.getNumRows());
             String docType = callNumberBrowseParams.getDocTye();
             if (DocType.BIB.getCode().equals(docType)) {
-                  list = browseBibs(browseParams);
+                list = browseBibs(browseParams);
             } else {
                 if (docType.equalsIgnoreCase(DocType.ITEM.getCode())) {
                     List<Item> itemList = browseItems(browseParams);
-                    if(startIndex >= pageSize) {
+                    if (startIndex >= pageSize) {
                         Collections.reverse(itemList);
                     }
-                    previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() +"]";
-                    nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
+                    if (itemList.size() > 0) {
+                        previousBrowseValue = "[ * TO " + itemList.get(0).getShelvingOrder() + "]";
+                        nextBrowseValue = "[" + itemList.get(itemList.size() - 1).getShelvingOrder() + " TO * ]";
+                    }
                     return itemList;
 
                 } else {
                     List<Holdings> holdingsList = browseHoldings(browseParams);
-                    if(startIndex >= pageSize) {
+                    if (startIndex >= pageSize) {
                         Collections.reverse(holdingsList);
                     }
-                    previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() +"]";
-                    nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
+                    if (holdingsList.size() > 0) {
+                        previousBrowseValue = "[ * TO " + holdingsList.get(0).getShelvingOrder() + "]";
+                        nextBrowseValue = "[" + holdingsList.get(holdingsList.size() - 1).getShelvingOrder() + " TO * ]";
+                    }
                     return holdingsList;
                 }
             }
@@ -528,11 +538,7 @@ public class BrowseServiceImpl implements BrowseService {
                 LOG.info("Total Call Number count:" + totalCount);
 
                 if (StringUtils.isNotEmpty(callNumberBrowseText)) {
-                    CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(classificationScheme);
-                    callNumber.parse(callNumberBrowseText);
-                    String normalizedCallNumberBrowseText = callNumber.getShelfKey();
-                    normalizedCallNumberBrowseText = normalizedCallNumberBrowseText.replaceAll(" ", "-");
-                    callNumberBrowseParams.setCallNumberBrowseText(normalizedCallNumberBrowseText);
+                    callNumberBrowseParams.setCallNumberBrowseText(callNumberBrowseText);
                     BrowseParams browseParamsForwardCallNumberCount = buildBrowseParams(callNumberBrowseParams);
                     if (callNumberBrowseParams.getDocTye().equalsIgnoreCase(DocType.ITEM.getCode())) {
                         searchResponse = getDocstoreClient().browseItems(browseParamsForwardCallNumberCount);
