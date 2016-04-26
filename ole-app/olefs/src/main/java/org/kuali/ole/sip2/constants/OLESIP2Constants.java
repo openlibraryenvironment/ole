@@ -1,7 +1,7 @@
 package org.kuali.ole.sip2.constants;
 
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.sip2.service.NettyServer;
+import org.kuali.ole.service.NettyServer;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;

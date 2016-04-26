@@ -2,8 +2,8 @@ package org.kuali.ole.sip2.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.service.NettyServer;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.service.NettyServer;
 import org.kuali.ole.sip2.service.SIP2HelperService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -37,7 +37,7 @@ public class SIP2HelperServiceImpl implements SIP2HelperService {
         //String circulationService=parameterMap.get("circulationService")[0];
         if (StringUtils.isNotBlank(portNo) && StringUtils.isNotBlank(serverUrl)) {
 
-            olesip2Server = new NettyServer(Integer.parseInt(portNo), serverUrl);
+            //olesip2Server = new NettyServer(Integer.parseInt(portNo), serverUrl);
 
             try {
                 Thread thread = new Thread(olesip2Server);

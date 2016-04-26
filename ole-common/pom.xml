@@ -13,6 +13,7 @@
         <module>ole-solr-client</module>
         <module>ole-workflow-utility</module>
         <module>ole-docstore-common</module>
+        <module>ole-reporting</module>
     </modules>
     <dependencies>
         <dependency>

@@ -68,6 +68,12 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-api</artifactId>
             <version>${rice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -94,6 +100,11 @@
             <version>4.3.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.8.3</version>
+        </dependency>
 
     </dependencies>
 </project>

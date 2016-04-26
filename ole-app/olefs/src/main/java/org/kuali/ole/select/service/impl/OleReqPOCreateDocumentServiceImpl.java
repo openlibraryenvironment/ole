@@ -409,7 +409,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      * @param oleOrderRecord      OleOrderRecord
      * @return requisitionDocument OleRequisitionDocument
      */
-    private void setDeliveryDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+    public void setDeliveryDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
         if (LOG.isDebugEnabled())
             LOG.debug("bibInfoBean.getDeliveryBuildingCode----------->" + oleOrderRecord.getOleTxRecord().getBuildingCode());
 
@@ -463,7 +463,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
      * @param requisitionDocument OleRequisitionDocument
      * @return requisitionDocument OleRequisitionDocument
      */
-    private void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+    public void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
         VendorDetail vendorDetail = null;
         if (oleOrderRecord.getOleTxRecord().getVendorNumber() != null) {
              vendorDetail = getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());

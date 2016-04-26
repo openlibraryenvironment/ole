@@ -38,11 +38,16 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <context:component-scan base-package="org.kuali.ole.deliver.rest"/>
+    <!--<context:component-scan base-package="org.kuali.ole.gobi"/>-->
     <context:component-scan base-package="org.kuali.ole.describe.rest"/>
+    <context:component-scan base-package="org.kuali.ole.oleng"/>
+    <context:component-scan base-package="org.kuali.ole.spring.batch"/>
 
-    <!--<import resource="classpath:META-INF/spring/oauth/oauth2-configuration.xml"/>-->
+    <bean id="circulationRestService" class="org.kuali.ole.ncip.service.impl.CirculationRestServiceImpl"/>
+    <!--<bean id="gobiAPIService" class="org.kuali.ole.gobi.service.impl.GobiAPIServiceImpl"/>-->
 
-    <bean id="circulationRestService" class="org.kuali.ole.ncip.service.impl.CirculationRestServiceImpl">
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="500000000"/>
     </bean>
 
 </beans>

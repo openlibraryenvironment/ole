@@ -123,6 +123,9 @@ public class OleTxRecord {
 
     private String defaultLocation;
 
+    private String itemPriceSource;
+    private String singleCopyNumber;
+
     private List<String> oleDonors;
     private String requestorName;
     private String itemStatus;
@@ -154,7 +157,7 @@ public class OleTxRecord {
     private String recurringPaymentType;
     private String recurringPaymentBeginDate;
     private String recurringPaymentEndDate;
-
+    private String bibId;
 
 
     public String getRecurringPaymentType() {
@@ -252,6 +255,14 @@ public class OleTxRecord {
 
     public void setOrgCode(String orgCode) {
         this.orgCode = orgCode;
+    }
+
+    public String getSingleCopyNumber() {
+        return singleCopyNumber;
+    }
+
+    public void setSingleCopyNumber(String singleCopyNumber) {
+        this.singleCopyNumber = singleCopyNumber;
     }
 
     public String getItemChartCode() {
@@ -1057,11 +1068,27 @@ public class OleTxRecord {
         this.vendorInstrNotes = vendorInstrNotes;
     }
 
+    public void setBibId(String bibId) {
+        this.bibId = bibId;
+    }
+
+    public String getBibId() {
+        return bibId;
+    }
+
     public String getVendorAliasName() {
         return vendorAliasName;
     }
 
     public void setVendorAliasName(String vendorAliasName) {
         this.vendorAliasName = vendorAliasName;
+    }
+
+    public String getItemPriceSource() {
+        return itemPriceSource;
+    }
+
+    public void setItemPriceSource(String itemPriceSource) {
+        this.itemPriceSource = itemPriceSource;
     }
 }

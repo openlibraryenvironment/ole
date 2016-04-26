@@ -1,0 +1,39 @@
+<div class="panel-group" ng-model="reportReqSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="reportReqSectionPanel.collapsed = !reportReqSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': reportReqSectionPanel.collapsed, 'glyphicon-chevron-down': !reportReqSectionPanel.collapsed}"></span>
+                    Requisition Only
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <table datatable="ng" class="table table-bordered row-border hover">
+                        <thead style="height: 20px">
+                        <tr>
+                            <th>Document Number</th>
+                            <th>Record Number</th>
+                            <th>Title</th>
+                            <th>Successful Match Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="reportReq in reportReqSectionPanel">
+                            <td><span ng-bind="reportReq.reqDocumentNumber"></span></td>
+                            <td><span ng-bind="reportReq.recordNumber"></span></td>
+                            <td><span ng-bind="reportReq.title"></span></td>
+                            <td><span ng-bind="reportReq.successfulMatchPoints"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

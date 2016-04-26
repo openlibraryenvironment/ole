@@ -30,9 +30,6 @@
 
     <param name="project.home">\${user.home}/kuali/main/${environment}/${project.artifactId}</param>
 
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
-    <param name="config.location">${alt.config.location}</param>
     <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
 
     <param name="rice.logging.configure">true</param>
@@ -60,6 +57,15 @@
     <param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
     <param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
     <param name="data.xml.problem.location">${data.xml.root.location}/problem</param>
+
+    <param name="discovery.url">${ole.docstore.url.base}/bib</param>
+
+    <param name="solr.core.name">bib</param>
+    <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+    <param name="config.location">${alt.config.location}</param>
 
 
 

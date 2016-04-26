@@ -1,13 +1,17 @@
 package org.kuali.ole.converter;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.*;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.pojo.bib.BibliographicRecord;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcStreamReader;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
+import org.marc4j.*;
 import org.marc4j.marc.Record;
 
 import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,4 +64,72 @@ public class MarcXMLConverter {
     public void generateMarcBean(BibliographicRecord orderRecord) {
 
     }
+
+
+    public List<Record> convertRawMarchToMarc(String rawMarc) {
+        List<Record> records = new ArrayList<>();
+            MarcReader reader = new MarcStreamReader(IOUtils.toInputStream(rawMarc));
+            while (reader.hasNext()) {
+                Record record = reader.next();
+                records.add(record);
+
+            }
+
+        return records;
+    }
+
+    public Record getNextRecord(MarcReader reader) {
+        while (reader.hasNext()) {
+            Record record = reader.next();
+            return record;
+        }
+        return null;
+    }
+
+    public List<Record> convertMarcXmlToRecord(String marcXml) {
+        marcXml = convertToUTF8(marcXml);
+        List<Record> records = new ArrayList<>();
+        MarcReader reader = new MarcXmlReader(IOUtils.toInputStream(marcXml));
+        while (reader.hasNext()) {
+            Record record = reader.next();
+            records.add(record);
+        }
+
+        return records;
+    }
+
+    private String convertToUTF8(String marcXml) {
+        if(!marcXml.contains(OleNGConstants.UTF_8_XML_TAG)) {
+            marcXml = OleNGConstants.UTF_8_XML_TAG + marcXml;
+            InputStreamReader inputStreamReader = new InputStreamReader(IOUtils.toInputStream(marcXml));
+            String currentEncoding = inputStreamReader.getEncoding();
+            try {
+                String data = new String(marcXml.getBytes() , currentEncoding);
+                byte[] destinationBytes = data.getBytes(currentEncoding);
+                marcXml = new String(destinationBytes, OleNGConstants.UTF_8);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return marcXml;
+    }
+
+    public String convertMarcRecordToRawMarcContent(Record record) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcStreamWriter(byteArrayOutputStream);
+        writer.write(record);
+        writer.close();
+        return byteArrayOutputStream.toString();
+    }
+
+
+    public String generateMARCXMLContent(Record marcRecord){
+        org.apache.commons.io.output.ByteArrayOutputStream out = new org.apache.commons.io.output.ByteArrayOutputStream();
+        MarcWriter writer = new MarcXmlWriter(out);
+        writer.write(marcRecord);
+        writer.close();
+        return new String(out.toByteArray());
+    }
+
+
 }
