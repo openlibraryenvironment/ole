@@ -1,3 +1,4 @@
+
 -----------------------------------------------------------------------------
 -- OLE_ACC_LOC_T
 -----------------------------------------------------------------------------
@@ -8194,6 +8195,132 @@ PRIMARY KEY (AUDIT_ID)
 
 
 
+-----------------------------------------------------------------------------
+-- OLE_NG_BAT_PRF_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_NG_BAT_PRF_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_NG_BAT_PRF_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_T
+(
+      PRF_ID NUMBER(10,0)
+        , PRF_NM VARCHAR2(40)
+        , PRF_TYP VARCHAR2(40)
+        , CONTENT BLOB
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE OLE_NG_BAT_PRF_T
+    ADD CONSTRAINT OLE_NG_BAT_PRF_TP1
+PRIMARY KEY (PRF_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- OLE_NG_BAT_PRCS_JOB_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_NG_BAT_PRCS_JOB_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_NG_BAT_PRCS_JOB_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
+(
+      JOB_ID NUMBER(10,0)
+        , JOB_NAME VARCHAR2(100)
+        , PROFILE_TYPE VARCHAR2(40)
+        , PRF_ID NUMBER(10,0)
+        , JOB_TYPE VARCHAR2(40)
+        , CRON_EXP VARCHAR2(100)
+        , CREATED_BY VARCHAR2(40)
+        , CREATED_ON TIMESTAMP
+        , NEXT_RUN_TIME TIMESTAMP
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE OLE_NG_BAT_PRCS_JOB_T
+    ADD CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1
+PRIMARY KEY (JOB_ID)
+/
+
+
+CREATE INDEX OLE_NG_BAT_PRCS_I 
+  ON OLE_NG_BAT_PRCS_JOB_T 
+  (PRF_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- OLE_NG_BAT_JOB_DETAILS_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_NG_BAT_JOB_DETAILS_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_NG_BAT_JOB_DETAILS_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
+(
+      JOB_DETAIL_ID NUMBER(10,0)
+        , JOB_NAME VARCHAR2(100)
+        , JOB_ID NUMBER(10,0)
+        , PROFILE_TYPE VARCHAR2(40)
+        , PROFILE_NAME VARCHAR2(100)
+        , FILE_NAME VARCHAR2(100)
+        , CREATED_BY VARCHAR2(40)
+        , START_TIME TIMESTAMP
+        , END_TIME TIMESTAMP
+        , PER_COMPLETED VARCHAR2(40)
+        , TIME_SPENT VARCHAR2(40)
+        , TOTAL_RECORDS VARCHAR2(40)
+        , TOTAL_RECORDS_PRCSD VARCHAR2(40)
+        , TOTAL_FAILURE_RECORDS VARCHAR2(40)
+        , STATUS VARCHAR2(40)
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(8,0)
+    
+
+)
+/
+
+ALTER TABLE OLE_NG_BAT_JOB_DETAILS_T
+    ADD CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1
+PRIMARY KEY (JOB_DETAIL_ID)
+/
+
+
+CREATE INDEX OLE_NG_BAT_JOB_I 
+  ON OLE_NG_BAT_JOB_DETAILS_T 
+  (JOB_ID)
+/
+
+
+
+
+
 -- -----------------------------------------------------------------------
 -- OLE_GOKB_V
 -- -----------------------------------------------------------------------
@@ -10189,5 +10316,35 @@ END;
 /
 
 CREATE SEQUENCE HOLDINGS_AUDIT_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_NG_BAT_PRF_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_NG_BAT_PRF_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_NG_BAT_PRF_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_NG_BAT_PRCS_JOB_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_NG_BAT_PRCS_JOB_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_NG_BAT_PRCS_JOB_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_NG_BAT_JOB_DETAILS_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_NG_BAT_JOB_DETAILS_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_NG_BAT_JOB_DETAILS_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
