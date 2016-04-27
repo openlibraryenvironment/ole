@@ -1,0 +1,45 @@
+<div class="panel-group" ng-model="orderImportreportMainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="orderImportReportMainSectionPanel.collapsed = !orderImportReportMainSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': orderImportReportMainSectionPanel.collapsed, 'glyphicon-chevron-down': !orderImportReportMainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div>
+                        <div class="form-group">
+                            <table class="table table-bordered row-border hover">
+                                <thead>
+                                <tr>
+                                    <th>Job Name</th>
+                                    <th>Job Execution Id</th>
+                                    <th ng-show="orderImportReportMainSectionPanel.matchedCount > 0">Matched Count</th>
+                                    <th ng-show="orderImportReportMainSectionPanel.unmatchedCount > 0">Unmatched Count</th>
+                                    <th ng-show="orderImportReportMainSectionPanel.multiMatchedCount > 0">Multiple Matched Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span ng-bind="orderImportReportMainSectionPanel.jobName"></span></td>
+                                    <td><span ng-bind="orderImportReportMainSectionPanel.jobDetailId"></span></td>
+                                    <td ng-show="orderImportReportMainSectionPanel.matchedCount > 0"><span ng-bind="orderImportReportMainSectionPanel.matchedCount"></span></td>
+                                    <td ng-show="orderImportReportMainSectionPanel.unmatchedCount > 0"><span ng-bind="orderImportReportMainSectionPanel.unmatchedCount"></span></td>
+                                    <td ng-show="orderImportReportMainSectionPanel.multiMatchedCount > 0"><span ng-bind="orderImportReportMainSectionPanel.multiMatchedCount"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

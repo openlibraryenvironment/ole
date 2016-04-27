@@ -1,0 +1,91 @@
+<div class="form-group">
+    <p style="color:red" ng-show="batchProcessJobsForm['cronExpression'].$dirty && batchProcessJobsForm['cronExpression'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Cron expression is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['scheduleType'].$dirty && batchProcessJobsForm['scheduleType'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Schdule Type is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['scheduleDate'].$dirty && batchProcessJobsForm['scheduleDate'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Schdule Date is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['scheduleTime'].$dirty && batchProcessJobsForm['scheduleTime'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Schdule Time is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['weekDay'].$dirty && batchProcessJobsForm['weekDay'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Week day is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['monthDay'].$dirty && batchProcessJobsForm['monthDay'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Month day is required</p>
+    <p style="color:red" ng-show="batchProcessJobsForm['monthFrequency'].$dirty && batchProcessJobsForm['monthFrequency'].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Frequency is required</p>
+    <table class="table table-condensed table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th ng-show="batchSchedule.scheduleOption === 'Provide Cron Expression'">Cron</th>
+            <th ng-show="batchSchedule.scheduleOption === 'Schedule'">Type</th>
+            <th ng-show="batchSchedule.scheduleType === 'Once'" style="width: 200px">Date</th>
+            <th ng-show="batchSchedule.scheduleType === 'Weekly' || batchSchedule.scheduleType === 'Monthly'">
+                Day
+            </th>
+            <th ng-show="batchSchedule.scheduleType === 'Monthly'">Month Frequency</th>
+            <th ng-show="batchSchedule.scheduleType === 'Once' || batchSchedule.scheduleType === 'Daily' || batchSchedule.scheduleType === 'Weekly' || batchSchedule.scheduleType === 'Monthly'">
+                Time
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <select class="form-control" id="scheduleOption" name="scheduleOption"
+                        ng-model="batchSchedule.scheduleOption"
+                        ng-change="onChangeScheduleOption()" style="width: 210px">
+                    <option ng-repeat="option in batchSchedule.scheduleOptions" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleOption === 'Provide Cron Expression'">
+                <input class="form-control" id="cronExpression" name="cronExpression"
+                       type="text"
+                       ng-model="batchSchedule.cronExpression"
+                       style="height: 30px; width: 150px;"/>
+            </td>
+            <td ng-show="batchSchedule.scheduleOption === 'Schedule'">
+                <select class="form-control" id="scheduleType" name="scheduleType"
+                        ng-model="batchSchedule.scheduleType" style="width: 150px">
+                    <option ng-repeat="option in batchSchedule.scheduleTypes" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Once'" style="width: 200px">
+                <input class="form-control" ui-date="dateOptions" id="scheduleDate" name="scheduleDate"
+                       ng-model="batchSchedule.scheduleDate" style="height: 30px; width: 200px"/>
+                <!--<md-content style="width: 300px">
+                    <md-datepicker ng-model="batchSchedule.scheduleDate" md-placeholder="Enter date"></md-datepicker>
+                </md-content>-->
+            </td>
+            <td class="col-sm-6"
+                ng-show="batchSchedule.scheduleType === 'Weekly' || batchSchedule.scheduleType === 'Monthly'">
+                <select class="form-control" id="weekDay" name="weekDay"
+                        ng-model="batchSchedule.weekDay" style="width: 150px"
+                        ng-show="batchSchedule.scheduleType === 'Weekly'">
+                    <option ng-repeat="option in batchSchedule.weekDays" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+                <select class="form-control" id="monthDay" name="monthDay"
+                        ng-model="batchSchedule.monthDay" style="width: 70px"
+                        ng-show="batchSchedule.scheduleType === 'Monthly'">
+                    <option ng-repeat="option in batchSchedule.monthDays" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Monthly'">
+                <select class="form-control" id="monthFrequency" name="monthFrequency"
+                        ng-model="batchSchedule.monthFrequency" style="width: 70px"
+                        ng-show="batchSchedule.scheduleType === 'Monthly'">
+                    <option ng-repeat="option in batchSchedule.frequency" value="{{option.name}}">
+                        {{option.name}}
+                    </option>
+                </select>
+            </td>
+            <td ng-show="batchSchedule.scheduleType === 'Once' || batchSchedule.scheduleType === 'Daily' || batchSchedule.scheduleType === 'Weekly' || batchSchedule.scheduleType === 'Monthly'">
+                <input class="form-control" id="scheduleTime" name="scheduleTime" type="text"
+                       ng-model="batchSchedule.scheduleTime" placeholder="HH:MM" ng-blur="validateHhMm()"
+                       style="height: 30px; width: 100px;"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

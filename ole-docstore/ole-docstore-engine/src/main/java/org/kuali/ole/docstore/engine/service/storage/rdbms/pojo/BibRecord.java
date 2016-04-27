@@ -1,6 +1,9 @@
 package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 
 import org.kuali.ole.audit.AuditField;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -16,34 +19,66 @@ import java.util.List;
  * Time: 7:43 PM
  * To change this template use File | Settings | File Templates.
  */
+
+@JsonAutoDetect(JsonMethod.FIELD)
 public class BibRecord extends PersistableBusinessObjectBase
         implements Serializable {
 
+    @JsonProperty("bibId")
     private String bibId;
+
+    @JsonProperty("formerId")
     private String formerId;
+
     @AuditField
+    @JsonProperty("fassAddFlag")
     private Boolean fassAddFlag;
+
+    @JsonProperty("suppressFromPublic")
     private String suppressFromPublic; //= new Timestamp(new Date().getTime())
+
+    @JsonProperty("dateEntered")
     private Timestamp dateEntered;
+
+    @JsonProperty("dateCreated")
     private Timestamp dateCreated;
+
     @AuditField
+    @JsonProperty("content")
     private String content;
-   // private byte[] binaryContent;
+    // private byte[] binaryContent;
+
+    @JsonProperty("status")
     private String status;
+
+    @JsonProperty("statusUpdatedDate")
     private Timestamp statusUpdatedDate;
+
+    @JsonProperty("uniqueIdPrefix")
     private String uniqueIdPrefix;
+
     @AuditField
+    @JsonProperty("staffOnlyFlag")
     private Boolean staffOnlyFlag;
+
+    @JsonProperty("createdBy")
     private String createdBy;
+
     @AuditField
+    @JsonProperty("updatedBy")
     private String updatedBy;
+
     @AuditField
+    @JsonProperty("statusUpdatedBy")
     private String statusUpdatedBy;
+
+    @JsonProperty("holdingsRecords")
     private List<HoldingsRecord> holdingsRecords;
+
+    @JsonProperty("bibInfoRecord")
     private BibInfoRecord bibInfoRecord;
 
-
-
+    private String operationType;
 
   /*  public byte[] getBinaryContent() {
         return binaryContent;
@@ -196,5 +231,13 @@ public class BibRecord extends PersistableBusinessObjectBase
 
     public void setBibInfoRecord(BibInfoRecord bibInfoRecord) {
         this.bibInfoRecord = bibInfoRecord;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }

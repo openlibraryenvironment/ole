@@ -1,5 +1,6 @@
 package org.kuali.ole.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,11 +83,17 @@ public class OleInvoiceRecord {
     private String lineItemTaxAmount;
     private String summaryTaxAmount;
     private String summaryTaxableAmount;
+    private String subscriptionPeriod;
 
     // Summary of all Charges
     private String summaryAmount;
 
     private boolean validDoc;
+
+    private List olePurchaseOrderItems;
+    private boolean link;
+    private String matchPointType;
+    private Integer recordIndex;
 
     public String getVendorAlias() {
         return vendorAlias;
@@ -559,5 +566,48 @@ public class OleInvoiceRecord {
 
     public void setSummaryTaxableAmount(String summaryTaxableAmount) {
         this.summaryTaxableAmount = summaryTaxableAmount;
+    }
+
+    public boolean isLink() {
+        return link;
+    }
+
+    public void setLink(boolean link) {
+        this.link = link;
+    }
+
+    public List getOlePurchaseOrderItems() {
+        if(null == olePurchaseOrderItems) {
+            olePurchaseOrderItems = new ArrayList();
+        }
+        return olePurchaseOrderItems;
+    }
+
+    public void setOlePurchaseOrderItems(List olePurchaseOrderItems) {
+        this.olePurchaseOrderItems = olePurchaseOrderItems;
+    }
+
+    public String getMatchPointType() {
+        return matchPointType;
+    }
+
+    public void setMatchPointType(String matchPointType) {
+        this.matchPointType = matchPointType;
+    }
+
+    public String getSubscriptionPeriod() {
+        return subscriptionPeriod;
+    }
+
+    public void setSubscriptionPeriod(String subscriptionPeriod) {
+        this.subscriptionPeriod = subscriptionPeriod;
+    }
+
+    public Integer getRecordIndex() {
+        return recordIndex;
+    }
+
+    public void setRecordIndex(Integer recordIndex) {
+        this.recordIndex = recordIndex;
     }
 }

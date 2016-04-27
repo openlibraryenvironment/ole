@@ -493,4 +493,14 @@
 
     <param name="ole.reports.url">${ole.reports.url.base}</param>
 
+  <param name="solr.core.name">bib</param>
+  <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
+
+
+  <param name="report.directory">${project.home}/reports</param>
+  <param name="batchUploadLocation">${project.home}/batchUploadLocation</param>
+
+    <!-- Config for OCLC -->
+    <param name="oclc.port">10001</param>
+    <param name="oclc.url">${application.url}</param>
 </config>

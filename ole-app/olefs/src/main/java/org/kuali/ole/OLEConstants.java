@@ -846,6 +846,7 @@ public class OLEConstants {
         public static final String PERCENT = "percent";
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
+        public static final String SINGLE_COPY_NUMBER = "singleCopyNumber";
         public static final String VENDOR_NUMBER = "vendorNumber";
         public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
@@ -1057,6 +1058,8 @@ public class OLEConstants {
         public static final String E_HOLDINGS_PUBLISHER = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $j";
         public static final String E_HOLDINGS_IMPRINT = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $k";
 
+        public static final String REQUISITION_SOURCE = "requisitionSource";
+        public static final String ITEM_PRICE_SOURCE = "itemPriceSource";
     }
 
     public static final class OlePatron {
@@ -1163,6 +1166,8 @@ public class OLEConstants {
         public static final String OLE_PTRN_BILL_MAIN_DOC_SER = "olePatronBillMaintenanceDocumentService";
         public static final String NOT_ELIGIBLE_FOR_CREDIT = "error.not.eligible.for.credit";
         public static final String POSITIVE_VAL_NOT_ALLOWED = "error.positive.value.not.allowed";
+        public static final String PATRON_BILL_OLE_KR_KRAD = "/ole-kr-krad/";
+        public static final String PATRON_BILL_URL = "/portal.do?channelTitle=PatronBill&amp;channelUrl=";
         //patronMerge
         public static final String PATRON_MERGE_SURVIVOR_SELECT = "error.select.survivor";
         public static final String PATRON_MERGE_DUPLICATE_PATRON_SELECT = "error.select.dyingPatron";
@@ -3661,6 +3666,8 @@ public class OLEConstants {
     public static final String OVERDUE_NOTICE_TO_DATE = "OVERDUE_NOTICE_TO_DATE";
     public static final String OLE_LOAN_DAO = "oleLoanDao";
     public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
+    public static final String LOAN_HISTORY_DAO = "loanHistoryDAO";
+    public static final String REQUEST_NOTICE_DAO="requestNoticeDAO";
     public static final String POBA_DIRECTORY = "poba";
     public static final String SUCCESSFULLEY_UPLOADED = "success.file.upload";
 
@@ -3839,6 +3846,10 @@ public class OLEConstants {
     public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
     public static final String MAIN_REC_REC_TYP = "Main";
     public static final String MESSAGE_UNSAVED_CHANGES = "message.unsaved.changes";
+
+
+    public static final String MAX_NO_OF_THREAD_FOR_ORDER_IMPORT = "MAX_NO_OF_THREAD_FOR_ORDER_IMPORT";
+    public static final String CHUNK_SIZE_FOR_ORDER_IMPORT = "CHUNK_SIZE_FOR_ORDER_IMPORT";
     public static final String NOT_ELIGIBLE_FOR_DEBIT = "error.not.eligible.transfer";
     public static final String REQUIRED_TRANSFER_AMT = "transfer.amt.required";
     public static final String REFUND_NOT_APPLICABLE = "error.refund.not.applicable";

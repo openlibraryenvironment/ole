@@ -1,0 +1,135 @@
+<div class="panel-group" ng-model="fieldOperationsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="fieldOperationsPanel.collapsed = !fieldOperationsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !fieldOperationsPanel.collapsed, 'glyphicon-chevron-down': fieldOperationsPanel.collapsed}"></span>
+                    Field Operations
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['fieldOperationDataField_'+fieldOperationIndex].$dirty && batchProfileForm['fieldOperationDataField_'+fieldOperationIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['fieldOperationSubField_'+fieldOperationIndex].$dirty && batchProfileForm['fieldOperationSubField_'+fieldOperationIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Data Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Subfield</th>
+                        <th>Value</th>
+                        <th>Ignore GPF</th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fieldOperation in fieldOperationsPanel">
+                        <td class="col-xs-2">
+                            <select class="form-control" name="fieldOperationType_{{$index}}" id="fieldOperationType_{{$index}}" style="height: 30px; width: 200px;"
+                                    ng-model="fieldOperation.fieldOperationType" ng-hide="fieldOperation.isAddLine">
+                                <option ng-selected="{{option.name == fieldOperation.fieldOperationType}}"
+                                        ng-repeat="option in fieldOperation.fieldOperationTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.fieldOperationType"></span>
+                        </td>
+                        <td class="col-xs-2">
+                            <input class="form-control" id="fieldOperationDataField_{{$index}}" name="fieldOperationDataField_{{$index}}"
+                                   type="text"
+                                   ng-model="fieldOperation.dataField" style="height: 30px; width: 100px;"
+                                   ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.dataField"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationInd1_{{$index}}" name="fieldOperationInd1_{{$index}}"
+                                   type="text" ng-model="fieldOperation.ind1"
+                                   style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.ind1"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationInd2_{{$index}}" name="fieldOperationInd2_{{$index}}"
+                                   type="text" ng-model="fieldOperation.ind2"
+                                   style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.ind2"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationSubField_{{$index}}" name="fieldOperationSubField_{{$index}}"
+                                   type="text" ng-model="fieldOperation.subField"
+                                   style="height: 30px; width: 50px;" ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.subField"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationValue_{{$index}}" name="fieldOperationValue_{{$index}}"
+                                   type="text" ng-model="fieldOperation.value"
+                                   ng-hide="fieldOperation.isAddLine"/>
+                            <span ng-show="fieldOperation.isAddLine" ng-bind="fieldOperation.value"></span>
+                        </td>
+                        <td class="col-xs-1">
+                            <input class="form-control" id="fieldOperationIgnoreGPF_{{$index}}"
+                                   name="fieldOperationIgnoreGPF_{{$index}}"
+                                   type="checkbox" ng-model="fieldOperation.ignoreGPF" style="height: 20px;"
+                                   ng-show="fieldOperation.fieldOperationType == 'Globally Protected Field'"
+                                   ng-disabled="submitted">
+                        </td>
+                        <td class="col-sm-1" ng-hide="submitted">
+                            <button id="fieldOperationAddButton_{{$index}}"
+                                    name="fieldOperationAddButton_{{$index}}"
+                                    ng-click="fieldOperationAdd(fieldOperation)" ng-hide="fieldOperation.isAddLine || fieldOperation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="fieldOperationCopyButton_{{$index}}" name="fieldOperationCopyButton_{{$index}}"
+                                    ng-click="fieldOperationCopyRow($index)"
+                                    ng-show="fieldOperation.isAddLine && !fieldOperation.isEdit && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
+                            </button>
+                            <button id="fieldOperationEditButton_{{$index}}" name="fieldOperationEditButton_{{$index}}"
+                                    ng-click="fieldOperationEditRow($index)" ng-show="fieldOperation.isAddLine && !fieldOperation.isEdit && !submitted && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="fieldOperationUpdateButton_{{$index}}" name="fieldOperationUpdateButton_{{$index}}"
+                                    ng-click="fieldOperationUpdateRow($index)" ng-show="fieldOperation.isEdit && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="fieldOperationUpdateCancelButton_{{$index}}" name="fieldOperationUpdateCancelButton_{{$index}}"
+                                    ng-click="fieldOperationCancelUpdate($index)" ng-show="fieldOperation.isEdit && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button id="fieldOperationRemoveButton_{{$index}}"
+                                    name="fieldOperationRemoveButton_{{$index}}"
+                                    ng-click="fieldOperationRemove(fieldOperation)"
+                                    ng-show="fieldOperation.isAddLine && !fieldOperation.isEdit && !submitted  && fieldOperation.fieldOperationType != 'Globally Protected Field'"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
