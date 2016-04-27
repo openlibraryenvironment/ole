@@ -151,17 +151,17 @@ jq(document).ready(function () {
 
     });
 
-    jq(document).keypress(function(event){
+    jq(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         var type = jq("select[name='searchType']").val();
-        if(keycode == '13' && type == "search"){
+        if (keycode == '13' && type == "search") {
             submitForm('search', null, null, null, null);
-        }else if(keycode == '13'&& type == "browse") {
-            submitForm('browse', null, null, null, null);
+        } else if (keycode == '13' && type == "browse") {
+            submitForm('browse', null, null, true, function () {
+                browse()
+            });
         }
     });
-
-
 });
 
 
