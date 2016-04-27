@@ -67,11 +67,11 @@
 					<@text_control line 'partsInvoicedNumber' container "Invoiced Parts" false "5" "25" />
 				</#if></td>
                 <td><#if container.readOnly || manager.foreignCurrency>${line.poItem.invoiceItemListPrice!}<#else>
-					<@text_control_mouse_out line 'invoiceItemListPrice' container "Invoiced Price" false "5" "25" "onChangePOPriceScript();"/>
+					<@text_control line 'invoiceItemListPrice' container "Invoiced Price" false "5" "25" "onChangePOPriceScript();"/>
 				</#if></td>
 				<#if !manager.foreignCurrency>
                     <td><#if container.readOnly>${line.poItem.itemDiscount!}<#else>
-                        <@text_control_mouse_out line 'itemDiscount' container "Discount" false "5" "25" "onChangePOPriceScript();"/>
+						<@text_control line 'itemDiscount' container "Discount" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.itemDiscountType!"%"}<#else>
 						<@select_control line 'itemDiscountType' container "Discount Type" manager.discountKeyValues />
@@ -81,10 +81,10 @@
                 <td>${line.poItem.extendedPrice!?string.currency}</td>
 				<#if manager.foreignCurrency>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignItemListPrice!}<#else>
-                        <@text_control_mouse_out line 'invoiceForeignItemListPrice' container "Invoiced Foreign Price" false "5" "25" "onChangePOPriceScript();"/>
+						<@text_control line 'invoiceForeignItemListPrice' container "Invoiced Foreign Price" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignDiscount!}<#else>
-                        <@text_control_mouse_out line 'invoiceForeignDiscount' container "Foreign Discount" false "5" "25" "onChangePOPriceScript();"/>
+						<@text_control line 'invoiceForeignDiscount' container "Foreign Discount" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignDiscountType!"%"}<#else>
 						<@select_control line 'invoiceForeignDiscountType' container "Discount type" manager.discountKeyValues />
@@ -361,12 +361,4 @@
 		attributes='maxlength="${maxlength}" size="${size}" class="uif-textControl${required?string(" required","")}" data-role="Control" data-control_for="${line.lineId}_${prop}" onchange="${onchange}"'
 		path="KualiForm.${line.bindPath}.${prop}" />
 	</@control_wrapper>
-</#macro>
-
-<#macro text_control_mouse_out line prop container label required=false size="7" maxlength="19" onmouseout="">
-    <@control_wrapper "${line.lineId}_${prop}" container label>
-        <@spring.formInput id="${line.lineId}_${prop}_control"
-        attributes='maxlength="${maxlength}" size="${size}" class="uif-textControl${required?string(" required","")}" data-role="Control" data-control_for="${line.lineId}_${prop}" onmouseout="${onmouseout}"'
-        path="KualiForm.${line.bindPath}.${prop}" />
-    </@control_wrapper>
 </#macro>
