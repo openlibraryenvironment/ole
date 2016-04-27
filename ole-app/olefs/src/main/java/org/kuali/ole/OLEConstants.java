@@ -627,6 +627,8 @@ public class OLEConstants {
         public static final String GOKB_IMPORT = "GOKB Import";
         public static final String SERIAL_RECORD_IMPORT = "Serial Record Import";
         public static final String LOCATION_IMPORT = "Location Import";
+        public static final String FUND_RECORD_IMPORT = "Fund Record Import";
+        public static final String FUND_RECORD_SUCCESS = "Fund Record File uploaded successfully.";
         public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";
         public static final String CHECKIN = "checkIn";
         public static final String INSTANCE_INGEST = "instanceIngest";
@@ -763,6 +765,15 @@ public class OLEConstants {
         public static final String SERIAL_TYPE_NAME = "SERIAL_TYPE_CSV_NAME";
         public static final String SERIAL_HISTORY_NAME = "SERIAL_HISTORY_CSV_NAME";
         public static final String SERIAL_RECORD_DATE_FORMAT = "SERIAL_RECORD_DATE_FORMAT";
+        public static final String FUND_RECORD_NAME = "FUND_RECORD_CSV_NAME";
+        public static final String FUND_ACCOUNTING_LINE_RECORD_NAME = "FUND_ACCOUNTING_LINE_RECORD_CSV_NAME";
+        public static final String FUND_RECORD_UPLOAD_CSV = "error.fund.record.upload.csv";
+        public static final String FUND_ACCOUNT_RECORD_UPLOAD_CSV = "error.fund.account.upload.csv";
+        public static final String FUND_RECORD_TYPE_CSV = "error.fund.record.csv";
+        public static final String FUND_ACCOUNT_RECORD_TYPE_CSV = "error.fund.account.record.csv";
+        public static final String FUND_RECORD_NAME_MISMATCH = "error.fund.record.name.mismatch";
+        public static final String FUND_ACCOUNT_RECORD_NAME_MISMATCH = "error.fund.account.name.mismatch";
+        public static final String FUND_CODE_IMPORT_DIR_PATH = "batch.fund.import.directory";
 
         public static final String BATCH_DELETE_DIR_PATH = "batch.delete.directory";
         public static final String BATCH_BIB_IMPORT_DIR_PATH = "batch.bibImport.directory";

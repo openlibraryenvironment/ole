@@ -185,6 +185,9 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         } else if (jobDetailsBo.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.SERIAL_RECORD_IMPORT)) {
             jobDetailsBo.setSerialCSVErrorPath(getOLEBatchProcessDataHelper().getSerialCSVPathUrl(jobDetailsBo));
         }
+        else if (jobDetailsBo.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT)) {
+            jobDetailsBo.setFundCodeCSVErrorPath(getOLEBatchProcessDataHelper().getFundCodeCSVPathUrl(jobDetailsBo));
+        }
         List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
         oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);
         oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBo(jobDetailsBo);
@@ -208,7 +211,12 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
                 File file = null;
                 if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT)) {
                     file = new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + OLEConstants.OLEBatchProcess.DELETED_BIB_IDS_FILE_NAME);
-                } else {
+                }
+                else if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT)){
+                    String[] fileNames=jobDetailsBo.getUploadFileName().split(",");
+                            new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + "_FailureRecord" + "_" + fileNames[0]);
+                }
+                else {
                     file = new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + "_FailureRecord" + "_" + jobDetailsBo.getUploadFileName());
                 }
                 if (!file.exists() || !file.isFile()) {

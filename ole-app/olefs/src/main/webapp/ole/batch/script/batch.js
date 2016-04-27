@@ -32,6 +32,7 @@ function sessionStorageData() {
         jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val("");
         jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val("");
         jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").val("");
         jq('#hiddenButtonRefresh').focus().click();
 
     })
@@ -92,6 +93,12 @@ function sessionStorageData() {
     jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").live("blur", function () {
         sessionStorage.setItem("profile", "Serial Record Import");
         sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Fund Record Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").val());
 
     });
 }

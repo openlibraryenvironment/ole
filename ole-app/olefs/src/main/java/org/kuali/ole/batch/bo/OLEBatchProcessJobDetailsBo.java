@@ -76,6 +76,10 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
     private Integer createHoldingsCount;
     private Integer updateHoldingsCount;
 
+    private String fundCodeCSVErrorPath;
+    private String fndAcclnSuccessCount="0";
+    private String fndAcclnFailureCount="0";
+
     private Integer noOfEinstanceAdded;
     private Integer noOfEinstanceDeleted;
     private Integer noOfEinstanceCreatedWithOutLink;
@@ -234,6 +238,19 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
                 if(file.exists())
                     return true;
             }
+            else if (fileName.contains(getParameter(OLEConstants.OLEBatchProcess.FUND_RECORD_NAME))){
+                File file = new File(getBatchProcessFilePath(this.getBatchProcessType(),jobId) + this.getJobId() + "_FailureRecord" + "_" + fileName.replace("csv","xml"));
+                if(file.exists()) {
+                    return true;
+                }
+            }
+            else if (fileName.contains(getParameter(OLEConstants.OLEBatchProcess.FUND_ACCOUNTING_LINE_RECORD_NAME))){
+                File file = new File(getBatchProcessFilePath(this.getBatchProcessType(),jobId) + this.getJobId() + "_FailureRecord" + "_" + fileName.replace("csv","xml"));
+                if(file.exists()) {
+                    return true;
+                }
+            }
+
         }
         return false;
     }
@@ -570,6 +587,30 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
             e.printStackTrace();
         }
         return parameter;
+    }
+
+    public String getFundCodeCSVErrorPath() {
+        return fundCodeCSVErrorPath;
+    }
+
+    public void setFundCodeCSVErrorPath(String fundCodeCSVErrorPath) {
+        this.fundCodeCSVErrorPath = fundCodeCSVErrorPath;
+    }
+
+    public String getFndAcclnSuccessCount() {
+        return fndAcclnSuccessCount;
+    }
+
+    public void setFndAcclnSuccessCount(String fndAcclnSuccessCount) {
+        this.fndAcclnSuccessCount = fndAcclnSuccessCount;
+    }
+
+    public String getFndAcclnFailureCount() {
+        return fndAcclnFailureCount;
+    }
+
+    public void setFndAcclnFailureCount(String fndAcclnFailureCount) {
+        this.fndAcclnFailureCount = fndAcclnFailureCount;
     }
 
     public String getSerialCSVErrorPath() {

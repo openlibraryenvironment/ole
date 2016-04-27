@@ -460,6 +460,7 @@
     <param name="batch.orderRecord.directory">${staging.directory}/batchOrderRecord</param>
     <param name="batch.export.directory">${staging.directory}/export</param>
     <param name="batch.serial.import.directory">${staging.directory}/batchSerialImport</param>
+    <param name="batch.fund.import.directory">${staging.directory}/batchFundCodeImport</param>
 
 
     <!-- Locaion ingest Directory -->

@@ -302,6 +302,8 @@ public class OLEBatchProcessDataHelper {
             batchProcessLocation = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OLEBatchProcess.BATCH_EXPORT_DIR_PATH) + "/";
         } else if (batchProceesType.equals(OLEConstants.OLEBatchProcess.SERIAL_RECORD_IMPORT)) {
             batchProcessLocation = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OLEBatchProcess.SERIAL_IMPORT_DIR_PATH) + "/";
+        } else if (batchProceesType.equals(OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT)) {
+            batchProcessLocation = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OLEBatchProcess.FUND_CODE_IMPORT_DIR_PATH) + "/";
         } else if (batchProceesType.equals(OLEConstants.OLEBatchProcess.GOKB_IMPORT)) {
             batchProcessLocation = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OLEBatchProcess.BATCH_GOKB_IMPORT_DIR_PATH) + "/";
         }
@@ -490,6 +492,22 @@ public class OLEBatchProcessDataHelper {
         }
     }
 
+    public void createFundCodeBatchProcessFile(String batchProcessType, String documentFileName, String accountFileName, String documentFileContent, String accountFileContent, String jobId) throws Exception {
+        String fileLocation = getBatchProcessFilePath(batchProcessType ,jobId);
+        if (fileLocation != null) {
+            if (documentFileName != null) {
+                BufferedWriter documentOut = new BufferedWriter(new FileWriter(fileLocation + documentFileName));
+                documentOut.write(documentFileContent);
+                documentOut.close();
+            }
+            if (accountFileName != null) {
+                BufferedWriter accountOut = new BufferedWriter(new FileWriter(fileLocation + accountFileName));
+                accountOut.write(accountFileContent);
+                accountOut.close();
+            }
+        }
+    }
+
     public void createBatchBibImportFailureFile(String failureRecordData, String batchProcessType, String batchFileName, String jobId) throws Exception {
         String fileLocation = getBatchProcessFilePath(batchProcessType,jobId);
         String filePath = fileLocation + FileSystems.getDefault().getSeparator() + batchFileName;
@@ -555,6 +573,11 @@ public class OLEBatchProcessDataHelper {
     }
 
     public String getSerialCSVPathUrl(OLEBatchProcessJobDetailsBo job) {
+        return applicationUrl + OLEConstants.OLEBatchProcess.BATCH_CHANNEL_STRING + applicationUrl
+                + OLEConstants.OLEBatchProcess.DIRECTORY_LIST_LOCATION + getBatchProcessFilePath(job.getBatchProcessType(), job.getJobId()).replace(statingDirectory, "");
+    }
+
+    public String getFundCodeCSVPathUrl(OLEBatchProcessJobDetailsBo job) {
         return applicationUrl + OLEConstants.OLEBatchProcess.BATCH_CHANNEL_STRING + applicationUrl
                 + OLEConstants.OLEBatchProcess.DIRECTORY_LIST_LOCATION + getBatchProcessFilePath(job.getBatchProcessType(), job.getJobId()).replace(statingDirectory, "");
     }
