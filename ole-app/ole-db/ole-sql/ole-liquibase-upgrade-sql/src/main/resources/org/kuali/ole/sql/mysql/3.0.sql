@@ -194,7 +194,13 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'FORGIVE_LOST_FEES', 'OLEAC1017', '1', 'CONFG', 'REPL_FEE,LOST_ITEM_PRCS_FEE', 'Allows the specified fees to be forgiven while renew/return an lost item.', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:d5db80be60bdf425af3e33de47c229eb', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SYS', 'Batch', 'FUND_RECORD_CSV_NAME', '150', '1', 'CONFG', 'FundCode', 'The Name of the csv file ingested for Fund record import document name should ends with the value specified in this parameter', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SYS', 'Batch', 'FUND_ACCOUNTING_LINE_RECORD_CSV_NAME', '151', '1', 'CONFG', 'FundCodeAccountingLines', 'The Name of the csv file ingested for FundCode Accounting Lines record import document name should ends with the value specified in this parameter', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:8c9c1e904315754c05c41ebfe10bea57', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/3.0/db.changelog-20160208.xml::OLE_DS_ITEM_T_ADD::ole

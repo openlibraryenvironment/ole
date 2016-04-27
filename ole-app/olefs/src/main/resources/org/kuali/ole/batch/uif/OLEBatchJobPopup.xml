@@ -101,6 +101,14 @@
                             <bean id="orderImportFailureCountField-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.orderImportFailureCount" p:label="Number of orders import errors" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}"/>
 
+
+                            <bean id="noOfFundSuccessRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfSuccessRecords"
+                                  p:label="Record Success Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Fund Record Import'}"/>
+                            <bean id="noOfFundFailureRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfFailureRecords"
+                                  p:label="Record Failure Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Fund Record Import'}"/>
+
                             <bean id="noOfEinstanceAdded-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceAdded"
                                   p:label="E-Holdings Added"/>
@@ -147,6 +155,12 @@
                                   p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.serialCSVErrorPath}"
                                   p:label="Error File Path"
                                   p:render="@{oleBatchProcessJobDetailsBo.failureCSVAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import'}"/>
+
+                            <bean id="viewFailFundRecords" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="View Error File"
+                                  p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.fundCodeCSVErrorPath}"
+                                  p:label="Error File Path"
+                                  p:render="@{oleBatchProcessJobDetailsBo.failureCSVAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Fund Record Import'}"/>
 
                             <bean id="viewFailRecords" parent="Uif-LinkField" p:style="font-weight:bold;"
                                   p:linkText="DownLoad Failure Record"

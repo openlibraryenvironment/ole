@@ -74,6 +74,7 @@
                 <ref bean="BatchProcessDefinition-inputForOrderRecord"/>
                 <ref bean="SerialImport-InputXMLFile"/>
                 <ref bean="SerialImport-InputCSVFile"/>
+                <ref bean="BatchProcessDefinition-inputForFundRecordImport"/>
                 <ref bean="MaximumPageSizeWindow-HorizontalBoxSection"/>
             </list>
         </property>
@@ -114,6 +115,7 @@
                             <ref bean="BatchProcessDefinition-batchProcessProfileName_locationImport"/>
                             <ref bean="BatchProcessDefinition-batchProcessProfileName_claimReport"/>
                             <ref bean="BatchProcessDefinition-batchProcessProfileName_serialRecordImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_fundRecordImport"/>
 
 
 
@@ -307,6 +309,32 @@
 
                             <bean id="ingestInputFileName3" p:style="float:left;margin-left:50em" p:label="Upload Serial Record History Csv File"  parent="Uif-InputField" p:propertyName="document.serialRecordHistoryFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-inputForFundRecordImport" parent="Uif-VerticalBoxSection"
+          p:render="@{(document.batchProcessType eq 'Fund Record Import')}" p:layoutManager.style="border:1px solid;"
+          p:layoutManager.cssClasses="fl-container-flex">
+        <property name="headerText" value="Input Section"/>
+        <property name="items">
+            <list>
+                  <bean id="inputFundCSVFile" parent="Uif-InputField" p:style="float:left;margin-left:45em" p:required="true"
+                      p:propertyName="document.fundRecordDocumentFile" p:label="Upload Fund Record Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="40"/>
+                    </property>
+                </bean>
+                <bean id="ingestFundRecordInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Fund Record Csv File"  parent="Uif-InputField" p:propertyName="document.fundRecordDocumentFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+                <bean id="inputFundAcclnCSVFile" parent="Uif-InputField" p:style="float:left;margin-left:45em" p:required="true"
+                      p:propertyName="document.fundAcctlnDocumentFile" p:label="Upload Fund Accounting Line Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="40"/>
+                    </property>
+                </bean>
+
+                <bean id="ingestFundAcclnInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Fund Accounting Line Csv File"  parent="Uif-InputField" p:propertyName="document.fundAcclnFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
             </list>
         </property>
     </bean>
@@ -765,6 +793,24 @@
                     <bean parent="Uif-AttributeQueryConfig"
                           p:queryMethodToCall="retrieveBatchProfileNamesForSerialRecordImport"
                           p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessSerialRecordProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_fundRecordImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Fund Record Import'}" p:instructionalText="Type * for all. Other Letters for matching">
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForFundRecordImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessFundRecordProfileValueFinder"/>
                 </property>
                 <property name="templateOptions">
                     <map merge="true">

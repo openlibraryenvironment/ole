@@ -193,6 +193,10 @@ public class OLEBatchProcessDefinitionDocument extends PersistableBusinessObject
     private String marcFileName;
     private String ediFileName;
     private String oneTimeOrRecurring;
+    private MultipartFile fundRecordDocumentFile;
+    private String fundRecordDocumentFileName;
+    private MultipartFile fundAcctlnDocumentFile;
+    private String fundAcclnFileName;
     private OLEBatchProcessScheduleBo oleBatchProcessScheduleBo;
     private List<OLEBatchProcessScheduleBo> oleBatchProcessScheduleBoList;
     //private OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo;
@@ -583,6 +587,38 @@ public class OLEBatchProcessDefinitionDocument extends PersistableBusinessObject
 
     public void setSerialRecordTypeFileName(String serialRecordTypeFileName) {
         this.serialRecordTypeFileName = serialRecordTypeFileName;
+    }
+
+    public MultipartFile getFundRecordDocumentFile() {
+        return fundRecordDocumentFile;
+    }
+
+    public void setFundRecordDocumentFile(MultipartFile fundRecordDocumentFile) {
+        this.fundRecordDocumentFile = fundRecordDocumentFile;
+    }
+
+    public String getFundRecordDocumentFileName() {
+        return fundRecordDocumentFileName;
+    }
+
+    public void setFundRecordDocumentFileName(String fundRecordDocumentFileName) {
+        this.fundRecordDocumentFileName = fundRecordDocumentFileName;
+    }
+
+    public MultipartFile getFundAcctlnDocumentFile() {
+        return fundAcctlnDocumentFile;
+    }
+
+    public void setFundAcctlnDocumentFile(MultipartFile fundAcctlnDocumentFile) {
+        this.fundAcctlnDocumentFile = fundAcctlnDocumentFile;
+    }
+
+    public String getFundAcclnFileName() {
+        return fundAcclnFileName;
+    }
+
+    public void setFundAcclnFileName(String fundAcclnFileName) {
+        this.fundAcclnFileName = fundAcclnFileName;
     }
 
     public boolean isAddUnmatchedPatron() {
