@@ -10,7 +10,9 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.ASRItem;
 import org.kuali.ole.deliver.bo.OLEReturnHistoryRecord;
+import org.kuali.ole.deliver.bo.OleCirculationHistory;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.describe.bo.DocumentSelectionTree;
 import org.kuali.ole.describe.bo.DocumentTreeNode;
 import org.kuali.ole.describe.bo.InstanceEditorFormDataHandler;
@@ -49,6 +51,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
@@ -72,6 +75,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
 
     private static WorkItemOlemlEditor workItemOlemlEditor = null;
     private InstanceEditorFormDataHandler instanceEditorFormDataHandler = null;
+    private OleLoanDocumentDaoOjb loanDaoOjb;
 
     DocstoreClient docstoreClient = getDocstoreLocalClient();
 
@@ -316,6 +320,11 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     shelvingScheme.setCodeValue(callNumberDefaultValue);
                     oleItem.getCallNumber().setShelvingScheme(shelvingScheme);
                 }
+            }
+            OleCirculationHistory oleCirculationHistory = getLoanDaoOjb().retrieveCircHistoryRecord(oleItem.getItemIdentifier());
+            if(null != oleCirculationHistory) {
+                oleItem.setLastBorrower(oleCirculationHistory.getPatronId());
+                oleItem.setLastCheckinDate(new Timestamp(oleCirculationHistory.getCheckInDate().getTime()));
             }
         }
         return workInstanceOlemlForm;
@@ -1573,6 +1582,14 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.MARC_EDITOR_ITEM_COPY_MESSAGE);
         return editorForm;
     }
+
+    public OleLoanDocumentDaoOjb getLoanDaoOjb() {
+        if (null == loanDaoOjb) {
+            loanDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return loanDaoOjb;
+    }
+
 
     public DateTimeService getDateTimeService() {
         return (DateTimeService)SpringContext.getService("dateTimeService");
