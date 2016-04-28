@@ -1020,10 +1020,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setMissingPieceFlag(item.isMissingPieceFlag());
         getBusinessObjectService().save(itemRecord);
 
-        if (item.getStatisticalSearchingCode() != null) {
+        if (CollectionUtils.isNotEmpty(item.getStatisticalSearchingCode())) {
             ItemStatisticalSearchRecord itemStatisticalSearchRecord = saveItemStatisticalSearchCode(item.getStatisticalSearchingCode() , itemRecord.getItemId());
             List<ItemStatisticalSearchRecord> statisticalSearchRecords = new ArrayList<>();
-            statisticalSearchRecords.add(itemStatisticalSearchRecord);
+            if (null != statisticalSearchRecords) {
+                statisticalSearchRecords.add(itemStatisticalSearchRecord);
+            }
             itemRecord.setItemStatisticalSearchRecords((statisticalSearchRecords));
         }
         if (item.getFormerIdentifier() != null && item.getFormerIdentifier().size() > 0 && item.getFormerIdentifier().get(0).getIdentifier() != null) {
