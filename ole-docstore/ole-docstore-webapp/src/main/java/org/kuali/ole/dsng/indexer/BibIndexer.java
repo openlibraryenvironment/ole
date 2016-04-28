@@ -62,6 +62,12 @@ public class BibIndexer extends OleDsNgIndexer {
         List<SolrInputDocument> solrInputDocuments = getSolrInputDocumentListFromMap(inputDocumentForBib);
         commitDocumentToSolr(solrInputDocuments);
     }
+    
+    @Override
+    public void deleteDocument(String bibId) {
+        deleteBibDocumentFromSolr(bibId);
+        indexDeletedBibInfoToSolr(bibId);
+    }
 
     public Map<String,SolrInputDocument> getInputDocumentForBib(BibRecord bibRecord, Map parameterMap) {
         SolrInputDocument bibSolrInputDocument = buildSolrInputDocument(bibRecord, parameterMap);

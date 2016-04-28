@@ -48,7 +48,6 @@ public abstract class BatchFileProcessor extends BatchUtil {
     private MatchPointProcessor matchPointProcessor;
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchFileProcessor.class);
-    private MarcXMLConverter marcXMLConverter;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
     private MarcStreamingUtil marcStreamingUtil;
@@ -110,15 +109,6 @@ public abstract class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    private int getBatchChunkSize() {
-        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.CHUNK_SIZE_FOR_BATCH_PROCESSING);
-        if(NumberUtils.isDigits(parameterValue)) {
-            return Integer.valueOf(parameterValue);
-        }
-        return 1000;
-    }
-
     private Map<Integer, RecordDetails> getRecordDetailsMap(String rawContent) {
         Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();
         MarcReader reader = new MarcStreamReader(IOUtils.toInputStream(rawContent));
@@ -167,17 +157,6 @@ public abstract class BatchFileProcessor extends BatchUtil {
             return userSession.getPrincipalName();
         }
         return null;
-    }
-
-    public MarcXMLConverter getMarcXMLConverter() {
-        if(null == marcXMLConverter) {
-            marcXMLConverter = new MarcXMLConverter();
-        }
-        return marcXMLConverter;
-    }
-
-    public void setMarcXMLConverter(MarcXMLConverter marcXMLConverter) {
-        this.marcXMLConverter = marcXMLConverter;
     }
 
     @Override

@@ -79,7 +79,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.batchProcessCreateTab = {};
         $scope.selected = 1;
         $scope.page = 'batchScheduling/views/batchCreateJob.html';
-        $scope.profileTypeValues = batchProcessTypeValues;
+        $scope.profileTypeValues = BATCH_CONSTANTS.PROFILE_TYPES;
         //$scope.jobTypes = jobTypes;
         $scope.scheduleOptions = scheduleOptions;
         $scope.scheduleTypes = scheduleTypes;

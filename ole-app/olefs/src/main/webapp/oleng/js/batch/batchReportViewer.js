@@ -54,6 +54,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                     populateOrderImportReportFromContent(fileContent, $scope);
                 } else if (fileName.indexOf('Invoice') != -1) {
                     populateInvoiceImportReportFromContent(fileContent, $scope);
+                } else if (fileName.indexOf('BatchDelete') != -1) {
+                    populateBatchDeleteReportFromContent(fileContent, $scope);
                 }
             }
             $scope.batchReportViewer.showModal = true;

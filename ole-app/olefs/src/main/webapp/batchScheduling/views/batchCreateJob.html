@@ -22,9 +22,9 @@
                                 <select class="form-control" id="profileType" name="profileType"
                                         ng-model="batchProcessCreateTab.profileType" ng-change="populateProfileNames()"
                                         style="width: 250px">
-                                    <option ng-repeat="option in profileTypeValues | orderBy:'name'"
-                                            value="{{option.name}}">
-                                        {{option.name}}
+                                    <option ng-repeat="option in profileTypeValues | orderBy:'value'"
+                                            value="{{option.value}}">
+                                        {{option.value}}
                                     </option>
                                 </select>
                             </div>

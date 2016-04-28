@@ -38,6 +38,16 @@ function initializePanels($scope) {
     $scope.reportInvoiceSectionPanel = [];
     $scope.invoiceImportReportMainSectionPanel.collapsed = false;
     $scope.reportInvoiceSectionPanel.collapsed = false;
+
+    $scope.batchDeleteReportMainSectionActivePanel = [0];
+    $scope.batchDeleteReportSuccessSectionActivePanel = [];
+    $scope.batchDeleteReportFailureSectionActivePanel = [];
+    $scope.batchDeleteReportMainSectionPanel = [];
+    $scope.batchDeleteReportSuccessSectionPanel = [];
+    $scope.batchDeleteReportFailureSectionPanel = [];
+    $scope.batchDeleteReportMainSectionPanel.collapsed = false;
+    $scope.batchDeleteReportSuccessSectionPanel.collapsed = false;
+    $scope.batchDeleteReportFailureSectionPanel.collapsed = false;
 }
 
 function populateBibImportReportFromContent(fileContent, $scope) {
@@ -135,6 +145,13 @@ function populateInvoiceImportReportFromContent(fileContent, $scope) {
     $scope.reportInvoiceSectionPanel = getInvoiceSectionContent(fileContent);
 }
 
+function populateBatchDeleteReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForBatchDelete(fileContent);
+    $scope.batchDeleteReportMainSectionPanel = mainSectionContent;
+    $scope.batchDeleteReportSuccessSectionPanel = getDeleteSuccessSectionContent(fileContent);
+    $scope.batchDeleteReportFailureSectionPanel = getDeleteFailureSectionContent(fileContent);
+}
+
 function getMainSectionContent(fileContent) {
     var mainSectionContent = {
         "bibImportProfileName": fileContent["bibImportProfileName"],
@@ -156,6 +173,17 @@ function getMainSectionContent(fileContent) {
     return mainSectionContent;
 }
 
+
+function getMainSectionContentForBatchDelete(fileContent) {
+    var mainSectionContent = {
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
+        "deletedBibsCount": fileContent["deletedBibsCount"],
+        "failedBibsCount": fileContent["failedBibsCount"],
+        "totalRecordsCount": fileContent["totalRecordsCount"]
+    };
+    return mainSectionContent;
+}
 
 function getMainSectionContentForOrderAndInvoiceImport(fileContent) {
     var mainSectionContent = {
@@ -280,3 +308,38 @@ function getInvoiceFromResponse(invoiceResponse) {
     };
     return invoice;
 }
+
+function getDeleteSuccessSectionContent(fileContent) {
+    var deleteSuccessSectionContent = [];
+    var deleteSuccessResponses = fileContent["deleteSuccessResponses"];
+    if (deleteSuccessResponses != null && deleteSuccessResponses != undefined) {
+        for (var q = 0; q < deleteSuccessResponses.length; q++) {
+            var deleteSuccessMessage = getDeleteMessageFromResponse(deleteSuccessResponses[q]);
+            deleteSuccessSectionContent.push(deleteSuccessMessage);
+        }
+    }
+    return deleteSuccessSectionContent;
+}
+
+function getDeleteMessageFromResponse(deleteMessage) {
+    var deleteMessage = {
+        "matchPoint" : deleteMessage["matchPoint"],
+        "matchPointValue" : deleteMessage["matchPointValue"],
+        "bibId" : deleteMessage["bibId"],
+        "message" : deleteMessage["message"]
+    };
+    return deleteMessage;
+}
+
+function getDeleteFailureSectionContent(fileContent) {
+    var deleteFailureSectionContent = [];
+    var deleteFailureResponses = fileContent["deleteFailureResponses"];
+    if (deleteFailureResponses != null && deleteFailureResponses != undefined) {
+        for (var q = 0; q < deleteFailureResponses.length; q++) {
+            var deleteFailureMessage = getDeleteMessageFromResponse(deleteFailureResponses[q]);
+            deleteFailureSectionContent.push(deleteFailureMessage);
+        }
+    }
+    return deleteFailureSectionContent;
+}
+

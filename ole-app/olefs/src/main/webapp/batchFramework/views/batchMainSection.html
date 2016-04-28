@@ -43,10 +43,10 @@
                                     ng-model="mainSectionPanel.batchProcessType"
                                     ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
                                     style="width: 170px" ng-hide="inquiry" required>
-                                <option ng-selected="{{option.name == mainSectionPanel.batchProcessType}}"
-                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues | orderBy:'name'"
-                                        value="{{option.name}}">
-                                    {{option.name}}
+                                <option ng-selected="{{option.value == mainSectionPanel.batchProcessType}}"
+                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues | orderBy:'value'"
+                                        value="{{option.value}}">
+                                    {{option.value}}
                                 </option>
                             </select>
                             <span ng-show="inquiry" ng-bind="mainSectionPanel.batchProcessType"></span>

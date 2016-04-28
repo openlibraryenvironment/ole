@@ -18,9 +18,9 @@
                     <thead>
                     <tr>
                         <th ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Source</th>
-                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">Doc Type</th>
-                        <th>Match Type</th>
-                        <th>Match Type Value</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Delete'">Doc Type</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">Match Type</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">Match Type Value</th>
                         <th>Data/Control Field</th>
                         <th>Ind1</th>
                         <th>Ind2</th>
@@ -59,7 +59,10 @@
                             </select>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointDocType"></span>
                         </td>
-                        <td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Batch Delete'">
+                            <span id="matchPointDeleteDocumentType_{{$index}}" ng-bind="matchPoint.matchPointDocType"></span>
+                        </td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">
                             <select class="form-control" id="matchPointType_{{$index}}" name="matchPointType_{{$index}}"
                                     ng-model="matchPoint.matchPointType"
                                     ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine"
@@ -72,7 +75,7 @@
                             </select>
                             <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointType"></span>
                         </td>
-                        <td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">
                             <select class="form-control" id="matchPointValues_{{$index}}" name="matchPointValues_{{$index}}"
                                     ng-model="matchPoint.matchPointValue"
                                     ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine && (matchPoint.matchPointType == 'Call Number Type'
