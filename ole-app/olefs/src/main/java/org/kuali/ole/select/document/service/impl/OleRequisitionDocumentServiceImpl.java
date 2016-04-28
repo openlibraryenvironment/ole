@@ -18,10 +18,13 @@ package org.kuali.ole.select.document.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.gl.businessobject.Balance;
+import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
+import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
 import org.kuali.ole.select.OleSelectNotificationConstant;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderAccount;
 import org.kuali.ole.select.businessobject.OleRequisitionAccount;
 import org.kuali.ole.select.businessobject.OleSufficientFundCheck;
 import org.kuali.ole.select.document.service.OleRequisitionDocumentService;
@@ -190,40 +193,30 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
     private KualiDecimal getEncumbranceForAccount(String chartCode, String accountNumber, String objectCode) {
         Map encMap = new HashMap();
         Map itemMap = new HashMap();
-        Map reqsMap = new HashMap();
         encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         KualiDecimal encumAmount = KualiDecimal.ZERO;
-        List<OleRequisitionAccount> encumList = (List<OleRequisitionAccount>) SpringContext.getBean(
-                BusinessObjectService.class).findMatching(OleRequisitionAccount.class, encMap);
+        List<OlePurchaseOrderAccount> encumList = (List<OlePurchaseOrderAccount>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(OlePurchaseOrderAccount.class, encMap);
         if (encumList.size() > 0) {
-            for (OleRequisitionAccount olePurchaseOrderAccount : encumList) {
+            for (OlePurchaseOrderAccount olePurchaseOrderAccount : encumList) {
                 itemMap.put(OLEConstants.PO_ITEM_ID, olePurchaseOrderAccount.getItemIdentifier());
-                List<RequisitionItem> encumReqsList = (List<RequisitionItem>) SpringContext.getBean(
-                        BusinessObjectService.class).findMatching(RequisitionItem.class, itemMap);
-                for(RequisitionItem reqsItm: encumReqsList)  {
+                List<PurchaseOrderItem> encumPoItemList = (List<PurchaseOrderItem>) SpringContext.getBean(
+                        BusinessObjectService.class).findMatching(PurchaseOrderItem.class, itemMap);
+                for(PurchaseOrderItem poItm: encumPoItemList)  {
                     try {
-                        reqsMap.put(OLEConstants.PUR_DOC_IDENTIFIER,reqsItm.getPurapDocumentIdentifier());
-                        RequisitionDocument encumReqsDoc =  SpringContext.getBean(
-                                BusinessObjectService.class).findBySinglePrimaryKey(RequisitionDocument.class, reqsItm.getPurapDocumentIdentifier());
+                        PurchaseOrderDocument encumPoDoc =  SpringContext.getBean(
+                                BusinessObjectService.class).findBySinglePrimaryKey(PurchaseOrderDocument.class, poItm.getDocumentNumber());
 
-                        if (encumReqsDoc.getDocumentHeader().getDocumentNumber() == null) {
-                            encumReqsDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(encumReqsDoc.getDocumentNumber()));
+                        if (encumPoDoc.getDocumentHeader().getDocumentNumber() == null) {
+                            encumPoDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(encumPoDoc.getDocumentNumber()));
                         }
                         WorkflowDocument  workflowDocument = null;
-                        //GlobalVariables.setUserSession(new UserSession("ole-khuntley"));
-
-                        String user = null;
                         if (GlobalVariables.getUserSession() == null) {
-                           // kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                           // user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
-                           // GlobalVariables.setUserSession(new UserSession(user));
                             GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR)));
                         }
-
-
-                        workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(encumReqsDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
-                        if(!(workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isException())) {
+                        workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(encumPoDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
+                        if(!(workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isException() | workflowDocument.isSaved())) {
                             encumAmount = encumAmount.add(olePurchaseOrderAccount.getAmount());
                         }
                     }
@@ -233,8 +226,6 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                     }
                 }
                 itemMap.clear();
-                reqsMap.clear();
-
             }
         }
         return encumAmount;
@@ -298,39 +289,31 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
     private KualiDecimal getEncumbranceForObject(String chartCode, String accountNumber, String objectCode) {
         Map encMap = new HashMap();
         Map itemMap = new HashMap();
-        Map reqsMap = new HashMap();
         encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         encMap.put(OLEPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
         KualiDecimal encumAmount = KualiDecimal.ZERO;
-        List<OleRequisitionAccount> encumList = (List<OleRequisitionAccount>) SpringContext.getBean(
-                BusinessObjectService.class).findMatching(OleRequisitionAccount.class, encMap);
+        List<OlePurchaseOrderAccount> encumList = (List<OlePurchaseOrderAccount>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(OlePurchaseOrderAccount.class, encMap);
         if (encumList.size() > 0) {
-            for (OleRequisitionAccount olePurchaseOrderAccount : encumList) {
+            for (OlePurchaseOrderAccount olePurchaseOrderAccount : encumList) {
                 itemMap.put(OLEConstants.PO_ITEM_ID, olePurchaseOrderAccount.getItemIdentifier());
-                List<RequisitionItem> encumReqsList = (List<RequisitionItem>) SpringContext.getBean(
-                        BusinessObjectService.class).findMatching(RequisitionItem.class, itemMap);
-                for(RequisitionItem reqsItm: encumReqsList)  {
+                List<PurchaseOrderItem> encumPoItemList = (List<PurchaseOrderItem>) SpringContext.getBean(
+                        BusinessObjectService.class).findMatching(PurchaseOrderItem.class, itemMap);
+                for(PurchaseOrderItem purchaseOrderItem: encumPoItemList)  {
                     try {
-                        reqsMap.put(OLEConstants.PUR_DOC_IDENTIFIER,reqsItm.getPurapDocumentIdentifier());
-                        RequisitionDocument encumReqsDoc =  SpringContext.getBean(
-                                BusinessObjectService.class).findBySinglePrimaryKey(RequisitionDocument.class, reqsItm.getPurapDocumentIdentifier());
+                        PurchaseOrderDocument encumPoDoc =  SpringContext.getBean(
+                                BusinessObjectService.class).findBySinglePrimaryKey(PurchaseOrderDocument.class, purchaseOrderItem.getDocumentNumber());
 
-                        if (encumReqsDoc.getDocumentHeader().getDocumentNumber() == null) {
-                            encumReqsDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(encumReqsDoc.getDocumentNumber()));
+                        if (encumPoDoc.getDocumentHeader().getDocumentNumber() == null) {
+                            encumPoDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(encumPoDoc.getDocumentNumber()));
                         }
                         WorkflowDocument  workflowDocument = null;
-                        //GlobalVariables.setUserSession(new UserSession("ole-khuntley"));
-                        String user = null;
                         if (GlobalVariables.getUserSession() == null) {
-                          //  kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                        //    user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                             GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR)));
-
-//                            GlobalVariables.setUserSession(new UserSession(user));
                         }
-                        workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(encumReqsDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
-                        if(!(workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isException())) {
+                        workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(encumPoDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
+                        if(!(workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isException() || workflowDocument.isSaved())) {
                             encumAmount = encumAmount.add(olePurchaseOrderAccount.getAmount());
                         }
                     }
@@ -340,7 +323,6 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                     }
                 }
                 itemMap.clear();
-                reqsMap.clear();
             }
         }
         return encumAmount;
