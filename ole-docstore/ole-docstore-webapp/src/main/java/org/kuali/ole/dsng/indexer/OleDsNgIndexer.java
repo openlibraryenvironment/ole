@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
@@ -9,6 +10,7 @@ import org.apache.solr.common.SolrInputField;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 
 import java.util.*;
@@ -25,6 +27,8 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
     public abstract void indexDocument(Object object);
 
     public abstract void updateDocument(Object object);
+
+    public abstract void deleteDocument(String id);
 
     public abstract SolrInputDocument buildSolrInputDocument(Object object,Map<String, SolrInputDocument> parameterMap);
 
@@ -140,6 +144,22 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
 
     public void commitDocumentToSolr(List<SolrInputDocument> solrInputDocuments){
         getSolrRequestReponseHandler().updateSolr(solrInputDocuments);
+    }
+
+    public void deleteBibDocumentFromSolr(String bibId) {
+        String query = BIB_ID + bibId;
+        getSolrRequestReponseHandler().deleteFromSolr(query);
+    }
+
+    public UpdateResponse indexDeletedBibInfoToSolr(String bibId) {
+        String newId = bibId + "_d";
+        SolrInputDocument solrInputDocument = new SolrInputDocument();
+        solrInputDocument.setField(DOC_TYPE, BIBLIOGRAPHIC_DELETE);
+        solrInputDocument.setField(DATE_UPDATED, new Date());
+        solrInputDocument.setField(UNIQUE_ID, newId);
+        solrInputDocument.setField(ID, newId);
+        solrInputDocument.setField(LOCALID_DISPLAY, DocumentLocalId.getDocumentIdDisplay(bibId));
+        return getSolrRequestReponseHandler().updateSolr(Collections.singletonList(solrInputDocument), false);
     }
 
     public void buildSolrInputDocFromSolrDoc(Map<String,Object> solrFieldMap, SolrInputDocument solrInputDocument) {

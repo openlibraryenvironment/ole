@@ -65,6 +65,13 @@ public class OleDsNGRestAPIController {
         return savedBibJsonObject;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.PROCESS_DELETE_BIBS, produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @ResponseBody
+    public ResponseEntity processDeleteBibs(@RequestBody String body) throws Exception {
+        String deleteResponseObject = getOleDsNgRestAPIProcessor().processDeleteBibs(body);
+        return new ResponseEntity<String>(deleteResponseObject, HttpStatus.CREATED);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = OleNGConstants.PROCESS_BIB_HOLDINGS_ITEMS, produces = {MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     @ResponseBody
     public ResponseEntity processBibHoldingsItems(@RequestBody String body) throws Exception {

@@ -66,6 +66,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel[0].matchPointTypes = invoiceFieldObject.matchPoint;
             $scope.dataMappingsPanel[0].dataMappingFields = invoiceFieldObject.dataMapping;
             clearProfileValues();
+        } else if (mainSectionPanel.batchProcessType == 'Batch Delete') {
+            $scope.matchPointsPanel = [matchPoint];
+            $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
         }
     };
 
@@ -102,7 +105,11 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             return;
         }
         $scope.matchPointsPanel.push(matchPointRow);
-        $scope.matchPointsPanel[0].matchPointDocType = null;
+        if ($scope.mainSectionPanel.batchProcessType == 'Batch Delete') {
+            $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
+        } else {
+            $scope.matchPointsPanel[0].matchPointDocType = null;
+        }
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointValue = null;
         $scope.matchPointsPanel[0].dataField = null;
@@ -817,17 +824,21 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
 
     var removeEmptyValues = function () {
         $scope.matchPointsPanel.splice(0, 1);
-        $scope.dataMappingsPanel.splice(0, 1);
         if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
             $scope.fieldOperationsPanel.splice(0, 1);
             $scope.dataTransformationsPanel.splice(0, 1);
+            $scope.dataMappingsPanel.splice(0, 1);
         }
         if ($scope.mainSectionPanel.batchProcessType == 'Bib Import' || $scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
             $scope.addOrOverlayPanel.splice(0, 1);
+            $scope.dataMappingsPanel.splice(0, 1);
         }
     };
 
     var addEmptyValueToAddNew = function (batchProcessType) {
+        if (batchProcessType == 'Batch Delete') {
+            matchPoint.matchPointDocType = 'Bibliographic';
+        }
         $scope.matchPointsPanel.unshift(matchPoint);
         if (batchProcessType == 'Bib Import') {
             $scope.addOrOverlayPanel.unshift(addOrOverlay);

@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.processor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -11,6 +12,8 @@ import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
+import org.kuali.ole.docstore.common.response.DeleteFailureResponse;
+import org.kuali.ole.docstore.common.response.OleNGBatchDeleteResponse;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsHoldingsDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsItemDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -223,6 +226,35 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         item.serializeContent();
         String serializedContent = new ItemOleml().serialize(item);
         return serializedContent;
+    }
+
+    public String processDeleteBibs(String jsonBody) throws IOException, JSONException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        OleNGBatchDeleteResponse oleNGBatchDeleteResponse = new OleNGBatchDeleteResponse();
+        JSONArray jsonArray = new JSONArray(jsonBody);
+        for (int index = 0; index < jsonArray.length(); index++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            String bibId = (String) jsonObject.get(OleNGConstants.ID);
+            try {
+                bibDAO.deleteBibTreeRecord(bibId);
+            } catch (Exception e) {
+                e.printStackTrace();
+                oleNGBatchDeleteResponse.addFailureRecord(null, null, bibId, OleNGConstants.ERR_DELETING_FROM_DB + " :: " + e.toString());
+                oleNGBatchDeleteResponse.getDeleteFailureResponseList().add(new DeleteFailureResponse(e.toString(), getDetailedMessage(e), null, bibId));
+                continue;
+            }
+            try {
+                OleDsNgIndexer bibIndexer = new BibIndexer();
+                bibIndexer.deleteDocument(bibId);
+                oleNGBatchDeleteResponse.addSuccessRecord(null, null, bibId, OleNGConstants.DELETED);
+            } catch (Exception e) {
+                e.printStackTrace();
+                oleNGBatchDeleteResponse.addFailureRecord(null, null, bibId, OleNGConstants.ERR_DELETING_FROM_SOLR + " :: " + e.toString());
+                oleNGBatchDeleteResponse.getDeleteFailureResponseList().add(new DeleteFailureResponse(e.toString(), getDetailedMessage(e), null, bibId));
+            }
+        }
+        getSolrRequestReponseHandler().commitToServer();
+        return objectMapper.writeValueAsString(oleNGBatchDeleteResponse);
     }
 }
 

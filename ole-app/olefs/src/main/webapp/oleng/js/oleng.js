@@ -42,7 +42,8 @@ var BATCH_CONSTANTS = {
     PROFILE_TYPES : [
         {id: 'orderRecordImport', value: 'Order Record Import'},
         {id: 'invoiceImport', value: 'Invoice Import'},
-        {id: 'bibImport', value: 'Bib Import'}
+        {id: 'bibImport', value: 'Bib Import'},
+        {id: 'batchDelete', value: 'Batch Delete'}
     ]
 
 };

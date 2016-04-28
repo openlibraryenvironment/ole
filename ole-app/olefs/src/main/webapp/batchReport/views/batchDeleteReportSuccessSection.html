@@ -1,0 +1,39 @@
+<div class="panel-group" ng-model="batchDeleteReportSuccessSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="batchDeleteReportSuccessSectionPanel.collapsed = !batchDeleteReportSuccessSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !batchDeleteReportSuccessSectionPanel.collapsed, 'glyphicon-chevron-down': batchDeleteReportSuccessSectionPanel.collapsed}"></span>
+                    Delete Success Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <table datatable="ng" class="table table-bordered row-border hover">
+                        <thead style="height: 20px">
+                        <tr>
+                            <th>Match Point</th>
+                            <th>Match Point Value</th>
+                            <th>Matched Bib Id</th>
+                            <th>Message</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="batchDeleteSuccessReport in batchDeleteReportSuccessSectionPanel">
+                            <td><span ng-bind="batchDeleteSuccessReport.matchPoint"></span></td>
+                            <td><span ng-bind="batchDeleteSuccessReport.matchPointValue"></span></td>
+                            <td><span ng-bind="batchDeleteSuccessReport.bibId"></span></td>
+                            <td>{{batchDeleteSuccessReport.message == "Success" ? "Deleted" : batchDeleteSuccessReport.message}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

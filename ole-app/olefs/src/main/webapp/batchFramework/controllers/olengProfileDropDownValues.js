@@ -1,9 +1,3 @@
-var batchProcessTypeValues = [
-    {id: 'bibImport', name: 'Bib Import'},
-    {id: 'orderRecordImport', name: 'Order Record Import'},
-    {id: 'invoiceImport', name: 'Invoice Import'}
-];
-
 var requisitionForTitlesValues = [
     {id: 'oneReqPerTitle', name: 'One Requisition Per Title'},
     {id: 'oneReqWithAllTitles', name: 'One Requisition With All Titles'}
@@ -660,7 +654,7 @@ var matchPointToUseOptions = [
 
 var mainSection = {
     title: 'Main Section',
-    batchProcessTypeValues: batchProcessTypeValues,
+    batchProcessTypeValues: BATCH_CONSTANTS.PROFILE_TYPES,
     requisitionForTitlesValues: requisitionForTitlesValues,
     requisitionForTitlesOption: 'One Requisition Per Title',
     orderTypes: orderTypes,

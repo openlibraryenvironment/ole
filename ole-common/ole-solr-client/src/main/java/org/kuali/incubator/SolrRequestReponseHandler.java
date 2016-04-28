@@ -152,4 +152,30 @@ public class SolrRequestReponseHandler {
         }
         return updateResponse;
     }
+
+    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument, boolean isCommit) {
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = getHttpSolrServer().add(solrInputDocument);
+            if (isCommit) {
+                updateResponse = getHttpSolrServer().commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("Error while updating document to solr.");
+        }
+        return updateResponse;
+    }
+
+    public UpdateResponse commitToServer() {
+        UpdateResponse updateResponse = null;
+        try {
+            updateResponse = getHttpSolrServer().commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return updateResponse;
+    }
 }

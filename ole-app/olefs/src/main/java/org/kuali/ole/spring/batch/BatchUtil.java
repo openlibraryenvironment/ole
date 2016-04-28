@@ -5,20 +5,23 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.response.BibFailureResponse;
-import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
-import org.kuali.ole.docstore.common.response.OrderFailureResponse;
+import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
@@ -39,6 +42,7 @@ public class BatchUtil extends OleNgUtil {
     private OleDsNgRestClient oleDsNgRestClient;
     SolrRequestReponseHandler solrRequestReponseHandler;
     private MarcRecordUtil marcRecordUtil;
+    private MarcXMLConverter marcXMLConverter;
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -71,6 +75,17 @@ public class BatchUtil extends OleNgUtil {
 
     public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
         this.marcRecordUtil = marcRecordUtil;
+    }
+
+    public MarcXMLConverter getMarcXMLConverter() {
+        if(null == marcXMLConverter) {
+            marcXMLConverter = new MarcXMLConverter();
+        }
+        return marcXMLConverter;
+    }
+
+    public void setMarcXMLConverter(MarcXMLConverter marcXMLConverter) {
+        this.marcXMLConverter = marcXMLConverter;
     }
 
     public Map<String, List<ValueByPriority>> getvalueByPriorityMapForDataMapping(Record marcRecord, List<BatchProfileDataMapping> batchProfileDataMappingList, List<String> mappingTypes) {
@@ -319,6 +334,93 @@ public class BatchUtil extends OleNgUtil {
         }
     }
 
+    protected void updateBatchJob(BatchJobDetails batchJobDetails) {
+        updatePercentCompleted(batchJobDetails);
+        updateTimeSpent(batchJobDetails);
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            getBusinessObjectService().save(batchJobDetails);
+        }
+    }
+
+    private void updatePercentCompleted(BatchJobDetails batchJobDetails) {
+        String total = batchJobDetails.getTotalRecords();
+        float totRec = Float.parseFloat(total == null ? "0" : total);
+        if (totRec == 0.0) return;
+        String noProcessed = batchJobDetails.getTotalRecordsProcessed();
+        if (StringUtils.isEmpty(noProcessed)) return;
+        float perCompleted = (Float.valueOf(noProcessed) / Float.valueOf(total)) * 100;
+        batchJobDetails.setPerCompleted(String.format("%.2f", perCompleted) + OleNGConstants.PERCENT);
+    }
+
+    private void updateTimeSpent(BatchJobDetails batchJobDetails) {
+        Timestamp startTime = batchJobDetails.getStartTime();
+        long diff = Calendar.getInstance().getTime().getTime() - startTime.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        StringBuffer sb = new StringBuffer();
+        sb.append(diffHours + ":" + diffMinutes + ":" + diffSeconds);
+        batchJobDetails.setTimeSpent(sb.toString());
+    }
+
+    public BatchProfileMatchPoint getMatchPointFromProfile(BatchProcessProfile batchProcessProfile) {
+        BatchProfileMatchPoint batchProfileMatchPoint = null;
+        if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
+            batchProfileMatchPoint = batchProcessProfile.getBatchProfileMatchPointList().get(0);
+        }
+        return batchProfileMatchPoint;
+    }
+
+    public String getMatchPoint(BatchProfileMatchPoint batchProfileMatchPoint) {
+        String matchPoint = null;
+        if (StringUtils.isNotBlank(batchProfileMatchPoint.getDestDataField())) {
+            matchPoint = batchProfileMatchPoint.getDestDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDestDataField()) ? "" : batchProfileMatchPoint.getDestSubField());
+        } else if (StringUtils.isNotBlank(batchProfileMatchPoint.getDataField())) {
+            matchPoint = batchProfileMatchPoint.getDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDataField()) ? "" : batchProfileMatchPoint.getSubField());
+        }
+        return matchPoint;
+    }
+
+    public String getSourceMatchPoint(BatchProfileMatchPoint batchProfileMatchPoint) {
+        String sourceMatchPoint = null;
+        if (StringUtils.isNotBlank(batchProfileMatchPoint.getDataField())) {
+            sourceMatchPoint = batchProfileMatchPoint.getDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDataField()) ? "" : batchProfileMatchPoint.getSubField());
+        }
+        return sourceMatchPoint;
+    }
+
+
+    public void removeDuplicates(String matchPoint, List<String> matchPointValues, OleNGBatchDeleteResponse oleNGBatchDeleteResponse) {
+        List<String> matchPointDatas = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(matchPointValues)) {
+            for (String matchPointValue : matchPointValues) {
+                if (!matchPointDatas.contains(matchPointValue)) {
+                    matchPointDatas.add(matchPointValue);
+                } else {
+                    oleNGBatchDeleteResponse.addFailureRecord(matchPoint, matchPointValue, null, OleNGConstants.ERR_DUPLICATE_LINE_DATA);
+                }
+            }
+        }
+        matchPointValues.clear();
+        matchPointValues.addAll(matchPointDatas);
+    }
+
+    public void addBatchDeleteFailureResponseToExchange(Exception exception, String matchPointData, String bibId, Exchange exchange) {
+        String message = exception.toString();
+        List<DeleteFailureResponse> deleteFailureResponses = (List<DeleteFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == deleteFailureResponses) {
+            deleteFailureResponses = new ArrayList<>();
+        }
+        DeleteFailureResponse deleteFailureResponse = new DeleteFailureResponse();
+        String detailedMessage = getDetailedMessage(exception);
+        deleteFailureResponse.setDetailedMessage(detailedMessage);
+        deleteFailureResponse.setFailureMessage(message);
+        deleteFailureResponse.setFailedMatchPointData(matchPointData);
+        deleteFailureResponse.setFailedBibId(bibId);
+        deleteFailureResponses.add(deleteFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, deleteFailureResponses);
+    }
+
     public String writeBatchRunningStatusToFile(String directoryPath, String status, String totalTimeTaken) {
         File fileToWrite = new File(directoryPath, "status" + File.separator + "status.json");
         try {
@@ -361,6 +463,15 @@ public class BatchUtil extends OleNgUtil {
         Map map = new HashedMap();
         map.put(OleNGConstants.JOB_ID, jobId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
+    }
+
+    public int getBatchChunkSize() {
+        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.CHUNK_SIZE_FOR_BATCH_PROCESSING);
+        if(NumberUtils.isDigits(parameterValue)) {
+            return Integer.valueOf(parameterValue);
+        }
+        return 1000;
     }
 
 }

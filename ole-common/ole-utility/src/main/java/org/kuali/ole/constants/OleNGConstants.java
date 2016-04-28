@@ -276,6 +276,7 @@ public class OleNGConstants {
     public static final String UPDATE_HOLDINGS = "/updateHolding";
     public static final String CREATE_ITEM = "/createItem";
     public static final String UPDATE_ITEM = "/updateItem";
+    public static final String PROCESS_DELETE_BIBS = "/processDeleteBibs";
     public static final String PROCESS_BIB_HOLDINGS_ITEMS = "/processBibHoldingsItems";
     public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
 
@@ -307,9 +308,43 @@ public class OleNGConstants {
     public final static String MARC = "mrc";
     public final static String EDI = "edi";
     public final static String INV = "inv";
+    public final static String TXT = "txt";
     public final static String BIB_IMPORT = "Bib Import";
     public final static String ORDER_RECORD_IMPORT = "Order Record Import";
     public final static String INVOICE_IMPORT = "Invoice Import";
+    public final static String BATCH_DELETE = "Batch Delete";
+    public final static String IS_BOUNDWITH = "isBoundwith";
+    public final static String IS_ANALYTIC = "isAnalytic";
+    public final static String IS_SERIES = "isSeries";
+    public final static String BIB_ID = "bibId";
+    public final static String BIB_ID_STR = "bibIdStr";
+    public final static String HOLDINGS_ID = "holdingsId";
+    public final static String ITEM_ID = "itemId";
+    public final static String PERCENT = "%";
+    public final static String PROFILEID = "ProfileId : ";
+    public final static String COLON = ":";
+    public final static String DOCTYPE = "DocType";
+    public final static String E_HOLDINGS = "eHoldings";
+    public final static String BIB_PREFIX = "wbm";
+    public final static String ITEM_IDENTIFIER = "itemIdentifier";
+    public final static String ITEM_UUID = "itemUuid";
+    public final static String FAILED_BIB_ID = "failedBibId";
+    public final static String DELETED = "Deleted";
+
+    public final static String ERR_NO_MATCH_POINT = "Match point data is not available in marc record";
+    public final static String ERR_BIB_NOT_FOUND = "Bib record not found";
+    public final static String ERR_MULTIPLE_BIBS_FOUND = "Multiple bib records are found";
+    public final static String ERR_MULTIPLE_HOLDINGS_FOUND = "Bib record contains more than one Holdings record";
+    public final static String ERR_MULTIPLE_EHOLDINGS_FOUND = "Bib record contains more than one Eholdings record";
+    public final static String ERR_BIB_BOUND_WITH = "Bib record is bound with other record";
+    public final static String ERR_BIB_HAS_SERIES_HOLDING = "Bib record contains series holdings which is in Analytic relation";
+    public final static String ERR_BIB_HAS_ANALYTIC_ITEM = "Bib record contains items which is in Analytic relation";
+    public final static String ERR_BIB_HAS_REQ_OR_PO = "Bib record is linked with Requisition/PO";
+    public final static String ERR_BIB_ITEM_LOANED = "Bib record contains loaned item";
+    public final static String ERR_BIB_ITEM_REQUESTED = "Bib record contains requested item";
+    public final static String ERR_DUPLICATE_LINE_DATA = "Duplicate line data in File";
+    public final static String ERR_DELETING_FROM_DB = "Exception while deleting bib record from database";
+    public final static String ERR_DELETING_FROM_SOLR = "Exception while deleting bib record from solr";
 
     public static final String FORWARD_SLASH = "/";
 

@@ -17,10 +17,7 @@ import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.oleng.scheduler.OleNGBatchJobScheduler;
 import org.kuali.ole.oleng.util.BatchExcelReportUtil;
 import org.kuali.ole.spring.batch.BatchUtil;
-import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
-import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
-import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
-import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
+import org.kuali.ole.spring.batch.processor.*;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +52,9 @@ public class BatchRestController extends OleNgControllerBase {
     @Autowired
     private OleNGBatchJobScheduler oleNGBatchJobScheduler;
 
+    @Autowired
+    private BatchDeleteFileProcessor batchDeleteFileProcessor;
+
     private BatchExcelReportUtil batchExcelReportUtil;
 
     private BatchUtil batchUtil;
@@ -71,6 +71,8 @@ public class BatchRestController extends OleNgControllerBase {
                 BatchJobDetails batchJobDetails = new BatchJobDetails();
                 batchJobDetails.setProfileName(profileName);
                 batchJobDetails.setFileName(originalFilename);
+                batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
+                batchJobDetails.setStatus(OleNGConstants.RUNNING);
                 JSONObject response = processBatch(uploadedDirectory, batchType, profileName, extension, batchJobDetails);
                 return response.toString();
             }
@@ -405,6 +407,9 @@ public class BatchRestController extends OleNgControllerBase {
             } else if(fileName.contains("InvoiceImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
                 extension = "xlsx";
+            } else if(fileName.contains("BatchDelete")) {
+                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBatchDelete(fileContent);
+                extension = "xlsx";
             }
         }
 
@@ -462,6 +467,8 @@ public class BatchRestController extends OleNgControllerBase {
             return batchBibFileProcessor;
         } else if(batchType.equalsIgnoreCase("Invoice Import")) {
             return batchInvoiceImportProcessor;
+        } else if(batchType.equalsIgnoreCase("Batch Delete")) {
+            return batchDeleteFileProcessor;
         }
         return null;
     }

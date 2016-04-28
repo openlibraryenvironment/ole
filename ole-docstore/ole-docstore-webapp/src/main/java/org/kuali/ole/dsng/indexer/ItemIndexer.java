@@ -44,6 +44,11 @@ public class ItemIndexer extends OleDsNgIndexer {
         commitDocumentToSolr(solrInputDocuments);
 
     }
+    
+    @Override
+    public void deleteDocument(String id) {
+
+    }
 
     public Map<String,SolrInputDocument> getInputDocumentForItem(ItemRecord itemRecord, Map parameterMap) {
         SolrInputDocument itemSolrInputDocument = buildSolrInputDocument(itemRecord, parameterMap);

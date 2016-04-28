@@ -45,9 +45,9 @@
                                     <select class="form-control" id="profileType" name="profileType"
                                             ng-model="batchReportViewer.profileType" ng-change="populateProfileNames()"
                                             style="width: 250px">
-                                        <option ng-repeat="option in batchReportViewer.profileTypeValues | orderBy:'name'"
-                                                value="{{option.name}}">
-                                            {{option.name}}
+                                        <option ng-repeat="option in batchReportViewer.profileTypeValues | orderBy:'value'"
+                                                value="{{option.value}}">
+                                            {{option.value}}
                                         </option>
                                     </select>
                                 </div>

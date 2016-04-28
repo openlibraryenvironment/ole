@@ -355,4 +355,81 @@ public class BatchExcelReportUtil extends BatchUtil{
         return values;
     }
 
+    public byte[] getExcelSheetForBatchDelete(String fileContent)  {
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        OleNGBatchDeleteResponse oleNGBatchDeleteResponse = null;
+        try {
+            oleNGBatchDeleteResponse = getObjectMapper().readValue(fileContent, OleNGBatchDeleteResponse.class);
+            int rowId = 0;
+            if(oleNGBatchDeleteResponse != null) {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet spreadsheet = workbook.createSheet("Batch Delete Response");
+                String[] headerArray = {"Job Name", "Job Execution Id", "Deleted Bibs Count", "Failed Bibs Count"};
+                rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{"Main Section"}, GREEN_COLOR);
+                rowId = addHeaders(workbook, spreadsheet, rowId, headerArray, null);
+                int cellId;
+                XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
+                List<String> mainSectionValueList = getBatchDeleteMainSectionValues(oleNGBatchDeleteResponse);
+                cellId = 0;
+                for (Iterator<String> iterator = mainSectionValueList.iterator(); iterator.hasNext(); ) {
+                    String value = iterator.next();
+                    Cell cell = mainSectionValueRow.createCell(cellId++);
+                    cell.setCellValue(value);
+                }
+                // Delete Success Section
+                String[] deleteSuccessSectionReportHeader = {"Match Point", "Match Point Value", "Matched Bib Id", "Message"};
+                List<List<String>> deleteSuccessSectionContent = getDeleteSuccessResponseContent(oleNGBatchDeleteResponse.getBatchDeleteSuccessResponseList());
+                rowId = addSection(workbook, spreadsheet, rowId, deleteSuccessSectionReportHeader,  deleteSuccessSectionContent, "Delete Success Section");
+
+                // Delete Success Section
+                String[] deleteFailureSectionReportHeader = {"Match Point", "Match Point Value", "Matched Bib Id", "Message"};
+                List<List<String>> deleteFailureSectionContent = getDeleteFailureResponseContent(oleNGBatchDeleteResponse.getBatchDeleteFailureResponseList());
+                rowId = addSection(workbook, spreadsheet, rowId, deleteFailureSectionReportHeader,  deleteFailureSectionContent, "Delete Failure Section");
+
+                workbook.write(byteArrayInputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return byteArrayInputStream.toByteArray();
+    }
+
+    private List<List<String>> getDeleteSuccessResponseContent(List<BatchDeleteSuccessResponse> batchDeleteSuccessResponseList) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<BatchDeleteSuccessResponse> iterator = batchDeleteSuccessResponseList.iterator(); iterator.hasNext(); ) {
+            BatchDeleteSuccessResponse batchDeleteSuccessResponse = iterator.next();
+            List<String> rowValue = new ArrayList<>();
+            rowValue.add(batchDeleteSuccessResponse.getMatchPoint());
+            rowValue.add(batchDeleteSuccessResponse.getMatchPointValue());
+            rowValue.add(batchDeleteSuccessResponse.getBibId());
+            rowValue.add(OleNGConstants.SUCCESS.equalsIgnoreCase(batchDeleteSuccessResponse.getMessage()) ? "Deleted" : batchDeleteSuccessResponse.getMessage());
+            itemValues.add(rowValue);
+        }
+        return itemValues;
+    }
+
+    private List<List<String>> getDeleteFailureResponseContent(List<BatchDeleteFailureResponse> batchDeleteFailureResponseList) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<BatchDeleteFailureResponse> iterator = batchDeleteFailureResponseList.iterator(); iterator.hasNext(); ) {
+            BatchDeleteFailureResponse batchDeleteFailureResponse = iterator.next();
+            List<String> rowValue = new ArrayList<>();
+            rowValue.add(batchDeleteFailureResponse.getMatchPoint());
+            rowValue.add(batchDeleteFailureResponse.getMatchPointValue());
+            rowValue.add(batchDeleteFailureResponse.getBibId());
+            rowValue.add(batchDeleteFailureResponse.getMessage());
+            itemValues.add(rowValue);
+        }
+        return itemValues;
+    }
+
+    private List<String> getBatchDeleteMainSectionValues(OleNGBatchDeleteResponse oleNGBatchDeleteResponse) {
+        List<String> values = new ArrayList<>();
+        values.add(oleNGBatchDeleteResponse.getJobName());
+        values.add(oleNGBatchDeleteResponse.getJobDetailId());
+        values.add(String.valueOf(oleNGBatchDeleteResponse.getNoOfSuccessRecords()));
+        values.add(String.valueOf(oleNGBatchDeleteResponse.getNoOfFailureRecords()));
+        return values;
+    }
+
 }
