@@ -26,6 +26,7 @@ public class BatchProcessTxObject {
     private int numberOfFailurRecords;
     private boolean exceptionCaught;
     private List<BatchProcessFailureResponse> batchProcessFailureResponses;
+    private boolean stopped;
 
     public String getFileExtension() {
         return fileExtension;
@@ -141,5 +142,13 @@ public class BatchProcessTxObject {
 
     public void setBatchProcessFailureResponses(List<BatchProcessFailureResponse> batchProcessFailureResponses) {
         this.batchProcessFailureResponses = batchProcessFailureResponses;
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
     }
 }

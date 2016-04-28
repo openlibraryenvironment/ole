@@ -13,8 +13,6 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.sql.Timestamp;
 import java.util.concurrent.ExecutorService;
 
-import static org.apache.camel.util.ObjectHelper.notNull;
-
 /**
  * Created by SheikS on 4/10/2016.
  */
@@ -44,26 +42,32 @@ public class OleNGBatchCamelSplitter extends Splitter {
         if(null != batchProcessTxObject) {
             BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
             if(null != batchJobDetails) {
-                batchProcessTxObject.getOleStopWatch().end();
-                String timeSpent = String.valueOf(batchProcessTxObject.getOleStopWatch().getTotalTime()) + "ms";
-                batchJobDetails.setTimeSpent(timeSpent);
-                batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
-                batchJobDetails.setTotalRecords(String.valueOf(batchProcessTxObject.getTotalNumberOfRecords()));
-                batchJobDetails.setTotalFailureRecords(String.valueOf(batchProcessTxObject.getNumberOfFailurRecords()));
-                if(batchProcessTxObject.isExceptionCaught()) {
-                    batchJobDetails.setStatus(OleNGConstants.FAILED);
-                    try {
-                        BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
-                        batchBibFailureReportLogHandler.logMessage(batchProcessTxObject.getBatchProcessFailureResponses(),batchProcessTxObject.getReportDirectoryName());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    batchProcessTxObject.getOleStopWatch().end();
+                    String timeSpent = String.valueOf(batchProcessTxObject.getOleStopWatch().getTotalTime()) + "ms";
+                    batchJobDetails.setTimeSpent(timeSpent);
+                    batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
+                    batchJobDetails.setTotalRecords(String.valueOf(batchProcessTxObject.getTotalNumberOfRecords()));
+                    batchJobDetails.setTotalFailureRecords(String.valueOf(batchProcessTxObject.getNumberOfFailurRecords()));
+                    if(batchProcessTxObject.isExceptionCaught()) {
+                        batchJobDetails.setStatus(OleNGConstants.FAILED);
+                        try {
+                            BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
+                            batchBibFailureReportLogHandler.logMessage(batchProcessTxObject.getBatchProcessFailureResponses(),batchProcessTxObject.getReportDirectoryName());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        batchJobDetails.setStatus(OleNGConstants.COMPLETED);
                     }
-                } else {
-                    batchJobDetails.setStatus(OleNGConstants.COMPLETED);
-                }
-                getBatchUtil().writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), batchJobDetails.getStatus(), timeSpent);
-                if(batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
-                    KRADServiceLocator.getBusinessObjectService().save(batchJobDetails);
+                    getBatchUtil().writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), batchJobDetails.getStatus(), timeSpent);
+                    if(!batchProcessTxObject.isStopped() && batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+                        KRADServiceLocator.getBusinessObjectService().save(batchJobDetails);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    getBatchUtil().BATCH_JOB_EXECUTION_DETAILS_MAP.remove(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId());
                 }
             }
         }
