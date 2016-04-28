@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -42,7 +43,7 @@ public class OrderImportServiceImpl implements OrderImportService {
     private OleDocstoreHelperService oleDocstoreHelperService;
 
     @Override
-    public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile) {
+    public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile, Exchange exchange) {
         OleTxRecord oleTxRecord = new OleTxRecord();
         List<BatchProfileDataMapping> batchProfileDataMappingList = batchProcessProfile.getBatchProfileDataMappingList();
 
@@ -71,12 +72,12 @@ public class OrderImportServiceImpl implements OrderImportService {
                 holdingsType = EHoldings.ELECTRONIC;
             }
 
-            overlayBibProfile(oleTxRecord, marcRecord,holdingsType, batchProcessProfile.getBibImportProfileForOrderImport(), datamappingTypes);
+            overlayBibProfile(oleTxRecord, marcRecord,holdingsType, batchProcessProfile.getBibImportProfileForOrderImport(), datamappingTypes, exchange);
         }
         return oleTxRecord;
     }
 
-    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String holdingsType, String bibImportProfileForOrderImport, ArrayList<String> datamappingTypes) {
+    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String holdingsType, String bibImportProfileForOrderImport, ArrayList<String> datamappingTypes, Exchange exchange) {
         BatchProcessProfile bibProfile = getBatchUtil().getProfileByNameAndType(bibImportProfileForOrderImport, OleNGConstants.BIB_IMPORT);
         if(null != bibProfile) {
             try {
@@ -91,7 +92,7 @@ public class OrderImportServiceImpl implements OrderImportService {
                     List<JSONObject> dataMappingForHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
 
                     if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
-                        overlayLocation(oleTxRecord, dataMappingForHoldings.get(0));
+                        overlayLocation(oleTxRecord, dataMappingForHoldings.get(0), exchange);
                     }
 
                     List<JSONObject> preTransformForItem = batchBibFileProcessor.prepareDataMappings(marcRecords, bibProfile,
@@ -118,7 +119,7 @@ public class OrderImportServiceImpl implements OrderImportService {
 
                     if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
                         JSONObject dataMapping = dataMappingForHoldings.get(0);
-                        overlayLocation(oleTxRecord, dataMapping);
+                        overlayLocation(oleTxRecord, dataMapping, exchange);
                         overlayDonor(oleTxRecord, dataMapping);
                     }
                 }
@@ -151,9 +152,9 @@ public class OrderImportServiceImpl implements OrderImportService {
         }
     }
 
-    private void overlayLocation(OleTxRecord oleTxRecord, JSONObject dataMapping) {
+    private void overlayLocation(OleTxRecord oleTxRecord, JSONObject dataMapping, Exchange exchange) {
         StringBuilder locationName = new StringBuilder();
-        Map<String, String> locationMap = getLocationUtil().buildLocationMap(dataMapping);
+        Map<String, String> locationMap = getLocationUtil().buildLocationMap(dataMapping, exchange);
         for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
             String key = iterator.next();
             String locationCode = locationMap.get(key);
@@ -269,6 +270,9 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new TaxIndicatorValueResolver());
             valueResolvers.add(new VendorChoiceValueResolver());
             valueResolvers.add(new VendorNumberValueResolver());
+            valueResolvers.add(new VendorAliasNameValueResolver());
+            valueResolvers.add(new RequestorNameValueResolver());
+            valueResolvers.add(new FundCodeValueResolver());
             valueResolvers.add(new VendorItemIdentifierValueResolver());
             valueResolvers.add(new VendorCustomerNumberValueResolver());
             valueResolvers.add(new VendorInstructionsNoteValueResolver());

@@ -5,7 +5,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
-import org.kuali.ole.oleng.util.OleNgUtil;
+import org.kuali.ole.utility.OleNgUtil;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.rice.krad.UserSession;

@@ -99,7 +99,7 @@ public class ItemLocationHandler extends ItemHandler {
                     List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
                     if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                         String value = listFromJSONArray.get(0);
-                        itemLocation = getLocationUtil().buildLocationName(itemLocation, value);
+                        itemLocation = getLocationUtil().buildLocationName(itemLocation, value, exchange);
                     }
                 }
             }
@@ -108,7 +108,7 @@ public class ItemLocationHandler extends ItemHandler {
         } else {
             StringBuilder locationName = new StringBuilder();
             StringBuilder locationLevelName = new StringBuilder();
-            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject);
+            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject, exchange);
             for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 String locationCode = locationMap.get(key);

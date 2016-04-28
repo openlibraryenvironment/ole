@@ -12,9 +12,9 @@ import java.util.List;
  * Created by pvsubrah on 1/4/16.
  */
 public class ItemUtil extends BusinessObjectServiceHelperUtil {
-    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName) {
+    public ItemStatusRecord fetchItemStatusByCode(String itemStatusCode) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name", itemStatusTypeName);
+        map.put("code", itemStatusCode);
         List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);

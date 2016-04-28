@@ -66,6 +66,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 BibFailureResponse failureResponse = new BibFailureResponse();
 
                 exchange.add(OleNGConstants.FAILURE_RESPONSE, failureResponse);
+                exchange.add("validationErrorMessages", new ArrayList<String>());
                 try {
 
                     String recordIndex = getStringValueFromJsonObject(bibJSONDataObject, OleNGConstants.RECORD_INDEX);
@@ -184,7 +185,8 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                     if (null != multipleMatchedItems) {
                         oleNGBibImportResponse.setMultipleMatchedItemsCount(oleNGBibImportResponse.getMultipleMatchedItemsCount() + multipleMatchedItems);
                     }
-
+                    ArrayList validationErrorMessages = (ArrayList) exchange.get("validationErrorMessages");
+                    bibResponse.setValidationErrorMessages(validationErrorMessages);
                     bibResponses.add(bibResponse);
                 } catch (Exception e) {
                     e.printStackTrace();

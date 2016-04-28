@@ -10,6 +10,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,6 +56,7 @@ public class DonorCodeHandler extends HoldingsHandler {
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             List<OLEHoldingsDonorRecord> donorList = holdingRecord.getDonorList();
+            OleNgUtil oleNgUtil = new OleNgUtil();
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
@@ -66,6 +68,8 @@ public class DonorCodeHandler extends HoldingsHandler {
                             oleHoldingsDonorRecord.setDonorNote(donor.getDonorNote());
                             oleHoldingsDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
                         }
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Donor Code : " + donorCode);
                     }
                 }
             } else {
@@ -81,6 +85,8 @@ public class DonorCodeHandler extends HoldingsHandler {
                         oleHoldingsDonorRecord.setHoldingsId(holdingRecord.getHoldingsId());
                         oleHoldingsDonorRecord.setHoldingsRecord(holdingRecord);
                         donorList.add(oleHoldingsDonorRecord);
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Donor Code : " + donorCode);
                     }
                 }
                 holdingRecord.setDonorList(donorList);

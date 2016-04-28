@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.dsng.util.ItemUtil;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -43,12 +44,14 @@ public class ItemStatusHandler extends ItemHandler {
         JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ITEM_STATUS);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
-            String itemStatusName = listFromJSONArray.get(0);
+            String itemStatusCode = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-            ItemStatusRecord itemStatusRecord = new ItemUtil().fetchItemStatusByName(itemStatusName);
+            ItemStatusRecord itemStatusRecord = new ItemUtil().fetchItemStatusByCode(itemStatusCode);
             if(null != itemStatusRecord) {
                 itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
                 itemRecord.setItemStatusRecord(itemStatusRecord);
+            } else {
+                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Item Status : " + itemStatusCode);
             }
             exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }

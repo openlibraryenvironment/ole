@@ -2,7 +2,7 @@ package org.kuali.ole.oleng.handler;
 
 import org.kuali.ole.Exchange;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
-import org.kuali.ole.oleng.util.OleNgUtil;
+import org.kuali.ole.utility.OleNgUtil;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.rice.krad.UserSession;

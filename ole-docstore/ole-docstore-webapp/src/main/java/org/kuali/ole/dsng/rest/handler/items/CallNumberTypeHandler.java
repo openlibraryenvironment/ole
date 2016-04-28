@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.util.CallNumberUtil;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +51,8 @@ public class CallNumberTypeHandler extends ItemHandler {
             if (null != callNumberTypeRecord) {
                 itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+            } else {
+                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Call Number Type : " + callNumberType);
             }
         }
     }

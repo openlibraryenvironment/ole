@@ -58,7 +58,7 @@ public class OleNGPOHelperUtil {
             String bibUUID = recordDetails.getBibUUID();
             if (StringUtils.isNotBlank(bibUUID)) {
                 try {
-                    OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
+                    OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile, exchange);
 
                     final OleOrderRecord oleOrderRecord = new OleOrderRecord();
                     oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);

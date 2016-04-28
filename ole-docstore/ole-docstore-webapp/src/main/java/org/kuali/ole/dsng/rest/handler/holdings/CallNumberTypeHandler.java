@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.dsng.util.CallNumberUtil;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -43,15 +44,16 @@ public class CallNumberTypeHandler extends HoldingsHandler {
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.CALL_NUMBER_TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
-        if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
+        if (CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberTypeCode = listFromJSONArray.get(0);
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
             CallNumberTypeRecord callNumberTypeRecord = new CallNumberUtil().fetchCallNumberTypeRecordById(callNumberTypeCode);
             if (null != callNumberTypeRecord) {
                 holdingsRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 holdingsRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+            } else {
+                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Call Number Type : " + callNumberTypeCode);
             }
         }
-
     }
 }
