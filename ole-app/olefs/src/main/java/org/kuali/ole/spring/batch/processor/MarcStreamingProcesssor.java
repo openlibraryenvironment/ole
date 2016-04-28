@@ -8,6 +8,7 @@ import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.spring.batch.BatchUtil;
@@ -43,33 +44,41 @@ public class MarcStreamingProcesssor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         BatchProcessProfile batchProcessProfile = batchProcessTxObject.getBatchProcessProfile();
-        try {
-            logger.info("MarcStreamingProcesssor --> process() for batch  : " + batchCount);
-            GlobalVariables.setUserSession(userSession);
-            batchCount++;
-            StringBuilder stringBuilder = new StringBuilder();
+        BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
+        if(null != batchJobDetails) {
+            boolean jobRunning = getBatchUtil().isJobRunning(batchJobDetails);
+            if(jobRunning) {
+                try {
+                    logger.info("MarcStreamingProcesssor --> process() for batch  : " + batchCount);
+                    GlobalVariables.setUserSession(userSession);
+                    batchCount++;
+                    StringBuilder stringBuilder = new StringBuilder();
 
-            if (exchange.getIn().getBody() instanceof List) {
-                for (String content : (List<String>) exchange.getIn().getBody()) {
-                    stringBuilder.append(content);
-                    stringBuilder.append(OleNGConstants.MARC_SPLIT);
+                    if (exchange.getIn().getBody() instanceof List) {
+                        for (String content : (List<String>) exchange.getIn().getBody()) {
+                            stringBuilder.append(content);
+                            stringBuilder.append(OleNGConstants.MARC_SPLIT);
+                        }
+                    }
+                    Map<Integer, RecordDetails> recordDetailsMap = getRecordDetailsMap(stringBuilder.toString());
+                    batchProcessTxObject.setTotalNumberOfRecords(batchProcessTxObject.getTotalNumberOfRecords() + recordDetailsMap.size());
+                    OleNgBatchResponse oleNgBatchResponse = batchProcessTxObject.getBatchFileProcessor().processRecords(recordDetailsMap, batchProcessTxObject,
+                            batchProcessProfile);
+                    batchProcessTxObject.setNumberOfFailurRecords(batchProcessTxObject.getNumberOfFailurRecords() + oleNgBatchResponse.getNoOfFailureRecord());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    exchange.setException(e);
+                    batchProcessTxObject.setExceptionCaught(true);
+                    BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
+                    batchProcessFailureResponse.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
+                    batchProcessFailureResponse.setFailureReason(e.toString());
+                    batchProcessFailureResponse.setDetailedMessage(getBatchUtil().getDetailedMessage(e));
+                    batchProcessTxObject.getBatchProcessFailureResponses().add(batchProcessFailureResponse);
+                    throw e;
                 }
+            } else {
+                batchProcessTxObject.setStopped(true);
             }
-            Map<Integer, RecordDetails> recordDetailsMap = getRecordDetailsMap(stringBuilder.toString());
-            batchProcessTxObject.setTotalNumberOfRecords(batchProcessTxObject.getTotalNumberOfRecords() + recordDetailsMap.size());
-            OleNgBatchResponse oleNgBatchResponse = batchProcessTxObject.getBatchFileProcessor().processRecords(recordDetailsMap, batchProcessTxObject,
-                    batchProcessProfile);
-            batchProcessTxObject.setNumberOfFailurRecords(batchProcessTxObject.getNumberOfFailurRecords() + oleNgBatchResponse.getNoOfFailureRecord());
-        } catch (Exception e) {
-            e.printStackTrace();
-            exchange.setException(e);
-            batchProcessTxObject.setExceptionCaught(true);
-            BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
-            batchProcessFailureResponse.setBatchProcessProfileName(batchProcessProfile.getBatchProcessProfileName());
-            batchProcessFailureResponse.setFailureReason(e.toString());
-            batchProcessFailureResponse.setDetailedMessage(getBatchUtil().getDetailedMessage(e));
-            batchProcessTxObject.getBatchProcessFailureResponses().add(batchProcessFailureResponse);
-            throw e;
         }
     }
 

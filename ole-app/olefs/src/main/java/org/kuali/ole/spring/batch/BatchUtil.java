@@ -39,6 +39,7 @@ public class BatchUtil extends OleNgUtil{
     private OleDsNgRestClient oleDsNgRestClient;
     SolrRequestReponseHandler solrRequestReponseHandler;
     private MarcRecordUtil marcRecordUtil;
+    public static Map<String, BatchJobDetails> BATCH_JOB_EXECUTION_DETAILS_MAP = new HashMap<>();
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -361,6 +362,26 @@ public class BatchUtil extends OleNgUtil{
         Map map = new HashedMap();
         map.put(OleNGConstants.JOB_ID, jobId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
+    }
+
+    public BatchJobDetails getJobDetailsById(Long jobDetailsId) {
+        return getBusinessObjectService().findBySinglePrimaryKey(BatchJobDetails.class, jobDetailsId);
+    }
+
+    public void deleteJobDetailsById(Long jobDetailsId) {
+        Map map = new HashedMap();
+        map.put(OleNGConstants.JOB_DETAIL_ID, jobDetailsId);
+        getBusinessObjectService().deleteMatching(BatchJobDetails.class, map);
+    }
+
+    public boolean isJobRunning(BatchJobDetails batchJobDetails) {
+        boolean running = false;
+        BatchJobDetails runningDetials = BATCH_JOB_EXECUTION_DETAILS_MAP.get(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId());
+        if(null != runningDetials) {
+            running = true;
+        }
+        return running;
+
     }
 
 }

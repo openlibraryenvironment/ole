@@ -40,22 +40,12 @@
                     <td><span ng-bind="batchJob.status"></span></td>
                     <td><a href="reportViewer.html?jobDetailsId={{batchJob.jobDetailId}}"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
                     <td>
-                        <button id="batchJobStart" name="batchJobStart" class="btn btn-info btn-xs" ng-click=""
-                                ng-show="batchJob.status == 'PAUSED'"
-                                data-toggle="tooltip"
-                                uib-tooltip="Resume"
-                                tooltip-placement="top"><i class="fa fa-play"></i></button>
-                        <button id="batchJobStop" name="batchJobStop" class="btn btn-info btn-xs" ng-click=""
+                        <button id="batchJobStop" name="batchJobStop" class="btn btn-info btn-xs" ng-click="stopJobExecution($index,batchJob.jobDetailId)"
                                 ng-show="batchJob.status == 'RUNNING'"
                                 data-toggle="tooltip"
                                 uib-tooltip="Stop"
                                 tooltip-placement="top"><i class="fa fa-stop"></i></button>
-                        <button id="batchJobPause" type="button" class="btn btn-info btn-xs" ng-click=""
-                                ng-show="batchJob.status == 'RUNNING'"
-                                data-toggle="tooltip"
-                                tooltip="Pause"
-                                tooltip-placement="top"><i class="fa fa-pause"></i></button>
-                        <button id="batchJobRemove" type="button" class="btn btn-danger btn-xs" ng-click=""
+                        <button id="batchJobRemove" type="button" class="btn btn-danger btn-xs" ng-click="deleteJobDetails($index,batchJob.jobDetailId)"
                                 data-toggle="tooltip"
                                 tooltip="Remove"
                                 tooltip-placement="top"><i class="fa fa-trash-o"></i></button>

@@ -43,16 +43,20 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
             long jobId = (Long) jobDataMap.get(OleNGConstants.JOB_ID);
             String principalName = (String) jobDataMap.get(OleNGConstants.PRINCIPAL_NAME);
             GlobalVariables.setUserSession(new UserSession(principalName));
-            if(null != processor) {
+            BatchProcessJob batchProcessJobById = getBatchUtil().getBatchProcessJobById(jobId);
+            if(null != processor && batchProcessJobById != null) {
+                batchProcessJobById.setJobType(OleNGConstants.ADHOC);
+                batchProcessJobById.setNextRunTime(null);
+                batchProcessJobById.setCronExpression(null);
+                getBusinessObjectService().save(batchProcessJobById);
                 String schedulerUploadLocation = ConfigContext.getCurrentContextConfig().getProperty("schedulerUploadLocation");
                 File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
                 File file = getFileName(schedulerFileUploadLocation);
                 if (null != file) {
-                    File uploadedFileDirecotry = storeUploadedFileToFileSystem(file);
+                    File uploadedFileDirecotry = storeUploadedFileToFileSystem(file, jobId);
                     if(null != uploadedFileDirecotry) {
                         String fileName = file.getName();
                         String extension = FilenameUtils.getExtension(fileName);
-                        BatchProcessJob batchProcessJobById = getBatchUtil().getBatchProcessJobById(jobId);
                         BatchJobDetails batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(batchProcessJobById, fileName);
                         getBusinessObjectService().save(batchJobDetails);
                         try {
@@ -87,10 +91,10 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
         }
     }
 
-    private File storeUploadedFileToFileSystem(File file){
+    private File storeUploadedFileToFileSystem(File file, Long jobId){
         String batchUploadLocation = getBatchUploadLocation();
         if(StringUtils.isNotBlank(batchUploadLocation)) {
-            batchUploadLocation = batchUploadLocation + File.separator + OleNGConstants.DATE_FORMAT.format(new Date());
+            batchUploadLocation = batchUploadLocation + File.separator + jobId + "_" + OleNGConstants.DATE_FORMAT.format(new Date());
             File uploadDirectory = new File(batchUploadLocation);
             try {
                 FileUtils.moveFileToDirectory(file, uploadDirectory, true);

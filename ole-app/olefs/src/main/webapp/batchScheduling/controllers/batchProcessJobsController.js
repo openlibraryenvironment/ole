@@ -282,6 +282,33 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             var batchProcessJob = $scope.batchProcessJobs[index];
             batchProcessJob["jobType"] = data["jobType"];
             batchProcessJob["cronExpression"] = data["cronExpression"];
+            batchProcessJob["nextRunTime"] = data["nextRunTime"];
+            $scope.batchProcessJobs[index] = batchProcessJob;
+            $scope.message = "Job Unscheduled";
+        });
+    };
+
+    $scope.pauseJob = function(index,jobId) {
+        var jobIdToPause = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PAUSE_JOB, {"jobId": jobIdToPause}, function(response) {
+            var data = response.data;
+            var batchProcessJob = $scope.batchProcessJobs[index];
+            batchProcessJob["jobType"] = data["jobType"];
+            batchProcessJob["cronExpression"] = data["cronExpression"];
+            batchProcessJob["nextRunTime"] = data["nextRunTime"];
+            $scope.batchProcessJobs[index] = batchProcessJob;
+            $scope.message = "Job Unscheduled";
+        });
+    };
+
+    $scope.resumeJob = function(index,jobId) {
+        var jobIdToResume = Number(jobId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.RESUME_JOB, {"jobId": jobIdToResume}, function(response) {
+            var data = response.data;
+            var batchProcessJob = $scope.batchProcessJobs[index];
+            batchProcessJob["jobType"] = data["jobType"];
+            batchProcessJob["cronExpression"] = data["cronExpression"];
+            batchProcessJob["nextRunTime"] = data["nextRunTime"];
             $scope.batchProcessJobs[index] = batchProcessJob;
             $scope.message = "Job Unscheduled";
         });
@@ -402,6 +429,25 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
             return true;
         }
         return false;
+    };
+
+
+
+    $scope.deleteJobDetails = function(index, jobExecutionId) {
+        var jobDetailsId = Number(jobExecutionId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DELETE_JOB_EXECUTION, {"jobDetailsId": jobDetailsId}, function(response) {
+            $scope.batchJobs.splice(index, 1);
+        });
+    };
+
+    $scope.stopJobExecution = function(index, jobExecutionId) {
+        var jobDetailsId = Number(jobExecutionId);
+        doGetRequest($scope, $http, OLENG_CONSTANTS.STOP_JOB_EXECUTION, {"jobDetailsId": jobDetailsId}, function(response) {
+            var data = response.data;
+            var batchJob = $scope.batchJobs[index];
+            batchJob["status"] = data["status"];
+            $scope.batchJobs[index] = batchJob;
+        });
     };
 
 }]);
