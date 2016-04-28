@@ -4,6 +4,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.coa.businessobject.OleFundCode;
+import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
@@ -211,24 +213,60 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     }
 
     private void setSourceAccountingLinesToReqItem(OleOrderRecord oleOrderRecord, OleRequisitionItem item) {
-        RequisitionAccount requisitionAccount = new RequisitionAccount();
-        requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getItemChartCode());
-        requisitionAccount.setAccountNumber(oleOrderRecord.getOleTxRecord().getAccountNumber());
-        requisitionAccount.setFinancialObjectCode(oleOrderRecord.getOleTxRecord().getObjectCode());
-        requisitionAccount.setDebitCreditCode(org.kuali.ole.OLEConstants.GL_DEBIT_CODE);
-        if (oleOrderRecord.getOleTxRecord().getListPrice() != null) {
-            requisitionAccount.setAmount(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
-        }
-        if (oleOrderRecord.getOleTxRecord().getPercent() != null) {
-            requisitionAccount.setAccountLinePercent(new BigDecimal(oleOrderRecord.getOleTxRecord().getPercent()));
-        }
-        if (oleOrderRecord.getOleTxRecord().getAccountNumber() != null) {
-            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
-            if (sourceAccountingLines.size() == 0) {
-                sourceAccountingLines = new ArrayList<>(0);
+        if (oleOrderRecord.getOleTxRecord().getFundCode() != null) {
+            Map fundCodeMap = new HashMap<>();
+            fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleOrderRecord.getOleTxRecord().getFundCode());
+            List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+            if (CollectionUtils.isNotEmpty(fundCodeList)) {
+                List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+                if (sourceAccountingLines == null) {
+                    sourceAccountingLines = new ArrayList<>();
+                }
+                OleFundCode oleFundCode = fundCodeList.get(0);
+                List<OleFundCodeAccountingLine> fundCodeAccountingLineList = oleFundCode.getOleFundCodeAccountingLineList();
+                for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCodeAccountingLineList) {
+                    RequisitionAccount requisitionAccount = new RequisitionAccount();
+                    requisitionAccount.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                    requisitionAccount.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubAccount())) {
+                        requisitionAccount.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                    }
+                    requisitionAccount.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubObject())) {
+                        requisitionAccount.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                    }
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getProject())) {
+                        requisitionAccount.setProjectCode(oleFundCodeAccountingLine.getProject());
+                    }
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getOrgRefId())) {
+                        requisitionAccount.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                    }
+                    requisitionAccount.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                    requisitionAccount.setDebitCreditCode(OLEConstants.GL_DEBIT_CODE);
+                    sourceAccountingLines.add(requisitionAccount);
+                }
+                item.setSourceAccountingLines(sourceAccountingLines);
             }
-            sourceAccountingLines.add(requisitionAccount);
-            item.setSourceAccountingLines(sourceAccountingLines);
+        } else {
+            RequisitionAccount requisitionAccount = new RequisitionAccount();
+            requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getItemChartCode());
+            requisitionAccount.setAccountNumber(oleOrderRecord.getOleTxRecord().getAccountNumber());
+            requisitionAccount.setFinancialObjectCode(oleOrderRecord.getOleTxRecord().getObjectCode());
+            requisitionAccount.setDebitCreditCode(org.kuali.ole.OLEConstants.GL_DEBIT_CODE);
+            if (oleOrderRecord.getOleTxRecord().getListPrice() != null) {
+                requisitionAccount.setAmount(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
+            }
+            if (oleOrderRecord.getOleTxRecord().getPercent() != null) {
+                requisitionAccount.setAccountLinePercent(new BigDecimal(oleOrderRecord.getOleTxRecord().getPercent()));
+            }
+            if (oleOrderRecord.getOleTxRecord().getAccountNumber() != null) {
+                List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+                if (sourceAccountingLines.size() == 0) {
+                    sourceAccountingLines = new ArrayList<>(0);
+                }
+                sourceAccountingLines.add(requisitionAccount);
+                item.setSourceAccountingLines(sourceAccountingLines);
+            }
         }
     }
 
@@ -243,7 +281,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         requisitionDocument.setDeliveryCampusCode(oleOrderRecord.getOleTxRecord().getDeliveryCampusCode());
         getOleReqPOCreateDocumentService().setVendorDetails(requisitionDocument, oleOrderRecord);
         requisitionDocument.getDocumentHeader().setDocumentDescription(getDocumentDescription(requisitionDocument, oleOrderRecord));
-        requisitionDocument.setPurchaseOrderTransmissionMethodCode(getOleReqPOCreateDocumentService().getTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission()));//FAX
+        requisitionDocument.setPurchaseOrderTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission());//FAX
         requisitionDocument.setPurchaseOrderCostSourceCode(oleOrderRecord.getOleTxRecord().getCostSource());//CON
         requisitionDocument.setRequestorPersonName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_NAME));
         requisitionDocument.setRequestorPersonPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_PHONE_NUMBER));
@@ -317,12 +355,12 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
                 Map map = new HashMap();
                 map.put(OLEConstants.DONOR_CODE, donor);
                 OLEDonor oleDonor = getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-                OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
-                oleLinkPurapDonor.setDonorCode(donor);
                 if (oleDonor != null) {
+                    OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
+                    oleLinkPurapDonor.setDonorCode(donor);
                     oleLinkPurapDonor.setDonorId(oleDonor.getDonorId());
+                    oleLinkPurapDonorList.add(oleLinkPurapDonor);
                 }
-                oleLinkPurapDonorList.add(oleLinkPurapDonor);
             }
             item.setOleDonors(oleLinkPurapDonorList);
         }

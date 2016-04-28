@@ -194,7 +194,7 @@ public class OrderImportFieldValuesUtil {
             if (CollectionUtils.isNotEmpty(transmissionMethodList)) {
                 for (PurchaseOrderTransmissionMethod transmissionMethod : transmissionMethodList) {
                     if (transmissionMethod.isDisplayToUser()) {
-                        fieldValues.put(transmissionMethod.getPurchaseOrderTransmissionMethodDescription(), transmissionMethod.getPurchaseOrderTransmissionMethodDescription());
+                        fieldValues.put(transmissionMethod.getPurchaseOrderTransmissionMethodCode(), transmissionMethod.getPurchaseOrderTransmissionMethodCode());
                     }
                 }
             }
@@ -204,7 +204,7 @@ public class OrderImportFieldValuesUtil {
             if (CollectionUtils.isNotEmpty(recurringPaymentTypeList)) {
                 for (RecurringPaymentType recurringPaymentTypeMethod : recurringPaymentTypeList) {
                     if (recurringPaymentTypeMethod.isActive()) {
-                        fieldValues.put(recurringPaymentTypeMethod.getRecurringPaymentTypeCode(), recurringPaymentTypeMethod.getRecurringPaymentTypeDescription());
+                        fieldValues.put(recurringPaymentTypeMethod.getRecurringPaymentTypeCode(), recurringPaymentTypeMethod.getRecurringPaymentTypeCode());
                     }
                 }
             }

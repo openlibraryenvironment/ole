@@ -1,8 +1,10 @@
 package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
@@ -36,7 +38,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
         return null;
     }
 
-    public String buildLocationName(String oldLocationName, String locationCode) {
+    public String buildLocationName(String oldLocationName, String locationCode, Exchange exchange) {
         Map levelMap = new TreeMap();
         StringTokenizer stringTokenizer = new StringTokenizer(oldLocationName, "/");
         while (stringTokenizer.hasMoreTokens()) {
@@ -44,12 +46,16 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             levelMap.put(getLevelIdByLocationCode(token), token);
         }
 
-        levelMap.put(getLevelIdByLocationCode(locationCode), locationCode);
-
+        String levelIdByLocationCode = getLevelIdByLocationCode(locationCode);
+        if (StringUtils.isNotBlank(levelIdByLocationCode)){
+            levelMap.put(levelIdByLocationCode, locationCode);
+        } else {
+            new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Location Level" + " : " + locationCode);
+        }
         return buildLocationName(levelMap);
     }
 
-    public Map<String,String> buildLocationMap(JSONObject requestJsonObject) {
+    public Map<String,String> buildLocationMap(JSONObject requestJsonObject, Exchange exchange) {
         Map<String,String> locationMap = new TreeMap<String, String>();
 
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_1)) {
@@ -57,7 +63,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                addLocationToMap(value,locationMap);
+                addLocationToMap(value,locationMap, exchange, 1);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_2)) {
@@ -65,7 +71,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                addLocationToMap(value,locationMap);
+                addLocationToMap(value,locationMap, exchange, 2);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_3)) {
@@ -73,7 +79,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                addLocationToMap(value,locationMap);
+                addLocationToMap(value,locationMap, exchange, 3);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_4)) {
@@ -81,7 +87,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                addLocationToMap(value,locationMap);
+                addLocationToMap(value,locationMap, exchange, 4);
             }
         }
         if(requestJsonObject.has(OleNGConstants.BatchProcess.LOCATION_LEVEL_5)) {
@@ -89,7 +95,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
             List<String> listFromJSONArray = getJsonHelperUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String value = listFromJSONArray.get(0);
-                addLocationToMap(value,locationMap);
+                addLocationToMap(value,locationMap, exchange, 5);
             }
         }
         return locationMap;
@@ -115,10 +121,12 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
         }
     }
 
-    public void addLocationToMap(String locationCode, Map<String,String> locationMap) {
+    public void addLocationToMap(String locationCode, Map<String,String> locationMap, Exchange exchange, int locationLevel) {
         OleLocation oleLocation = getLocationByCode(locationCode);
         if(null != oleLocation) {
             locationMap.put(oleLocation.getOleLocationLevel().getLevelCode(),oleLocation.getLocationCode());
+        } else {
+            new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Location Level" + locationLevel + " : " + locationCode);
         }
     }
 

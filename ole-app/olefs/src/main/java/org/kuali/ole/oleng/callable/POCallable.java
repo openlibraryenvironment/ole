@@ -65,7 +65,7 @@ public class POCallable implements Callable {
             RecordDetails recordDetails = iterator.next();
             Integer recordIndex = recordDetails.getIndex();
             try {
-                OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
+                OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile, exchange);
 
                 final OleOrderRecord oleOrderRecord = new OleOrderRecord();
                 oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);

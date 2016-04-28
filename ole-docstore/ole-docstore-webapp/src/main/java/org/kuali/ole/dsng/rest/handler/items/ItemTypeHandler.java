@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.dsng.util.ItemUtil;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +50,8 @@ public class ItemTypeHandler extends ItemHandler {
             if(null != itemTypeRecord) {
                 itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
                 itemRecord.setItemTypeRecord(itemTypeRecord);
+            } else {
+                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Item type : " + itemTypeName);
             }
             exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }

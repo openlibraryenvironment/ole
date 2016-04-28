@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisti
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.util.StatisticalSearchCodeUtil;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,14 +57,20 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = holdingsRecord.getHoldingsStatisticalSearchRecords();
+            OleNgUtil oleNgUtil = new OleNgUtil();
             if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
                     StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
-                    for (Iterator<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordIterator = holdingsStatisticalSearchRecords.iterator(); holdingsStatisticalSearchRecordIterator.hasNext(); ) {
-                        HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecordIterator.next();
-                        holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
+                    if (null != statisticalSearchRecord) {
+                        for (Iterator<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordIterator = holdingsStatisticalSearchRecords.iterator(); holdingsStatisticalSearchRecordIterator.hasNext(); ) {
+                            HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecordIterator.next();
+                            holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
+                            holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
 
+                        }
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Statistical Code : " + statisticalSearchCode);
                     }
                 }
             } else {
@@ -78,8 +85,9 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                         holdingsStatisticalSearchRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                         holdingsStatisticalSearchRecord.setHoldingsRecord(holdingsRecord);
                         holdingsStatisticalSearchRecords.add(holdingsStatisticalSearchRecord);
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Statistical Code : " +statisticalSearchCode);
                     }
-
                 }
                 holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecords);
             }

@@ -11,6 +11,7 @@ public class BibResponse {
     private Integer recordIndex;
     private String operation;
     private List<HoldingsResponse> holdingsResponses;
+    private List<String> validationErrorMessages = new ArrayList<>();
 
     public String getBibId() {
         return bibId;
@@ -45,5 +46,13 @@ public class BibResponse {
 
     public void setRecordIndex(Integer recordIndex) {
         this.recordIndex = recordIndex;
+    }
+
+    public List<String> getValidationErrorMessages() {
+        return validationErrorMessages;
+    }
+
+    public void setValidationErrorMessages(List<String> validationErrorMessages) {
+        this.validationErrorMessages = validationErrorMessages;
     }
 }

@@ -5,6 +5,8 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
@@ -139,15 +141,20 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
 
     public String prepareItemStatus(){
         List<OleItemAvailableStatus> itemStatusList = batchProfileService.fetchAllItemStatus();
+        String excludeItemStatus = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID, OLEConstants
+                .SELECT_NMSPC, OLEConstants.SELECT_CMPNT, OLEConstants.EXCLUDE_ITEM_STATUS);
+        List<String> excludeItemStatusList = StringUtils.isNotBlank(excludeItemStatus) ? Arrays.asList(excludeItemStatus.split(",")) : new ArrayList<String>();
         JSONArray jsonArray = new JSONArray();
         try {
             if(CollectionUtils.isNotEmpty(itemStatusList)) {
                 for (Iterator<OleItemAvailableStatus> iterator = itemStatusList.iterator(); iterator.hasNext(); ) {
                     OleItemAvailableStatus availableStatus = iterator.next();
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
-                    jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusName());
-                    jsonArray.put(jsonObject);
+                    if (availableStatus!=null && !excludeItemStatusList.contains(availableStatus.getItemAvailableStatusCode())){
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
+                        jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusCode());
+                        jsonArray.put(jsonObject);
+                    }
                 }
             }
         } catch (Exception e) {

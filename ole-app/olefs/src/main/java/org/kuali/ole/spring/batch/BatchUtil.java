@@ -21,7 +21,7 @@ import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
-import org.kuali.ole.oleng.util.OleNgUtil;
+import org.kuali.ole.utility.OleNgUtil;
 import org.kuali.ole.utility.MarcRecordUtil;
 import org.kuali.ole.utility.OleDsNgRestClient;
 import org.kuali.rice.krad.util.GlobalVariables;

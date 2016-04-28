@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.utility.OleNgUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,6 +53,7 @@ public class DonorCodeHandler extends ItemHandler {
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             List<OLEItemDonorRecord> donorList = itemRecord.getDonorList();
+            OleNgUtil oleNgUtil = new OleNgUtil();
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
@@ -63,6 +65,8 @@ public class DonorCodeHandler extends ItemHandler {
                             oleItemDonorRecord.setDonorNote(donor.getDonorNote());
                             oleItemDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
                         }
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Donor Code : " + donorCode);
                     }
                 }
             } else {
@@ -77,6 +81,8 @@ public class DonorCodeHandler extends ItemHandler {
                         oleItemDonorRecord.setDonorPublicDisplay(donor.getDonorPublicDisplay());
                         oleItemDonorRecord.setItemId(itemRecord.getItemId());
                         donorList.add(oleItemDonorRecord);
+                    } else {
+                        oleNgUtil.addValidationErrorMessageToExchange(exchange, "Invalid Donor Code : " + donorCode);
                     }
                 }
                 itemRecord.setDonorList(donorList);
