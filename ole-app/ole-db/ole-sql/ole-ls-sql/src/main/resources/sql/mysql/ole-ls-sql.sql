@@ -6579,6 +6579,108 @@ CREATE TABLE HOLDINGS_AUDIT_T
 
 
 # -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_T
+(
+      PRF_ID INTEGER(10)
+        , PRF_NM VARCHAR(40)
+        , PRF_TYP VARCHAR(40)
+        , CONTENT LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRF_TP1 PRIMARY KEY(PRF_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
+(
+      JOB_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , PROFILE_TYPE VARCHAR(40)
+        , PRF_ID INTEGER(10)
+        , JOB_TYPE VARCHAR(40)
+        , CRON_EXP VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , CREATED_ON DATETIME
+        , NEXT_RUN_TIME DATETIME
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(JOB_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_T
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
+(
+      JOB_DETAIL_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , JOB_ID INTEGER(10)
+        , PROFILE_TYPE VARCHAR(40)
+        , PROFILE_NAME VARCHAR(100)
+        , FILE_NAME VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , START_TIME DATETIME
+        , END_TIME DATETIME
+        , PER_COMPLETED VARCHAR(40)
+        , TIME_SPENT VARCHAR(40)
+        , TOTAL_RECORDS VARCHAR(40)
+        , TOTAL_RECORDS_PRCSD VARCHAR(40)
+        , TOTAL_FAILURE_RECORDS VARCHAR(40)
+        , STATUS VARCHAR(40)
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_DETAIL_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                                                                                                                                                        
+                                    
+, INDEX OLE_NG_BAT_JOB_I (JOB_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -9372,4 +9474,46 @@ CREATE TABLE HOLDINGS_AUDIT_S
 ) ENGINE MyISAM
 /
 ALTER TABLE HOLDINGS_AUDIT_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRF_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRCS_JOB_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_S
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_JOB_DETAILS_S auto_increment = 1
 /
