@@ -473,8 +473,8 @@ var addOrOverlayFields = [
 ];
 
 var addOrOverlayFieldOperations = [
-    {id: 'equalsTo', name: 'Equals To'},
-    {id: 'notEqualsTo', name: 'Not Equals To'}
+    {id: 'equalsTo', name: 'Equals'},
+    {id: 'notEqualsTo', name: 'Not Equals'}
 ];
 
 var bibDoNotMatchOperations = [
