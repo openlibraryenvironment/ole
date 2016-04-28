@@ -66,7 +66,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
             if(CollectionUtils.isNotEmpty(allLocations)) {
                 for (Iterator<OleLocation> iterator = allLocations.iterator(); iterator.hasNext(); ) {
                     OleLocation oleLocation = iterator.next();
-                    if (null != locaionLevelId && locaionLevelId.equalsIgnoreCase(oleLocation.getLevelId())) {
+                    if (null != locaionLevelId && (locaionLevelId.equalsIgnoreCase(oleLocation.getLevelId())) && oleLocation.isActive()) {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put(OleNGConstants.ID,oleLocation.getLocationId());
                         jsonObject.put(OleNGConstants.VALUE,oleLocation.getLocationCode());
