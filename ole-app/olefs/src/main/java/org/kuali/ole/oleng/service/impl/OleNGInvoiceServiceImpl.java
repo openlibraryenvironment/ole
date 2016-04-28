@@ -364,8 +364,8 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
                             } else {
                                 for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
                                     InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
-                                    invoiceAccount.setAccountNumber(!StringUtils.isBlank(invoiceRecord.getAccountNumber()) ? invoiceRecord.getAccountNumber() : invoiceAccount.getAccountNumber());
-                                    invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode() : invoiceAccount.getFinancialObjectCode());
+                                    invoiceAccount.setAccountNumber(poa.getAccountNumber());
+                                    invoiceAccount.setFinancialObjectCode(poa.getFinancialObjectCode());
                                     accountingLine.add(invoiceAccount);
                                 }
                             }
