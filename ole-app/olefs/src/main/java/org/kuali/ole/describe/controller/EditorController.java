@@ -450,6 +450,10 @@ public class EditorController extends UifControllerBase {
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getProxyBorrower());
                     ((WorkInstanceOlemlForm) documentForm).setProxyBarcode(olePatronDocument.getBarcode());
                 }
+                if(StringUtils.isNotBlank(item.getLastBorrower())) {
+                    OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getLastBorrower());
+                    ((WorkInstanceOlemlForm) documentForm).setLastBarcode(olePatronDocument.getBarcode());
+                }
                 setClaimsAndDamagedPatronBarcode(item);
                 setMissingPieceItemRecord(item);
             }
