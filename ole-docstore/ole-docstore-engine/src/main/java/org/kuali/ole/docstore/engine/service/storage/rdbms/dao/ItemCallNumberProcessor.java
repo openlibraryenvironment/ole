@@ -59,13 +59,12 @@ public class ItemCallNumberProcessor implements Callable {
                             itemQuerylist.add(ItemQuery.toString());
                         }
                     }
-                    String[] arraysqls = itemQuerylist.toArray(new String[itemQuerylist.size()]);
-                    itemQuerylist.clear();
-                    if(arraysqls.length > 0){
-                        jdbcTemplate.batchUpdate(arraysqls);
+                    if(itemQuerylist.toArray(new String[itemQuerylist.size()]).length > 0){
+                        jdbcTemplate.batchUpdate(itemQuerylist.toArray(new String[itemQuerylist.size()]));
                     }
+                    itemQuerylist.clear();
                     stopWatch.stop();
-                    LOG.debug("Time Taken " + arraysqls.length + " for Item Migration :: " + stopWatch.prettyPrint());
+
                     return null;
                 }
             });
