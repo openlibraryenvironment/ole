@@ -14,9 +14,9 @@
                     </property>
                 </bean>
                 <bean id="addProcessItem-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addProcessItem"
-                	p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" p:successCallback="removeDollarSymbolsForProcessItem()" />
-                	<!--  p:ajaxSubmit="true"
-                	p:successCallback="toggleCollapseAllSections()"/ -->
+                      p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" p:successCallback="removeDollarSymbolsForProcessItem()" />
+                <!--  p:ajaxSubmit="true"
+                p:successCallback="toggleCollapseAllSections()"/ -->
             </list>
         </property>
     </bean>
@@ -67,19 +67,19 @@
                             <bean id="CurrentItem_deletePO" parent="Uif-HorizontalFieldGroup" p:width="10%" p:label="Action">
                                 <property name="items">
                                     <list>
-                                        <bean id="addPOItems_button_test" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPoItems" p:actionLabel="Add P.O" p:title="Add selected PO Items" 
-											p:refreshId="OLEInvoiceView-processItems-Wrapper"  p:successCallback="removeDollarSymbol()"/>
+                                        <bean id="addPOItems_button_test" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPoItems" p:actionLabel="Add P.O" p:title="Add selected PO Items"
+                                              p:refreshId="OLEInvoiceView-processItems-Wrapper"  p:successCallback="removeDollarSymbol()"/>
                                         <bean id="CurrentItem_deletePurchaseOrder" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete P.O" p:methodToCall="deletePO"/>
                                     </list>
                                 </property>
                             </bean>
 
-                            <ref bean="OLEInvoiceView-poDoc-relatedView"/>
+                            <!--<ref bean="OLEInvoiceView-poDoc-relatedView"/>-->
                             <!--<bean parent="OLEInvoice-ProcessTitle-PurchaseOrder"/>-->
                             <!--<bean parent="OLEInvoice-ProcessTitle-PurchaserOrderLineItemForInvoice"/>
                             <bean parent="OLEInvoice-ProcessTitle-PaymentHistory"/>
                             <bean parent="OLEInvoice-ProcessTitle-ViewRelatedDocument"/>-->
-                            
+
                         </list>
                     </property>
                     <property name="layoutManager.rowDetailsGroup" >
@@ -98,9 +98,9 @@
                     <property name="subCollections">
                         <list>
                             <ref bean="OLEInvoiceView-processItems-currentItems"/>
-	                        <!--
-	                        <ref bean="OLEInvoiceView-InvoiceLineItems-POLineForInvoice"/>
-	                        -->
+                            <!--
+                            <ref bean="OLEInvoiceView-InvoiceLineItems-POLineForInvoice"/>
+                            -->
                         </list>
                     </property>
                     <!-- <property name="lineActions">
@@ -121,7 +121,7 @@
                 <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper"/>
-                <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>
+                <!--<ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>-->
             </list>
         </property>
     </bean>
@@ -129,7 +129,7 @@
     <bean id="OLEInvoiceView-processItems-poDetails" parent="Uif-VerticalBoxGroup">
         <property name="items">
             <list>
-               <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
+                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
                 <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
 
                 <ref bean="OLEInvoiceView-donors"/>
@@ -137,78 +137,78 @@
         </property>
     </bean>
 
-	<bean id="OLEInvoiceView-processItems-SubCollection" parent="Uif-CollectionGroupBase" abstract="true">
-		<property name="cssClasses">
-			<list>
-				<value>uif-disclosure</value>
-				<value>uif-tableSubCollection</value>
-			</list>
-		</property>
-		<property name="header">
-			<bean parent="Uif-SubCollectionHeader">
-				<property name="lowerGroup">
-					<bean parent="Uif-InactiveItemsActionsGroup" />
-				</property>
-			</bean>
-		</property>
-		<property name="lineActions">
-			<list>
-				<bean parent="Uif-DeleteLineAction" />
-			</list>
-		</property>
-		<property name="disclosure.render" value="true" />
-	</bean>
+    <bean id="OLEInvoiceView-processItems-SubCollection" parent="Uif-CollectionGroupBase" abstract="true">
+        <property name="cssClasses">
+            <list>
+                <value>uif-disclosure</value>
+                <value>uif-tableSubCollection</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-SubCollectionHeader">
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup" />
+                </property>
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction" />
+            </list>
+        </property>
+        <property name="disclosure.render" value="true" />
+    </bean>
 
-	<bean id="OLEInvoiceView-processItems-currentItems" parent="OLEInvoiceView-processItems-SubCollection" 
-		p:fieldBindingObjectPath="purchaseOrderDocuments" p:renderLineActions="false" p:RenderInactiveToggleButton="false"
- 		p:renderAddLine="false">
-		<property name="propertyName" value="items" />
-		<property name="header.headerText" value="Current Items" />
-		<property name="collectionObjectClass"
-			value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
-		<property name="layoutManager">
-			<bean
-				class="org.kuali.ole.select.document.krad.OleInvoicePOCurrentItemsLayout"
-				p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_current_items">
-		        <property name="rowDetailsGroup">
-					<bean parent="Uif-VerticalBoxGroup">
-						<property name="items">
-							<list>
-								<bean parent="Uif-HorizontalBoxGroup">
-									<property name="items">
-										<list>
-				
-											<bean id="CurrentItem_RouteToRequestor" parent="Uif-InputField"
-												p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor"
-												p:render="@{document.foreignCurrencyFlag}">
-												<property name="control">
-													<bean parent="Uif-CheckboxControl" />
-												</property>
-											</bean>
-				
-											<bean id="CurrentItem_PublicView" parent="Uif-InputField"
-												p:propertyName="itemPublicViewIndicator" p:label="Public View"
-												p:render="@{document.foreignCurrencyFlag}">
-												<property name="control">
-													<bean parent="Uif-CheckboxControl" />
-												</property>
-											</bean>
-										</list>
-									</property>
-								</bean>
-								<ref bean="OLEInvoiceView-processItems-poDetails" />
-							</list>
-						</property>
-					</bean>
-		        </property>
-			</bean>
-		</property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-MessageField" p:messageText=" " />
-			</list>
-		</property>
-	</bean>
+    <bean id="OLEInvoiceView-processItems-currentItems" parent="OLEInvoiceView-processItems-SubCollection"
+          p:fieldBindingObjectPath="purchaseOrderDocuments" p:renderLineActions="false" p:RenderInactiveToggleButton="false"
+          p:renderAddLine="false">
+        <property name="propertyName" value="items" />
+        <property name="header.headerText" value="Current Items" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
+        <property name="layoutManager">
+            <bean
+                    class="org.kuali.ole.select.document.krad.OleInvoicePOCurrentItemsLayout"
+                    p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_current_items">
+                <property name="rowDetailsGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalBoxGroup">
+                                    <property name="items">
+                                        <list>
+
+                                            <bean id="CurrentItem_RouteToRequestor" parent="Uif-InputField"
+                                                  p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor"
+                                                  p:render="@{document.foreignCurrencyFlag}">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl" />
+                                                </property>
+                                            </bean>
+
+                                            <bean id="CurrentItem_PublicView" parent="Uif-InputField"
+                                                  p:propertyName="itemPublicViewIndicator" p:label="Public View"
+                                                  p:render="@{document.foreignCurrencyFlag}">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl" />
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                                <ref bean="OLEInvoiceView-processItems-poDetails" />
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText=" " />
+            </list>
+        </property>
+    </bean>
 
     <bean id="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection" parent="Uif-Disclosure-VerticalBoxSection" >
         <property name="headerText" value="Accounting Lines"/>
@@ -230,47 +230,47 @@
     </bean>
 
     <bean id="OLEInvoiceView-accountingLines-parent" abstract="true"
-    		parent="OLEInvoiceView-processItems-SubCollection" p:disclosure.defaultOpen="false">
+          parent="OLEInvoiceView-processItems-SubCollection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Accounting Lines" />
         <property name="propertyName" value="sourceAccountingLines" />
         <property name="renderAddLine" value="true"/>
         <property name="renderLineActions" value="true"/>
-		<property name="layoutManager">
-			<bean
-				class="org.kuali.ole.select.document.krad.OleInvoiceAccountingLinesLayout"
-				p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_accounting_items">
-	
-				<property name="accountNumberQuickfinder">
-					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
-						p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"
-						p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode" />
-				</property>
-				<property name="subAccountNumberQuickfinder">
-					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
-						p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber"
-						p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" />
-				</property>
-				<property name="financialObjectCodeQuickfinder">
-					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
-						p:fieldConversions="financialObjectCode:financialObjectCode"
-						p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode" />
-				</property>
-				<property name="financialSubObjectCodeQuickfinder">
-					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
-						p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode,financialSubObjectCode"
-						p:lookupParameters="financialObjectCode:financialObjectCode" />
-				</property>
-				<property name="projectCodeQuickfinder">
-					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
-						p:fieldConversions="code:projectCode" />
-				</property>
-			</bean>
-		</property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-MessageField" p:messageText=" " />
-			</list>
-		</property>
+        <property name="layoutManager">
+            <bean
+                    class="org.kuali.ole.select.document.krad.OleInvoiceAccountingLinesLayout"
+                    p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_accounting_items">
+
+                <property name="accountNumberQuickfinder">
+                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                          p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"
+                          p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode" />
+                </property>
+                <property name="subAccountNumberQuickfinder">
+                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                          p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber"
+                          p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" />
+                </property>
+                <property name="financialObjectCodeQuickfinder">
+                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                          p:fieldConversions="financialObjectCode:financialObjectCode"
+                          p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode" />
+                </property>
+                <property name="financialSubObjectCodeQuickfinder">
+                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                          p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode,financialSubObjectCode"
+                          p:lookupParameters="financialObjectCode:financialObjectCode" />
+                </property>
+                <property name="projectCodeQuickfinder">
+                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                          p:fieldConversions="code:projectCode" />
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText=" " />
+            </list>
+        </property>
         <property name="addLineActions">
             <list>
                 <bean id="PoAccountingLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addPOAccountingLine" p:actionLabel="Add" p:title="Add PO Accounting Line"/>
@@ -304,126 +304,126 @@
         </property>
     </bean>
 
-	<bean id="OleInvoiceView-invoiceItems" parent="Uif-CollectionGroupBase" 
-		p:renderLineActions="false" p:RenderInactiveToggleButton="false" p:renderAddLine="false">
-		<property name="propertyName" value="items" />
+    <bean id="OleInvoiceView-invoiceItems" parent="Uif-CollectionGroupBase"
+          p:renderLineActions="false" p:RenderInactiveToggleButton="false" p:renderAddLine="false">
+        <property name="propertyName" value="items" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceItem" />
-		<property name="cssClasses">
-			<list>
-				<value>uif-disclosure</value>
-		        <value>uif-tableCollectionSection</value>
-			</list>
-		</property>
-		<property name="header">
-			<bean parent="Uif-SubCollectionHeader">
-				<property name="headerText" value="Current Items" />
-				<property name="lowerGroup">
-					<bean parent="Uif-InactiveItemsActionsGroup" />
-				</property>
-			</bean>
-		</property>
-		<property name="disclosure.render" value="true" />
-		<property name="layoutManager">
-			<bean
-				class="org.kuali.ole.select.document.krad.OleInvoiceItemsLayout"
-				p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_invoice_items"
-				p:actionRefreshId="OLEInvoiceView-processItems-Wrapper">
-		        <property name="rowDetailsGroup">
-					<bean parent="Uif-VerticalBoxGroup">
-						<property name="items">
-							<list>
-								<bean parent="Uif-HorizontalBoxGroup">
-									<property name="items">
-										<list>
-											<bean id="invoiceItem_closePO" parent="Uif-DataField"
-												p:propertyName="closePurchaseOrderIndicator" p:label="Close P.O">
-											</bean>
-											<bean id="invoiceItem_subscriptionOverlay" parent="Uif-InputField"
-												p:propertyName="subscriptionOverlap" p:label="Check Subscription Date Overlap"
-												p:labelPlacement="LEFT">
-												<property name="control">
-													<bean parent="Uif-CheckboxControl" />
-												</property>
-											</bean>
-										
-											<bean id="invoiceItem_subscriptionFromDate" parent="Uif-InputField"
-												p:propertyName="subscriptionFromDate" p:label="Subscription From Date "
-												p:labelPlacement="LEFT">
-												<property name="control">
-													<bean parent="Uif-DateControl" p:size="10" />
-												</property>
-											</bean>
-										
-											<bean id="invoiceItem_subscriptionToDate" parent="Uif-InputField"
-												p:propertyName="subscriptionToDate" p:label="To Date "
-												p:labelPlacement="LEFT">
-												<property name="control">
-													<bean parent="Uif-DateControl" p:size="10" />
-												</property>
-											</bean>
-										
-											<bean id="invoiceItem_RouteToRequestor" parent="Uif-InputField"
-												p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor"
-												p:render="@{document.foreignCurrencyFlag}">
-												<property name="control">
-													<bean parent="Uif-CheckboxControl" />
-												</property>
-											</bean>
-										
-											<bean id="invoiceItem_PublicView" parent="Uif-InputField"
-												p:propertyName="itemPublicViewIndicator" p:label="Public View"
-												p:render="@{document.foreignCurrencyFlag}">
-												<property name="control">
-													<bean parent="Uif-CheckboxControl" />
-												</property>
-											</bean>
-										</list>
-									</property>
-								</bean>
-		                        <ref bean="OLEInvoiceView-invoiceItem-poDetails" />
-							</list>
-						</property>
-					</bean>
-		        </property>
-				<property name="relinkQuickfinder">
-					<bean parent="Uif-QuickFinder"
-						p:dataObjectClassName="org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch"
-						p:fieldConversions="tempItemIdentifier:tempItemIdentifier,purapDocumentIdentifier:purchaseOrderIdentifier,purchaseOrderItemID:tempPurchaseOrderIdentifier,purchaseOrderItemID:poItemIdentifier,localId:itemTitleId,itemDescription:itemDescription,accountsPayableLinkIdentifier:accountsPayablePurchasingDocumentLinkIdentifier,poItemPrice:purchaseOrderItemUnitPrice,docFormat:docFormat,itemLineNumber:itemLineNumber"
-						p:lookupParameters="purapDocument.vendorName:vendorName,purapDocument.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,purapDocument.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier" />
-				</property>
-		        <property name="pager">
-		        	<bean parent="Uif-Pager" p:linkScript="oleInvoicePager(this,'OleInvoiceView-invoiceItems')" />
-		        </property>
-			</bean>
-		</property>
-		<property name="lineActions">
-			<list>
-				<bean id="CurrentItem_deleteInvoiceItem" parent="Uif-SecondaryActionButton-Small"
-					p:actionLabel="Delete" p:methodToCall="deleteInvoice"
-					p:render="@{document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved}" />
-				<bean id="CurrentItem_unlinkInvoiceItem" parent="Uif-SecondaryActionButton-Small"
-					p:actionLabel="UnLink" p:methodToCall="unlinkInvoice"
-					p:render="@{(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved or document.documentHeader.workflowDocument.enroute) and (#line.itemTitleId ne null or #line.tempPurchaseOrderIdentifier ne null)}" />
-			</list>
-		</property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-MessageField" p:messageText=" " />
-			</list>
-		</property>
-	</bean>
+        <property name="cssClasses">
+            <list>
+                <value>uif-disclosure</value>
+                <value>uif-tableCollectionSection</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-SubCollectionHeader">
+                <property name="headerText" value="Current Items" />
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup" />
+                </property>
+            </bean>
+        </property>
+        <property name="disclosure.render" value="true" />
+        <property name="layoutManager">
+            <bean
+                    class="org.kuali.ole.select.document.krad.OleInvoiceItemsLayout"
+                    p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_invoice_items"
+                    p:actionRefreshId="OLEInvoiceView-processItems-Wrapper">
+                <property name="rowDetailsGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="invoiceItem_closePO" parent="Uif-DataField"
+                                                  p:propertyName="closePurchaseOrderIndicator" p:label="Close P.O">
+                                            </bean>
+                                            <bean id="invoiceItem_subscriptionOverlay" parent="Uif-InputField"
+                                                  p:propertyName="subscriptionOverlap" p:label="Check Subscription Date Overlap"
+                                                  p:labelPlacement="LEFT">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl" />
+                                                </property>
+                                            </bean>
+
+                                            <bean id="invoiceItem_subscriptionFromDate" parent="Uif-InputField"
+                                                  p:propertyName="subscriptionFromDate" p:label="Subscription From Date "
+                                                  p:labelPlacement="LEFT">
+                                                <property name="control">
+                                                    <bean parent="Uif-DateControl" p:size="10" />
+                                                </property>
+                                            </bean>
+
+                                            <bean id="invoiceItem_subscriptionToDate" parent="Uif-InputField"
+                                                  p:propertyName="subscriptionToDate" p:label="To Date "
+                                                  p:labelPlacement="LEFT">
+                                                <property name="control">
+                                                    <bean parent="Uif-DateControl" p:size="10" />
+                                                </property>
+                                            </bean>
+
+                                            <bean id="invoiceItem_RouteToRequestor" parent="Uif-InputField"
+                                                  p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor"
+                                                  p:render="@{document.foreignCurrencyFlag}">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl" />
+                                                </property>
+                                            </bean>
+
+                                            <bean id="invoiceItem_PublicView" parent="Uif-InputField"
+                                                  p:propertyName="itemPublicViewIndicator" p:label="Public View"
+                                                  p:render="@{document.foreignCurrencyFlag}">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl" />
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                                <ref bean="OLEInvoiceView-invoiceItem-poDetails" />
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="relinkQuickfinder">
+                    <bean parent="Uif-QuickFinder"
+                          p:dataObjectClassName="org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch"
+                          p:fieldConversions="tempItemIdentifier:tempItemIdentifier,purapDocumentIdentifier:purchaseOrderIdentifier,purchaseOrderItemID:tempPurchaseOrderIdentifier,purchaseOrderItemID:poItemIdentifier,localId:itemTitleId,itemDescription:itemDescription,accountsPayableLinkIdentifier:accountsPayablePurchasingDocumentLinkIdentifier,poItemPrice:purchaseOrderItemUnitPrice,docFormat:docFormat,itemLineNumber:itemLineNumber"
+                          p:lookupParameters="purapDocument.vendorName:vendorName,purapDocument.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,purapDocument.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier" />
+                </property>
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleInvoicePager(this,'OleInvoiceView-invoiceItems')" />
+                </property>
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="CurrentItem_deleteInvoiceItem" parent="Uif-SecondaryActionButton-Small"
+                      p:actionLabel="Delete" p:methodToCall="deleteInvoice"
+                      p:render="@{document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved}" />
+                <bean id="CurrentItem_unlinkInvoiceItem" parent="Uif-SecondaryActionButton-Small"
+                      p:actionLabel="UnLink" p:methodToCall="unlinkInvoice"
+                      p:render="@{(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved or document.documentHeader.workflowDocument.enroute) and (#line.itemTitleId ne null or #line.tempPurchaseOrderIdentifier ne null)}" />
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText=" " />
+            </list>
+        </property>
+    </bean>
 
     <bean id="OLEInvoiceView-invoiceItem-poDetails" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
+                <!--<ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-LineItemReceivingView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-CorrectionView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-PaymentRequestView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-CreditMemoView"/>
                 <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
-                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
-	        <ref bean="OLEInvoiceView-invoiceNotes"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>-->
+                <ref bean="OLEInvoiceView-invoiceNotes"/>
                 <!--<ref bean="OLEInvoiceView-Item-accountingLines"/>-->
                 <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
                 <ref bean="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"/>
@@ -433,7 +433,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-invoiceItem-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto">
+    <!--<bean id="OLEInvoiceView-invoiceItem-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto">
         <property name="items">
             <list>
                 <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
@@ -445,9 +445,9 @@
                 <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.PaymentRequestView" />
@@ -458,7 +458,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="PREQ #"  />
@@ -489,7 +489,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="CM #" />
@@ -508,7 +508,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="true">
@@ -562,52 +562,52 @@
     </bean>
 
     <bean id="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" parent="Uif-VerticalBoxGroup">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{filterAdditionalCharges}"
-			      				p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterAdditionalCharges" value="true" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterAdditionalCharges}"
-			      				p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterAdditionalCharges" value="false" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Additional Charges"
-			      				p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterAdditionalCharges" value="@{!filterAdditionalCharges}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][1] [2]" />
-		      </bean>
-              <ref bean="OLEInvoiceView-ProcessItem-AdditionalCharges" />
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:hidden="@{filterAdditionalCharges}"
+                                  p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterAdditionalCharges" value="true" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:hidden="@{!filterAdditionalCharges}"
+                                  p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterAdditionalCharges" value="false" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Additional Charges"
+                                  p:refreshId="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterAdditionalCharges" value="@{!filterAdditionalCharges}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][1] [2]" />
+                </bean>
+                <ref bean="OLEInvoiceView-ProcessItem-AdditionalCharges" />
+            </list>
+        </property>
     </bean>
-    
+
     <bean id="OLEInvoiceView-ProcessItem-AdditionalCharges" parent="Uif-VerticalBoxSection" p:style="width:1468px"
-           p:filterModelProperty="filterAdditionalCharges">
+          p:filterModelProperty="filterAdditionalCharges">
         <property name="items">
             <list>
                 <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"  >
@@ -690,7 +690,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="10"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360" p:disclosure.defaultOpen="false" p:render="@{document.offsetAccountIndicator or document.paymentMethodIdentifier eq '7'}">
         <property name="headerText" value="Offset Accounting Lines" />
@@ -790,7 +790,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-InvoiceItem-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -801,7 +801,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="RequisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -812,9 +812,9 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-InvoiceItem-LineItemReceivingView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-LineItemReceivingView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -825,7 +825,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="LineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -836,9 +836,9 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-InvoiceItem-CorrectionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-CorrectionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -849,7 +849,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="CorrectionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -860,9 +860,9 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-InvoiceItem-PaymentRequestView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-PaymentRequestView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -873,7 +873,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="PaymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -884,9 +884,9 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-InvoiceItem-CreditMemoView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-CreditMemoView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -897,7 +897,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="CreditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -908,71 +908,71 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:render="@{showRequisition(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideRequisitionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{showRequisition(#lineSuffix)}" 
-		      					p:actionLabel="Requisitions"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideRequisitionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:render="@{!showRequisition(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showRequisitionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showRequisition(#lineSuffix)}" 
-		      					p:actionLabel="Requisitions"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showRequisitionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][2] [1][3]" />
-		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
-			    	<property name="items">
-			    		<list>
-			              <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView" />
-			    		</list>
-			    	</property>
-			    </bean>
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:render="@{showRequisition(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideRequisitionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{showRequisition(#lineSuffix)}"
+                                  p:actionLabel="Requisitions"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideRequisitionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:render="@{!showRequisition(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showRequisitionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{!showRequisition(#lineSuffix)}"
+                                  p:actionLabel="Requisitions"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showRequisitionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][2] [1][3]" />
+                </bean>
+                <!--<bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                          <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView" />
+                        </list>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
     </bean>
-    
-    <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView" parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-RequisitionView" parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterRequisition"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -982,7 +982,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_requisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -993,71 +993,71 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:render="@{showLineItemReceiving(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideLineItemReceivingFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{showLineItemReceiving(#lineSuffix)}" 
-		      					p:actionLabel="Line Item Receiving"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideLineItemReceivingFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:render="@{!showLineItemReceiving(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showLineItemReceivingFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showLineItemReceiving(#lineSuffix)}" 
-		      					p:actionLabel="Line Item Receiving"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showLineItemReceivingFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][2] [1][3]" />
-		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
-			    	<property name="items">
-			    		<list>
-			              <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView" />
-			    		</list>
-			    	</property>
-			    </bean>
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:render="@{showLineItemReceiving(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideLineItemReceivingFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{showLineItemReceiving(#lineSuffix)}"
+                                  p:actionLabel="Line Item Receiving"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideLineItemReceivingFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:render="@{!showLineItemReceiving(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showLineItemReceivingFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{!showLineItemReceiving(#lineSuffix)}"
+                                  p:actionLabel="Line Item Receiving"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showLineItemReceivingFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][2] [1][3]" />
+                </bean>
+                <!-- <bean parent="Uif-VerticalBoxGroup">
+                     <property name="items">
+                         <list>
+                           <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView" />
+                         </list>
+                     </property>
+                 </bean>-->
+            </list>
+        </property>
     </bean>
-    
-    <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterLineItemReceiving"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1068,7 +1068,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_lineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1079,71 +1079,71 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:render="@{showCorrection(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideCorrectionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{showCorrection(#lineSuffix)}" 
-		      					p:actionLabel="Correction Receiving"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideCorrectionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:render="@{!showCorrection(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showCorrectionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showCorrection(#lineSuffix)}" 
-		      					p:actionLabel="Correction Receiving"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showCorrectionFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][2] [1][3]" />
-		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
-			    	<property name="items">
-			    		<list>
-			              <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView" />
-			    		</list>
-			    	</property>
-			    </bean>
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:render="@{showCorrection(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideCorrectionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{showCorrection(#lineSuffix)}"
+                                  p:actionLabel="Correction Receiving"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideCorrectionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:render="@{!showCorrection(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showCorrectionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{!showCorrection(#lineSuffix)}"
+                                  p:actionLabel="Correction Receiving"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showCorrectionFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][2] [1][3]" />
+                </bean>
+                <!--<bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                          <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView" />
+                        </list>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
     </bean>
-    
-    <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCorrection"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1153,7 +1153,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_correctionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1164,71 +1164,71 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:render="@{showPaymentRequest(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hidePaymentRequestFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{showPaymentRequest(#lineSuffix)}" 
-		      					p:actionLabel="Payment Request"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hidePaymentRequestFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:render="@{!showPaymentRequest(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showPaymentRequestFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showPaymentRequest(#lineSuffix)}" 
-		      					p:actionLabel="Payment Request"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showPaymentRequestFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][2] [1][3]" />
-		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
-			    	<property name="items">
-			    		<list>
-			              <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView" />
-			    		</list>
-			    	</property>
-			    </bean>
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:render="@{showPaymentRequest(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hidePaymentRequestFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{showPaymentRequest(#lineSuffix)}"
+                                  p:actionLabel="Payment Request"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hidePaymentRequestFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:render="@{!showPaymentRequest(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showPaymentRequestFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{!showPaymentRequest(#lineSuffix)}"
+                                  p:actionLabel="Payment Request"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showPaymentRequestFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][2] [1][3]" />
+                </bean>
+                <!--<bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                          <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView" />
+                        </list>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
     </bean>
-    
-    <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterPaymentRequest"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1238,7 +1238,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_paymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1249,71 +1249,71 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:render="@{showCreditMemo(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideCreditMemoFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{showCreditMemo(#lineSuffix)}" 
-		      					p:actionLabel="Credit Memo"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="hideCreditMemoFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:render="@{!showCreditMemo(#lineSuffix)}"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showCreditMemoFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showCreditMemo(#lineSuffix)}" 
-		      					p:actionLabel="Credit Memo"
-			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="showCreditMemoFor" value="@{#lineSuffix}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][2] [1][3]" />
-		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
-			    	<property name="items">
-			    		<list>
-			              <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView" />
-			    		</list>
-			    	</property>
-			    </bean>
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:render="@{showCreditMemo(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideCreditMemoFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{showCreditMemo(#lineSuffix)}"
+                                  p:actionLabel="Credit Memo"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="hideCreditMemoFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:render="@{!showCreditMemo(#lineSuffix)}"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showCreditMemoFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="@{!showCreditMemo(#lineSuffix)}"
+                                  p:actionLabel="Credit Memo"
+                                  p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="showCreditMemoFor" value="@{#lineSuffix}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][2] [1][3]" />
+                </bean>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
-    
-    <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCreditMemo"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1323,7 +1323,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_creditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1334,7 +1334,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-Item-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />
