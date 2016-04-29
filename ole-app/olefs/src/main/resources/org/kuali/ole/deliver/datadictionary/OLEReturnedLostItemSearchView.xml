@@ -5,7 +5,7 @@
 
     <bean id="OLEReturnedItemSearchView" parent="OLEReturnedItemSearchView-parentBean"/>
     <bean id="OLEReturnedItemSearchView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Paid Replacement Fee Items"/>
+        <property name="headerText" value="Lost and Returned Item Search"/>
         <property name="items">
             <list>
                 <bean id="returnedItemSearchView" parent="Uif-Page">
@@ -79,12 +79,10 @@
             <list>
                 <bean id="returnedItemSearchResults-itemBarcode" parent="Uif-DataField" p:propertyName="itemBarcode"
                       p:label="Item Barcode"/>
-               <!-- <bean id="returnedItemSearchResults-itemType" parent="Uif-DataField" p:propertyName="itemType"
-                      p:label="Item Type"/>-->
                 <bean id="returnedItemSearchResults-title" parent="Uif-DataField" p:propertyName="title"
                       p:label="Item Title"/>
                 <bean id="returnedItemSearchResults-author" parent="Uif-DataField" p:propertyName="itemStatus"
-                      p:label="Item Author"/>
+                      p:label="Item Status"/>
 
             </list>
         </property>
