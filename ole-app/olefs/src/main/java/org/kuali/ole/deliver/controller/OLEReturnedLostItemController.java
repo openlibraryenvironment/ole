@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -50,7 +52,7 @@ public class OLEReturnedLostItemController extends OLEUifControllerBase {
 
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception{
         OLEReturnedLostItemForm oleReturnedLostItemForm = (OLEReturnedLostItemForm) form;
          List<OLEReturnedLostItemResult> returnedLostItemResults = new ArrayList<>();
         oleReturnedLostItemForm.reset();
@@ -59,10 +61,24 @@ public class OLEReturnedLostItemController extends OLEUifControllerBase {
         }
         Criteria criteria = new Criteria();
         criteria.addGreaterOrEqualThan("createDate", oleReturnedLostItemForm.getDateSentFrom());
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(oleReturnedLostItemForm.getDateSentTo());
-        cal.add(Calendar.DATE, 1);
-        criteria.addLessOrEqualThan("createDate", cal.getTime());
+        String dbVendor = getProperty("db.vendor");
+        if (dbVendor.equals("mysql")) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(oleReturnedLostItemForm.getDateSentTo());
+            cal.add(Calendar.DATE, 1);
+            criteria.addLessOrEqualThan("createDate", cal.getTime());
+        } else if (dbVendor.equals("oracle")){
+            String fromdate = oleReturnedLostItemForm.getDateSentTo().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(fromdate));
+            c.add(Calendar.DATE, 1);
+            fromdate = sdf.format(c.getTime());
+            java.sql.Date sqlDate = java.sql.Date.valueOf(fromdate);
+            criteria.addLessOrEqualThan("createDate", sqlDate);
+        }
+
+
         criteria.addNotNull("repaymentFeePatronBillId");
         List<OleCirculationHistory> oleCirculationHistoryList = getLoanDaoOjb().getReturnedItem(criteria);
         if (oleCirculationHistoryList.size() > 0) {
@@ -74,6 +90,9 @@ public class OLEReturnedLostItemController extends OLEUifControllerBase {
             }
         }
         oleReturnedLostItemForm.setOleReturnedLostItemResults(returnedLostItemResults);
+        if(returnedLostItemResults.size() == 0) {
+            GlobalVariables.getMessageMap().putInfo(OLEConstants.NO_RESULTS_FOUND, OLEConstants.NO_RESULTS_FOUND);
+        }
         return getUIFModelAndView(oleReturnedLostItemForm);
 
     }
@@ -176,4 +195,9 @@ public class OLEReturnedLostItemController extends OLEUifControllerBase {
         }
         return dateTimeService;
     }
+
+    protected String getProperty(String property) {
+        return ConfigContext.getCurrentContextConfig().getProperty(property);
+    }
+
 }
