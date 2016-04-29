@@ -825,12 +825,16 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     var removeEmptyValues = function () {
         $scope.matchPointsPanel.splice(0, 1);
         if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
+            $scope.addOrOverlayPanel.splice(0, 1);
             $scope.fieldOperationsPanel.splice(0, 1);
             $scope.dataTransformationsPanel.splice(0, 1);
             $scope.dataMappingsPanel.splice(0, 1);
         }
-        if ($scope.mainSectionPanel.batchProcessType == 'Bib Import' || $scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+        if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
             $scope.addOrOverlayPanel.splice(0, 1);
+            $scope.dataMappingsPanel.splice(0, 1);
+        }
+        if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.dataMappingsPanel.splice(0, 1);
         }
     };
