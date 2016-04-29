@@ -5,7 +5,7 @@ function searchConditions($scope, $http, $rootScope) {
     //$scope.pageno = 1;
     $scope.total_count;
     $scope.itemsPerPage = 10;
-    $rootScope.solrUri = '/bib/select?q=';
+    $rootScope.solrUri = '/bib/select/';
     $rootScope.baseUri;
     $rootScope.searched = false;
     $rootScope.showResults = true;
@@ -31,12 +31,12 @@ function searchConditions($scope, $http, $rootScope) {
         getUri();
     };
 
-    function getUri(){
-        $http.get("rest/ngTransferController/url")
-            .success(function (data) {
-                console.log(data.docstoreUrl)
-                $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
-            });
+    function getUri() {
+        doGetRequest($scope, $http, "rest/ngTransferController/url", null, function (response) {
+            var data = response.data;
+            console.log(data.docstoreUrl);
+            $rootScope.baseUri = data.docstoreUrl + $rootScope.solrUri;
+        });
     }
 
     $scope.showEntry = '10';
@@ -390,26 +390,6 @@ function searchConditions($scope, $http, $rootScope) {
 
     }
 
-    /*function searchSolr(){
-     //var url = " DocType:" + condition.inDocumentType;
-     var url = $scope.searchQuery;
-     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&rows=10&sort=Title_sort asc').
-     success(function (data) {
-     $scope.totalRecords = data.response.numFound;
-     vm.total_count = data.response.numFound;
-     $http.get($rootScope.baseUri + url + '&wt=json&fl=Title_display,Author_display,Publisher_display,id,holdingsIdentifier,DocType&sort=Title_sort asc&rows=' + $scope.totalRecords).
-     success(function (data) {
-     //console.log(data.response.docs);
-     $rootScope.searchResults = data.response.docs;
-     vm.searchResults = data.response.docs;
-     $rootScope.searched = false;
-     paginate();
-     });
-
-     });
-
-     }*/
-
     function searchSolrForResults(pageNo) {
         searchAndBuildPageEntries(pageNo);
     }
@@ -424,25 +404,38 @@ function searchConditions($scope, $http, $rootScope) {
         }
         var searchUrl = $scope.searchQuery;
         $scope.start = (pageNo * $scope.itemsPerPage) - $scope.itemsPerPage;
-        $http.get($rootScope.baseUri + searchUrl + '&wt=json&sort=Title_sort asc&rows=' + $scope.itemsPerPage + '&start=' + $scope.start).
-            success(function (data) {
-                $rootScope.searchResults = data.response.docs;
-                $scope.searchResults = data.response.docs;
-                if ($scope.searchResults.length > 0) {
-                    $rootScope.showResults = true;
-                    $rootScope.errorMessage = null;
-                } else {
-                    $rootScope.showResults = false;
-                    $rootScope.errorMessage = "No search results found";
-                }
-                $scope.total_count = data.response.numFound;
-                $rootScope.searched = true;
-                var noOfItemsOnPage = (pageNo * $scope.itemsPerPage);
-                if (noOfItemsOnPage > $scope.total_count) {
-                    noOfItemsOnPage = $scope.total_count;
-                }
-                buildPageEntriesInfo($scope.start + 1, noOfItemsOnPage, $scope.total_count);
-            });
+
+        $http({
+            method: 'JSONP',
+            url: $rootScope.baseUri,
+            params: {
+                'json.wrf': 'JSON_CALLBACK',
+                'q': searchUrl,
+                'wt': 'json',
+                'start': $scope.start,
+                'rows': $scope.itemsPerPage,
+                'sort': 'Title_sort asc'
+            }
+        }).success(function (data) {
+            $rootScope.searchResults = data.response.docs;
+            $scope.searchResults = data.response.docs;
+            if ($scope.searchResults.length > 0) {
+                $rootScope.showResults = true;
+                $rootScope.errorMessage = null;
+            } else {
+                $rootScope.showResults = false;
+                $rootScope.errorMessage = "No search results found";
+            }
+            $scope.total_count = data.response.numFound;
+            $rootScope.searched = true;
+            var noOfItemsOnPage = (pageNo * $scope.itemsPerPage);
+            if (noOfItemsOnPage > $scope.total_count) {
+                noOfItemsOnPage = $scope.total_count;
+            }
+            buildPageEntriesInfo($scope.start + 1, noOfItemsOnPage, $scope.total_count);
+        }).error(function () {
+            console.log('Search failed while retrieving bibs!');
+        });
     }
 
     function buildPageEntriesInfo(start, itemsPerPage, totalCount) {
