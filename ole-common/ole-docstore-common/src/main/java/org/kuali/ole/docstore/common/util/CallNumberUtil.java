@@ -18,10 +18,8 @@ public class CallNumberUtil {
                 callNumberObj = new DDCallNumber();
             } else if (codeValue.equalsIgnoreCase(CallNumberType.NLM.getCode())) {
                 callNumberObj = new NLMCallNumber();
-            } else if (codeValue.equalsIgnoreCase(CallNumberType.SuDoc.getCode())) {
-                callNumberObj = new SuDocCallNumber();
             } else {
-                callNumberObj = new OtherCallNumber();
+                callNumberObj = new LcCallNumber();
             }
 
             if (callNumberObj != null) {
