@@ -3596,9 +3596,6 @@
         <column name="STATUS" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
-        <foreign-key foreignTable="OLE_NG_BAT_PRCS_JOB_T" name="OLE_NG_BAT_PRCS_ID_FK">
-            <reference foreign="JOB_ID" local="JOB_ID"/>
-        </foreign-key>
         <index name="OLE_NG_BAT_JOB_I">
             <index-column name="JOB_ID"/>
         </index>
