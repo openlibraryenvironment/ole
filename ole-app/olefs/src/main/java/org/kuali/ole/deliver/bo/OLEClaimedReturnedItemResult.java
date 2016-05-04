@@ -7,8 +7,11 @@ public class OLEClaimedReturnedItemResult {
 
     private boolean select;
     private String itemId;
+    private String itemBarcode;
     private String callNumber;
+    private String callNumberPrefix;
     private String title;
+    private String author;
     private String copyNumber;
     private String enumeration;
     private String chronology;
@@ -33,6 +36,14 @@ public class OLEClaimedReturnedItemResult {
         this.itemId = itemId;
     }
 
+    public String getItemBarcode() {
+        return itemBarcode;
+    }
+
+    public void setItemBarcode(String itemBarcode) {
+        this.itemBarcode = itemBarcode;
+    }
+
     public String getCallNumber() {
         return callNumber;
     }
@@ -41,12 +52,28 @@ public class OLEClaimedReturnedItemResult {
         this.callNumber = callNumber;
     }
 
+    public String getCallNumberPrefix() {
+        return callNumberPrefix;
+    }
+
+    public void setCallNumberPrefix(String callNumberPrefix) {
+        this.callNumberPrefix = callNumberPrefix;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getCopyNumber() {

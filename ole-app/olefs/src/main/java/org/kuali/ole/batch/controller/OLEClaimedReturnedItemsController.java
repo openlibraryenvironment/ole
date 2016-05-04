@@ -215,9 +215,10 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             Map lostMap = new HashMap();
             lostMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, OLEConstants.LOST_NOTICE);
             lostMap.put(OLEConstants.LOAN_DOCUMENTS, Arrays.asList(oleLoanDocument));
-            Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+            lostMap.put(OLEConstants.BILL_NOTE,OLEConstants.CLAIM_BILL_NOTE);
+            Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
         } else {
             getBusinessObjectService().save(oleLoanDocument);
@@ -275,7 +276,9 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
     private List<SearchResultField> buildSearchResultFieldsForClaimsReturned(SearchParams searchParams) {
         List<SearchResultField> searchResultFields = new ArrayList<>();
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEMIDENTIFIER));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_BARCODE));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER_PREFIX));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.COPY_NUMBER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ENUMERATION));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CHRONOLOGY));
@@ -283,7 +286,9 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CLMS_RET_FLAG_CRE_DATE));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CLMS_RET_NOTE));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.TITLE));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.AUTHOR));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.HOLDINGS_CALL_NUMBER));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.HOLDINGS_CALL_NUMBER_PREFIX));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.HOLDINGS_COPY_NUMBER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_LOCATION_DISPLAY));
         return searchResultFields;
@@ -295,7 +300,9 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         if (searchResponse != null) {
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
                 String itemCallNumber = null;
+                String itemCallNumberPrefix = null;
                 String holdingsCallNumber = null;
+                String holdingsCallNumberPrefix = null;
                 String itemCopyNumber = null;
                 String holdingsCopyNumber = null;
                 String itemLocation = null;
@@ -307,10 +314,16 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                             String itemId = searchResultField.getFieldValue();
                             itemIds.add(itemId);
                             claimedReturnedItemResult.setItemId(itemId);
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ITEM_BARCODE)) {
+                            claimedReturnedItemResult.setItemBarcode(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.CALL_NUMBER)) {
                             itemCallNumber = searchResultField.getFieldValue();
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.CALL_NUMBER_PREFIX)) {
+                            itemCallNumberPrefix = searchResultField.getFieldValue();
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.HOLDINGS_CALL_NUMBER)) {
                             holdingsCallNumber = searchResultField.getFieldValue();
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.HOLDINGS_CALL_NUMBER_PREFIX)) {
+                            holdingsCallNumberPrefix = searchResultField.getFieldValue();
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.COPY_NUMBER)) {
                             itemCopyNumber = searchResultField.getFieldValue();
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.HOLDINGS_COPY_NUMBER)) {
@@ -329,6 +342,8 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                             claimedReturnedItemResult.setClaimReturnNote(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.TITLE)) {
                             claimedReturnedItemResult.setTitle(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
+                            claimedReturnedItemResult.setAuthor(searchResultField.getFieldValue());
                         }
                     }
                 }
@@ -336,6 +351,11 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                     claimedReturnedItemResult.setCallNumber(itemCallNumber);
                 } else {
                     claimedReturnedItemResult.setCallNumber(holdingsCallNumber);
+                }
+                if (StringUtils.isNotBlank(itemCallNumberPrefix)){
+                    claimedReturnedItemResult.setCallNumberPrefix(itemCallNumberPrefix);
+                } else {
+                    claimedReturnedItemResult.setCallNumberPrefix(holdingsCallNumberPrefix);
                 }
                 if (StringUtils.isNotBlank(itemCopyNumber)) {
                     claimedReturnedItemResult.setCopyNumber(itemCopyNumber);
@@ -362,6 +382,13 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                     for (OLEClaimedReturnedItemResult claimedReturnedItemResult : claimedReturnedItemResults) {
                         if (oleLoanDocument.getItemUuid().equalsIgnoreCase(claimedReturnedItemResult.getItemId())) {
                             oleLoanDocument.setItemFullLocation(claimedReturnedItemResult.getLocation());
+                            oleLoanDocument.setTitle(claimedReturnedItemResult.getTitle());
+                            oleLoanDocument.setAuthor(claimedReturnedItemResult.getAuthor());
+                            oleLoanDocument.setItemCopyNumber(claimedReturnedItemResult.getCopyNumber());
+                            oleLoanDocument.setEnumeration(claimedReturnedItemResult.getEnumeration());
+                            oleLoanDocument.setChronology(claimedReturnedItemResult.getChronology());
+                            oleLoanDocument.setItemCallNumber(claimedReturnedItemResult.getCallNumber());
+                            oleLoanDocument.setItemCallNumberPrefix(claimedReturnedItemResult.getCallNumberPrefix());
                             claimedReturnedItemResult.setOleLoanDocument(oleLoanDocument);
                             claimedReturnedItemResultList.add(claimedReturnedItemResult);
                             break;

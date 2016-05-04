@@ -32,6 +32,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     private NoticeMailContentFormatter noticeMailContentFormatter;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
     private PatronBillHelperService patronBillHelperService;
+    String note= null;
 
 
     public ItemOlemlRecordProcessor getItemOlemlRecordProcessor() {
@@ -43,6 +44,10 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
 
     public LostNoticesExecutor(Map lostMap) {
         super(lostMap);
+        if(lostMap.get(OLEConstants.BILL_NOTE) != null) {
+            note = lostMap.get(OLEConstants.BILL_NOTE).toString();
+        }
+
     }
 
     @Override
@@ -133,6 +138,9 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
 
     private FeeType getFeeType(OleLoanDocument oleLoanDocument, BigDecimal fineAmount, String feeTypeName) {
         FeeType feeType = new FeeType();
+        if(note != null) {
+            feeType.setGeneralNote(note);
+        }
         feeType.setFeeType(getFeeTypeId(feeTypeName));
         feeType.setFeeAmount(new KualiDecimal(fineAmount));
         feeType.setItemBarcode(oleLoanDocument.getItemId());
@@ -298,5 +306,13 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
 
     public void setPatronBillHelperService(PatronBillHelperService patronBillHelperService) {
         this.patronBillHelperService = patronBillHelperService;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

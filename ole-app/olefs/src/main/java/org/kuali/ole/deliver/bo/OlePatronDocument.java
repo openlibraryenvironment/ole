@@ -1906,7 +1906,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         if(CollectionUtils.isNotEmpty(feeTypeList)){
             for (Iterator<FeeType> iterator = feeTypeList.iterator(); iterator.hasNext(); ) {
                 FeeType patronFeeType =  iterator.next();
-                if(patronFeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(feeType)){
+                if (patronFeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(feeType) && !patronFeeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
                     feeAmount = feeAmount.add(patronFeeType.getBalFeeAmount().bigDecimalValue());
                 }
             }

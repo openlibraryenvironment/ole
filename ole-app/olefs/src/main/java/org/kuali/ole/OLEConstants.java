@@ -3889,5 +3889,11 @@ public class OLEConstants {
     public static final String REPLACMENT_FEE="REPL_FEE";
     public static final String ITEM_BARCODE_OR_UUID_REQUIRED= "item.barcode.or.uuid.required";
     public static final String NO_RESULTS_FOUND = "no.result.found";
+    public static final String PAYMENT_SUSPENDED = "PAY_SUSPENDED";
+    public static final String PAY_NOT_ALLOWED = "error.pay.not.allowed";
+    public static final String FORGIVE_PAY_NOT_ALLOWED = "error.forgive.pay.not.allowed";
+    public static final String BILL_NOTE = "note";
+    public static final String CLAIM_BILL_NOTE = "The fee was created as the end of a claim";
+
 
 }
