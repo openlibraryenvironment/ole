@@ -4,6 +4,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturn
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +70,8 @@ public class OLESingleItemResultDisplayRow {
     private String finalStatus;
     private Date finalStatusDate;
     private String originalDueDate;
+    private String lastBorrower;
+    private Timestamp lastCheckinDate;
 
     private List<OLEDeliverRequestResultDisplayRow> oleDeliverRequestResultDisplayRowList = new ArrayList<>();
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
@@ -549,5 +552,21 @@ public class OLESingleItemResultDisplayRow {
 
     public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
         this.itemDamagedRecords = itemDamagedRecords;
+    }
+
+    public String getLastBorrower() {
+        return lastBorrower;
+    }
+
+    public void setLastBorrower(String lastBorrower) {
+        this.lastBorrower = lastBorrower;
+    }
+
+    public Timestamp getLastCheckinDate() {
+        return lastCheckinDate;
+    }
+
+    public void setLastCheckinDate(Timestamp lastCheckinDate) {
+        this.lastCheckinDate = lastCheckinDate;
     }
 }

@@ -7,6 +7,7 @@ import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OLEDeliverItemSearchForm;
 import org.kuali.ole.deliver.service.OLEDeliverItemSearchService;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -44,6 +46,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OLEDeliverItemSearchController.class);
     private DocstoreClientLocator docstoreClientLocator;
     private OLEDeliverItemSearchService oleDeliverItemSearchService;
+    private OleLoanDocumentDaoOjb loanDaoOjb;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (docstoreClientLocator == null) {
@@ -58,6 +61,14 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         }
         return oleDeliverItemSearchService;
     }
+
+    public OleLoanDocumentDaoOjb getLoanDaoOjb() {
+        if (null == loanDaoOjb) {
+            loanDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return loanDaoOjb;
+    }
+
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -311,7 +322,14 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     }
                     itemSearchResultDisplayRow.setPlaceRequest(getOleDeliverItemSearchService().validateItemStatusForPlaceRequest(itemSearchResultDisplayRow.getItemStatus()));
                     singleItemResultDisplayRow.setPlaceRequest(getOleDeliverItemSearchService().validateItemStatusForPlaceRequest(singleItemResultDisplayRow.getItemStatus()));
-
+                    itemSearchResultDisplayRow.getItemUUID();
+                    OleCirculationHistory oleCirculationHistory = getLoanDaoOjb().retrieveCircHistoryRecord(itemSearchResultDisplayRow.getId());
+                    if(null != oleCirculationHistory) {
+                        singleItemResultDisplayRow.setLastBorrower(oleCirculationHistory.getPatronId());
+                        singleItemResultDisplayRow.setLastCheckinDate(new Timestamp(oleCirculationHistory.getCheckInDate().getTime()));
+                        itemSearchResultDisplayRow.setLastBorrower(oleCirculationHistory.getPatronId());
+                        itemSearchResultDisplayRow.setLastCheckinDate(new Timestamp(oleCirculationHistory.getCheckInDate().getTime()));
+                    }
                     if (searchResponse.getSearchResults().size() > 1) {
                         Map itemMap = new HashMap();
                         itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, itemSearchResultDisplayRow.getItemBarCode());

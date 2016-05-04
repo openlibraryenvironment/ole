@@ -315,6 +315,10 @@
                       p:propertyName="oleSingleItemResultDisplayRow.itemBarCode"/>
                 <bean parent="Uif-DataField" p:label="No of Pieces"
                       p:propertyName="oleSingleItemResultDisplayRow.noOfPieces"/>
+                <bean parent="Uif-DataField" p:label="Last Checkin Date"
+                      p:propertyName="oleSingleItemResultDisplayRow.lastCheckinDate"/>
+                <bean parent="Uif-DataField" p:label="Last Borrower"
+                      p:propertyName="oleSingleItemResultDisplayRow.lastBorrower"/>
             </list>
         </property>
     </bean>
