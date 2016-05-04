@@ -106,12 +106,14 @@ public class PatronBillHelperService {
             KualiDecimal unpaidamt = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
             List<FeeType> feeTypes = patronBillPayment.getFeeType();
             for (FeeType feeType : feeTypes) {
-                grandTotal = grandTotal.add(feeType.getBalFeeAmount());
-                paidamt = paidamt.add(feeType.getPaidAmount());
+                if (!feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                    grandTotal = grandTotal.add(feeType.getBalFeeAmount());
+                    paidamt = paidamt.add(feeType.getPaidAmount());
                 /*if(feeType.getFeeAmount()!=null && feeType.getBalFeeAmount()!=null && (feeType.getFeeAmount()).compareTo(feeType.getPaidAmount())>0){
                     unpaidamt = (feeType.getFeeAmount()).subtract(feeType.getPaidAmount());
                 }*/
-                unpaidamt = unpaidamt.add(feeType.getBalFeeAmount());
+                    unpaidamt = unpaidamt.add(feeType.getBalFeeAmount());
+                }
             }
             patronBillPayment.setPaidAmount(paidamt);
             patronBillPayment.setUnPaidBalance(unpaidamt);

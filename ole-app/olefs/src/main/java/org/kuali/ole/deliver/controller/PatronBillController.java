@@ -212,6 +212,14 @@ public class PatronBillController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
             }
+            for (PatronBillPayment patronBillPayment : patronBillPayments) {
+                List<FeeType> feeTypes = patronBillPayment.getFeeType();
+                for (FeeType feeType : feeTypes) {
+                    if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.PAY_NOT_ALLOWED);
+                    }
+                }
+            }
             paymentAmount = patronBillHelperService.billWiseTransaction(patronBillPayments, paymentAmount, patronBillForm.getPaymentMethod(), OLEConstants.FULL_PAID, OLEConstants.PAR_PAID, false, null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else if (patronBillForm.getBillWisePayment().equalsIgnoreCase(OLEConstants.ITEM_WISE)) {
             List<FeeType> feeTypes = patronBillForm.getFeeTypes();
@@ -231,6 +239,11 @@ public class PatronBillController extends UifControllerBase {
             if (paymentAmount != null && paymentAmount.compareTo(patronBillHelperService.getSumOfSelectedFeeTypes(feeTypes)) > 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
+            }
+            for(FeeType feeType : feeTypes) {
+                if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.PAY_NOT_ALLOWED);
+                }
             }
             paymentAmount = patronBillHelperService.itemWiseTransaction(feeTypes, paymentAmount, patronBillForm.getPaymentMethod(), OLEConstants.FULL_PAID, OLEConstants.PAR_PAID, null, null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else {
@@ -305,6 +318,15 @@ public class PatronBillController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
             }
+            for (PatronBillPayment patronBillPayment : patronBillPayments) {
+                List<FeeType> feeTypes = patronBillPayment.getFeeType();
+                for (FeeType feeType : feeTypes) {
+                    if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.FORGIVE_PAY_NOT_ALLOWED);
+                    }
+                }
+            }
+
             paymentAmount = patronBillHelperService.billWiseTransaction(patronBillPayments, paymentAmount, OLEConstants.FORGIVE, OLEConstants.FORGIVEN, OLEConstants.PAR_PAID, false, patronBillForm.getForgiveNote(), patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else if (patronBillForm.getBillWisePayment().equalsIgnoreCase(OLEConstants.ITEM_WISE)) {
             List<FeeType> feeTypes = patronBillForm.getFeeTypes();
@@ -324,6 +346,11 @@ public class PatronBillController extends UifControllerBase {
             if (paymentAmount != null && paymentAmount.compareTo(patronBillHelperService.getSumOfSelectedFeeTypes(feeTypes)) > 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
+            }
+            for(FeeType feeType : feeTypes) {
+                if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.FORGIVE_PAY_NOT_ALLOWED);
+                }
             }
             paymentAmount = patronBillHelperService.itemWiseTransaction(feeTypes, paymentAmount, OLEConstants.FORGIVE, OLEConstants.FORGIVEN, OLEConstants.PAR_PAID, patronBillForm.getForgiveNote(), null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
 
