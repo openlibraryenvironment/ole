@@ -362,10 +362,14 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
         budgetMap.put("accountNumber", accountNumber);
         budgetMap.put("objectCode", objectCode);
         budgetMap.put(OLEPropertyConstants.BALANCE_TYPE_CODE, OLEPropertyConstants.BAL_TYP_CODE);
-        Balance balance = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Balance.class, budgetMap);
+        List<Balance> balanceList = (List<Balance>) SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, budgetMap);
         KualiDecimal initialBudgetAmount = KualiDecimal.ZERO;
-        if (balance != null) {
-            initialBudgetAmount = balance.getAccountLineAnnualBalanceAmount();
+        if(balanceList.size() > 0) {
+            for(Balance balance: balanceList) {
+                if (balance != null) {
+                    initialBudgetAmount = initialBudgetAmount.add(balance.getAccountLineAnnualBalanceAmount());
+                }
+            }
         }
         Map encMap = new HashMap();
         encMap.put("chartOfAccountsCode", chartCode);
