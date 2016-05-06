@@ -441,24 +441,39 @@
                         // the method can be overrided
                         callbacks.accept = function (sourceNodeScope, destNodesScope, rootScope, destIndex, $http) {
                             console.log("accept");
+                            var destinationDocType= null;
+                            var destinationId = null;
+                            var sourceId =null;
+
+                            console.log(destNodesScope);
+                            console.log(sourceNodeScope);
+
+                            if(destNodesScope.$nodeScope == null){
+                                var jString=destNodesScope.$modelValue;
+                                for (var i =0; i< jString.length ;i++) {
+                                    destinationId= jString[i].id;
+                                    destinationDocType = jString[i].docType;
+                                }
+
+                            }else{
+                                destinationId= destNodesScope.$nodeScope.$modelValue.id;
+                                destinationDocType =  destNodesScope.$nodeScope.$modelValue.docType;
+                            }
                             var transfer = {
                                 "sourceDocType": sourceNodeScope.$modelValue.docType,
-                                "destinationDocType": destNodesScope.$nodeScope.$modelValue.docType,
+                                "destinationDocType": destinationDocType,
                                 "sourceId": sourceNodeScope.$modelValue.id,
-                                "destinationId": destNodesScope.$nodeScope.$modelValue.id,
+                                "destinationId": destinationId,
                                 "message": ""
                             };
-                            console.log(sourceNodeScope);
-                            console.log(destNodesScope);
-                            console.log(sourceNodeScope.$modelValue.holdingsId);
-                            console.log(destNodesScope.node.id);
-                            if(sourceNodeScope.$modelValue.docType == 'holdings' && destNodesScope.$nodeScope.$modelValue.docType == 'bibliographic'){
-                                if(sourceNodeScope.$modelValue.bibId != destNodesScope.node.id){
+
+                            if(sourceNodeScope.$modelValue.docType == 'holdings' && destinationDocType == 'bibliographic'){
+                                if(sourceNodeScope.$modelValue.bibId != destinationId){
                                     rootScope.transfer(transfer);
                                 }
                                 return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
-                            }else if(sourceNodeScope.$modelValue.docType == 'item' && destNodesScope.$nodeScope.$modelValue.docType == 'holdings'){
-                                if(sourceNodeScope.$modelValue.holdingsId != destNodesScope.node.id){
+                            }else if(sourceNodeScope.$modelValue.docType == 'item' && destinationDocType == 'holdings'){
+                                if(sourceNodeScope.$modelValue.holdingsId != destinationId){
                                     rootScope.transfer(transfer);
                                 }
                                 return !(destNodesScope.nodropEnabled || destNodesScope.outOfDepth(sourceNodeScope));
@@ -481,7 +496,6 @@
 
                         callbacks.dropped = function (event) {
                             console.log("dropped");
-                            $rootScope.rebuildTree();
                         };
 
                         callbacks.dragStart = function (event) {
