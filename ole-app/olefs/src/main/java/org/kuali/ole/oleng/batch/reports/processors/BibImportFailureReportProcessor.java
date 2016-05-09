@@ -17,12 +17,13 @@ import java.util.Map;
  */
 public class BibImportFailureReportProcessor extends OleNGReportProcessor {
 
+    private MarcRecordUtil marcRecordUtil;
+
     @Override
     public void process(Object object, String directoryToWrite) throws Exception {
         OleNGBibImportResponse oleNGBibImportResponse = (OleNGBibImportResponse) object;
         List<BibFailureResponse> failureResponses = oleNGBibImportResponse.getFailureResponses();
         List<Record> marcRecords = new ArrayList<>();
-        MarcRecordUtil marcRecordUtil = new MarcRecordUtil();
         if(CollectionUtils.isNotEmpty(failureResponses)) {
             Map<Integer,RecordDetails> recordsMap = oleNGBibImportResponse.getRecordsMap();
             if(null != recordsMap && recordsMap.size() > 0) {
@@ -40,11 +41,22 @@ public class BibImportFailureReportProcessor extends OleNGReportProcessor {
                 }
             }
             if(CollectionUtils.isNotEmpty(marcRecords)) {
-                String failedMarcContent = marcRecordUtil.convertMarcRecordListToRawMarcContent(marcRecords);
-                logMessage(directoryToWrite, "Bib-FailedMarcRecords","mrc", failedMarcContent, true);
+                String failedMarcContent = getMarcRecordUtil().convertMarcRecordListToRawMarcContent(marcRecords);
+                writeMarcContent(directoryToWrite, failedMarcContent);
             }
             String bibFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(failureResponses);
             logMessage(directoryToWrite, "Bib-FailureMessages","txt", bibFailureMessage, false);
         }
+    }
+
+    public void writeMarcContent(String directoryToWrite, String failedMarcContent) throws Exception {
+        logMessage(directoryToWrite, "Bib-FailedMarcRecords","mrc", failedMarcContent, true);
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if(null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
     }
 }

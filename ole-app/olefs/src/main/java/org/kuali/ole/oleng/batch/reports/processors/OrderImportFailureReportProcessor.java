@@ -17,12 +17,13 @@ import java.util.Map;
  */
 public class OrderImportFailureReportProcessor extends OleNGReportProcessor {
 
+    private MarcRecordUtil marcRecordUtil;
+
     @Override
     public void process(Object object, String directoryToWrite) throws Exception {
         OleNGOrderImportResponse oleNGOrderImportResponse = (OleNGOrderImportResponse) object;
         List<OrderFailureResponse> orderFailureResponses = oleNGOrderImportResponse.getOrderFailureResponses();
         List<Record> marcRecords = new ArrayList<>();
-        MarcRecordUtil marcRecordUtil = new MarcRecordUtil();
         if(CollectionUtils.isNotEmpty(orderFailureResponses)) {
             Map<Integer, RecordDetails> recordsMap = oleNGOrderImportResponse.getRecordsMap();
             if(null != recordsMap && recordsMap.size() > 0) {
@@ -40,11 +41,22 @@ public class OrderImportFailureReportProcessor extends OleNGReportProcessor {
                 }
             }
             if(CollectionUtils.isNotEmpty(marcRecords)) {
-                String failedMarcContent = marcRecordUtil.convertMarcRecordListToRawMarcContent(marcRecords);
-                logMessage(directoryToWrite, "Order-FailedMarcRecords", "mrc", failedMarcContent, true);
+                String failedMarcContent = getMarcRecordUtil().convertMarcRecordListToRawMarcContent(marcRecords);
+                writeMarcContent(directoryToWrite, failedMarcContent);
             }
             String orderFailureMessage = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(orderFailureResponses);
             logMessage(directoryToWrite, "Order-FailureMessages", "txt", orderFailureMessage, false);
         }
+    }
+
+    public void writeMarcContent(String directoryToWrite, String failedMarcContent) throws Exception {
+        logMessage(directoryToWrite, "Order-FailedMarcRecords", "mrc", failedMarcContent, true);
+    }
+
+    public MarcRecordUtil getMarcRecordUtil() {
+        if(null == marcRecordUtil) {
+            marcRecordUtil = new MarcRecordUtil();
+        }
+        return marcRecordUtil;
     }
 }

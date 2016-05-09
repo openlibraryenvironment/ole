@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.pojo.edi.*;
@@ -17,7 +18,6 @@ import org.kuali.rice.krad.service.LookupService;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -28,6 +28,7 @@ public class OleNGInvoiceRecordBuilderUtil extends BusinessObjectServiceHelperUt
 
     private static OleNGInvoiceRecordBuilderUtil oleNGInvoiceRecordBuilderUtil = null;
     private LookupService lookupService;
+    private BatchDateTimeUtil batchDateTimeUtil;
 
     public static OleNGInvoiceRecordBuilderUtil getInstance() {
         if (null == oleNGInvoiceRecordBuilderUtil) {
@@ -540,51 +541,90 @@ public class OleNGInvoiceRecordBuilderUtil extends BusinessObjectServiceHelperUt
     }
 
     private String getSubscriptionDateFrom(LineItemOrder lineItemOrder) {
-        if (CollectionUtils.isNotEmpty(lineItemOrder.getDateTimeDetail())) {
-            DateTimeDetail dateTimeDetail = lineItemOrder.getDateTimeDetail().get(0);
-            if (CollectionUtils.isNotEmpty(dateTimeDetail.getDateTimeInformationList())) {
-                DateTimeInformation dateTimeInformation = dateTimeDetail.getDateTimeInformationList().get(0);
-                if (dateTimeInformation.getPeriod().length() == 8) {
-                    return dateTimeInformation.getPeriod();
-                } else {
-                    return dateTimeInformation.getPeriod() + 01;
+        String subScriptionDate = getSubScriptionDateFromDateTimeDetails(lineItemOrder.getDateTimeDetail(), 0);
+        if(StringUtils.isBlank(subScriptionDate)) {
+            List<ItemDescription> itemDescriptionList = lineItemOrder.getItemDescriptionList();
+            subScriptionDate = getSubScriptionDateFromDescription(itemDescriptionList, "085");
+        }
+        if(StringUtils.isNotBlank(subScriptionDate)) {
+            try {
+                Date date = getBatchDateTimeUtil().convertToDate(subScriptionDate);
+                if(subScriptionDate.length() == 6) {
+                    date = processDate(date, "from");
+                }
+                return OleNGConstants.DATE_FORMAT_WITHOUT_TIME.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private String getSubScriptionDateFromDateTimeDetails(List<DateTimeDetail> dateTimeDetails, int index) {
+        if(CollectionUtils.isNotEmpty(dateTimeDetails)) {
+            DateTimeDetail dateTimeDetail = dateTimeDetails.get(index);
+            if (null != dateTimeDetail) {
+                List<DateTimeInformation> dateTimeInformationList = dateTimeDetail.getDateTimeInformationList();
+                if(CollectionUtils.isNotEmpty(dateTimeInformationList)) {
+                    DateTimeInformation dateTimeInformation = dateTimeInformationList.get(0);
+                    if(null != dateTimeInformation) {
+                        return getDateString(dateTimeInformation.getPeriod());
+                    }
                 }
             }
         }
         return null;
     }
 
-    private int getLastDayOfMonth(String date) {
-        SimpleDateFormat dateFromRawFile = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
-        Date dt = null;
-        try {
-            dt = dateFromRawFile.parse(date);
-        } catch (ParseException e) {
-            LOG.error("Unable to parse Subscription End Date");
+    private String getSubScriptionDateFromDescription(List<ItemDescription> itemDescriptionList, String code) {
+        if(CollectionUtils.isNotEmpty(itemDescriptionList)) {
+            for (Iterator<ItemDescription> iterator = itemDescriptionList.iterator(); iterator.hasNext(); ) {
+                ItemDescription itemDescription = iterator.next();
+                String itemCharacteristicCode = itemDescription.getItemCharacteristicCode();
+                if(StringUtils.equals(itemCharacteristicCode, code)) {
+                    return getDateString(itemDescription.getData());
+                }
+            }
         }
+        return null;
+    }
 
+    private Date processDate(Date date, String type) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dt);
-        calendar.add(Calendar.MONTH, 1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.add(Calendar.DATE, -1);
-        Date lastDayOfMonth = calendar.getTime();
-        int day = lastDayOfMonth.getDate();
-        return day;
+        calendar.setTime(date);
+        if(StringUtils.equals(type, "from")) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        } else if(StringUtils.equals(type, "to")) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        }
+        return calendar.getTime();
     }
 
     private String getSubscriptionDateTo(LineItemOrder lineItemOrder) {
-        if (CollectionUtils.isNotEmpty(lineItemOrder.getDateTimeDetail())) {
-            DateTimeDetail dateTimeDetail = lineItemOrder.getDateTimeDetail().get(1);
-            if (CollectionUtils.isNotEmpty(dateTimeDetail.getDateTimeInformationList())) {
-                DateTimeInformation dateTimeInformation = dateTimeDetail.getDateTimeInformationList().get(0);
-                if (dateTimeInformation.getPeriod().length() == 8) {
-                    return dateTimeInformation.getPeriod();
-                } else {
-                    String subscriptionDate = dateTimeInformation.getPeriod() + "01";
-                    int day = getLastDayOfMonth(subscriptionDate);
-                    return dateTimeInformation.getPeriod() + day;
+        String subScriptionDate = getSubScriptionDateFromDateTimeDetails(lineItemOrder.getDateTimeDetail(), 1);
+        if(StringUtils.isBlank(subScriptionDate)) {
+            List<ItemDescription> itemDescriptionList = lineItemOrder.getItemDescriptionList();
+            subScriptionDate = getSubScriptionDateFromDescription(itemDescriptionList, "086");
+        }
+        if(StringUtils.isNotBlank(subScriptionDate)) {
+            try {
+                Date date = getBatchDateTimeUtil().convertToDate(subScriptionDate);
+                if(subScriptionDate.length() == 6) {
+                    date = processDate(date, "to");
                 }
+                return OleNGConstants.DATE_FORMAT_WITHOUT_TIME.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private String getDateString(String data) {
+        if(StringUtils.isNotBlank(data)) {
+            String[] split = data.split(" ");
+            if(null != split && split.length > 0) {
+                return split[0].replaceAll(":::","");
             }
         }
         return null;
@@ -628,5 +668,16 @@ public class OleNGInvoiceRecordBuilderUtil extends BusinessObjectServiceHelperUt
             }
         }
         return subscriptionPeriod.toString();
+    }
+
+    public BatchDateTimeUtil getBatchDateTimeUtil() {
+        if(null == batchDateTimeUtil) {
+            batchDateTimeUtil = new BatchDateTimeUtil();
+        }
+        return batchDateTimeUtil;
+    }
+
+    public void setBatchDateTimeUtil(BatchDateTimeUtil batchDateTimeUtil) {
+        this.batchDateTimeUtil = batchDateTimeUtil;
     }
 }
