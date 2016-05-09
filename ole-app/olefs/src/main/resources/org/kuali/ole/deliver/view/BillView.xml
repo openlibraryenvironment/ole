@@ -76,6 +76,7 @@
                 <bean id="refundConfirmationDialog" parent="refundConfirmation"/>
                 <bean id="refundRecordConfirmationDialog" parent="refundRecordConfirmation"/>
                 <bean id="patronMailingAddressDialog" parent="patronMailingAddress"/>
+                <bean id="noRefundConfirmationDialog" parent="noRefundConfirmation"/>
 
             </list>
         </property>
