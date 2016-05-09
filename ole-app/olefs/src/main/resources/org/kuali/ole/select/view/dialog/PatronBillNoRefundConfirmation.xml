@@ -23,8 +23,8 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-    <bean id="refundConfirmation" parent="Uif-DialogGroup">
-        <property name="promptText" value="Outstanding fees eligible for payment via credit, Do you want to proceed?"/>
+    <bean id="noRefundConfirmation" parent="Uif-DialogGroup">
+        <property name="promptText" value="Refund has been exhausted by applied credits"/>
         <property name="availableResponses">
             <list>
                 <!--Empty-->
@@ -33,18 +33,16 @@
         <property name="items">
             <list merge="false">
                 <bean parent="Uif-SpaceField"/>
-                <ref bean="refundBtnSection"/>
+                <ref bean="noRefundBtnSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="refundBtnSection" parent="Uif-HorizontalFieldGroup">
+    <bean id="noRefundBtnSection" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean id="refundOKButton" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="width:100px"
-                      p:methodToCall="processRefund"/>
-                <bean id="refundCancelButton" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:style="width:100px"
-                     p:methodToCall="recordRefund"/>
+                <bean id="noRefundOKButton" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="width:100px"
+                      p:methodToCall="refundComplete"/>
             </list>
         </property>
     </bean>
