@@ -202,8 +202,9 @@ function searchConditions($scope, $http, $rootScope) {
     };
 
     $scope.addCondition = function (condition) {
-        $scope.conditions[0] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator: 'AND'};
         $scope.conditions.push({value: condition.value, searchScope: condition.searchScope, inDocumentType: condition.inDocumentType, inField: condition.inField, operator:condition.operator});
+        var i= $scope.conditions.length ;
+        $scope.conditions[i-1] = {value: '', searchScope: 'AND', inDocumentType: 'bibliographic', inField: 'all_text', operator: 'AND'};
     };
 
     $scope.clear = function () {
@@ -224,12 +225,6 @@ function searchConditions($scope, $http, $rootScope) {
 
     $scope.cancel = function () {
         window.location = "portal.jsp";
-        /*angular.forEach($scope.conditions, function (condition) {
-         var index = $scope.conditions.indexOf(condition);
-         if(index!=0){
-         $scope.conditions.splice(index);
-         }
-         }, "");*/
     };
 
     $scope.searchOnChange = function (showEntry) {
@@ -268,7 +263,7 @@ function searchConditions($scope, $http, $rootScope) {
                     var query = new String();
                     queryCondition = queryCondition + query.concat("("+ condition.inField, ":", condition.value, ")" );
                     if(index!= $scope.conditions.length-1){
-                        queryCondition = queryCondition + query.concat(condition.searchScope);
+                        queryCondition = queryCondition + query.concat(condition.operator);
                     }
                 }
             }, "");
@@ -276,107 +271,59 @@ function searchConditions($scope, $http, $rootScope) {
                 $scope.searchQuery = $scope.searchQuery + queryCondition + ')';
             }
         }
-        console.log($scope.searchQuery);
     }
 
 
-    function buildSearchConditionsWithJoin(){
+    function buildSearchConditionsWithJoin() {
         $scope.nonCrossDocTypeCondition = [];
         $scope.crossDocTypeCondition = [];
 
         angular.forEach($scope.conditions, function (condition) {
-            if(condition.inDocumentType == $scope.documentType && condition.value!= ''){
+            if (condition.inDocumentType == $scope.documentType && condition.value != '') {
                 $scope.nonCrossDocTypeCondition.push(condition);
-            }else if(condition.inDocumentType != $scope.documentType && condition.value!= '') {
+            } else if (condition.inDocumentType != $scope.documentType && condition.value != '') {
                 $scope.crossDocTypeCondition.push(condition);
             }
         }, "");
 
-        if($scope.crossDocTypeCondition.length > 0){
-
+        if ($scope.crossDocTypeCondition.length > 0) {
             var joinQuery = '{!join from=id to=';
-
             angular.forEach($scope.crossDocTypeCondition, function (condition) {
                 var searchText = condition.value;
-                if(condition.searchScope == 'phrase'){
+                if (condition.searchScope == 'phrase') {
                     searchText = '\"' + condition.value + '\"'
                 }
-
-                if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'holdings'){
-
-                    if(joinQuery.indexOf('holdingsIdentifier}(DocType:holdings)') ==-1){
-                        joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND(');
-                        joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
-                    }else{
-                        joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
-                    }
-
-                    var index = $scope.crossDocTypeCondition.indexOf(condition);
-                    if(index == $scope.crossDocTypeCondition.length-1){
-                        joinQuery = joinQuery.concat(')&fq=(DocType:' + $scope.documentType + ')' );
-                        if($scope.nonCrossDocTypeCondition.length>0){
-                            joinQuery = joinQuery.concat('AND(');
-                        }
-                    }
-
-                }else if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'item'){
-
-                    if(joinQuery.indexOf('itemIdentifier}(DocType:item)') ==-1){
-                        joinQuery = joinQuery.concat('itemIdentifier}(DocType:item)AND(');
-                        joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
-                    }else{
-                        joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
-                    }
-
-                    var index = $scope.crossDocTypeCondition.indexOf(condition);
-                    if(index == $scope.crossDocTypeCondition.length-1){
-                        joinQuery = joinQuery.concat(')&fq=(DocType:' + $scope.documentType + ')' );
-                        if($scope.nonCrossDocTypeCondition.length>0){
-                            joinQuery = joinQuery.concat('AND(');
-                        }
-                    }
-
-                }else if($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'bibliographic'){
-
-                    if(joinQuery.indexOf('bibIdentifier}(DocType:bibliographic)') ==-1){
-                        joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND(');
-                        joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
-                    }else{
-                        joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField +':(' + condition.value + '))');
-                    }
-
-                    var index = $scope.crossDocTypeCondition.indexOf(condition);
-                    if(index == $scope.crossDocTypeCondition.length-1){
-                        joinQuery = joinQuery.concat(')&fq=(DocType:' + $scope.documentType + ')' );
-                        if($scope.nonCrossDocTypeCondition.length>0){
-                            joinQuery = joinQuery.concat('AND(');
-                        }
-                    }
-
+                if ($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'holdings' && joinQuery.indexOf('holdingsIdentifier}(DocType:holdings)') == -1) {
+                    joinQuery = joinQuery.concat('holdingsIdentifier}(DocType:holdings)AND(');
+                    joinQuery = joinQuery.concat(condition.inField + ':(' + condition.value + ')');
+                } else if ($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'item' && joinQuery.indexOf('itemIdentifier}(DocType:item)') == -1) {
+                    joinQuery = joinQuery.concat('itemIdentifier}(DocType:item)AND(');
+                    joinQuery = joinQuery.concat(condition.inField + ':(' + condition.value + ')');
+                } else if ($scope.documentType != condition.inDocumentType && condition.inDocumentType == 'bibliographic' && joinQuery.indexOf('bibIdentifier}(DocType:bibliographic)') == -1) {
+                    joinQuery = joinQuery.concat('bibIdentifier}(DocType:bibliographic)AND(');
+                    joinQuery = joinQuery.concat(condition.inField + ':(' + condition.value + ')');
+                } else {
+                    joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField + ':(' + condition.value + '))');
                 }
-
+                joinQuery = buildcrossDocTypeCondition($scope, condition, joinQuery);
             }, "");
 
             angular.forEach($scope.nonCrossDocTypeCondition, function (condition) {
                 var index = $scope.nonCrossDocTypeCondition.indexOf(condition);
-                if(index ==0){
-                    joinQuery = joinQuery.concat("(" + condition.inField +':(' + condition.value + '))');
-                }else{
-                    joinQuery = joinQuery.concat( condition.operator + "(" + condition.inField +':(' + condition.value + '))');
+                if (index == 0) {
+                    joinQuery = joinQuery.concat("(" + condition.inField + ':(' + condition.value + '))');
+                } else {
+                    joinQuery = joinQuery.concat(condition.operator + "(" + condition.inField + ':(' + condition.value + '))');
                 }
-                if(index == $scope.nonCrossDocTypeCondition.length-1){
-                    joinQuery = joinQuery.concat( ')');
+                if (index == $scope.nonCrossDocTypeCondition.length - 1) {
+                    joinQuery = joinQuery.concat(')');
                 }
             }, "");
-
             $scope.searchQuery = joinQuery;
-            console.log($scope.searchQuery);
 
-        } else if($scope.nonCrossDocTypeCondition.length >= 0 && $scope.crossDocTypeCondition.length == 0){
+        } else if ($scope.nonCrossDocTypeCondition.length >= 0 && $scope.crossDocTypeCondition.length == 0) {
             buildSearchConditions();
         }
-
-
     }
 
     function searchSolrForResults(pageNo) {
@@ -393,17 +340,25 @@ function searchConditions($scope, $http, $rootScope) {
         }
         var searchUrl = $scope.searchQuery;
         $scope.start = (pageNo * $scope.itemsPerPage) - $scope.itemsPerPage;
-
+         var  query = searchUrl.split("&fq=")
+         var  q = query[0];
+         var  fq = ""
+        if(query.length > 1){
+            fq = query[1];
+        }
+        console.log('q=',q);
+        console.log('fq=',fq);
         $http({
             method: 'JSONP',
             url: $rootScope.baseUri,
             params: {
                 'json.wrf': 'JSON_CALLBACK',
-                'q': searchUrl,
+                'q': q,
                 'wt': 'json',
                 'start': $scope.start,
                 'rows': $scope.itemsPerPage,
-                'sort': 'Title_sort asc'
+                'sort': 'Title_sort asc',
+                'fq':fq
             }
         }).success(function (data) {
             $rootScope.searchResults = data.response.docs;
@@ -423,12 +378,23 @@ function searchConditions($scope, $http, $rootScope) {
             }
             buildPageEntriesInfo($scope.start + 1, noOfItemsOnPage, $scope.total_count);
         }).error(function () {
+            $rootScope.errorMessage = "Search failed";
             console.log('Search failed while retrieving bibs!');
         });
     }
 
     function buildPageEntriesInfo(start, itemsPerPage, totalCount) {
         $scope.showEntryInfo = 'Showing ' + start + ' to ' + itemsPerPage + ' of ' + totalCount + ' entries';
+    }
+    function buildcrossDocTypeCondition($scope, condition, joinQuery) {
+        var index = $scope.crossDocTypeCondition.indexOf(condition);
+        if (index == $scope.crossDocTypeCondition.length - 1) {
+            joinQuery = joinQuery.concat(')&fq=(DocType:' + $scope.documentType + ')');
+            if ($scope.nonCrossDocTypeCondition.length > 0) {
+                joinQuery = joinQuery.concat('AND(');
+            }
+        }
+        return joinQuery;
     }
 
 }

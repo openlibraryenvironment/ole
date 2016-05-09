@@ -1,5 +1,6 @@
 package org.kuali.ole.batch.export;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -10,13 +11,14 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
 import org.kuali.ole.batch.helper.InstanceMappingHelper;
-import org.kuali.ole.batch.impl.*;
+import org.kuali.ole.batch.impl.AbstractBatchProcess;
+import org.kuali.ole.batch.impl.BatchExportFetch;
+import org.kuali.ole.batch.impl.ExportDataServiceImpl;
+import org.kuali.ole.batch.impl.OLEBatchProcess;
 import org.kuali.ole.batch.marc.OLEMarcReader;
 import org.kuali.ole.batch.marc.OLEMarcXmlReader;
 import org.kuali.ole.batch.service.ExportDataService;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.document.*;
-import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.model.enums.DocType;
@@ -38,7 +40,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 import static org.kuali.ole.OLEConstants.OLEBatchProcess.*;
 
@@ -170,6 +171,19 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         return response;
     }
 
+    public SearchResponse getDeleteIncrementalSolrQuery() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat(SOLR_DT_FORMAT);
+        String fromDate = format.format(lastExportDate);
+        searchParams = new SearchParams();
+        SearchField searchField = searchParams.buildSearchField("", "dateUpdated", "[" + fromDate + " TO NOW]");
+        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(null, "bibIdentifier"));
+        searchField = searchParams.buildSearchField("", "staffOnlyFlag", Boolean.TRUE.toString());
+        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
+        response = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+        return response;
+    }
+
     /**
      * adds the filter criteria from the profile to search conditions as field value pair
      */
@@ -188,12 +202,12 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY)) {
                 searchFieldStaffOnly.setDocType(DocType.BIB.getDescription());
                 searchField.setDocType(DocType.BIB.getDescription());
+                searchField.setFieldName("dateUpdated");
+                searchField.setFieldValue("[" + fromDate + " TO NOW]");
+                condition.setSearchScope(NONE);
+                condition.setSearchField(searchField);
+                searchParams.getSearchConditions().add(condition);
             }
-            searchField.setFieldName("dateUpdated");
-            searchField.setFieldValue("[" + fromDate + " TO NOW]");
-            condition.setSearchScope(NONE);
-            condition.setSearchField(searchField);
-            searchParams.getSearchConditions().add(condition);
 
             if (processDef.getOleBatchProcessProfileBo().getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
                 searchFieldStaffOnly.setFieldName("staffOnlyFlag");
@@ -234,7 +248,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
             if (job.getStatus().equals(OLEConstants.OLEBatchProcess.JOB_STATUS_PAUSED)) {
                 start = start + Integer.valueOf(job.getNoOfRecordsProcessed());
             }
-          performSolrQuery();
+            performSolrQuery();
 
             if(!profileBo.getExportScope().equalsIgnoreCase(EXPORT_FULL) && !profileBo.getExportScope().equalsIgnoreCase(EXPORT_EX_STAFF)) {
                 updateJobProgress();
@@ -747,7 +761,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                             searchField.setDocType(DocType.BIB.getDescription());
                         }
                     } else if(oleBatchProcessFilterCriteriaBo.getFieldDisplayName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.OLE_BATCH_FLTR_CRITERIA_LOAD_FROM_FILE)){
-                         buildSearchConditions(bo.getFilterFieldValue());
+                        buildSearchConditions(bo.getFilterFieldValue());
                     } else if (oleBatchProcessFilterCriteriaBo.getFieldDisplayName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.OLE_BATCH_FLTR_CRITERIA_BIB_STATUS)) {
                         buildSearchConditionsForStatus(bo.getFilterFieldValue());
                     } else {
@@ -848,43 +862,35 @@ public class BatchProcessExportData extends AbstractBatchProcess {
 
     private void incrementalFilterExport(OLEBatchProcessProfileBo profileBo) throws Exception {
         Object[] resultMap = null;
-        if (response.getSearchResults().size() > 0) {
-            service = new ExportDataServiceImpl();
-            resultMap = batchExport(profileBo);
-        }
+
         //Write deleted bibid's  to a file
         if (profileBo.getExportScope().equals(EXPORT_INC)
                 || profileBo.getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
             if (lastExportDate != null) {
                 StringBuilder deleteId = new StringBuilder();
                 if ( profileBo.getExportScope().equalsIgnoreCase(INCREMENTAL_EXPORT_EX_STAFF)) {
-                    List<String> incrementalBibIds = new ArrayList<>();
-                    List<Bib> incrementalBibs = new ArrayList<>();
-                     response = getIncrementalSolrQuery();
-                    for (SearchResult searchResult : response.getSearchResults()) {
-                        for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                            if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
-                                if (!incrementalBibIds.contains(searchResultField.getFieldValue())) {
-                                    incrementalBibIds.add(searchResultField.getFieldValue());
-                                }
+                    response = getIncrementalSolrQuery();
+                }
+
+                if (response.getSearchResults().size() > 0) {
+                    service = new ExportDataServiceImpl();
+                    resultMap = batchExport(profileBo);
+                }
+                SearchResponse responseDelete= getDeleteIncrementalSolrQuery();
+                Set<String> incrementalBibIds = new HashSet<>();
+                for (SearchResult searchResult : responseDelete.getSearchResults()) {
+                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                        if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                            if (incrementalBibIds.add(searchResultField.getFieldValue())) {
+                                deleteId.append(DocumentUniqueIDPrefix.getDocumentId(searchResultField.getFieldValue())).append(COMMA);
                             }
                         }
-                    }
-                    if (!CollectionUtils.isEmpty(incrementalBibIds)) {
-                        incrementalBibs = getDocstoreClientLocator().getDocstoreClient().retrieveBibs(incrementalBibIds);
-                        for (Bib bib : incrementalBibs) {
-                            if (bib.isStaffOnly()) {
-                                deleteId.append(DocumentUniqueIDPrefix.getDocumentId(bib.getId())).append(COMMA);
-                            }
-                        }
-                        incrementalBibIds.clear();
-                        incrementalBibs.clear();
                     }
                 }
-                response = getDeleteSolrQuery();
-                if (response.getSearchResults().size() > 0 || deleteId != null) {
-                    if (response.getSearchResults().size() > 0) {
-                        Iterator<SearchResult> iterator = response.getSearchResults().iterator();
+                responseDelete = getDeleteSolrQuery();
+                if (responseDelete.getSearchResults().size() > 0 || deleteId != null) {
+                    if (responseDelete.getSearchResults().size() > 0) {
+                        Iterator<SearchResult> iterator = responseDelete.getSearchResults().iterator();
                         while (iterator.hasNext()) {
                             SearchResult searchresult = iterator.next();
                             if (null != searchresult && searchresult.getSearchResultFields() != null) {
@@ -924,6 +930,11 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                         job.setNoOfSuccessRecords(String.valueOf(response.getSearchResults().size()));
                     }
                 }
+            }
+        }else{
+            if (response.getSearchResults().size() > 0) {
+                service = new ExportDataServiceImpl();
+                resultMap = batchExport(profileBo);
             }
         }
 
@@ -1083,26 +1094,57 @@ public class BatchProcessExportData extends AbstractBatchProcess {
 
     private void processResults() throws Exception {
         List<SearchResult> searchResultList = new ArrayList<>();
-        List<SearchCondition> searchConditions = new ArrayList<>();
-        searchConditions.addAll(searchParams.getSearchConditions());
-        int chunkSize = 2000;
-        int totalSize = searchConditions.size();
-        int count = 0;
-        while (count < totalSize) {
-            searchParams.getSearchConditions().clear();
-            for (int i = 0; i < chunkSize; i++) {
-                if (count < totalSize) {
-                    searchParams.getSearchConditions().add(searchConditions.get(count));
-                    count++;
-                } else {
-                    break;
-                }
+
+        if (processDef.getLoadIdFromFile().equalsIgnoreCase("true")) {
+            List<SearchCondition> searchConditions = new ArrayList<>();
+            searchConditions.addAll(searchParams.getSearchConditions());
+            List<List<SearchCondition>> searchConditionLists = Lists.partition(searchConditions, 300);
+            for(List<SearchCondition> searchConditionList:searchConditionLists){
+                searchParams.getSearchConditions().clear();
+                searchParams.getSearchConditions().addAll(searchConditionList);
+                SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                searchResultList.addAll(responseLocal.getSearchResults());
             }
-            SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-            searchResultList.addAll(responseLocal.getSearchResults());
+        } else {
+            if (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport())
+                    && (processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase("BIBANDHOLDINGS") || processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase("BIBHOLDINGSEHOLDINGS"))) {
+                getQueryForDocument(DocType.BIB.getDescription());
+                SearchResponse responseBib = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                searchResultList.addAll(responseBib.getSearchResults());
+
+                getQueryForDocument(DocType.HOLDINGS.getDescription());
+                SearchResponse responsHoldings = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                searchResultList.addAll(responsHoldings.getSearchResults());
+
+                getQueryForDocument(DocType.ITEM.getDescription());
+                SearchResponse responsItem = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                searchResultList.addAll(responsItem.getSearchResults());
+            } else {
+                getQueryForDocument(DocType.BIB.getDescription());
+                SearchResponse responseBib = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                searchResultList.addAll(responseBib.getSearchResults());
+
+            }
+
         }
+
         response = new SearchResponse();
         response.getSearchResults().addAll(searchResultList);
+    }
+
+    private void getQueryForDocument( String documnet) {
+        SimpleDateFormat format = new SimpleDateFormat(SOLR_DT_FORMAT);
+        String fromDate = format.format(lastExportDate);
+
+        SearchCondition condition = getDefaultCondition();
+        SearchField searchField = new SearchField();
+        searchField.setDocType(documnet);
+        searchField.setFieldName("dateUpdated");
+        searchField.setFieldValue("[" + fromDate + " TO NOW]");
+        condition.setSearchScope(NONE);
+        condition.setSearchField(searchField);
+        searchParams.getSearchConditions().clear();
+        searchParams.getSearchConditions().add(condition);
     }
 
     public StringBuilder getErrBuilder() {
