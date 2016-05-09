@@ -37,6 +37,8 @@
                 <bean id="LoanHistoryUpdateViewPage" parent="Uif-Page" >
                     <property name="items">
                         <list>
+                            <bean id="LoanHistoryUpdateView-Message" parent="Uif-MessageField" p:render="@{message ne null or message ne ''}" p:messageText="@{message}" p:cssClasses="@{running ?'alert-error':'alert-info'}"/>
+                            <bean parent="Uif-SpaceField" p:render="@{message ne null or message ne ''}" />
                             <ref bean="LoanHistoryUpdateView-buttons" />
                         </list>
                     </property>

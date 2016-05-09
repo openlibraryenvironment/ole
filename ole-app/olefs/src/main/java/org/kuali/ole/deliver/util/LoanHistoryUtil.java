@@ -3,24 +3,21 @@ package org.kuali.ole.deliver.util;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.service.*;
-import org.kuali.ole.docstore.common.document.content.instance.ItemType;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.docstore.model.rdbms.bo.ItemTypeRecord;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.omg.CosNotification.StopTime;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by maheswarang on 3/1/16.
@@ -30,6 +27,7 @@ public class LoanHistoryUtil {
     private BusinessObjectService businessObjectService;
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
+    public static boolean taskRunning = false;
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
@@ -70,19 +68,22 @@ public class LoanHistoryUtil {
 
 
 
-    public void populateCirculationHistoryTable(){
-        LOG.info("Record Size before processing "+getBusinessObjectService().findAll(OleCirculationHistory.class).size());
+    public String populateCirculationHistoryTable(){
+        String message = "";
+        taskRunning = true;
+        int threadPoolSize = getThreadPoolSize();
+        ExecutorService  executorService = Executors.newFixedThreadPool(threadPoolSize);
+        List<Future> futures = new ArrayList<>();
         Long startTime = System.currentTimeMillis();
 
         LoanHistoryDAO loanHistoryDAO = (LoanHistoryDAO) SpringContext.getService(OLEConstants.LOAN_HISTORY_DAO);
         List<String> loanIds = loanHistoryDAO.getLoanIds();
-        if(loanIds!=null && loanIds.size()>0) {
+        if(loanIds!=null && loanIds.size() >0) {
+            int totalRecords = loanIds.size();
             List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentDaoOjb().getAllLoans(loanIds);
             if (oleLoanDocumentList != null && oleLoanDocumentList.size() > 0) {
                 try {
-                    //getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList);
                     Map<String, List<OleLoanDocument>> patronMapWithLoanDetails = buildMapOfLoanForEachPatron(oleLoanDocumentList);
-                    int threadPoolSize = getThreadPoolSize();
                     EntityEmploymentBo entityEmploymentBo = null;
                     EntityAffiliationBo entityAffiliationBo = null;
                     for (String patronId : patronMapWithLoanDetails.keySet()) {
@@ -93,7 +94,7 @@ public class LoanHistoryUtil {
                         if (patronDocuments != null && patronDocuments.size() > 0) {
                             olePatronDocument = patronDocuments.get(0);
                         }
-                        ExecutorService oleCirculationHistoryExecutor = Executors.newFixedThreadPool(5);
+
                         List<EntityAffiliationBo> entityAffiliationBos = getOleLoanDocumentDaoOjb().getEntityAffiliationBos(oleLoanDocumentList.get(0).getPatronId());
                         if (entityAffiliationBos != null && entityAffiliationBos.size() > 0) {
                             entityAffiliationBo = entityAffiliationBos.get(0);
@@ -104,21 +105,37 @@ public class LoanHistoryUtil {
                         }
                         if (patronMapWithLoanDetails.get(patronId) != null && patronMapWithLoanDetails.get(patronId).size() > 0) {
                             Runnable oleCirculationHistory = new OleCirculationHistoryExecutor(patronMapWithLoanDetails.get(patronId), entityAffiliationBo, entityEmploymentBo, olePatronDocument);
-                            oleCirculationHistoryExecutor.execute(oleCirculationHistory);
+                            Future<?> submit = executorService.submit(oleCirculationHistory);
+                            futures.add(submit);
                         }
                     }
                     Long endTime = System.currentTimeMillis();
                     Long timeDifference = endTime - startTime;
                     LOG.info("Time Taken to set the item information in the loan records in milliseconds : " + timeDifference);
                     LOG.info("Time taken in minutes " + timeDifference / (1000 * 60));
-                    LOG.info("Record Size after processing " + getBusinessObjectService().findAll(OleCirculationHistory.class).size());
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+                        Future future = iterator.next();
+                        try {
+                            Object object = future.get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    taskRunning = false;
                 }
+                message = "Total number of record processed : " + totalRecords;
             }
         }else{
-            LOG.info("No records found for processing");
+            message = "No records found for processing";
+            LOG.info(message);
+            taskRunning = false;
         }
+        return message;
     }
 
 
