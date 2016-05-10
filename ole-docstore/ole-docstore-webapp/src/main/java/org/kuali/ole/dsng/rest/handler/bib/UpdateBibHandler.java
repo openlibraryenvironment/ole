@@ -39,6 +39,7 @@ public class UpdateBibHandler extends BibHandler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         try {
             String newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+            Record record = isValidLeader(newBibContent);
             String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
             String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
@@ -56,16 +57,16 @@ public class UpdateBibHandler extends BibHandler {
 
                     bibRecord.setDateEntered(updatedDate);
 
-                    String newContent = process001And003(newBibContent, bibId);
+                    String newContent = process001And003(record, bibId);
 
-                    newContent = processFieldOptions(bibRecord.getContent(),newContent,requestJsonObject);
+                    newContent = processFieldOptions(bibRecord.getContent(), newContent, requestJsonObject);
 
                     bibRecord.setContent(newContent);
                     exchange.add(OleNGConstants.BIB, bibRecord);
-                    bibRecord = setDataMappingValues(bibRecord,requestJsonObject,exchange);
+                    bibRecord = setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
                     Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
-                    if(null != statusUpdated && statusUpdated == Boolean.TRUE) {
+                    if (null != statusUpdated && statusUpdated == Boolean.TRUE) {
                         bibRecord.setStatusUpdatedBy(updatedBy);
                         bibRecord.setStatusUpdatedDate(updatedDate);
                     }
@@ -75,14 +76,14 @@ public class UpdateBibHandler extends BibHandler {
                     getBibDAO().save(bibRecord);
                     bibRecord.setOperationType(OleNGConstants.UPDATED);
 
-                    saveBibInfoRecord(bibRecord,false);
+                    saveBibInfoRecord(bibRecord, false);
                 }
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            addFailureReportToExchange(requestJsonObject, exchange,"bib", e , null);
+            addFailureReportToExchange(requestJsonObject, exchange, "bib", e, null);
         }
 
     }
