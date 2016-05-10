@@ -12,8 +12,10 @@ import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.processor.OleDsNgOverlayProcessor;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class UpdateItemHandlerTest {
 
     @Mock
     ItemDAO mockItemDAO;
+    @Mock
+    OleDsNGMemorizeService mockOleDsNGMemorizeService;
 
     @Mock
     BusinessObjectService mockBusinessObjectService;
@@ -118,8 +122,9 @@ public class UpdateItemHandlerTest {
         assertNotNull(itemsForUpdate);
         assertTrue(itemsForUpdate.size() == 1);
 
+        Mockito.when(mockOleDsNGMemorizeService.getItemDAO()).thenReturn(mockItemDAO);
         UpdateItemHandler updateItemHandler = new UpdateItemHandler();
-        updateItemHandler.setItemDAO(mockItemDAO);
+        updateItemHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         updateItemHandler.setBusinessObjectService(mockBusinessObjectService);
         updateItemHandler.process(bibData, exchange);
     }

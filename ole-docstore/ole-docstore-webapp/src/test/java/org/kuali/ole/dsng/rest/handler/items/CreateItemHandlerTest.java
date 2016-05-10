@@ -12,8 +12,10 @@ import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.processor.OleDsNgOverlayProcessor;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class CreateItemHandlerTest {
 
     @Mock
     ItemDAO mockItemDAO;
+    @Mock
+    OleDsNGMemorizeService mockOleDsNGMemorizeService;
 
     @Mock
     BusinessObjectService mockBusinessObjectService;
@@ -109,8 +113,9 @@ public class CreateItemHandlerTest {
         assertNotNull(itemsForUpdate);
         assertTrue(itemsForUpdate.size() == 0);
 
+        Mockito.when(mockOleDsNGMemorizeService.getItemDAO()).thenReturn(mockItemDAO);
         CreateItemHandler createItemHandler = new CreateItemHandler();
-        createItemHandler.setItemDAO(mockItemDAO);
+        createItemHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         createItemHandler.setBusinessObjectService(mockBusinessObjectService);
         createItemHandler.process(bibData, exchange);
     }
@@ -194,8 +199,9 @@ public class CreateItemHandlerTest {
         assertNotNull(itemsForUpdate);
         assertTrue(itemsForUpdate.size() == 1);
 
+        Mockito.when(mockOleDsNGMemorizeService.getItemDAO()).thenReturn(mockItemDAO);
         CreateItemHandler createItemHandler = new CreateItemHandler();
-        createItemHandler.setItemDAO(mockItemDAO);
+        createItemHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         createItemHandler.setBusinessObjectService(mockBusinessObjectService);
         createItemHandler.process(bibData, exchange);
     }
@@ -276,8 +282,9 @@ public class CreateItemHandlerTest {
         assertNotNull(itemsForCreate);
         assertTrue(itemsForCreate.size() == 4);
 
+        Mockito.when(mockOleDsNGMemorizeService.getItemDAO()).thenReturn(mockItemDAO);
         CreateItemHandler createItemHandler = new CreateItemHandler();
-        createItemHandler.setItemDAO(mockItemDAO);
+        createItemHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         createItemHandler.setBusinessObjectService(mockBusinessObjectService);
         createItemHandler.process(bibData, exchange);
     }

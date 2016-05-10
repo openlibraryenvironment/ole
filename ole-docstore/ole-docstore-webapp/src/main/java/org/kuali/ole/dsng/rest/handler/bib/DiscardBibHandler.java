@@ -31,7 +31,7 @@ public class DiscardBibHandler extends BibHandler{
         if (requestJsonObject.has(OleNGConstants.ID)) {
             try {
                 String bibId = requestJsonObject.getString(OleNGConstants.ID);
-                BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
+                BibRecord bibRecord = getOleDsNGMemorizeService().getBibDAO().retrieveBibById(bibId);
 
                 processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
 

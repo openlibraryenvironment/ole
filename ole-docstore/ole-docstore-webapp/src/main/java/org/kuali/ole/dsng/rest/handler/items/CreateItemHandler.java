@@ -62,7 +62,7 @@ public class CreateItemHandler extends Handler {
             exchange.remove(OleNGConstants.ITEM_RECORD);
             exchange.remove(OleNGConstants.DATAMAPPING);
             try {
-                getItemDAO().saveAll(itemRecords);
+                getOleDsNGMemorizeService().getItemDAO().saveAll(itemRecords);
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , itemRecords.size());

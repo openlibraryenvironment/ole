@@ -13,8 +13,10 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecor
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.processor.OleDsNgOverlayProcessor;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class UpdateEholdingsHandlerTest {
 
     @Mock
     HoldingDAO mockHoldingDAO;
+
+    @Mock
+    OleDsNGMemorizeService mockOleDsNGMemorizeService;
 
     @Mock
     BusinessObjectService mockBusinessObjectService;
@@ -120,8 +125,10 @@ public class UpdateEholdingsHandlerTest {
         assertNotNull(eholdingsForUpdate);
         assertTrue(eholdingsForUpdate.size() == 1);
 
+        Mockito.when(mockOleDsNGMemorizeService.getHoldingDAO()).thenReturn(mockHoldingDAO);
+
         UpdateEholdingsHandler updateEholdingsHandler = new UpdateEholdingsHandler();
-        updateEholdingsHandler.setHoldingDAO(mockHoldingDAO);
+        updateEholdingsHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         updateEholdingsHandler.setBusinessObjectService(mockBusinessObjectService);
         updateEholdingsHandler.process(bibData, exchange);
     }
@@ -204,8 +211,9 @@ public class UpdateEholdingsHandlerTest {
         assertNotNull(eholdingsForUpdate);
         assertTrue(eholdingsForUpdate.size() == 1);
 
+        Mockito.when(mockOleDsNGMemorizeService.getHoldingDAO()).thenReturn(mockHoldingDAO);
         UpdateEholdingsHandler updateEholdingsHandler = new UpdateEholdingsHandler();
-        updateEholdingsHandler.setHoldingDAO(mockHoldingDAO);
+        updateEholdingsHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         updateEholdingsHandler.setBusinessObjectService(mockBusinessObjectService);
         updateEholdingsHandler.process(bibData, exchange);
     }

@@ -58,7 +58,7 @@ public class DiscardHoldingsHandler extends Handler {
                 e.printStackTrace();
             }
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
-            getHoldingDAO().saveAll(holdingsRecords);
+            getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
         }
     }
 }

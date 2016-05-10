@@ -48,14 +48,14 @@ public class CreateBibHandler extends BibHandler {
                 Timestamp createdDate = getDateTimeStamp(createdDateString);
 
                 bibRecord.setDateCreated(createdDate);
-                BibRecord createdBibRecord = getBibDAO().save(bibRecord);
+                BibRecord createdBibRecord = getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
 
                 String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
                 bibRecord.setContent(modifiedcontent);
 
                 setDataMappingValues(bibRecord, requestJsonObject, exchange);
 
-                getBibDAO().save(bibRecord);
+                getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
                 bibRecord.setOperationType(OleNGConstants.CREATED);
 
                 saveBibInfoRecord(bibRecord,true);

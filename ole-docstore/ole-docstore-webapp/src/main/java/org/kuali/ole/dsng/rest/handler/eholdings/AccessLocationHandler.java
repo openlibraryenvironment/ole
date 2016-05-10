@@ -10,7 +10,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsAccessLo
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
-import org.kuali.ole.dsng.util.AccessLocationUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,7 +58,7 @@ public class AccessLocationHandler extends HoldingsHandler {
             if (CollectionUtils.isNotEmpty(holdingsAccessLocations)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String accessLocationCode = iterator.next();
-                    AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
+                    AccessLocation accessLocation = getOleDsNGMemorizeService().fetchAccessLocationByCode(accessLocationCode);
                     if (null != accessLocation) {
                         for (Iterator<HoldingsAccessLocation> iterator1 = holdingsAccessLocations.iterator(); iterator1.hasNext(); ) {
                             HoldingsAccessLocation holdingsAccessLocation = iterator1.next();
@@ -70,7 +69,7 @@ public class AccessLocationHandler extends HoldingsHandler {
             } else {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String accessLocationCode = iterator.next();
-                    AccessLocation accessLocation = new AccessLocationUtil().fetchAccessLocationByCode(accessLocationCode);
+                    AccessLocation accessLocation = getOleDsNGMemorizeService().fetchAccessLocationByCode(accessLocationCode);
                     holdingsAccessLocations = new ArrayList<HoldingsAccessLocation>();
                     HoldingsAccessLocation holdingsAccessLocation = new HoldingsAccessLocation();
                     holdingsAccessLocation.setAccessLocation(accessLocation);

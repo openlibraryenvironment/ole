@@ -13,8 +13,10 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecor
 import org.kuali.ole.dsng.dao.HoldingDAO;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.processor.OleDsNgOverlayProcessor;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class CreateEHoldingsHandlerTest {
 
     @Mock
     HoldingDAO mockHoldingDAO;
+    @Mock
+    OleDsNGMemorizeService mockOleDsNGMemorizeService;
 
     @Mock
     BusinessObjectService mockBusinessObjectService;
@@ -121,8 +125,9 @@ public class CreateEHoldingsHandlerTest {
         assertNotNull(eholdingsForUpdate);
         assertTrue(eholdingsForUpdate.size() == 1);
 
+        Mockito.when(mockOleDsNGMemorizeService.getHoldingDAO()).thenReturn(mockHoldingDAO);
         CreateEHoldingsHandler createEHoldingsHandler = new CreateEHoldingsHandler();
-        createEHoldingsHandler.setHoldingDAO(mockHoldingDAO);
+        createEHoldingsHandler.setOleDsNGMemorizeService(mockOleDsNGMemorizeService);
         createEHoldingsHandler.setBusinessObjectService(mockBusinessObjectService);
         createEHoldingsHandler.process(bibData, exchange);
     }
