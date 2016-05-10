@@ -1,5 +1,8 @@
 <#macro patronBillItemView patronBillItemView >
-<centre>Bill Info</centre>
+<br/>
+<br/>
+<BODY>
+<B>Bill Info</B>
 <TABLE>
     </BR></BR>
     <TR>
@@ -49,4 +52,5 @@
     </#if>
     </TR>
 </TABLE>
+</BODY>
 </#macro>
