@@ -382,6 +382,7 @@ public class OleNGConstants {
     public static final String DAILY = "Daily";
     public static final String WEEKLY = "Weekly";
     public static final String MONTHLY = "Monthly";
+    public static final String INVALID_LEADER="Invalid Leader Field - ";
 
     public static final String _VERSION_ = "_version_";
 
