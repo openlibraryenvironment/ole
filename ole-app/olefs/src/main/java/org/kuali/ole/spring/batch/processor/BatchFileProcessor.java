@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -79,12 +80,14 @@ public abstract class BatchFileProcessor extends BatchUtil {
                 OleNgBatchResponse oleNgBatchResponse = processRecords(new HashMap<Integer, RecordDetails>(), batchProcessTxObject, batchProcessProfile);
                 int noOfFailureRecord = oleNgBatchResponse.getNoOfFailureRecord();
                 batchJobDetails.setTotalFailureRecords(String.valueOf(noOfFailureRecord));
-                updateBatchJobDetails(batchJobDetails,OleNGConstants.COMPLETED);
-                responseData = oleNgBatchResponse.getResponse();
-                response.put(OleNGConstants.STATUS, true);
                 OleStopWatch oleStopWatch = batchProcessTxObject.getOleStopWatch();
                 oleStopWatch.end();
                 String totalTimeTaken = String.valueOf(oleStopWatch.getTotalTime()) + "ms";
+                batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
+                batchJobDetails.setTimeSpent(totalTimeTaken);
+                updateBatchJobDetails(batchJobDetails,OleNGConstants.COMPLETED);
+                responseData = oleNgBatchResponse.getResponse();
+                response.put(OleNGConstants.STATUS, true);
                 writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), OleNGConstants.COMPLETED, totalTimeTaken);
                 BATCH_JOB_EXECUTION_DETAILS_MAP.remove(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId());
             }

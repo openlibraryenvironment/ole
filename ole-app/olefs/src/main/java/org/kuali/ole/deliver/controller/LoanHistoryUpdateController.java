@@ -2,9 +2,7 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.deliver.form.LoanHistoryUpdateForm;
-import org.kuali.ole.deliver.form.OleNoticeForm;
 import org.kuali.ole.deliver.util.LoanHistoryUtil;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -46,8 +44,15 @@ public class LoanHistoryUpdateController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=update")
     public ModelAndView update(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                             HttpServletRequest request, HttpServletResponse response) {
+        LoanHistoryUpdateForm loanHistoryUpdateForm = (LoanHistoryUpdateForm) form;
         try{
-            getLoanHistoryUtil().populateCirculationHistoryTable();
+            loanHistoryUpdateForm.setRunning(LoanHistoryUtil.taskRunning);
+            if(!loanHistoryUpdateForm.isRunning()) {
+                String message = getLoanHistoryUtil().populateCirculationHistoryTable();
+                loanHistoryUpdateForm.setMessage(message);
+            } else {
+                loanHistoryUpdateForm.setMessage("Already process running. Please wait till process complete.");
+            }
         }catch (Exception e){
             LOG.info("Exception occured while running the job" + e.getMessage());
         }

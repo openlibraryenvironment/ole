@@ -417,10 +417,13 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
 
         }
         oleInvoiceItem.setSourceAccountingLines(accountingLine);
-        SimpleDateFormat dateFromRawFile = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
         try {
-            oleInvoiceItem.setSubscriptionFromDate(invoiceRecord.getSubscriptionPeriodFrom() != null ? new java.sql.Date(dateFromRawFile.parse(invoiceRecord.getSubscriptionPeriodFrom()).getTime()) : null);
-            oleInvoiceItem.setSubscriptionToDate(invoiceRecord.getSubscriptionPeriodTo() != null ? new java.sql.Date(dateFromRawFile.parse(invoiceRecord.getSubscriptionPeriodTo()).getTime()) : null);
+            oleInvoiceItem.setSubscriptionFromDate(invoiceRecord.getSubscriptionPeriodFrom() != null ? new java.sql.Date(OleNGConstants.DATE_FORMAT_WITHOUT_TIME.parse(invoiceRecord.getSubscriptionPeriodFrom()).getTime()) : null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            oleInvoiceItem.setSubscriptionToDate(invoiceRecord.getSubscriptionPeriodTo() != null ? new java.sql.Date(OleNGConstants.DATE_FORMAT_WITHOUT_TIME.parse(invoiceRecord.getSubscriptionPeriodTo()).getTime()) : null);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -457,10 +460,13 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
             oleInvoiceItem.setItemSalesTaxAmount(new KualiDecimal(invoiceRecord.getLineItemTaxAmount()));
             oleInvoiceItem.addToExtendedPrice(oleInvoiceItem.getItemSalesTaxAmount());
         }
-        SimpleDateFormat dateFromRawFile = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
         try {
-            oleInvoiceItem.setSubscriptionFromDate(invoiceRecord.getSubscriptionPeriodFrom()!= null ? new java.sql.Date(dateFromRawFile.parse(invoiceRecord.getSubscriptionPeriodFrom()).getTime()):null);
-            oleInvoiceItem.setSubscriptionToDate(invoiceRecord.getSubscriptionPeriodTo()!= null ? new java.sql.Date(dateFromRawFile.parse(invoiceRecord.getSubscriptionPeriodTo()).getTime()):null);
+            oleInvoiceItem.setSubscriptionFromDate(invoiceRecord.getSubscriptionPeriodFrom()!= null ? new java.sql.Date(OleNGConstants.DATE_FORMAT_WITHOUT_TIME.parse(invoiceRecord.getSubscriptionPeriodFrom()).getTime()):null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            oleInvoiceItem.setSubscriptionToDate(invoiceRecord.getSubscriptionPeriodTo()!= null ? new java.sql.Date(OleNGConstants.DATE_FORMAT_WITHOUT_TIME.parse(invoiceRecord.getSubscriptionPeriodTo()).getTime()):null);
         } catch (ParseException e) {
             e.printStackTrace();
         }

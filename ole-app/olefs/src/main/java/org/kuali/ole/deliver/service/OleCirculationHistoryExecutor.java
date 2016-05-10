@@ -1,28 +1,25 @@
 package org.kuali.ole.deliver.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.bo.OleCirculationHistory;
-import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
-import org.kuali.ole.deliver.util.ItemInfoUtil;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.ingest.pojo.OlePatron;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
-import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maheswarang on 3/8/16.
@@ -38,7 +35,7 @@ public class OleCirculationHistoryExecutor implements Runnable{
     private EntityAffiliationBo entityAffiliationBo;
     private EntityEmploymentBo entityEmploymentBo;
     private OlePatronDocument olePatronDocument;
-
+    private PlatformTransactionManager transactionManager;
 
 
     public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
@@ -49,7 +46,8 @@ public class OleCirculationHistoryExecutor implements Runnable{
     }
 
 
-    public OleCirculationHistoryExecutor(List<OleLoanDocument> oleLoanDocumentList,EntityAffiliationBo entityAffiliationBo,EntityEmploymentBo entityEmploymentBo,OlePatronDocument olePatronDocument){
+    public OleCirculationHistoryExecutor(List<OleLoanDocument> oleLoanDocumentList,EntityAffiliationBo entityAffiliationBo,
+                                         EntityEmploymentBo entityEmploymentBo,OlePatronDocument olePatronDocument){
         this.oleLoanDocumentList = oleLoanDocumentList;
         this.entityAffiliationBo = entityAffiliationBo;
         this.entityEmploymentBo = entityEmploymentBo;
@@ -78,19 +76,29 @@ public class OleCirculationHistoryExecutor implements Runnable{
 
     @Override
     public void run() {
-        OleCirculationHistory oleCirculationHistory =null;
+        final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
         try{
-        getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList,false);
-        oleCirculationHistoryList = new ArrayList<OleCirculationHistory>();
-           for(OleLoanDocument oleLoanDocument : oleLoanDocumentList){
-            oleCirculationHistory = createCirculationHistoryRecords(oleLoanDocument);
-            if(oleCirculationHistory!=null){
-                oleCirculationHistoryList.add(oleCirculationHistory);
-            }
-        }
-        if(oleCirculationHistoryList!=null && oleCirculationHistoryList.size()>0){
-        getBusinessObjectService().save(oleCirculationHistoryList);
-        }
+            template.execute(new TransactionCallback<Object>() {
+                @Override
+                public Object doInTransaction(TransactionStatus status) {
+                    try {
+                        getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList,false);
+                        oleCirculationHistoryList = new ArrayList<OleCirculationHistory>();
+                        for(OleLoanDocument oleLoanDocument : oleLoanDocumentList){
+                            OleCirculationHistory oleCirculationHistory = oleCirculationHistory = createCirculationHistoryRecords(oleLoanDocument);
+                            if(oleCirculationHistory!=null){
+                                oleCirculationHistoryList.add(oleCirculationHistory);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if(CollectionUtils.isNotEmpty(oleCirculationHistoryList)){
+                        getBusinessObjectService().save(oleCirculationHistoryList);
+                    }
+                    return null;
+                }
+            });
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -157,5 +165,12 @@ public class OleCirculationHistoryExecutor implements Runnable{
         if (entityEmploymentBo != null && entityEmploymentBo.getPrimaryDepartmentCode() != null) {
             oleCirculationHistory.setDeptId(entityEmploymentBo.getPrimaryDepartmentCode());
         }
+    }
+
+    public PlatformTransactionManager getTransactionManager() {
+        if (transactionManager == null) {
+            transactionManager = GlobalResourceLoader.getService(OleNGConstants.TRANSACTION_MANAGER);
+        }
+        return this.transactionManager;
     }
 }
