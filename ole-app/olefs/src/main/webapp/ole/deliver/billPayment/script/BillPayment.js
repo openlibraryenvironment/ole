@@ -326,5 +326,8 @@ function removeCurrencyPattern(){
     }
 }
 
-
+function createNotice() {
+    var userEnteredPatronAddress =jq('#patronUserMailAddress_DataField_control').val();
+    submitForm('createNotice', {userEnteredPatronAddress:userEnteredPatronAddress}, null, null, null);
+}
 
