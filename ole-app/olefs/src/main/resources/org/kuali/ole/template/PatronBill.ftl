@@ -5,7 +5,7 @@
 <HEAD></HEAD>
 <BODY>
 <BODY>
-<center>Refund Notice</center>
+<center><B>Refund Notice</B></center>
 <table>
     </BR></BR>
     <TR>
@@ -18,7 +18,7 @@
     </TR>
 
     <TR>
-        <TD>Patron Name</TD>
+        <TD>Patron Name :</TD>
     <#if patronBillViewBo.patronName ??>
         <TD>${patronBillViewBo.patronName}</TD>
     <#else>
@@ -27,7 +27,7 @@
     </TR>
 
     <TR>
-        <TD>Patron Address</TD>
+        <TD>Patron Address :</TD>
     <#if patronBillViewBo.patronAddress ??>
         <TD>${patronBillViewBo.patronAddress}</TD>
     <#else>

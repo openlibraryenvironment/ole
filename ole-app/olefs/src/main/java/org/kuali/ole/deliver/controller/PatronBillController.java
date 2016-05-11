@@ -1201,13 +1201,16 @@ public class PatronBillController extends UifControllerBase {
         List<FeeType> feeTypes = patronBillForm.getFeeTypes();
         String billNumbers = patronBillHelperService.getBillNumbers(patronBillForm.getFeeTypes());;
         KualiDecimal creditRefunded = patronBillHelperService.refundItemTypeBills(billNumbers,patronBillForm.getPatronId(), patronBillForm.getTransferAmount(), patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), "Applied Credit", patronBillForm.getCurrentSessionTransactions());
-        if (creditRefunded.isGreaterThan(KualiDecimal.ZERO)) {
+        if (creditRefunded.isGreaterEqual(KualiDecimal.ZERO)) {
             KualiDecimal sumOfCreditRemaining = patronBillHelperService.updateRemainingCreditAmountForItem(creditRefunded, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
             if(sumOfCreditRemaining.isGreaterThan(KualiDecimal.ZERO) ) {
-                sumOfCreditRemaining=sumOfCreditRemaining.subtract(creditRefunded);
-                patronBillForm.getAmountDetails().setAmountRemaining(sumOfCreditRemaining);
+                //sumOfCreditRemaining=creditRefunded;
+                patronBillForm.getAmountDetails().setAmountRemaining(creditRefunded);
                 return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
             }
+        } else {
+            patronBillHelperService.updateRemainingCreditAmountForItem(KualiDecimal.ZERO, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
+            return showDialogAndRunCustomScript("noRefundConfirmationDialog", form, "jq('#noRefundOKButton').focus()");
         }
         patronBillForm.setPaidAmount(KualiDecimal.ZERO);
         patronBillForm.setTransferAmount(KualiDecimal.ZERO);
@@ -1259,6 +1262,9 @@ public class PatronBillController extends UifControllerBase {
                                        HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         patronBillForm.setLightboxScript("jq.fancybox.close();");
+        if(patronBillForm.getUserEnteredPatronAddress() != null) {
+            patronBillForm.setPatronAddressType("userEntered");
+        }
         PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
         String mailContent = patronBillHelperService.getPatronMailContent(patronBillForm);
         if(StringUtils.isNotEmpty(mailContent)) {
@@ -1273,6 +1279,15 @@ public class PatronBillController extends UifControllerBase {
             }
         }
         return start(patronBillForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=refundComplete")
+    public ModelAndView refundComplete(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        PatronBillForm patronBillForm = (PatronBillForm) form;
+        patronBillForm.setLightboxScript("jq.fancybox.close();");
+        return start(patronBillForm, result, request, response);
+
     }
 
 
@@ -1316,4 +1331,4 @@ public class PatronBillController extends UifControllerBase {
     }
 
 
-}
+    }
