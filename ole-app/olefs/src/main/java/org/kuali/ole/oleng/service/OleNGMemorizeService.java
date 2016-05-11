@@ -1,17 +1,18 @@
 package org.kuali.ole.oleng.service;
 
+import org.kuali.ole.coa.businessobject.Account;
+import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.module.purap.businessobject.ItemType;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.common.service.OleNgCommonMemorizeService;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.select.bo.OleVendorAccountInfo;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.utility.LocationUtil;
-import org.kuali.ole.vnd.businessobject.VendorAddress;
-import org.kuali.ole.vnd.businessobject.VendorAlias;
-import org.kuali.ole.vnd.businessobject.VendorDetail;
+import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.VendorService;
 
 import java.util.List;
@@ -37,4 +38,10 @@ public interface OleNGMemorizeService {
     public Integer getRequestSourceTypeId(String requestSourceType);
     public OLEDonor getDonorCode(String donorCode);
     public BatchProcessProfile fetchBatchProcessProfile(String profileName, String type);
+
+    public List<OleExchangeRate> getExchangeRate(String currencyTypeId);
+    public OleCurrencyType getCurrencyType(String currencyTypeId);
+    public List<OleVendorAccountInfo> getVendorAccountInfo(String code);
+    public List<Account> getAccount(String accountNumber);
+    public List<OleFundCode> getFundCode(String fundCode);
 }
