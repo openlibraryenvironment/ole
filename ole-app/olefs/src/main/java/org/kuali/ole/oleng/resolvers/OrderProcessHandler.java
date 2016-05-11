@@ -6,6 +6,7 @@ import org.kuali.ole.Exchange;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.oleng.util.OleNGPOHelperUtil;
 
@@ -23,7 +24,8 @@ public abstract class OrderProcessHandler {
 
     public abstract CreateReqAndPOBaseServiceHandler getCreateReqOrPOServiceHandler();
 
-    public Map<Integer, Set<Integer>> processOrder(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile, Exchange exchange) throws Exception {
+    public Map<Integer, Set<Integer>> processOrder(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
+                                                   OleNGMemorizeService oleNGMemorizeService, Exchange exchange) throws Exception {
         Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
         OleNGPOHelperUtil oleNGPOHelperUtil = OleNGPOHelperUtil.getInstance();
 
@@ -34,13 +36,17 @@ public abstract class OrderProcessHandler {
                 requisitionForTitlesOption.equalsIgnoreCase("One Requisition With All Titles")) {
             multiTitle = true;
         }
+        CreateReqAndPOBaseServiceHandler createReqOrPOServiceHandler = getCreateReqOrPOServiceHandler();
+        createReqOrPOServiceHandler.setOleNGMemorizeService(oleNGMemorizeService);
         if(multiTitle) {
-            Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(recordDetailsList, batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
+            Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(recordDetailsList, batchProcessProfile,
+                    createReqOrPOServiceHandler, exchange);
             poIdsMap.putAll(poIdMap);
         } else {
             for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
                 RecordDetails recordDetails = iterator.next();
-                Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails), batchProcessProfile, getCreateReqOrPOServiceHandler(), exchange);
+                Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails),
+                        batchProcessProfile, createReqOrPOServiceHandler, exchange);
                 poIdsMap.putAll(poIdMap);
             }
         }

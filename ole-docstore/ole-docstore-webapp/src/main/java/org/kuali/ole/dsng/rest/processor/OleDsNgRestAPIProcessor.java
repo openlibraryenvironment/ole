@@ -149,6 +149,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createEHoldingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createEHoldingsHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,6 +173,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createHoldingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createHoldingsHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,6 +214,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createItemHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createItemHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();

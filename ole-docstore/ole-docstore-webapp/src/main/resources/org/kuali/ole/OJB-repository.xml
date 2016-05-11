@@ -296,13 +296,13 @@
             <foreignkey field-ref="highDensityStorageId" />
         </reference-descriptor>
 
-        <collection-descriptor name="formerIdentifierRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.FormerIdentifierRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="formerIdentifierRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.FormerIdentifierRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="itemNoteRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemNoteRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="itemNoteRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemNoteRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="locationsCheckinCountRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="locationsCheckinCountRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
         <collection-descriptor name="donorList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -311,16 +311,16 @@
         <collection-descriptor name="itemStatisticalSearchRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="holdingsItemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="holdingsItemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="missingPieceItemRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="missingPieceItemRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="itemClaimsReturnedRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="itemClaimsReturnedRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
-        <collection-descriptor name="itemDamagedRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="itemDamagedRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="itemId" />
         </collection-descriptor>
     </class-descriptor>

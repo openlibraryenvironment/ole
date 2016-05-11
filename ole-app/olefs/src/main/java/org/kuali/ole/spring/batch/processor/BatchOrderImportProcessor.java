@@ -25,6 +25,7 @@ import org.kuali.ole.oleng.resolvers.CreateNeitherReqNorPOHandler;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionAndPurchaseOrderHander;
 import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;
 import org.kuali.ole.oleng.resolvers.OrderProcessHandler;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.utility.BibUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -46,9 +47,11 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     @Autowired
     private DescribeDAO describeDAO;
 
-
     @Autowired
     OleNGRequisitionService oleNGRequisitionService;
+
+    @Autowired
+    OleNGMemorizeService oleNGMemorizeService;
 
     @Autowired
     private BatchBibFileProcessor batchBibFileProcessor;
@@ -157,7 +160,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                                     orderDatasToReport = unmatchedOrderDatas;
                                 }
                                 if (recordsToProcess.size() > 0) {
-                                    poIdsMap.putAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile, exchange));
+                                    poIdsMap.putAll(orderProcessHandler.processOrder(recordsToProcess, batchProcessProfile,oleNGMemorizeService, exchange));
                                     prepareResponse(batchProfileAddOrOverlay.getAddOperation(), orderDatasToReport, oleNGOrderImportResponse, poIdsMap);
                                 }
                                 break;

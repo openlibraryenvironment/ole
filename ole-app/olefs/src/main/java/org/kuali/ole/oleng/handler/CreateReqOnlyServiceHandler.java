@@ -1,7 +1,9 @@
 package org.kuali.ole.oleng.handler;
 
 import org.kuali.ole.Exchange;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
+import org.kuali.ole.oleng.service.impl.OleNGMemorizeServiceImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.document.OleRequisitionDocument;
@@ -18,6 +20,7 @@ import java.util.List;
 public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqAndPOBaseServiceHandler {
 
     private OleNGRequisitionService oleNGRequisitionService;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
@@ -33,5 +36,16 @@ public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqA
 
     public void setOleNGRequisitionService(OleNGRequisitionService oleNGRequisitionService) {
         this.oleNGRequisitionService = oleNGRequisitionService;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 }

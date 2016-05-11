@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.util;
+package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;

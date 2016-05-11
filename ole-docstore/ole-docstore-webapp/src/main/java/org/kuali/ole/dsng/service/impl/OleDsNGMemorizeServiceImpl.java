@@ -9,7 +9,9 @@ import org.kuali.ole.dsng.dao.ItemDAO;
 import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.ole.dsng.util.*;
 import org.kuali.ole.oleng.common.service.OleNgCommonMemorizeService;
+import org.kuali.ole.oleng.common.service.impl.OleNgCommonMemorizeServiceImpl;
 import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.ole.utility.DonorUtil;
 import org.kuali.ole.utility.LocationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +36,6 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
 
     private AccessLocationUtil accessLocationUtil;
     private AuthenticationTypeUtil authenticationTypeUtil;
-    private DonorUtil donorUtil;
     private StatisticalSearchCodeUtil statisticalSearchCodeUtil;
     private CallNumberUtil callNumberUtil;
     private LocationUtil locationUtil;
@@ -50,9 +51,8 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
         return getAuthenticationTypeUtil().fetchAuthenticationTypeRecordByCode(authenticationType);
     }
 
-    @Memoize
     public OLEDonor getDonorCode(String donorCode) {
-        return getDonorUtil().getDonorCode(donorCode);
+        return getOleNgCommonMemorizeService().getDonorCode(donorCode);
     }
 
     @Memoize
@@ -101,13 +101,6 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
         return authenticationTypeUtil;
     }
 
-    public DonorUtil getDonorUtil() {
-        if(null == donorUtil) {
-            donorUtil = new DonorUtil();
-        }
-        return donorUtil;
-    }
-
     public StatisticalSearchCodeUtil getStatisticalSearchCodeUtil() {
         if(null == statisticalSearchCodeUtil) {
             statisticalSearchCodeUtil = new StatisticalSearchCodeUtil();
@@ -126,7 +119,7 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
     public LocationUtil getLocationUtil() {
         if(null == locationUtil){
             locationUtil = new LocationUtil();
-            locationUtil.setOleNgCommonMemorizeService(oleNgCommonMemorizeService);
+            locationUtil.setOleNgCommonMemorizeService(getOleNgCommonMemorizeService());
         }
         return locationUtil;
     }
@@ -136,5 +129,12 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
             itemUtil = new ItemUtil();
         }
         return itemUtil;
+    }
+
+    public OleNgCommonMemorizeService getOleNgCommonMemorizeService() {
+        if(null == oleNgCommonMemorizeService) {
+            oleNgCommonMemorizeService = new OleNgCommonMemorizeServiceImpl();
+        }
+        return oleNgCommonMemorizeService;
     }
 }
