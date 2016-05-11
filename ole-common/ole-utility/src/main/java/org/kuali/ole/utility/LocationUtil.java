@@ -6,6 +6,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
+import org.kuali.ole.oleng.common.service.OleNgCommonMemorizeService;
+import org.kuali.ole.oleng.common.service.impl.OleNgCommonMemorizeServiceImpl;
 
 import java.util.*;
 
@@ -18,6 +20,8 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
 
     private JSONHelperUtil jsonHelperUtil;
 
+    private OleNgCommonMemorizeService oleNgCommonMemorizeService;
+
     public String getLevelIdByLocationCode(String locationCode) {
         OleLocation levelIdForLocationCode = getLocationByCode(locationCode);
         if (null != levelIdForLocationCode) {
@@ -27,13 +31,7 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
     }
 
     public OleLocation getLocationByCode(String locationCode) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("locationCode", locationCode);
-        List<OleLocation> locations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, map);
-        if (locations.size() > 0) {
-            return locations.get(0);
-        }
-        return null;
+        return getOleNgCommonMemorizeService().getLocationByCode(locationCode);
     }
 
     public String buildLocationName(String oldLocationName, String locationCode) {
@@ -132,5 +130,16 @@ public class LocationUtil extends BusinessObjectServiceHelperUtil{
 
     public void setJsonHelperUtil(JSONHelperUtil jsonHelperUtil) {
         this.jsonHelperUtil = jsonHelperUtil;
+    }
+
+    public OleNgCommonMemorizeService getOleNgCommonMemorizeService() {
+        if(null == oleNgCommonMemorizeService) {
+            oleNgCommonMemorizeService = new OleNgCommonMemorizeServiceImpl();
+        }
+        return oleNgCommonMemorizeService;
+    }
+
+    public void setOleNgCommonMemorizeService(OleNgCommonMemorizeService oleNgCommonMemorizeService) {
+        this.oleNgCommonMemorizeService = oleNgCommonMemorizeService;
     }
 }

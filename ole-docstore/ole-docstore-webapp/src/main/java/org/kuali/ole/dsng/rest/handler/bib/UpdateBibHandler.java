@@ -44,7 +44,7 @@ public class UpdateBibHandler extends BibHandler {
 
             if (requestJsonObject.has(OleNGConstants.ID)) {
                 String bibId = requestJsonObject.getString(OleNGConstants.ID);
-                BibRecord bibRecord = getBibDAO().retrieveBibById(bibId);
+                BibRecord bibRecord = getOleDsNGMemorizeService().getBibDAO().retrieveBibById(bibId);
 
                 boolean validForOverlay = isValidForOverlay(bibRecord, requestJsonObject);
 
@@ -72,7 +72,7 @@ public class UpdateBibHandler extends BibHandler {
 
                     processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
 
-                    getBibDAO().save(bibRecord);
+                    getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
                     bibRecord.setOperationType(OleNGConstants.UPDATED);
 
                     saveBibInfoRecord(bibRecord,false);

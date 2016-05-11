@@ -48,17 +48,20 @@ public class OleNGPOHelperUtil {
     }
 
     public Map<Integer, Set<Integer>> processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
-                                   CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler, Exchange exchange)  {
+                                                      CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler,
+                                                      Exchange exchange)  {
         Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
         List<OleOrderRecord> oleOrderRecords = new ArrayList<>();
         Integer purapId = null;
+        OrderImportService oleOrderImportService = getOleOrderImportService();
+        oleOrderImportService.setOleNGMemorizeService(createReqAndPOServiceHandler.getOleNGMemorizeService());
         for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
             RecordDetails recordDetails = iterator.next();
             Integer recordIndex = recordDetails.getIndex();
             String bibUUID = recordDetails.getBibUUID();
             if (StringUtils.isNotBlank(bibUUID)) {
                 try {
-                    OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile);
+                    OleTxRecord oleTxRecord = oleOrderImportService.processDataMapping(recordDetails, batchProcessProfile);
 
                     final OleOrderRecord oleOrderRecord = new OleOrderRecord();
                     oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);

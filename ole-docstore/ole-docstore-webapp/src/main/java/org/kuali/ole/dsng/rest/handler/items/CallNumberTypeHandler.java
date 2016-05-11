@@ -46,7 +46,7 @@ public class CallNumberTypeHandler extends ItemHandler {
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberType = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-            CallNumberTypeRecord callNumberTypeRecord = new CallNumberUtil().fetchCallNumberTypeRecordById(callNumberType);
+            CallNumberTypeRecord callNumberTypeRecord = getOleDsNGMemorizeService().fetchCallNumberTypeRecordById(callNumberType);
             if (null != callNumberTypeRecord) {
                 itemRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);

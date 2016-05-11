@@ -58,7 +58,7 @@ public class DonorCodeHandler extends HoldingsHandler {
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEDonor donor = getDonorCode(donorCode);
+                    OLEDonor donor = getOleDsNGMemorizeService().getDonorCode(donorCode);
                     if(null != donor) {
                         for (Iterator<OLEHoldingsDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
                             OLEHoldingsDonorRecord oleHoldingsDonorRecord = iterator1.next();
@@ -72,7 +72,7 @@ public class DonorCodeHandler extends HoldingsHandler {
                 donorList = new ArrayList<OLEHoldingsDonorRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEDonor donor = getDonorCode(donorCode);
+                    OLEDonor donor = getOleDsNGMemorizeService().getDonorCode(donorCode);
                     if(null != donor) {
                         OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
                         oleHoldingsDonorRecord.setDonorCode(donor.getDonorCode());

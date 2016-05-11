@@ -57,7 +57,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
             if (CollectionUtils.isNotEmpty(itemStatisticalSearchRecords)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
-                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    StatisticalSearchRecord statisticalSearchRecord = getOleDsNGMemorizeService().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
                     for (Iterator<ItemStatisticalSearchRecord> itemStatisticalSearchRecordIterator = itemStatisticalSearchRecords.iterator(); itemStatisticalSearchRecordIterator.hasNext(); ) {
                         ItemStatisticalSearchRecord itemStatisticalSearchRecord = itemStatisticalSearchRecordIterator.next();
                         itemStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
@@ -69,7 +69,7 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
                 itemStatisticalSearchRecords = new ArrayList<ItemStatisticalSearchRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
-                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    StatisticalSearchRecord statisticalSearchRecord = getOleDsNGMemorizeService().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
                     ItemStatisticalSearchRecord holdingsStatisticalSearchRecord = new ItemStatisticalSearchRecord();
                     holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
                     holdingsStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);

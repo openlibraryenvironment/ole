@@ -18,8 +18,6 @@ import java.util.*;
  */
 public class ItemLocationHandler extends ItemHandler {
 
-    private LocationUtil locationUtil;
-
     private String locationLevel;
 
     @Override
@@ -53,7 +51,7 @@ public class ItemLocationHandler extends ItemHandler {
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String locationLevelValue = iterator.next();
 
-            OleLocation locationBasedOnCode = getLocationUtil().getLocationByCode(locationLevelValue);
+            OleLocation locationBasedOnCode = getOleDsNGMemorizeService().getLocationUtil().getLocationByCode(locationLevelValue);
 
             OleLocationLevel oleLocationLevel = locationBasedOnCode.getOleLocationLevel();
             String matchPointLevelId = oleLocationLevel.getLevelId();
@@ -66,7 +64,7 @@ public class ItemLocationHandler extends ItemHandler {
 
                 while (stringTokenizer.hasMoreTokens()) {
                     String token = stringTokenizer.nextToken();
-                    map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
+                    map.put(getOleDsNGMemorizeService().getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(locationLevelValue)) {
@@ -77,13 +75,6 @@ public class ItemLocationHandler extends ItemHandler {
             }
         }
 
-    }
-
-    public LocationUtil getLocationUtil() {
-        if(null == locationUtil){
-            locationUtil = new LocationUtil();
-        }
-        return locationUtil;
     }
 
     @Override
@@ -99,7 +90,7 @@ public class ItemLocationHandler extends ItemHandler {
                     List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
                     if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                         String value = listFromJSONArray.get(0);
-                        itemLocation = getLocationUtil().buildLocationName(itemLocation, value);
+                        itemLocation = getOleDsNGMemorizeService().getLocationUtil().buildLocationName(itemLocation, value);
                     }
                 }
             }
@@ -108,12 +99,12 @@ public class ItemLocationHandler extends ItemHandler {
         } else {
             StringBuilder locationName = new StringBuilder();
             StringBuilder locationLevelName = new StringBuilder();
-            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject);
+            Map<String, String> locationMap = getOleDsNGMemorizeService().getLocationUtil().buildLocationMap(requestJsonObject);
             for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 String locationCode = locationMap.get(key);
-                getLocationUtil().appendLocationToStringBuilder(locationLevelName,key);
-                getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
+                getOleDsNGMemorizeService().getLocationUtil().appendLocationToStringBuilder(locationLevelName,key);
+                getOleDsNGMemorizeService().getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
             }
             itemRecord.setLocation(locationName.toString());
             itemRecord.setLocationLevel(locationLevelName.toString());
