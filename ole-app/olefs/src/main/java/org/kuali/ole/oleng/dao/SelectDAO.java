@@ -74,5 +74,6 @@ public interface SelectDAO {
     public ItemStatusRecord fetchItemStatusByCode(String itemStatusCode);
     public VendorCustomerNumber getVendorCustomerNumberByNumber(String vendorCustomerNumber);
     public OLEDonor getOLEDonorByCode(String donorCode);
+    public OleCurrencyType getCurrencyType(String currencyType);
 
 }

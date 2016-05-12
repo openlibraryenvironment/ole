@@ -406,7 +406,7 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
         deliveryMap.put(OLEConstants.OLEBatchProcess.BUILDING_CODE, buildingCode);
         deliveryMap.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE, campusCode);
         deliveryMap.put(OLEConstants.BUILDING_ROOM_NUMBER, buildingRoomNumber);
-        List<Room> roomList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(Room.class, deliveryMap);
+        List<Room> roomList = (List) getBusinessObjectService().findMatching(Room.class, deliveryMap);
         if (CollectionUtils.isNotEmpty(roomList)){
             return roomList.get(0);
         }
@@ -485,9 +485,20 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     public OLEDonor getOLEDonorByCode(String donorCode) {
         Map<String, String> donorCodeMap = new HashMap<>();
         donorCodeMap.put(OLEConstants.DONOR_CODE, donorCode);
-        List<OLEDonor> donorCodeList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
+        List<OLEDonor> donorCodeList = (List) getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
         if (CollectionUtils.isNotEmpty(donorCodeList)){
             return donorCodeList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public OleCurrencyType getCurrencyType(String currencyType) {
+        Map<String, String> donorCodeMap = new HashMap<>();
+        donorCodeMap.put(OLEConstants.CURRENCY_TYPE, currencyType);
+        List<OleCurrencyType> oleCurrencyTypes = (List) getBusinessObjectService().findMatching(OleCurrencyType.class, donorCodeMap);
+        if (CollectionUtils.isNotEmpty(oleCurrencyTypes)){
+            return oleCurrencyTypes.get(0);
         }
         return null;
     }
