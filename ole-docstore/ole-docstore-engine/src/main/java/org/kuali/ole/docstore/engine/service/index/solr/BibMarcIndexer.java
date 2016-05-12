@@ -1018,6 +1018,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
             for (int i = 0; i < record.getDataFields().size(); i++) {
                 DataField dataField = record.getDataFields().get(i);
                 if (isValidTag(dataField.getTag(), tagNum)) {
+                    String linkValue = "";
                     StringBuilder fieldValue = new StringBuilder();
                     List<SubField> subFields = dataField.getSubFields();
                     if (subFieldIdx != -1) { // Includes only one Sub Field of a main Data Field.
@@ -1037,6 +1038,8 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
                                         }
                                     }
                                     fieldValue.append(subField.getValue());
+                                } else if (subField.getCode().equalsIgnoreCase("6")) {
+                                    linkValue=generateLinkFiledValue(subField.getValue(),record.getDataFields());
                                 }
                             }
                         }
@@ -1090,6 +1093,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
                             fieldValue.append(".");
                         }
                     }
+                    fieldValue.append(linkValue);
                     fieldValues.add(fieldValue.toString().trim());
                 }
             }
@@ -1101,6 +1105,31 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
         } else {
             return null;
         }
+    }
+
+    private String generateLinkFiledValue(String value, List<DataField> dataFields) {
+        StringBuilder linkFieldValue = new StringBuilder();
+        if (value.indexOf("-") > 0) {
+            String[] dataValues = value.split("-");
+            String tag = dataValues[0];
+            int position = Integer.parseInt(dataValues[1]);
+            List<DataField> linkDataFields = new ArrayList<>();
+            for (DataField dataField : dataFields) {
+                if (dataField.getTag().equalsIgnoreCase(tag)) {
+                    linkDataFields.add(dataField);
+                }
+            }
+
+            if (CollectionUtils.isNotEmpty(linkDataFields) && linkDataFields.size() > position - 1) {
+                DataField linkDataField = linkDataFields.get(position - 1);
+                for (SubField subField : linkDataField.getSubFields()) {
+                    if (!subField.getCode().equalsIgnoreCase("6")) {
+                        linkFieldValue.append(subField.getValue());
+                    }
+                }
+            }
+        }
+        return linkFieldValue.toString();
     }
 
     /**
