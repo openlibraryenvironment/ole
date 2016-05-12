@@ -54,7 +54,10 @@ public class LoanHistoryUpdateController extends UifControllerBase {
                 loanHistoryUpdateForm.setMessage("Already process running. Please wait till process complete.");
             }
         }catch (Exception e){
+            e.printStackTrace();
             LOG.info("Exception occured while running the job" + e.getMessage());
+            LoanHistoryUtil.taskRunning = false;
+            loanHistoryUpdateForm.setMessage("Exception occured while running the job");
         }
         return getUIFModelAndView(form);
     }
