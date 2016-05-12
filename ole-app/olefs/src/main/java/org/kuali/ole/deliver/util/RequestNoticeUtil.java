@@ -14,8 +14,6 @@ import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by maheswarang on 4/13/16.
@@ -56,10 +54,8 @@ public class RequestNoticeUtil {
                     //getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocumentList);
                     Map<String, List<OleDeliverRequestBo>> patronMapWithRequestDetails = buildMapOfRequestForEachPatron(oleDeliverRequestList);
                     for(String patronId : patronMapWithRequestDetails.keySet()){
-                    int threadPoolSize = getThreadPoolSize();
-                        ExecutorService requestNoticeExecutor = Executors.newFixedThreadPool(5);
-                            Runnable oleDeliverRequestBos = new RequestNoticeExecutor(patronMapWithRequestDetails.get(patronId));
-                    requestNoticeExecutor.execute(oleDeliverRequestBos);
+                        RequestNoticeExecutor requestNoticeExecutor = new RequestNoticeExecutor(patronMapWithRequestDetails.get(patronId));
+                        requestNoticeExecutor.generateNotice();
                     }
                     Long endTime = System.currentTimeMillis();
                     Long timeDifference = endTime - startTime;

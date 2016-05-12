@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by maheswarang on 4/13/16.
  */
-public class RequestNoticeExecutor implements Runnable {
+public class RequestNoticeExecutor  {
 
   private List<OleDeliverRequestBo> oleDeliverRequestBoList;
   private BusinessObjectService businessObjectService;
@@ -34,8 +34,8 @@ public class RequestNoticeExecutor implements Runnable {
         this.businessObjectService = businessObjectService;
     }
 
-    @Override
-    public void run() {
+
+    public void generateNotice() {
         List<OLEDeliverNotice> oleDeliverNotices = new ArrayList<OLEDeliverNotice>();
         if(oleDeliverRequestBoList.size()>0){
         for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBoList){
