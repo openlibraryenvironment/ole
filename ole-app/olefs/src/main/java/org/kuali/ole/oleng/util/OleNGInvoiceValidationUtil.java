@@ -43,7 +43,7 @@ public class OleNGInvoiceValidationUtil {
     private boolean validateInvoiceNumber(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String invoiceNumber = oleInvoiceRecord.getInvoiceNumber();
         if (StringUtils.isBlank(invoiceNumber) || !NumberUtils.isDigits(invoiceNumber)){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("Invoice number cannot be blank or null and it should be round number"), recordIndex, exchange);
             return false;
         }
@@ -53,7 +53,7 @@ public class OleNGInvoiceValidationUtil {
     private boolean validateVendorNumber(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String vendorNumber = oleInvoiceRecord.getVendorNumber();
         if (StringUtils.isBlank(vendorNumber)){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("Vendor number cannot be blank or null"), recordIndex, exchange);
             return false;
         } else {
@@ -70,7 +70,7 @@ public class OleNGInvoiceValidationUtil {
 
     private boolean validateInvoiceDate(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         if (StringUtils.isBlank(oleInvoiceRecord.getInvoiceDate())){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("Invoice date cannot be blank or null"), recordIndex, exchange);
             return false;
         }
@@ -80,7 +80,7 @@ public class OleNGInvoiceValidationUtil {
     private boolean validateInvoicePrice(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String listPrice = oleInvoiceRecord.getListPrice();
         if (null == listPrice || !NumberUtils.isNumber(listPrice)){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("List Price cannot be blank or null and it should be numeric"), recordIndex, exchange);
             return false;
         }
@@ -89,7 +89,7 @@ public class OleNGInvoiceValidationUtil {
 
     private boolean validateItemDescription(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         if (StringUtils.isBlank(oleInvoiceRecord.getItemDescription())){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("Item description cannot be blank or null"), recordIndex, exchange);
             return false;
         }
@@ -99,7 +99,7 @@ public class OleNGInvoiceValidationUtil {
     private boolean validateQuantity(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String quantity = oleInvoiceRecord.getQuantity();
         if (null == quantity || !NumberUtils.isDigits(quantity)){
-            getBatchUtil().addOrderFaiureResponseToExchange(
+            getBatchUtil().addInvoiceFaiureResponseToExchange(
                     new ValidationException("Quantity cannot be blank or null and it should be round number"), recordIndex, exchange);
             return false;
         }

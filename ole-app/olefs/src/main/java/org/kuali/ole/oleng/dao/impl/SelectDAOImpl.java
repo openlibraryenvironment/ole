@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.dao.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.*;
@@ -209,7 +210,7 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     @Override
     public VendorDetail getVendorDetailByVendorNumber(String vendorNumber){
         String[] vendorDetail = vendorNumber.split("-");
-        if(vendorDetail.length == 2) {
+        if(vendorDetail.length == 2 && StringUtils.isNotBlank(vendorDetail[0]) && org.apache.commons.lang.StringUtils.isNotBlank(vendorDetail[1])) {
             String vendorHeaderGeneratedIdentifier = vendorDetail[0];
             String vendorDetailAssignedIdentifier = vendorDetail[1];
             if (NumberUtils.isDigits(vendorHeaderGeneratedIdentifier) && NumberUtils.isDigits(vendorDetailAssignedIdentifier)) {
