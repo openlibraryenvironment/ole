@@ -1,12 +1,12 @@
 package org.kuali.ole.dsng.rest.handler.bib;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
+import org.marc4j.marc.Record;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -38,6 +38,7 @@ public class CreateBibHandler extends BibHandler {
 
             if (StringUtils.isBlank(bibRecord.getBibId())) {
                 newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
+                Record record = isValidLeader(newBibContent);
                 String createdBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
                 String createdDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
@@ -50,7 +51,7 @@ public class CreateBibHandler extends BibHandler {
                 bibRecord.setDateCreated(createdDate);
                 BibRecord createdBibRecord = getBibDAO().save(bibRecord);
 
-                String modifiedcontent = process001And003(newBibContent, createdBibRecord.getBibId());
+                String modifiedcontent = process001And003(record, createdBibRecord.getBibId());
                 bibRecord.setContent(modifiedcontent);
 
                 setDataMappingValues(bibRecord, requestJsonObject, exchange);
@@ -58,12 +59,12 @@ public class CreateBibHandler extends BibHandler {
                 getBibDAO().save(bibRecord);
                 bibRecord.setOperationType(OleNGConstants.CREATED);
 
-                saveBibInfoRecord(bibRecord,true);
+                saveBibInfoRecord(bibRecord, true);
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            addFailureReportToExchange(requestJsonObject, exchange,"bib", e ,null);
+            addFailureReportToExchange(requestJsonObject, exchange, "bib", e, null);
         }
     }
 }

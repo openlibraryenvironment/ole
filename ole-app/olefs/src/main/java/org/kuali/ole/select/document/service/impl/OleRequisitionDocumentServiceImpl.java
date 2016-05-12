@@ -146,10 +146,14 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         budgetMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         budgetMap.put(OLEPropertyConstants.OBJECT_CODE, objectCode);
         budgetMap.put(OLEPropertyConstants.BALANCE_TYPE_CODE, OLEPropertyConstants.BAL_TYP_CODE);
-        Balance balance = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Balance.class, budgetMap);
+        List<Balance> balanceList = (List<Balance>) SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, budgetMap);
         KualiDecimal initialBudgetAmount = KualiDecimal.ZERO;
-        if (balance != null) {
-            initialBudgetAmount = balance.getAccountLineAnnualBalanceAmount();
+        if(balanceList.size() > 0) {
+            for(Balance balance : balanceList) {
+                if (balance != null) {
+                    initialBudgetAmount = initialBudgetAmount.add(balance.getAccountLineAnnualBalanceAmount());
+                }
+            }
         }
         Map encMap = new HashMap();
         encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);

@@ -42,15 +42,26 @@ public abstract class BibHandler extends Handler {
 
     }
 
-    public String process001And003(String marcContent, String bibId) {
+
+    public Record isValidLeader(String marcContent) throws Exception {
         List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(marcContent);
-        if(CollectionUtils.isNotEmpty(records)) {
-            Record record = records.get(0);
-            replaceBibIdTo001Tag(record,bibId);
-            replaceOrganizationCodeTo003Tag(record);
-            return getMarcRecordUtil().convertMarcRecordToMarcContent(record);
+        String leader = null;
+        for (Record record : records) {
+            leader = record.getLeader().marshal();
+            char unicode = leader.charAt(9);
+            if (unicode != 'a') {
+                throw new Exception(OleNGConstants.INVALID_LEADER + leader);
+            }
+            return record;
         }
-        return marcContent;
+        return null;
+    }
+
+
+    public String process001And003(Record record, String bibId) {
+        replaceBibIdTo001Tag(record, bibId);
+        replaceOrganizationCodeTo003Tag(record);
+        return getMarcRecordUtil().convertMarcRecordToMarcContent(record);
     }
 
     public void replaceBibIdTo001Tag(Record record,String bibId) {

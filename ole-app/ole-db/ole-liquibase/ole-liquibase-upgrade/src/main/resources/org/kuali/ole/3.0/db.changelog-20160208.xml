@@ -257,4 +257,33 @@
         <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_T (FEE_TYP_ID, FEE_TYP_CD, FEE_TYP_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_PTRN_FEE_TYPE_S.NEXTVAL, 'LOST_ITEM_PRCS_FEE', 'Lost Item Processing Fee', '0cc1a894-d34e-4ec2-8479-9adf974fd72H', '1')</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_T (BAT_PRCS_BIB_OVRL_ADD,BAT_PRCS_BIB_NO_MTCH,BAT_PRCS_INST_OVRL_ADD,BAT_PRCS_INST_NO_MTCH,BAT_PRCS_PRF_DESC,BAT_PRCS_PRF_ID,BAT_PRCS_PRF_NM,OBJ_ID,BAT_PRCS_MARC_ONLY,OLE_BAT_PRCS_TYP,VER_NBR) VALUES ('add','add','keepOldAddNew','add','Default EDI Export Format',last_insert_id(),'Default_EDI_Format','f6f342ca-d6b6-435f-adea-a6bbc10cey','N','EDI Export',1)</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_T (BAT_PRCS_BIB_OVRL_ADD,BAT_PRCS_BIB_NO_MTCH,BAT_PRCS_INST_OVRL_ADD,BAT_PRCS_INST_NO_MTCH,BAT_PRCS_PRF_DESC,BAT_PRCS_PRF_ID,BAT_PRCS_PRF_NM,OBJ_ID,BAT_PRCS_MARC_ONLY,OLE_BAT_PRCS_TYP,VER_NBR) VALUES ('add','add','keepOldAddNew','add','Default EDI Export Format',OLE_BAT_PRCS_PRF_S.NEXTVAL,'Default_EDI_Format','f6f342ca-d6b6-435f-adea-a6bbc10cey','N','EDI Export',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_oracle" dbms="oracle">
+        <loadData tableName="OLE_BAT_PRCS_PRFLE_CNST_T" file="org/kuali/ole/3.0/data/ole_bat_prcs_prfle_cnst_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_BAT_PRCS_PRFLE_CNST_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="OLE_BAT_PRCS_PRFLE_CNST_T" file="org/kuali/ole/3.0/data/ole_bat_prcs_prfle_cnst_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_BAT_PRCS_PRFLE_CNST_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>

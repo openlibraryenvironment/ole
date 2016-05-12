@@ -57,6 +57,8 @@ public class PatronBillHelperService {
 
     private OleMailer oleMailer;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private static String billNumbers="";
+    private Map billMap;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -1353,6 +1355,7 @@ public class PatronBillHelperService {
         OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
         List feeTypeCodeList = getEligibleFeeTypes();
         List<FeeType> feeTypes = new ArrayList<>();
+        billMap = new HashMap();
         if(feeTypeCodeList.size() > 0) {
             Criteria criteria = new Criteria();
             criteria.addGreaterThan("balFeeAmount", new KualiDecimal(0));
@@ -1364,9 +1367,10 @@ public class PatronBillHelperService {
         Collections.sort(feeTypes,PatronBillHelperService.sortPatronBill());
         if(feeTypes!= null && feeTypes.size() > 0) {
             String operatorId = GlobalVariables.getUserSession().getPrincipalId();
-            KualiDecimal unPaidAmount;
+            KualiDecimal unPaidAmount = KualiDecimal.ZERO;
             KualiDecimal payAmt = refundAmount;
                     for (FeeType patronFeeType : feeTypes) {
+                        billNumbers = billNumbers+patronFeeType.getBillNumber()+",";
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("billNumber", patronFeeType.getBillNumber());
                         PatronBillPayment patronBillPayment = getBusinessObjectService().findByPrimaryKey(PatronBillPayment.class, map);
@@ -1383,9 +1387,12 @@ public class PatronBillHelperService {
                                 oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                                 oleItemLevelBillPayment.setAmount(patronFeeType.getBalFeeAmount());
                                 oleItemLevelBillPayment.setCreatedUser(operatorId);
+                                String note = "Credit applied from bill number "+billnumbers;
+                                oleItemLevelBillPayment.setNote(note);
                                 oleItemLevelBillPayment.setTransactionNote(transactionNote);
                                 oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                                 oleItemLevelBillPayment.setPaymentMode(paymentMethod);
+                                billMap.put(oleItemLevelBillPayment.getPaymentDate().toString(),patronBillPayment.getBillNumber());
                                 oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                                 currentSessionTransactions.add(oleItemLevelBillPayment);
                                 patronFeeType.setBalFeeAmount(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE);
@@ -1393,11 +1400,12 @@ public class PatronBillHelperService {
                                 patronFeeType.setActiveItem(false);
                                 patronBillPayment.setPaymentAmount(payAmt.subtract(refundAmount));
                                 payAmt = refundAmount;
-                            } else {
+                            } else if(refundAmount.isGreaterThan(KualiDecimal.ZERO)){
                                 unPaidAmount = patronBillPayment.getUnPaidBalance().subtract(refundAmount);
                                 KualiDecimal updatedFeeAmount = patronFeeType.getBalFeeAmount().subtract(refundAmount);
                                 KualiDecimal transAmount = refundAmount;
                                 refundAmount = refundAmount.subtract(patronFeeType.getBalFeeAmount());
+                                //refundAmount = KualiDecimal.ZERO;
                                 refundedAmount = refundedAmount.add(patronFeeType.getBalFeeAmount());
                                 OlePaymentStatus olePaymentStatus = getPaymentStatus(OLEConstants.PAY_PAR_PAID_CRDT);
                                 patronFeeType.setOlePaymentStatus(olePaymentStatus);
@@ -1406,10 +1414,14 @@ public class PatronBillHelperService {
                                         ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                                 OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                                 oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+
                                 oleItemLevelBillPayment.setAmount(transAmount.compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) < 0 ? transAmount : transAmount);
                                 oleItemLevelBillPayment.setCreatedUser(operatorId);
+                                String note = "Credit applied from bill number "+billnumbers;
+                                oleItemLevelBillPayment.setNote(note);
                                 oleItemLevelBillPayment.setTransactionNote(transactionNote);
                                 oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
+                                billMap.put(oleItemLevelBillPayment.getPaymentDate().toString(),patronBillPayment.getBillNumber());
                                 oleItemLevelBillPayment.setPaymentMode(paymentMethod);
                                 oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                                 currentSessionTransactions.add(oleItemLevelBillPayment);
@@ -1429,7 +1441,7 @@ public class PatronBillHelperService {
                             getBusinessObjectService().save(patronBillPayment);
                     }
         }
-        return refundedAmount;
+        return refundAmount;
     }
 
     public KualiDecimal updateRemainingCreditAmountForItem(KualiDecimal refundedAmount,List<FeeType> feeTypes,String transactionNote,String transactionNumber,List<OleItemLevelBillPayment> currentSessionTransactions,String refundNote) {
@@ -1445,7 +1457,7 @@ public class PatronBillHelperService {
             List<FeeType> patronFeeTypes = patronBillPayment.getFeeType();
             for (FeeType patronFeeType : patronFeeTypes) {
                 if (feeType.isActiveItem() && patronFeeType.getId().equalsIgnoreCase(feeType.getId())) {
-                    if (creditRefunded.isGreaterEqual(patronFeeType.getCreditRemaining().negated())) {
+                    if (patronFeeType.getFeeAmount().subtract(creditRefunded).isGreaterEqual(patronFeeType.getCreditRemaining().negated())) {
                         KualiDecimal transAmount = patronFeeType.getCreditRemaining().negated();
                         sumOfCreditRemaining = sumOfCreditRemaining.add(patronFeeType.getCreditRemaining().negated());
                         creditRefunded = creditRefunded.subtract(patronFeeType.getCreditRemaining().negated());
@@ -1461,17 +1473,21 @@ public class PatronBillHelperService {
                         for(int i=0;i<paidTransactions.size();i++) {
                             OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                             oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-                            //oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
-                            oleItemLevelBillPayment.setAmount(transAmount);
+                            oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
+                            //oleItemLevelBillPayment.setAmount(transAmount);
                             oleItemLevelBillPayment.setCreatedUser(operatorId);
+                            if(billMap != null) {
+                                String note = "Refund issued to bill number :"+billMap.get(paidTransactions.get(i).getPaymentDate().toString());
+                                oleItemLevelBillPayment.setNote(note);
+                            }
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         }
 
-                        //currentSessionTransactions.add(oleItemLevelBillPayment);
-                    } else if(creditRefunded.isGreaterThan(KualiDecimal.ZERO)){
+                    } else if(patronFeeType.getFeeAmount().subtract(creditRefunded).isGreaterThan(KualiDecimal.ZERO)){
+                        creditRefunded = patronFeeType.getFeeAmount().subtract(creditRefunded);
                         KualiDecimal transactionAmount = creditRefunded;
                         sumOfCreditRemaining = sumOfCreditRemaining.add(patronFeeType.getCreditRemaining().negated());
                         patronFeeType.setCreditRemaining(((patronFeeType.getCreditRemaining().negated()).subtract(creditRefunded)).negated());
@@ -1488,14 +1504,40 @@ public class PatronBillHelperService {
                             OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                             oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                             oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
-                            //oleItemLevelBillPayment.setAmount(transactionAmount);
                             oleItemLevelBillPayment.setCreatedUser(operatorId);
+                            if(billMap != null) {
+                                String note = "Refund issued to bill number :"+billMap.get(paidTransactions.get(i).getPaymentDate().toString());
+                                oleItemLevelBillPayment.setNote(note);
+                            }
                             oleItemLevelBillPayment.setTransactionNote(transactionNote);
                             oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                             oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
                             oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         }
-                        //currentSessionTransactions.add(oleItemLevelBillPayment);
+                    } else if (creditRefunded.isZero()) {
+                        patronBillPayment.setCreditRemaining(KualiDecimal.ZERO);
+                        patronFeeType.setCreditRemaining(KualiDecimal.ZERO);
+                        OlePaymentStatus olePaymentStatus = getPaymentStatus(OLEConstants.PAY_FULLY_REFUNDED);
+                        patronFeeType.setOlePaymentStatus(olePaymentStatus);
+                        patronFeeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
+                        patronFeeType.setRefundNote(refundNote);
+                        List<OleItemLevelBillPayment> paidTransactions = getPaidOutstandingBillTransaction(currentSessionTransactions);
+                        List<OleItemLevelBillPayment> oleItemLevelBillPayments = patronFeeType.getItemLevelBillPaymentList() != null && patronFeeType.getItemLevelBillPaymentList().size() > 0
+                                ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                        for(int i=0;i<paidTransactions.size();i++) {
+                            OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                            oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                            oleItemLevelBillPayment.setAmount(paidTransactions.get(i).getAmount());
+                            oleItemLevelBillPayment.setCreatedUser(operatorId);
+                            if(billMap != null) {
+                                String note = "Refund issued to bill number :"+billMap.get(paidTransactions.get(i).getPaymentDate().toString());
+                                oleItemLevelBillPayment.setNote(note);
+                            }
+                            oleItemLevelBillPayment.setTransactionNote(transactionNote);
+                            oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
+                            oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_APPLIED);
+                            oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        }
                     }
                     saveFlag = true;
                 }
@@ -1552,6 +1594,10 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                         oleItemLevelBillPayment.setAmount(transAmount.negated());
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
+                       if(billMap != null) {
+                            String note = "Refund issued to bill number :"+billMap.get(oleItemLevelBillPayment.getPaymentDate().toString());
+                            oleItemLevelBillPayment.setNote(note);
+                        }
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_ISSUED);
@@ -1573,6 +1619,10 @@ public class PatronBillHelperService {
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                         oleItemLevelBillPayment.setAmount(transactionAmount);
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
+                        if(billMap != null) {
+                            String note = "Refund issued to bill number :"+billMap.get(oleItemLevelBillPayment.getPaymentDate().toString());
+                            oleItemLevelBillPayment.setNote(note);
+                        }
                         oleItemLevelBillPayment.setTransactionNote(transactionNote);
                         oleItemLevelBillPayment.setTransactionNumber(transactionNumber);
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.PAY_REFUNDED_ISSUED);
@@ -1604,7 +1654,7 @@ public class PatronBillHelperService {
                 PatronBillItemView patronBillItemView = new PatronBillItemView();
                 patronBillItemView.setItemBarcode(feeType.getItemBarcode());
                 patronBillItemView.setFeeType(feeType.getFeeType());
-                patronBillItemView.setRefundAmount(feeType.getCreditRemaining().toString());
+                patronBillItemView.setRefundAmount(feeType.getCreditRemaining().negated().toString());
                 patronBillItemView.setBillNumber(feeType.getBillNumber());
                 patronBillItemViewList.add(patronBillItemView);
             }
@@ -1612,7 +1662,12 @@ public class PatronBillHelperService {
         PatronBillViewBo patronBillViewBo = new PatronBillViewBo();
         patronBillViewBo.setPatronId(patronBillForm.getPatronId());
         patronBillViewBo.setPatronName(patronBillForm.getOlePatronDocument().getPatronName());
-        patronBillViewBo.setPatronAddress(patronBillForm.getPatronAddress());
+        if(patronBillForm.getPatronAddressType().equalsIgnoreCase("default")) {
+            patronBillViewBo.setPatronAddress(patronBillForm.getDefaultPatronAddress());
+        } else {
+            patronBillViewBo.setPatronAddress(patronBillForm.getUserEnteredPatronAddress());
+        }
+
         patronBillViewBo.setPatronBillItemViewList(patronBillItemViewList);
         return patronBillContentFormatter.generateHTML(patronBillViewBo);
     }
