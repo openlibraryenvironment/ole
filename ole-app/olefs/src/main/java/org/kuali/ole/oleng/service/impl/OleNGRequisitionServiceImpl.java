@@ -7,7 +7,6 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
-import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
@@ -15,23 +14,26 @@ import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.businessobject.RequisitionAccount;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
-import org.kuali.ole.module.purap.document.service.OlePurapService;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectNotificationConstant;
-import org.kuali.ole.select.batch.service.RequisitionCreateDocumentService;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
-import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
-import org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl;
 import org.kuali.ole.spring.batch.BatchUtil;
+import org.kuali.ole.sys.businessobject.Building;
+import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.ole.vnd.VendorConstants;
+import org.kuali.ole.vnd.businessobject.VendorAddress;
+import org.kuali.ole.vnd.businessobject.VendorAlias;
+import org.kuali.ole.vnd.businessobject.VendorContract;
+import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
@@ -42,10 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -55,14 +54,9 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleNGRequisitionServiceImpl.class);
 
-    private OlePurapService olePurapService;
-    private OleReqPOCreateDocumentServiceImpl oleReqPOCreateDocumentService;
-    protected RequisitionCreateDocumentService requisitionCreateDocumentService;
-    private DocstoreClientLocator docstoreClientLocator;
-    private ConfigurationService kualiConfigurationService;
-
     protected DocumentService documentService;
     private BatchUtil batchUtil;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     @Override
     public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
@@ -162,7 +156,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         item.setItemStatus(oleTxRecord.getItemStatus());
         item.setOleOrderRecord(oleOrderRecord);
         item.setItemLineNumber(itemLineNumber);
-        item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
+        item.setItemUnitOfMeasureCode(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
         item.setItemQuantity(new KualiDecimal(oleTxRecord.getQuantity()));
         if (oleTxRecord.getItemNoOfParts() != null) {
             item.setItemNoOfParts(new KualiInteger(oleTxRecord.getItemNoOfParts()));
@@ -185,7 +179,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
             item.setFormatTypeId(Integer.parseInt(oleTxRecord.getFormatTypeId()));
         }
         if(oleTxRecord.getRequestSourceType() != null){
-            item.setRequestSourceTypeId(getRequestSourceTypeId(oleTxRecord.getRequestSourceType()));
+            item.setRequestSourceTypeId(getOleNGMemorizeService().getRequestSourceTypeId(oleTxRecord.getRequestSourceType()));
         }
 
         setDonors(item, oleTxRecord);
@@ -277,17 +271,17 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         requisitionDocument.setOrganizationCode(oleOrderRecord.getOleTxRecord().getOrgCode());
         requisitionDocument.setDocumentFundingSourceCode(oleOrderRecord.getOleTxRecord().getFundingSource());
         requisitionDocument.setUseTaxIndicator(true);
-        getOleReqPOCreateDocumentService().setDeliveryDetails(requisitionDocument, oleOrderRecord);
+        setDeliveryDetails(requisitionDocument, oleOrderRecord);
         requisitionDocument.setDeliveryCampusCode(oleOrderRecord.getOleTxRecord().getDeliveryCampusCode());
-        getOleReqPOCreateDocumentService().setVendorDetails(requisitionDocument, oleOrderRecord);
+        setVendorDetails(requisitionDocument, oleOrderRecord);
         requisitionDocument.getDocumentHeader().setDocumentDescription(getDocumentDescription(requisitionDocument, oleOrderRecord));
-        requisitionDocument.setPurchaseOrderTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission());//FAX
+        requisitionDocument.setPurchaseOrderTransmissionMethodCode(getOleNGMemorizeService().getTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission()));//FAX
         requisitionDocument.setPurchaseOrderCostSourceCode(oleOrderRecord.getOleTxRecord().getCostSource());//CON
-        requisitionDocument.setRequestorPersonName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_NAME));
-        requisitionDocument.setRequestorPersonPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_PHONE_NUMBER));
-        requisitionDocument.setRequestorPersonEmailAddress(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_EMAIL_ADDRESS));
-        requisitionDocument.setOrganizationAutomaticPurchaseOrderLimit(new KualiDecimal(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT)));
-        requisitionDocument.setPurchaseOrderAutomaticIndicator(Boolean.parseBoolean(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PURCHASE_ORDER_AUTOMATIC_INDICATIOR)));
+        requisitionDocument.setRequestorPersonName(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_NAME));
+        requisitionDocument.setRequestorPersonPhoneNumber(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_PHONE_NUMBER));
+        requisitionDocument.setRequestorPersonEmailAddress(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_EMAIL_ADDRESS));
+        requisitionDocument.setOrganizationAutomaticPurchaseOrderLimit(new KualiDecimal(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT)));
+        requisitionDocument.setPurchaseOrderAutomaticIndicator(Boolean.parseBoolean(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.PURCHASE_ORDER_AUTOMATIC_INDICATIOR)));
         requisitionDocument.setReceivingDocumentRequiredIndicator(oleOrderRecord.getOleTxRecord().isReceivingRequired());
         requisitionDocument.setPaymentRequestPositiveApprovalIndicator(oleOrderRecord.getOleTxRecord().isPayReqPositiveApprovalReq());
         requisitionDocument.setRequisitionSourceCode(oleOrderRecord.getOleTxRecord().getRequisitionSource());
@@ -297,28 +291,32 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     }
 
     private void setOrderType(OleRequisitionDocument requisitionDocument, OleTxRecord oleTxRecord) {
-        Map purchaseOrderTypeMap = new HashMap();
+        String key;
+        String value;
         if (StringUtils.isNotBlank(oleTxRecord.getOrderType())) {
-            purchaseOrderTypeMap.put(OLEConstants.PO_TYPE, oleTxRecord.getOrderType());
+            key = OLEConstants.PO_TYPE;
+            value = oleTxRecord.getOrderType();
         } else {
-            purchaseOrderTypeMap.put("purchaseOrderTypeId", OLEConstants.DEFAULT_ORDER_TYPE_VALUE);
+            key = "purchaseOrderTypeId";
+            value = OLEConstants.DEFAULT_ORDER_TYPE_VALUE;
         }
-        List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, purchaseOrderTypeMap);
-        if (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0) {
+        List<PurchaseOrderType> purchaseOrderTypeDocumentList = getOleNGMemorizeService().getOrderType(key,value);
+        if (CollectionUtils.isNotEmpty(purchaseOrderTypeDocumentList)) {
             requisitionDocument.setPurchaseOrderTypeId(purchaseOrderTypeDocumentList.get(0).getPurchaseOrderTypeId());
             requisitionDocument.setOrderType(purchaseOrderTypeDocumentList.get(0));
         }
     }
 
     public String getDocumentDescription(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
-        String description = getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ORDER_IMPORT_REQ_DESC);
+        String description = getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.ORDER_IMPORT_REQ_DESC);
         Map<String, String> descMap = new HashMap<>();
-        if (requisitionDocument.getVendorDetail().getVendorAliases() != null && requisitionDocument.getVendorDetail().getVendorAliases().size() > 0 && requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName() != null) {
+        if (requisitionDocument.getVendorDetail().getVendorAliases() != null && requisitionDocument.getVendorDetail().getVendorAliases().size() > 0 &&
+                requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName() != null) {
             descMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_NAME, requisitionDocument.getVendorDetail().getVendorAliases().get(0).getVendorAliasName());
         }
         descMap.put(org.kuali.ole.sys.OLEConstants.ORDER_TYP, oleOrderRecord.getOleTxRecord().getOrderType());
         descMap.put(org.kuali.ole.sys.OLEConstants.VND_ITM_ID, oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() != null && !oleOrderRecord.getOleTxRecord().getVendorItemIdentifier().isEmpty() ? oleOrderRecord.getOleTxRecord().getVendorItemIdentifier() + "_" : "");
-        description = getOlePurapService().setDocumentDescription(description, descMap);
+        description = getOleNGMemorizeService().getOlePurapService().setDocumentDescription(description, descMap);
         if (!description.equals("") && description != null) {
             description = description.substring(0, description.lastIndexOf("_"));
         }
@@ -331,19 +329,8 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         return description;
     }
 
-
-    private Integer getRequestSourceTypeId(String requestSourceType){
-        Map<String,String> requestSourceMap = new HashMap<>();
-        requestSourceMap.put(OLEConstants.OLEBatchProcess.REQUEST_SRC,requestSourceType);
-        List<OleRequestSourceType> requestSourceList = (List) getBusinessObjectService().findMatching(OleRequestSourceType.class, requestSourceMap);
-        if(requestSourceList != null && requestSourceList.size() > 0){
-            return requestSourceList.get(0).getRequestSourceTypeId();
-        }
-        return null;
-    }
-
     private void setItemType(OleRequisitionItem item) {
-        org.kuali.ole.module.purap.businessobject.ItemType itemType = getBusinessObjectService().findBySinglePrimaryKey(org.kuali.ole.module.purap.businessobject.ItemType.class, "ITEM");
+        org.kuali.ole.module.purap.businessobject.ItemType itemType = getOleNGMemorizeService().getPurapItemType("ITEM");
         item.setItemType(itemType);
     }
 
@@ -352,9 +339,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         if (CollectionUtils.isNotEmpty(oleDonors)) {
             List<OLELinkPurapDonor> oleLinkPurapDonorList = new ArrayList<>();
             for (String donor : oleDonors) {
-                Map map = new HashMap();
-                map.put(OLEConstants.DONOR_CODE, donor);
-                OLEDonor oleDonor = getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
+                OLEDonor oleDonor = getOleNGMemorizeService().getDonorCode(donor);
                 if (oleDonor != null) {
                     OLELinkPurapDonor oleLinkPurapDonor = new OLELinkPurapDonor();
                     oleLinkPurapDonor.setDonorCode(donor);
@@ -366,52 +351,91 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         }
     }
 
+    public void setDeliveryDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+        if (LOG.isDebugEnabled())
+            LOG.debug("bibInfoBean.getDeliveryBuildingCode----------->" + oleOrderRecord.getOleTxRecord().getBuildingCode());
 
-    public OleReqPOCreateDocumentServiceImpl getOleReqPOCreateDocumentService() {
-        if (null == oleReqPOCreateDocumentService) {
-            oleReqPOCreateDocumentService = (OleReqPOCreateDocumentServiceImpl) SpringContext.getService("oleReqPOCreateDocumentService");
+        if (oleOrderRecord.getOleTxRecord().getDeliveryCampusCode() != null && oleOrderRecord.getOleTxRecord().getBuildingCode() != null && oleOrderRecord.getOleTxRecord().getDeliveryBuildingRoomNumber() != null) {
+            Room room = getOleNGMemorizeService().getRoom(oleOrderRecord.getOleTxRecord().getBuildingCode(),
+                    oleOrderRecord.getOleTxRecord().getDeliveryCampusCode(),
+                    oleOrderRecord.getOleTxRecord().getDeliveryBuildingRoomNumber());
+            Building building = getOleNGMemorizeService().getBuildingDetails(oleOrderRecord.getOleTxRecord().getDeliveryCampusCode(), oleOrderRecord.getOleTxRecord().getBuildingCode());
+            if (building != null && room != null) {
+                requisitionDocument.setDeliveryBuildingCode(building.getBuildingCode());
+                requisitionDocument.setDeliveryCampusCode(building.getCampusCode());
+                requisitionDocument.setDeliveryBuildingLine1Address(building.getBuildingStreetAddress());
+                requisitionDocument.setDeliveryBuildingName(building.getBuildingName());
+                requisitionDocument.setDeliveryCityName(building.getBuildingAddressCityName());
+                requisitionDocument.setDeliveryStateCode(building.getBuildingAddressStateCode());
+                requisitionDocument.setDeliveryPostalCode(building.getBuildingAddressZipCode());
+                requisitionDocument.setDeliveryCountryCode(building.getBuildingAddressCountryCode());
+                requisitionDocument.setDeliveryBuildingRoomNumber(room.getBuildingRoomNumber());
+                requisitionDocument.setDeliveryToName(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.DELIVERY_TO_NAME));
+                requisitionDocument.setBillingCountryCode(building.getBuildingCode());
+                requisitionDocument.setBillingLine1Address(building.getBuildingStreetAddress());
+                requisitionDocument.setBillingName(building.getBuildingName());
+                requisitionDocument.setBillingCityName(building.getBuildingAddressCityName());
+                requisitionDocument.setBillingStateCode(building.getBuildingAddressStateCode());
+                requisitionDocument.setBillingPostalCode(building.getBuildingAddressZipCode());
+                requisitionDocument.setBillingCountryCode(building.getBuildingAddressCountryCode());
+                requisitionDocument.setBillingPhoneNumber(getOleNGMemorizeService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_PHN_NBR));
+
+            }
         }
-        return oleReqPOCreateDocumentService;
     }
 
-    public OlePurapService getOlePurapService() {
-        if (olePurapService == null) {
-            olePurapService = SpringContext.getBean(OlePurapService.class);
+    public void setVendorDetails(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord) {
+        VendorDetail vendorDetail = null;
+        if (StringUtils.isNotBlank(oleOrderRecord.getOleTxRecord().getVendorNumber())) {
+            vendorDetail = getOleNGMemorizeService().getVendorService().getVendorDetail(oleOrderRecord.getOleTxRecord().getVendorNumber());
+        }else if (StringUtils.isNotBlank(oleOrderRecord.getOleTxRecord().getVendorAliasName())){
+            List<VendorAlias> vendorAliasList = getOleNGMemorizeService().getVendorAlias(oleOrderRecord.getOleTxRecord().getVendorAliasName());
+            if (CollectionUtils.isNotEmpty(vendorAliasList)){
+                vendorDetail = getOleNGMemorizeService().getVendorDetail(vendorAliasList.get(0).getVendorHeaderGeneratedIdentifier(), vendorAliasList.get(0).getVendorDetailAssignedIdentifier());
+            }
         }
-        return olePurapService;
+        if (vendorDetail!=null){
+            requisitionDocument.setVendorCustomerNumber(oleOrderRecord.getOleTxRecord().getVendorInfoCustomer());
+            requisitionDocument.setVendorNumber(oleOrderRecord.getOleTxRecord().getVendorNumber());
+            requisitionDocument.setVendorNumber(vendorDetail.getVendorNumber());
+            requisitionDocument.setVendorName(vendorDetail.getVendorName());
+            requisitionDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            requisitionDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            requisitionDocument.setVendorDetail(vendorDetail);
+            String deliveryCampus = oleOrderRecord.getOleTxRecord().getDeliveryCampusCode();
+            Integer headerId = null;
+            Integer detailId = null;
+            int dashInd = vendorDetail.getVendorNumber().indexOf('-');
+            // make sure there's at least one char before and after '-'
+            if (dashInd > 0 && dashInd < vendorDetail.getVendorNumber().length() - 1) {
+                headerId = new Integer(vendorDetail.getVendorNumber().substring(0, dashInd));
+                detailId = new Integer(vendorDetail.getVendorNumber().substring(dashInd + 1));
+            }
+            VendorAddress vendorAddress = getOleNGMemorizeService().getVendorDefaultAddress(headerId, detailId, VendorConstants.AddressTypes.PURCHASE_ORDER, deliveryCampus);
+            setVendorAddress(vendorAddress, requisitionDocument);
+
+            List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
+            for (Iterator<VendorContract> vendorContract = vendorContracts.iterator(); vendorContract.hasNext(); ) {
+                requisitionDocument.setVendorContractGeneratedIdentifier((vendorContract.next()).getVendorContractGeneratedIdentifier());
+            }
+        }
+
     }
 
-    public RequisitionCreateDocumentService getRequisitionCreateDocumentService() {
-        if (requisitionCreateDocumentService == null) {
-            requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
+    public void setVendorAddress(VendorAddress vendorAddress, RequisitionDocument requisitionDocument) {
+
+        if (vendorAddress != null) {
+            requisitionDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+            requisitionDocument.setVendorAddressInternationalProvinceName(vendorAddress.getVendorAddressInternationalProvinceName());
+            requisitionDocument.setVendorLine1Address(vendorAddress.getVendorLine1Address());
+            requisitionDocument.setVendorLine2Address(vendorAddress.getVendorLine2Address());
+            requisitionDocument.setVendorCityName(vendorAddress.getVendorCityName());
+            requisitionDocument.setVendorStateCode(vendorAddress.getVendorStateCode());
+            requisitionDocument.setVendorPostalCode(vendorAddress.getVendorZipCode());
+            requisitionDocument.setVendorCountryCode(vendorAddress.getVendorCountryCode());
         }
-        return requisitionCreateDocumentService;
+
     }
-
-    public void setRequisitionCreateDocumentService(RequisitionCreateDocumentService requisitionCreateDocumentService) {
-        if (null == requisitionCreateDocumentService) {
-            requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
-        }
-        this.requisitionCreateDocumentService = requisitionCreateDocumentService;
-    }
-
-
-    public DocstoreClientLocator getDocstoreClientLocator() {
-
-        if (docstoreClientLocator == null) {
-            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
-
-        }
-        return docstoreClientLocator;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        if (kualiConfigurationService == null) {
-            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-        }
-        return kualiConfigurationService;
-    }
-
     public DocumentService getDocumentService() {
         if(null == documentService) {
             documentService = (DocumentService) SpringContext.getService("documentService");
@@ -424,5 +448,16 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
             batchUtil = new BatchUtil();
         }
         return batchUtil;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 }

@@ -16,4 +16,5 @@ public interface OleNGRequisitionService {
     public OleRequisitionDocument saveRequsitionDocument(OleRequisitionDocument oleRequisitionDocument);
     public OleRequisitionDocument routeRequisitionDocument(OleRequisitionDocument oleRequisitionDocument) throws Exception;
     public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception;
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService);
 }
