@@ -17,6 +17,7 @@ import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.oleng.service.OleNGInvoiceService;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OleVendorAccountInfo;
@@ -33,6 +34,7 @@ import org.kuali.ole.sys.service.BankService;
 import org.kuali.ole.sys.service.UniversityDateService;
 import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
+import org.kuali.ole.vnd.businessobject.VendorAddress;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -46,6 +48,7 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -64,6 +67,8 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
     private OlePurapService olePurapService;
     private OleInvoiceService oleInvoiceService;
     private BatchUtil batchUtil;
+    @Autowired
+    private OleNGMemorizeService oleNGMemorizeService;
 
     @Override
     public OleInvoiceDocument createNewInvoiceDocument() throws Exception {
@@ -89,7 +94,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         oleInvoiceDocument.setInvoiceNumber(oleInvoiceRecord.getInvoiceNumber());
 
         String vendorNumber = oleInvoiceRecord.getVendorNumber();
-        getInvoiceService().populateVendorDetail(vendorNumber, oleInvoiceDocument);
+        populateVendorDetail(vendorNumber, oleInvoiceDocument);
         oleInvoiceDocument.setVendorCustomerNumber(oleInvoiceRecord.getBillToCustomerID());
 
         if(!StringUtils.isBlank(oleInvoiceRecord.getCurrencyTypeId())){
@@ -275,18 +280,19 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
 
 
     private void setDocumentForeignDetails(OleInvoiceDocument invoiceDocument, OleInvoiceRecord invoiceRecord){
-        OleCurrencyType oleCurrencyType = getBusinessObjectService().findBySinglePrimaryKey(OleCurrencyType.class,invoiceRecord.getCurrencyTypeId());
-        invoiceDocument.setInvoiceCurrencyType(oleCurrencyType.getCurrencyTypeId().toString());
-        if(!oleCurrencyType.getCurrencyType().equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)){
-            Map documentNumberMap = new HashMap();
-            documentNumberMap.put(OleSelectConstant.CURRENCY_TYPE_ID, invoiceRecord.getCurrencyTypeId());
-            List<OleExchangeRate> exchangeRateList = (List) getBusinessObjectService().findMatchingOrderBy(
-                    OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
-            Iterator iterator = exchangeRateList.iterator();
-            if (iterator.hasNext()) {
-                invoiceDocument.setForeignVendorInvoiceAmount(new BigDecimal(0.00));
-                invoiceDocument.setInvoiceCurrencyTypeId(new Long(invoiceRecord.getCurrencyTypeId()));
-                invoiceDocument.setInvoiceCurrencyExchangeRate(invoiceRecord.getInvoiceCurrencyExchangeRate());
+        OleCurrencyType oleCurrencyType = getOleNGMemorizeService().getCurrencyType(invoiceRecord.getCurrencyTypeId());
+        if (null != oleCurrencyType) {
+            invoiceDocument.setInvoiceCurrencyType(oleCurrencyType.getCurrencyTypeId().toString());
+            if(!oleCurrencyType.getCurrencyType().equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)){
+                List<OleExchangeRate> exchangeRateList = getOleNGMemorizeService().getExchangeRate(invoiceRecord.getCurrencyTypeId());
+                if (CollectionUtils.isNotEmpty(exchangeRateList)) {
+                    Iterator iterator = exchangeRateList.iterator();
+                    if (iterator.hasNext()) {
+                        invoiceDocument.setForeignVendorInvoiceAmount(new BigDecimal(0.00));
+                        invoiceDocument.setInvoiceCurrencyTypeId(new Long(invoiceRecord.getCurrencyTypeId()));
+                        invoiceDocument.setInvoiceCurrencyExchangeRate(invoiceRecord.getInvoiceCurrencyExchangeRate());
+                    }
+                }
             }
         }
     }
@@ -439,9 +445,10 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         invoiceAccount.setAccountLinePercent(new BigDecimal("100"));  // TODO: Need to get from edifact.
         invoiceAccount.setPurapItem(oleInvoiceItem);
         invoiceAccount.setItemIdentifier(oleInvoiceItem.getItemIdentifier());
+        String chartOfAccount = populateChartOfAccount(oleVendorAccountInfo.getAccountNumber());
         invoiceAccount.setChartOfAccountsCode(
-                populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) != null ?
-                        populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) : invoiceRecord.getItemChartCode());     // TODO: Need to get chart of Account based on account number and object code.
+                chartOfAccount != null ?
+                        chartOfAccount : invoiceRecord.getItemChartCode());     // TODO: Need to get chart of Account based on account number and object code.
         return invoiceAccount;
     }
 
@@ -483,24 +490,18 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
 
 
     private OleVendorAccountInfo populateBFN(String code) {
-        Map matchBFN = new HashMap();
-        matchBFN.put("vendorRefNumber", code);
-        List<OleVendorAccountInfo> oleVendorAccountInfo = (List<OleVendorAccountInfo>) getBusinessObjectService().findMatching(OleVendorAccountInfo.class, matchBFN);
-        return oleVendorAccountInfo != null && oleVendorAccountInfo.size() > 0 ? oleVendorAccountInfo.get(0) : null;
+        List<OleVendorAccountInfo> oleVendorAccountInfo = getOleNGMemorizeService().getVendorAccountInfo(code);
+        return CollectionUtils.isNotEmpty(oleVendorAccountInfo) ? oleVendorAccountInfo.get(0) : null;
     }
 
     private String populateChartOfAccount(String accountNumber) {
-        Map matchChartCode = new HashMap();
-        matchChartCode.put("accountNumber", accountNumber);
-        List<Account> accountList = (List<Account>) getBusinessObjectService().findMatching(Account.class, matchChartCode);
-        return accountList != null && accountList.size() > 0 ? accountList.get(0).getChartOfAccountsCode() : null;
+        List<Account> accountList = getOleNGMemorizeService().getAccount(accountNumber);
+        return CollectionUtils.isNotEmpty(accountList)? accountList.get(0).getChartOfAccountsCode() : null;
     }
 
     private List getAccountingLinesFromFundCode(OleInvoiceRecord invoiceRecord, OleInvoiceItem oleInvoiceItem) {
         List accountingLine = new ArrayList();
-        Map fundCodeMap = new HashMap<>();
-        fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, invoiceRecord.getFundCode());
-        List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+        List<OleFundCode> fundCodeList = getOleNGMemorizeService().getFundCode(invoiceRecord.getFundCode());
         if (CollectionUtils.isNotEmpty(fundCodeList)) {
             OleFundCode oleFundCode = fundCodeList.get(0);
             List<OleFundCodeAccountingLine> fundCodeAccountingLineList = oleFundCode.getOleFundCodeAccountingLineList();
@@ -567,6 +568,56 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
             }
             getInvoiceService().calculateAccount(item);
         }
+    }
+
+    public OleInvoiceDocument populateVendorDetail(String vendorNumber, OleInvoiceDocument oleInvoiceDocument) {
+        String[] vendorIds = vendorNumber != null ? vendorNumber.split("-") : new String[0];
+        VendorDetail vendorDetail = getOleNGMemorizeService().getVendorDetail(Integer.valueOf(vendorIds[0]),Integer.valueOf(vendorIds[1]));
+        if (vendorDetail != null) {
+            oleInvoiceDocument.setVendorDetail(vendorDetail);
+            oleInvoiceDocument.setVendorName(vendorDetail.getVendorName());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorNumber(vendorDetail.getVendorNumber());
+            oleInvoiceDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+            oleInvoiceDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+            oleInvoiceDocument.setVendorFaxNumber(vendorDetail.getDefaultFaxNumber());
+            //oleInvoiceDocument.
+            if (vendorDetail.getPaymentMethodId() != null) {
+                oleInvoiceDocument.setPaymentMethodIdentifier(vendorDetail.getPaymentMethodId().toString());
+                oleInvoiceDocument.setPaymentMethodId(vendorDetail.getPaymentMethodId());
+            }
+
+            if (vendorDetail.getVendorPaymentTerms() != null) {
+                oleInvoiceDocument.setVendorPaymentTerms(vendorDetail.getVendorPaymentTerms());
+                oleInvoiceDocument.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTerms().getVendorPaymentTermsCode());
+
+            }
+            if (vendorDetail.getVendorShippingTitle() != null) {
+                oleInvoiceDocument.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitle().getVendorShippingTitleCode());
+            }
+            if (vendorDetail.getVendorShippingPaymentTerms() != null) {
+                oleInvoiceDocument.setVendorShippingPaymentTerms(vendorDetail.getVendorShippingPaymentTerms());
+            }
+
+            for (VendorAddress vendorAddress : vendorDetail.getVendorAddresses()) {
+                if (vendorAddress.isVendorDefaultAddressIndicator()) {
+                    oleInvoiceDocument.setVendorCityName(vendorAddress.getVendorCityName());
+                    oleInvoiceDocument.setVendorLine1Address(vendorAddress.getVendorLine1Address());
+                    oleInvoiceDocument.setVendorLine2Address(vendorAddress.getVendorLine2Address());
+                    oleInvoiceDocument.setVendorAttentionName(vendorAddress.getVendorAttentionName());
+                    oleInvoiceDocument.setVendorPostalCode(vendorAddress.getVendorZipCode());
+                    oleInvoiceDocument.setVendorStateCode(vendorAddress.getVendorStateCode());
+                    oleInvoiceDocument.setVendorAttentionName(vendorAddress.getVendorAttentionName());
+                    oleInvoiceDocument.setVendorAddressInternationalProvinceName(vendorAddress.getVendorAddressInternationalProvinceName());
+                    oleInvoiceDocument.setVendorCountryCode(vendorAddress.getVendorCountryCode());
+                    oleInvoiceDocument.setVendorCountry(vendorAddress.getVendorCountry());
+                    //oleInvoiceDocument.setNoteLine1Text(vendorAddress.getNoteLine2Text
+                }
+            }
+        }
+
+        return oleInvoiceDocument;
     }
 
     static class InvoiceItemDetail {
@@ -659,4 +710,14 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         this.batchUtil = batchUtil;
     }
 
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
+    }
 }

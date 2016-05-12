@@ -42,9 +42,9 @@ public class OleNGInvoiceValidationUtil {
 
     private boolean validateInvoiceNumber(OleInvoiceRecord oleInvoiceRecord, Exchange exchange, Integer recordIndex) {
         String invoiceNumber = oleInvoiceRecord.getInvoiceNumber();
-        if (StringUtils.isBlank(invoiceNumber) || !NumberUtils.isDigits(invoiceNumber)){
+        if (StringUtils.isBlank(invoiceNumber)){
             getBatchUtil().addInvoiceFaiureResponseToExchange(
-                    new ValidationException("Invoice number cannot be blank or null and it should be round number"), recordIndex, exchange);
+                    new ValidationException("Invoice number cannot be blank or null"), recordIndex, exchange);
             return false;
         }
         return true;
