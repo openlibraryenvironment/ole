@@ -59,6 +59,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
         String responseData = "";
         try {
+            BATCH_JOB_EXECUTION_DETAILS_MAP.put(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId(), batchJobDetails);
             batchProcessProfile = fetchBatchProcessProfile(profileId);
             BatchProcessTxObject batchProcessTxObject = new BatchProcessTxObject();
             batchProcessTxObject.setBatchProcessProfile(batchProcessProfile);
@@ -84,6 +85,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
                 oleStopWatch.end();
                 String totalTimeTaken = String.valueOf(oleStopWatch.getTotalTime()) + "ms";
                 writeBatchRunningStatusToFile(batchProcessTxObject.getIncomingFileDirectoryPath(), OleNGConstants.COMPLETED, totalTimeTaken);
+                BATCH_JOB_EXECUTION_DETAILS_MAP.remove(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId());
             }
         } catch (Exception e) {
             updateBatchJobDetails(batchJobDetails,OleNGConstants.FAILED);
@@ -97,6 +99,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
             batchProcessFailureResponse.setDirectoryName(reportDirectoryName);
             BatchBibFailureReportLogHandler batchBibFailureReportLogHandler = BatchBibFailureReportLogHandler.getInstance();
             batchBibFailureReportLogHandler.logMessage(Collections.singletonList(batchProcessFailureResponse),reportDirectoryName);
+            BATCH_JOB_EXECUTION_DETAILS_MAP.remove(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId());
             throw e;
         }
         return response;

@@ -826,5 +826,8 @@
         <sql>ALTER TABLE OLE_PUR_POBA_T MODIFY UPLD_FILE_NM varchar2(120)</sql>
     </changeSet>
 
+    <changeSet author="bootstrap" id="OLE_NG_BAT_JOB_DETAILS_T-dropForeignKey">
+        <dropForeignKeyConstraint baseTableName="OLE_NG_BAT_JOB_DETAILS_T" constraintName="OLE_NG_BAT_PRCS_ID_FK"/>
+    </changeSet>
 
 </databaseChangeLog>

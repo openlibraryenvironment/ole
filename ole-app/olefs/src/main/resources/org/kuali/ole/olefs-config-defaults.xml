@@ -498,7 +498,8 @@
 
 
   <param name="report.directory">${project.home}/reports</param>
-  <param name="batchUploadLocation">${project.home}/batchUploadLocation</param>
+  <param name="batchUploadLocation">${project.home}/batch/batchUploadLocation</param>
+  <param name="schedulerUploadLocation">${project.home}/batch/schedulerUploadLocation</param>
 
     <!-- Config for OCLC -->
     <param name="oclc.port">10001</param>
