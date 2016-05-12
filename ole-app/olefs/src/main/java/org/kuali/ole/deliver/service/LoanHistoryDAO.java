@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class LoanHistoryDAO extends LoanWithNoticesDAO {
     public List<String> getLoanIds(){
-    String query = "SELECT LOAN_TRAN_ID FROM OLE_DLVR_LOAN_T WHERE LOAN_TRAN_ID NOT IN (SELECT DISTINCT(LOAN_TRAN_ID) FROM OLE_DLVR_CIRC_RECORD);";
+    String query = "SELECT LOAN_TRAN_ID FROM OLE_DLVR_LOAN_T WHERE LOAN_TRAN_ID NOT IN (SELECT DISTINCT(LOAN_TRAN_ID) FROM OLE_DLVR_CIRC_RECORD)";
     List loanIds = new ArrayList();
     List<Map<String, Object>> queryForList = executeQuery(query);
     for (Iterator<Map<String, Object>> iterator = queryForList.iterator(); iterator.hasNext(); ) {
