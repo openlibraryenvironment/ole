@@ -48,7 +48,7 @@ public class AuthenticationTypeHandler extends HoldingsHandler {
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String authentication = listFromJSONArray.get(0);
             HoldingsRecord holdingRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-            AuthenticationTypeRecord authenticationTypeRecord = new AuthenticationTypeUtil().fetchAuthenticationTypeRecordByCode(authentication);
+            AuthenticationTypeRecord authenticationTypeRecord = getOleDsNGMemorizeService().fetchAuthenticationTypeRecordByCode(authentication);
             if (null != authenticationTypeRecord) {
                 holdingRecord.setAuthenticationTypeId(authenticationTypeRecord.getAuthenticationTypeId());
                 holdingRecord.setAuthenticationType(authenticationTypeRecord);

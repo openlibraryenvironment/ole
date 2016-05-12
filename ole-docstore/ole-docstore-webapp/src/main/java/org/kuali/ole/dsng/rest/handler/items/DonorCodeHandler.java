@@ -57,7 +57,7 @@ public class DonorCodeHandler extends ItemHandler {
             if(CollectionUtils.isNotEmpty(donorList)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEDonor donor = getDonorCode(donorCode);
+                    OLEDonor donor = getOleDsNGMemorizeService().getDonorCode(donorCode);
                     if(null != donor) {
                         for (Iterator<OLEItemDonorRecord> iterator1 = donorList.iterator(); iterator1.hasNext(); ) {
                             OLEItemDonorRecord oleItemDonorRecord = iterator1.next();
@@ -73,7 +73,7 @@ public class DonorCodeHandler extends ItemHandler {
                 donorList = new ArrayList<OLEItemDonorRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String donorCode = iterator.next();
-                    OLEDonor donor = getDonorCode(donorCode);
+                    OLEDonor donor = getOleDsNGMemorizeService().getDonorCode(donorCode);
                     if(null != donor) {
                         OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                         oleItemDonorRecord.setDonorCode(donor.getDonorCode());

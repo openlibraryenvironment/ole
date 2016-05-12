@@ -16,16 +16,4 @@ public abstract class HoldingsAndItemsGeneralHandler extends Handler {
     public HoldingsRecord getHoldingsRecordById(String holdingsId) {
         return getBusinessObjectService().findBySinglePrimaryKey(HoldingsRecord.class, holdingsId);
     }
-
-    public OLEDonor getDonorCode(String donorCode) {
-        if (StringUtils.isNotBlank(donorCode)) {
-            Map<String, Object> parameterMap = new HashMap<String, Object>();
-            parameterMap.put("donorCode", donorCode);
-            List<OLEDonor> matching = (List<OLEDonor>) getBusinessObjectService().findMatching(OLEDonor.class, parameterMap);
-            if(CollectionUtils.isNotEmpty(matching)) {
-                return matching.get(0);
-            }
-        }
-        return null;
-    }
 }
