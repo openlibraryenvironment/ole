@@ -19,6 +19,7 @@ public class OLEBatchProcessItemSourceFieldKeyValueFinder  extends KeyValuesBase
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("",""));
+        keyValues.add(new ConcreteKeyValue("Local Identifier","Local Identifier"));
         keyValues.add(new ConcreteKeyValue("Holdings Location Level1","Holdings Location Level1"));
         keyValues.add(new ConcreteKeyValue("Holdings Location Level2","Holdings Location Level2"));
         keyValues.add(new ConcreteKeyValue("Holdings Location Level3","Holdings Location Level3"));
