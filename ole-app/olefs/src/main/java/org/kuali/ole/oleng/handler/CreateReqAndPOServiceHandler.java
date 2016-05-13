@@ -21,7 +21,9 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRe
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
+import org.kuali.ole.oleng.service.impl.OleNGMemorizeServiceImpl;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
 import org.kuali.ole.select.document.OleRequisitionDocument;
@@ -47,25 +49,29 @@ import java.util.*;
 public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReqAndPOBaseServiceHandler {
     private OleNGRequisitionService oleNGRequisitionService;
     private DataCarrierService dataCarrierService;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
         GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-        OleRequisitionDocument requisitionDocument = getOleNGRequisitionService().createPurchaseOrderDocument(oleOrderRecords,exchange);
+        OleNGRequisitionService oleNGRequisitionService = getOleNGRequisitionService();
+        oleNGRequisitionService.setOleNGMemorizeService(getOleNGMemorizeService());
+        OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createPurchaseOrderDocument(oleOrderRecords, exchange);
         List items = requisitionDocument.getItems();
-        if(CollectionUtils.isNotEmpty(items)) {
-            for (Iterator iterator = items.iterator(); iterator.hasNext(); ) {
-                OleRequisitionItem oleRequisitionItem = (OleRequisitionItem) iterator.next();
-                String itemTypeCode = oleRequisitionItem.getItemTypeCode();
-                try {
-                    if(StringUtils.isNotBlank(itemTypeCode) && itemTypeCode.equalsIgnoreCase(OLEConstants.ITEM)) {
-                        String bibUUID = oleRequisitionItem.getBibUUID();
-                        BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibUUID));
-                        List<Record> records = new MarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
-                        String bibProfileName = oleOrderRecords.get(0).getBibImportProfileName();
-                        BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
-                        if(StringUtils.isNotBlank(bibProfileName)) {
-                            BatchProcessProfile processProfile = fetchBatchProcessProfile(bibProfileName);
-                            if(oleRequisitionItem.getLinkToOrderOption().equalsIgnoreCase(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT)) {
+
+        String bibProfileName = oleOrderRecords.get(0).getBibImportProfileName();
+        if (StringUtils.isNotBlank(bibProfileName)) {
+            BatchProcessProfile processProfile = getOleNGMemorizeService().fetchBatchProcessProfile(bibProfileName,OleNGConstants.BIB_IMPORT);
+            if (CollectionUtils.isNotEmpty(items)) {
+                for (Iterator iterator = items.iterator(); iterator.hasNext(); ) {
+                    OleRequisitionItem oleRequisitionItem = (OleRequisitionItem) iterator.next();
+                    String itemTypeCode = oleRequisitionItem.getItemTypeCode();
+                    try {
+                        if (StringUtils.isNotBlank(itemTypeCode) && itemTypeCode.equalsIgnoreCase(OLEConstants.ITEM)) {
+                            String bibUUID = oleRequisitionItem.getBibUUID();
+                            BibRecord bibRecord = getBusinessObjectService().findBySinglePrimaryKey(BibRecord.class, DocumentUniqueIDPrefix.getDocumentId(bibUUID));
+                            List<Record> records = new MarcRecordUtil().convertMarcXmlContentToMarcRecord(bibRecord.getContent());
+                            BatchBibFileProcessor batchBibFileProcessor = new BatchBibFileProcessor();
+                            if (oleRequisitionItem.getLinkToOrderOption().equalsIgnoreCase(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT)) {
                                 List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
                                         OleNGConstants.HOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
                                 List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
@@ -83,9 +89,9 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
                                 Holdings dummyHoldingsFromDataMapping = createDummyHoldingsFromDataMapping(dataMappingForHoldings);
                                 Item dummyItemFromDataMapping = createDummyItemFromDataMapping(dataMappingForItem);
 
-                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":holdings",dummyHoldingsFromDataMapping);
-                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":item",dummyItemFromDataMapping);
-                            } else if(oleRequisitionItem.getLinkToOrderOption().equalsIgnoreCase(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC)) {
+                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier() + ":holdings", dummyHoldingsFromDataMapping);
+                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier() + ":item", dummyItemFromDataMapping);
+                            } else if (oleRequisitionItem.getLinkToOrderOption().equalsIgnoreCase(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC)) {
                                 List<JSONObject> preTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
                                         OleNGConstants.EHOLDINGS, OleNGConstants.PRE_MARC_TRANSFORMATION, false);
                                 List<JSONObject> postTransformForHoldings = batchBibFileProcessor.prepareDataMappings(records, processProfile,
@@ -94,16 +100,16 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
                                 List<JSONObject> dataMappingForEHoldings = batchBibFileProcessor.buildOneObjectForList(preTransformForHoldings, postTransformForHoldings);
 
                                 Holdings dummyHoldingsFromDataMapping = createDummyEHoldingsFromDataMapping(dataMappingForEHoldings);
-                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier()+":holdings",dummyHoldingsFromDataMapping);
+                                getDataCarrierService().addData("reqItemId:" + oleRequisitionItem.getItemIdentifier() + ":holdings", dummyHoldingsFromDataMapping);
                             }
 
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        addOrderFaiureResponseToExchange(e, null, exchange);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    addOrderFaiureResponseToExchange(e, null, exchange);
-                }
 
+                }
             }
         }
         return requisitionDocument.getPurapDocumentIdentifier();
@@ -120,7 +126,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     private Holdings createDummyHoldingsFromDataMapping(List<JSONObject> dataMappingForHoldings) {
         JSONObject request = new JSONObject();
         try {
-            if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
+            if (CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
                 request.put(OleNGConstants.DATAMAPPING, dataMappingForHoldings.get(0));
             }
             request.put(OleNGConstants.HOLDINGS_TYPE, PHoldings.PRINT);
@@ -139,7 +145,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
             e.printStackTrace();
         }
 
-        if(null == holdings) {
+        if (null == holdings) {
             holdings = new PHoldings();
         }
         OleHoldings oleHoldings = holdings.getContentObject();
@@ -151,7 +157,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     private Item createDummyItemFromDataMapping(List<JSONObject> dataMappingForItem) {
         JSONObject request = new JSONObject();
         try {
-            if(CollectionUtils.isNotEmpty(dataMappingForItem)) {
+            if (CollectionUtils.isNotEmpty(dataMappingForItem)) {
                 request.put(OleNGConstants.DATAMAPPING, dataMappingForItem.get(0));
             }
         } catch (JSONException e) {
@@ -170,7 +176,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
             e.printStackTrace();
         }
 
-        if(null == item) {
+        if (null == item) {
             item = new Item();
         }
         return item;
@@ -179,7 +185,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     private Holdings createDummyEHoldingsFromDataMapping(List<JSONObject> dataMappingForHoldings) {
         JSONObject request = new JSONObject();
         try {
-            if(CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
+            if (CollectionUtils.isNotEmpty(dataMappingForHoldings)) {
                 request.put(OleNGConstants.DATAMAPPING, dataMappingForHoldings.get(0));
             }
             request.put(OleNGConstants.HOLDINGS_TYPE, EHoldings.ELECTRONIC);
@@ -198,7 +204,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
             e.printStackTrace();
         }
 
-        if(null == eHoldings) {
+        if (null == eHoldings) {
             eHoldings = new EHoldings();
         }
         OleHoldings oleHoldings = eHoldings.getContentObject();
@@ -214,29 +220,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
         return getListFromJSONArray(jsonArrayFromJsonObject.toString());
     }
 
-
-
-    public BatchProcessProfile fetchBatchProcessProfile(String profileName) {
-        BatchProcessProfile batchProcessProfile = null;
-
-        Map parameterMap = new HashMap();
-        parameterMap.put("batchProcessProfileName",profileName);
-        parameterMap.put("batchProcessType","Bib Import");
-        List<BatchProcessProfile> matching = (List<BatchProcessProfile>) KRADServiceLocator.getBusinessObjectService().findMatching(BatchProcessProfile.class, parameterMap);
-        if(CollectionUtils.isNotEmpty(matching)){
-            try {
-                batchProcessProfile = matching.get(0);
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.setVisibilityChecker(objectMapper.getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-                batchProcessProfile = objectMapper.readValue(IOUtils.toString(batchProcessProfile.getContent()), BatchProcessProfile.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return batchProcessProfile;
-    }
-
-    public List<String> getListFromJSONArray(String jsonArrayString){
+    public List<String> getListFromJSONArray(String jsonArrayString) {
         List ops = new ArrayList();
         try {
             ops = new ObjectMapper().readValue(jsonArrayString, new TypeReference<List<String>>() {
@@ -252,7 +236,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     public JSONArray getJSONArrayFromJsonObject(JSONObject jsonObject, String key) {
         JSONArray returnValue = null;
         try {
-            if(jsonObject.has(key)){
+            if (jsonObject.has(key)) {
                 returnValue = jsonObject.getJSONArray(key);
             }
         } catch (JSONException e) {
@@ -262,17 +246,28 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     }
 
     public DataCarrierService getDataCarrierService() {
-        if(dataCarrierService == null){
+        if (dataCarrierService == null) {
             dataCarrierService = SpringContext.getBean(DataCarrierService.class);
         }
         return dataCarrierService;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if (null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 
     public CallNumberTypeRecord fetchCallNumberTypeRecordByName(String callNumberTypeName) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name", callNumberTypeName);
         List<CallNumberTypeRecord> matching = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, map);
-        if(CollectionUtils.isNotEmpty(matching)) {
+        if (CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
         }
         return null;
@@ -282,7 +277,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name", itemTypeName);
         List<ItemTypeRecord> matching = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
-        if(CollectionUtils.isNotEmpty(matching)) {
+        if (CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
         }
         return null;
@@ -292,7 +287,7 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name", itemStatusTypeName);
         List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
-        if(CollectionUtils.isNotEmpty(matching)) {
+        if (CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
         }
         return null;

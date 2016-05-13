@@ -48,10 +48,13 @@ public class OleNGPOHelperUtil {
     }
 
     public Map<Integer, Set<Integer>> processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
-                                                      CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler, Exchange exchange)  {
+                                                      CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler,
+                                                      Exchange exchange)  {
         Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
         List<OleOrderRecord> oleOrderRecords = new ArrayList<>();
         Integer purapId = null;
+        OrderImportService oleOrderImportService = getOleOrderImportService();
+        oleOrderImportService.setOleNGMemorizeService(createReqAndPOServiceHandler.getOleNGMemorizeService());
         for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
             RecordDetails recordDetails = iterator.next();
             Integer recordIndex = recordDetails.getIndex();

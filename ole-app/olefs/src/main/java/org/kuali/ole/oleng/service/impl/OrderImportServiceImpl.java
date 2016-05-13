@@ -16,6 +16,7 @@ import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.resolvers.orderimport.*;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OrderImportService;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.document.service.OleDocstoreHelperService;
@@ -39,8 +40,8 @@ public class OrderImportServiceImpl implements OrderImportService {
     private MarcRecordUtil marcRecordUtil;
     private BusinessObjectService businessObjectService;
     private BatchUtil batchUtil;
-    private LocationUtil locationUtil;
     private OleDocstoreHelperService oleDocstoreHelperService;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     @Override
     public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile, Exchange exchange) {
@@ -154,13 +155,14 @@ public class OrderImportServiceImpl implements OrderImportService {
 
     private void overlayLocation(OleTxRecord oleTxRecord, JSONObject dataMapping, Exchange exchange) {
         StringBuilder locationName = new StringBuilder();
-        Map<String, String> locationMap = getLocationUtil().buildLocationMap(dataMapping, exchange);
+        LocationUtil locationUtil = getOleNGMemorizeService().getLocationUtil();
+        Map<String, String> locationMap = locationUtil.buildLocationMap(dataMapping, exchange);
         for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
             String key = iterator.next();
             String locationCode = locationMap.get(key);
-            getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
+            locationUtil.appendLocationToStringBuilder(locationName, locationCode);
         }
-        boolean validLocation = getOleDocstoreHelperService().isValidLocation(locationName.toString());
+        boolean validLocation = getOleNGMemorizeService().isValidLocation(locationName.toString());
         if(validLocation) {
             oleTxRecord.setDefaultLocation(locationName.toString());
         }
@@ -169,7 +171,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             ParameterValueResolver instance = ParameterValueResolver.getInstance();
             String defaultLocation = instance.getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.SELECT_NMSPC,
                     OLEConstants.SELECT_CMPNT, org.kuali.ole.sys.OLEConstants.ITEM_LOCATION_FIRM_FIXD);
-            validLocation = getOleDocstoreHelperService().isValidLocation(defaultLocation);
+            validLocation = getOleNGMemorizeService().isValidLocation(defaultLocation);
             if(validLocation) {
                 oleTxRecord.setDefaultLocation(defaultLocation);
             }
@@ -293,17 +295,6 @@ public class OrderImportServiceImpl implements OrderImportService {
         this.batchUtil = batchUtil;
     }
 
-    public LocationUtil getLocationUtil() {
-        if(null == locationUtil) {
-            locationUtil = new LocationUtil();
-        }
-        return locationUtil;
-    }
-
-    public void setLocationUtil(LocationUtil locationUtil) {
-        this.locationUtil = locationUtil;
-    }
-
     public OleDocstoreHelperService getOleDocstoreHelperService() {
         if(null == oleDocstoreHelperService) {
             oleDocstoreHelperService = SpringContext.getBean(OleDocstoreHelperService.class);
@@ -313,5 +304,16 @@ public class OrderImportServiceImpl implements OrderImportService {
 
     public void setOleDocstoreHelperService(OleDocstoreHelperService oleDocstoreHelperService) {
         this.oleDocstoreHelperService = oleDocstoreHelperService;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 }

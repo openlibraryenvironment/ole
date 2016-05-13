@@ -123,10 +123,11 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
         }
     }
 
-    public boolean pauseJob(String jobName, String groupName){
+    public boolean pauseJob(String jobId){
         boolean paused = false;
+        String jobName = OleNGConstants.JOB_NAME_PFX + jobId;
         try {
-            scheduler.pauseJob(jobName, groupName);
+            getScheduler().pauseJob(jobName, OleNGConstants.GROUP);
             paused = true;
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -140,7 +141,7 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
             jobName = OleNGConstants.JOB_NAME_PFX + jobName;
         }
         try {
-            scheduler.deleteJob(jobName, OleNGConstants.GROUP);
+            getScheduler().deleteJob(jobName, OleNGConstants.GROUP);
             unscheduled = true;
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -148,10 +149,11 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
         return unscheduled;
     }
 
-    public boolean resumeJob(String jobName, String groupName){
+    public boolean resumeJob(String jobId){
         boolean unscheduled = false;
+        String jobName = OleNGConstants.JOB_NAME_PFX + jobId;
         try {
-            scheduler.resumeJob(jobName, groupName);
+            scheduler.resumeJob(jobName, OleNGConstants.GROUP);
             unscheduled = true;
         } catch (SchedulerException e) {
             e.printStackTrace();

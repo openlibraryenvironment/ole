@@ -39,7 +39,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
     public String createBib(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         BibRecord bibRecord = objectMapper.readValue(jsonBody, BibRecord.class);
-        bibDAO.save(bibRecord);
+        oleDsNGMemorizeService.getBibDAO().save(bibRecord);
         OleDsNgIndexer bibIndexer = new BibIndexer();
         bibIndexer.indexDocument(bibRecord);
         return objectMapper.writeValueAsString(bibRecord);
@@ -51,7 +51,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         BibRecord bibRecord = objectMapper.readValue(jsonBody, BibRecord.class);
 
         if(StringUtils.isNotBlank(bibRecord.getBibId())){
-            bibDAO.save(bibRecord);
+            oleDsNGMemorizeService.getBibDAO().save(bibRecord);
             BibIndexer bibIndexer = new BibIndexer();
             bibIndexer.updateDocument(bibRecord);
             return objectMapper.writeValueAsString(bibRecord);
@@ -66,7 +66,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
     public String createHolding(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         HoldingsRecord holdingsRecord = objectMapper.readValue(jsonBody, HoldingsRecord.class);
-        holdingDAO.save(holdingsRecord);
+        oleDsNGMemorizeService.getHoldingDAO().save(holdingsRecord);
         OleDsNgIndexer bibIndexer = new HoldingIndexer();
         bibIndexer.indexDocument(holdingsRecord);
         return objectMapper.writeValueAsString(holdingsRecord);
@@ -78,7 +78,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         HoldingsRecord holdingsRecord = objectMapper.readValue(jsonBody, HoldingsRecord.class);
 
         if(StringUtils.isNotBlank(holdingsRecord.getHoldingsId())){
-            holdingDAO.save(holdingsRecord);
+            oleDsNGMemorizeService.getHoldingDAO().save(holdingsRecord);
             OleDsNgIndexer holdingIndexer = new HoldingIndexer();
             holdingIndexer.updateDocument(holdingsRecord);
             return objectMapper.writeValueAsString(holdingsRecord);
@@ -93,7 +93,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
     public String createItem(String jsonBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ItemRecord itemRecord = objectMapper.readValue(jsonBody, ItemRecord.class);
-        itemDAO.save(itemRecord);
+        oleDsNGMemorizeService.getItemDAO().save(itemRecord);
         OleDsNgIndexer itemIndexer = new ItemIndexer();
         itemIndexer.indexDocument(itemRecord);
         return objectMapper.writeValueAsString(itemRecord);
@@ -105,7 +105,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         ItemRecord itemRecord = objectMapper.readValue(jsonBody, ItemRecord.class);
 
         if(StringUtils.isNotBlank(itemRecord.getItemId())){
-            itemDAO.save(itemRecord);
+            oleDsNGMemorizeService.getItemDAO().save(itemRecord);
             OleDsNgIndexer itemIndexer = new ItemIndexer();
             itemIndexer.updateDocument(itemRecord);
             return objectMapper.writeValueAsString(itemRecord);
@@ -152,6 +152,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createEHoldingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createEHoldingsHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,6 +176,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createHoldingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createHoldingsHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,6 +217,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         exchange.add(OleNGConstants.DATAMAPPING, dataMappings);
         try {
+            createItemHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
             createItemHandler.processDataMappings(dataMappings, exchange);
         } catch (Exception e) {
             e.printStackTrace();
@@ -236,7 +239,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
             JSONObject jsonObject = jsonArray.getJSONObject(index);
             String bibId = (String) jsonObject.get(OleNGConstants.ID);
             try {
-                bibDAO.deleteBibTreeRecord(bibId);
+                oleDsNGMemorizeService.getBibDAO().deleteBibTreeRecord(bibId);
             } catch (Exception e) {
                 e.printStackTrace();
                 oleNGBatchDeleteResponse.addFailureRecord(null, null, bibId, OleNGConstants.ERR_DELETING_FROM_DB + " :: " + e.toString());

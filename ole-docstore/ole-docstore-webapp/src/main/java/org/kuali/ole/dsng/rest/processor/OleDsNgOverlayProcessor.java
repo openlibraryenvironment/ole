@@ -28,6 +28,7 @@ import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.rest.handler.holdings.HoldingsHandler;
 import org.kuali.ole.dsng.rest.handler.items.ItemHandler;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,14 +39,9 @@ import java.util.*;
  * Created by SheikS on 12/8/2015.
  */
 public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper implements DocstoreConstants {
-    @Autowired
-    BibDAO bibDAO;
 
     @Autowired
-    HoldingDAO holdingDAO;
-
-    @Autowired
-    ItemDAO itemDAO;
+    OleDsNGMemorizeService oleDsNGMemorizeService;
 
     public String processBibAndHoldingsAndItems(String jsonBody) {
         String response = "{}";
@@ -377,7 +373,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             Handler itemHandler = iterator.next();
             if (itemHandler.isInterested(ops)) {
                 doIndex = true;
-                itemHandler.setItemDAO(itemDAO);
+                itemHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                 itemHandler.process(bibJSONDataObject, exchange);
             }
         }
@@ -407,7 +403,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             Handler holdingsHandler = iterator.next();
             if (holdingsHandler.isInterested(ops)) {
                 doIndex = true;
-                holdingsHandler.setHoldingDAO(holdingDAO);
+                holdingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                 holdingsHandler.process(bibJSONDataObject, exchange);
             }
         }
@@ -438,7 +434,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             Handler holdingsHandler = iterator.next();
             if (holdingsHandler.isInterested(ops)) {
                 doIndex = true;
-                holdingsHandler.setHoldingDAO(holdingDAO);
+                holdingsHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                 holdingsHandler.process(bibJSONDataObject, exchange);
             }
         }
@@ -460,7 +456,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
             Handler bibHandler = iterator.next();
             if (bibHandler.isInterested(ops)) {
                 doIndex = true;
-                bibHandler.setBibDAO(bibDAO);
+                bibHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                 bibHandler.process(bibJSONDataObject, exchange);
             }
         }
@@ -1102,7 +1098,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
         BibRecord bibRecord = new BibRecord();
         if (bibJSONDataObject.has(OleNGConstants.ID)) {
             try {
-                bibRecord = bibDAO.retrieveBibById(bibJSONDataObject.getString(OleNGConstants.ID));
+                bibRecord = oleDsNGMemorizeService.getBibDAO().retrieveBibById(bibJSONDataObject.getString(OleNGConstants.ID));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

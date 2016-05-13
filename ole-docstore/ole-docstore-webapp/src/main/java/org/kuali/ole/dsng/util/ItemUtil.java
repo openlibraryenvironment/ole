@@ -12,7 +12,7 @@ import java.util.List;
  * Created by pvsubrah on 1/4/16.
  */
 public class ItemUtil extends BusinessObjectServiceHelperUtil {
-    public ItemStatusRecord fetchItemStatusByCode(String itemStatusCode) {
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusCode) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("code", itemStatusCode);
         List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);

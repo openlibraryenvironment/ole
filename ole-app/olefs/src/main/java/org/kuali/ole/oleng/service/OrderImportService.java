@@ -11,4 +11,5 @@ import org.kuali.ole.pojo.OleTxRecord;
 public interface OrderImportService {
 
     public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile, Exchange exchange);
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService);
 }

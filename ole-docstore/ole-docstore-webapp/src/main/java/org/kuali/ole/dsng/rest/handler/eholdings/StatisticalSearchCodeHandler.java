@@ -61,7 +61,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
             if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecords)) {
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
-                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    StatisticalSearchRecord statisticalSearchRecord = getOleDsNGMemorizeService().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
                     if (null != statisticalSearchRecord) {
                         for (Iterator<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordIterator = holdingsStatisticalSearchRecords.iterator(); holdingsStatisticalSearchRecordIterator.hasNext(); ) {
                             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecordIterator.next();
@@ -77,7 +77,7 @@ public class StatisticalSearchCodeHandler extends HoldingsHandler {
                 holdingsStatisticalSearchRecords = new ArrayList<HoldingsStatisticalSearchRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String statisticalSearchCode = iterator.next();
-                    StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchCodeUtil().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
+                    StatisticalSearchRecord statisticalSearchRecord = getOleDsNGMemorizeService().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
                     if (null != statisticalSearchRecord) {
                         HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
                         holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());

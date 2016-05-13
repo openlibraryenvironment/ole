@@ -250,10 +250,12 @@ public class OleNGConstants {
     public static final String MONTH_FREQUENCY = "monthFrequency";
     public static final String SCHEDULE = "schedule";
     public static final String SCHEDULED = "Scheduled";
+    public static final String PAUSED = "Paused";
     public static final String ADHOC = "Adhoc";
     public static final String COMPLETED = "COMPLETED";
     public static final String FAILED = "FAILED";
     public static final String RUNNING = "RUNNING";
+    public static final String STOPPED = "STOPPED";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";

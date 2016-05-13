@@ -1,7 +1,11 @@
 package org.kuali.ole.docstore.common.response;
 
+import org.kuali.ole.docstore.common.pojo.RecordDetails;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 2/19/2016.
@@ -13,7 +17,9 @@ public class OleNGInvoiceImportResponse {
     private int multiMatchedCount;
     private String jobDetailId;
     private String jobName;
+    private String fileExtension;
     private List<InvoiceFailureResponse> invoiceFailureResponses;
+    private Map<Integer, RecordDetails> recordsMap;
 
     public List<InvoiceResponse> getInvoiceResponses() {
         if(null == invoiceResponses) {
@@ -79,5 +85,24 @@ public class OleNGInvoiceImportResponse {
 
     public void addInvoiceFailureResponse(InvoiceFailureResponse invoiceFailureResponse) {
         getInvoiceFailureResponses().add(invoiceFailureResponse);
+    }
+
+    public Map<Integer, RecordDetails> getRecordsMap() {
+        if(null == recordsMap) {
+            recordsMap = new HashMap<>();
+        }
+        return recordsMap;
+    }
+
+    public void setRecordsMap(Map<Integer, RecordDetails> recordsMap) {
+        this.recordsMap = recordsMap;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 }

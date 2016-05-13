@@ -12,6 +12,7 @@
                     <th>Created On</th>
                     <th style="width: 150px">Next Run Time</th>
                     <th>Cron Expression</th>
+                    <th>Job Status</th>
                     <th>Execution Count</th>
                     <th>Last Execution Status</th>
                     <th style="width: 280px">Actions</th>
@@ -27,6 +28,7 @@
                     <td><span ng-bind="batchProcessJob.createdOn"></span></td>
                     <td><span ng-bind="batchProcessJob.nextRunTime"></span></td>
                     <td><span ng-bind="batchProcessJob.cronExpression"></span></td>
+                    <td><span ng-bind="batchProcessJob.jobType"></span></td>
                     <td><span ng-bind="batchProcessJob.executionCount"></span></td>
                     <td><span ng-bind="batchProcessJob.lastExecutionStatus"></span></td>
                     <td>
@@ -37,10 +39,18 @@
                                 name="processSchedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
                         </button>
                         <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Reschedule
+                                name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
+                                batchProcessJob.jobType === 'Paused'">Reschedule
+                        </button>
+                        <button type="button" id="processPause_{{$index}}" class="btn btn-info btn-sm"
+                                name="processPause_{{$index}}" ng-click="pauseJob($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Pause
+                        </button>
+                        <button type="button" id="processResume_{{$index}}" class="btn btn-info btn-sm"
+                                name="processResume_{{$index}}" ng-click="resumeJob($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Paused'">Resume
                         </button>
                         <button type="button" id="processUnschedule_{{$index}}" class="btn btn-info btn-sm"
-                                name="processReschedule_{{$index}}" ng-click="unSchedule($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled'">Unschedule
+                        name="processReschedule_{{$index}}" ng-click="unSchedule($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
+                        batchProcessJob.jobType === 'Paused'">Unschedule
                         </button>
                         <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
                                 name="processDestroy_{{$index}}" ng-click="destroyJob($index, batchProcessJob.jobId)">Destroy

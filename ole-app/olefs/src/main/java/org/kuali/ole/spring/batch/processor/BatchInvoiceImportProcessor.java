@@ -132,12 +132,15 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
         List<InvoiceFailureResponse> invoiceFailureResponseList = (List<InvoiceFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
         oleNGInvoiceImportResponse.setInvoiceFailureResponses(invoiceFailureResponseList);
+        oleNGInvoiceImportResponse.setRecordsMap(recordsMap);
         oleNgBatchResponse.setNoOfFailureRecord(getFailureRecordsCount(invoiceFailureResponseList));
         try {
             String successResponse = getObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(oleNGInvoiceImportResponse);
             oleNGInvoiceImportResponse = mergeResponse(oleNGInvoiceImportResponse, exchange);
+            oleNGInvoiceImportResponse.setFileExtension(fileType);
             InvoiceImportLoghandler invoiceImportLoghandler = InvoiceImportLoghandler.getInstance();
             invoiceImportLoghandler.logMessage(oleNGInvoiceImportResponse, reportDirectoryName);
+            clearMarcRecordObjects(oleNGInvoiceImportResponse);
             exchange.add(OleNGConstants.INVOICE_RESPONSE, oleNGInvoiceImportResponse);
             exchange.remove(OleNGConstants.FAILURE_RESPONSE);
             oleNgBatchResponse.setResponse(successResponse);
@@ -205,77 +208,82 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         ArrayList<String> datamappingTypes = new ArrayList<>();
         datamappingTypes.add(OleNGConstants.CONSTANT);
 
-        for (Iterator<INVOrder> iterator = invOrders.iterator(); iterator.hasNext(); ) {
-            INVOrder invOrder = iterator.next();
-            List<LineItemOrder> lineItemOrders = invOrder.getLineItemOrder();
-            if (CollectionUtils.isNotEmpty(lineItemOrders)) {
-                for(int index = 0; index < lineItemOrders.size() ; index++) {
-                    LineItemOrder lineItemOrder = lineItemOrders.get(index);
-                    totalNoOfRecords++;
-                    OleInvoiceRecord oleInvoiceRecord = null;
-                    try {
-                        oleInvoiceRecord = getOleNGInvoiceRecordBuilderUtil().build(lineItemOrder, invOrder);
-                        oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(null, batchProcessProfile, oleInvoiceRecord, datamappingTypes);
-                        String[] vendorIds = oleInvoiceRecord.getVendorNumber() != null ? oleInvoiceRecord.getVendorNumber().split("-") : new String[0];
-                        Map dbCriteria = new HashMap();
-                        List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<>();
-                        if (StringUtils.isNotBlank(oleInvoiceRecord.getVendorItemIdentifier())) {
-                            dbCriteria.put("vendorItemPoNumber", oleInvoiceRecord.getVendorItemIdentifier());
-                            dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                            dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-                            oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER);
-                            olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
-                        }
+        if (CollectionUtils.isNotEmpty(invOrders)) {
+            for (Iterator<INVOrder> iterator = invOrders.iterator(); iterator.hasNext(); ) {
+                INVOrder invOrder = iterator.next();
+                List<LineItemOrder> lineItemOrders = invOrder.getLineItemOrder();
+                if (CollectionUtils.isNotEmpty(lineItemOrders)) {
+                    for(int index = 0; index < lineItemOrders.size() ; index++) {
+                        LineItemOrder lineItemOrder = lineItemOrders.get(index);
+                        totalNoOfRecords++;
+                        OleInvoiceRecord oleInvoiceRecord = null;
+                        try {
+                            oleInvoiceRecord = getOleNGInvoiceRecordBuilderUtil().build(lineItemOrder, invOrder);
+                            oleInvoiceRecord = prepareInvoiceOrderRercordFromProfile(null, batchProcessProfile, oleInvoiceRecord, datamappingTypes);
+                            String[] vendorIds = oleInvoiceRecord.getVendorNumber() != null ? oleInvoiceRecord.getVendorNumber().split("-") : new String[0];
+                            List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<>();
+                            if (oleInvoiceRecord.getVendorNumber() != null && vendorIds != null && vendorIds.length == 2 && StringUtils.isNotBlank(vendorIds[0]) && StringUtils.isNotBlank(vendorIds[1])) {
+                                Map dbCriteria = new HashMap();
+                                olePurchaseOrderItems = new ArrayList<>();
+                                if (StringUtils.isNotBlank(oleInvoiceRecord.getVendorItemIdentifier())) {
+                                    dbCriteria.put("vendorItemPoNumber", oleInvoiceRecord.getVendorItemIdentifier());
+                                    dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
+                                    dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                                    oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER);
+                                    olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
+                                }
 
-                        if (CollectionUtils.isEmpty(olePurchaseOrderItems) && null != oleInvoiceRecord.getPurchaseOrderNumber()
-                                &&oleInvoiceRecord.getPurchaseOrderNumber() != 0) {
-                            dbCriteria.clear();
-                            oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.PO_NUMBER);
-                            dbCriteria.put("purchaseOrder.purapDocumentIdentifier", oleInvoiceRecord.getPurchaseOrderNumber());
-                            dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                            dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-                            olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
-                        }
+                                if (CollectionUtils.isEmpty(olePurchaseOrderItems) && null != oleInvoiceRecord.getPurchaseOrderNumber()
+                                        &&oleInvoiceRecord.getPurchaseOrderNumber() != 0) {
+                                    dbCriteria.clear();
+                                    oleInvoiceRecord.setMatchPointType(OleNGConstants.BatchProcess.PO_NUMBER);
+                                    dbCriteria.put("purchaseOrder.purapDocumentIdentifier", oleInvoiceRecord.getPurchaseOrderNumber());
+                                    dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
+                                    dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                                    olePurchaseOrderItems = getPurchaseOrderItemsByCriteria(dbCriteria);
+                                }
 
-                        else if (CollectionUtils.isEmpty(olePurchaseOrderItems) &&
-                                (StringUtils.isNotBlank(oleInvoiceRecord.getISSN()) || StringUtils.isNotBlank(oleInvoiceRecord.getISBN()))) {
-                            List<String> values = new ArrayList<>();
-                            values.add(oleInvoiceRecord.getISSN());
-                            values.add(oleInvoiceRecord.getISBN());
-                            Set<String> itemTitleIds = getItemTitleId(values);
-                            if(CollectionUtils.isNotEmpty(itemTitleIds)) {
-                                for (Iterator<String> stringIterator = itemTitleIds.iterator(); stringIterator.hasNext(); ) {
-                                    String itemTitleId = stringIterator.next();
-                                    if(StringUtils.isNotBlank(itemTitleId)) {
-                                        dbCriteria.clear();
-                                        dbCriteria.put("itemTitleId", itemTitleId);
-                                        dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                                        dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-                                        olePurchaseOrderItems.addAll(getPurchaseOrderItemsByCriteria(dbCriteria));
+                                else if (CollectionUtils.isEmpty(olePurchaseOrderItems) &&
+                                        (StringUtils.isNotBlank(oleInvoiceRecord.getISSN()) || StringUtils.isNotBlank(oleInvoiceRecord.getISBN()))) {
+                                    List<String> values = new ArrayList<>();
+                                    values.add(oleInvoiceRecord.getISSN());
+                                    values.add(oleInvoiceRecord.getISBN());
+                                    Set<String> itemTitleIds = getItemTitleId(values);
+                                    if(CollectionUtils.isNotEmpty(itemTitleIds)) {
+                                        for (Iterator<String> stringIterator = itemTitleIds.iterator(); stringIterator.hasNext(); ) {
+                                            String itemTitleId = stringIterator.next();
+                                            if(StringUtils.isNotBlank(itemTitleId)) {
+                                                dbCriteria.clear();
+                                                dbCriteria.put("itemTitleId", itemTitleId);
+                                                dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
+                                                dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                                                olePurchaseOrderItems.addAll(getPurchaseOrderItemsByCriteria(dbCriteria));
+                                            }
+                                        }
+                                    }
+
+                                    Set<String> poDocumentNumbers = new HashSet<>();
+                                    if(CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
+                                        for (Iterator<OlePurchaseOrderItem> iterator1 = olePurchaseOrderItems.iterator(); iterator1.hasNext(); ) {
+                                            OlePurchaseOrderItem olePurchaseOrderItem = iterator1.next();
+                                            String documentNumber = olePurchaseOrderItem.getPurchaseOrder().getDocumentNumber();
+                                            poDocumentNumbers.add(documentNumber);
+                                        }
+                                    }
+
+                                    if(poDocumentNumbers.size() > 1) {
+                                        olePurchaseOrderItems.clear();
                                     }
                                 }
                             }
+                            oleInvoiceRecord.setRecordIndex(totalNoOfRecords);
+                            setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
 
-                            Set<String> poDocumentNumbers = new HashSet<>();
-                            if(CollectionUtils.isNotEmpty(olePurchaseOrderItems)) {
-                                for (Iterator<OlePurchaseOrderItem> iterator1 = olePurchaseOrderItems.iterator(); iterator1.hasNext(); ) {
-                                    OlePurchaseOrderItem olePurchaseOrderItem = iterator1.next();
-                                    String documentNumber = olePurchaseOrderItem.getPurchaseOrder().getDocumentNumber();
-                                    poDocumentNumbers.add(documentNumber);
-                                }
-                            }
-
-                            if(poDocumentNumbers.size() > 1) {
-                                olePurchaseOrderItems.clear();
-                            }
+                            addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord, exchange);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            addInvoiceFaiureResponseToExchange(e, totalNoOfRecords, exchange);
                         }
-                        oleInvoiceRecord.setRecordIndex(totalNoOfRecords);
-                        setLinkedOrUnlinked(oleInvoiceRecord, olePurchaseOrderItems, matchedDetails);
-
-                        addInvoiceRecordToMap(oleInvoiceRecordMap, oleInvoiceRecord, exchange);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        addInvoiceFaiureResponseToExchange(e, totalNoOfRecords, exchange);
                     }
                 }
             }
@@ -366,27 +374,29 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
 
         if(StringUtils.isNotBlank(oleInvoiceRecord.getVendorNumber())) {
             String[] vendorIds = oleInvoiceRecord.getVendorNumber() != null ? oleInvoiceRecord.getVendorNumber().split("-") : new String[0];
-            for (Iterator<String> iterator = criteriaMapForMatchPoint.keySet().iterator(); iterator.hasNext(); ) {
-                String key = iterator.next();
-                Map dbCriteria = new HashMap();
-                dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
-                dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
-                String dbCriteriaKey = "";
-                if (key.equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
-                    dbCriteriaKey = "vendorItemPoNumber";
-                } else if (key.equalsIgnoreCase(OleNGConstants.BatchProcess.PO_NUMBER)) {
-                    dbCriteriaKey = "purchaseOrder.purapDocumentIdentifier";
-                }
+            if (vendorIds != null && vendorIds.length == 2 && StringUtils.isNotBlank(vendorIds[0]) && StringUtils.isNotBlank(vendorIds[1])) {
+                for (Iterator<String> iterator = criteriaMapForMatchPoint.keySet().iterator(); iterator.hasNext(); ) {
+                    String key = iterator.next();
+                    Map dbCriteria = new HashMap();
+                    dbCriteria.put("purchaseOrder.vendorHeaderGeneratedIdentifier", vendorIds.length > 0 ? vendorIds[0] : "");
+                    dbCriteria.put("purchaseOrder.vendorDetailAssignedIdentifier", vendorIds.length > 1 ? vendorIds[1] : "");
+                    String dbCriteriaKey = "";
+                    if (key.equalsIgnoreCase(OleNGConstants.BatchProcess.VENDOR_ITEM_IDENTIFIER)) {
+                        dbCriteriaKey = "vendorItemPoNumber";
+                    } else if (key.equalsIgnoreCase(OleNGConstants.BatchProcess.PO_NUMBER)) {
+                        dbCriteriaKey = "purchaseOrder.purapDocumentIdentifier";
+                    }
 
-                List<String> values = criteriaMapForMatchPoint.get(key);
-                for (Iterator<String> matchPointIterator = values.iterator(); matchPointIterator.hasNext(); ) {
-                    String value = matchPointIterator.next();
-                    if (StringUtils.isNotBlank(value)) {
-                        dbCriteria.put(dbCriteriaKey, value);
-                        List<OlePurchaseOrderItem> matching = getPurchaseOrderItemsByCriteria(dbCriteria);
-                        if (CollectionUtils.isNotEmpty(matching)) {
-                            oleInvoiceRecord.setMatchPointType(key);
-                            return matching;
+                    List<String> values = criteriaMapForMatchPoint.get(key);
+                    for (Iterator<String> matchPointIterator = values.iterator(); matchPointIterator.hasNext(); ) {
+                        String value = matchPointIterator.next();
+                        if (StringUtils.isNotBlank(value)) {
+                            dbCriteria.put(dbCriteriaKey, value);
+                            List<OlePurchaseOrderItem> matching = getPurchaseOrderItemsByCriteria(dbCriteria);
+                            if (CollectionUtils.isNotEmpty(matching)) {
+                                oleInvoiceRecord.setMatchPointType(key);
+                                return matching;
+                            }
                         }
                     }
                 }
@@ -575,7 +585,7 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
     }
 
     private OleNGInvoiceImportResponse mergeResponse(OleNGInvoiceImportResponse newOleNGInvoiceImportResponse, org.kuali.ole.Exchange exchange) {
-        OleNGInvoiceImportResponse oldResponseObject = (OleNGInvoiceImportResponse) exchange.get(OleNGConstants.ORDER_RESPONSE);
+        OleNGInvoiceImportResponse oldResponseObject = (OleNGInvoiceImportResponse) exchange.get(OleNGConstants.INVOICE_RESPONSE);
         if(null == oldResponseObject) {
             return newOleNGInvoiceImportResponse;
         }
@@ -586,11 +596,17 @@ public class BatchInvoiceImportProcessor extends BatchFileProcessor {
         oldOleNGInvoiceImportResponse.getInvoiceResponses().addAll(newOleNGInvoiceImportResponse.getInvoiceResponses());
         oldOleNGInvoiceImportResponse.getInvoiceFailureResponses().addAll(newOleNGInvoiceImportResponse.getInvoiceFailureResponses());
 
+        oldOleNGInvoiceImportResponse.setRecordsMap(newOleNGInvoiceImportResponse.getRecordsMap());
+
         oldOleNGInvoiceImportResponse.setMatchedCount(oldOleNGInvoiceImportResponse.getMatchedCount() + newOleNGInvoiceImportResponse.getMatchedCount());
         oldOleNGInvoiceImportResponse.setUnmatchedCount(oldOleNGInvoiceImportResponse.getUnmatchedCount() + newOleNGInvoiceImportResponse.getUnmatchedCount());
         oldOleNGInvoiceImportResponse.setMultiMatchedCount(oldOleNGInvoiceImportResponse.getMultiMatchedCount() + newOleNGInvoiceImportResponse.getMultiMatchedCount());
 
         return  oldOleNGInvoiceImportResponse;
+    }
+
+    private void clearMarcRecordObjects(OleNGInvoiceImportResponse oleNGInvoiceImportResponse) {
+        oleNGInvoiceImportResponse.getRecordsMap().clear();
     }
 
     class MatchedDetails {

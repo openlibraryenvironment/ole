@@ -6,6 +6,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.dsng.dao.BibDAO;
@@ -27,11 +28,7 @@ public abstract class Handler extends OleDsHelperUtil {
 
     protected List<Handler> metaDataHandlers;
 
-    BibDAO bibDAO;
-
-    HoldingDAO holdingDAO;
-
-    ItemDAO itemDAO;
+    OleDsNGMemorizeService oleDsNGMemorizeService;
 
     BusinessObjectService businessObjectService;
 
@@ -54,30 +51,6 @@ public abstract class Handler extends OleDsHelperUtil {
         return timeStamp;
     }
 
-    public BibDAO getBibDAO() {
-        return bibDAO;
-    }
-
-    public void setBibDAO(BibDAO bibDAO) {
-        this.bibDAO = bibDAO;
-    }
-
-    public HoldingDAO getHoldingDAO() {
-        return holdingDAO;
-    }
-
-    public void setHoldingDAO(HoldingDAO holdingDAO) {
-        this.holdingDAO = holdingDAO;
-    }
-
-    public ItemDAO getItemDAO() {
-        return itemDAO;
-    }
-
-    public void setItemDAO(ItemDAO itemDAO) {
-        this.itemDAO = itemDAO;
-    }
-
     public BusinessObjectService getBusinessObjectService() {
         if (null == businessObjectService) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -89,6 +62,13 @@ public abstract class Handler extends OleDsHelperUtil {
         this.businessObjectService = businessObjectService;
     }
 
+    public OleDsNGMemorizeService getOleDsNGMemorizeService() {
+        return oleDsNGMemorizeService;
+    }
+
+    public void setOleDsNGMemorizeService(OleDsNGMemorizeService oleDsNGMemorizeService) {
+        this.oleDsNGMemorizeService = oleDsNGMemorizeService;
+    }
 
     public void processDataMappings(JSONObject jsonObject, Exchange exchange) throws JSONException, IOException {
         JSONObject dataMapping = (JSONObject) exchange.get(OleNGConstants.DATAMAPPING);
@@ -101,6 +81,7 @@ public abstract class Handler extends OleDsHelperUtil {
                 Handler handler = itemMetatDataHandlerIterator.next();
                 if (handler.isInterested(key1)) {
                     handler.setBusinessObjectService(getBusinessObjectService());
+                    handler.setOleDsNGMemorizeService(getOleDsNGMemorizeService());
                     handler.processDataMappings(dataMapping, exchange);
                 }
             }

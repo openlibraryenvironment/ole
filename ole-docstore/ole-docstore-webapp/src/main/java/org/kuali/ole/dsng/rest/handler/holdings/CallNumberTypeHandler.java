@@ -47,7 +47,7 @@ public class CallNumberTypeHandler extends HoldingsHandler {
         if (CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String callNumberTypeCode = listFromJSONArray.get(0);
             HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
-            CallNumberTypeRecord callNumberTypeRecord = new CallNumberUtil().fetchCallNumberTypeRecordById(callNumberTypeCode);
+            CallNumberTypeRecord callNumberTypeRecord = getOleDsNGMemorizeService().fetchCallNumberTypeRecordById(callNumberTypeCode);
             if (null != callNumberTypeRecord) {
                 holdingsRecord.setCallNumberTypeId(callNumberTypeRecord.getCallNumberTypeId());
                 holdingsRecord.setCallNumberTypeRecord(callNumberTypeRecord);

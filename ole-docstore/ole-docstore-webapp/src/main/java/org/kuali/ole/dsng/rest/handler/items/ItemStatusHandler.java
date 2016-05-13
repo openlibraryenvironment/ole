@@ -46,7 +46,7 @@ public class ItemStatusHandler extends ItemHandler {
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String itemStatusCode = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-            ItemStatusRecord itemStatusRecord = new ItemUtil().fetchItemStatusByCode(itemStatusCode);
+            ItemStatusRecord itemStatusRecord = getOleDsNGMemorizeService().fetchItemStatusByName(itemStatusCode);
             if(null != itemStatusRecord) {
                 itemRecord.setItemStatusId(itemStatusRecord.getItemStatusId());
                 itemRecord.setItemStatusRecord(itemStatusRecord);

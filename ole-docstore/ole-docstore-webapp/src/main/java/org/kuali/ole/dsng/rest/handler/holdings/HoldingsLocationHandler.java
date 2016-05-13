@@ -18,7 +18,6 @@ import java.util.*;
  */
 public class HoldingsLocationHandler extends HoldingsHandler {
 
-    private LocationUtil locationUtil;
     private String locationLevel;
 
     @Override
@@ -51,7 +50,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
         for (Iterator<String> iterator = parsedValues.iterator(); iterator.hasNext(); ) {
             String locationLevelValue = iterator.next();
 
-            OleLocation locationBasedOnCode = getLocationUtil().getLocationByCode(locationLevelValue);
+            OleLocation locationBasedOnCode = getOleDsNGMemorizeService().getLocationUtil().getLocationByCode(locationLevelValue);
 
             OleLocationLevel oleLocationLevel = locationBasedOnCode.getOleLocationLevel();
             String matchPointLevelId = oleLocationLevel.getLevelId();
@@ -64,7 +63,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
 
                 while (stringTokenizer.hasMoreTokens()) {
                     String token = stringTokenizer.nextToken();
-                    map.put(getLocationUtil().getLevelIdByLocationCode(token), token);
+                    map.put(getOleDsNGMemorizeService().getLocationUtil().getLevelIdByLocationCode(token), token);
                 }
                 String levelId = (String) map.get(matchPointLevelId);
                 if (StringUtils.isNotBlank(levelId) && levelId.equals(locationLevelValue)) {
@@ -77,18 +76,11 @@ public class HoldingsLocationHandler extends HoldingsHandler {
     }
 
 
-    public LocationUtil getLocationUtil() {
-        if(null == locationUtil){
-            locationUtil = new LocationUtil();
-        }
-        return locationUtil;
-    }
-
-
     @Override
     public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
         HoldingsRecord holdingsRecord = (HoldingsRecord) exchange.get(OleNGConstants.HOLDINGS_RECORD);
         String holdingsLocation = holdingsRecord.getLocation();
+        LocationUtil locationUtil = getOleDsNGMemorizeService().getLocationUtil();
         if (StringUtils.isNotBlank(holdingsLocation)) {
             for (Iterator iterator = requestJsonObject.keys(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
@@ -97,7 +89,7 @@ public class HoldingsLocationHandler extends HoldingsHandler {
                     List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
                     if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                         String value = listFromJSONArray.get(0);
-                        holdingsLocation = getLocationUtil().buildLocationName(holdingsLocation, value, exchange);
+                        holdingsLocation = locationUtil.buildLocationName(holdingsLocation, value, exchange);
                     }
                 }
             }
@@ -105,12 +97,12 @@ public class HoldingsLocationHandler extends HoldingsHandler {
         } else {
             StringBuilder locationName = new StringBuilder();
             StringBuilder locationLevelName = new StringBuilder();
-            Map<String, String> locationMap = getLocationUtil().buildLocationMap(requestJsonObject, exchange);
+            Map<String, String> locationMap = locationUtil.buildLocationMap(requestJsonObject, exchange);
             for (Iterator<String> iterator = locationMap.keySet().iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 String locationCode = locationMap.get(key);
-                getLocationUtil().appendLocationToStringBuilder(locationLevelName,key);
-                getLocationUtil().appendLocationToStringBuilder(locationName, locationCode);
+                locationUtil.appendLocationToStringBuilder(locationLevelName,key);
+                locationUtil.appendLocationToStringBuilder(locationName, locationCode);
             }
             holdingsRecord.setLocation(locationName.toString());
             holdingsRecord.setLocationLevel(locationLevelName.toString());

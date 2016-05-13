@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.dao.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.*;
@@ -209,7 +210,7 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     @Override
     public VendorDetail getVendorDetailByVendorNumber(String vendorNumber){
         String[] vendorDetail = vendorNumber.split("-");
-        if(vendorDetail.length == 2) {
+        if(vendorDetail.length == 2 && StringUtils.isNotBlank(vendorDetail[0]) && org.apache.commons.lang.StringUtils.isNotBlank(vendorDetail[1])) {
             String vendorHeaderGeneratedIdentifier = vendorDetail[0];
             String vendorDetailAssignedIdentifier = vendorDetail[1];
             if (NumberUtils.isDigits(vendorHeaderGeneratedIdentifier) && NumberUtils.isDigits(vendorDetailAssignedIdentifier)) {
@@ -406,7 +407,7 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
         deliveryMap.put(OLEConstants.OLEBatchProcess.BUILDING_CODE, buildingCode);
         deliveryMap.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE, campusCode);
         deliveryMap.put(OLEConstants.BUILDING_ROOM_NUMBER, buildingRoomNumber);
-        List<Room> roomList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(Room.class, deliveryMap);
+        List<Room> roomList = (List) getBusinessObjectService().findMatching(Room.class, deliveryMap);
         if (CollectionUtils.isNotEmpty(roomList)){
             return roomList.get(0);
         }
@@ -485,9 +486,20 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     public OLEDonor getOLEDonorByCode(String donorCode) {
         Map<String, String> donorCodeMap = new HashMap<>();
         donorCodeMap.put(OLEConstants.DONOR_CODE, donorCode);
-        List<OLEDonor> donorCodeList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
+        List<OLEDonor> donorCodeList = (List) getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
         if (CollectionUtils.isNotEmpty(donorCodeList)){
             return donorCodeList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public OleCurrencyType getCurrencyType(String currencyType) {
+        Map<String, String> donorCodeMap = new HashMap<>();
+        donorCodeMap.put(OLEConstants.CURRENCY_TYPE, currencyType);
+        List<OleCurrencyType> oleCurrencyTypes = (List) getBusinessObjectService().findMatching(OleCurrencyType.class, donorCodeMap);
+        if (CollectionUtils.isNotEmpty(oleCurrencyTypes)){
+            return oleCurrencyTypes.get(0);
         }
         return null;
     }
