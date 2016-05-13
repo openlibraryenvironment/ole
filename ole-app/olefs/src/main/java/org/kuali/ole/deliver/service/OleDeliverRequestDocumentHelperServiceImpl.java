@@ -2509,7 +2509,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                    Map<String, String> locationMap = new HashMap<String,String>();/*getCircDeskLocationResolver().getLocationMap(itemLocation)*/;
+                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemLocation);
                     oleDeliverRequestBo.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                     oleDeliverRequestBo.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                     oleDeliverRequestBo.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
