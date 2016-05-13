@@ -19,6 +19,7 @@ public class OLEBatchProcessHoldingSourceFieldValueFinder extends KeyValuesBase 
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("",""));
+        keyValues.add(new ConcreteKeyValue("Local Identifier","Local Identifier"));
         keyValues.add(new ConcreteKeyValue("Call Number","Call Number"));
         keyValues.add(new ConcreteKeyValue("Call Number Prefix","Call Number Prefix"));
         keyValues.add(new ConcreteKeyValue("Call Number Type","Call Number Type"));
