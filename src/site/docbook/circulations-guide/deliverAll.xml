@@ -1084,6 +1084,15 @@
                                                 </inlinemediaobject>.</para>
                                         </entry>
                                     </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Request Note</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Any note added will be included
+                                                on the printed hold slip.</para>
+                                        </entry>
+                                    </row>
                                 </tbody>
                             </tgroup>
                         </informaltable>
@@ -2557,6 +2566,11 @@
                                         this chapter.</para>
                                 </note>
                             </listitem>
+                            <listitem>
+                                <para>Request Note: Add any note to be included with the request.
+                                    Any added note will be included on the printed pull or routing
+                                    slips.</para>
+                            </listitem>
                         </orderedlist>
                         <para role="Normal">
                             <screenshot>
@@ -2788,6 +2802,10 @@
                         </mediaobject>
                     </screenshot>
                 </para>
+                <note>
+                    <para>For more information about bills, see <link linkend="_Patron_Bill_Payment"
+                            >Edit Patron Bill</link>.</para>
+                </note>
                 <section>
                     <title>Overview Tab</title>
                     <para role="Normal">The <emphasis role="bold">Overview</emphasis> Tab of the
@@ -4493,6 +4511,46 @@
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
         </section>
+        <section>
+            <title><anchor xml:id="_lostAndReturnedItemSearch"/>Lost and Returned Item
+                Search</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Lost and Returned Item Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-243.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Lost and Returned Item Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-242.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para>The <emphasis role="bold">Lost and Returned Item Search</emphasis> is available
+                for staff to see items that were marked lost but have been returned to the library.
+                You must enter checkout from and to dates to perform the search.  After the results
+                appear, you can export the list.</para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Lost and Returned Item Search Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-244.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
     </section>
     <section>
         <title>Circulation Admin</title>
@@ -5279,7 +5337,8 @@
             <para role="Body Text">Circulation desks are the basic work locations where operators
                 circulate items to patrons, check-in items, hold items to give to patrons, and help
                 patrons by creating requests. Circulation Desks can also function as pick-up
-                locations where patrons can claim their requested items. </para>
+                locations where patrons can claim their requested items.  Circulation desks are also
+                used to configure various fees.</para>
             <section>
                 <title role="Heading 4circ">Document Layout</title>
                 <para role="Normal">

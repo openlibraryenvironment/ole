@@ -452,15 +452,9 @@
                         </listitem>
                         <listitem>
                             <para>When creating a new record, the 008 displays as a text string with
-                                default codes. By clicking on the text <emphasis role="bold">Show
-                                    008 Structured Data Elements</emphasis>, the 008 will display
-                                all the data elements with drop down menus and search boxes to
-                                select valid codes.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Select a valid element for the field's drop down lists or search
-                                boxes and click <emphasis role="bold">Set Control
-                                Field</emphasis>.</para>
+                                default codes. The 008 displays all the data elements with drop down
+                                menus and search boxes to select valid codes.  Select valid elements
+                                and click <emphasis role="bold">Set Control Field</emphasis>.</para>
                         </listitem>
                         <listitem>
                             <para>Click <emphasis role="bold">Clear Selections</emphasis> to remove
@@ -1448,14 +1442,6 @@
                             summary holdings of a particular copy (where "copy" means "a run of
                             volumes with the same base call number in the same shelving
                             location").</para>
-                        <para>In whatever order the Extent of Ownership statements are added is the
-                            order in which they will be displayed later on.</para>
-                        <note>
-                            <para>In OLE 2.0, the order cannot be modified once entered. A fix is
-                                expected, see <link
-                                    xlink:href="https://jira.kuali.org/browse/OLE-6294"
-                                    >OLE-6294</link>.</para>
-                        </note>
                         <para role="Normal">Click <inlinemediaobject>
                                 <alt>Add</alt>
                                 <imageobject>
@@ -1507,8 +1493,11 @@
                                                 drop down list. Three types are provided for: Base
                                                 Bibliographic Unit, Supplementary Material, and
                                                 Indexes.  These correspond to fields 866, 867, and
-                                                868, respectively, in the MARC Holdings format.
-                                            </para>
+                                                868, respectively, in the MARC Holdings format. </para>
+                                            <note>
+                                                <para>You may only include one of each type of unit
+                                                  in a single holdings record.</para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
