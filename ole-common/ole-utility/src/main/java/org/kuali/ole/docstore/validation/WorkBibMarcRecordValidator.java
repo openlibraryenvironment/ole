@@ -22,244 +22,273 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class WorkBibMarcRecordValidator {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    public List<DocStoreValidationError> validate(WorkBibMarcRecord workBibMarcRecord) {
+    /** Logger for {@link #getPropertyValues(InputStream)}. */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /**
+     * Validate the record. Return an empty list if all is ok, otherwise return a list of error messages.
+     * @param workBibMarcRecord  Record to validate
+     * @return  error messages
+     */
+    public final List<DocStoreValidationError> validate(final WorkBibMarcRecord workBibMarcRecord) {
         List<DocStoreValidationError> docStoreValidationErrors = new ArrayList<>();
-        if (workBibMarcRecord != null) {
-            validateControlFields(workBibMarcRecord, docStoreValidationErrors);
-            validateLeader(workBibMarcRecord, docStoreValidationErrors);
-            validateDataFields(workBibMarcRecord, docStoreValidationErrors);
+        if (workBibMarcRecord == null) {
+            return docStoreValidationErrors;
         }
+
+        validateControlFields(workBibMarcRecord, docStoreValidationErrors);
+        validateLeader(workBibMarcRecord, docStoreValidationErrors);
+        validateDataFields(workBibMarcRecord, docStoreValidationErrors);
+        validateTitleTag(workBibMarcRecord, docStoreValidationErrors);
         return docStoreValidationErrors;
     }
 
-    private void validateDataFields(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError> docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
-        if (workBibMarcRecord != null && workBibMarcRecord.getDataFields() != null) {
-            for (DataField dataField : workBibMarcRecord.getDataFields()) {
-                String tag = dataField.getTag();
-                if (tag.startsWith("00")) {
-                    docStoreValidationError = new DocStoreValidationError();
-                    docStoreValidationError.setErrorId("marc.editor.invalid.tag");
-                    docStoreValidationError.addParams(tag);
-                    docStoreValidationErrors.add(docStoreValidationError);
-                }
-                for (SubField subfield : dataField.getSubFields()) {
-                    if (subfield.getCode().equals("")) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("error.bib.enter.missing.subfield");
-                        docStoreValidationError.addParams(subfield.getCode());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
+    /**
+     * Add a DocStoreValidationError with the errorId to errors.
+     * @param errors   List to add the error to
+     * @param errorId  The id to use for the error
+     */
+    private void add(final List<DocStoreValidationError> errors,
+                     final String errorId) {
 
-                    }
-
-                   if (!subfield.getCode().matches("[a-z]") && !subfield.getCode().matches("[0-9]") ){
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("error.bib.enter.missing.subfield");
-                        docStoreValidationError.addParams(subfield.getCode());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-
-                    }
-
-
-                    if ( subfield.getCode().equals(" ") ) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("error.bib.enter.missing.subfield");
-                        docStoreValidationError.addParams(subfield.getCode());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-
-                    }
-
-                    if (subfield.getValue().equals("")) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("error.bib.enter.valid.subfield.value");
-                        docStoreValidationError.addParams(subfield.getCode());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-
-                    }
-
-
-                    if (subfield.getValue().contains("|") && subfield.getValue().equals("")) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("error.subfield.enter.valid.text.at");
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-
-                    }
-
-                }
-            }
-        }
-        validateTittleTag(workBibMarcRecord, docStoreValidationErrors);
-        validateTagLength(workBibMarcRecord, docStoreValidationErrors);
-        validateInd(workBibMarcRecord, docStoreValidationErrors);
+        DocStoreValidationError error = new DocStoreValidationError();
+        error.setErrorId(errorId);
+        errors.add(error);
     }
 
+    /**
+     * Create a DocStoreValidationError with the errorId and param
+     * and add it to errors.
+     * @param errors    List to add the error to
+     * @param errorId   The id to use for the error
+     * @param param     Parameter for the error
+     */
+    private void add(final List<DocStoreValidationError> errors,
+                     final String errorId, final String param) {
 
-    private void validateControlFields(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError> docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
+        DocStoreValidationError error = new DocStoreValidationError();
+        error.setErrorId(errorId);
+        error.addParams(StringUtils.defaultString(param));
+        errors.add(error);
+    }
+
+    /**
+     * Create a DocStoreValidationError with the errorId, param1 and param2
+     * and add it to errors.
+     * @param errors    List to add the error to
+     * @param errorId   The id to use for the error
+     * @param param1    First parameter to add to the error
+     * @param param2    Second parameter to add to the error
+     */
+    private void add(final List<DocStoreValidationError> errors,
+                     final String errorId, final String param1, final String param2) {
+
+        DocStoreValidationError error = new DocStoreValidationError();
+        error.setErrorId(errorId);
+        error.addParams(StringUtils.defaultString(param1));
+        error.addParams(StringUtils.defaultString(param2));
+        errors.add(error);
+    }
+
+    /**
+     * Validate the data fields of the record.  On error add error messages to errors.
+     * @param workBibMarcRecord Record to validate
+     * @param errors            List to add the error messages to
+     */
+    private void validateDataFields(final WorkBibMarcRecord workBibMarcRecord,
+                                    final List<DocStoreValidationError> errors) {
+
+        for (DataField dataField : workBibMarcRecord.getDataFields()) {
+            validateTagSubtags(dataField, errors);
+            validateTagLength(dataField, errors);
+            validateInd      (dataField, errors);
+        }
+    }
+
+    /**
+     * Validate the tag and the subfields of the dataField.  On error add error messages to errors.
+     * @param dataField The DataField to validate
+     * @param errors    List to add the error messages to
+     */
+    private void validateTagSubtags(final DataField dataField,
+                                    final List<DocStoreValidationError> errors) {
+
+        String tag = StringUtils.defaultString(dataField.getTag());
+        if (tag.startsWith("00")) {
+            add(errors, "marc.editor.invalid.tag", tag);
+        }
+        if (dataField.getSubFields() == null) {
+            return;
+        }
+        for (SubField subfield : dataField.getSubFields()) {
+            String code  = StringUtils.defaultString(subfield.getCode());
+            String value = StringUtils.defaultString(subfield.getValue());
+
+            if (!code.matches("[a-z0-9]")) {
+                add(errors, "error.bib.enter.missing.subfield", code, tag);
+            }
+
+            if (value.equals("")) {
+                add(errors, "error.bib.enter.valid.subfield.value", code, tag);
+            }
+        }
+    }
+
+    /**
+     * Validate the control fields of the record.  On error add error messages to errors.
+     * @param workBibMarcRecord The record whose control fields to validate
+     * @param errors            List to add the error messages to
+     */
+    private void validateControlFields(final WorkBibMarcRecord workBibMarcRecord,
+                                       final List<DocStoreValidationError> errors) {
+
         boolean is008Available = false;
-        if (workBibMarcRecord != null && workBibMarcRecord.getControlFields() != null) {
-            for (ControlField controlField : workBibMarcRecord.getControlFields()) {
-                String tag = controlField.getTag();
-                if (!(tag.startsWith("00"))) {
-                    docStoreValidationError = new DocStoreValidationError();
-                    docStoreValidationError.setErrorId("marc.editor.required.control.invalid");
-                    docStoreValidationError.addParams(tag);
-                    docStoreValidationErrors.add(docStoreValidationError);
-                    docStoreValidationErrors.add(docStoreValidationError);
-                }
-                if (tag.equalsIgnoreCase("008")) {
-                    is008Available = true;
-                    if (controlField.getValue() != null && controlField.getValue().length() < 40) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("marc.editor.required.control.length.008");
-                        docStoreValidationError.addParams(String.valueOf(controlField.getValue().length()));
-                        docStoreValidationErrors.add(docStoreValidationError);
-                    }
-                }
-                if (tag.equalsIgnoreCase("006")) {
-                    if (controlField.getValue() != null && controlField.getValue().length() < 18) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("marc.editor.required.control.length.006");
-                        docStoreValidationError.addParams(String.valueOf(controlField.getValue().length()));
-                        docStoreValidationErrors.add(docStoreValidationError);
-                    }
+
+        for (ControlField controlField : workBibMarcRecord.getControlFields()) {
+            String tag   = StringUtils.defaultString(controlField.getTag());
+            String value = StringUtils.defaultString(controlField.getValue());
+
+            if (!(tag.startsWith("00"))) {
+                add(errors, "marc.editor.required.control.invalid", tag);
+            }
+            if (tag.equals("008")) {
+                is008Available = true;
+                if (value.length() < 40) {
+                    add(errors, "marc.editor.required.control.length.008",
+                            String.valueOf(value.length()));
                 }
             }
-            if (!is008Available) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.required.control.008");
-                docStoreValidationErrors.add(docStoreValidationError);
-            }
-        }
-    }
-
-    private void validateLeader(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError> docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
-        if (workBibMarcRecord != null && workBibMarcRecord.getLeader() != null && !workBibMarcRecord.getLeader()
-                .equals("")) {
-          /*  if (workBibMarcRecord.getLeader().length() < 24) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.required.control.leader.length");
-                docStoreValidationError.addParams(String.valueOf(workBibMarcRecord.getLeader().length()));
-                docStoreValidationErrors.add(docStoreValidationError);
-            }*/
-            if (workBibMarcRecord.getLeader().length()>=10 && !workBibMarcRecord.getLeader().substring(9, 10).equals("a")) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.required.control.leader.unicode");
-                docStoreValidationError.addParams(String.valueOf(workBibMarcRecord.getLeader().substring(9, 10)));
-                docStoreValidationErrors.add(docStoreValidationError);
-            }
-        } else {
-            if (workBibMarcRecord.getLeader().trim().equals("")) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.required.control.leader");
-                docStoreValidationErrors.add(docStoreValidationError);
-            }
-        }
-    }
-
-    private void validateTittleTag(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError> docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
-        if (workBibMarcRecord != null && workBibMarcRecord.getDataFields() != null) {
-            Boolean is245present = false;
-            Boolean isSubfield =false;
-            for (DataField dataField : workBibMarcRecord.getDataFields()) {
-                String tag = dataField.getTag();
-                if (tag.equals("245")) {
-                    is245present = true;
-                    for (SubField subField : dataField.getSubFields()) {
-                        if (subField.getCode() != null && subField.getCode().equals("a") && !subField.getValue()
-                                .equals("")) {
-                            isSubfield =true;
-                        }
-                        if (subField.getCode() != null && subField.getCode().equals("k") && !subField.getValue()
-                                .equals("")) {
-                            isSubfield =true;
-                        }
-                    }
-                }
-            }
-
-            if (!isSubfield) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.invalid.title.field");
-                docStoreValidationErrors.add(docStoreValidationError);
-            }
-            if (!is245present) {
-                docStoreValidationError = new DocStoreValidationError();
-                docStoreValidationError.setErrorId("marc.editor.invalid.title");
-                docStoreValidationErrors.add(docStoreValidationError);
-            }
-        }
-    }
-
-    private void validateTagLength(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError> docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
-        if (workBibMarcRecord != null && workBibMarcRecord.getDataFields() != null) {
-
-            for (DataField dataField : workBibMarcRecord.getDataFields()) {
-                String tag = dataField.getTag();
-                if (tag.length() < 3) {
-                    docStoreValidationError = new DocStoreValidationError();
-                    docStoreValidationError.setErrorId("marc.editor.invalid.tag.length");
-                    docStoreValidationErrors.add(docStoreValidationError);
-
-                }
-                try {
-                    Integer.parseInt(tag);
-                } catch (NumberFormatException ex) {
-                    docStoreValidationError = new DocStoreValidationError();
-                    docStoreValidationError.setErrorId("marc.editor.invalid.tag.length");
-                    docStoreValidationErrors.add(docStoreValidationError);
+            if (tag.equals("006")) {
+                if (value.length() < 18) {
+                    add(errors, "marc.editor.required.control.length.006",
+                            String.valueOf(value.length()));
                 }
             }
         }
-
+        if (!is008Available) {
+            add(errors, "marc.editor.required.control.008");
+        }
     }
 
-    private void validateInd(WorkBibMarcRecord workBibMarcRecord, List<DocStoreValidationError>
-            docStoreValidationErrors) {
-        DocStoreValidationError docStoreValidationError;
-        if (workBibMarcRecord != null && workBibMarcRecord.getDataFields() != null) {
-            for (DataField dataField : workBibMarcRecord.getDataFields()) {
-                if (StringUtils.isNotBlank(dataField.getInd1()) && StringUtils.isNotEmpty(dataField.getInd1()) &&
-                        !dataField.getInd1().equals("#")) {
-                    try {
-                        Integer.parseInt(dataField.getInd1());
-                    } catch (NumberFormatException ex) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("marc.editor.invalid.ind.length");
-                        docStoreValidationError.addParams(dataField.getInd1());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-                    }
+    /**
+     * Validate the leader field of the record.  On error add error messages to errors.
+     * @param workBibMarcRecord The record whose leader field to validate
+     * @param errors            List to add the error messages to
+     */
+    private void validateLeader(final WorkBibMarcRecord workBibMarcRecord,
+                                final List<DocStoreValidationError> errors) {
+
+        String leader = StringUtils.defaultString(workBibMarcRecord.getLeader());
+
+        if (leader.trim().equals("")) {
+            add(errors, "marc.editor.required.control.leader");
+            return;
+        }
+
+        String charset = StringUtils.substring(leader, 9, 10);
+        if (charset.equals("")) {       // charset not specified
+            return;
+        }
+        if (!charset.equals("a")) {
+            add(errors, "marc.editor.required.control.leader.unicode", charset);
+        }
+    }
+
+    /**
+     * Validate the record whether the title tag 245 is present and has a none-empty a subfield.
+     * On error add error messages to errors.
+     * @param workBibMarcRecord The record whose title tag to validate
+     * @param errors            List to add the error message to
+     */
+    private void validateTitleTag(final WorkBibMarcRecord workBibMarcRecord,
+                                  final List<DocStoreValidationError> errors) {
+
+        Boolean is245present = false;
+        Boolean isSubfield = false;
+        for (DataField dataField : workBibMarcRecord.getDataFields()) {
+            String tag = StringUtils.defaultString(dataField.getTag());
+
+            if (!tag.equals("245")) {
+                continue;
+            }
+
+            is245present = true;
+
+            if (dataField.getSubFields() == null) {
+                continue;
+            }
+            for (SubField subField : dataField.getSubFields()) {
+                String code  = StringUtils.defaultString(subField.getCode());
+                String value = StringUtils.defaultString(subField.getValue());
+                // 245 must have a subfield a or a subfield k:
+                // https://openlibraryenvironment.atlassian.net/browse/OLE-8312
+                if (! code.equals("a") && ! code.equals("k")) {
+                    continue;
                 }
-                if (StringUtils.isNotBlank(dataField.getInd2()) && StringUtils.isNotEmpty(dataField.getInd2()) &&
-                        !dataField.getInd2().equals("#")) {
-                    try {
-                        Integer.parseInt(dataField.getInd2());
-                    } catch (NumberFormatException ex) {
-                        docStoreValidationError = new DocStoreValidationError();
-                        docStoreValidationError.setErrorId("marc.editor.invalid.ind.length");
-                        docStoreValidationError.addParams(dataField.getInd2());
-                        docStoreValidationError.addParams(dataField.getTag());
-                        docStoreValidationErrors.add(docStoreValidationError);
-                    }
+                if (value.equals("")) {
+                    continue;
                 }
+                isSubfield = true;
             }
         }
 
+        if (!is245present) {
+            add(errors, "marc.editor.invalid.title");
+            return;
+        }
+
+        if (!isSubfield) {
+            add(errors, "marc.editor.invalid.title.field");
+        }
     }
 
+    /**
+     * Validate the tag of the data field.  On error add error messages to errors.
+     * @param dataField The DataField whose tag to validate
+     * @param errors    List to add the error messages to
+     */
+    private void validateTagLength(final DataField dataField,
+                                   final List<DocStoreValidationError> errors) {
 
+        String tag = StringUtils.defaultString(dataField.getTag());
+        if (!tag.matches("[0-9][0-9][0-9]")) {
+            add(errors, "marc.editor.invalid.tag.length");
+        }
+    }
 
-    public Properties getPropertyValues(InputStream inputStream) {
+    /**
+     * Validate the indicator.  On error add error messages to errors.
+     * @param ind       The indicator value to validate
+     * @param tag       The data field tag the indicator belongs to
+     * @param errors    List to add the error messages to
+     */
+    private void validateInd(final String ind, final String tag,
+                             final List<DocStoreValidationError> errors) {
+
+        if (ind == null || ind.matches("[0-9# ]?")) {
+            return;
+        }
+
+        add(errors, "marc.editor.invalid.ind.length", ind, tag);
+    }
+
+    /**
+     * Validate the indicators.  On error add error messages to errors.
+     * @param dataField The data field whose indicators to validate
+     * @param errors    List to add the error messages to
+     */
+    private void validateInd(final DataField dataField,
+                             final List<DocStoreValidationError> errors) {
+        validateInd(dataField.getInd1(), dataField.getTag(), errors);
+        validateInd(dataField.getInd2(), dataField.getTag(), errors);
+    }
+
+    /**
+     * Load the properties from inputStream.
+     * @param inputStream       The InputStream to load the properties from
+     * @return                  the loaded Properties
+     */
+    public final Properties getPropertyValues(final InputStream inputStream) {
         Properties properties = new Properties();
         try {
             properties.load(inputStream);
@@ -268,8 +297,4 @@ public class WorkBibMarcRecordValidator {
         }
         return properties;
     }
-
-
 }
-
-
