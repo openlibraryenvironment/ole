@@ -647,6 +647,7 @@ public class OLEConstants {
         public static final String DESTINATION_FIELD_DONOR_CODE = "Donor Code";
         public static final String SOURCE_FIELD_DATE_CREATED = "Date Created";
         public static final String LCC = "LCC";
+        public static final String LOCAL_IDENTIFIER = "Local Identifier";
         public static final String DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE = "Call Number Type";
         public static final String DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX = "Call Number Prefix";
         public static final String DESTINATION_FIELD_HOLDING_LOCATION = "Location";
