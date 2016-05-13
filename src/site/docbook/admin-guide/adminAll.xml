@@ -1270,21 +1270,6 @@
                             </listitem>
                         </orderedlist>
                     </section>
-                    <section>
-                        <title>Invoice Import for multiple funds</title>
-                        <para>To create a profile capable of importing invoices for multifunded
-                            purchase orders, do not include the account number in the Data Mapping
-                            or Constant and Default Values tabs of the profile. This way, the
-                            created invoice document will carry over the accounting string from the
-                            purchase order. If the accounting data is mapped on the Invoice Import
-                            profile, then the correct accounting information will be superseded with
-                            erroneous data.</para>
-                        <note>
-                            <para>Additional specifications have been requested to correct the
-                                issue, see <link xlink:href="https://jira.kuali.org/browse/OLE-7633"
-                                    >OLE-7633</link>.</para>
-                        </note>
-                    </section>
                 </section>
                 <section>
                     <title>Batch Delete: Match Point Tab</title>

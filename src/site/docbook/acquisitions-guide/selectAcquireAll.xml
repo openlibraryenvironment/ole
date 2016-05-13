@@ -28065,6 +28065,8 @@
                     role="bold">Select &amp; Acquire</emphasis> tab, <emphasis role="bold"
                     >Others</emphasis> submenu. This lookup looks at encumbrances and expenditures
                 on PO line items associated with a given donor record.</para>
+            <para>You may click the Purchase Order Number (PO #) link to review the purchase
+                order.</para>
             <para/>
             <para>
                 <screenshot>
@@ -28079,15 +28081,6 @@
                 </screenshot>
             </para>
             <para/>
-            <para>This example shows the donor code BRNO has received $500 so far this fiscal year.
-                In May 2014, books totaling $56.75 were ordered on PO line items with the BRNO donor
-                code. However, no invoices were paid in May using line items with this donor
-                code.</para>
-            <para>In future releases, this report will be enhanced with additional data (remaining
-                and available amounts), and with hyperlinks from the results to the relevant
-                records. See <link xlink:href="https://jira.kuali.org/browse/OLE-6197"
-                    >OLE-6197</link> and <link xlink:href="https://jira.kuali.org/browse/OLE-5831"
-                    >OLE-5831</link>.</para>
         </section>
         <section>
             <title><anchor xml:id="_GeneralErrorCorrection"/>General Error Correction</title>

@@ -2737,12 +2737,6 @@
                 <glossseealso otherterm="location">Location</glossseealso>
             </glossdef>
         </glossentry>
-        <glossentry xml:id="lostItemReplacement">
-            <glossterm>Lost Item Replacement Fee</glossterm>
-            <glossdef>
-                <para>See <link linkend="replacementFee">Replacement fee</link>.</para>
-            </glossdef>
-        </glossentry>
         <glossentry xml:id="lookups">
             <glossterm>Lookups</glossterm>
             <glossdef>
@@ -2751,6 +2745,19 @@
                     lookup and selection is also available. Lookups from an existing document allow
                     a "search select" option to return the selected value to the working edoc.
                 </para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Lost Book Processing Fee</glossterm>
+            <glossdef>
+                <para>A fee type that is created at the same time a replacement fee is created (when
+                    an item ages to lost or manually billed as lost) if desired by a library.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="lostItemReplacement">
+            <glossterm>Lost Item Replacement Fee</glossterm>
+            <glossdef>
+                <para>See <link linkend="replacementFee">Replacement fee</link>.</para>
             </glossdef>
         </glossentry>
     </glossdiv>
