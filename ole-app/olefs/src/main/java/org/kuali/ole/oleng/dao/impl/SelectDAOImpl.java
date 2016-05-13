@@ -495,9 +495,9 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
 
     @Override
     public OleCurrencyType getCurrencyType(String currencyType) {
-        Map<String, String> donorCodeMap = new HashMap<>();
-        donorCodeMap.put(OLEConstants.CURRENCY_TYPE, currencyType);
-        List<OleCurrencyType> oleCurrencyTypes = (List) getBusinessObjectService().findMatching(OleCurrencyType.class, donorCodeMap);
+        Map<String, String> parameterMap = new HashMap<>();
+        parameterMap.put("currencyType", currencyType);
+        List<OleCurrencyType> oleCurrencyTypes = (List) getBusinessObjectService().findMatching(OleCurrencyType.class, parameterMap);
         if (CollectionUtils.isNotEmpty(oleCurrencyTypes)){
             return oleCurrencyTypes.get(0);
         }

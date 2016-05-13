@@ -626,11 +626,11 @@ CREATE TABLE OLE_DS_ITEM_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DS_ITEM_TI1 (BARCODE )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_DS_ITEM_TI2 (HOLDINGS_ID )
 
