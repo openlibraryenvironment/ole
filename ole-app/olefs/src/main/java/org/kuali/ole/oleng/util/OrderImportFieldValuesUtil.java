@@ -194,7 +194,7 @@ public class OrderImportFieldValuesUtil {
             if (CollectionUtils.isNotEmpty(transmissionMethodList)) {
                 for (PurchaseOrderTransmissionMethod transmissionMethod : transmissionMethodList) {
                     if (transmissionMethod.isDisplayToUser()) {
-                        fieldValues.put(transmissionMethod.getPurchaseOrderTransmissionMethodCode(), transmissionMethod.getPurchaseOrderTransmissionMethodCode());
+                        fieldValues.put(transmissionMethod.getPurchaseOrderTransmissionMethodDescription(), transmissionMethod.getPurchaseOrderTransmissionMethodDescription());
                     }
                 }
             }

@@ -21,6 +21,7 @@ import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.utility.ItemUtil;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -34,6 +35,7 @@ public class OleNGPOValidationUtil {
     private BatchUtil batchUtil;
 
     private SelectDAO selectDAO;
+    private ItemUtil itemUtil;
 
     public boolean validateOleOrderRecord(OleOrderRecord oleOrderRecord, Exchange exchange, Integer recordIndex) {
         boolean valid = true;
@@ -407,7 +409,7 @@ public class OleNGPOValidationUtil {
             getBatchUtil().addOrderFaiureResponseToExchange(
                     new ValidationException("Method of PO Transmission cannot be blank or null."), recordIndex, exchange);
         } else {
-            PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod = getSelectDAO().getPurchaseOrderTransmissionMethodByCode(methodOfPOTransmission);
+            PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod = getSelectDAO().getPurchaseOrderTransmissionMethodByDesc(methodOfPOTransmission);
             if (null == purchaseOrderTransmissionMethod) {
                 getBatchUtil().addOrderFaiureResponseToExchange(
                         new ValidationException("Invalid Method of PO Transmission : " + methodOfPOTransmission), recordIndex, exchange);
@@ -461,11 +463,13 @@ public class OleNGPOValidationUtil {
     private void validateItemStatus(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         String itemStatus = oleTxRecord.getItemStatus();
         if (StringUtils.isNotBlank(itemStatus)) {
-            ItemStatusRecord itemStatusRecord = getSelectDAO().fetchItemStatusByCode(itemStatus);
+            ItemStatusRecord itemStatusRecord = getItemUtil().fetchItemStatusByName(itemStatus);
             if (null == itemStatusRecord) {
                 getBatchUtil().addOrderFaiureResponseToExchange(
                         new ValidationException("Invalid Item Status : " + itemStatus), recordIndex, exchange);
                 oleTxRecord.setItemStatus(null);
+            } else {
+                oleTxRecord.setItemStatus(itemStatusRecord.getCode());
             }
         }
     }
@@ -606,5 +610,16 @@ public class OleNGPOValidationUtil {
 
     public void setSelectDAO(SelectDAO selectDAO) {
         this.selectDAO = selectDAO;
+    }
+
+    public ItemUtil getItemUtil() {
+        if(null == itemUtil) {
+            itemUtil = new ItemUtil();
+        }
+        return itemUtil;
+    }
+
+    public void setItemUtil(ItemUtil itemUtil) {
+        this.itemUtil = itemUtil;
     }
 }

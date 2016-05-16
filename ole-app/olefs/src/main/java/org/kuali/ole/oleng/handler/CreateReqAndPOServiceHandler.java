@@ -215,36 +215,6 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
 
     }
 
-    private List<String> getListOfValue(JSONObject itemMappings, String type) {
-        JSONArray jsonArrayFromJsonObject = getJSONArrayFromJsonObject(itemMappings, type);
-        return getListFromJSONArray(jsonArrayFromJsonObject.toString());
-    }
-
-    public List<String> getListFromJSONArray(String jsonArrayString) {
-        List ops = new ArrayList();
-        try {
-            ops = new ObjectMapper().readValue(jsonArrayString, new TypeReference<List<String>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return ops;
-
-    }
-
-    public JSONArray getJSONArrayFromJsonObject(JSONObject jsonObject, String key) {
-        JSONArray returnValue = null;
-        try {
-            if (jsonObject.has(key)) {
-                returnValue = jsonObject.getJSONArray(key);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
-    }
-
     public DataCarrierService getDataCarrierService() {
         if (dataCarrierService == null) {
             dataCarrierService = SpringContext.getBean(DataCarrierService.class);
@@ -261,35 +231,5 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
 
     public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
         this.oleNGMemorizeService = oleNGMemorizeService;
-    }
-
-    public CallNumberTypeRecord fetchCallNumberTypeRecordByName(String callNumberTypeName) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name", callNumberTypeName);
-        List<CallNumberTypeRecord> matching = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, map);
-        if (CollectionUtils.isNotEmpty(matching)) {
-            return matching.get(0);
-        }
-        return null;
-    }
-
-    public ItemTypeRecord fetchItemTypeByName(String itemTypeName) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name", itemTypeName);
-        List<ItemTypeRecord> matching = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
-        if (CollectionUtils.isNotEmpty(matching)) {
-            return matching.get(0);
-        }
-        return null;
-    }
-
-    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("name", itemStatusTypeName);
-        List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
-        if (CollectionUtils.isNotEmpty(matching)) {
-            return matching.get(0);
-        }
-        return null;
     }
 }

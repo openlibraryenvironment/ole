@@ -59,7 +59,7 @@ public interface SelectDAO {
     public Chart getChartByChartCode(String chartOfAccountsCode);
     public ObjectCode getObjectCodeByCode(String financialObjectCode);
     public PurchaseOrderCostSource getPurchaseOrderCostSourceByCode(String purchaseOrderCostSourceCode);
-    public PurchaseOrderTransmissionMethod getPurchaseOrderTransmissionMethodByCode(String purchaseOrderTransmissionMethodCode);
+    public PurchaseOrderTransmissionMethod getPurchaseOrderTransmissionMethodByDesc(String purchaseOrderTransmissionMethodCode);
     public Building getBuildingByCampusCode(String campusCode);
     public FundingSource getFundingSourceByCode(String fundingSourceCode);
     public ContractManager getContractManagerByName(String contractManager);
@@ -71,7 +71,7 @@ public interface SelectDAO {
     public ObjectCode getObjectCodeByChartCodeAndObjectCode(String itemChartCode, String financialObjectCode);
     public RecurringPaymentType getRecurringPaymentTypeByCode(String recurringPaymentType);
     public OleFundCode getOleFundCodeByCode(String fundCode);
-    public ItemStatusRecord fetchItemStatusByCode(String itemStatusCode);
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusCode);
     public VendorCustomerNumber getVendorCustomerNumberByNumber(String vendorCustomerNumber);
     public OLEDonor getOLEDonorByCode(String donorCode);
     public OleCurrencyType getCurrencyType(String currencyType);

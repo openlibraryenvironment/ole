@@ -11,7 +11,7 @@ import org.kuali.ole.dsng.util.*;
 import org.kuali.ole.oleng.common.service.OleNgCommonMemorizeService;
 import org.kuali.ole.oleng.common.service.impl.OleNgCommonMemorizeServiceImpl;
 import org.kuali.ole.select.bo.OLEDonor;
-import org.kuali.ole.utility.DonorUtil;
+import org.kuali.ole.utility.ItemUtil;
 import org.kuali.ole.utility.LocationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

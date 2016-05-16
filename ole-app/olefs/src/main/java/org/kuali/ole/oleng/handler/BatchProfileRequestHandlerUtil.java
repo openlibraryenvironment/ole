@@ -152,7 +152,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     if (availableStatus!=null && !excludeItemStatusList.contains(availableStatus.getItemAvailableStatusCode())){
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
-                        jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusCode());
+                        jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusName());
                         jsonArray.put(jsonObject);
                     }
                 }

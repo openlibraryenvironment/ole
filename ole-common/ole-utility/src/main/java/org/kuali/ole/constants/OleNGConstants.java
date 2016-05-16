@@ -363,6 +363,7 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_HOLDINGS = "noOfFailureHoldings";
     public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
+    public static final String BIB_NOT_AVAILABLE = "bibNotAvailable";
 
     public static final String MARC_SPLIT = "\u001E\u001D";
     public static Object BIB_RESPONSE = "BIB_RESPONSE";
