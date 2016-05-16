@@ -315,9 +315,9 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     }
 
     @Override
-    public PurchaseOrderTransmissionMethod getPurchaseOrderTransmissionMethodByCode(String purchaseOrderTransmissionMethodCode) {
+    public PurchaseOrderTransmissionMethod getPurchaseOrderTransmissionMethodByDesc(String purchaseOrderTransmissionMethodDesc) {
         Map<String,String> methodOfPOTransmissionMap = new HashMap<>();
-        methodOfPOTransmissionMap.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE, purchaseOrderTransmissionMethodCode);
+        methodOfPOTransmissionMap.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_DESC, purchaseOrderTransmissionMethodDesc);
         List<PurchaseOrderTransmissionMethod> purchaseOrderTransmissionMethodList = (List) getBusinessObjectService().findMatching(PurchaseOrderTransmissionMethod.class, methodOfPOTransmissionMap);
         if (CollectionUtils.isNotEmpty(purchaseOrderTransmissionMethodList)){
             return purchaseOrderTransmissionMethodList.get(0);
@@ -461,9 +461,9 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     }
 
     @Override
-    public ItemStatusRecord fetchItemStatusByCode(String itemStatusCode) {
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusCode) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put(OLEConstants.CODE, itemStatusCode);
+        map.put(OLEConstants.NAME, itemStatusCode);
         List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);

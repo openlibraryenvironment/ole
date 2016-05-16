@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.util;
+package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
@@ -12,9 +12,9 @@ import java.util.List;
  * Created by pvsubrah on 1/4/16.
  */
 public class ItemUtil extends BusinessObjectServiceHelperUtil {
-    public ItemStatusRecord fetchItemStatusByName(String itemStatusCode) {
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("code", itemStatusCode);
+        map.put("name", itemStatusTypeName);
         List<ItemStatusRecord> matching = (List<ItemStatusRecord>) getBusinessObjectService().findMatching(ItemStatusRecord.class, map);
         if(CollectionUtils.isNotEmpty(matching)) {
             return matching.get(0);
