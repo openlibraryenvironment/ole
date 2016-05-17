@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +17,7 @@ public class AccessLocation extends PersistableBusinessObjectBase implements Ser
     private String accessLocationId;
     private String code;
     private String value;
+    private Timestamp updatedDate;
 
     public String getAccessLocationId() {
         return accessLocationId;
@@ -41,4 +43,11 @@ public class AccessLocation extends PersistableBusinessObjectBase implements Ser
         this.value = value;
     }
 
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
+    }
 }

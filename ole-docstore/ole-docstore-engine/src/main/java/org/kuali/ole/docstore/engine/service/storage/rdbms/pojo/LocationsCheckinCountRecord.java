@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,7 @@ public class LocationsCheckinCountRecord extends PersistableBusinessObjectBase
     private Integer locationCount;
     private Integer locationInhouseCount;
     private String itemId;
+    private Timestamp updatedDate;
 
     public String getLocationCountId() {
         return locationCountId;
@@ -58,5 +60,13 @@ public class LocationsCheckinCountRecord extends PersistableBusinessObjectBase
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

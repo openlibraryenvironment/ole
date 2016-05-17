@@ -284,6 +284,7 @@
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="ITM_TYP_CD">
             <unique-column name="ITM_TYP_CD"/>
         </unique>
@@ -360,6 +361,7 @@
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="RCPT_STAT_CD">
             <unique-column name="RCPT_STAT_CD"/>
         </unique>
@@ -419,6 +421,7 @@
         <column name="SRC" required="true" size="100" type="VARCHAR"/>
         <column name="SRC_DT" required="true" type="TIMESTAMP"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="SHVLG_SCHM_CD">
             <unique-column name="SHVLG_SCHM_CD"/>
         </unique>
@@ -494,6 +497,7 @@
         <column name="STAT_SRCH_NM" required="true" size="100" type="VARCHAR"/>
         <column name="SRC" required="true" size="100" type="VARCHAR"/>
         <column name="SRC_DT" required="true" type="DATE"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="STAT_SRCH_CD">
             <unique-column name="STAT_SRCH_CD"/>
@@ -510,6 +514,7 @@
         <column name="SRC" required="true" size="100" type="VARCHAR"/>
         <column name="SRC_DT" required="true" type="TIMESTAMP"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="TYPE_OWNERSHIP_CD">
             <unique-column name="TYPE_OWNERSHIP_CD"/>
         </unique>
@@ -913,6 +918,7 @@
         <column name="ITEM_AVAIL_STAT_CD" required="true" size="40" type="VARCHAR"/>
         <column name="ITEM_AVAIL_STAT_NM" required="true" size="200" type="VARCHAR"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="ITEM_AVAIL_STAT_CD">
             <unique-column name="ITEM_AVAIL_STAT_CD"/>
         </unique>
@@ -2933,6 +2939,7 @@
         <column name="DESCRIPTION" required="false" size="400" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="OLE_DS_DOC_TYPE_TCONST1">
             <unique-column name="NAME"/>
         </unique>
@@ -2946,6 +2953,7 @@
         <column name="DOC_TYPE_ID"  type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_DOC_TYPE_T" name="OLE_DS_DOC_FORMAT_TC1">
             <reference foreign="DOC_TYPE_ID" local="DOC_TYPE_ID"/>
         </foreign-key>
@@ -2972,6 +2980,7 @@
         <column name="IS_GLOBAL_EDIT" required="false" size="1" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="OLE_DS_DOC_FIELD_TCONST1">
             <unique-column name="NAME"/>
             <unique-column name="DOC_TYPE_ID"/>
@@ -2990,6 +2999,7 @@
         <column name="PAGE_SIZE" required="false"  type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="PAGE_SIZE">
             <unique-column name="PAGE_SIZE"/>
         </unique>
@@ -3001,6 +3011,7 @@
         <column name="LONG_SIZE" required="false"  type="INTEGER"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
     </table>
 
 
