@@ -24,3 +24,13 @@ div.blockUI{
 .creditRemainingFont{
     color: green;
 }
+
+.fancybox-skin {
+    width: auto;
+    height: auto;
+    display: block;
+    position: fixed;
+    top: 30px !important;
+    left: 468px;
+    opacity: 1;
+}

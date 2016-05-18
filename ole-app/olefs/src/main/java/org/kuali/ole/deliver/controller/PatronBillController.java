@@ -1208,11 +1208,14 @@ public class PatronBillController extends UifControllerBase {
                                        HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         patronBillForm.setLightboxScript("jq.fancybox.close();");
-        if(patronBillForm.getUserEnteredPatronAddress() != null) {
+        if(StringUtils.isNotEmpty(patronBillForm.getUserEnteredPatronAddress())) {
             patronBillForm.setPatronAddressType("userEntered");
         }
         PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
         String mailContent = patronBillHelperService.getPatronMailContent(patronBillForm);
+        if (LOG.isInfoEnabled()) {
+            LOG.info(("Mail Contenet "+mailContent));
+        }
         if(StringUtils.isNotEmpty(mailContent)) {
             OleCirculationDesk oleCirculationDesk = patronBillHelperService.getDefaultCirculationDesk(GlobalVariables.getUserSession().getPrincipalId());
             if(oleCirculationDesk != null) {
