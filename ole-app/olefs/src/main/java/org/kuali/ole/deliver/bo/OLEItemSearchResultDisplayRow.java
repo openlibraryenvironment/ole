@@ -22,6 +22,7 @@ public class OLEItemSearchResultDisplayRow {
     private boolean requestExists;
     private String lastBorrower;
     private Timestamp lastCheckinDate;
+    private Timestamp createDate;
 
     public String getId() {
         return id;
@@ -141,5 +142,13 @@ public class OLEItemSearchResultDisplayRow {
 
     public void setLastCheckinDate(Timestamp lastCheckinDate) {
         this.lastCheckinDate = lastCheckinDate;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 }

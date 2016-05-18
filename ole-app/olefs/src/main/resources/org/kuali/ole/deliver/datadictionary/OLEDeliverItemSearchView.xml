@@ -315,10 +315,6 @@
                       p:propertyName="oleSingleItemResultDisplayRow.itemBarCode"/>
                 <bean parent="Uif-DataField" p:label="No of Pieces"
                       p:propertyName="oleSingleItemResultDisplayRow.noOfPieces"/>
-                <bean parent="Uif-DataField" p:label="Last Checkin Date"
-                      p:propertyName="oleSingleItemResultDisplayRow.lastCheckinDate"/>
-                <bean parent="Uif-DataField" p:label="Last Borrower"
-                      p:propertyName="oleSingleItemResultDisplayRow.lastBorrower"/>
             </list>
         </property>
     </bean>
@@ -741,6 +737,30 @@
                                   p:propertyName="oleSingleItemResultDisplayRow.finalStatus"/>
                             <bean parent="Uif-DataField" p:label="Final Status Date"
                                   p:propertyName="oleSingleItemResultDisplayRow.finalStatusDate"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="Circulation History"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField" p:label="Last Borrower"
+                                  p:linkText="@{oleSingleItemResultDisplayRow.lastBorrower}" p:target="_blank"
+                                  p:href="@{oleSingleItemResultDisplayRow.patronURL}"/>
+                            <bean parent="Uif-DataField" p:label="Patron Type"
+                                  p:propertyName="oleSingleItemResultDisplayRow.patronType"/>
+                            <bean parent="Uif-DataField" p:label="Patron Expiry Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.patronExpDate"/>
+                            <bean parent="Uif-DataField" p:label="First Name"
+                                  p:propertyName="oleSingleItemResultDisplayRow.patronFirstName"/>
+                            <bean parent="Uif-DataField" p:label="Middle Name"
+                                  p:propertyName="oleSingleItemResultDisplayRow.patronMiddleName"/>
+                            <bean parent="Uif-DataField" p:label="Last Name"
+                                  p:propertyName="oleSingleItemResultDisplayRow.patronLastName"/>
+                            <bean parent="Uif-DataField" p:label="Orig.Charge date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.createDate"/>
+                            <bean parent="Uif-DataField" p:label="Return Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastCheckinDate"/>
                         </list>
                     </property>
                 </bean>

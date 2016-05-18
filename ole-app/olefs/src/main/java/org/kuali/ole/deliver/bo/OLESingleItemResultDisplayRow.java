@@ -72,6 +72,7 @@ public class OLESingleItemResultDisplayRow {
     private String originalDueDate;
     private String lastBorrower;
     private Timestamp lastCheckinDate;
+    private Timestamp createDate;
 
     private List<OLEDeliverRequestResultDisplayRow> oleDeliverRequestResultDisplayRowList = new ArrayList<>();
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
@@ -568,5 +569,13 @@ public class OLESingleItemResultDisplayRow {
 
     public void setLastCheckinDate(Timestamp lastCheckinDate) {
         this.lastCheckinDate = lastCheckinDate;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 }
