@@ -239,7 +239,8 @@ function closecancelCreditNote(){
 
 function createNotice() {
     var userEnteredPatronAddress =jq('#patronUserMailAddress_DataField_control').val();
-    submitForm('createNotice', {userEnteredPatronAddress:userEnteredPatronAddress}, null, null, null);
+    var defaultPatronAddress = jq('#patronMailAddress_DataField_control').val();
+    submitForm('createNotice', {userEnteredPatronAddress:userEnteredPatronAddress,defaultPatronAddress:defaultPatronAddress}, null, null, null);
 }
 
 function selectBill(amt,pamt,camt,obj) {
