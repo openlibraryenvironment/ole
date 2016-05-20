@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.common.document.config;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ public class ConfigDocument extends PersistableBusinessObjectBase
     private String name;
     private String label;
     private String description;
+    private Timestamp updatedDate;
 
     public String getLabel() {
         return label;
@@ -49,5 +51,13 @@ public class ConfigDocument extends PersistableBusinessObjectBase
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

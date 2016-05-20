@@ -26,8 +26,6 @@ public class InvoiceRequestHandler extends OleNgUtil {
 
     public String processInvoice(String requestBody) throws Exception {
 
-        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
-
         List<OleInvoiceRecord> oleInvoiceRecords = getObjectMapper().readValue(requestBody, new TypeReference<List<OleInvoiceRecord>>(){});
         OleInvoiceDocument oleInvoiceDocument = oleNGInvoiceService.createNewInvoiceDocument();
         Exchange exchange = new Exchange();

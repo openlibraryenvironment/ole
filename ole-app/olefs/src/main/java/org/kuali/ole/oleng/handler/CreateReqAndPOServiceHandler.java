@@ -52,7 +52,6 @@ public class CreateReqAndPOServiceHandler extends BatchUtil implements CreateReq
     private OleNGMemorizeService oleNGMemorizeService;
 
     public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
-        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         OleNGRequisitionService oleNGRequisitionService = getOleNGRequisitionService();
         oleNGRequisitionService.setOleNGMemorizeService(getOleNGMemorizeService());
         OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createPurchaseOrderDocument(oleOrderRecords, exchange);

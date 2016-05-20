@@ -22,6 +22,7 @@ public class OLEHoldingsDonorRecord extends PersistableBusinessObjectBase
     private String donorPublicDisplay;
     private String donorNote;
     private HoldingsRecord holdingsRecord;
+    private Timestamp updatedDate;
 
     public String getHoldingsId() {
         return holdingsId;
@@ -69,5 +70,13 @@ public class OLEHoldingsDonorRecord extends PersistableBusinessObjectBase
 
     public void setHoldingsRecord(HoldingsRecord holdingsRecord) {
         this.holdingsRecord = holdingsRecord;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

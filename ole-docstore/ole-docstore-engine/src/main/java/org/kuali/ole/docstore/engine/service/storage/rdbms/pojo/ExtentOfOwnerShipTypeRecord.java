@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,6 +18,7 @@ public class ExtentOfOwnerShipTypeRecord extends PersistableBusinessObjectBase
     private String extOfOwnerShipTypeId;
     private String code;
     private String name;
+    private Timestamp updatedDate;
 
 
     public String getExtOfOwnerShipTypeId() {
@@ -41,5 +43,13 @@ public class ExtentOfOwnerShipTypeRecord extends PersistableBusinessObjectBase
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class BibHoldingsRecord extends PersistableBusinessObjectBase
 
     private List<HoldingsRecord> holdingsRecords;
     private List<BibRecord> bibRecords;
+    private Timestamp updatedDate;
 
 
     public String getBibHoldingsId() {
@@ -61,5 +63,13 @@ public class BibHoldingsRecord extends PersistableBusinessObjectBase
 
     public void setBibRecords(List<BibRecord> bibRecords) {
         this.bibRecords = bibRecords;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

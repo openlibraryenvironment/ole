@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ public class FormerIdentifierRecord extends PersistableBusinessObjectBase
     private String value;
     private String type;
     private String itemId;
+    private Timestamp updatedDate;
 
     public String getFormerId() {
         return formerId;
@@ -49,5 +51,13 @@ public class FormerIdentifierRecord extends PersistableBusinessObjectBase
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

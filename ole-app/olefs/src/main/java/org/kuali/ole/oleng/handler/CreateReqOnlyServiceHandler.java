@@ -23,7 +23,6 @@ public class CreateReqOnlyServiceHandler extends OleNgUtil implements CreateReqA
     private OleNGMemorizeService oleNGMemorizeService;
 
     public Integer processOrder(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
-        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         OleRequisitionDocument requisitionDocument = oleNGRequisitionService.createNewRequisitionDocument();
         oleNGRequisitionService.populateReqDocWithOrderInformation(requisitionDocument, oleOrderRecords, exchange);
         oleNGRequisitionService.saveRequsitionDocument(requisitionDocument);
