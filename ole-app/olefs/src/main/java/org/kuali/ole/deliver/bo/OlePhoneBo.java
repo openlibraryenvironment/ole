@@ -45,7 +45,11 @@ public class OlePhoneBo extends PersistableBusinessObjectBase implements OlePhon
     }
 
     public void setPhoneSource(String phoneSource) {
-        this.phoneSource = phoneSource;
+        if (phoneSource!=null && !phoneSource.equals("")) {
+            this.phoneSource = phoneSource;
+        } else {
+            this.phoneSource = null;
+        }
     }
 
     public String getPhoneSourceName() {

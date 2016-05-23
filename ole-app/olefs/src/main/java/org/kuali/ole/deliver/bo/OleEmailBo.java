@@ -45,7 +45,11 @@ public class OleEmailBo extends PersistableBusinessObjectBase implements OleEmai
     }
 
     public void setEmailSource(String emailSource) {
-        this.emailSource = emailSource;
+        if (emailSource!=null&&!emailSource.equals("")) {
+            this.emailSource = emailSource;
+        } else {
+            this.emailSource = null;
+        }
     }
 
     public String getEmailSourceName() {
