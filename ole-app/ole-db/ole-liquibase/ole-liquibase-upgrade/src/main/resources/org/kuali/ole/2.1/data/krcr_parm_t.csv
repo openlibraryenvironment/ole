@@ -16,3 +16,4 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-SELECT","Select","POBA_CANCEL_PDF_CREATION","OLE7057","1","CONFG","false","This parameter is to stop the PDF creation process while creating POA document using Purchase Order Bulk Amendment","A","OLE"
 "OLE-DLVR","Deliver","DEFAULT_USER_FOR_REST_CALLS","OLE7058","1","CONFG","ole-quickstart","This parameter value is used for configuring the default user for the rest calls.","A","OLE"
 "OLE-DESC","Describe","CHUNK_SIZE_FOR_BATCH_PROCESSING","OLE7059","1","CONFG","1000","This parameter value is used for configuring the chunk size for batch processing.","A","OLE"
+"OLE-DESC","Describe","SLEEP_TIME_FOR_ORDER_PROCESS","OLE7060","1","CONFG","1000","This parameter value is used for holding the sleep time for order process.","A","OLE"
