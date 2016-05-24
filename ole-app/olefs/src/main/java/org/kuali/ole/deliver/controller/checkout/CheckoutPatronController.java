@@ -4,14 +4,21 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronNotes;
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.deliver.util.DroolsResponse;
+import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -25,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,6 +45,8 @@ public class CheckoutPatronController extends CheckoutItemController {
     private static final Logger LOG = Logger.getLogger(CheckoutPatronController.class);
     private PatronLookupCircUIController patronLookupCircUIController;
     private OlePatronRecordUtil olePatronRecordUtil;
+    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
+    private ErrorMessage errorMessage;
 
     @RequestMapping(params = "methodToCall=searchPatron")
     public ModelAndView searchPatron(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -69,7 +79,7 @@ public class CheckoutPatronController extends CheckoutItemController {
         }
 
         if(StringUtils.isBlank(circForm.getLightboxScript())){
-            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+                circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
         } else {
             String lightBoxScript = circForm.getLightboxScript();
             String patronLightBoxScript = lightBoxScript + "jq('#barcodeFieldSection_control').blur();";
@@ -97,7 +107,10 @@ public class CheckoutPatronController extends CheckoutItemController {
         } else {
             setProceedWithCheckoutFlag(circForm);
         }
-        if(circForm.isProxyCheckDone() && checkForPatronUserNotes(circForm.getDroolsExchange())) {
+        if(circForm.isProxyCheckDone() && (searchHold(circForm))) {
+            showHoldErrorMessageDialog(circForm, request, response);
+        }
+        else if(circForm.isProxyCheckDone() && checkForPatronUserNotes(circForm.getDroolsExchange())) {
             showDialog("patronUserNotesDialog", circForm, request, response);
         } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
             return lookupItemAndSaveLoan(circForm,result,request,response);
@@ -230,5 +243,80 @@ public class CheckoutPatronController extends CheckoutItemController {
 
     public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
         this.olePatronRecordUtil = olePatronRecordUtil;
+    }
+
+    public boolean searchHold(CircForm circForm
+    ) throws Exception {
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circForm.getSelectedCirculationDesk());
+        OlePatronDocument olePatronDocument = circForm.getPatronDocument();
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = olePatronDocument.getOleDeliverRequestBos();
+        errorMessage = new ErrorMessage();
+        int holdSameLocCount = 0;
+        int holdOtherLocCount = 0;
+        if(oleDeliverRequestBoList != null && oleDeliverRequestBoList.size()>0) {
+            for(OleDeliverRequestBo deliverRequestBo : oleDeliverRequestBoList) {
+                if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
+                    Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
+                    if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
+                        holdSameLocCount = holdSameLocCount + 1;
+                    }
+                    else {
+                        holdOtherLocCount = holdOtherLocCount + 1;
+                    }
+
+                }
+            }
+            if(holdSameLocCount > 0) {
+                errorMessage.setErrorMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
+                circForm.setErrorMessage(errorMessage);
+            }
+            if(holdOtherLocCount > 0) {
+                errorMessage.setErrorMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
+                circForm.setErrorMessage(errorMessage);
+            }
+        }
+        if(holdSameLocCount > 0  || holdOtherLocCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @RequestMapping(params = "methodToCall=postRequestCheck")
+    public ModelAndView postRequestCheck(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        if (checkForPatronUserNotes(circForm.getDroolsExchange())) {
+            showDialog("patronUserNotesDialog", circForm, request, response);
+        }
+        if (circForm.isAutoCheckout()) {
+            return lookupItemAndSaveLoan(circForm, result, request, response);
+        }
+        circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        return getUIFModelAndView(circForm);
+    }
+
+    public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
+        if(oleLoanDocumentDaoOjb == null){
+            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return oleLoanDocumentDaoOjb;
+    }
+
+    public void setOleLoanDocumentDaoOjb(OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb) {
+        this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
+    }
+
+    public boolean isPickupCirculationLocationMatched(Collection<Object> pickUpLocation,OleDeliverRequestBo deliverRequestBo) {
+
+        for (Object oleCirculationDeskLoc : pickUpLocation){
+            OleCirculationDeskLocation oleCirculationDeskLocation = (OleCirculationDeskLocation)oleCirculationDeskLoc;
+            if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) &&
+                    oleCirculationDeskLocation.getOleCirculationDesk() !=null &&
+                    oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode()!= null &&
+                    oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode().contains(deliverRequestBo.getPickUpLocationCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
