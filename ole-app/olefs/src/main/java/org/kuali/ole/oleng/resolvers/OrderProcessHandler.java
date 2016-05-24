@@ -1,8 +1,12 @@
 package org.kuali.ole.oleng.resolvers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
@@ -45,6 +49,7 @@ public abstract class OrderProcessHandler {
         } else {
             for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
                 RecordDetails recordDetails = iterator.next();
+                Thread.sleep(getSleepTimeForOrderProcess());
                 Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails),
                         batchProcessProfile, createReqOrPOServiceHandler, exchange);
                 poIdsMap.putAll(poIdMap);
@@ -59,5 +64,14 @@ public abstract class OrderProcessHandler {
 
     public void setOleNGRequisitionService(OleNGRequisitionService oleNGRequisitionService) {
         this.oleNGRequisitionService = oleNGRequisitionService;
+    }
+
+    public int getSleepTimeForOrderProcess() {
+        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.SLEEP_TIME_FOR_ORDER_PROCESS);
+        if(NumberUtils.isDigits(parameterValue)) {
+            return Integer.valueOf(parameterValue);
+        }
+        return 1000;
     }
 }

@@ -336,6 +336,7 @@ public class OleNGConstants {
 
     public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
     public static final String CHUNK_SIZE_FOR_BATCH_PROCESSING = "CHUNK_SIZE_FOR_BATCH_PROCESSING";
+    public static final String SLEEP_TIME_FOR_ORDER_PROCESS = "SLEEP_TIME_FOR_ORDER_PROCESS";
     public static final String CHARSET_UTF_8 = ";charset=UTF-8";
 
 
