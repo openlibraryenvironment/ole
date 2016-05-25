@@ -126,10 +126,10 @@ public class OleNGPOHelperUtil {
 
 
     private Bib getBibDetails(String bibId) {
-        Bib bib = new Bib();
         String query = "id:" + bibId;
         SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
         if (solrDocumentList.size() > 0) {
+            Bib bib = new Bib();
             SolrDocument solrDocument = solrDocumentList.get(0);
 
             List<String> authors = (List<String>) solrDocument.getFieldValue(DocstoreConstants.TITLE_DISPLAY);
@@ -148,8 +148,9 @@ public class OleNGPOHelperUtil {
             bib.setAuthor(author);
             bib.setPublisher(publisher);
             bib.setIsbn(isbn);
+            return bib;
         }
-        return bib;
+        return null;
     }
 
     public OrderImportService getOleOrderImportService() {
