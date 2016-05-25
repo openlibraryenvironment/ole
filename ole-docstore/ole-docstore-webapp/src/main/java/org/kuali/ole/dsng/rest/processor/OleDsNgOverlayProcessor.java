@@ -591,6 +591,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                             ItemHandler itemHandler = metadataHandlerIterator.next();
                             if (itemHandler.isInterested(key)) {
                                 exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                                itemHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                                 itemHandler.process(matchPoints, exchange);
                                 Object match = exchange.get(OleNGConstants.MATCHED_ITEM);
                                 if (null != match && match.equals(Boolean.TRUE)) {
@@ -873,7 +874,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                             if (holdingsMetadataHandler.isInterested(key)) {
                                 exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-
+                                holdingsMetadataHandler.setOleDsNGMemorizeService(oleDsNGMemorizeService);
                                 holdingsMetadataHandler.process(matchPoints, exchange);
 
                                 Object match = exchange.get(OleNGConstants.MATCHED_HOLDINGS);
