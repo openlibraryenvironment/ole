@@ -6,11 +6,9 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.batch.form.OLEClaimedReturnedItemsForm;
-import org.kuali.ole.deliver.bo.OLEClaimedReturnedItemResult;
-import org.kuali.ole.deliver.bo.OleCirculationDesk;
-import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.checkin.CheckInAPIController;
+import org.kuali.ole.deliver.controller.checkin.ClaimsReturnedNoteHandler;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.OLEForm;
@@ -40,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,6 +56,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
     private DocstoreClientLocator docstoreClientLocator;
     private BusinessObjectService businessObjectService;
     private ParameterValueResolver parameterValueResolver;
+    private ClaimsReturnedNoteHandler claimsReturnedNoteHandler;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (docstoreClientLocator == null) {
@@ -177,6 +178,8 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
     public ModelAndView processBillForItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
         OLEClaimedReturnedItemsForm oleClaimedReturnedItemsForm = (OLEClaimedReturnedItemsForm) form;
+        String operatorId = GlobalVariables.getUserSession().getPrincipalId();
+
         String isBillForItem = request.getParameter("isBillForItem");
         if (StringUtils.isNotBlank(isBillForItem)) {
             oleClaimedReturnedItemsForm.setBillForItem(Boolean.valueOf(isBillForItem));
@@ -191,6 +194,25 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                 OleLoanDocument oleLoanDocument = oleClaimedReturnedItemResult.getOleLoanDocument();
                 if (oleClaimedReturnedItemsForm.isBillForItem()) {
                     createOrUpdateBillForItem(isNotifyClaimsReturnedToPatron, oleLoanDocument);
+                    if (StringUtils.isNotBlank(operatorId)) {
+                        OleCirculationDesk oleCirculationDesk = new CircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
+                        OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();
+                        OleCirculationDesk oleCirculationDesk1 = getBusinessObjectService().findBySinglePrimaryKey(OleCirculationDesk.class, oleCirculationDesk.getCirculationDeskId());
+                        Date date = new Date();
+                        SimpleDateFormat simpleDateFormat =
+                                new SimpleDateFormat("HH:mm");
+                        String customTime = simpleDateFormat.format(date);
+                        Map<String, Object> claimsRecordInfo = new HashMap<>();
+                        claimsRecordInfo.put("itemBarcode", oleLoanDocument.getItemId());
+                        claimsRecordInfo.put("customDate", new Date());
+                        claimsRecordInfo.put("customTime", customTime);
+                        claimsRecordInfo.put("selectedCirculationDesk", oleCirculationDesk1.getCirculationDeskId());
+                        claimsRecordInfo.put("noteParameter", OLEConstants.CLAIMS_CHECKED_IN_FLAG);
+                        claimsRecordInfo.put("customNote", OLEConstants.ITEM_NOT_FOUND_IN_PATRON);
+                        getClaimsReturnedNoteHandler().savePatronNoteForClaims(claimsRecordInfo, olePatronDocument);
+                    }
+
+
                 } else {
                     forgiveClaimProcess(isNotifyClaimsReturnedToPatron, oleLoanDocument);
                 }
@@ -240,8 +262,24 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                 droolsExchange.addToContext("operatorId", operatorId);
                 OLEForm oleAPIForm = new OLEForm();
                 oleAPIForm.setDroolsExchange(droolsExchange);
+
+
                 new CheckInAPIController().claimsReturnedCheckInProcess(oleLoanDocument, oleAPIForm, "MISSING");
 
+                OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();
+                OleCirculationDesk oleCirculationDesk1 = getBusinessObjectService().findBySinglePrimaryKey(OleCirculationDesk.class, oleCirculationDesk.getCirculationDeskId());
+                Date date = new Date( );
+                SimpleDateFormat simpleDateFormat =
+                        new SimpleDateFormat ("HH:mm");
+                String customTime = simpleDateFormat.format(date);
+                Map<String, Object> claimsRecordInfo = new HashMap<>();
+                claimsRecordInfo.put("itemBarcode", oleLoanDocument.getItemId());
+                claimsRecordInfo.put("customDate", new Date());
+                claimsRecordInfo.put("customTime", customTime);
+                claimsRecordInfo.put("selectedCirculationDesk", oleCirculationDesk1.getCirculationDeskId());
+                claimsRecordInfo.put("noteParameter", OLEConstants.CLAIMS_CHECKED_IN_FLAG);
+                claimsRecordInfo.put("customNote",OLEConstants.ITEM_MISSING_IN_PATRON);
+                getClaimsReturnedNoteHandler().savePatronNoteForClaims(claimsRecordInfo, olePatronDocument);
                 oleLoanDocument.setCheckInDate(new Timestamp(new Date().getTime()));
                 circUtilController.updateFees(oleLoanDocument, operatorId, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was forgiven by staff on ", false);
                 if (isNotifyClaimsReturnedToPatron) {
@@ -277,6 +315,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         List<SearchResultField> searchResultFields = new ArrayList<>();
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEMIDENTIFIER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_BARCODE));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CURRENT_BORROWER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER_PREFIX));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.COPY_NUMBER));
@@ -316,6 +355,8 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                             claimedReturnedItemResult.setItemId(itemId);
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ITEM_BARCODE)) {
                             claimedReturnedItemResult.setItemBarcode(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CURRENT_BORROWER)) {
+                            claimedReturnedItemResult.setPatronBarcode(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.CALL_NUMBER)) {
                             itemCallNumber = searchResultField.getFieldValue();
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.CALL_NUMBER_PREFIX)) {
@@ -399,4 +440,12 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         }
         return claimedReturnedItemResultList;
     }
+
+    public ClaimsReturnedNoteHandler getClaimsReturnedNoteHandler() {
+        if (claimsReturnedNoteHandler == null) {
+            claimsReturnedNoteHandler = new ClaimsReturnedNoteHandler();
+        }
+        return claimsReturnedNoteHandler;
+    }
+
 }

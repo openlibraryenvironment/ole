@@ -8,6 +8,7 @@ public class OLEClaimedReturnedItemResult {
     private boolean select;
     private String itemId;
     private String itemBarcode;
+    private String patronBarcode;
     private String callNumber;
     private String callNumberPrefix;
     private String title;
@@ -130,5 +131,13 @@ public class OLEClaimedReturnedItemResult {
 
     public void setOleLoanDocument(OleLoanDocument oleLoanDocument) {
         this.oleLoanDocument = oleLoanDocument;
+    }
+
+    public String getPatronBarcode() {
+        return patronBarcode;
+    }
+
+    public void setPatronBarcode(String patronBarcode) {
+        this.patronBarcode = patronBarcode;
     }
 }
