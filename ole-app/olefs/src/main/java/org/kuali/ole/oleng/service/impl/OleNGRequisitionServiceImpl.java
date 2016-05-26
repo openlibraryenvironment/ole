@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
@@ -191,15 +192,16 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
 
-        String title = oleOrderRecord.getOleBibRecord().getBib().getTitle() != null ? oleOrderRecord.getOleBibRecord().getBib().getTitle() + "," : "";
-        String author = oleOrderRecord.getOleBibRecord().getBib().getAuthor() != null ? oleOrderRecord.getOleBibRecord().getBib().getAuthor() + "," : "";
-        String publisher = oleOrderRecord.getOleBibRecord().getBib().getPublisher() != null ? oleOrderRecord.getOleBibRecord().getBib().getPublisher() + "," : "";
-        String isbn = oleOrderRecord.getOleBibRecord().getBib().getIsbn() != null ? oleOrderRecord.getOleBibRecord().getBib().getIsbn() + "," : "";
+        Bib bib = oleOrderRecord.getOleBibRecord().getBib();
+        String title = bib.getTitle() != null ? bib.getTitle() + "," : " ";
+        String author = bib.getAuthor() != null ? bib.getAuthor() + "," : " ";
+        String publisher = bib.getPublisher() != null ? bib.getPublisher() + "," : " ";
+        String isbn = bib.getIsbn() != null ? bib.getIsbn() + "," : " ";
         String description = title + author
                 + publisher + isbn;
         item.setItemDescription(description.substring(0, (description.lastIndexOf(","))));
-        item.setItemTitle(oleOrderRecord.getOleBibRecord().getBib().getTitle());
-        item.setItemAuthor(oleOrderRecord.getOleBibRecord().getBib().getAuthor());
+        item.setItemTitle(bib.getTitle());
+        item.setItemAuthor(bib.getAuthor());
         item.setBibUUID(oleOrderRecord.getOleBibRecord().getBibUUID());
 
     }
