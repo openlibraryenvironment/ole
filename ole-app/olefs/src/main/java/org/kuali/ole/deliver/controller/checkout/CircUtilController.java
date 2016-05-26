@@ -415,6 +415,8 @@ public class CircUtilController extends RuleExecutor {
                         }
                     } else if (key.equalsIgnoreCase("numRenewals")) {
                         item.setField(Item.NO_OF_RENEWAL, (String) parameterMap.get(key));
+                    } else if (key.equalsIgnoreCase("itemStatus")) {
+                        item.setField(Item.DESTINATION_ITEM_STATUS, (String) parameterMap.get(key));
                     }
                 }
                 return item;
