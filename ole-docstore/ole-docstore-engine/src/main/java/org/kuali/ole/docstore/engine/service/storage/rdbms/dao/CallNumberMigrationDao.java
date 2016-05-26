@@ -99,9 +99,9 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int tempItemRecord = itemTotalCount;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         stopWatch.start();
-        chunkSize = 100000;
+        chunkSize = 1000000;
         while (start < holdingsTotalCount) {
             tempItemRecord = tempItemRecord - chunkSize;
             if (tempItemRecord < chunkSize) {
@@ -112,8 +112,6 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
             futures.add(executorService.submit(new ItemCallNumberProcessor(start, end, callNumberType, getJdbcTemplate())));
             start = end;
         }
-
-
         for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
             Future future = iterator.next();
             try {
