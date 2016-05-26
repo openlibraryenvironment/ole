@@ -688,6 +688,14 @@ public class CircUtilController extends RuleExecutor {
             OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
             if (paymentStatus != null) {
                 for (FeeType feeType : feeTypes) {
+                    OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                    oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
+                    oleItemLevelBillPayment.setCreatedUser(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+                    oleItemLevelBillPayment.setNote(OLEConstants.BILL_SUSPENDED_NOTE);
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                    oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                    feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
                     if (feeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
                         feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
                     }

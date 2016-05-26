@@ -521,8 +521,14 @@ public abstract class CheckinBaseController extends CircUtilController {
             claimsRecordInfo.put("customTime", checkinForm.getCustomDueDateTime());
             claimsRecordInfo.put("selectedCirculationDesk", checkinForm.getSelectedCirculationDesk());
             claimsRecordInfo.put("noteParameter", OLEConstants.CLAIMS_CHECKED_IN_FLAG);
+            if(isItemFoundInLibrary(oleForm)) {
+                claimsRecordInfo.put("customNote",OLEConstants.CLAIMS_RETURN_FOUND_IN_LIB);
+            } else {
+                claimsRecordInfo.put("customNote",OLEConstants.CLAIMS_RETURN_NOT_FOUND_IN_LIB);
+            }
             getClaimsReturnedNoteHandler().savePatronNoteForClaims(claimsRecordInfo, olePatronDocument);
         }
+
         itemRecord.setClaimsReturnedFlag(false);
         itemRecord.setClaimsReturnedNote(null);
         itemRecord.setClaimsReturnedFlagCreateDate(null);
