@@ -92,7 +92,7 @@ This file contains custom application specific web.xml content.
 
     <filter>
         <filter-name>UserLoginFilter</filter-name>
-        <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
+        <filter-class>org.kuali.ole.olekrad.filter.OLEUserLoginFilter</filter-class>
     </filter>
 
     <filter>
