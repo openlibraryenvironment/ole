@@ -760,7 +760,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             }
         }
         if (item.getTemporaryItemType() != null) {
-            ItemTypeRecord tempItemTypeRecord = saveItemTypeRecord(item.getTemporaryItemType());
+            ItemTypeRecord tempItemTypeRecord = saveTemporaryItemTypeRecord(item.getTemporaryItemType());
             itemRecord.setTempItemTypeId(tempItemTypeRecord == null ? null : tempItemTypeRecord.getItemTypeId());
             itemRecord.setItemTempTypeRecord(tempItemTypeRecord);
         }
@@ -943,6 +943,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setNumberOfRenew(item.getNumberOfRenew());
         getBusinessObjectService().save(itemRecord);
     }
+
 
     private void saveItemDamagedRecords(ItemRecord itemRecord, org.kuali.ole.docstore.common.document.content.instance.Item item) {
         List<org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord> itemDamagedRecordList = item.getItemDamagedRecords();
@@ -1395,6 +1396,31 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
             map.put("code", itemTypeCode);
         }
+        List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
+        if (itemTypeRecords.size() == 0) {
+            if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {
+                ItemTypeRecord itemTypeRecord = new ItemTypeRecord();
+                itemTypeRecord.setCode(itemType.getCodeValue());
+                itemTypeRecord.setName(itemType.getFullValue());
+                try {
+                    getBusinessObjectService().save(itemTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Item Type :: " +itemType.getCodeValue());
+                }
+                return itemTypeRecord;
+            } else {
+                return null;
+            }
+        }
+        return itemTypeRecords.get(0);
+
+    }
+
+
+    protected ItemTypeRecord saveTemporaryItemTypeRecord(ItemType itemType) {
+        Map map = new HashMap();
+        map.put("code", itemType.getCodeValue());
+
         List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
         if (itemTypeRecords.size() == 0) {
             if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {
