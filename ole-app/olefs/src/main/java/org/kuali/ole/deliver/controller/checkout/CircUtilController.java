@@ -44,11 +44,12 @@ public class CircUtilController extends RuleExecutor {
     private SimpleDateFormat dateFormatForDocstoreDueDate;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
-    public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord) {
+    public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord, NoticeInfo noticeInfo) {
         List<OLEDeliverNotice> deliverNotices = new ArrayList<>();
 
         List<NoticeDueDateProcessor> noticeProcessors = getNoticeProcessors();
 
+        if(null == noticeInfo) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("circPolicyId", currentLoanDocument.getCirculationPolicyId());
         List<OleNoticeTypeConfiguration> oleNoticeTypeConfigurations =
@@ -57,9 +58,14 @@ public class CircUtilController extends RuleExecutor {
         OleNoticeTypeConfiguration oleNoticeTypeConfiguration = null;
         if (CollectionUtils.isNotEmpty(oleNoticeTypeConfigurations)) {
             oleNoticeTypeConfiguration = oleNoticeTypeConfigurations.get(0);
-            NoticeInfo noticeInfo = new NoticeInfo();
+                noticeInfo = new NoticeInfo();
             noticeInfo.setNoticeType(oleNoticeTypeConfiguration.getNoticeType());
-
+            } else {
+                LOG.error("No notice coniguration mapping was found for the circulation policy id: " + currentLoanDocument.getCirculationLocationId());
+            }
+        }
+        if (null != noticeInfo && StringUtils.isNotBlank(noticeInfo.getNoticeType())) {
+            itemRecord.setDueDateTime(currentLoanDocument.getLoanDueDate());
             ArrayList<Object> facts = new ArrayList<>();
             facts.add(noticeInfo);
             facts.add(itemRecord);
@@ -486,7 +492,7 @@ public class CircUtilController extends RuleExecutor {
 
     public void updateNoticesForLoanDocument(OleLoanDocument oleLoanDocument) {
         ItemRecord itemRecord = getItemRecordByBarcode(oleLoanDocument.getItemId());
-        List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, itemRecord);
+        List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, itemRecord, null);
         oleLoanDocument.setDeliverNotices(oleDeliverNotices);
     }
 

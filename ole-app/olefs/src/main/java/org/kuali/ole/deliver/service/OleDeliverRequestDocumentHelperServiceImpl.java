@@ -4537,8 +4537,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         processRequestToExecuteDrools(oleDeliverRequestBo);
         DroolsResponse droolsResponse = new DroolsResponse();
         NoticeInfo noticeInfo = new NoticeInfo();
-        buildFactsAndExecuteRules(droolsResponse,noticeInfo,oleDeliverRequestBo);
-        processRequestAfterRuleEvaluation(oleDeliverRequestBo, droolsResponse, noticeInfo,backGroundLoan, override);
+        buildFactsAndExecuteRules(droolsResponse, noticeInfo, oleDeliverRequestBo);
+        processRequestAfterRuleEvaluation(oleDeliverRequestBo, droolsResponse, noticeInfo, backGroundLoan, override);
         return oleDeliverRequestBo.getMessage();
     }
 
@@ -4829,7 +4829,7 @@ return oleLoanDocument;
     public List<OLEDeliverNotice> getDeliverNotices(OleDeliverRequestBo oleDeliverRequestBo,OleLoanDocument oleLoanDocument,NoticeInfo noticeInfo){
         ItemRecord itemRecord = getItemRecordByBarcode(oleDeliverRequestBo.getItemId());
         itemRecord.setDueDateTime(oleDeliverRequestBo.getRecallDueDate());
-        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord);
+        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord,noticeInfo);
         return oleDeliverNotices;
     }
 
