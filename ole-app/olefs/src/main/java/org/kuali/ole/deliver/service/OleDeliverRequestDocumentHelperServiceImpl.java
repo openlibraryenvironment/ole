@@ -4846,7 +4846,7 @@ return oleLoanDocument;
     public List<OLEDeliverNotice> getDeliverNotices(OleDeliverRequestBo oleDeliverRequestBo,OleLoanDocument oleLoanDocument,NoticeInfo noticeInfo){
         ItemRecord itemRecord = getItemRecordByBarcode(oleDeliverRequestBo.getItemId());
         itemRecord.setDueDateTime(oleDeliverRequestBo.getRecallDueDate());
-        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord);
+        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord,null);
         return oleDeliverNotices;
     }
 
