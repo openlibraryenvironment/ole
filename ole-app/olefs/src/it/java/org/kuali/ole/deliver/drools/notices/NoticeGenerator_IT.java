@@ -126,7 +126,7 @@ public class NoticeGenerator_IT extends OLETestCaseBase {
 
         @Override
         public Object call() throws Exception {
-            List<OLEDeliverNotice> deliverNotices = new CircUtilController().processNotices(currentLoanDocument, itemRecord);
+            List<OLEDeliverNotice> deliverNotices = new CircUtilController().processNotices(currentLoanDocument, itemRecord,null);
             return deliverNotices;
         }
     }
