@@ -99,7 +99,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int tempItemRecord = itemTotalCount;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         stopWatch.start();
         chunkSize = 100000;
         while (start < holdingsTotalCount) {
