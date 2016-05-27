@@ -86,36 +86,34 @@ public class OLEUserLoginFilter implements Filter {
      * Checks if a user can be authenticated and if so establishes a UserSession for that user.
      */
     private void establishUserSession(HttpServletRequest request) {
-        String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(
-                new QName("kimAuthenticationService"))).getPrincipalName(request);
-        if(principalName==null){
-            principalName=GlobalVariables.getUserSession().getPrincipalName();
-        }
-        if (StringUtils.isBlank(principalName)) {
-            throw new AuthenticationException("Blank User from AuthenticationService - This should never happen.");
-        }
+        if (!isUserSessionEstablished(request)) {
+            String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(
+                    new QName("kimAuthenticationService"))).getPrincipalName(request);
+            if(principalName==null){
+                principalName=GlobalVariables.getUserSession().getPrincipalName();
+            }
+            if (StringUtils.isBlank(principalName)) {
+                throw new AuthenticationException("Blank User from AuthenticationService - This should never happen.");
+            }
 
-        Principal principal = getIdentityService().getPrincipalByPrincipalName(principalName);
-        if (principal == null) {
-            throw new AuthenticationException("Unknown User: " + principalName);
-        }
+            Principal principal = getIdentityService().getPrincipalByPrincipalName(principalName);
+            if (principal == null) {
+                throw new AuthenticationException("Unknown User: " + principalName);
+            }
 
-        if (!isAuthorizedToLogin(principal.getPrincipalId())) {
-            throw new AuthenticationException(
-                    "You cannot log in, because you are not an active Kuali user.\nPlease ask someone to activate your account if you need to use Kuali Systems.\nThe user id provided was: "
-                            + principalName + ".\n");
-        }
+            if (!isAuthorizedToLogin(principal.getPrincipalId())) {
+                throw new AuthenticationException(
+                        "You cannot log in, because you are not an active Kuali user.\nPlease ask someone to activate your account if you need to use Kuali Systems.\nThe user id provided was: "
+                                + principalName + ".\n");
+            }
 
-        UserSession userSession = GlobalVariables.getUserSession();
-        if(userSession == null || !userSession.getPrincipalName().equalsIgnoreCase(principalName)) {
-            userSession = new UserSession(principalName);
-        }
-        if (userSession.getPerson() == null) {
-            throw new AuthenticationException("Invalid User: " + principalName);
-        }
+            final UserSession userSession = new UserSession(principalName);
+            if (userSession.getPerson() == null) {
+                throw new AuthenticationException("Invalid User: " + principalName);
+            }
 
-        request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
-        GlobalVariables.setUserSession(userSession);
+            request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
+        }
     }
 
     /**

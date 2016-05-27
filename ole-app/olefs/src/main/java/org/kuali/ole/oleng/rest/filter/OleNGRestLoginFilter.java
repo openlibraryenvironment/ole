@@ -90,10 +90,7 @@ public class OleNGRestLoginFilter implements Filter {
                             + principalName + ".\n");
         }
 
-        UserSession userSession = GlobalVariables.getUserSession();
-        if(userSession == null || !userSession.getPrincipalName().equalsIgnoreCase(principalName)) {
-            userSession = new UserSession(principalName);
-        }
+        final UserSession userSession = new UserSession(principalName);
         if (userSession.getPerson() == null) {
             throw new AuthenticationException("Invalid User: " + principalName);
         }
