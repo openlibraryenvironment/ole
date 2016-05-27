@@ -84,9 +84,12 @@ public class RenewItemExecutor implements Callable {
                                 Integer numRenewals = IncrementRenewalCount(oleLoanDocument);
                                 oleLoanDocument.setNumberOfRenewals(numRenewals.toString());
                                 oleLoanDocument.getDeliverNotices().clear();
-                                List<OLEDeliverNotice> oleDeliverNotices = getCircUtilController().processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord());
+                                List<OLEDeliverNotice> oleDeliverNotices = getCircUtilController().processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord(), null);
                                 oleLoanDocument.setDeliverNotices(oleDeliverNotices);
                                 if (null != oleLoanDocument.getLoanId()) {
+                                    if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
+                                        oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
+                                    }
                                     finalDroolResponse.setSucessMessage("Successfully Renewed");
                                     finalDroolResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
 
