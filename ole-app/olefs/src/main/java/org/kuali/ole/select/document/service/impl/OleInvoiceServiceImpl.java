@@ -2244,7 +2244,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
      * @return isDuplicationExists
      */
 
-    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, boolean isBlanketApprove) {
+    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, String actionName) {
         LOG.debug("Inside method isDuplicationExists()");
         boolean isDuplicationExists = false;
         if(invoiceDocument.getInvoiceNumber()!=null && !invoiceDocument.getInvoiceNumber().equalsIgnoreCase("")){
@@ -2270,15 +2270,21 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     }
                 }
             }
-            if (isDuplicationExists && !isBlanketApprove) {
-                duplicationMessage.append(OleSelectConstant.QUES_FOR_DUPLICATE_INVOICE);
+            if (isDuplicationExists && actionName.equals("save")) {
+                duplicationMessage.append(OleSelectConstant.QUES_FOR_DUPLICATE_INVOICE_FOR_SAVE);
                 invoiceDocument.setDuplicateFlag(true);
                 invoiceForm.setDuplicationMessage(duplicationMessage.toString());
             }
-            else if (isDuplicationExists && isBlanketApprove) {
-                duplicationMessage.append(OleSelectConstant.QUES_FOR_DUPLICATE_INVOICE);
+            else if (isDuplicationExists && actionName.equals("route")) {
+                duplicationMessage.append(OleSelectConstant.QUES_FOR_DUPLICATE_INVOICE_FOR_SUBMIT);
+                invoiceDocument.setDuplicateApproveFlag(true);
+                invoiceForm.setDuplicationMessage(duplicationMessage.toString());
+            }else if (isDuplicationExists && actionName.equals("approve")) {
+                duplicationMessage.append(OleSelectConstant.QUES_FOR_DUPLICATE_INVOICE_FOR_APPROVE);
                 invoiceDocument.setDuplicateApproveFlag(true);
                 invoiceForm.setDuplicationApproveMessage(duplicationMessage.toString());
+            } else {
+                invoiceForm.setDuplicationMessage(duplicationMessage.toString());
             }
         }
         LOG.debug("Leaving method isDuplicationExists()");
