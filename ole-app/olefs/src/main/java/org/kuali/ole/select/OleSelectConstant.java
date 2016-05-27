@@ -419,7 +419,9 @@ public class OleSelectConstant {
     public static final BigDecimal MAX_PERCENT = new BigDecimal(100);
     public static final BigDecimal ZERO_PERCENT = new BigDecimal(0);
     public static final String DUPLICATE_INVOICE = "One or more potential duplicate invoices have been identified: " ;
-    public static final String QUES_FOR_DUPLICATE_INVOICE = "Do you want to approve this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_SAVE = "Do you want to save this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_APPROVE = "Do you want to approve this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_SUBMIT = "Do you want to submit this INV anyway?";
     public static final String BUDGET_RECORDING_LEVEL_CODE = "O";
     public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
