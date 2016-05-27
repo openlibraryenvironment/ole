@@ -1654,7 +1654,12 @@ public class PatronBillHelperService {
                 PatronBillItemView patronBillItemView = new PatronBillItemView();
                 patronBillItemView.setItemBarcode(feeType.getItemBarcode());
                 patronBillItemView.setFeeType(feeType.getFeeType());
-                patronBillItemView.setRefundAmount(feeType.getCreditRemaining().negated().toString());
+                if(patronBillForm.getRefundAmountToPatron() != null) {
+                    patronBillItemView.setRefundAmount(patronBillForm.getRefundAmountToPatron().toString());
+                } else {
+                    patronBillItemView.setRefundAmount(patronBillForm.getAmountDetails().getAmountRemaining().toString());
+                }
+
                 patronBillItemView.setBillNumber(feeType.getBillNumber());
                 patronBillItemViewList.add(patronBillItemView);
             }
