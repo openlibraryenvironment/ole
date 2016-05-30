@@ -60,7 +60,11 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         yearRange: '1900:-0'
     };
 
-    $scope.quickLaunch = {};
+    $scope.quickLaunch = {
+        outputFormats: BATCH_CONSTANTS.OUTPUT_FORMATS,
+        outputFormat: 'Marc'
+    };
+
     $scope.batchSchedule = {
         scheduleOption: 'Provide Cron Expression',
         scheduleOptions: scheduleOptions,
@@ -169,6 +173,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     function getBatchSchedule() {
         var batchSchedule = {
+            jobId: $scope.jobId,
             scheduleOption: $scope.batchSchedule.scheduleOption,
             scheduleType: $scope.batchSchedule.scheduleType,
             scheduleDate: $scope.batchSchedule.scheduleDate,
@@ -195,9 +200,16 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         });
     }
 
-    $scope.quickLaunchPopUp = function (jobId) {
+    $scope.quickLaunchPopUp = function (batchProcessJob) {
         document.getElementById('modalContentId').style.width = '550px';
-        $scope.jobId = jobId;
+        if (batchProcessJob.profileType == 'Batch Export') {
+            document.getElementById('modalContentId').style.height = '280px';
+        } else {
+            document.getElementById('modalContentId').style.height = '190px';
+        }
+        $scope.jobId = batchProcessJob.jobId;
+        $scope.profileType = batchProcessJob.profileType;
+        $scope.exportInputFile = batchProcessJob.exportInputFile;
         $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
     };
 
@@ -253,6 +265,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     $scope.submitQuickLaunchJob = function() {
         var fd = new FormData();
         fd.append('jobId', $scope.jobId);
+        fd.append('numOfRecordsInFile', $scope.quickLaunch.numOfRecordsInFile);
+        fd.append('extension', $scope.quickLaunch.outputFormat);
         fd.append('file', $scope.quickLaunch.selectedFile);
         doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_QUICK_LAUNCH, fd, function(response) {
             var data = response.data;

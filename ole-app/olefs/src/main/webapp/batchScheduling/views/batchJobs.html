@@ -15,7 +15,7 @@
                     <th>Job Status</th>
                     <th>Execution Count</th>
                     <th>Last Execution Status</th>
-                    <th style="width: 280px">Actions</th>
+                    <th style="width: 300px">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,13 +32,13 @@
                     <td><span ng-bind="batchProcessJob.executionCount"></span></td>
                     <td><span ng-bind="batchProcessJob.lastExecutionStatus"></span></td>
                     <td>
-                        <button type="button" id="quickLaunch_{{$index}}" class="btn btn-success btn-sm"
-                                name="quickLaunch_{{$index}}" ng-click="quickLaunchPopUp(batchProcessJob.jobId)">Quick Launch
+                        <button type="button" id="quickLaunch_{{$index}}" class="btn btn-success btn-xs"
+                                name="quickLaunch_{{$index}}" ng-click="quickLaunchPopUp(batchProcessJob)">Quick Launch
                         </button>
-                        <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-sm"
+                        <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-xs"
                                 name="processSchedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
                         </button>
-                        <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-sm"
+                        <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-xs"
                                 name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
                                 batchProcessJob.jobType === 'Paused'">Reschedule
                         </button>
@@ -48,11 +48,11 @@
                         <button type="button" id="processResume_{{$index}}" class="btn btn-info btn-sm"
                                 name="processResume_{{$index}}" ng-click="resumeJob($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Paused'">Resume
                         </button>
-                        <button type="button" id="processUnschedule_{{$index}}" class="btn btn-info btn-sm"
+                        <button type="button" id="processUnschedule_{{$index}}" class="btn btn-info btn-xs"
                         name="processReschedule_{{$index}}" ng-click="unSchedule($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
                         batchProcessJob.jobType === 'Paused'">Unschedule
                         </button>
-                        <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-sm"
+                        <button type="button" id="processDestroy_{{$index}}" class="btn btn-danger btn-xs"
                                 name="processDestroy_{{$index}}" ng-click="destroyJob($index, batchProcessJob.jobId)">Destroy
                         </button>
                     </td>
@@ -64,10 +64,30 @@
 
     <div>
         <modal id="quickLaunchPopUpId" title="Quick Launch" visible="quickLaunch.showModal">
-            <div style="height: 100px">
+            <div>
                 <div class="form-group">
-                    <label for="selectedFile">Upload File</label>
-                    <input id="selectedFile" name="selectedFile" type="file" file-model="quickLaunch.selectedFile" placeholder="Upload File"/>
+                    <div ng-hide="profileType == 'Batch Export' && !exportInputFile">
+                        <label for="selectedFile">Upload File</label>
+                        <input id="selectedFile" name="selectedFile" type="file" file-model="quickLaunch.selectedFile" placeholder="Upload File"/>
+                    </div>
+                    <br>
+                    <div ng-show="profileType == 'Batch Export'">
+                        <label for="outputFormat">Output Format</label>
+                        <select class="form-control" id="outputFormat" name="outputFormat"
+                                ng-model="quickLaunch.outputFormat" style="width: 150px">
+                            <option ng-repeat="option in quickLaunch.outputFormats"
+                                    value="{{option.name}}">
+                                {{option.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div ng-show="profileType == 'Batch Export'">
+                        <label for="numOfRecordsInFile" class="col-sm-5">Number Of Records In File</label>
+                        <div>
+                            <input id="numOfRecordsInFile" name="numOfRecordsInFile" type="text"
+                                   ng-model="quickLaunch.numOfRecordsInFile" ng-init="quickLaunch.numOfRecordsInFile='100000'"/>
+                        </div>
+                    </div>
                     <div>
                         <button id="submit" type="button" class="btn btn-primary btn-sm pull-right" ng-click="submitQuickLaunchJob()">Submit</button>
                     </div>

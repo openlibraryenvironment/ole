@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.batch.process.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.kuali.ole.constants.OleNGConstants;
@@ -60,6 +61,12 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
 
     @JsonProperty(OleNGConstants.JOB_STATUS)
     private String status;
+
+    @JsonIgnore
+    private String outputFileFormat;
+
+    @JsonIgnore
+    private int numOfRecordsInFile;
 
     public long getJobId() {
         return jobId;
@@ -187,6 +194,22 @@ public class BatchJobDetails extends PersistableBusinessObjectBase {
 
     public void setTotalFailureRecords(String totalFailureRecords) {
         this.totalFailureRecords = totalFailureRecords;
+    }
+
+    public String getOutputFileFormat() {
+        return outputFileFormat;
+    }
+
+    public void setOutputFileFormat(String outputFileFormat) {
+        this.outputFileFormat = outputFileFormat;
+    }
+
+    public int getNumOfRecordsInFile() {
+        return numOfRecordsInFile;
+    }
+
+    public void setNumOfRecordsInFile(int numOfRecordsInFile) {
+        this.numOfRecordsInFile = numOfRecordsInFile;
     }
 }
 

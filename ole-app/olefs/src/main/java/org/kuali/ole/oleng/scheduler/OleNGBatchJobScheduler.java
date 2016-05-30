@@ -8,9 +8,7 @@ import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.scheduler.job.BatchSchedulerJob;
 import org.kuali.ole.oleng.util.OleNGSchedulerHelperUtil;
-import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
-import org.kuali.ole.spring.batch.processor.BatchInvoiceImportProcessor;
-import org.kuali.ole.spring.batch.processor.BatchOrderImportProcessor;
+import org.kuali.ole.spring.batch.processor.*;
 import org.kuali.ole.utility.OleHttpRestGet;
 import org.kuali.ole.utility.OleHttpRestGetImpl;
 import org.kuali.rice.krad.UserSession;
@@ -45,6 +43,13 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
 
     @Autowired
     private BatchInvoiceImportProcessor batchInvoiceImportProcessor;
+
+    @Autowired
+    private BatchDeleteFileProcessor batchDeleteFileProcessor;
+
+    @Autowired
+    private BatchExportFileProcessor batchExportFileProcessor;
+
 
     @Autowired
     private DescribeDAO describeDAO;
@@ -172,6 +177,10 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
             job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchOrderImportProcessor);
         } else if(OleNGConstants.INVOICE_IMPORT.equalsIgnoreCase(jobType)) {
             job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchInvoiceImportProcessor);
+        } else if(OleNGConstants.BATCH_DELETE.equalsIgnoreCase(jobType)) {
+            job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchDeleteFileProcessor);
+        } else if(OleNGConstants.BATCH_EXPORT.equalsIgnoreCase(jobType)) {
+            job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchExportFileProcessor);
         }
         return job;
     }

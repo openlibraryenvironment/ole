@@ -1,0 +1,45 @@
+<div class="panel-group" ng-model="batchExportReportMainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="batchExportReportMainSectionPanel.collapsed = !batchExportReportMainSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': batchExportReportMainSectionPanel.collapsed, 'glyphicon-chevron-down': !batchExportReportMainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div>
+                        <div class="form-group">
+                            <table class="table table-bordered row-border hover">
+                                <thead>
+                                <tr>
+                                    <th>Job Name</th>
+                                    <th>Job Execution Id</th>
+                                    <th>Total Bibs Count</th>
+                                    <th>Success Bibs Count</th>
+                                    <th>Failed Bibs Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span ng-bind="batchExportReportMainSectionPanel.jobName"></span></td>
+                                    <td><span ng-bind="batchExportReportMainSectionPanel.jobDetailId"></span></td>
+                                    <td><span ng-bind="batchExportReportMainSectionPanel.totalRecordsCount"></span></td>
+                                    <td><span ng-bind="batchExportReportMainSectionPanel.successBibsCount"></span></td>
+                                    <td><span ng-bind="batchExportReportMainSectionPanel.failedBibsCount"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

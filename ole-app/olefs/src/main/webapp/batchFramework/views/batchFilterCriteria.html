@@ -1,0 +1,154 @@
+<div class="panel-group" ng-model="filterCriteriaActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#" ng-click="filterCriteriaPanel.collapsed = !filterCriteriaPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right' : !filterCriteriaPanel.collapsed, 'glyphicon-chevron-down' : filterCriteriaPanel.collapsed}"></span>
+                    Filter Criteria
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['filterFieldName_'+filterCriteriaIndex].$dirty && batchProfileForm['filterFieldName_'+filterCriteriaIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Marc Field Name is required</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th style="width: 270px;">Select Field Name</th>
+                        <th style="width: 250px;">Enter Field Name</th>
+                        <th>Field Value</th>
+                        <th>Field Range From</th>
+                        <th>Field Range To</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="filterCriteria in filterCriteriaPanel">
+                        <td>
+                            <select class="form-control" name="filterFieldName_{{$index}}"
+                                    id="filterFieldName_{{$index}}"
+                                    ng-model="filterCriteria.filterFieldName" ng-hide="filterCriteria.isAddLine" style="width: 270px;">
+                                <option></option>
+                                <option ng-selected="{{option.value == filterCriteria.filterFieldName}}"
+                                        ng-repeat="option in filterCriteria.filterFieldNames" value="{{option.value}}">
+                                    {{option.value}}
+                                </option>
+                            </select>
+                            <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldName"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="filterFieldNameText_{{$index}}"
+                                   name="filterFieldNameText_{{$index}}"
+                                   type="text"
+                                   ng-model="filterCriteria.filterFieldNameText" style="height: 30px; width: 250px;"
+                                   ng-hide="filterCriteria.isAddLine"/>
+                            <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldNameText"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="filterFieldValueText_{{$index}}"
+                                   name="filterFieldValueText_{{$index}}"
+                                   type="text"
+                                   ng-model="filterCriteria.filterFieldValue" style="height: 30px; width: 100px;"
+                                   ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <input class="form-control" id="filterFieldValueDate_{{$index}}"
+                                   name="filterFieldValueDate_{{$index}}"
+                                   ui-date="dateOptions"
+                                   ng-model="filterCriteria.filterFieldValue" style="height: 30px; width: 100px;"
+                                   ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldValue"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="filterFieldRangeFromText_{{$index}}"
+                                    name="filterFieldRangeFromText_{{$index}}"
+                                    type="text"
+                                    ng-model="filterCriteria.filterFieldRangeFrom" style="height: 30px; width: 100px;"
+                                    ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <input class="form-control" id="filterFieldRangeFromDate_{{$index}}"
+                                    name="filterFieldRangeFromDate_{{$index}}"
+                                    ui-date="dateOptions"
+                                    ng-model="filterCriteria.filterFieldRangeFrom" style="height: 30px; width: 100px;"
+                                    ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldRangeFrom"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="filterFieldRangeToText_{{$index}}"
+                                    name="filterFieldRangeToText_{{$index}}"
+                                    type="text"
+                                    ng-model="filterCriteria.filterFieldRangeTo" style="height: 30px; width: 100px;"
+                                    ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <input class="form-control" id="filterFieldRangeToDate_{{$index}}"
+                                    name="filterFieldRangeToDate_{{$index}}"
+                                    ui-date="dateOptions"
+                                    ng-model="filterCriteria.filterFieldRangeTo" style="height: 30px; width: 100px;"
+                                    ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
+                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                            <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldRangeTo"></span>
+                        </td>
+                        <td ng-hide="submitted">
+                            <button id="filterCriteriaAddButton_{{$index}}" name="filterCriteriaAddButton_{{$index}}"
+                                    ng-click="filterCriteriaAdd()"
+                                    ng-hide="filterCriteria.isAddLine || filterCriteria.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="filterCriteriaCopyButton_{{$index}}" name="filterCriteriaCopyButton_{{$index}}"
+                                    ng-click="filterCriteriaCopyRow($index)"
+                                    ng-show="filterCriteria.isAddLine && !filterCriteria.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
+                            </button>
+                            <button id="filterCriteriaEditButton_{{$index}}" name="filterCriteriaEditButton_{{$index}}"
+                                    ng-click="filterCriteriaEditRow($index)"
+                                    ng-show="filterCriteria.isAddLine && !filterCriteria.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="filterCriteriaUpdateButton_{{$index}}" name="filterCriteriaUpdateButton_{{$index}}"
+                                    ng-click="filterCriteriaUpdateRow($index)" ng-show="filterCriteria.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="filterCriteriaUpdateCancelButton_{{$index}}"
+                                    name="filterCriteriaUpdateCancelButton_{{$index}}"
+                                    ng-click="filterCriteriaCancelUpdate($index)" ng-show="filterCriteria.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button id="filterCriteriaRemoveButton_{{$index}}" name="filterCriteriaRemoveButton_{{$index}}"
+                                    ng-click="filterCriteriaRemove(filterCriteria)"
+                                    ng-show="filterCriteria.isAddLine && !filterCriteria.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

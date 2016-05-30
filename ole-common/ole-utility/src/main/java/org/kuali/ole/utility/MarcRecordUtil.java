@@ -6,6 +6,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.Verifier;
@@ -271,6 +272,17 @@ public class MarcRecordUtil {
     public String convertMarcRecordListToRawMarcContent(List<Record> records) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         MarcWriter writer = new MarcStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8);
+        for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
+            Record record = iterator.next();
+            writer.write(record);
+        }
+        writer.close();
+        return byteArrayOutputStream.toString();
+    }
+
+    public String convertMarcRecordListToMarcXmlContent(List<Record> records) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MarcWriter writer = new MarcXmlWriter(byteArrayOutputStream, OleNGConstants.UTF_8);
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record record = iterator.next();
             writer.write(record);
