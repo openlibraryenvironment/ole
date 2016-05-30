@@ -64,7 +64,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="itemId" p:label="Item Id"/>
                 <bean parent="Uif-DataField" p:propertyName="itemBarcode" p:label="Item Barcode"/>
-                <bean parent="Uif-DataField" p:propertyName="patronBarcode" p:label="Patron Barcode"/>
+                <bean parent="Uif-DataField" p:propertyName="patronBarcode" p:label="Patron ID"/>
                 <bean parent="Uif-DataField" p:propertyName="callNumber" p:label="Call Number"/>
                 <bean parent="Uif-DataField" p:propertyName="title" p:label="Title"/>
                 <bean parent="Uif-DataField" p:propertyName="copyNumber" p:label="Copy Number"/>
