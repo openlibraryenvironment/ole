@@ -64,6 +64,12 @@ public class RenewItemExecutor implements Callable {
 
                 ItemRecord itemRecord = getCircUtilController().getItemRecordByBarcode(itemBarcode);
                 OleItemRecordForCirc oleItemRecordForCirc = getOleItemRecordForCirc(itemRecord);
+                    if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null
+                            && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
+                        finalDroolResponse = new DroolsResponse();
+                        oleLoanDocument.setErrorMessage("Item  wasn't renewed because the item is 'lost'.");
+                        finalDroolResponse.getDroolsExchange().addToContext(itemBarcode, oleLoanDocument);
+                    } else {
                 NoticeInfo noticeInfo = new NoticeInfo();
 
                 finalDroolResponse = fireRules(olePatronDocument, oleLoanDocument, oleItemRecordForCirc, noticeInfo);
@@ -87,9 +93,6 @@ public class RenewItemExecutor implements Callable {
                                 List<OLEDeliverNotice> oleDeliverNotices = getCircUtilController().processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord(), null);
                                 oleLoanDocument.setDeliverNotices(oleDeliverNotices);
                                 if (null != oleLoanDocument.getLoanId()) {
-                                    if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
-                                        oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
-                                    }
                                     finalDroolResponse.setSucessMessage("Successfully Renewed");
                                     finalDroolResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
 
@@ -125,6 +128,7 @@ public class RenewItemExecutor implements Callable {
                     oleLoanDocument.setErrorMessage("Item wasn't renewed as no circulation policy was found!");
                     finalDroolResponse.getDroolsExchange().addToContext(itemBarcode, oleLoanDocument);
                 }
+            }
             }else{
                 finalDroolResponse = new DroolsResponse();
                 oleLoanDocument.setErrorMessage("Item wasn't renewed. Items on indefinite loan do not need to be renewed.");
