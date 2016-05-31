@@ -3804,4 +3804,5 @@ public class OLEConstants {
     public static final String RECALL_HOLD_REQUEST="Recall/Hold Request";
     public static final String OVER_PAYMENT="refund.over.payment";
     public static final String ENTRR_REFUND_AMT="enter.refund.amount";
+    public static final String FORGIVE_LOST_FEES = "FORGIVE_LOST_FEES";
 }

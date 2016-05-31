@@ -15,6 +15,7 @@ import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.ncip.service.impl.NonSip2RenewItemService;
 import org.kuali.ole.ncip.service.impl.RenewItemsService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -73,9 +74,6 @@ public class RenewController extends CircUtilController {
                                 oleLoanDocument.setDeliverNotices(oleDeliverNotices);
 
                                 if (null != oleLoanDocument.getLoanId()) {
-                                    if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
-                                        oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
-                                    }
                                     Item itemForUpdate = getItemForUpdate(oleLoanDocument);
                                     if (null != itemForUpdate) {
                                         itemList.add(itemForUpdate);                                        
@@ -83,6 +81,9 @@ public class RenewController extends CircUtilController {
                                         droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
                                         finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
                                         generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                            if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
+                                                oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
+                                            }
                                     }
                                 }
                             } else {
