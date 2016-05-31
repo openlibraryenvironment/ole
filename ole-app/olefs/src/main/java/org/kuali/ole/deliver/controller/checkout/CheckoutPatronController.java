@@ -256,14 +256,16 @@ public class CheckoutPatronController extends CheckoutItemController {
         if(oleDeliverRequestBoList != null && oleDeliverRequestBoList.size()>0) {
             for(OleDeliverRequestBo deliverRequestBo : oleDeliverRequestBoList) {
                 if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
-                    Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
-                    if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
-                        holdSameLocCount = holdSameLocCount + 1;
-                    }
-                    else {
+                    if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
+                        Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
+                        if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
+                            deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
+                            holdSameLocCount = holdSameLocCount + 1;
+                        }
+                    }else if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
+                        deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
                         holdOtherLocCount = holdOtherLocCount + 1;
                     }
-
                 }
             }
             if(holdSameLocCount > 0) {
@@ -309,12 +311,14 @@ public class CheckoutPatronController extends CheckoutItemController {
     public boolean isPickupCirculationLocationMatched(Collection<Object> pickUpLocation,OleDeliverRequestBo deliverRequestBo) {
 
         for (Object oleCirculationDeskLoc : pickUpLocation){
-            OleCirculationDeskLocation oleCirculationDeskLocation = (OleCirculationDeskLocation)oleCirculationDeskLoc;
-            if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) &&
+            if(deliverRequestBo.getPickUpLocationCode() != null) {
+                OleCirculationDeskLocation oleCirculationDeskLocation = (OleCirculationDeskLocation)oleCirculationDeskLoc;
+                if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) &&
                     oleCirculationDeskLocation.getOleCirculationDesk() !=null &&
                     oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode()!= null &&
                     oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode().contains(deliverRequestBo.getPickUpLocationCode())) {
                 return true;
+                }
             }
         }
         return false;
