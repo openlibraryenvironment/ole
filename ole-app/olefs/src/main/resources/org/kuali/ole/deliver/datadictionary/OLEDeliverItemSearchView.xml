@@ -362,7 +362,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.itemStatusDate"
                                   p:label="Orig. Charge Date"/>
-                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.originalDueDate"
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.dueDate"
                                   p:label="Orig. Due Date"/>
                         </list>
                     </property>
@@ -746,19 +746,19 @@
                         <list>
                             <bean parent="Uif-LinkField" p:label="Last Borrower"
                                   p:linkText="@{oleSingleItemResultDisplayRow.lastBorrower}" p:target="_blank"
-                                  p:href="@{oleSingleItemResultDisplayRow.patronURL}"/>
+                                  p:href="@{oleSingleItemResultDisplayRow.lastBorrowerURL}"/>
                             <bean parent="Uif-DataField" p:label="Patron Type"
-                                  p:propertyName="oleSingleItemResultDisplayRow.patronType"/>
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerType"/>
                             <bean parent="Uif-DataField" p:label="Patron Expiry Date"
-                                  p:propertyName="oleSingleItemResultDisplayRow.patronExpDate"/>
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerExpDate"/>
                             <bean parent="Uif-DataField" p:label="First Name"
-                                  p:propertyName="oleSingleItemResultDisplayRow.patronFirstName"/>
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerFirstName"/>
                             <bean parent="Uif-DataField" p:label="Middle Name"
-                                  p:propertyName="oleSingleItemResultDisplayRow.patronMiddleName"/>
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerMiddleName"/>
                             <bean parent="Uif-DataField" p:label="Last Name"
-                                  p:propertyName="oleSingleItemResultDisplayRow.patronLastName"/>
-                            <bean parent="Uif-DataField" p:label="Orig.Charge date"
-                                  p:propertyName="oleSingleItemResultDisplayRow.createDate"/>
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerLastName"/>
+                            <bean parent="Uif-DataField" p:label="Orig. Charge date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.lastBorrowerItemStatusDate"/>
                             <bean parent="Uif-DataField" p:label="Return Date"
                                   p:propertyName="oleSingleItemResultDisplayRow.lastCheckinDate"/>
                         </list>

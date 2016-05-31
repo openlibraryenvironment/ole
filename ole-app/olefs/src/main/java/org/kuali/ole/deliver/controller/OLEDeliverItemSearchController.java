@@ -328,18 +328,18 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     if(null != oleCirculationHistory) {
                         Map patronIdMap = new HashMap();
                         patronIdMap.put(OLEConstants.OlePatron.PATRON_ID, oleCirculationHistory.getPatronId());
-                        List<OlePatronDocument> olePatronDocumentList = new ArrayList<OlePatronDocument>();
-                        olePatronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, patronIdMap);
-                        singleItemResultDisplayRow.setLastBorrower(olePatronDocumentList.get(0).getBarcode());
+                        OlePatronDocument olePatronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronIdMap);
+                        singleItemResultDisplayRow.setLastBorrower(olePatronDocument.getBarcode());
                         OlePatronRecordUtil olePatronRecordUtil = new OlePatronRecordUtil();
-                        singleItemResultDisplayRow.setPatronURL(olePatronRecordUtil.patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocumentList.get(0).getOlePatronId()));
-                        singleItemResultDisplayRow.setPatronFirstName(olePatronDocumentList.get(0).getEntity().getNames().get(0).getFirstName());
-                        singleItemResultDisplayRow.setPatronLastName(olePatronDocumentList.get(0).getEntity().getNames().get(0).getLastName());
-                        singleItemResultDisplayRow.setPatronType(olePatronDocumentList.get(0).getOleBorrowerType().getBorrowerTypeName());
-                        singleItemResultDisplayRow.setPatronExpDate(olePatronDocumentList.get(0).getExpirationDate().toString());
+                        singleItemResultDisplayRow.setLastBorrowerURL(olePatronRecordUtil.patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
+                        singleItemResultDisplayRow.setLastBorrowerFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
+                        singleItemResultDisplayRow.setLastBorrowerLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
+                        singleItemResultDisplayRow.setLastBorrowerMiddleName(olePatronDocument.getEntity().getNames().get(0).getMiddleName());
+                        singleItemResultDisplayRow.setLastBorrowerType(olePatronDocument.getOleBorrowerType().getBorrowerTypeName());
+
+                        singleItemResultDisplayRow.setLastBorrowerExpDate(olePatronDocument.getExpirationDate().toString());
                         singleItemResultDisplayRow.setLastCheckinDate(new Timestamp(oleCirculationHistory.getCheckInDate().getTime()));
-                        itemSearchResultDisplayRow.setLastBorrower(olePatronDocumentList.get(0).getBarcode());
-                        itemSearchResultDisplayRow.setCreateDate(new Timestamp(oleCirculationHistory.getCreateDate().getTime()));
+                        singleItemResultDisplayRow.setLastBorrowerItemStatusDate((new Timestamp(oleCirculationHistory.getCreateDate().getTime())));
                     }
                     if (searchResponse.getSearchResults().size() > 1) {
                         Map itemMap = new HashMap();
