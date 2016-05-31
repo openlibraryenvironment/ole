@@ -47,6 +47,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
     public List<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
             holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
+            holdingMetaDataHandlers.add(new HoldingsIdHandler());
             holdingMetaDataHandlers.add(new HoldingsLocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
             holdingMetaDataHandlers.add(new CallNumberTypeHandler());
@@ -59,6 +60,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
     public List<ItemHandler> getItemMetaDataHandlers() {
         if (null == itemMetaDataHandlers) {
             itemMetaDataHandlers = new ArrayList<ItemHandler>();
+            itemMetaDataHandlers.add(new ItemIdHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberPrefixHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberTypeHandler());
@@ -82,6 +84,7 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
 
         if (null == eholdingMetaDataHandlers) {
             eholdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
+            eholdingMetaDataHandlers.add(new HoldingsIdHandler());
             eholdingMetaDataHandlers.add(new HoldingsLocationHandler());
             eholdingMetaDataHandlers.add(new CallNumberHandler());
             eholdingMetaDataHandlers.add(new CallNumberTypeHandler());
