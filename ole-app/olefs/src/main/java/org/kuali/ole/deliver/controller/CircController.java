@@ -785,13 +785,32 @@ public class CircController extends CheckoutValidationController {
             circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
         }
         circForm.setErrorMessage(new ErrorMessage());
-        OleLoanDocument currentLoanDocument = getCheckoutUIController(circForm.getFormKey()).getCurrentLoanDocument(circForm.getItemBarcode());
-        List<OleLoanDocument> selectedLoanDocumentList = new ArrayList<>();
-        if (null != currentLoanDocument) {
-            selectedLoanDocumentList.add(currentLoanDocument);
+
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) circForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+        if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+            showDialog("renewLostItemDialogMsg", circForm, request, response);
+        } else {
+            renewItem(circForm, request, response);
         }
-        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
-            DroolsResponse droolsResponse = getRenewController().renewItems(selectedLoanDocumentList, circForm.getPatronDocument());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=proceedForLostItemRenew")
+    public ModelAndView proceedForLostItemRenew(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        renewItem(circForm, request, response);
+        return getUIFModelAndView(form);
+    }
+
+    private void renewItem(CircForm circForm, HttpServletRequest request, HttpServletResponse response) {
+        OleLoanDocument currentLoanDocument = getCheckoutUIController(circForm.getFormKey()).getCurrentLoanDocument(circForm.getItemBarcode());
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) circForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+        if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null) {
+            currentLoanDocument.setItemStatus(oleItemRecordForCirc.getItemStatusRecord().getCode());
+        }
+        if (currentLoanDocument != null) {
+            DroolsResponse droolsResponse = getRenewController().renewItems(Arrays.asList(currentLoanDocument), circForm.getPatronDocument());
 
             String messageContentForRenew = getRenewController().analyzeRenewedLoanDocuments(circForm, droolsResponse);
 
@@ -808,7 +827,7 @@ public class CircController extends CheckoutValidationController {
                 circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
             }
         }
-        return getUIFModelAndView(form);
+
     }
 
     @RequestMapping(params = "methodToCall=overrideCheckoutRenewItems")
