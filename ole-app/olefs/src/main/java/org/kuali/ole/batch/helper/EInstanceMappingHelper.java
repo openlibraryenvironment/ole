@@ -237,28 +237,28 @@ public class EInstanceMappingHelper {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformation(oleHoldings, getCode(entry.getKey()), dataField);
                         if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
                     } else {
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformation(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_FIRST_INDICATOR)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformationFI(oleHoldings, getCode(entry.getKey()), dataField);
                         if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
                     } else {
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformationFI(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_SECOND_INICATOR)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformationSI(oleHoldings, getCode(entry.getKey()), dataField);
                         if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
                     } else {
-                        generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        generateHoldingsAccesssInformationSI(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -294,6 +294,46 @@ public class EInstanceMappingHelper {
             LOG.error("Error while mapping oleHoldings data ::" + oleHoldings.getHoldingsIdentifier(), ex);
             buildError(ERR_INSTANCE, oleHoldings.getHoldingsIdentifier(), ERR_CAUSE, ex.getMessage(), TIME_STAMP, new Date().toString());
             throw ex;
+        }
+    }
+
+    private void generateHoldingsAccesssInformationFI(OleHoldings oleHoldings, String code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(oleHoldings.getHoldingsAccessInformation().getFirstIndicator());
+                addDataField(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformation()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationSI(OleHoldings oleHoldings, String code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(oleHoldings.getHoldingsAccessInformation().getSecondIndicator());
+                addDataField(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformation()");
+        }
+    }
+
+
+    private void generateHoldingsAccesssInformation(OleHoldings oleHoldings, String code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified());
+                addDataField(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformation()");
         }
     }
 

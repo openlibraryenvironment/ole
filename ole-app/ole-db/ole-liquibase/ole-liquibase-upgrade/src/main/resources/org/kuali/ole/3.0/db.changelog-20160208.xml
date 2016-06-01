@@ -586,4 +586,8 @@
         <sql>INSERT INTO OLE_BAT_PRCS_TYP_T (OLE_BAT_PRCS_TYP_ID,OLE_BAT_PRCS_TYP_CODE,OLE_BAT_PRCS_TYP_NM,ACTIVE_IND,OBJ_ID,VER_NBR) VALUES(OLE_BAT_PRCS_TYP_S.NEXTVAL,'edi_exp','EDI Export','Y','13','1')</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_MODIFY">
+        <sql>ALTER TABLE OLE_DS_HOLDINGS_T MODIFY MATERIALS_SPECIFIED VARCHAR(200) NULL</sql>
+    </changeSet>
+
 </databaseChangeLog>

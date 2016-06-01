@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.helper;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.impl.OLEBatchProcess;
 import org.kuali.ole.docstore.common.document.Holdings;
@@ -100,7 +101,17 @@ public class ExportHoldingsMappingHelper {
             }
             for (Map.Entry<String, String> entry : dataFieldsHoldingsMap.entrySet()) {
                 DataField dataField;
-                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
+                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    holdings.setHoldingsIdentifier(holdingsDocument.getId());
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingLocalIdentifier(holdings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingLocalIdentifier(holdings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
@@ -227,7 +238,16 @@ public class ExportHoldingsMappingHelper {
             }
             for (Map.Entry<String, String> entry : dataFieldsItemsMap.entrySet()) {
                 DataField dataField;
-                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
+                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (item.getCallNumber() == null) continue;
                     if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
@@ -584,6 +604,28 @@ public class ExportHoldingsMappingHelper {
         }
 
     }
+
+
+    /**
+     * generates the subfields for the Holding Local Identifier for the given holding
+     *
+     * @param holdings
+     * @param code
+     * @param dataField
+     */
+    protected void generateHoldingLocalIdentifier(OleHoldings holdings, char code, DataField dataField) {
+        try {
+            if (holdings != null && holdings.getHoldingsIdentifier() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(DocumentUniqueIDPrefix.getDocumentId(holdings.getHoldingsIdentifier()));
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(holdings, ex, "generateHoldingLocalIdentifier()");
+        }
+    }
+
 
     /**
      * generates the call number prefix for the given instance
@@ -1206,6 +1248,26 @@ public class ExportHoldingsMappingHelper {
 
     protected char getCode(String mappingField) {
         return StringUtils.trim(StringUtils.substringAfter(mappingField, "$")).toCharArray()[0];
+    }
+
+    /**
+     * generates the subfields for the Item Local Identifier for the given item
+     *
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateItemLocalIdentifier(Item item, char code, DataField dataField) {
+        try {
+            if (item != null && item.getItemIdentifier() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(DocumentUniqueIDPrefix.getDocumentId(item.getItemIdentifier()));
+                dataField.addSubfield(subField);
+            }
+        }catch (Exception ex) {
+            logError(item, ex, "generateHoldingLocalIdentifier()");
+        }
     }
 
 }

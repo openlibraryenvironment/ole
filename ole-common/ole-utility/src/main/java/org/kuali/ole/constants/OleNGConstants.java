@@ -301,6 +301,10 @@ public class OleNGConstants {
     public static final String ITEMS_UPDATED = "itemRecordsToUpdate";
     public static final String PUBLIC = "public";
     public static final String NON_PUBLIC = "nonPublic";
+    public static final String MATERIALS_SPECIFIED = "materialsSpecified";
+    public static final String FIRST_INDICATOR = "firstIndicator";
+    public static final String SECOND_INDICATOR = "secondIndicator";
+
     public static final String HOLDINGS_MATCH_FOUND = "holdingsMatchFound";
     public static final String EHOLDINGS_MATCH_FOUND = "eholdingsMatchFound";
 

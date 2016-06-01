@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.response.BatchExportFileResponse;
 import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
@@ -123,42 +124,42 @@ public class BatchExportUtil extends BatchUtil {
                         case "Bib Local Id":
                             addDocType = true;
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("(" + filterCriteriaList.get(i).getFieldName() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(LocalId_search:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getRangeFrom()) && StringUtils.isNotBlank(filterCriteriaList.get(i).getRangeTo())) {
-                                queryBuilder.append(("(" + filterCriteriaList.get(i).getFieldName() + ":" + "[" + filterCriteriaList.get(i).getRangeFrom() + " TO " + filterCriteriaList.get(i).getRangeTo() + "])"));
+                                queryBuilder.append(("(LocalId_search:" + "[" + filterCriteriaList.get(i).getRangeFrom() + " TO " + filterCriteriaList.get(i).getRangeTo() + "])"));
                             } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getRangeFrom()) && StringUtils.isBlank(filterCriteriaList.get(i).getRangeTo())) {
-                                queryBuilder.append(("(" + filterCriteriaList.get(i).getFieldName() + ":" + "[" + filterCriteriaList.get(i).getRangeFrom() + " TO *])"));
+                                queryBuilder.append(("(LocalId_search:" + "[" + filterCriteriaList.get(i).getRangeFrom() + " TO *])"));
                             }
                             break;
                         case "Bib Status":
                             addDocType = true;
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("(" + filterCriteriaList.get(i).getFieldName() + ":" + buildFieldValueForStatus(filterCriteriaList.get(i).getFieldValue()) + ")");
+                                queryBuilder.append("(Status_search:" + buildFieldValueForStatus(filterCriteriaList.get(i).getFieldValue()) + ")");
                             }
                             break;
                         case "Bib Status Updated Date":
                             addDocType = true;
-                            queryBuilder.append(buildFilterQueryForTypeDate(filterCriteriaList.get(i)));
+                            queryBuilder.append(buildFilterQueryForTypeDate("statusUpdatedOn",filterCriteriaList.get(i)));
                             break;
                         case "Date Updated":
-                            queryBuilder.append(buildFilterQueryForTypeDate(filterCriteriaList.get(i)));
+                            queryBuilder.append(buildFilterQueryForTypeDate("dateUpdated",filterCriteriaList.get(i)));
                             break;
                         case "Date Entered":
-                            queryBuilder.append(buildFilterQueryForTypeDate(filterCriteriaList.get(i)));
+                            queryBuilder.append(buildFilterQueryForTypeDate("dateEntered",filterCriteriaList.get(i)));
                             break;
                         case "Created By":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("(" + filterCriteriaList.get(i).getFieldName() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(createdBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                         case "Updated By":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("(" + filterCriteriaList.get(i).getFieldName() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                         case "Staff Only":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("(" + filterCriteriaList.get(i).getFieldName() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                     }
@@ -175,7 +176,7 @@ public class BatchExportUtil extends BatchUtil {
                 }
             }
             if (addDocType) {
-                return "(DocType:bibliographic)AND" + queryBuilder.toString();
+                return "(DocType:bibliographic) AND " + queryBuilder.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,14 +184,14 @@ public class BatchExportUtil extends BatchUtil {
         return queryBuilder.toString();
     }
 
-    public String buildFilterQueryForTypeDate(BatchProfileFilterCriteria filterCriteria) throws ParseException {
+    public String buildFilterQueryForTypeDate(String fieldName, BatchProfileFilterCriteria filterCriteria) throws ParseException {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(filterCriteria.getFieldValue())) {
-            queryBuilder.append("(" + filterCriteria.getFieldName() + ":" + "[" + getSolrDate(filterCriteria.getFieldValue(), true) + " TO " + getSolrDate(filterCriteria.getFieldValue(), false) + "])");
+            queryBuilder.append("(" + fieldName + ":" + "[" + getSolrDate(filterCriteria.getFieldValue(), true) + " TO " + getSolrDate(filterCriteria.getFieldValue(), false) + "])");
         } else if (StringUtils.isNotBlank(filterCriteria.getRangeFrom()) && StringUtils.isNotBlank(filterCriteria.getRangeTo())) {
-            queryBuilder.append(("(" + filterCriteria.getFieldName() + ":" + "[" + getSolrDate(filterCriteria.getRangeFrom(), true) + " TO " + getSolrDate(filterCriteria.getRangeTo(), false) + "])"));
+            queryBuilder.append(("(" + fieldName + ":" + "[" + getSolrDate(filterCriteria.getRangeFrom(), true) + " TO " + getSolrDate(filterCriteria.getRangeTo(), false) + "])"));
         } else if (StringUtils.isNotBlank(filterCriteria.getRangeFrom()) && StringUtils.isBlank(filterCriteria.getRangeTo())) {
-            queryBuilder.append(("(" + filterCriteria.getFieldName() + ":" + "[" + getSolrDate(filterCriteria.getRangeFrom(), true) + " TO *])"));
+            queryBuilder.append(("(" + fieldName + ":" + "[" + getSolrDate(filterCriteria.getRangeFrom(), true) + " TO *])"));
         }
         return queryBuilder.toString();
     }
@@ -230,12 +231,13 @@ public class BatchExportUtil extends BatchUtil {
         stringBuilder.append("(DocType:bibliographic)AND(");
         if (CollectionUtils.isNotEmpty(bibLocalIds)) {
             for (int i = 0; i < bibLocalIds.size(); i++) {
-                stringBuilder.append("(bibIdentifier:" + bibLocalIds.get(i) + ")");
+                stringBuilder.append("(LocalId_search:" + bibLocalIds.get(i) + ")");
                 if (i != bibLocalIds.size() - 1) {
                     stringBuilder.append("OR");
                 }
             }
         }
+        stringBuilder.append(")");
         return stringBuilder.toString();
     }
 
@@ -244,7 +246,7 @@ public class BatchExportUtil extends BatchUtil {
         if (CollectionUtils.isNotEmpty(bibLocalIds)) {
             for (String bibLocalId : bibLocalIds) {
                 if (!bibLocalIdData.contains(bibLocalId)) {
-                    bibLocalIdData.add(bibLocalId);
+                    bibLocalIdData.add( DocumentUniqueIDPrefix.getDocumentId(bibLocalId));
                 } else {
                     oleNGBatchExportResponse.addNoOfFailureRecords(1);
                     oleNGBatchExportResponse.addFailureRecord(bibLocalId, bibLocalId, OleNGConstants.ERR_DUPLICATE_LOCAL_ID);

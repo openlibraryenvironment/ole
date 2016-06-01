@@ -38,6 +38,7 @@ var dataMappingObject = {
         {id: 'eHoldings', name: 'EHoldings'}
     ],
     destinationFieldsForBibMarcHoldings : [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'callNumberPrefix', name: 'Call Number Prefix'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -49,6 +50,7 @@ var dataMappingObject = {
         {id: 'locationLevel5', name: 'Location Level5'}
     ],
     destinationFieldsForBibMarcItems : [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
         {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
         {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
@@ -78,6 +80,7 @@ var dataMappingObject = {
         {id: 'numberOfPieces', name: 'Number of Pieces'}
     ],
     destinationFieldsForBibMarcEHoldings :  [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'accessStatus', name: 'Access Status'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -130,6 +133,9 @@ var dataMappingObject = {
         {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
         {id: 'cancellationReason', name: 'Cancellation Reason'},
         {id: 'publicNote', name: 'Public Note'},
+        {id: 'materialsSpecified', name: 'Materials Specified'},
+        {id: 'firstIndicator', name: 'First Indicator'},
+        {id: 'secondIndicator', name: 'Second Indicator'},
         {id: 'non-publicNote', name: 'Non-public Note'}
     ],
     destinationFieldsForConstantsBib : [
@@ -576,6 +582,9 @@ var invoiceFieldObject = {
         {id: 'requestor', name: 'Requestor'},
         {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
         {id: 'vendorNumber', name: 'Vendor Number'},
+        {id: 'MaterialsSpecified', name: 'Materials Specified'},
+        {id: 'FirstIndicator', name: 'First Indicator'},
+        {id: 'SecondIndicator', name: 'Second Indicator'},
         {id: 'lineItemNote', name: 'Line Item Note'}
     ]
 }

@@ -50,16 +50,7 @@
                                    name="filterFieldValueText_{{$index}}"
                                    type="text"
                                    ng-model="filterCriteria.filterFieldValue" style="height: 30px; width: 100px;"
-                                   ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
-                            <input class="form-control" id="filterFieldValueDate_{{$index}}"
-                                   name="filterFieldValueDate_{{$index}}"
-                                   ui-date="dateOptions"
-                                   ng-model="filterCriteria.filterFieldValue" style="height: 30px; width: 100px;"
-                                   ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                                   ng-show="!(filterCriteria.isAddLine)"/>
                             <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldValue"></span>
                         </td>
                         <td>
@@ -67,16 +58,7 @@
                                     name="filterFieldRangeFromText_{{$index}}"
                                     type="text"
                                     ng-model="filterCriteria.filterFieldRangeFrom" style="height: 30px; width: 100px;"
-                                    ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
-                            <input class="form-control" id="filterFieldRangeFromDate_{{$index}}"
-                                    name="filterFieldRangeFromDate_{{$index}}"
-                                    ui-date="dateOptions"
-                                    ng-model="filterCriteria.filterFieldRangeFrom" style="height: 30px; width: 100px;"
-                                    ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                                    ng-show=" !(filterCriteria.isAddLine)"/>
                             <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldRangeFrom"></span>
                         </td>
                         <td>
@@ -84,16 +66,8 @@
                                     name="filterFieldRangeToText_{{$index}}"
                                     type="text"
                                     ng-model="filterCriteria.filterFieldRangeTo" style="height: 30px; width: 100px;"
-                                    ng-show="!(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
-                            <input class="form-control" id="filterFieldRangeToDate_{{$index}}"
-                                    name="filterFieldRangeToDate_{{$index}}"
-                                    ui-date="dateOptions"
-                                    ng-model="filterCriteria.filterFieldRangeTo" style="height: 30px; width: 100px;"
-                                    ng-show="(filterCriteria.filterFieldName == 'Date Updated(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName =='Date Entered(of Bib, Holdings or Item)' ||
-                                    filterCriteria.filterFieldName == 'Bib Status Updated Date') && !(filterCriteria.isAddLine)"/>
+                                    ng-show="!(filterCriteria.isAddLine)"/>
+
                             <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldRangeTo"></span>
                         </td>
                         <td ng-hide="submitted">

@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
+import org.marc4j.MarcSplitStreamWriter;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlWriter;
@@ -271,7 +272,7 @@ public class MarcRecordUtil {
 
     public String convertMarcRecordListToRawMarcContent(List<Record> records) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8);
+        MarcWriter writer = new MarcSplitStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8, 70000, "880");
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record record = iterator.next();
             writer.write(record);

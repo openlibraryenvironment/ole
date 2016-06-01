@@ -931,7 +931,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
 
     $scope.enableFilterCriteria = function(exportScope) {
         if(exportScope == 'Filter') {
-            makeFilterCriteriaValid($scope);
+           // makeFilterCriteriaValid($scope);
             populateFilterCriteriaFieldNames($scope);
         }
     };
