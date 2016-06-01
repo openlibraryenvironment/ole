@@ -38,6 +38,7 @@ var dataMappingObject = {
         {id: 'eHoldings', name: 'EHoldings'}
     ],
     destinationFieldsForBibMarcHoldings : [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'callNumberPrefix', name: 'Call Number Prefix'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -49,6 +50,7 @@ var dataMappingObject = {
         {id: 'locationLevel5', name: 'Location Level5'}
     ],
     destinationFieldsForBibMarcItems : [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
         {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
         {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
@@ -78,6 +80,7 @@ var dataMappingObject = {
         {id: 'numberOfPieces', name: 'Number of Pieces'}
     ],
     destinationFieldsForBibMarcEHoldings :  [
+        {id: 'Local Identifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'accessStatus', name: 'Access Status'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -130,6 +133,9 @@ var dataMappingObject = {
         {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
         {id: 'cancellationReason', name: 'Cancellation Reason'},
         {id: 'publicNote', name: 'Public Note'},
+        {id: 'materialsSpecified', name: 'Materials Specified'},
+        {id: 'firstIndicator', name: 'First Indicator'},
+        {id: 'secondIndicator', name: 'Second Indicator'},
         {id: 'non-publicNote', name: 'Non-public Note'}
     ],
     destinationFieldsForConstantsBib : [
@@ -548,6 +554,12 @@ var transformationOperations = [
     {id: 'replace', name: 'Replace'}
 ];
 
+var batchExpTransformationOperations = [
+    {id: 'deleteField', name:'Delete Field'},
+    {id: 'deleteSubfield', name: 'Delete SubField'},
+    {id: 'cutPaste', name: 'Cut and Paste'}
+];
+
 var invoiceFieldObject = {
     matchPoint : [
         {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
@@ -570,6 +582,9 @@ var invoiceFieldObject = {
         {id: 'requestor', name: 'Requestor'},
         {id: 'vendorItemIdentifier', name: 'Vendor Item Identifier'},
         {id: 'vendorNumber', name: 'Vendor Number'},
+        {id: 'MaterialsSpecified', name: 'Materials Specified'},
+        {id: 'FirstIndicator', name: 'First Indicator'},
+        {id: 'SecondIndicator', name: 'Second Indicator'},
         {id: 'lineItemNote', name: 'Line Item Note'}
     ]
 }
@@ -652,15 +667,42 @@ var matchPointToUseOptions = [
     {id: 'bibImport', name: 'Bib Import'}
 ];
 
+var dataToExportOptions = [
+    {id: 'Bibliographic Data Only', name: 'Bibliographic Data Only'},
+    {id: 'Bibliographic , Holdings and Item Data', name: 'Bibliographic , Holdings and Item Data'},
+    {id: 'Bibliographic,Holdings,Item and EHoldings Data', name: 'Bibliographic,Holdings,Item and EHoldings Data'}
+]
+
+var exportScopeOptions = [
+    {id: 'Full', name: 'Full'},
+    {id: 'Full except staff-only', name: 'Full except staff-only'},
+    {id: 'Filter', name: 'Filter'},
+    {id: 'Incremental', name: 'Incremental'},
+    {id: 'Incremental except staff-only', name: 'Incremental except staff-only'}
+]
+
+var exportScopes = [
+    {id: 'full', name: 'Full'},
+    {id: 'fullExStaffOnly', name: 'Full Except Staff Only'},
+    {id: 'incremental', name: 'Incremental'},
+    {id: 'incrementalExStaffOnly', name: 'Incremental Except Staff Only'},
+    {id: 'filter', name: 'Filter'}
+];
+
 var mainSection = {
     title: 'Main Section',
     batchProcessTypeValues: BATCH_CONSTANTS.PROFILE_TYPES,
     requisitionForTitlesValues: requisitionForTitlesValues,
     requisitionForTitlesOption: 'One Requisition Per Title',
     orderTypes: orderTypes,
+    exportScopes: exportScopes,
     matchPointToUseOptions: matchPointToUseOptions,
     orderType: "Holdings and Item",
+    exportScope: "Full",
     matchPointToUse: "Order Import",
+    dataToExportOptions: dataToExportOptions,
+    exportScopeOptions: exportScopeOptions,
+    dataToExport: "Bibliographic Data Only",
     marcOnly: false,
     collapsed: false
 };
@@ -748,6 +790,30 @@ var dataMappingInvoice = {
     collapsed: true
 };
 
+var dataMappingBatchExport = {
+    title: 'Data Mappings',
+    dataMappingDocTypes: transformationDocumentTypes,
+    dataMappingDocType: 'Bib Marc',
+    destinations: destinationDocumentTypes,
+    holdingsFields: holdingsMatchPoints,
+    itemFields: itemMatchPoints,
+    eHoldingsFields: eHoldingsDataMappings,
+    dataMappingFields: invoiceFieldObject.dataMapping,
+    discountTypes: discountTypes,
+    transferOptions: transferOptions,
+    transferOption: 'Pre Transfer',
+    priority: 1,
+    isAddLine: false,
+    collapsed: true
+};
+
+var filterCriteria = {
+    title: 'Filter Criteria',
+    filterFieldNames: [],
+    isAddLine: false,
+    collapsed: true
+};
+
 var dataTransformation = {
     title: 'Data Transformations',
     dataTransformationDocTypes: transformationDocumentTypes,
@@ -759,6 +825,18 @@ var dataTransformation = {
     isAddLine: false,
     collapsed: true
 };
+
+var batchExpDataTransformation = {
+    title: 'Data Transformations',
+    dataTransformationDocTypes: transformationDocumentTypes,
+    dataTransformationDocType: 'Bib Marc',
+    dataTransformationActionTypes: actionTypes,
+    dataTransformationActionType: 'All',
+    dataTransformationOperations: batchExpTransformationOperations,
+    dataTransformationStep: 1,
+    isAddLine: false,
+    collapsed: true
+}
 
 var fieldOperation = {
     title: 'Field Operations',

@@ -66,6 +66,20 @@
                             </select>
                             <span ng-show="inquiry" ng-bind="mainSectionPanel.bibImportProfileForOrderImport"></span>
                         </td>
+                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Batch Export'">
+                            <label class="col-sm-4">Export Scope:</label>
+                            <select class="form-control" id="exportScope" name="exportScope"
+                                    ng-model="mainSectionPanel.exportScope"
+                                    ng-change="enableFilterCriteria(mainSectionPanel.exportScope)"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry">
+                                <option ng-selected="{{option.name == mainSectionPanel.exportScope}}"
+                                        ng-repeat="option in mainSectionPanel.exportScopeOptions"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.exportScope"></span>
+                        </td>
                     </tr>
                     <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
                         <td class="col-sm-6">
@@ -107,7 +121,7 @@
                                     {{option.name}}
                                 </option>
                             </select>
-                            <span ng-show="inquiry" ng-bind="mainSectionPanel.requisitionForTitlesOption"></span>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.matchPointToUse"></span>
                         </td>
                     </tr>
                     </tbody>

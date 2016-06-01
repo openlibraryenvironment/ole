@@ -21,6 +21,7 @@ public class BatchProcessTxObject {
     private BatchFileProcessor batchFileProcessor;
     private Exchange exchangeForOrderOrInvoiceImport;
     private Exchange exchangeObjectForBibImport;
+    private Exchange exchangeObjectForBatchExport;
     private OleStopWatch oleStopWatch;
     private int totalNumberOfRecords;
     private int numberOfFailurRecords;
@@ -96,6 +97,17 @@ public class BatchProcessTxObject {
 
     public void setExchangeObjectForBibImport(Exchange exchangeObjectForBibImport) {
         this.exchangeObjectForBibImport = exchangeObjectForBibImport;
+    }
+
+    public Exchange getExchangeObjectForBatchExport() {
+        if (null == exchangeObjectForBatchExport) {
+            exchangeObjectForBatchExport = new Exchange();
+        }
+        return exchangeObjectForBatchExport;
+    }
+
+    public void setExchangeObjectForBatchExport(Exchange exchangeObjectForBatchExport) {
+        this.exchangeObjectForBatchExport = exchangeObjectForBatchExport;
     }
 
     public OleStopWatch getOleStopWatch() {

@@ -44,6 +44,8 @@ batchDisplayReportApp.controller('batchDisplayReportController', ['$scope', '$ht
                     populateInvoiceImportReportFromContent(fileContent, $scope);
                 } else if (profileType.indexOf('Batch Delete') != -1) {
                     populateBatchDeleteReportFromContent(fileContent, $scope);
+                } else if (profileType.indexOf('Batch Export') != -1) {
+                    populateBatchExportReportFromContent(fileContent, $scope);
                 }
             }
         };

@@ -21,6 +21,9 @@
     <script src="batchFramework/controllers/batchViewController.js"></script>
     <script src="batchFramework/controllers/batchProfileServiceHandler.js"></script>
     <script src="batchFramework/controllers/batchProfileValidator.js"></script>
+    <script src="batchScheduling/scripts/date.js"></script>
+    <script src="framework/jquery/js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="framework/jquery/css/jquery-ui.css"/>
 </head>
 <body>
 <form name="batchProfileForm" ng-app="batchProcessProfile" ng-controller="batchProfileController" data-ng-init="init()" novalidate>
@@ -41,10 +44,12 @@
              ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
         <div ng-include="'batchFramework/views/batchFieldOperations.html'"
              ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+        <div ng-include="'batchFramework/views/batchFilterCriteria.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Batch Export' && mainSectionPanel.exportScope == 'Filter'"></div>
         <div ng-include="'batchFramework/views/batchDataMappings.html'"
-             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'"></div>
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
         <div ng-include="'batchFramework/views/batchDataTransformations.html'"
-             ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
         <button id="profileSubmit_button" name="profileSubmit_button" class="btn btn-primary" ng-click="submit()"
                 ng-disabled="submitted || (rowToEdit !== null) || batchProfileForm.$invalid" style="margin-left: 40em;">Submit
         </button>

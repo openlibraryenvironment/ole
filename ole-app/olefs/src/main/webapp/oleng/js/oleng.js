@@ -13,6 +13,7 @@ var OLENG_CONSTANTS = {
     PROFILE_GET_GLOBALLY_PROTECTED_FIELDS : "rest/describe/getGloballyProtectedFields",
     PROFILE_GET_ORDER_FIELD_VALUES : "rest/describe/getOrderImportFieldValues",
     PROFILE_GET_DROP_DOWN_VALUES : "rest/describe/getValuesForDropDown",
+    PROFILE_GET_FILTER_NAMES : "rest/describe/getFilterNames",
 
     /*Profile Actions*/
     PROFILE_SEARCH : "../../rest/describe/profile/search",
@@ -47,9 +48,13 @@ var BATCH_CONSTANTS = {
         {id: 'orderRecordImport', value: 'Order Record Import'},
         {id: 'invoiceImport', value: 'Invoice Import'},
         {id: 'bibImport', value: 'Bib Import'},
+        {id: 'batchExport' , value: 'Batch Export'},
         {id: 'batchDelete', value: 'Batch Delete'}
+    ],
+    OUTPUT_FORMATS : [
+        {id: 'marc', name: 'Marc'},
+        {id: 'marcXml', name: 'MarcXml'}
     ]
-
 };
 
 
@@ -140,4 +145,19 @@ function getLoggedInUserName(){
         user = impersonatingUser.replace("Impersonating User:","").trim();
     }
     return user;
+}
+
+var convertDateFormat = function (jsonObject, key) {
+    var value = jsonObject[key];
+    var dateToString2 = $.datepicker.formatDate('mm-dd-yy', value);
+    jsonObject[key] = dateToString2;
+    return jsonObject;
+};
+
+var setDateFormForFilterCriteria = function(filterCriteriaRow) {
+    if (filterCriteriaRow["filterFieldName"] === 'Date Updated(of Bib, Holdings or Item)' || filterCriteriaRow["filterFieldName"] === 'Date Entered(of Bib, Holdings or Item)' || filterCriteriaRow["filterFieldName"] === 'Bib Status Updated Date'){
+        filterCriteriaRow = convertDateFormat(filterCriteriaRow, "filterFieldValue");
+        filterCriteriaRow = convertDateFormat(filterCriteriaRow, "filterFieldRangeFrom");
+        filterCriteriaRow = convertDateFormat(filterCriteriaRow, "filterFieldRangeTo");
+    }
 }

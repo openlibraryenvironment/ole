@@ -50,10 +50,13 @@ public class BatchRestController extends OleNgControllerBase {
     private BatchInvoiceImportProcessor batchInvoiceImportProcessor;
 
     @Autowired
-    private OleNGBatchJobScheduler oleNGBatchJobScheduler;
+    private BatchExportFileProcessor batchExportFileProcessor;
 
     @Autowired
     private BatchDeleteFileProcessor batchDeleteFileProcessor;
+    
+    @Autowired
+    private OleNGBatchJobScheduler oleNGBatchJobScheduler;
 
     private BatchExcelReportUtil batchExcelReportUtil;
 
@@ -63,20 +66,28 @@ public class BatchRestController extends OleNgControllerBase {
     @ResponseBody
     public String UploadFile(@RequestParam("file") MultipartFile file, @RequestParam("profileName") String profileName,
                              @RequestParam("batchType") String batchType, HttpServletRequest request) throws Exception {
-        if (null != file && StringUtils.isNotBlank(profileName) && StringUtils.isNotBlank(batchType)) {
-            File uploadedDirectory = storeUploadedFileToFileSystem(file, null);
-            if(null != uploadedDirectory) {
-                String originalFilename = file.getOriginalFilename();
-                String extension = FilenameUtils.getExtension(originalFilename);
-                BatchJobDetails batchJobDetails = new BatchJobDetails();
-                batchJobDetails.setProfileName(profileName);
-                batchJobDetails.setFileName(originalFilename);
-                batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
-                batchJobDetails.setStatus(OleNGConstants.RUNNING);
-                JSONObject response = processBatch(uploadedDirectory, batchType, profileName, extension, batchJobDetails);
-                return response.toString();
+        try {
+            if (StringUtils.isNotBlank(profileName) && StringUtils.isNotBlank(batchType)) {
+                File uploadedDirectory = storeUploadedFileToFileSystem(file, null);
+                if (null != uploadedDirectory) {
+                    String originalFilename = null;
+                    String extension = null;
+                    if (null != file) {
+                        originalFilename = file.getOriginalFilename();
+                        extension = FilenameUtils.getExtension(originalFilename);
+                    }
+                    BatchJobDetails batchJobDetails = new BatchJobDetails();
+                    batchJobDetails.setProfileName(profileName);
+                    batchJobDetails.setFileName(originalFilename);
+                    batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
+                    batchJobDetails.setStatus(OleNGConstants.RUNNING);                    
+                    JSONObject response = processBatch(uploadedDirectory, batchType, profileName, extension, batchJobDetails);
+                    return response.toString();
+                }
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
         return null;
     }
@@ -143,28 +154,33 @@ public class BatchRestController extends OleNgControllerBase {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
+    @RequestMapping(method = RequestMethod.POST, value = "/job/quickLaunch", produces = {MediaType.APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
-    public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("numOfRecordsInFile") String numOfRecordsInFile, @RequestParam("extension") String extension, @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
         BatchJobDetails batchJobDetails = null;
         try {
             BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
-            if (null != file && null != matchedBatchJob) {
-                File uploadedDirectory = storeUploadedFileToFileSystem(file, matchedBatchJob.getJobId());
-                if(null != uploadedDirectory) {
-                    String originalFilename = file.getOriginalFilename();
-                    batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
-                    getBusinessObjectService().save(batchJobDetails);
-                    String extension = FilenameUtils.getExtension(originalFilename);
-                    JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
-                            String.valueOf(matchedBatchJob.getBatchProfileId()) , extension, batchJobDetails);
-                }
+            matchedBatchJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
+            matchedBatchJob.setOutputFileFormat(extension);
+            String originalFilename = null;
+
+            File uploadedDirectory = storeUploadedFileToFileSystem(file, matchedBatchJob.getJobId());
+            if (null != file && null != uploadedDirectory) {
+                originalFilename = file.getOriginalFilename();
+                extension = FilenameUtils.getExtension(originalFilename);
+
             }
+
+            batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
+            getBusinessObjectService().save(batchJobDetails);
+            JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
+                    String.valueOf(matchedBatchJob.getBatchProfileId()), extension, batchJobDetails);
+
         } catch (Exception e) {
             e.printStackTrace();
             batchJobDetails.setStatus(OleNGConstants.FAILED);
         }
-        if(null != batchJobDetails) {
+        if (null != batchJobDetails) {
             getBusinessObjectService().save(batchJobDetails);
         }
         return "";
@@ -182,8 +198,10 @@ public class BatchRestController extends OleNgControllerBase {
             if (!uploadDirectory.exists() || !uploadDirectory.isDirectory()) {
                 uploadDirectory.mkdirs();
             }
-            File uploadFile = new File(uploadDirectory, file.getOriginalFilename());
-            file.transferTo(uploadFile);
+            if (null != file) {
+                File uploadFile = new File(uploadDirectory, file.getOriginalFilename());
+                file.transferTo(uploadFile);
+            }
             return uploadDirectory;
         }
         return null;
@@ -561,6 +579,8 @@ public class BatchRestController extends OleNgControllerBase {
             return batchInvoiceImportProcessor;
         } else if(batchType.equalsIgnoreCase("Batch Delete")) {
             return batchDeleteFileProcessor;
+        } else if(batchType.equalsIgnoreCase("Batch Export")) {
+            return batchExportFileProcessor;
         }
         return null;
     }

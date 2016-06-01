@@ -33,6 +33,8 @@ import org.marc4j.marc.Record;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -270,7 +272,7 @@ public class BatchUtil extends OleNgUtil {
         String detailedMessage = getDetailedMessage(exception);
         newInvoiceFailureResponse.setDetailedMessage(detailedMessage);
         invoiceFailureResponses.add(newInvoiceFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE,invoiceFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, invoiceFailureResponses);
 
     }
 
@@ -315,7 +317,7 @@ public class BatchUtil extends OleNgUtil {
         String detailedMessage = getDetailedMessage(exception);
         newBibFailureResponse.setDetailedMessage(detailedMessage);
         bibFailureResponses.add(newBibFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE,bibFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, bibFailureResponses);
 
     }
 
@@ -335,7 +337,7 @@ public class BatchUtil extends OleNgUtil {
         }
     }
 
-    protected void updateBatchJob(BatchJobDetails batchJobDetails) {
+    public void updateBatchJob(BatchJobDetails batchJobDetails) {
         updatePercentCompleted(batchJobDetails);
         updateTimeSpent(batchJobDetails);
         if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
@@ -409,7 +411,7 @@ public class BatchUtil extends OleNgUtil {
     public void addBatchDeleteFailureResponseToExchange(Exception exception, String matchPointData, String bibId, Exchange exchange) {
         String message = exception.toString();
         List<DeleteFailureResponse> deleteFailureResponses = (List<DeleteFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
-        if(null == deleteFailureResponses) {
+        if (null == deleteFailureResponses) {
             deleteFailureResponses = new ArrayList<>();
         }
         DeleteFailureResponse deleteFailureResponse = new DeleteFailureResponse();
@@ -420,6 +422,21 @@ public class BatchUtil extends OleNgUtil {
         deleteFailureResponse.setFailedBibId(bibId);
         deleteFailureResponses.add(deleteFailureResponse);
         exchange.add(OleNGConstants.FAILURE_RESPONSE, deleteFailureResponses);
+    }
+
+    public void addBatchExportFailureResponseToExchange(Exception exception, String bibId, Exchange exchange) {
+        String message = exception.toString();
+        List<ExportFailureResponse> exportFailureResponses = (List<ExportFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == exportFailureResponses) {
+            exportFailureResponses = new ArrayList<>();
+        }
+        ExportFailureResponse exportFailureResponse = new ExportFailureResponse();
+        String detailedMessage = getDetailedMessage(exception);
+        exportFailureResponse.setDetailedMessage(detailedMessage);
+        exportFailureResponse.setFailureMessage(message);
+        exportFailureResponse.setFailedBibId(bibId);
+        exportFailureResponses.add(exportFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, exportFailureResponse);
     }
 
     public String writeBatchRunningStatusToFile(String directoryPath, String status, String totalTimeTaken) {
@@ -457,6 +474,8 @@ public class BatchUtil extends OleNgUtil {
         batchJobDetails.setStatus(OleNGConstants.RUNNING);
         batchJobDetails.setFileName(fileName);
         batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+        batchJobDetails.setNumOfRecordsInFile(batchProcessJob.getNumOfRecordsInFile());
+        batchJobDetails.setOutputFileFormat(batchProcessJob.getOutputFileFormat());
         return batchJobDetails;
     }
 
@@ -464,6 +483,29 @@ public class BatchUtil extends OleNgUtil {
         Map map = new HashedMap();
         map.put(OleNGConstants.JOB_ID, jobId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
+    }
+
+    public String getSolrDate(String dateStr, boolean isFrom) throws ParseException {
+        SimpleDateFormat solrDtFormat = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
+        SimpleDateFormat userFormat = new SimpleDateFormat(OleNGConstants.FILTER_DATE_FORMAT);
+        try {
+            if (isFrom) {
+                Date date = userFormat.parse(dateStr);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), 0, 0, 0);
+                return solrDtFormat.format(cal.getTime());
+            } else {
+                Date date = userFormat.parse(dateStr);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), 23, 59, 59);
+                return solrDtFormat.format(cal.getTime());
+            }
+        } catch (ParseException e) {
+            //LOG.error("Error while parsing user entered date::" + dateStr, e);
+            throw e;
+        }
     }
 
     public BatchJobDetails getJobDetailsById(Long jobDetailsId) {

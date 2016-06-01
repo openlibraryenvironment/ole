@@ -27,5 +27,10 @@
         <div ng-include="'batchReport/views/batchDeleteReportSuccessSection.html'"></div>
         <div ng-include="'batchReport/views/batchDeleteReportFailureSection.html'"></div>
     </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('BatchExport') != -1">
+        <div ng-include="'batchReport/views/batchExportReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchExportReportSuccessSection.html'"></div>
+        <div ng-include="'batchReport/views/batchExportReportFailureSection.html'"></div>
+    </div>
 </div>
 

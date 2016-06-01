@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.batch.process.model;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -53,10 +54,20 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
     private BatchProcessProfile batchProcessProfile;
 
     @JsonIgnore
+    private boolean uploadExportInputFile = false;
+
+    @JsonIgnore
     private String status;
 
     @JsonIgnore
     private List<BatchJobDetails> batchJobDetailsList;
+
+    @JsonIgnore
+    private String outputFileFormat;
+
+
+    @JsonIgnore
+    private int numOfRecordsInFile;
 
     public long getJobId() {
         return jobId;
@@ -174,5 +185,32 @@ public class BatchProcessJob extends PersistableBusinessObjectBase {
 
     public void setBatchJobDetailsList(List<BatchJobDetails> batchJobDetailsList) {
         this.batchJobDetailsList = batchJobDetailsList;
+    }
+
+    public boolean isUploadExportInputFile() {
+        if (null != batchProcessProfile) {
+            uploadExportInputFile = batchProcessProfile.isUploadExportInputFile();
+        }
+        return uploadExportInputFile;
+    }
+
+    public void setUploadExportInputFile(boolean uploadExportInputFile) {
+        this.uploadExportInputFile = uploadExportInputFile;
+    }
+
+    public int getNumOfRecordsInFile() {
+        return numOfRecordsInFile;
+    }
+
+    public void setNumOfRecordsInFile(int numOfRecordsInFile) {
+        this.numOfRecordsInFile = numOfRecordsInFile;
+    }
+
+    public String getOutputFileFormat() {
+        return outputFileFormat;
+    }
+
+    public void setOutputFileFormat(String outputFileFormat) {
+        this.outputFileFormat = outputFileFormat;
     }
 }

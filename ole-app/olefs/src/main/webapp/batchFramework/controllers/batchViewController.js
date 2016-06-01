@@ -1,4 +1,4 @@
-var batchProfileApp = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap']);
+var batchProfileApp = angular.module('batchProcessProfile', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap', 'ui.date']);
 
 batchProfileApp.controller('batchProfileController', ['$scope', '$http', function ($scope, $http) {
     $scope.booleanOptions = booleanOptions;
@@ -10,6 +10,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     $scope.fieldOperationsActivePanel = [];
     $scope.dataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
+    $scope.filterCriteriaActivePanel = [];
     $scope.mainSectionPanel = mainSection;
 
     $scope.setValuesForBatchProcessType = function (mainSectionPanel) {
@@ -31,6 +32,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataTransformationsActivePanel = [];
             $scope.mainSectionPanel.requisitionForTitlesOption = null;
             $scope.mainSectionPanel.matchPointToUse = null;
+            $scope.mainSectionPanel.exportScope = null;
             $scope.mainSectionPanel.marcOnly = false;
             $scope.matchPointsPanel[0].matchPointType = null;
             $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
@@ -54,8 +56,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel[0].matchPointTypes = orderFields;
             $scope.dataMappingsPanel[0].dataMappingFields = orderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
-            $scope.mainSectionPanel.orderType = "Holdings and Item",
-            $scope.mainSectionPanel.matchPointToUse = "Order Import",
+            $scope.mainSectionPanel.orderType = "Holdings and Item";
+            $scope.mainSectionPanel.matchPointToUse = "Order Import";
             clearProfileValues();
         } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
@@ -66,6 +68,23 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel[0].matchPointTypes = invoiceFieldObject.matchPoint;
             $scope.dataMappingsPanel[0].dataMappingFields = invoiceFieldObject.dataMapping;
             clearProfileValues();
+        } else if (mainSectionPanel.batchProcessType == 'Batch Export') {
+            $scope.dataMappingsPanel = [dataMappingBatchExport];
+            $scope.dataTransformationsPanel = [batchExpDataTransformation];
+            $scope.filterCriteriaPanel = [filterCriteria];
+            $scope.dataMappingsActivePanel = [];
+            $scope.dataTransformationsActivePanel = [];
+            $scope.dataMappingsPanel[0].dataField = null;
+            $scope.dataMappingsPanel[0].ind1 = null;
+            $scope.dataMappingsPanel[0].ind2 = null;
+            $scope.dataMappingsPanel[0].subField = null;
+            $scope.dataMappingsPanel[0].constant = null;
+            $scope.dataMappingsPanel[0].destination = null;
+            $scope.dataMappingsPanel[0].field = null;
+            $scope.dataMappingsPanel[0].isMultiValue = false;
+            $scope.dataMappingsPanel[0].priority = 1;
+            $scope.dataMappingsPanel[0].dataMappingFields = null;
+            $scope.mainSectionPanel.exportScope = "Full";
         } else if (mainSectionPanel.batchProcessType == 'Batch Delete') {
             $scope.matchPointsPanel = [matchPoint];
             $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
@@ -578,6 +597,19 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.populateDestinationFieldValues(index, null, dataMapping.dataMappingDocType, dataMapping.field);
     }
 
+    function getFilterCriteriaRowByIndex(index) {
+        var filterCriteriaNewRow = {
+            filterFieldName: $scope.filterCriteriaPanel[index].filterFieldName,
+            filterFieldNameText: $scope.filterCriteriaPanel[index].filterFieldNameText,
+            filterFieldValue: $scope.filterCriteriaPanel[index].filterFieldValue,
+            filterFieldRangeFrom: $scope.filterCriteriaPanel[index].filterFieldRangeFrom,
+            filterFieldRangeTo: $scope.filterCriteriaPanel[index].filterFieldRangeTo,
+            isAddLine: true,
+            isEdit: false
+        };
+        return filterCriteriaNewRow;
+    }
+
     $scope.setDefaultsDataTransformation = function (dataTransformation) {
         dataTransformation.dataTransformationActionType = 'All';
         dataTransformation.dataTransformationAction = 'Add';
@@ -654,6 +686,14 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         } else {
             return null;
         }
+    }
+
+    function populateFilterCriteriaFieldNames($scope) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_FILTER_NAMES, null, function (response) {
+            var data = response.data;
+            console.log(data);
+            $scope.filterCriteriaPanel[0].filterFieldNames = data;
+        });
     }
 
     $scope.populateActionDropDownValues = function (batchProcessType, addOrOverlay) {
@@ -759,11 +799,13 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "description": $scope.mainSectionPanel.profileDescription,
             "batchProcessType": $scope.mainSectionPanel.batchProcessType,
             "orderType": $scope.mainSectionPanel.orderType,
+            "exportScope": $scope.mainSectionPanel.exportScope,
             "bibImportProfileForOrderImport": $scope.mainSectionPanel.bibImportProfileForOrderImport,
             "requisitionForTitlesOption": $scope.mainSectionPanel.requisitionForTitlesOption,
             "matchPointToUse": $scope.mainSectionPanel.matchPointToUse,
             "marcOnly": $scope.mainSectionPanel.marcOnly,
             "forceLoad": $scope.matchPointsActivePanel.forceLoad,
+            "batchProfileFilterCriteriaList": $scope.filterCriteriaPanel,
             "batchProfileMatchPointList": $scope.matchPointsPanel,
             "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
             "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
@@ -790,17 +832,20 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.mainSectionPanel.batchProcessType = profileType;
             doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_EDIT, JSON.stringify(data), function (response) {
                     var data = response.data;
+                    $scope.enableFilterCriteria(data.exportScope);
                     $scope.profile = data;
                     $scope.mainSectionPanel.profileId = data.profileId;
                     $scope.mainSectionPanel.profileName = data.profileName;
                     $scope.mainSectionPanel.profileDescription = data.description;
-                    $scope.mainSectionPanel.orderType = data.orderType,
+                    $scope.mainSectionPanel.orderType = data.orderType;
                     //$scope.mainSectionPanel.batchProcessType = data.batchProcessType;
                     $scope.mainSectionPanel.bibImportProfileForOrderImport = data.bibImportProfileForOrderImport;
                     $scope.mainSectionPanel.requisitionForTitlesOption = data.requisitionForTitlesOption;
                     $scope.mainSectionPanel.matchPointToUse = data.matchPointToUse;
+                    $scope.mainSectionPanel.exportScope = data.exportScope;
                     $scope.mainSectionPanel.marcOnly = data.marcOnly;
                     $scope.matchPointsActivePanel.forceLoad = data.forceLoad;
+                    $scope.filterCriteriaPanel = data.batchProfileFilterCriteriaList;
                     $scope.matchPointsPanel = data.batchProfileMatchPointList;
                     $scope.addOrOverlayPanel = data.batchProfileAddOrOverlayList;
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
@@ -808,6 +853,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
 
                     addEmptyValueToAddNew(data.batchProcessType);
+                    $scope.enableFilterCriteria($scope.mainSectionPanel);
 
                     if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import')) {
                         $scope.dataMappingsActivePanel = [];
@@ -823,38 +869,123 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     };
 
     var removeEmptyValues = function () {
-        $scope.matchPointsPanel.splice(0, 1);
         if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
+            $scope.matchPointsPanel.splice(0, 1);
             $scope.addOrOverlayPanel.splice(0, 1);
             $scope.fieldOperationsPanel.splice(0, 1);
             $scope.dataTransformationsPanel.splice(0, 1);
             $scope.dataMappingsPanel.splice(0, 1);
         }
         if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+            $scope.matchPointsPanel.splice(0, 1);
             $scope.addOrOverlayPanel.splice(0, 1);
             $scope.dataMappingsPanel.splice(0, 1);
         }
         if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
+            $scope.matchPointsPanel.splice(0, 1);
             $scope.dataMappingsPanel.splice(0, 1);
+        }
+        if($scope.mainSectionPanel.batchProcessType == 'Batch Delete') {
+            $scope.matchPointsPanel.splice(0, 1);
+        }
+        if($scope.mainSectionPanel.batchProcessType == 'Batch Export') {
+            $scope.filterCriteriaPanel.splice(0, 1);
+            $scope.dataMappingsPanel.splice(0, 1);
+            $scope.dataTransformationsPanel.splice(0, 1);
         }
     };
 
     var addEmptyValueToAddNew = function (batchProcessType) {
-        if (batchProcessType == 'Batch Delete') {
-            matchPoint.matchPointDocType = 'Bibliographic';
-        }
-        $scope.matchPointsPanel.unshift(matchPoint);
-        if (batchProcessType == 'Bib Import') {
+        if ($scope.mainSectionPanel.batchProcessType == 'Bib Import') {
+            $scope.matchPointsPanel.unshift(matchPoint);
             $scope.addOrOverlayPanel.unshift(addOrOverlay);
             $scope.fieldOperationsPanel.unshift(fieldOperation);
             $scope.dataMappingsPanel.unshift(dataMapping);
             $scope.dataTransformationsPanel.unshift(dataTransformation);
-        } else if (batchProcessType == 'Order Record Import') {
+        }
+        if ($scope.mainSectionPanel.batchProcessType == 'Order Record Import') {
+            $scope.matchPointsPanel.unshift(matchPoint);
             $scope.addOrOverlayPanel.unshift(addOrOverlay);
             $scope.dataMappingsPanel.unshift(dataMappingOrder);
-        } else if (batchProcessType == 'Invoice Import') {
+        }
+        if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
+            $scope.matchPointsPanel.unshift(matchPoint);
             $scope.dataMappingsPanel.unshift(dataMappingInvoice);
         }
+        if($scope.mainSectionPanel.batchProcessType == 'Batch Delete') {
+            matchPoint.matchPointDocType = 'Bibliographic';
+            $scope.matchPointsPanel.unshift(matchPoint);
+        }
+        if($scope.mainSectionPanel.batchProcessType == 'Batch Export') {
+            $scope.filterCriteriaPanel.unshift(filterCriteria);
+            $scope.dataMappingsPanel.unshift(dataMappingBatchExport);
+            $scope.dataTransformationsPanel.unshift(batchExpDataTransformation);
+        }
+    };
+
+    $scope.dateOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0'
+    };
+
+    $scope.enableFilterCriteria = function(exportScope) {
+        if(exportScope == 'Filter') {
+           // makeFilterCriteriaValid($scope);
+            populateFilterCriteriaFieldNames($scope);
+        }
+    };
+
+    $scope.filterCriteriaAdd = function () {
+        $scope.filterCriteriaIndex = 0;
+        var filterCriteriaRow = getFilterCriteriaRowByIndex(0);
+        if (!isValidFilterCriteriaRow(filterCriteriaRow, 0, $scope)) {
+            return;
+        }
+        setDateFormForFilterCriteria(filterCriteriaRow);
+        $scope.filterCriteriaPanel.push(filterCriteriaRow);
+        $scope.filterCriteriaPanel[0].filterFieldNameText = null;
+        $scope.filterCriteriaPanel[0].filterFieldValue = null;
+        $scope.filterCriteriaPanel[0].filterFieldRangeFrom = null;
+        $scope.filterCriteriaPanel[0].filterFieldRangeTo = null;
+    };
+
+    $scope.filterCriteriaCopyRow = function (index) {
+        var copiedRow = getFilterCriteriaRowByIndex(index);
+        $scope.filterCriteriaPanel.splice(index + 1, 0, copiedRow);
+    };
+
+    $scope.filterCriteriaEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = getFilterCriteriaRowByIndex(index);
+            $scope.filterCriteriaPanel[index].isEdit = true;
+            $scope.filterCriteriaPanel[index].filterFieldNames = $scope.filterCriteriaPanel[0].filterFieldNames;
+            $scope.filterCriteriaPanel[index].isAddLine = false;
+        }
+    };
+
+    $scope.filterCriteriaUpdateRow = function(index) {
+        $scope.filterCriteriaIndex = index;
+        var updatedRow = getFilterCriteriaRowByIndex(index);
+        if (!isValidFilterCriteriaRow(updatedRow, index, $scope)) {
+            return;
+        }
+        setDateFormForFilterCriteria(updatedRow);
+        $scope.filterCriteriaPanel[index] = updatedRow;
+        $scope.filterCriteriaPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+    };
+
+    $scope.filterCriteriaCancelUpdate = function(index) {
+        $scope.filterCriteriaPanel[index].isEdit = false;
+        $scope.filterCriteriaPanel[index] = $scope.rowToEdit;
+        $scope.filterCriteriaPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    };
+
+    $scope.filterCriteriaRemove = function (filterCriteria) {
+        var index = $scope.filterCriteriaPanel.indexOf(filterCriteria);
+        $scope.filterCriteriaPanel.splice(index, 1);
     };
 
 }]);

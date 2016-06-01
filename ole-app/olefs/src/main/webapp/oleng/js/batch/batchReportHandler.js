@@ -152,6 +152,13 @@ function populateBatchDeleteReportFromContent(fileContent, $scope) {
     $scope.batchDeleteReportFailureSectionPanel = getDeleteFailureSectionContent(fileContent);
 }
 
+function populateBatchExportReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForBatchExport(fileContent);
+    $scope.batchExportReportMainSectionPanel = mainSectionContent;
+    $scope.batchExportReportSuccessSectionPanel = getExportSuccessSectionContent(fileContent);
+    $scope.batchExportReportFailureSectionPanel = getExportFailureSectionContent(fileContent);
+}
+
 function getMainSectionContent(fileContent) {
     var mainSectionContent = {
         "bibImportProfileName": fileContent["bibImportProfileName"],
@@ -179,6 +186,17 @@ function getMainSectionContentForBatchDelete(fileContent) {
         "jobName": fileContent["jobName"],
         "jobDetailId": fileContent["jobDetailId"],
         "deletedBibsCount": fileContent["deletedBibsCount"],
+        "failedBibsCount": fileContent["failedBibsCount"],
+        "totalRecordsCount": fileContent["totalRecordsCount"]
+    };
+    return mainSectionContent;
+}
+
+function getMainSectionContentForBatchExport(fileContent) {
+    var mainSectionContent = {
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
+        "successBibsCount": fileContent["successBibsCount"],
         "failedBibsCount": fileContent["failedBibsCount"],
         "totalRecordsCount": fileContent["totalRecordsCount"]
     };
@@ -341,5 +359,37 @@ function getDeleteFailureSectionContent(fileContent) {
         }
     }
     return deleteFailureSectionContent;
+}
+
+function getExportSuccessSectionContent(fileContent) {
+    var exportSuccessSectionContent = [];
+    var exportSuccessResponses = fileContent["exportSuccessResponses"];
+    if (exportSuccessResponses != null && exportSuccessResponses != undefined) {
+        for (var q = 0; q < exportSuccessResponses.length; q++) {
+            var exportSuccessMessage = getExportMessageFromResponse(exportSuccessResponses[q]);
+            exportSuccessSectionContent.push(exportSuccessMessage);
+        }
+    }
+    return exportSuccessSectionContent;
+}
+
+function getExportMessageFromResponse(exportMessage) {
+    var exportMessage = {
+        "bibId" : exportMessage["bibId"],
+        "message" : exportMessage["message"]
+    };
+    return exportMessage;
+}
+
+function getExportFailureSectionContent(fileContent) {
+    var exportFailureSectionContent = [];
+    var exportFailureResponses = fileContent["exportFailureResponses"];
+    if (exportFailureResponses != null && exportFailureResponses != undefined) {
+        for (var q = 0; q < exportFailureResponses.length; q++) {
+            var exportFailureMessage = getExportMessageFromResponse(exportFailureResponses[q]);
+            exportFailureSectionContent.push(exportFailureMessage);
+        }
+    }
+    return exportFailureSectionContent;
 }
 

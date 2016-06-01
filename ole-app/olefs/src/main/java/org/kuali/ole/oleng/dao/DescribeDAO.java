@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.dao;
 
+import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord;
@@ -36,5 +37,6 @@ public interface DescribeDAO {
     public void deleteProfileById(Long profileId);
     public List<BatchProcessProfile> fetchProfileByNameAndType(String profileName, String type);
     public <T extends PersistableBusinessObject> T save(T bo);
+    public List<OLEBatchProcessFilterCriteriaBo> fetchAllBatchProcessFilterCriterias();
 
 }
