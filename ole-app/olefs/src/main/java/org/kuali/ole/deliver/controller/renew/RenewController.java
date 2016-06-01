@@ -70,7 +70,7 @@ public class RenewController extends CircUtilController {
                                 if (!pastAndRenewDueDateSame) {
                                     Integer numRenewals = getRenewItemControllerUtil().incrementRenewalCount(oleLoanDocument);
                                     oleLoanDocument.setNumberOfRenewals(numRenewals.toString());
-                                    List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord());
+                                List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord(), null);
                                     oleLoanDocument.setDeliverNotices(oleDeliverNotices);
                                     if (null != oleLoanDocument.getLoanId()) {
                                         Item itemForUpdate = getItemForUpdate(oleLoanDocument);

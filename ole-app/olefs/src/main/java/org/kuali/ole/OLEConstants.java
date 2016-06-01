@@ -3895,6 +3895,11 @@ public class OLEConstants {
     public static final String FORGIVE_PAY_NOT_ALLOWED = "error.forgive.pay.not.allowed";
     public static final String BILL_NOTE = "note";
     public static final String CLAIM_BILL_NOTE = "The fee was created as the end of a claim";
+    public static final String CLAIMS_RETURN_FOUND_IN_LIB = "Claims Returned: [0]  found in library and checked in [1] at [2]";
+    public static final String CLAIMS_RETURN_NOT_FOUND_IN_LIB = "Claims Returned: [0]  returned by patron and checked in [1] at [2]";
+    public static final String BILL_SUSPENDED_NOTE = "The bill has been unsuspended as the result of the end of the claims process";
+    public static final String ITEM_MISSING_IN_PATRON = "Claims Returned: [0] not found, waived and marked missing [1] at [2] ";
+    public static final String ITEM_NOT_FOUND_IN_PATRON = "Claims Returned: [0] not found,  billed for replacement  [1] at [2] ";
 
 
 }

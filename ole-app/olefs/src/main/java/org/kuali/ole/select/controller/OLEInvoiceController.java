@@ -752,7 +752,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         //oleInvoiceDocument = getInvoiceService().populateInvoiceFromPurchaseOrders(oleInvoiceDocument, null);
         //oleInvoiceForm.setDocument(oleInvoiceDocument);
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,false);
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"save");
         if (duplicationExists) {
             oleInvoiceDocument.setDuplicateSaveFlag(true);
             return getUIFModelAndView(form);
@@ -893,7 +893,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             }
         }
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,false);
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"route");
         if (duplicationExists) {
             oleInvoiceDocument.setDuplicateRouteFlag(true);
             return getUIFModelAndView(form);
@@ -1046,7 +1046,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             olePurchaseOrderDocument.setPurchaseOrderTotalList(olePurchaseOrderTotalList);
         }
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,true);
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"approve");
         if (duplicationExists) {
             oleInvoiceDocument.setDuplicateApproveFlag(true);
             return getUIFModelAndView(form);
@@ -1203,7 +1203,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceDocument.setValidationFlag(false);
-        boolean duplicationExists =  getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,true);
+        boolean duplicationExists =  getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"route");
         if (duplicationExists){
             oleInvoiceDocument.setDuplicateRouteFlag(true);
         }
@@ -2322,7 +2322,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         Boolean isAmountExceeds = getInvoiceService().isNotificationRequired(oleInvoiceDocument);
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,false);
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"approve");
         if (duplicationExists) {
             //oleInvoiceForm.setDuplicationMessage(OleSelectConstant.DUPLICATE_INVOICE);
             oleInvoiceDocument.setDuplicateFlag(true);
@@ -3457,14 +3457,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceDocument.setDuplicateValidationFlag(false);
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,false);
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"");
         if (duplicationExists) {
             oleInvoiceDocument.setDuplicateValidationFlag(true);
             String message = oleInvoiceForm.getDuplicationMessage();
             if(message.length() > 0){
-                if(message.contains("Do you want to approve this INV anyway?")){
+               /* if(message.contains("?")){
                     message = message.substring(1,message.lastIndexOf("D"));
-                }
+                }*/
                 oleInvoiceForm.setDuplicationMessage(message);
             }
             return getUIFModelAndView(form);

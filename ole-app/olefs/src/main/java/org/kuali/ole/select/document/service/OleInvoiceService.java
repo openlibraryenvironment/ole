@@ -95,7 +95,7 @@ public interface OleInvoiceService extends InvoiceService {
 
     public boolean canCollapse(String sectionName,String[] collapseSections);
 
-    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, boolean isBlanketApprove);
+    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, String actionName);
 
     public String getPaymentMethodType(String paymentId);
 
