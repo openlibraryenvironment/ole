@@ -239,7 +239,7 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setBibSearchResultDisplayRowList(null);
         oleSearchForm.setHoldingSearchResultDisplayRowList(null);
         oleSearchForm.setShowTime(true);
-        setDefaultParameter(oleSearchForm,null);
+        setDefaultParameter(oleSearchForm, null);
         return super.navigate(oleSearchForm, result, request, response);
     }
 
@@ -362,19 +362,22 @@ public class OLESearchController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
-        float start = System.currentTimeMillis()/1000;
+        float start = System.currentTimeMillis() / 1000;
         OLESearchForm oleSearchForm = (OLESearchForm) form;
 
         if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
-            if (!hasLinkPermission && !oleSearchForm.getViewId().equalsIgnoreCase("OLESearchView")) {
+            String viewId = oleSearchForm.getViewId();
+            if (!hasLinkPermission && !viewId.equalsIgnoreCase("OLESearchView") && !viewId.equalsIgnoreCase("BoundwithView")
+                    && !viewId.equalsIgnoreCase("TransferView") && !viewId.equalsIgnoreCase(OLEConstants.ANALYTICS_VIEW)
+                    && !viewId.equalsIgnoreCase(OLEConstants.ANALYTICS_SUMMARY_VIEW) && !viewId.equalsIgnoreCase("GlobalEditView")) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return super.navigate(oleSearchForm, result, request, response);
             }
         }
         oleSearchForm.getSearchParams().setFacetOffset(0);
         searchDocstoreData(oleSearchForm, request);
-        float end = System.currentTimeMillis()/1000;
+        float end = System.currentTimeMillis() / 1000;
         oleSearchForm.setServerTime(String.valueOf(end - start));
         return super.navigate(oleSearchForm, result, request, response);
     }
