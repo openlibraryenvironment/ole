@@ -359,23 +359,30 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         for (Iterator<? extends OleBaseCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext(); ) {
             OleBaseCalendarWeek OleBaseCalendarWeek = iterator.next();
             String startDay = OleBaseCalendarWeek.getStartDay();
-            if (startDay.equals(String.valueOf(day))) {
-                resolveOpenAndCloseTimesForCalendarWeek(closingTimeMap, openingTimeMap, OleBaseCalendarWeek);
-                break;
-            }
             String endDay = OleBaseCalendarWeek.getEndDay();
-            //The start day may not always be Sunday (0); Hence the check.
-            if (Integer.valueOf(startDay) < Integer.valueOf(endDay)) {
-                if (day > Integer.valueOf(startDay) && day <= Integer.valueOf(endDay)) {
+            if(startDay.equals(endDay)) {
+                if (startDay.equals(String.valueOf(day))) {
                     resolveOpenAndCloseTimesForCalendarWeek(closingTimeMap, openingTimeMap, OleBaseCalendarWeek);
                     break;
                 }
-            } else {
+            }
+            else if ((day >= Integer.valueOf(startDay)) && day <= Integer.valueOf(endDay)) {
+                resolveOpenAndCloseTimesForCalendarWeek(closingTimeMap, openingTimeMap, OleBaseCalendarWeek);
+                break;
+            }
+           /* //The start day may not always be Sunday (0); Hence the check.
+            if ((Integer.valueOf(startDay) < Integer.valueOf(endDay)) && (day > Integer.valueOf(startDay) && day < Integer.valueOf(endDay))) {
+              //  if (day > Integer.valueOf(startDay) && day <= Integer.valueOf(endDay)) {
+                    resolveOpenAndCloseTimesForCalendarWeek(closingTimeMap, openingTimeMap, OleBaseCalendarWeek);
+                    break;
+              //  }
+            }
+            else {
                 if (day > Integer.valueOf(startDay) || day <= Integer.valueOf(endDay)) {
                     resolveOpenAndCloseTimesForCalendarWeek(closingTimeMap, openingTimeMap, OleBaseCalendarWeek);
                     break;
                 }
-            }
+            }*/
         }
         openingAndClosingTimeMap.put("openTime", openingTimeMap);
         openingAndClosingTimeMap.put("closeTime", closingTimeMap);
