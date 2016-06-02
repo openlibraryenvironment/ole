@@ -1095,7 +1095,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean id="duplicateExist" parent="Uif-MessageField" p:messageText="@{duplicationMessage}" />
+                            <bean id="duplicateExist" parent="Uif-MessageField" p:messageText="@{duplicationApproveMessage}" />
                             <ref bean="OLEInvoice-DuplicationPopUp-HorizontalBoxSection"/>
                         </list>
                     </property>
