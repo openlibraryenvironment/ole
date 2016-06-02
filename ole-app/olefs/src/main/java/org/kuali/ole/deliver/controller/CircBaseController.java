@@ -178,6 +178,10 @@ public class CircBaseController extends OLEUifControllerBase{
         showDialog("ptrnValidationErrorMessageDialog", form, request, response);
     }
 
+    public void showHoldErrorMessageDialog(UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
+        showDialog("holdValidationErrorMessageDialog", form, request, response);
+    }
+
     @RequestMapping(params = "methodToCall=clearSession")
     public ModelAndView clearSession(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
