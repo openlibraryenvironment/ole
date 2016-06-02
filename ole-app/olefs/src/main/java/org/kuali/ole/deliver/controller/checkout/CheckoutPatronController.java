@@ -18,6 +18,7 @@ import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -34,6 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by hemalathas on 6/21/15.
@@ -256,6 +259,10 @@ public class CheckoutPatronController extends CheckoutItemController {
         if(oleDeliverRequestBoList != null && oleDeliverRequestBoList.size()>0) {
             for(OleDeliverRequestBo deliverRequestBo : oleDeliverRequestBoList) {
                 if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
+                    Map itemIdMap = new HashMap();
+                    itemIdMap.put(OLEConstants.ITEM_ID, deliverRequestBo.getItemUuid().substring(4));
+                    ItemRecord itemRecord = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ItemRecord.class, itemIdMap);
+                    if(itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD)) {
                     if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
                         Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
                         if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
@@ -267,6 +274,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                         holdOtherLocCount = holdOtherLocCount + 1;
                     }
                 }
+            }
             }
             if(holdSameLocCount > 0) {
                 errorMessage.setErrorMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
