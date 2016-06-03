@@ -117,5 +117,29 @@
             </routeNodes>
         </documentType>
 
+        <documentType>
+            <name>OLE_AGR_REC</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Agreement Record</description>
+            <label>OLE Agreement Record</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
     </documentTypes>
 </data>

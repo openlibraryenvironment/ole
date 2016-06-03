@@ -49,6 +49,7 @@
                 <ref bean="EventLogSection"/>
                 <ref bean="AgreementDocumentSection"/>
                 <ref bean="AgreementSection"/>
+                <ref bean="AgreementDetailSection"/>
                 <ref bean="RelatedDocumentsSection"/>
             </list>
         </property>
@@ -216,7 +217,7 @@
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                                 </property>
                             </bean>
-                            <bean id="assignee" parent="Uif-InputField" p:propertyName="assignee" p:label="Owner/Assignee">
+                            <bean id="assignee" parent="Uif-InputField" p:propertyName="assignee" p:required="true" p:label="Owner/Assignee">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.keyvalue.OleAssigneeKeyValues" />
                                 </property>
@@ -241,7 +242,7 @@
                                     <null></null>
                                 </property>-->
                             </bean>
-                            <bean id="licenseRequestTypeId" parent="Uif-InputField" p:propertyName="licenseRequestTypeId" p:label="License Request Type" p:enableAutoQuickfinder="false">
+                            <bean id="licenseRequestTypeId" parent="Uif-InputField" p:propertyName="licenseRequestTypeId" p:required="true" p:label="License Request Type" p:enableAutoQuickfinder="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.keyvalue.OleLicenseRequestTypeKeyValues" />
                                 </property>
@@ -252,7 +253,7 @@
                                    <null></null>
                                </property>-->
                             </bean>
-                            <bean id="agreementMethodId" parent="Uif-InputField" p:propertyName="agreementMethodId" p:label="Agreement Method" p:enableAutoQuickfinder="false">
+                            <bean id="agreementMethodId" parent="Uif-InputField" p:propertyName="agreementMethodId" p:required="true" p:label="Agreement Method" p:enableAutoQuickfinder="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.keyvalue.OleAgreementMethodKeyValues" />
                                 </property>
@@ -409,37 +410,150 @@
         <property name="headerText" value="Agreement" />
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1">
                     <property name="items">
                         <list>
-                            <bean id="viewAgreement_link" parent="Uif-LinkField" p:label="" p:linkText="View"
-                                  p:href="@{#ViewHelper.viewAgreement(document.newMaintainableObject.dataObject)}" p:target="_blank" p:render="@{document.newMaintainableObject.dataObject.agreementId ne null }"/>
+                            <!--<bean id="viewAgreement_link" parent="Uif-LinkField" p:label="" p:linkText="View"
+                                  p:href="@{#ViewHelper.viewAgreement(document.newMaintainableObject.dataObject)}" p:target="_blank" p:render="@{document.newMaintainableObject.dataObject.agreementId ne null }"/>-->
                             <ref bean="LinkAgreementSection"/>
-                            <ref bean="AgreementMetadata"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-    <bean id="LinkAgreementSection" parent="Uif-MaintenanceHorizontalBoxSection" >
+    <bean id="LinkAgreementSection" parent="Uif-MaintenanceHorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="linkedAgreement" parent="Uif-InputField" p:propertyName="linkedAgreement" p:render="@{document.newMaintainableObject.dataObject.agreementId eq null }">
+                <bean id="agreementIdentifier" parent="Uif-Label" p:labelText="Link to License Agreement"/>
+                <bean id="agreementId" parent="Uif-InputField" p:propertyName="agreementId">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OleAgreementSearch"
-                              p:fieldConversions="uniqueId:linkedAgreement,status:agreementStatus,type:agreementType,methodName:agreementMd"/>
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OleAgreementRecord"
+                              p:fieldConversions="agreementId:agreementId,oleAgreementStatus.agreementStatusName:agreementStatus,contractNumber:agreementContractNumber,licenseTitle:agreementLicenseTitle,codingStatus:agreementCodingStatus,licensor:agreementLicensor,licensee:agreementLicensee,licenseeSite:agreementLicenseeSite,generalNotes:agreementGeneralNotes,startDateStr:agreementStartDate,endDateStr:agreementEndDate,purchaseOrderId:agreementPurchaseOrderId,feeSchedule:agreementFeeSchedule,inflationCap:agreementInflationCap,paymentTerms:agreementPaymentTerms,newTitleAccess:agreementNewTitleAccess,cancellationRights:agreementCancellationRights,:additionalTerms:agreementAdditionalTerms,noticePeriodTermination:agreementNoticePeriodTermination,perpectualAccess:agreementPerpectualAccess,perpectualAccessNotes:agreementPerpectualAccessNotes,governingLaw:agreementGoverningLaw,authorizedUsers:agreementAuthorizedUsers,authorizedUsersGenNotes:agreementAuthorizedUsersGenNotes,depositInIR:agreementDepositInIR,fairUse:agreementFairUse,rightsGranted:agreementRightsGranted,illPrint:agreementIllPrint,illElectronic:agreementIllElectronic,illLoansame:agreementIllLoansame,illNonProfit:agreementIllNonProfit,illSameCuntRest:agreementIllSameCuntRest,illNotes:agreementIllNotes,libResCMSys:agreementLibResCMSys,libRes:agreementLibRes,cmNotes:agreementCmNotes,scholShar:agreementScholShar,textMining:agreementTextMining,perfomanceRights:agreementPerfomanceRights,streamingRights:agreementStreamingRights,multimediaRightsNote:agreementMultimediaRightsNote,notesOnAPCAgreement:agreementNotesOnAPCAgreement,apcOffsetAgreement:agreementApcOffsetAgreement"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean id="agreementCreateNew"  parent="Uif-LinkField" p:label="" p:linkText="create new" p:href="@{#ConfigProperties['ole.license.url']}" p:target="_blank" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="AgreementDetailSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.agreementId ne null }">
+        <property name="headerText" value="Agreement Details" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1">
+                        <property name="items">
+                            <list>
+                                <ref bean="GeneralDetailSection"/>
+                                <ref bean="BusinessDetailSection"/>
+                                <ref bean="ContinuingAccessDetailSection"/>
+                                <ref bean="UseDetailSection"/>
+                            </list>
+                        </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="GeneralDetailSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="General" />
+        <property name="items">
+            <list>
+                <bean id="general_detail_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10">
+                <property name="items">
+                    <list>
+                        <bean id="agreementLicenseId" parent="Uif-DataField" p:propertyName="agreementId" p:label="Agreement Id" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementLicenseTitle" parent="Uif-DataField" p:propertyName="agreementLicenseTitle" p:label="License Title" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementContractNumber" parent="Uif-DataField" p:propertyName="agreementContractNumber" p:label="Contract Number" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementStatus" parent="Uif-DataField" p:propertyName="agreementStatus" p:label="Status" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementCodingStatus" parent="Uif-DataField" p:propertyName="agreementCodingStatus" p:label="Coding Status" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementLicensor" parent="Uif-DataField" p:propertyName="agreementLicensor" p:label="Licensor" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementLicensee" parent="Uif-DataField" p:propertyName="agreementLicensee" p:label="Licensee" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementPurchaseOrderId" parent="Uif-DataField" p:propertyName="agreementPurchaseOrderId" p:label="PO Number" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementStartDate" parent="Uif-DataField" p:propertyName="agreementStartDate" p:label="Start Date" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementEndDate" parent="Uif-DataField" p:propertyName="agreementEndDate" p:label="End Date" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementLicenseeSite" parent="Uif-DataField" p:propertyName="agreementLicenseeSite" p:label="License Site" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        <bean id="agreementGeneralNotes" parent="Uif-DataField" p:propertyName="agreementGeneralNotes" p:label="General Notes" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                    </list>
+                </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="BusinessDetailSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Business" />
+        <property name="items">
+            <list>
+                <bean id="business_detail_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10">
+                    <property name="items">
+                        <list>
+                            <bean id="agreementFeeSchedule" parent="Uif-DataField" p:propertyName="agreementFeeSchedule" p:label="Fee Schedule" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementInflationCap" parent="Uif-DataField" p:propertyName="agreementInflationCap" p:label="Inflation Cap" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementPaymentTerms" parent="Uif-DataField" p:propertyName="agreementPaymentTerms" p:label="agreementPaymentTerms" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementNewTitleAccess" parent="Uif-DataField" p:propertyName="agreementNewTitleAccess" p:label="New Title Access" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementCancellationRights" parent="Uif-DataField" p:propertyName="agreementCancellationRights" p:label="Cancellation Rights" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementAdditionalTerms" parent="Uif-DataField" p:propertyName="agreementAdditionalTerms" p:label="Additional Terms" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementNoticePeriodTermination" parent="Uif-DataField" p:propertyName="agreementNoticePeriodTermination" p:label="Notice Period Termination" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-    <bean id="AgreementMetadata" parent="Uif-MaintenanceHorizontalBoxSection" >
+
+    <bean id="ContinuingAccessDetailSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Continuing Access" />
         <property name="items">
             <list>
-                <bean id="agreementStatus" parent="Uif-DataField" p:propertyName="agreementStatus" p:label="Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
-                <bean id="agreementTypeMD" parent="Uif-DataField" p:propertyName="agreementType" p:label="Status" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
-                <bean id="agreementMd" parent="Uif-DataField" p:propertyName="agreementMd" p:label="Method" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="continuingaccess_detail_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10">
+                    <property name="items">
+                        <list>
+                            <bean id="agreementPerpectualAccess" parent="Uif-DataField" p:propertyName="agreementPerpectualAccess" p:label="Perpectual Access" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementPerpectualAccessNotes" parent="Uif-DataField" p:propertyName="agreementPerpectualAccessNotes" p:label="Perpectual Access Notes" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UseDetailSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Use" />
+        <property name="items">
+            <list>
+                <bean id="use_detail_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10">
+                    <property name="items">
+                        <list>
+                            <bean id="agreementGoverningLaw" parent="Uif-DataField" p:propertyName="agreementGoverningLaw" p:label="Governing Law" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementAuthorizedUsers" parent="Uif-DataField" p:propertyName="agreementAuthorizedUsers" p:label="Authorized Users" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementAuthorizedUsersGenNotes" parent="Uif-DataField" p:propertyName="agreementAuthorizedUsersGenNotes" p:label="Authorized Users General Notes" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementDepositInIR" parent="Uif-DataField" p:propertyName="agreementDepositInIR" p:label="Deposit In IR" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementFairUse" parent="Uif-DataField" p:propertyName="agreementFairUse" p:label="Fair Use" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementRightsGranted" parent="Uif-DataField" p:propertyName="agreementRightsGranted" p:label="Rights Granted" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllPrint" parent="Uif-DataField" p:propertyName="agreementIllPrint" p:label="ILL (Print)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllElectronic" parent="Uif-DataField" p:propertyName="agreementIllElectronic" p:label="ILL (Electronic)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllLoansame" parent="Uif-DataField" p:propertyName="agreementIllLoansame" p:label="ILL Loansame" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllNonProfit" parent="Uif-DataField" p:propertyName="agreementIllNonProfit" p:label="ILL Non Profit" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllSameCuntRest" parent="Uif-DataField" p:propertyName="agreementIllSameCuntRest" p:label="ILL (same contry restrictions)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementIllNotes" parent="Uif-DataField" p:propertyName="agreementIllNotes" p:label="ILL Notes" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementLibResCMSys" parent="Uif-DataField" p:propertyName="agreementLibResCMSys" p:label="Library Reserves/Course Managment System (electronic)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementLibRes" parent="Uif-DataField" p:propertyName="agreementLibRes" p:label="Library Reserves(Print)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementCmNotes" parent="Uif-DataField" p:propertyName="agreementCmNotes" p:label="library Reserves/CMS Note" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementScholShar" parent="Uif-DataField" p:propertyName="agreementScholShar" p:label="Scholarly Sharing" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementTextMining" parent="Uif-DataField" p:propertyName="agreementTextMining" p:label="Text Mining" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementPerfomanceRights" parent="Uif-DataField" p:propertyName="agreementPerfomanceRights" p:label="Perfomance Rights" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementStreamingRights" parent="Uif-DataField" p:propertyName="agreementStreamingRights" p:label="Streaming Rights" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementMultimediaRightsNote" parent="Uif-DataField" p:propertyName="agreementMultimediaRightsNote" p:label="Multimedia Rights Note" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementNotesOnAPCAgreement" parent="Uif-DataField" p:propertyName="agreementNotesOnAPCAgreement" p:label="Notes On APC Agreement" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="agreementApcOffsetAgreement" parent="Uif-DataField" p:propertyName="agreementApcOffsetAgreement" p:label="Apc Offset Agreement" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

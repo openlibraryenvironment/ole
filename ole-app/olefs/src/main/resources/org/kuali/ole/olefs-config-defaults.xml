@@ -425,6 +425,7 @@
     <param name="ole.editor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
     <param name="ole.platform.url">${ole.fs.url.base}/portal.do?channelTitle=Platform&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
     <param name="ole.eresource.url">${ole.fs.url.base}/portal.do?channelTitle=eresource&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.license.url">${ole.fs.url.base}/oleportal.do?channelTitle=Agreement Record&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/maintenance?methodToCall=start&amp;dataObjectClassName=org.kuali.ole.select.bo.OleAgreementRecord&amp;returnLocation=${ole.fs.url.base}/portal.do&amp;hideReturnLink=true&amp;showMaintenanceLinks=true</param>
     <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
     <param name="docSearchURL">${ole.docstore.url.base}</param>
     <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>

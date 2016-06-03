@@ -17,5 +17,6 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-DLVR","Deliver","CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_TITLE","OLEAC1015","1","CONFG","CLAIMS RETURNED NOT FOUND NO FEES NOTICE","Claims Returned Not Found - no fees Notice","A","KUALI"
 "OLE-DLVR","Deliver","CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT","OLEAC1016","1","CONFG","Claimed Item has not been found. Item will NOT be billed to the patron’s account","Claims Returned Not Found - no fees","A","KUALI"
 "OLE-DLVR","Deliver","FORGIVE_LOST_FEES","OLEAC1017","1","CONFG","REPL_FEE,LOST_ITEM_PRCS_FEE","Allows the specified fees to be forgiven while renew/return an lost item.","A","OLE"
+"OLE-SELECT","E-Resource","AGREEMENT_AUTH_USERS","OLEER1001","1","CONFG","Students,Faculty,Staff,Affiliates,Walk-ins,Retired Staff,Alumni","This parameter value is used to get Authorized user for Agreement.","A","OLE"
 OLE-SYS,Batch,FUND_RECORD_CSV_NAME,150,1,CONFG,FundCode,"The Name of the csv file ingested for Fund record import document name should ends with the value specified in this parameter",A,OLE
 OLE-SYS,Batch,FUND_ACCOUNTING_LINE_RECORD_CSV_NAME,151,1,CONFG,FundCodeAccountingLines,"The Name of the csv file ingested for FundCode Accounting Lines record import document name should ends with the value specified in this parameter",A,OLE
