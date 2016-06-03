@@ -95,7 +95,6 @@ public class OleNGRestLoginFilter implements Filter {
             throw new AuthenticationException("Invalid User: " + principalName);
         }
 
-        request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
         GlobalVariables.setUserSession(userSession);
     }
 
