@@ -48,7 +48,6 @@
             <list>
                <bean id="circDeskChangeDialog" parent="cirDeskChangeConfirmationDialog"/>
                <bean id="ptrnValidationErrorMessageDialog" parent="patronValidationErrorMessageDialog"/>
-               <bean id="holdValidationErrorMessageDialog" parent="itemHoldValidationErrorMessageDialog"/>
                <bean id="overrideMessageDialog" parent="operatorOverrideMessageDialog"/>
                <bean id="proxyListCheckoutDialog" parent="proxyForPatronListDialog"/>
                <bean id="customDueDateDialog" parent="customDueDateConfirmationDialog"/>
