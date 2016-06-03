@@ -71,7 +71,6 @@ public class OleNGConstants {
         public static final String SELECTOR_NOTE = "Selector Note";
         public static final String SPL_PROCESS_NOTE = "Special Processing Instruction Note";
         public static final String VNDR_INSTR_NOTE = "Vendor Instructions Note";
-        public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
         public static final String BOOK_PLATE = "Book Plate";
         public static final String EBOOK = "E-Book";
         public static final String EXCHANGE_RATE = "Exchange Rate";
