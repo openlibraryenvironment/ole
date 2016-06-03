@@ -247,11 +247,11 @@ public class InstanceMappingHelper {
             for (Map.Entry<String, String> entry : dataFieldsItemsMap.entrySet()) {
                 DataField dataField;
                 if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
-                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
                         generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
-                        if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldItemList.add(dataField);
                     } else {
                         generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
                     }

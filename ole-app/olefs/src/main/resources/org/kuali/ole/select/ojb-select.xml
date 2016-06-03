@@ -4934,6 +4934,12 @@
         <field-descriptor name="licenseRequestTypeId" column="LIC_REQS_TYP_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="agreementMethodId" column="AGR_MTH_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="licenseRequestWorkflowTypeCode" column="LIC_WRK_FLW_TYP_CD" jdbc-type="VARCHAR"/>
+
+        <reference-descriptor name="oleAgreementRecord" class-ref="org.kuali.ole.select.bo.OleAgreementRecord"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="agreementId"/>
+        </reference-descriptor>
+
         <reference-descriptor name="oleLicenseRequestStatus" class-ref="org.kuali.ole.select.bo.OleLicenseRequestStatus"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="licenseRequestStatusCode"/>
@@ -6605,5 +6611,58 @@
         <field-descriptor name="principalName" column="POBA_PRNCPL_NM" jdbc-type="VARCHAR"/>
 
     </class-descriptor>
-    
+
+
+    <class-descriptor class="org.kuali.ole.select.bo.OleAgreementRecord" table="OLE_AGREEMENT_T">
+        <field-descriptor name="agreementId" column="AGR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_AGREEMENT_S"/>
+        <field-descriptor name="licenseTitle" column="AGR_LICENCE_TITLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contractNumber" column="AGR_CONTRACT_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="purchaseOrderId" column="PO_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="agreementStatusId" column="AGR_STATUS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="codingStatus" column="AGR_CODINGD_STATUS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="licensor" column="AGR_LICENSOR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="licensee" column="AGR_LICENSEE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="generalNotes" column="AGR_GENERAL_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="licenseeSite" column="AGR_LICENSE_SITE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="feeSchedule" column="AGR_FEE_SCHDLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="inflationCap" column="AGR_INFLATION_CAP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="paymentTerms" column="AGR_PAYMENT_TERM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="governingLaw" column="AGR_GOVRNING_LAW" jdbc-type="VARCHAR"/>
+        <field-descriptor name="newTitleAccess" column="AGR_NEW_TITLE_ACCESS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="cancellationRights" column="AGR_CANCELLATION_RIGHTS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="additionalTerms" column="AGR_ADDITIONAL_TERM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="noticePeriodTermination" column="AGR_NTC_PER_FOR_TERMN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpectualAccess" column="AGR_PERP_ACCESS" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="perpectualAccessNotes" column="AGR_PERP_ACC_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="authUsers" column="AGR_AUTH_USRS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="authorizedUsersGenNotes" column="AGR_AUTH_USRS_GEN_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="depositInIR" column="AGR_DEP_IN_JR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="fairUse" column="AGR_FAIR_USE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="rightsGranted" column="AGR_RTS_NT_GR_DE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illPrint" column="AGR_ILL_PR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illElectronic" column="AGR_ILL_EL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illLoansame" column="AGR_ILL_LON_DOC_PERM" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illNonProfit" column="AGR_ILL_NON_PRFT_ONLY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illSameCuntRest" column="AGR_ILL_SAM_CNTRY_RES" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="illNotes" column="AGR_ILL_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="libResCMSys" column="AGR_LIB_RES_ELEC" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="libRes" column="AGR_LIB_RES_PRI" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="cmNotes" column="AGR_LIB_RES_CMS_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="scholShar" column="AGR_SCOH_SHA" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="textMining" column="AGR_TXT_MIN" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="perfomanceRights" column="AGR_PERM_RIGHTS" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="streamingRights" column="AGR_STR_RIGHTS" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="multimediaRightsNote" column="AGR_MUL_RIGHTS_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="apcOffsetAgreement" column="AGR_APC_OFFST" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="notesOnAPCAgreement" column="AGR_APC_OFFST_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="startDate" column="AGR_START_DT" jdbc-type="DATE"/>
+        <field-descriptor name="endDate" column="AGR_END_DT" jdbc-type="DATE"/>
+
+        <reference-descriptor name="oleAgreementStatus" class-ref="org.kuali.ole.select.bo.OleAgreementStatus"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="agreementStatusId"/>
+        </reference-descriptor>
+
+    </class-descriptor>
+
 </descriptor-repository>

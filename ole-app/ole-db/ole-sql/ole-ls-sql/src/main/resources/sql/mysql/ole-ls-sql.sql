@@ -249,6 +249,69 @@ CREATE TABLE OLE_AGR_TYPE_T
 
 
 # -----------------------------------------------------------------------
+# OLE_AGREEMENT_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_AGREEMENT_T
+/
+
+CREATE TABLE OLE_AGREEMENT_T
+(
+      AGR_ID VARCHAR(40)
+        , AGR_LICENCE_TITLE VARCHAR(250)
+        , AGR_CONTRACT_NBR VARCHAR(20)
+        , PO_ID INTEGER
+        , AGR_STATUS_ID VARCHAR(40)
+        , AGR_CODINGD_STATUS_ID VARCHAR(40)
+        , AGR_LICENSOR_ID VARCHAR(40)
+        , AGR_LICENSEE_ID VARCHAR(40)
+        , AGR_GENERAL_NTE VARCHAR(250)
+        , AGR_LICENSE_SITE VARCHAR(250)
+        , AGR_FEE_SCHDLE VARCHAR(250)
+        , AGR_INFLATION_CAP VARCHAR(250)
+        , AGR_PAYMENT_TERM VARCHAR(250)
+        , AGR_GOVRNING_LAW VARCHAR(250)
+        , AGR_NEW_TITLE_ACCESS VARCHAR(250)
+        , AGR_CANCELLATION_RIGHTS VARCHAR(250)
+        , AGR_ADDITIONAL_TERM VARCHAR(250)
+        , AGR_NTC_PER_FOR_TERMN VARCHAR(250)
+        , AGR_PERP_ACCESS VARCHAR(1)
+        , AGR_PERP_ACC_NTE VARCHAR(250)
+        , AGR_AUTH_USRS VARCHAR(250)
+        , AGR_AUTH_USRS_GEN_NTE VARCHAR(250)
+        , AGR_DEP_IN_JR VARCHAR(1)
+        , AGR_FAIR_USE VARCHAR(1)
+        , AGR_RTS_NT_GR_DE VARCHAR(1)
+        , AGR_ILL_PR VARCHAR(1)
+        , AGR_ILL_EL VARCHAR(1)
+        , AGR_ILL_LON_DOC_PERM VARCHAR(1)
+        , AGR_ILL_NON_PRFT_ONLY VARCHAR(1)
+        , AGR_ILL_SAM_CNTRY_RES VARCHAR(1)
+        , AGR_ILL_NTE VARCHAR(250)
+        , AGR_LIB_RES_ELEC VARCHAR(1)
+        , AGR_LIB_RES_PRI VARCHAR(1)
+        , AGR_LIB_RES_CMS_NTE VARCHAR(250)
+        , AGR_SCOH_SHA VARCHAR(1)
+        , AGR_TXT_MIN VARCHAR(1)
+        , AGR_PERM_RIGHTS VARCHAR(1)
+        , AGR_STR_RIGHTS VARCHAR(1)
+        , AGR_MUL_RIGHTS_NTE VARCHAR(250)
+        , AGR_APC_OFFST VARCHAR(1)
+        , AGR_APC_OFFST_NTE VARCHAR(250)
+        , AGR_START_DT DATETIME
+        , AGR_END_DT DATETIME
+    
+    , CONSTRAINT OLE_AGREEMENT_TP1 PRIMARY KEY(AGR_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_AUTHCAT_TYP_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_AUTHCAT_TYP_T
@@ -6840,6 +6903,20 @@ CREATE TABLE OLE_AGR_TYPE_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_AGR_TYPE_S auto_increment = 6
+/
+
+# -----------------------------------------------------------------------
+# OLE_AGREEMENT_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_AGREEMENT_S
+/
+
+CREATE TABLE OLE_AGREEMENT_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_AGREEMENT_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------

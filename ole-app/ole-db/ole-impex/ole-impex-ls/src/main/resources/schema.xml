@@ -108,6 +108,55 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>
 
+    <table name="OLE_AGREEMENT_T">
+        <column name="AGR_ID"  primaryKey="true"
+                size="40" type="VARCHAR"/>
+        <column name="AGR_LICENCE_TITLE" size="250" type="VARCHAR"/>
+        <column name="AGR_CONTRACT_NBR" size="20" type="VARCHAR"/>
+        <column name="PO_ID"  type="INTEGER"/>
+        <column name="AGR_STATUS_ID" size="40" type="VARCHAR"/>
+        <column name="AGR_CODINGD_STATUS_ID"  size="40" type="VARCHAR"/>
+        <column name="AGR_LICENSOR_ID" size="40" type="VARCHAR"/>
+        <column name="AGR_LICENSEE_ID" size="40" type="VARCHAR"/>
+        <column name="AGR_GENERAL_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_LICENSE_SITE" size="250" type="VARCHAR"/>
+        <column name="AGR_FEE_SCHDLE" size="250" type="VARCHAR"/>
+        <column name="AGR_INFLATION_CAP" size="250" type="VARCHAR"/>
+        <column name="AGR_PAYMENT_TERM" size="250" type="VARCHAR"/>
+        <column name="AGR_GOVRNING_LAW" size="250" type="VARCHAR"/>
+        <column name="AGR_NEW_TITLE_ACCESS" size="250" type="VARCHAR"/>
+        <column name="AGR_CANCELLATION_RIGHTS" size="250" type="VARCHAR"/>
+        <column name="AGR_ADDITIONAL_TERM" size="250" type="VARCHAR"/>
+        <column name="AGR_NTC_PER_FOR_TERMN" size="250" type="VARCHAR"/>
+        <column name="AGR_PERP_ACCESS" size="1" type="VARCHAR"/>
+        <column name="AGR_PERP_ACC_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_AUTH_USRS" size="250" type="VARCHAR"/>
+        <column name="AGR_AUTH_USRS_GEN_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_DEP_IN_JR" size="1" type="VARCHAR"/>
+        <column name="AGR_FAIR_USE" size="1" type="VARCHAR"/>
+        <column name="AGR_RTS_NT_GR_DE" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_PR" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_EL" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_LON_DOC_PERM" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_NON_PRFT_ONLY" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_SAM_CNTRY_RES" size="1" type="VARCHAR"/>
+        <column name="AGR_ILL_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_LIB_RES_ELEC" size="1" type="VARCHAR"/>
+        <column name="AGR_LIB_RES_PRI" size="1" type="VARCHAR"/>
+        <column name="AGR_LIB_RES_CMS_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_SCOH_SHA" size="1" type="VARCHAR"/>
+        <column name="AGR_TXT_MIN" size="1" type="VARCHAR"/>
+        <column name="AGR_PERM_RIGHTS" size="1" type="VARCHAR"/>
+        <column name="AGR_STR_RIGHTS" size="1" type="VARCHAR"/>
+        <column name="AGR_MUL_RIGHTS_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_APC_OFFST" size="1" type="VARCHAR"/>
+        <column name="AGR_APC_OFFST_NTE" size="250" type="VARCHAR"/>
+        <column name="AGR_START_DT" type="DATE"/>
+        <column name="AGR_END_DT" type="DATE"/>
+    </table>
+
+
+
     <table name="OLE_AUTHCAT_TYP_T">
         <column name="AUTHCAT_TYP_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -3621,6 +3670,7 @@
     <sequence name="OLE_AGR_MTH_S" nextval="6"/>
     <sequence name="OLE_AGR_STAT_S" nextval="5"/>
     <sequence name="OLE_AGR_TYPE_S" nextval="6"/>
+    <sequence name="OLE_AGREEMENT_S" nextval="1"/>
     <sequence name="OLE_AUTHCAT_TYP_S" nextval="1"/>
     <sequence name="OLE_BDGT_CD_S" nextval="1"/>
     <sequence name="OLE_CAT_ACCS_MTHD_S" nextval="8"/>
@@ -3815,5 +3865,6 @@
     <sequence name="OLE_NG_BAT_PRF_S" nextval="1"/>
     <sequence name="OLE_NG_BAT_PRCS_JOB_S" nextval="1"/>
     <sequence name="OLE_NG_BAT_JOB_DETAILS_S" nextval="1"/>
+
 
 </database>

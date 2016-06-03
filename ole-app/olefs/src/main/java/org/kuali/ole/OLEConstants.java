@@ -3901,5 +3901,7 @@ public class OLEConstants {
     public static final String ITEM_MISSING_IN_PATRON = "Claims Returned: [0] not found, waived and marked missing [1] at [2] ";
     public static final String ITEM_NOT_FOUND_IN_PATRON = "Claims Returned: [0] not found,  billed for replacement  [1] at [2] ";
 
+    public static final String AGREEMENT_AUTH_USERS="AGREEMENT_AUTH_USERS";
+    public static final String AGREEMENT_RECORD="agreementRecord";
 
 }
