@@ -267,7 +267,7 @@
                 <bean id="emailAddress" parent="Uif-LookupCriteriaInputField" p:propertyName="emailAddress" />
                 <bean id="PatronSearch_phoneNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="phoneNumber" p:label="Phone Number" />
                 <bean id="olePatronId" parent="Uif-LookupCriteriaInputField" p:propertyName="olePatronId" p:label="Patron Id" p:enableAutoDirectInquiry="false"/>
-                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="activeIndicator" p:defaultValue="Y"/>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="activeIndicator"/>
             </list>
         </property>
         <property name="resultFields">

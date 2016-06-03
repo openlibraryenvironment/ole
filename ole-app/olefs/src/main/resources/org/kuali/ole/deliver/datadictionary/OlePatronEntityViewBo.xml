@@ -385,7 +385,7 @@
                 <bean id="OlePatronEntityViewBo_criteriaField_emailAddress" parent="Uif-LookupCriteriaInputField" p:propertyName="emailAddress" />
                 <bean id="OlePatronEntityViewBo_criteriaField_phoneNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="phoneNumber" p:label="Phone Number" />
                 <bean id="OlePatronEntityViewBo_criteriaField_olePatronId" parent="Uif-LookupCriteriaInputField" p:propertyName="patronId" p:label="Patron Id" p:enableAutoDirectInquiry="false"/>
-                <bean id="OlePatronEntityViewBo_criteriaField_activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+                <bean id="OlePatronEntityViewBo_criteriaField_activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
             </list>
         </property>
         <property name="resultFields">
