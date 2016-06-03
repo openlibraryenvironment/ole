@@ -85,6 +85,7 @@ public class OleNGConstants {
         public static final String PO_NUMBER = "Purchase Order Number";
 
         public static final String CALL_NUMBER = "Call Number";
+        public static final String LOCAL_IDENTIFIER = "Local Identifier";
         public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
         public static final String CALL_NUMBER_TYPE = "Call Number Type";
         public static final String CHRONOLOGY = "Chronology";
