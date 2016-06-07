@@ -457,7 +457,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 }
             }
             int count=0;
+            KualiDecimal accountingLinePercentage = KualiDecimal.ZERO;
             for(PurApAccountingLine account:purApItem.getSourceAccountingLines()){
+                int accountingLineSize = purApItem.getSourceAccountingLines().size();
                 OleInvoiceItem oleInvoiceItem = (OleInvoiceItem)purApItem;
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 BigDecimal discount = BigDecimal.ZERO;
@@ -482,16 +484,29 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     account.setAmount(KualiDecimal.ZERO);
                 }
                 else if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
-                    if (account.getAmount()!=null&&count<existingAmount.size()&&existingAmount.size() != 0 && !existingAmount.get(count).toString().equals(account.getAmount().toString())) {
-                        KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
-                        account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
-                    }
-                    else {
+                    if (account.getAmount() != null && count < existingAmount.size() && existingAmount.size() != 0 && !existingAmount.get(count).toString().equals(account.getAmount().toString())) {
+                        if (count == accountingLineSize - 1) {
+                            KualiDecimal calculatedPercent = new KualiDecimal(100).subtract(accountingLinePercentage);
+                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue());
+                        } else {
+                            KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
+                            accountingLinePercentage = accountingLinePercentage.add(calculatedPercent);
+                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_CEILING));
+                        }
+
+                    } else {
                         KualiDecimal calculatedAmount = new KualiDecimal((account.getAccountLinePercent().multiply(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount))).divide(new BigDecimal(100))).toString());
                         account.setAmount(calculatedAmount);
-                        KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
-                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
+                        if (count == accountingLineSize - 1) {
+                            KualiDecimal calculatedPercent = new KualiDecimal(100).subtract(accountingLinePercentage);
+                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue());
+                        } else {
+                            KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
+                            accountingLinePercentage = accountingLinePercentage.add(calculatedPercent);
+                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_CEILING));
                         }
+
+                    }
                 }
                 count++;
             }
