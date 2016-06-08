@@ -1681,10 +1681,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OleDeliverRequest.DATE_FORMAT);
             for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
                 try {
-                    if(oleDeliverRequestBoList.get(i).getHoldExpirationDate()==null || ( oleDeliverRequestBoList.get(i).getHoldExpirationDate()!=null && (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)){
-                        //newOleDeliverRequestBoList.add(oleDeliverRequestBoList.get(i));
-                        deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                    if(validItemStatus(oleDeliverRequestBoList.get(i).getItemUuid())) {
+                        if (oleDeliverRequestBoList.get(i).getHoldExpirationDate() == null && oleDeliverRequestBoList.get(i).getRequestExpiryDate() != null &&
+                                fmt.format(oleDeliverRequestBoList.get(i).getRequestExpiryDate()).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
+                            deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                        } else if (oleDeliverRequestBoList.get(i).getHoldExpirationDate() != null &&
+                                (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
+                            deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                        }
                     }
+
                 } catch (Exception e) {
                     LOG.info("Exception occured while deleting the request with request Id : " + oleDeliverRequestBoList.get(i).getRequestId());
                     LOG.error(e, e);
@@ -1695,6 +1701,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             //getBusinessObjectService().save(oleDeliverRequestBoList);
             LOG.error("Exception while deleting expired requests", e);
         }
+    }
+
+    private boolean validItemStatus(String uuid) {
+        Map itemIdMap = new HashMap();
+        itemIdMap.put(OLEConstants.ITEM_ID, uuid.substring(4));
+        ItemRecord itemRecord = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ItemRecord.class, itemIdMap);
+        if (itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD)) {
+            return true;
+        }
+        return false;
     }
 
     private Item getItem(String itemUUID) {
