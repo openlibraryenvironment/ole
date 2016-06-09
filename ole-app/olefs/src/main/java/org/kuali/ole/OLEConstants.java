@@ -682,7 +682,7 @@ public class OLEConstants {
         public static final String DESTINATION_FIELD_STATISTICAL_CODE = "Statistical Code";
         public static final String DESTINATION_FIELD_ACCESS_STATUS_CODE = "Access Status";
         public static final String DESTINATION_FIELD_MATIRIAL_SPECIFIED = "Materials Specified";
-        public static final String DESTINATION_FIELD_FIRST_INDICATOR = "Firist Indicator";
+        public static final String DESTINATION_FIELD_FIRST_INDICATOR = "First Indicator";
         public static final String DESTINATION_FIELD_SECOND_INICATOR = "Second Indicator";
         public static final String DESTINATION_FIELD_PLATFORM = "Platform";
         public static final String DESTINATION_FIELD_ERESOURCE_NAME = "EResource Name";

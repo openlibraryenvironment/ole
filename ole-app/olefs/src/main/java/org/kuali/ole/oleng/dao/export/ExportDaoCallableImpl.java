@@ -257,7 +257,9 @@ public class ExportDaoCallableImpl implements Callable {
 
                     oleHoldings.setPublisher(resultSet.getString("PUBLISHER"));
                     HoldingsAccessInformation holdingsAccessInformation = new HoldingsAccessInformation();
-
+                    holdingsAccessInformation.setFirstIndicator(resultSet.getString("FIRST_INDICATOR"));
+                    holdingsAccessInformation.setSecondIndicator(resultSet.getString("SECOND_INDICATOR"));
+                    holdingsAccessInformation.setMaterialsSpecified(resultSet.getString("MATERIALS_SPECIFIED"));
                     holdingsAccessInformation.setProxiedResource(resultSet.getString("PROXIED_RESOURCE"));
                     holdingsAccessInformation.setAccessUsername(resultSet.getString("ACCESS_USERNAME"));
                     holdingsAccessInformation.setAccessPassword(resultSet.getString("ACCESS_PASSWORD"));
