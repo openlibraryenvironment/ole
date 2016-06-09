@@ -45,20 +45,21 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
             for (BatchProfileDataMapping mappingOptionsBo : mappingOptionsBoList) {
-                if (mappingOptionsBo.getDataType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_EHOLDINGS)) {
+                String key=buildkey(mappingOptionsBo);
+                if (mappingOptionsBo.getDestination().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_EHOLDINGS)) {
                     if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_DATE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_DATE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_ISSUE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_ISSUE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_VOLUME)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_VOLUME)) {
-                        dataFieldCoverageMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldCoverageMap.put(key, mappingOptionsBo.getField());
                     } else if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
-                        dataFieldsDonorMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldsDonorMap.put(key, mappingOptionsBo.getField());
                     } else {
-                        dataFieldEHoldingMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldEHoldingMap.put(key, mappingOptionsBo.getField());
                     }
                 }
             }

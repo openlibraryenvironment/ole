@@ -245,7 +245,7 @@ public class BatchExportUtil extends BatchUtil {
         List<String> bibLocalIdData = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(bibLocalIds)) {
             for (String bibLocalId : bibLocalIds) {
-                if (!bibLocalIdData.contains(bibLocalId)) {
+                if (StringUtils.isNotEmpty(bibLocalId) && !bibLocalIdData.contains(bibLocalId)) {
                     bibLocalIdData.add( DocumentUniqueIDPrefix.getDocumentId(bibLocalId));
                 } else {
                     oleNGBatchExportResponse.addNoOfFailureRecords(1);
