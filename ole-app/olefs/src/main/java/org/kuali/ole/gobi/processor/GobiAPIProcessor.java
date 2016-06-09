@@ -1,12 +1,15 @@
 package org.kuali.ole.gobi.processor;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
 import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
 import org.kuali.ole.batch.ingest.BatchProcessBibImport;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
 import org.kuali.ole.docstore.common.document.content.bib.marc.OrderBibMarcRecord;
@@ -20,17 +23,30 @@ import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 import org.kuali.ole.ingest.IngestProcessor;
 import org.kuali.ole.ingest.pojo.IngestRecord;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.marc4j.MarcReader;
+import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlReader;
+import org.marc4j.MarcXmlWriter;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
+import org.marc4j.marc.impl.DataFieldImpl;
+import org.marc4j.marc.impl.SubfieldImpl;
 
+import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 import java.util.*;
 
 public abstract class GobiAPIProcessor extends IngestProcessor {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GobiAPIProcessor.class);
 
     private BatchProcessBibImport batchProcessBibImport;
+    protected ParameterService parameterService;
 
     public Response process(GobiRequest gobiRequest) {
 
@@ -52,7 +68,8 @@ public abstract class GobiAPIProcessor extends IngestProcessor {
         job.setBatchProfileName(oleBatchProcessProfileBo.getBatchProcessProfileName());
 
         String marcXMLContent = getMarcXMLContent(gobiRequest);
-        setMarcXMLContent(marcXMLContent);
+        String updatedMarcXMLContent = updateMarcXMLContentWithYBPKey(marcXMLContent, gobiRequest);
+        setMarcXMLContent(updatedMarcXMLContent);
 
         prepareIngestRecord(marcXMLContent);
 
@@ -93,21 +110,84 @@ public abstract class GobiAPIProcessor extends IngestProcessor {
         return gobiResponse;
     }
 
+    private String updateMarcXMLContentWithYBPKey(String marcXMLContent, GobiRequest gobiRequest) {
+        String updatedMarcXMLContent;
+        BigInteger ybpOrderKey = null;
+
+        if (null != gobiRequest.getPurchaseOrder().getOrder().getListedElectronicMonograph()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getListedElectronicMonograph().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getUnlistedElectronicMonograph()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getUnlistedElectronicMonograph().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getListedElectronicSerial()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getListedElectronicSerial().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getListedPrintSerial()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getListedPrintSerial().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getUnlistedPrintSerial()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getUnlistedPrintSerial().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getListedPrintMonograph()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getListedPrintMonograph().getOrderDetail().getYBPOrderKey();
+
+        } else if (null != gobiRequest.getPurchaseOrder().getOrder().getUnlistedPrintMonograph()) {
+            ybpOrderKey = gobiRequest.getPurchaseOrder().getOrder().getUnlistedPrintMonograph().getOrderDetail().getYBPOrderKey();
+        }
+
+        MarcReader reader = new MarcXmlReader(IOUtils.toInputStream(marcXMLContent));
+        Record record = null;
+        while (reader.hasNext()) {
+            record = reader.next();
+            DataField dataField = (DataField) record.getVariableField("980");
+            if (null != dataField) {
+                record.getDataFields().remove(dataField);
+            }
+            dataField = new DataFieldImpl();
+            dataField.setTag("980");
+            dataField.setIndicator1(' ');
+            dataField.setIndicator2(' ');
+
+            Subfield sf = new SubfieldImpl();
+            sf.setCode('a');
+            sf.setData(String.valueOf(ybpOrderKey));
+
+            dataField.addSubfield(sf);
+
+            record.getDataFields().add(dataField);
+        }
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MarcWriter marcWriter = new MarcXmlWriter(byteArrayOutputStream);
+        marcWriter.write(record);
+        marcWriter.close();
+        updatedMarcXMLContent = byteArrayOutputStream.toString();
+
+        return updatedMarcXMLContent;
+    }
+
     private Response getGobiResponse(Response gobiResponse, GobiDAO gobiDAO, String reqId, String documentStatus) {
+        String gobiResponseThreadTimeCount = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, "GOBI_RESPONSE_THREAD_TIME_COUNT");
+
+        int timerCount = StringUtils.isNotBlank(gobiResponseThreadTimeCount) ? Integer.valueOf(gobiResponseThreadTimeCount) : 15;
+
         int count = 0;
         GobiResponseTimer gobiResponseTimer = new GobiResponseTimer();
-        while (count < 5) {
+        while (count < timerCount) {
             count = count + 1;
             gobiResponse = gobiResponseTimer.processReqResponseForPOCreation(reqId, gobiDAO, documentStatus);
             if (null != gobiResponse.getPoLineNumber() || (null != gobiResponse.getError() && gobiResponse.getError().getCode().equals("PO_FAIL"))) {
-                break;
+                return gobiResponse;
             }
             try {
                 Thread.sleep(5 * 1000);
+                Log.info("Waiting 5 seconds to get response on PO creation status!");
             } catch (InterruptedException e) {
 
             }
         }
+        gobiResponse.setPoLineNumber("000");
         return gobiResponse;
     }
 
@@ -123,20 +203,15 @@ public abstract class GobiAPIProcessor extends IngestProcessor {
 
 
     private void prepareUserSession() {
-        if (null == GlobalVariables.getUserSession() ||
-                StringUtils.isBlank(GlobalVariables.getUserSession().getPrincipalName())) {
-
-            //TODO: Need user info from System Parameter.
-            Person person = KimApiServiceLocator.getPersonService().getPerson("olequickstart");
-            String principalName = person.getPrincipalName();
-            UserSession userSession = new UserSession(principalName);
-            GlobalVariables.setUserSession(userSession);
-        }
+        //TODO: Need user info from System Parameter.
+        Person person = KimApiServiceLocator.getPersonService().getPerson("olequickstart");
+        String principalName = person.getPrincipalName();
+        UserSession userSession = new UserSession(principalName);
+        GlobalVariables.setUserSession(userSession);
     }
 
     private void prepareIngestRecord(String marcXMLContent) {
         String agendaName = OLEConstants.PROFILE_AGENDA_NM;
-        ;
         IngestRecord ingestRecord = new IngestRecord();
         ingestRecord.setOriginalMarcFileName("APIRequest");
         ingestRecord.setMarcFileContent(marcXMLContent);
