@@ -105,6 +105,11 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private Date handleNonWorkingHoursWorkflow(Date loanDueDate, List<? extends OleBaseCalendarWeek> oleBaseCalendarWeekList) {
         if (StringUtils.isNotBlank(period) && (period.equalsIgnoreCase("h") || period.equalsIgnoreCase("m"))) {
             Map<String, Map<String, String>> openAndClosingTimeForTheGivenDayFromWeekList = getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDate, oleBaseCalendarWeekList);
+            while(!(openAndClosingTimeForTheGivenDayFromWeekList.get("openTime").size() > 0 && openAndClosingTimeForTheGivenDayFromWeekList.get("closeTime").size() > 0)) {
+                Date followingDay = getFollowingDay(loanDueDate);
+                loanDueDate = followingDay;
+                openAndClosingTimeForTheGivenDayFromWeekList = getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDate, oleBaseCalendarWeekList);
+            }
             if (nonWorkingHoursCheck) {
                 loanDueDate = processDueDateAndGracePeriod(loanDueDate, openAndClosingTimeForTheGivenDayFromWeekList);
             } else {
