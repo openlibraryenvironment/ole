@@ -11,6 +11,7 @@ import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.dao.impl.SelectDAOImpl;
 import org.kuali.ole.oleng.exception.ValidationException;
+import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -63,6 +64,8 @@ public class OleNGPOValidationUtil {
         valid = validateDefaultLocation(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateListPrice(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
+
+        valid = validateBibRecord(oleOrderRecord, exchange, recordIndex) && valid;
 
         validateDonorCode(oleTxRecord, exchange, recordIndex);
         validateVendorCustomerNumber(oleTxRecord, exchange, recordIndex);
@@ -592,6 +595,22 @@ public class OleNGPOValidationUtil {
                 oleTxRecord.setContractManager(null);
             }
         }
+    }
+
+    private boolean validateBibRecord(OleOrderRecord oleOrderRecord, Exchange exchange, Integer recordIndex) {
+        OleBibRecord oleBibRecord = oleOrderRecord.getOleBibRecord();
+        if(null != oleBibRecord.getBib()) {
+            if(StringUtils.isNotBlank(oleBibRecord.getBib().getTitle())) {
+                return true;
+            } else {
+                getBatchUtil().addOrderFaiureResponseToExchange(
+                        new ValidationException("Bib Title is null or empty for bibId : " + oleBibRecord.getBibUUID()), recordIndex, exchange);
+            }
+        } else {
+            getBatchUtil().addOrderFaiureResponseToExchange(
+                    new ValidationException("Bib Record is null for bibId : " + oleBibRecord.getBibUUID()), recordIndex, exchange);
+        }
+        return false;
     }
 
     public BatchUtil getBatchUtil() {
