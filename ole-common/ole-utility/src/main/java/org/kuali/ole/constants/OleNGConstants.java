@@ -71,7 +71,6 @@ public class OleNGConstants {
         public static final String SELECTOR_NOTE = "Selector Note";
         public static final String SPL_PROCESS_NOTE = "Special Processing Instruction Note";
         public static final String VNDR_INSTR_NOTE = "Vendor Instructions Note";
-        public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
         public static final String BOOK_PLATE = "Book Plate";
         public static final String EBOOK = "E-Book";
         public static final String EXCHANGE_RATE = "Exchange Rate";
@@ -85,6 +84,7 @@ public class OleNGConstants {
         public static final String PO_NUMBER = "Purchase Order Number";
 
         public static final String CALL_NUMBER = "Call Number";
+        public static final String LOCAL_IDENTIFIER = "Local Identifier";
         public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
         public static final String CALL_NUMBER_TYPE = "Call Number Type";
         public static final String CHRONOLOGY = "Chronology";
@@ -394,6 +394,7 @@ public class OleNGConstants {
 
     public static final String DEFAULT_USER_FOR_REST_CALLS = "DEFAULT_USER_FOR_REST_CALLS";
     public static final String CHUNK_SIZE_FOR_BATCH_PROCESSING = "CHUNK_SIZE_FOR_BATCH_PROCESSING";
+    public static final String SLEEP_TIME_FOR_ORDER_PROCESS = "SLEEP_TIME_FOR_ORDER_PROCESS";
     public static final String CHARSET_UTF_8 = ";charset=UTF-8";
 
 
