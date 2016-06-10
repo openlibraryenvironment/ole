@@ -1,6 +1,7 @@
 package org.kuali.ole.spring.batch.processor;
 
 import org.apache.camel.*;
+import org.apache.camel.processor.ProcessorExchangePair;
 import org.apache.camel.processor.Splitter;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.kuali.ole.constants.OleNGConstants;
@@ -11,6 +12,8 @@ import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -35,6 +38,29 @@ public class OleNGBatchCamelSplitter extends Splitter {
         boolean process = super.process(exchange, callback);
         doCustomProcessAfterSplit(exchange);
         return process;
+    }
+
+    @Override
+    protected void updateNewExchange(Exchange exchange, int index, Iterable<ProcessorExchangePair> allPairs, Iterator<ProcessorExchangePair> it) {
+        exchange.setUnitOfWork(null);
+
+        exchange.setProperty(Exchange.SPLIT_INDEX, index);
+        if (allPairs instanceof Collection) {
+            // non streaming mode, so we know the total size already
+            exchange.setProperty(Exchange.SPLIT_SIZE, ((Collection<?>) allPairs).size());
+        }
+        try {
+            if (it.hasNext()) {
+                exchange.setProperty(Exchange.SPLIT_COMPLETE, Boolean.FALSE);
+            } else {
+                exchange.setProperty(Exchange.SPLIT_COMPLETE, Boolean.TRUE);
+                // streaming mode, so set total size when we are complete based on the index
+                exchange.setProperty(Exchange.SPLIT_SIZE, index + 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            exchange.setProperty(Exchange.SPLIT_COMPLETE, Boolean.TRUE);
+        }
     }
 
     protected void doCustomProcessAfterSplit(Exchange exchange) {
