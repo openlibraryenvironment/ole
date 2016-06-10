@@ -246,6 +246,7 @@ var dataMappingObject = {
 
 var matchPointObject = {
     matchPointTypeForHoldings : [
+        {id: 'localIdentifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'callNumberPrefix', name: 'Call Number Prefix'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -257,6 +258,7 @@ var matchPointObject = {
         {id: 'locationLevel5', name: 'Location Level5'}
     ],
     matchPointTypeForItem : [
+        {id: 'localIdentifier', name: 'Local Identifier'},
         {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
         {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
         {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
@@ -286,6 +288,7 @@ var matchPointObject = {
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'}
     ],
     matchPointTypeForEHoldings : [
+        {id: 'localIdentifier', name: 'Local Identifier'},
         {id: 'callNumber', name: 'Call Number'},
         {id: 'accessStatus', name: 'Access Status'},
         {id: 'callNumberType', name: 'Call Number Type'},
@@ -322,6 +325,7 @@ var addOrOverlayDocumentTypes = [
 ];
 
 var holdingsMatchPoints = [
+    {id: 'localIdentifier', name: 'Local Identifier'},
     {id: 'callNumber', name: 'Call Number'},
     {id: 'callNumberPrefix', name: 'Call Number Prefix'},
     {id: 'callNumberType', name: 'Call Number Type'},
@@ -334,6 +338,7 @@ var holdingsMatchPoints = [
 ];
 
 var itemMatchPoints = [
+    {id: 'localIdentifier', name: 'Local Identifier'},
     {id: 'holdingsLocationLevel1', name: 'Holdings Location Level1'},
     {id: 'holdingsLocationLevel2', name: 'Holdings Location Level2'},
     {id: 'holdingsLocationLevel3', name: 'Holdings Location Level3'},
@@ -364,6 +369,7 @@ var itemMatchPoints = [
 ];
 
 var eHoldingsMatchPoints = [
+    {id: 'localIdentifier', name: 'Local Identifier'},
     {id: 'callNumber', name: 'Call Number'},
     {id: 'accessStatus', name: 'Access Status'},
     {id: 'callNumberType', name: 'Call Number Type'},
