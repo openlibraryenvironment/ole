@@ -6,12 +6,10 @@ import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
-import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.dsng.dao.BibDAO;
-import org.kuali.ole.dsng.dao.HoldingDAO;
-import org.kuali.ole.dsng.dao.ItemDAO;
+import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
+import org.kuali.ole.dsng.service.impl.OleDsNGMemorizeServiceImpl;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -63,6 +61,9 @@ public abstract class Handler extends OleDsHelperUtil {
     }
 
     public OleDsNGMemorizeService getOleDsNGMemorizeService() {
+        if(null == oleDsNGMemorizeService) {
+            oleDsNGMemorizeService = new OleDsNGMemorizeServiceImpl();
+        }
         return oleDsNGMemorizeService;
     }
 
