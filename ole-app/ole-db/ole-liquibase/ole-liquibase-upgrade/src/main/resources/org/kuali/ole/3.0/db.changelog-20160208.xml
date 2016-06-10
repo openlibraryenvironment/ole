@@ -663,4 +663,20 @@
                 tableName="OLE_AGREEMENT_S"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER1_ORACLE" dbms="oracle">
+        <sql>ALTER SEQUENCE OLE_BAT_PRCS_PRFLE_CNST_S INCREMENT BY 38</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER2_ORACLE" dbms="oracle">
+        <sql>SELECT OLE_BAT_PRCS_PRFLE_CNST_S.NEXTVAL FROM DUAL</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER3_ORACLE" dbms="oracle">
+        <sql>ALTER SEQUENCE OLE_BAT_PRCS_PRFLE_CNST_S INCREMENT BY 1</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE ole.OLE_BAT_PRCS_PRFLE_CNST_S AUTO_INCREMENT=70</sql>
+    </changeSet>
+
 </databaseChangeLog>
