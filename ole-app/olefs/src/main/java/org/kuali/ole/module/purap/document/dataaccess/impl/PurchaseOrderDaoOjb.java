@@ -212,7 +212,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
-        criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
+       // criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
         criteria.addEqualTo(PurapPropertyConstants.APP_DOC_STAT, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         criteria.addGreaterOrEqualThan(PurapPropertyConstants.TOTAL_AMOUNT, new KualiDecimal(0));
