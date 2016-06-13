@@ -4447,12 +4447,6 @@
                                             order</para>
                                     </listitem>
                                 </itemizedlist>
-                                <note>
-                                    <para>You may search for hyphenated text if you choose to search
-                                        "As a phrase". As noted on the interface, the hyphen will be
-                                        ignored. By searching "As a phrase" the order of the text is
-                                        taken into consideration.</para>
-                                </note>
                                 <para/>
                                 <para>
                                     <screenshot>

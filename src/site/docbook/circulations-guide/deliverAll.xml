@@ -3215,6 +3215,15 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Phone Number Source</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">A value that identifies the origin
+                                            of a patron's phone number.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Phone Number</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -3276,6 +3285,15 @@
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">A descriptor identifying the
                                             general use/purpose of the email.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Email Source</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">A value that identifies the origin
+                                            of a patron's email address.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -3925,8 +3943,8 @@
             <section>
                 <title>Search for a Patron Bill</title>
                 <para>From the <emphasis role="bold">Deliver</emphasis> tab, under the <emphasis
-                        role="bold">Patron</emphasis> submenu, click <emphasis role="bold">Patron
-                        Bill</emphasis> to enter the lookup screen.</para>
+                        role="bold">Patron</emphasis> submenu, click <emphasis role="bold">Edit
+                        Patron Bill</emphasis> to enter the lookup screen.</para>
                 <para>Enter the Patron's ID or search for the patron by name.</para>
                 <para role="Body Text">
                     <screenshot>
@@ -5434,7 +5452,13 @@
                                         <para role="Table Cells">Show On-Hold Item</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells"/>
+                                        <para role="Table Cells">Determines which requested items
+                                            with a status of ON HOLD will appear via a pop-up alert
+                                            at the time of scanning the patron’s barcode in the loan
+                                            screen. Choose either to show only items that are on
+                                            hold for pickup at the currently selected circulation
+                                            desk or for all circulation desks that have an item on
+                                            hold for the patron.</para>
                                     </entry>
                                 </row>
                                 <row>
