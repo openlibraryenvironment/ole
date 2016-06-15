@@ -54,6 +54,7 @@ public class CircController extends CheckoutValidationController {
     private BulkItemUpdateUtil bulkItemUpdateUtil;
     private RenewController renewController;
     private DateTimeService dateTimeService;
+    List<OleLoanDocument> selectedLoanDocumentList = new ArrayList<>();
 
     @Override
     @RequestMapping(params = "methodToCall=refresh")
@@ -586,6 +587,7 @@ public class CircController extends CheckoutValidationController {
         return getUIFModelAndView(form);
     }
 
+
     @RequestMapping(params = "methodToCall=renew")
     public ModelAndView renew(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -596,8 +598,31 @@ public class CircController extends CheckoutValidationController {
             circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
         }
         circForm.setErrorMessage(new ErrorMessage());
-        List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
+        selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
         if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+            for(OleLoanDocument oleLoanDocument : selectedLoanDocumentList) {
+                if(oleLoanDocument.getItemStatus().equals("LOST")) {
+                    return showDialogAndRunCustomScript("renewLostItemsDialogMsg", form, "jq('#renewOptionsProceed').focus()");
+                }
+            }
+
+        }
+        return continueRenew(form,result,request,response);
+    }
+
+    @RequestMapping(params = "methodToCall=continueRenew")
+    public ModelAndView continueRenew(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CircForm circForm = (CircForm) form;
+
+        if (null != circForm.getLoanDocumentsForRenew()) {
+            circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
+        }
+        circForm.setErrorMessage(new ErrorMessage());
+        //List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
+        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+
             DroolsResponse droolsResponse = getRenewController().renewItems(selectedLoanDocumentList, circForm.getPatronDocument());
 
             String messageContentForRenew = getRenewController().analyzeRenewedLoanDocuments(circForm, droolsResponse);
