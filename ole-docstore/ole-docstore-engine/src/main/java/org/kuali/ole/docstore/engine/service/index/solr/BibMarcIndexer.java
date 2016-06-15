@@ -1081,7 +1081,12 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
                                         }
                                     }
                                 }
+
                                 fieldValue.append(subField.getValue());
+                            }else {
+                                if (subField.getCode().equalsIgnoreCase("6")) {
+                                    linkValue=generateLinkFiledValue(subField.getValue(),record.getDataFields());
+                                }
                             }
                         }
                     }
