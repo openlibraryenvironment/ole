@@ -163,7 +163,7 @@ public class OlePatronLostBarcode extends PersistableBusinessObjectBase implemen
     }
 
     public String getOperatorName() {
-        if(!StringUtils.isNotBlank(operatorName)) {
+        if(!StringUtils.isNotBlank(operatorName) && operatorId != null) {
             Person people = SpringContext.getBean(PersonService.class).getPerson(operatorId);
             operatorName = people.getPrincipalName();
         }
