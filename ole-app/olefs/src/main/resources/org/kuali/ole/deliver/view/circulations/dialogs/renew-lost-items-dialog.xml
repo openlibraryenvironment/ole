@@ -24,7 +24,7 @@
 
 
     <!--OleGenericDialogs-->
-    <bean id="renewLostItemDialog" parent="Uif-DialogGroup">
+    <bean id="renewLostItemsDialog" parent="Uif-DialogGroup">
         <property name="promptText" value="Item status is 'LOST', Do you want to renew the item?"/>
         <property name="headerText" value=""/>
         <property name="availableResponses">
@@ -34,20 +34,20 @@
         </property>
         <property name="items">
             <list merge="false">
-                <ref bean="renewOptionBtnLayoutSection"/>
+                <ref bean="renewOptionButtonnLayoutSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="renewOptionBtnLayoutSection" parent="Uif-HorizontalBoxSection">
+    <bean id="renewOptionButtonnLayoutSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="renewOptionProceed" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:80px"
+                <bean id="renewOptionsProceed" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:80px"
                       p:actionScript="
                       jq.fancybox.close();
-                      submitForm('proceedForLostItemRenew',null,null,null,null);
+                      submitForm('continueRenew',null,null,null,null);
                       "/>
-                <bean id="renewOptionDoNotProceed" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Proceed"
+                <bean id="renewOptionsDoNotProceed" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Proceed"
                       p:style="width:120px"
                       p:methodToCall="resetItemForNextTrans" p:ajaxSubmit="true" p:successCallback="
                       jq.fancybox.close();
