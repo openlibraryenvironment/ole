@@ -453,7 +453,7 @@
                         <listitem>
                             <para>When creating a new record, the 008 displays as a text string with
                                 default codes. The 008 displays all the data elements with drop down
-                                menus and search boxes to select valid codes.  Select valid elements
+                                menus and search boxes to select valid codes. Select valid elements
                                 and click <emphasis role="bold">Set Control Field</emphasis>.</para>
                         </listitem>
                         <listitem>
@@ -1312,7 +1312,7 @@
                                                 list.</para>
                                             <note>
                                                 <para>An inactive location will not appear in the
-                                                  drop down and will disappear in edit mode.  For
+                                                  drop down and will disappear in edit mode. For
                                                   additional information, see the <link
                                                   linkend="_Location">Location</link> maintenance
                                                   document under the <emphasis>Deliver
@@ -1819,7 +1819,7 @@
                                                 list.</para>
                                             <note>
                                                 <para>An inactive location will not appear in the
-                                                  drop down and will disappear in edit mode.  For
+                                                  drop down and will disappear in edit mode. For
                                                   additional information, see the <link
                                                   linkend="_Location">Location</link> maintenance
                                                   document under the <emphasis>Deliver
@@ -2441,12 +2441,14 @@
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells"> On the Usage Counter,
                                                 indicates the item’s location at time of
-                                                circulation.</para>
+                                                circulation.  If an item has or has had multiple
+                                                shelving locations, multiple rows will appear (one
+                                                per location).</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Count</para>
+                                            <para role="Table Cells">Loan Count</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Number of times an item has
@@ -3430,7 +3432,7 @@
                                                 list.</para>
                                             <note>
                                                 <para>An inactive location will not appear in the
-                                                  drop down and will disappear in edit mode.  For
+                                                  drop down and will disappear in edit mode. For
                                                   additional information, see the <link
                                                   linkend="_Location">Location</link> maintenance
                                                   document under the <emphasis>Deliver
@@ -5791,8 +5793,8 @@
                                 </imageobject>
                             </inlinemediaobject>.</para>
                         <tip>
-                            <para role="Normal"> Click <emphasis role="bold">View</emphasis> to
-                                confirm the correct record.</para>
+                            <para role="Normal"> Click the title to confirm the correct
+                                record.</para>
                         </tip>
                     </listitem>
                     <listitem>
@@ -5814,21 +5816,14 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para role="Normal"> Check the box to specify what level you wish to perform
-                            the transfer on.</para>
-                    </listitem>
-                    <listitem>
-                        <para role="Normal">Click the appropriate button to transfer the Holdings or
-                            Item from the left to the right or vice versa. In this example, the Item
-                            record in Tree 2 is selected and will be transferred Right to Left to
-                            the checked Holding record in Tree 1.</para>
+                        <para role="Normal"> Drag the item into the drop zone (the box with a dashed
+                            border).  Drop the record you wish to transfer:</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Holdings/Item Interface: Holdings record selected
-                                        in Tree1, Item record selected in Tree2. Ready to
-                                        transfer</alt>
+                                    <alt>Transfer Holdings/Item Interface: Item record moving to
+                                        Tree1</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-153.png"
                                             width="100%"/>
@@ -5838,40 +5833,16 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para role="Normal">If there is only one item or holdings, OLE will delete
-                            the records. Click <inlinemediaobject>
-                                <alt>Delete</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-220.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to confirm this and to continue with the
+                        <para role="Normal">You will see the success message that confirms the
                             transfer.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Holdings/Item Interface: Select Delete to confirm
-                                        the tranfer and delete the extraneous record</alt>
+                                    <alt>Transfer Holdings/Item Interface: document transferrred
+                                        successfully displays to confirm the transfer</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-153a.png"
-                                            width="100%"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </screenshot>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>OLE will provide a confirmation message. Click <emphasis role="bold"
-                                >Refresh</emphasis> in <emphasis role="bold">Tree 1</emphasis> to
-                            see the transferred Holdings or Item record.</para>
-                        <para role="Normal"/>
-                        <para role="Normal">
-                            <screenshot>
-                                <mediaobject>
-                                    <alt>Transfer Holdings/Item Interface: Confirmation message is
-                                        displayed when the transfer is completed</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-154.png"
                                             width="100%"/>
                                     </imageobject>
                                 </mediaobject>
@@ -5886,10 +5857,6 @@
                     <listitem>
                         <para role="List Paragraph">An OLE Holdings must have one Item record and
                             may have many Item records. </para>
-                        <note>
-                            <para role="Normal"> This rule is under review for future
-                                releases.</para>
-                        </note>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">An Item record can only be transferred to an OLE
@@ -5907,27 +5874,8 @@
                             “bound-withs”).</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">A Bibliographic Description must have at least
-                            one OLE Holdings and may have many OLE Holdings.</para>
-                    </listitem>
-                    <listitem>
                         <para role="List Paragraph">An OLE Holdings may only be transferred to a
                             Bibliographic Description.</para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">If the transfer of an OLE Holdings would result
-                            in a Bibliographic Description with no OLE Holdings, that Bibliographic
-                            Description will be deleted.</para>
-                    </listitem>
-                    <listitem>
-                        <para role="List Paragraph">A user may not transfer an OLE Holdings to or
-                            from Bibliographic Descriptions that the user’s work unit does not
-                            “own”. A user may not transfer Item records to or from OLE Holdings that
-                            the user’s work unit does not own.</para>
-                        <note>
-                            <para role="Normal"> Work units are being defined for a future
-                                release.</para>
-                        </note>
                     </listitem>
                 </itemizedlist>
             </section>

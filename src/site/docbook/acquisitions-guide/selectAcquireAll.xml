@@ -9194,14 +9194,14 @@
                     </informaltable>
                 </section>
                 <section>
-                    <title>Process Items Tab</title>
+                    <title>Titles Tab</title>
                     <para> This is the heart of the Invoice document, where the titles to be paid
                         for are listed. </para>
                     <para/>
                     <para role="Illustration">
                         <screenshot>
                             <mediaobject>
-                                <alt>Invoice Document: Process Items Tab</alt>
+                                <alt>Invoice Document: Titles Tab</alt>
                                 <imageobject>
                                     <imagedata
                                         fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-28.png"
@@ -9210,35 +9210,40 @@
                             </mediaobject>
                         </screenshot>
                     </para>
-                    <para role="Body Text">The <emphasis role="bold">Process Items</emphasis> tab
-                        includes a <emphasis role="bold">Purchase Order</emphasis> field and
-                        additional sections: <emphasis role="bold">Process Titles</emphasis>,
+                    <para role="Body Text">The <emphasis role="bold">Titles</emphasis> tab includes
+                        a <emphasis role="bold">Purchase Order</emphasis> field and additional
+                        sections: <emphasis role="bold">Purchase Orders eligible to add</emphasis>,
                         including <emphasis role="bold">Purchase Order Documents</emphasis>,
-                            <emphasis role="bold">Current Items,</emphasis> and <emphasis
-                            role="bold">Additional Charges</emphasis>.</para>
+                            <emphasis role="bold">Line items added to Invoice,</emphasis> and
+                            <emphasis role="bold">Additional Charges</emphasis>.</para>
                     <section>
                         <title>Purchase Order </title>
-                        <para>To attach a title to the Invoice, you can either type the Purchase
+                        <para>To attach a title(s) to the Invoice, you can either type the Purchase
                             Order number into the box or search for it from the lookup <inlinemediaobject>
                                 <imageobject>
                                     <imagedata fileref="../images/Lookup2.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
+                        <tip>
+                            <para>Chain PO numbers in the search box to add several at once.</para>
+                            <para>Add POs directly to the "Line items added to invoice" section, by
+                                checking the "Add immediately" checkbox.</para>
+                        </tip>
                         <para/>
                     </section>
                     <section>
-                        <title>Process Titles</title>
-                        <para> Once a purchase order has been located, the <emphasis role="bold"
+                        <title>Line Items Added to Invoice</title>
+                        <para> Once a purchase order(s) has been located, the <emphasis role="bold"
                                 >Purchase Order Documents</emphasis> subtab of the <emphasis
-                                role="bold">Process Titles</emphasis> tab with display all the
-                            titles on that PO.  Remove titles you don’t want by un-checking the
-                            “Select Item for Invoice” box. </para>
+                                role="bold">Titles</emphasis> tab with display all the titles on
+                            that PO.  Remove titles you don’t want by un-checking the “Select Item
+                            for Invoice” box. </para>
                         <para/>
                         <para role="Illustration">
                             <screenshot>
                                 <mediaobject>
                                     <alt>Invoice Document: Select Item for Invoice checkbox on the
-                                        Process Items Tab</alt>
+                                        Purchase Orders Eligible to Add tab</alt>
                                     <imageobject>
                                         <imagedata
                                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-31.png"
@@ -9600,23 +9605,24 @@
                         </informaltable>
                     </section>
                     <section>
-                        <title>Current Items</title>
+                        <title>Line Items added to Invoice</title>
                         <para>When you’ve made your desired edits to titles from this PO, click the
                                 <emphasis role="bold">add P.O.</emphasis> button and the checked
-                            title(s) will be moved to the Current Items section.  You can then enter
-                            your next Purchase Order number to begin working on the next title on
-                            the invoice.</para>
-                        <para>Once a title has been moved to the Current Items section, its price
-                            and accounting string can still be changed. Additionally, you may click
-                                <emphasis role="bold">Delete</emphasis> to remove the item from the
-                            Invoice or <emphasis role="bold">Unlink</emphasis> to link a different
-                            purchase order to the Invoice.</para>
+                            title(s) will be moved to the Line Items added to Invoice section.  You
+                            can then enter your next Purchase Order number(s) to begin working on
+                            the next title(s) on the invoice.</para>
+                        <para>Once a title has been moved to the Line Items added to Invoice
+                            section, its price and accounting string can still be changed.
+                            Additionally, you may click <emphasis role="bold">Delete</emphasis> to
+                            remove an item from the Invoice or <emphasis role="bold"
+                                >Unlink</emphasis> to link a different purchase order to the
+                            Invoice.</para>
                         <para/>
                         <para role="Illustration">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Invoice Document: Current Items under the Process Items
-                                        Tab</alt>
+                                    <alt>Invoice Document: Line items added to Invoice under the
+                                        Titles Tab</alt>
                                     <imageobject>
                                         <imagedata
                                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-32.png"
@@ -9632,8 +9638,7 @@
                         <para role="Illustration">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Invoice Document: Current Items Details under the Process
-                                        Items Tab</alt>
+                                    <alt>Invoice Document: Item Details under the Titles Tab</alt>
                                     <imageobject>
                                         <imagedata
                                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-35.png"
