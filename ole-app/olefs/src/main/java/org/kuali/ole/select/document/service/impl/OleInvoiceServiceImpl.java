@@ -983,24 +983,24 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
             }
         }
-        positiveLineItems.removeAll(lineItems);
-        negativeLineItems.removeAll(lineItems);
         if((isItemLevelDebit == null && isAdditionalChargeLevelDebit!=null && isAdditionalChargeLevelDebit) ||
                 (isAdditionalChargeLevelDebit == null && isItemLevelDebit!=null && isItemLevelDebit) ||
                 (isItemLevelCredit == null && isAdditionalChargeLevelCredit!=null && isAdditionalChargeLevelCredit) ||
                 (isAdditionalChargeLevelCredit == null && isItemLevelCredit!=null && isItemLevelCredit)
                         && !(isItemLevelCredit!=null && isItemLevelCredit && isItemLevelDebit!=null && isItemLevelDebit)){
-            if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
+           /* if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
                 createCreditMemoDocument(inv, lineItems,true);
             }else{
                 createPaymentRequestDocument(oleInvoiceDocument, lineItems,true);
-            }
+            }*/
             if (positiveLineItems.size() > 0) {
                 createPaymentRequestDocument(oleInvoiceDocument, positiveLineItems,false);
             }
             if (negativeLineItems.size() > 0) {
                 createCreditMemoDocument(inv, negativeLineItems,false);
             }
+            positiveLineItems.removeAll(lineItems);
+            negativeLineItems.removeAll(lineItems);
         }else{
             if (positiveItems.size() > 0) {
                 createPaymentRequestDocument(oleInvoiceDocument, positiveItems,false);
