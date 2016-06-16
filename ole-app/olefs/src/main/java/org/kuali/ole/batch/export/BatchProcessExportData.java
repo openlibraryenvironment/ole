@@ -15,6 +15,7 @@ import org.kuali.ole.batch.impl.*;
 import org.kuali.ole.batch.marc.OLEMarcReader;
 import org.kuali.ole.batch.marc.OLEMarcXmlReader;
 import org.kuali.ole.batch.service.ExportDataService;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
@@ -24,6 +25,7 @@ import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.marc4j.MarcSplitStreamWriter;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
 import org.marc4j.marc.ControlField;
@@ -514,7 +516,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                 throw new RuntimeException("Cannot create mrc file in the given file path :: " + fileToWrite.getPath());
             }
         }
-        MarcWriter writer = new MarcStreamWriter(fileOutputStream, "UTF-8");
+        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,70000,"880");
         int errorCount = 0;
         for (String bibContent : bibDocList) {
             InputStream input = new ByteArrayInputStream(bibContent.getBytes());
