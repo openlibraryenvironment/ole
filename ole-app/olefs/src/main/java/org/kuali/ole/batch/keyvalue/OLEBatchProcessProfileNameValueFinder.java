@@ -24,6 +24,7 @@ public class OLEBatchProcessProfileNameValueFinder extends KeyValuesBase {
         labels.add(new ConcreteKeyValue("Location Import", OLEConstants.OLEBatchProcess.LOCATION_IMPORT));
         labels.add(new ConcreteKeyValue("Claim Report", OLEConstants.OLEBatchProcess.CLAIM_REPORT));
         labels.add(new ConcreteKeyValue("Serial Record Import", OLEConstants.OLEBatchProcess.SERIAL_RECORD_IMPORT));
+        labels.add(new ConcreteKeyValue("Fund Record Import", OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT));
         return labels;
     }
 

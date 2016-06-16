@@ -37,6 +37,7 @@ public class WorkInstanceOlemlForm extends EditorForm {
     private String redirectUrl;
     private String currentBarcode;
     private String proxyBarcode;
+    private String lastBarcode;
     private BusinessObjectService businessObjectService;
     public WorkInstanceOlemlForm() {
         getSelectedHolding().getUri().add(new Uri());
@@ -85,6 +86,14 @@ public class WorkInstanceOlemlForm extends EditorForm {
 
     public void setProxyBarcode(String proxyBarcode) {
         this.proxyBarcode = proxyBarcode;
+    }
+
+    public String getLastBarcode() {
+        return lastBarcode;
+    }
+
+    public void setLastBarcode(String lastBarcode) {
+        this.lastBarcode = lastBarcode;
     }
 
     public void setItemRecordMetaData(InstanceRecordMetaData itemRecordMetaData) {

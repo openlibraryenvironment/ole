@@ -10,6 +10,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.sql.Timestamp;
@@ -553,5 +554,43 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
 
     }
 
+    public OleDeliverRequestBo getPrioritizedRequest(String itemId) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan("requestExpiryDate", new Timestamp(System.currentTimeMillis()));
+        criteria.addEqualTo("itemId", itemId);
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria);
+        query.addOrderBy("borrowerQueuePosition");
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return CollectionUtils.isNotEmpty(oleDeliverRequestBoList) ? oleDeliverRequestBoList.get(0) : null;
+    }
 
+    public List<OleDeliverRequestHistoryRecord> getExpiredRequest(String itemId, Date loanCreatedDate) {
+        List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<>();
+        if(loanCreatedDate != null) {
+            Criteria criteria = new Criteria();
+            criteria.addEqualTo(OLEConstants.OleDeliverRequest.ITEM_ID, itemId);
+            criteria.addEqualTo(OLEConstants.OleDeliverRequest.REQUEST_OUTCOME_STATUS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+            java.sql.Date loanCreateDate = new java.sql.Date(loanCreatedDate.getTime());
+            criteria.addBetween(OLEConstants.ARCHIVE_DATE, loanCreateDate, new java.sql.Date(System.currentTimeMillis()));
+            QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestHistoryRecord.class, criteria);
+            oleDeliverRequestHistoryRecords = (List<OleDeliverRequestHistoryRecord>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        }
+        return oleDeliverRequestHistoryRecords;
+    }
+
+    public List<OleCirculationHistory> getReturnedItem(Criteria criteria) {
+        QueryByCriteria query = QueryFactory.newQuery(OleCirculationHistory.class, criteria);
+        List<OleCirculationHistory>  results = ( List<OleCirculationHistory> )getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+    public OleCirculationHistory retrieveCircHistoryRecord(String itemUUID ) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("itemUuid", itemUUID);
+        criteria.addNotNull("checkInDate");
+        criteria.addOrderByDescending("checkInDate");
+        QueryByCriteria query = QueryFactory.newQuery(OleCirculationHistory.class, criteria);
+        List<OleCirculationHistory> results = (List<OleCirculationHistory>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return CollectionUtils.isNotEmpty(results) ? results.get(0) : null;
+    }
 }

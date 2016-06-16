@@ -25,8 +25,6 @@ import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 public class OleFundLookupForm extends KualiTransactionalDocumentFormBase {
 
     private String chartOfAccountsCode;
-    private String fundCode;
-    private String fundCodeId;
     private String accountNumber;
     private String objectCode;
     private String organizationCode;
@@ -73,22 +71,6 @@ public class OleFundLookupForm extends KualiTransactionalDocumentFormBase {
 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    public String getFundCode() {
-        return fundCode;
-    }
-
-    public void setFundCode(String fundCode) {
-        this.fundCode = fundCode;
-    }
-
-    public String getFundCodeId() {
-        return fundCodeId;
-    }
-
-    public void setFundCodeId(String fundCodeId) {
-        this.fundCodeId = fundCodeId;
     }
 
     public String getAccountNumber() {

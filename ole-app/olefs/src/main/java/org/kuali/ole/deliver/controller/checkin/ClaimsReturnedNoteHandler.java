@@ -49,8 +49,14 @@ public class ClaimsReturnedNoteHandler {
 
     public String getPatronNoteToRecord(Map<String, Object> claimsRecordInfo) {
         String systemParameter = (String) claimsRecordInfo.get("noteParameter");
-        String note = ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, systemParameter);
+        String note = "";
+        if(claimsRecordInfo.get("customNote") != null) {
+            note = claimsRecordInfo.get("customNote").toString();
+        } else {
+             note = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                    .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, systemParameter);
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         String itemBarcode = (String) claimsRecordInfo.get("itemBarcode");
         Date customDate = (Date) claimsRecordInfo.get("customDate");

@@ -23,4 +23,9 @@ public class NonSip2CheckinItemServiceImplImpl extends CheckinItemServiceImpl {
     public String getOperatorId(String operatorId) {
         return operatorId;
     }
+
+    @Override
+    public String getLostItemResponseMessage() {
+        return "Item is Lost.";
+    }
 }

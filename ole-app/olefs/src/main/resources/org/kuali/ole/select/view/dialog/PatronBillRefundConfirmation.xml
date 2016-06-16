@@ -24,7 +24,7 @@
 
 
     <bean id="refundConfirmation" parent="Uif-DialogGroup">
-        <property name="promptText" value="Outstanding fees eligible for payment via credit, Do ypu want to proceed?"/>
+        <property name="promptText" value="Outstanding fees eligible for payment via credit, Do you want to proceed?"/>
         <property name="availableResponses">
             <list>
                 <!--Empty-->

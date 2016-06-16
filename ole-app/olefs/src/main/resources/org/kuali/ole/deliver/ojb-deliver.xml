@@ -740,6 +740,9 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="noOfClaimsReturnedNoticesSent" column="NUM_CLAIMS_RTRN_NOTICES_SENT" jdbc-type="INTEGER"/>
+        <field-descriptor name="claimsSearchCount" column="CLAIMS_SEARCH_COUNT" jdbc-type="INTEGER"/>
+        <field-descriptor name="lastClaimsReturnedSearchedDate" column="LAST_CLAIMS_RTRN_SEARCH_DT" jdbc-type="TIMESTAMP"/>
         <!--<reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="patronId"/>
@@ -1450,6 +1453,7 @@
         <field-descriptor name="checkOutDate" column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="checkInDate" column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP" />
         <field-descriptor name="overrideCheckInDate" column="CHECK_IN_DT_TIME_OVR_RD" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="renewalDate" column="RNWL_DT_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="itemTitle" column="ITM_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="itemAuthor" column="ITM_AUTHOR" jdbc-type="VARCHAR" />
         <field-descriptor name="itemType" column="ITM_TYPE" jdbc-type="VARCHAR" />
@@ -1723,6 +1727,7 @@
         <field-descriptor name="noticeContentConfigName" column="NTC_CNTNT_CONFIG_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
         <field-descriptor name="replacementFeeAmount" column="RPLCMNT_FEE_AMNT" jdbc-type="DECIMAL" />
+        <field-descriptor name="lostItemProcessingFeeAmount" column="LOST_ITM_PRCS_FEE_AMNT" jdbc-type="DECIMAL" />
         <field-descriptor name="noticeToBeSendDate" column="NTC_TO_SND_DT" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

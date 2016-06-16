@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.asr.ASRConstants;
 import org.kuali.asr.service.ASRHelperServiceImpl;
+import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
@@ -19,6 +20,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
+import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.*;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
@@ -32,6 +34,7 @@ import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
@@ -116,11 +119,31 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OleCirculationPolicyService oleCirculationPolicyService;
     private DateTimeService dateTimeService;
     private List<OleLoanDocument> laonDocumentsFromLaondId;
-    private OlePatronHelperServiceImpl olePatronHelperService;
+    private OlePatronHelperService olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
     private ParameterValueResolver parameterResolverInstance;
     private OleMailer oleMailer;
+    private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
+    private SolrRequestReponseHandler solrRequestReponseHandler;
+    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
+                if (null == solrRequestReponseHandler) {
+                        solrRequestReponseHandler = new SolrRequestReponseHandler();
+                    }
+               return solrRequestReponseHandler;
+    }
+
+    public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+                if (null == noticeSolrInputDocumentGenerator) {
+                        noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
+                    }
+              return noticeSolrInputDocumentGenerator;
+           }
+
+
+
+
+
     public ParameterValueResolver getParameterResolverInstance() {
         if (null == parameterResolverInstance) {
             parameterResolverInstance = ParameterValueResolver.getInstance();
@@ -173,7 +196,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return olePatronHelperService;
     }
 
-    public void setOlePatronHelperService(OlePatronHelperServiceImpl olePatronHelperService) {
+    public void setOlePatronHelperService(OlePatronHelperService olePatronHelperService) {
         this.olePatronHelperService = olePatronHelperService;
     }
 
@@ -686,8 +709,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      */
     public void cancelDocument(OleDeliverRequestBo oleDeliverRequestBo) {
         String operatorId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+        String mailContent = null;
+        List<OleNoticeBo> oleNoticeBos = null;
         try {
-            List<OleNoticeBo> oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId());
+            oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId());
             ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
             createRequestHistoryRecord(oleDeliverRequestBo.getRequestId(), operatorId, oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_CANCELLED));
             LOG.debug("Inside cancelDocument");
@@ -705,11 +730,17 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             getBusinessObjectService().save(oleDeliverRequestDocumentsList);
             asrHelperService.deleteASRTypeRequest(oleDeliverRequestBo.getRequestId());
-            sendCancelNotice(oleNoticeBos);
+           mailContent =  sendCancelNotice(oleNoticeBos);
         } catch (Exception e) {
-            LOG.error("Cancellation of Request" + e.getMessage());
+                       mailContent = sendCancelNotice(oleNoticeBos);
         }
-
+        if(mailContent!=null){
+            List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
+            deliverRequestBos.add(oleDeliverRequestBo);
+            getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                    getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                            buildMapForIndexToSolr(OLEConstants.CANCELLATION_NOTICE,mailContent, deliverRequestBos))));
+        }
     }
 
     /**
@@ -764,27 +795,36 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleNoticeBos
      * @throws Exception
      */
-    public void sendCancelNotice(List<OleNoticeBo> oleNoticeBos) throws Exception {
+    public String sendCancelNotice(List<OleNoticeBo> oleNoticeBos) {
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
+        String content = null;
         for (OleNoticeBo oleNoticeBo : oleNoticeBos) {
-            List list = oleDeliverBatchService.getNoticeForPatron(oleNoticeBos);
-            String content = list.toString();
-            content = content.replace('[', ' ');
-            content = content.replace(']', ' ');
-            if (!content.trim().equals("")) {
-                OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
-                if (replyToEmail != null) {
-                    oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
-                } else {
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
+            try {
+                List list = oleDeliverBatchService.getNoticeForPatron(oleNoticeBos);
+                content = list.toString();
+                content = content.replace('[', ' ');
+                content = content.replace(']', ' ');
+                if (!content.trim().equals("")) {
+                    OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
                     }
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
                 }
+            } catch (Exception e) {
+                LOG.info("Exception occured while sending the request cancellation notice   " + e.getMessage());
+                LOG.error(e);
+
             }
+
         }
+    return content;
     }
 
 
@@ -1658,10 +1698,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OleDeliverRequest.DATE_FORMAT);
             for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
                 try {
-                    if(oleDeliverRequestBoList.get(i).getHoldExpirationDate()==null || ( oleDeliverRequestBoList.get(i).getHoldExpirationDate()!=null && (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)){
-                        //newOleDeliverRequestBoList.add(oleDeliverRequestBoList.get(i));
-                        deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                    if(validItemStatus(oleDeliverRequestBoList.get(i).getItemUuid())) {
+                        if (oleDeliverRequestBoList.get(i).getHoldExpirationDate() == null && oleDeliverRequestBoList.get(i).getRequestExpiryDate() != null &&
+                                fmt.format(oleDeliverRequestBoList.get(i).getRequestExpiryDate()).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
+                            deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                        } else if (oleDeliverRequestBoList.get(i).getHoldExpirationDate() != null &&
+                                (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
+                            deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                        }
                     }
+
                 } catch (Exception e) {
                     LOG.info("Exception occured while deleting the request with request Id : " + oleDeliverRequestBoList.get(i).getRequestId());
                     LOG.error(e, e);
@@ -1672,6 +1718,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             //getBusinessObjectService().save(oleDeliverRequestBoList);
             LOG.error("Exception while deleting expired requests", e);
         }
+    }
+
+    private boolean validItemStatus(String uuid) {
+        Map itemIdMap = new HashMap();
+        itemIdMap.put(OLEConstants.ITEM_ID, uuid.substring(4));
+        ItemRecord itemRecord = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ItemRecord.class, itemIdMap);
+        if (itemRecord.getItemStatusRecord().getCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD)) {
+            return true;
+        }
+        return false;
     }
 
     private Item getItem(String itemUUID) {
@@ -2502,7 +2558,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                 }*/
                 processRequestTypeByPickUpLocation(oleDeliverRequestBo);
-                String message = this.patronRecordExpired(oleDeliverRequestBo);
+                String message = ConfigContext.getCurrentContextConfig().getProperty(this.patronRecordExpired(oleDeliverRequestBo));
                 if (message != null) {
                     olePlaceRequest.setCode("015");
                     olePlaceRequest.setMessage(message);
@@ -3878,7 +3934,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     searchParams = new SearchParams();
                     for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
                         loanDocumentMap.put(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "id", oleLoanDocument.getItemUuid()), "OR"));
+                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), "id", oleLoanDocument.getItemUuid()), "AND"));
+                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.CLAIMS_RETURNED_FLAG_SEARCH, Boolean.FALSE.toString()), "OR"));
                     }
                     searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
                     buildSearchParams(searchParams);
@@ -4804,7 +4861,7 @@ return oleLoanDocument;
     public List<OLEDeliverNotice> getDeliverNotices(OleDeliverRequestBo oleDeliverRequestBo,OleLoanDocument oleLoanDocument,NoticeInfo noticeInfo){
         ItemRecord itemRecord = getItemRecordByBarcode(oleDeliverRequestBo.getItemId());
         itemRecord.setDueDateTime(oleDeliverRequestBo.getRecallDueDate());
-        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord);
+        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord,null);
         return oleDeliverNotices;
     }
 
@@ -4887,6 +4944,36 @@ return oleLoanDocument;
         return noticeContent;
     }
 
+
+    public void cancelRequests(List<OleDeliverRequestBo> oleDeliverRequestBos){
+        if(oleDeliverRequestBos!=null && oleDeliverRequestBos.size()>0){
+            for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
+            cancelDocument(oleDeliverRequestBo);
+            }
+        }
+    }
+
+       public Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleDeliverRequestBo> oleDeliverRequestBos) {
+                Map parameterMap = new HashMap();
+                parameterMap.put("DocType", noticeType);
+                parameterMap.put("DocFormat", "Email");
+                parameterMap.put("noticeType", noticeType);
+                parameterMap.put("noticeContent", noticeContent);
+                String patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
+               String patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
+                parameterMap.put("patronBarcode", patronBarcode);
+                Date dateSent = new Date();
+                parameterMap.put("dateSent", dateSent);
+                parameterMap.put("uniqueId", patronId+ dateSent.getTime());
+                List<String> itemBarcodes = new ArrayList<>();
+                for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
+                        OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+                        String itemBarcode = oleDeliverRequestBo.getItemId();
+                        itemBarcodes.add(itemBarcode);
+                    }
+                parameterMap.put("itemBarcodes",itemBarcodes);
+                return parameterMap;
+            }
 }
 
 

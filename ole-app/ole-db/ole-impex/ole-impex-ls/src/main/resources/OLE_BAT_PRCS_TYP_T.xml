@@ -32,4 +32,10 @@
     <OLE_BAT_PRCS_TYP_T ACTIVE_IND="Y" OBJ_ID="10"
                         OLE_BAT_PRCS_TYP_CODE="gokb_imp" OLE_BAT_PRCS_TYP_ID="21"
                         OLE_BAT_PRCS_TYP_NM="GOKB Import" VER_NBR="1"/>
+    <OLE_BAT_PRCS_TYP_T ACTIVE_IND="Y" OBJ_ID="11"
+                        OLE_BAT_PRCS_TYP_CODE="edi_exp" OLE_BAT_PRCS_TYP_ID="22"
+                        OLE_BAT_PRCS_TYP_NM="EDI Export" VER_NBR="1"/>
+    <OLE_BAT_PRCS_TYP_T ACTIVE_IND="Y" OBJ_ID="12"
+                        OLE_BAT_PRCS_TYP_CODE="fund_imp" OLE_BAT_PRCS_TYP_ID="23"
+                        OLE_BAT_PRCS_TYP_NM="Fund Record Import" VER_NBR="1"/>
 </dataset>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Batch Display Reports</title>
+    <script src="framework/jquery/js/jquery-1.11.3.js"></script>
+    <script src="framework/angular/js/angular.js"></script>
+    <script src="framework/angular/js/customDirectives.js"></script>
+    <link rel="stylesheet" href="batchFramework/css/bootstrap.min.css">
+    <script src="framework/bootstrap/js/bootstrap.min.js"></script>
+    <script src="oleng/js/batch/batchDisplayReportController.js"></script>
+    <script src="oleng/js/batch/batchReportHandler.js"></script>
+    <script src="batchFramework/controllers/olengProfileDropDownValues.js"></script>
+    <script src="oleng/js/oleng.js"></script>
+    <script src="framework/plugins/js/datatables.min.js"></script>
+    <script src="framework/angular/js/angular-datatables.min.js"></script>
+    <link rel="stylesheet" href="framework/plugins/css/datatables.min.css" type="text/css"/>
+    <script src="batchFramework/scripts/angular-animate.min.js"></script>
+    <script src="batchFramework/scripts/angular-sanitize.min.js"></script>
+    <script src="batchFramework/scripts/angular-strap.js"></script>
+    <script src="framework/angular/js/ui-bootstrap-tpls-0.14.3.js"></script>
+</head>
+<body>
+
+<form name="batchDisplayReportForm" ng-app="batchDisplayReportApp" ng-controller="batchDisplayReportController"
+      data-ng-init="init()">
+
+    <div class="container col-lg-12">
+        <br/>
+
+        <h2 style="display:inline !important; font-weight: bold;">Batch Display Report</h2>
+        <br/><br/>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <br/><br/>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="profileType" class="col-sm-5">Profile Type</label>
+
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="profileType" name="profileType"
+                                            ng-model="batchReportViewer.profileType" ng-change="populateProfileNames()"
+                                            style="width: 250px">
+                                        <option ng-repeat="option in batchReportViewer.profileTypeValues | orderBy:'value'"
+                                                value="{{option.value}}">
+                                            {{option.value}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="uploadFile" class="col-sm-5">Upload File</label>
+                                <input id="uploadFile" name="selectedFile" type="file" file-model="batchReportViewer.selectedFile"
+                                       placeholder="Upload File" class="col-sm-7"/>
+                            </div>
+                            <br>
+                            <div class="form-group col-sm-6">
+                                <button id="displayReport_button" name="displayReport_button" class="btn btn-primary pull-right "
+                                        ng-click="showReportPopUp()"
+                                        style="margin-left: 10px;" >Show Content
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <modal title="Report View" visible="batchReportViewer.showModal">
+            <div ng-include="'batchReport/views/batchReport.html'"></div>
+        </modal>
+    </div>
+
+</form>
+
+</body>
+</html>

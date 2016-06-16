@@ -1,0 +1,60 @@
+<div class="container col-lg-12">
+    <div>
+        <div class="form-group">
+            <table id="jobExecutionTableId" datatable="ng" dt-options="dtOptions" class="table table-bordered row-border hover">
+                <thead style="height: 20px">
+                <tr>
+                    <th>Job Detail Id</th>
+                    <th>Job Name</th>
+                    <th>Job Id</th>
+                    <th style="width: 110px">Profile Type</th>
+                    <th style="width: 150px">Profile Name</th>
+                    <th>File Name</th>
+                    <th>Initiated By</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>% Completed</th>
+                    <th>Time Spent</th>
+                    <th>Total Records</th>
+                    <th>Failure Records</th>
+                    <th>Status</th>
+                    <th>Report</th>
+                    <th style="width: 215px">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="batchJob in batchJobs">
+                    <td><span ng-bind="batchJob.jobDetailId"></span></td>
+                    <td><span ng-bind="batchJob.jobName"></span></td>
+                    <td><span ng-bind="batchJob.jobId"></span></td>
+                    <td><span ng-bind="batchJob.profileType"></span></td>
+                    <td><span ng-bind="batchJob.profileName"></span></td>
+                    <td><span ng-bind="batchJob.fileName"></span></td>
+                    <td><span ng-bind="batchJob.createdBy"></span></td>
+                    <td><span ng-bind="batchJob.startTime"></span></td>
+                    <td><span ng-bind="batchJob.endTime"></span></td>
+                    <td><span ng-bind="batchJob.perCompleted"></span></td>
+                    <td><span ng-bind="batchJob.timeSpent"></span></td>
+                    <td><span ng-bind="batchJob.totalRecords"></span></td>
+                    <td><span ng-bind="batchJob.totalFailureRecords"></span></td>
+                    <td><span ng-bind="batchJob.status"></span></td>
+                    <td><a href="reportViewer.html?jobDetailsId={{batchJob.jobDetailId}}"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
+                    <td>
+                        <button id="batchJobStop" name="batchJobStop" class="btn btn-info btn-xs" ng-click="stopJobExecution($index,batchJob.jobDetailId)"
+                                ng-show="batchJob.status == 'RUNNING'"
+                                data-toggle="tooltip"
+                                uib-tooltip="Stop"
+                                tooltip-placement="top"><i class="fa fa-stop"></i></button>
+                        <button id="batchJobRemove" type="button" class="btn btn-danger btn-xs" ng-click="deleteJobDetails($index,batchJob.jobDetailId)"
+                                data-toggle="tooltip"
+                                tooltip="Remove"
+                                tooltip-placement="top"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>

@@ -91,6 +91,7 @@ public interface DocstoreConstants {
     public static final String STATUS_SEARCH = "Status_search";
     public static final String STATUS_DISPLAY = "Status_display";
     public static final String BIB_ID= "bibIdentifier";
+    public static final String BIBLIOGRAPHIC_DELETE= "bibliographic_delete";
 
     public static final String CLMS_RET_FLAG="claimsReturnedFlag";
     public static final String CLMS_RET_FLAG_CRE_DATE="claimsReturnedFlagCreateDate";

@@ -743,6 +743,9 @@
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
                             </bean>-->
+                            <bean id="oleLastCheckinDate" parent="Uif-InputField" p:propertyName="lastCheckinDate" p:label="Last Checkin Date" p:readOnly="true"/>
+                            <bean id="oleLastBorrower" parent="Uif-LinkField" p:label="Last Borrower" p:style="word-break: break-all;word-wrap: break-word"
+                                  p:linkText="@{documentForm.lastBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{documentForm.selectedItem.lastBorrower}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                         </list>
                     </property>
                 </bean>

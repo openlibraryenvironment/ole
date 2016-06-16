@@ -7,16 +7,19 @@
         <column name="ACCESS_LOCATION_CODE_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="CODE" size="100" type="VARCHAR"/>
         <column default="" name="NAME" size="500" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
     </table>
     <table name="OLE_DS_AUTHENTICATION_TYPE_T">
         <column name="AUTHENTICATION_TYPE_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="CODE" size="100" type="VARCHAR"/>
         <column default="" name="NAME" size="500" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
     </table>
     <table name="OLE_DS_BIB_HOLDINGS_T">
         <column name="BIB_HOLDINGS_ID" primaryKey="true" type="INTEGER"/>
         <column name="HOLDINGS_ID" required="true" type="INTEGER"/>
         <column name="BIB_ID" required="true" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="BIB_HOLD_HOLD_CNSTRT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -52,6 +55,7 @@
         <column default="" name="AUTHOR" size="4000" type="VARCHAR"/>
         <column default="" name="PUBLISHER" size="4000" type="VARCHAR"/>
         <column default="" name="ISXN" size="100" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <index name="OLE_DS_BIB_INFO_TI1">
             <index-column name="BIB_ID"/>
         </index>
@@ -65,6 +69,7 @@
         <column default="" name="COVERAGE_END_DATE" size="100" type="VARCHAR"/>
         <column default="" name="COVERAGE_END_VOLUME" size="100" type="VARCHAR"/>
         <column default="" name="COVERAGE_END_ISSUE" size="100" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="HOLDINGS_COVERAGE_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -74,6 +79,7 @@
         <column default="" name="TYPE" size="20" type="VARCHAR"/>
         <column default="" name="NOTE" size="4000" type="VARCHAR"/>
         <column name="EXT_OWNERSHIP_ID" required="true" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_EXT_OWNERSHIP_T" name="EXT_NOTE_CONSTRAINT">
             <reference foreign="EXT_OWNERSHIP_ID" local="EXT_OWNERSHIP_ID"/>
         </foreign-key>
@@ -84,6 +90,7 @@
         <column default="" name="EXT_OWNERSHIP_TYPE_ID" type="INTEGER"/>
         <column default="" name="ORD" type="INTEGER"/>
         <column default="" name="TEXT" size="4000" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="EXT_OWNERSHIP_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -96,6 +103,7 @@
         <column default="" name="ITEM_ID" type="INTEGER"/>
         <column default="" name="TYPE" size="100" type="VARCHAR"/>
         <column default="" name="VALUE" size="500" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="FORMER_CONSTRAINT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
@@ -106,11 +114,13 @@
         <column default="" name="HIGH_DENSITY_MODULE" size="30" type="VARCHAR"/>
         <column default="" name="HIGH_DENSITY_SHELF" size="30" type="VARCHAR"/>
         <column default="" name="HIGH_DENSITY_TRAY" size="30" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
     </table>
     <table name="OLE_DS_ACCESS_LOCATION_T">
         <column name="ACCESS_LOCATION_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="HOLDINGS_ID" type="INTEGER"/>
         <column default="" name="ACCESS_LOCATION_CODE_ID" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="ACCESS_LOC_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -123,6 +133,7 @@
         <column name="HOLDINGS_ID" required="true" type="INTEGER"/>
         <column default="" name="URI" size="400" type="VARCHAR"/>
         <column default="" name="TEXT" size="400" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="ACCESS_URI_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -133,6 +144,7 @@
         <column default="" name="DONOR_CODE" size="40" type="VARCHAR"/>
         <column default="" name="DONOR_DISPLAY_NOTE" size="4000" type="VARCHAR"/>
         <column default="" name="DONOR_NOTE" size="4000" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="HOLDINGS_DONOR_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -142,6 +154,7 @@
         <column name="HOLDINGS_ID" required="true" type="INTEGER"/>
         <column default="" name="TYPE" size="100" type="VARCHAR"/>
         <column default="" name="NOTE" size="4000" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="HOLDINGS_NOTE_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -150,6 +163,7 @@
         <column name="HOLDINGS_STAT_SEARCH_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="HOLDINGS_ID" type="INTEGER"/>
         <column default="" name="STAT_SEARCH_CODE_ID" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="HOLDINGS_STAT_SEARCH_CONST">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -158,6 +172,7 @@
         <column name="ITEM_HOLDINGS_ID" primaryKey="true" type="INTEGER"/>
         <column name="HOLDINGS_ID" required="true" type="INTEGER"/>
         <column name="ITEM_ID" required="true" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <unique name="OLE_DS_ITEM_HOLDINGS_TC1">
             <unique-column name="HOLDINGS_ID"/>
             <unique-column name="ITEM_ID"/>
@@ -214,7 +229,7 @@
         <column default="" name="ADMIN_PASSWORD" size="100" type="VARCHAR"/>
         <column default="" name="ACCESS_USERNAME" size="100" type="VARCHAR"/>
         <column default="" name="ACCESS_PASSWORD" size="100" type="VARCHAR"/>
-        <column default="" name="MATERIALS_SPECIFIED" size="100" type="VARCHAR"/>
+        <column default="" name="MATERIALS_SPECIFIED" size="200" type="VARCHAR"/>
         <column default="" name="FIRST_INDICATOR" size="20" type="VARCHAR"/>
         <column default="" name="SECOND_INDICATOR" size="20" type="VARCHAR"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
@@ -235,6 +250,7 @@
         <column default="" name="DONOR_CODE" size="10" type="VARCHAR"/>
         <column default="" name="DONOR_DISPLAY_NOTE" size="4000" type="VARCHAR"/>
         <column default="" name="DONOR_NOTE" size="4000" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_DONOR_CONSTRAINT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
@@ -244,6 +260,7 @@
         <column default="" name="ITEM_ID" type="INTEGER"/>
         <column default="" name="TYPE" size="50" type="VARCHAR"/>
         <column default="" name="NOTE" size="4000" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_NOTE_CONSTRAINT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
@@ -252,6 +269,7 @@
         <column name="ITEM_STAT_SEARCH_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="ITEM_ID" type="INTEGER"/>
         <column default="" name="STAT_SEARCH_CODE_ID" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_STAT_SEARCH_CONSTRAINT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
@@ -326,6 +344,7 @@
         <column default="" name="LOCATION_NAME" size="200" type="VARCHAR"/>
         <column default="" name="LOCATION_COUNT" size="20" type="INTEGER"/>
         <column default="" name="LOCATION_IN_HOUSE_COUNT" size="20" type="INTEGER"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="LOCATION_COUNT_CONSTRAINT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
@@ -340,6 +359,7 @@
         <column default="" name="PERPETUAL_ACCESS_END_DATE" size="100" type="VARCHAR"/>
         <column default="" name="PERPETUAL_ACCESS_END_VOLUME" size="100" type="VARCHAR"/>
         <column default="" name="PERPETUAL_ACCESS_END_ISSUE" size="100" type="VARCHAR"/>
+        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="HOLDINGS_PER_ACC_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>

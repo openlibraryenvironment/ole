@@ -13,6 +13,8 @@ import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch;
+import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
@@ -26,6 +28,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -38,12 +42,14 @@ public class OLEInvoicePurchaseOrderSearchLookupableImpl extends LookupableImpl 
     private String poId;
     private String title;
     private String author;
-    private String vendorName;
+    private String vendorNumber;
     private String isbn;
     private String documentNumber;
     private String searchResultPoId;
     private String searchResultPostingYear;
     private String searchResultTotalAmount;
+    private Date poDateFrom;
+    private Date poDateTo;
     private static transient BusinessObjectService businessObjectService;
     private DocstoreClientLocator docstoreClientLocator;
 
@@ -77,39 +83,79 @@ public class OLEInvoicePurchaseOrderSearchLookupableImpl extends LookupableImpl 
     public Collection<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
 
         LOG.debug("Inside performSearch()");
-        List<String> bibDetails = new ArrayList<>();
         List<OLEInvoicePurchaseOrderSearch> finalInvoicePurchaseOrderList = new ArrayList<>();
         poId = searchCriteria.get(org.kuali.ole.OLEConstants.PURAP_DOC_IDENTIFIER) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.PURAP_DOC_IDENTIFIER) : "";
-        if (isNumber(poId.toString()) && !poId.contains("*")) {
+        boolean validPoId = validatePoId();
+        boolean validatePOFromAndToDates = validatePOFromAndToDates(searchCriteria.get("poDateFrom"), searchCriteria.get("poDateTo"));
+        if (validPoId && validatePOFromAndToDates) {
             title = searchCriteria.get(org.kuali.ole.OLEConstants.TITLE) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.TITLE) : "";
             author = searchCriteria.get(org.kuali.ole.OLEConstants.AUTHOR) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.AUTHOR) : "";
             isbn = searchCriteria.get(org.kuali.ole.OLEConstants.ISBN) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.ISBN) : "";
-            vendorName = searchCriteria.get(org.kuali.ole.OLEConstants.VENDOR_NAME) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.VENDOR_NAME) : "";
+            vendorNumber = searchCriteria.get(org.kuali.ole.OLEConstants.VENDOR_NAME) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.VENDOR_NAME) : "";
             documentNumber = searchCriteria.get(org.kuali.ole.OLEConstants.DOC_NUM) != null ? searchCriteria.get(org.kuali.ole.OLEConstants.DOC_NUM) : "";
-            searchUsingSearchCriteria(finalInvoicePurchaseOrderList, vendorName, documentNumber, poId, title, author, isbn);
+            searchUsingSearchCriteria(finalInvoicePurchaseOrderList, vendorNumber, documentNumber, poId, title, author, isbn);
             if (GlobalVariables.getMessageMap().getWarningCount() > 0) {
                 GlobalVariables.getMessageMap().getWarningMessages().clear();
             }
             if (finalInvoicePurchaseOrderList.size() == 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.NO_RECORD_FOUND);
             }
-        } else {
-            GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS,
-            OleSelectConstant.ERROR_NO_PO_WILD_CARD_SEARCH,
-            new String[]{org.kuali.ole.OLEConstants.PURCHASE_ORDER_NUM});
         }
         return finalInvoicePurchaseOrderList;
     }
 
+    private boolean validatePoId() {
+        if (StringUtils.isNotBlank(poId)) {
+            String[] poIds = poId.split(",");
+            for (String poId : poIds) {
+                if (!StringUtils.isNumeric(poId)) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
+                            OleSelectConstant.ERROR_PO_INVALID_FORMAT,
+                    new String[]{org.kuali.ole.OLEConstants.PURCHASE_ORDER_NUM});
+            return false;
+        }
+    }
+        }
+        return true;
+    }
 
-    public void searchUsingSearchCriteria(List<OLEInvoicePurchaseOrderSearch> finalInvoicePurchaseOrderList, String vendorName, String documentNumber, String poId, String title, String author, String isbn) {
+    private boolean validatePOFromAndToDates(String fromDate, String toDate) {
+        boolean isValid = true;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        sdf.setLenient(false);
+        if (StringUtils.isNotBlank(fromDate)) {
+            try {
+                poDateFrom = sdf.parse(fromDate);
+            } catch (ParseException e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_INVALID_DATE, new String[]{"PO Date From"});
+                isValid = false;
+            }
+        }
+        if (StringUtils.isNotBlank(toDate)) {
+            try {
+                poDateTo = sdf.parse(toDate);
+            } catch (ParseException e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_INVALID_DATE, new String[]{"PO Date to"});
+                isValid = false;
+            }
+        }
+        if (poDateFrom !=null && poDateTo!=null){
+            if (poDateFrom.compareTo(poDateTo) > 0){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEKeyConstants.PUR_ORD_DATE_TO_NOT_LESSER_THAN_PUR_ORD_DATE_FROM, new String[]{});
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
+    public void searchUsingSearchCriteria(List<OLEInvoicePurchaseOrderSearch> finalInvoicePurchaseOrderList, String vendorNumber, String documentNumber, String poId, String title, String author, String isbn) {
         DocumentSearchCriteria.Builder docSearchCriteria = DocumentSearchCriteria.Builder.create();
         docSearchCriteria.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
         Map<String, List<String>> fixedParameters = new HashMap<>();
         if (!poId.isEmpty())
-            fixedParameters.put(org.kuali.ole.OLEConstants.PURAP_DOC_IDENTIFIER, Arrays.asList(poId));
-        if (!vendorName.isEmpty())
-            fixedParameters.put(org.kuali.ole.OLEConstants.VENDOR_NAME, Arrays.asList(vendorName));
+            fixedParameters.put(org.kuali.ole.OLEConstants.PURAP_DOC_IDENTIFIER, Arrays.asList(poId.split(",")));
+        if (!vendorNumber.isEmpty())
+            fixedParameters.put(org.kuali.ole.OLEConstants.OLEBatchProcess.VENDOR_NUMBER, Arrays.asList(vendorNumber));
         Map<String, List<String>> attributes = new HashMap<String, List<String>>();
         if (docSearchCriteria != null) {
             if (!fixedParameters.isEmpty()) {
@@ -122,8 +168,12 @@ public class OLEInvoicePurchaseOrderSearchLookupableImpl extends LookupableImpl 
         }
         docSearchCriteria.setDocumentAttributeValues(attributes);
         docSearchCriteria.setDocumentId(documentNumber);
-        Date currentDate = new Date();
-        docSearchCriteria.setDateCreatedTo(new DateTime(currentDate));
+        if (poDateFrom != null) {
+            docSearchCriteria.setDateCreatedFrom(new DateTime(poDateFrom));
+        }
+        if (poDateTo != null) {
+            docSearchCriteria.setDateCreatedTo(new DateTime(poDateTo));
+        }
         docSearchCriteria.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         //docSearchCriteria.setDocumentStatuses(documentStatuses);
         DocumentSearchCriteria docSearchCriteriaDTO = docSearchCriteria.build();

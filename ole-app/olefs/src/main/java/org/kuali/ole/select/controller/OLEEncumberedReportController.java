@@ -97,10 +97,23 @@ public class OLEEncumberedReportController extends UifControllerBase {
 
     private Map<String, Object> buildCriteria(OLEEncumberedReportForm oleEncumberedReportForm){
         Map<String, Object> queryCriteriaMap = new HashMap<>();
-        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.DONOR_CODE,oleEncumberedReportForm.getDonorCode());
+        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.DONORCODE,oleEncumberedReportForm.getDonorCode());
         queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.FROM_DATE,oleEncumberedReportForm.getFromDate());
-        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.TO_DATE,oleEncumberedReportForm.getToDate());
+        queryCriteriaMap.put(OleSelectConstant.EncumberReportConstant.TO_DATE,incrementDate(oleEncumberedReportForm.getToDate()));
         return queryCriteriaMap;
+    }
+
+    private String incrementDate(Date toDate){
+        String toDateStr=null;
+        if (toDate!=null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            c.setTime(toDate);
+            c.add(Calendar.DATE,1);//Incremented date, in sql if the input todate is passed it will fetch the record till the previous day,
+            // so one day needs to be added inorder to bring the records till input todate
+            toDateStr=sdf.format(c.getTime());
+        }
+        return toDateStr;
     }
 
     @RequestMapping(params = "methodToCall=clearSearch")

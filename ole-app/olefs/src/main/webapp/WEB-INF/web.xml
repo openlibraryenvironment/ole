@@ -450,11 +450,27 @@ This file contains custom application specific web.xml content.
             <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
         </taglib>
     </jsp-config>
+
     <servlet>
         <servlet-name>rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>6</load-on-startup>
     </servlet>
+
+    <filter>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <filter-class>org.kuali.ole.oleng.rest.filter.OleNGRestLoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>oleNGRestLoginFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <servlet-name>rest</servlet-name>
+    </filter-mapping>
 
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
@@ -501,21 +517,6 @@ This file contains custom application specific web.xml content.
         <url-pattern>/fileDownloadServlet/*</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet>
-        <servlet-name>documentrest</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/document-servlet.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>documentrest</servlet-name>
-        <url-pattern>/documentrest/*</url-pattern>
-    </servlet-mapping>-->
-
     <!-- Ole loader servlet configuration-->
     <servlet>
         <servlet-name>oleLoaderServlet</servlet-name>
@@ -530,7 +531,31 @@ This file contains custom application specific web.xml content.
     </servlet>
     <servlet-mapping>
         <servlet-name>oleLoaderServlet</servlet-name>
+        <url-pattern>/loaderApi/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>api</servlet-name>
         <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>BatchSchedulerServlet</display-name>
+        <servlet-name>OleBatchJobScheduler</servlet-name>
+        <servlet-class>org.kuali.ole.oleng.servlet.BatchSchedulerServlet</servlet-class>
+        <!-- startup after the rest servlet defined above -->
+        <load-on-startup>8</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OleBatchJobScheduler</servlet-name>
+        <url-pattern>/scheduleJobs/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

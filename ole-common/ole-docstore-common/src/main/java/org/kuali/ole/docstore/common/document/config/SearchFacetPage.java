@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.common.document.config;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +17,7 @@ public class SearchFacetPage extends PersistableBusinessObjectBase
     private Integer id;
     private Integer shotSize;
     private Integer longSize;
+    private Timestamp updatedDate;
 
 
     public Integer getId() {
@@ -40,5 +42,13 @@ public class SearchFacetPage extends PersistableBusinessObjectBase
 
     public void setLongSize(Integer longSize) {
         this.longSize = longSize;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

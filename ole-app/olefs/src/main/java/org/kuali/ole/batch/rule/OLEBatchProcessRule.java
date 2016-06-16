@@ -50,7 +50,7 @@ public class OLEBatchProcessRule {
                 if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.ORDER_RECORD_IMPORT)) {
                     validateOrderRecordImport(oleBatchProcessDefinitionDocument);
                 }
-                else if (!oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.SERIAL_RECORD_IMPORT) && !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.CLAIM_REPORT) && (oleBatchProcessDefinitionDocument.getIngestedFile() == null || oleBatchProcessDefinitionDocument.getIngestedFile().isEmpty())) {
+                else if (!oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.SERIAL_RECORD_IMPORT) && !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT) && !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.CLAIM_REPORT) && (oleBatchProcessDefinitionDocument.getIngestedFile() == null || oleBatchProcessDefinitionDocument.getIngestedFile().isEmpty())) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.UPLOAD_FILE);
                 }
                 else if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_BIB_IMPORT)) {
@@ -179,7 +179,33 @@ public class OLEBatchProcessRule {
                     }*/
 
                 }
-            }
+               else if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.FUND_RECORD_IMPORT)){
+
+                            if (oleBatchProcessDefinitionDocument.getFundRecordDocumentFile() == null) {
+                                clearFile(oleBatchProcessDefinitionDocument);
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.FUND_RECORD_UPLOAD_CSV);
+                            }
+                            if(oleBatchProcessDefinitionDocument.getFundRecordDocumentFile() !=null){
+                                if(!oleBatchProcessDefinitionDocument.getFundRecordDocumentFile().getOriginalFilename().contains(".csv")){
+                                    clearFile(oleBatchProcessDefinitionDocument);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.FUND_RECORD_TYPE_CSV);
+                                }else if(!oleBatchProcessDefinitionDocument.getFundRecordDocumentFile().getOriginalFilename().endsWith(getParameter(OLEConstants.OLEBatchProcess.FUND_RECORD_NAME)+".csv")){
+                                    clearFile(oleBatchProcessDefinitionDocument);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.FUND_RECORD_NAME_MISMATCH);
+                                }
+                            }
+                            if(oleBatchProcessDefinitionDocument.getFundAcctlnDocumentFile()!=null){
+                                if(!oleBatchProcessDefinitionDocument.getFundAcctlnDocumentFile().getOriginalFilename().contains(".csv")){
+                                    clearFile(oleBatchProcessDefinitionDocument);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,OLEConstants.OLEBatchProcess.FUND_ACCOUNT_RECORD_TYPE_CSV);
+                                }
+                                else if(!oleBatchProcessDefinitionDocument.getFundAcctlnDocumentFile().getOriginalFilename().endsWith(getParameter(OLEConstants.OLEBatchProcess.FUND_ACCOUNTING_LINE_RECORD_NAME)+".csv")){
+                                    clearFile(oleBatchProcessDefinitionDocument);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.FUND_ACCOUNT_RECORD_NAME_MISMATCH);
+                                }
+                            }
+                    }
+                }
             if(StringUtils.isNotBlank(oleBatchProcessDefinitionDocument.getEmailIds()) && !validateEmailIds(oleBatchProcessDefinitionDocument.getEmailIds())){
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.ERROR_EMAIL_ID);
             }

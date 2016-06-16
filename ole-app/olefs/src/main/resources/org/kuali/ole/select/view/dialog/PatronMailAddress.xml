@@ -68,7 +68,7 @@
         <property name="items">
             <list>
                 <bean id="patronMailAddress_OK" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:100px"
-                      p:methodToCall="createNotice"/>
+                      p:actionScript="createNotice();"/>
                 <bean id="patronMailAddress_CANCEL" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:style="width:100px"
                      p:methodToCall="cancel"/>
             </list>

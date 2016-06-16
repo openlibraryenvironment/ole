@@ -168,6 +168,7 @@ public class PurapKeyConstants {
     // Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST = "error.invoice.purchaseOrder.notExist";
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN = "error.invoice.purchaseOrder.notOpen";
+    public static final String ERROR_PURCHASE_ORDER_NOT_FOUND = "error.invoice.purchaseOrder.notFound";
     public static final String ERROR_PURCHASE_ORDER_FINAL_VOID = "error.invoice.purchaseOrder.void";
     public static final String ERROR_PURCHASE_ORDER_PENDING_PRINT = "error.invoice.purchaseOrder.pending.print";
     public static final String ERROR_POS_NOT_OPEN = "error.invoice.pos.notOpen";

@@ -36,6 +36,7 @@
             <list merge="false">
                 <ref bean="checkoutClaimsReturnItemNoteMessage"/>
                 <ref bean="checkoutClaimsReturn-record-Note"/>
+                <ref bean="checkoutClaimsReturn-itemFoundInLibrary"/>
                 <ref bean="checkoutClaimsReturn-buttons"/>
             </list>
         </property>
@@ -49,8 +50,9 @@
                 <bean id="checkout-claimsReturnNote-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Continue" p:actionScript="
                    var isChecked = false;
                     isChecked = jq('#checkoutClaimsReturn-record-Note_control_0').is(':checked');
+                    var itemFoundInLibraryVal = jq('#checkoutClaimsReturn-itemFoundInLibrary_control_0').is(':checked');
                     jq.fancybox.close();
-                    submitForm('processDamagedItem',{recordNoteForClaimChecked:isChecked},null,true,function(){
+                    submitForm('processDamagedItem',{recordNoteForClaimChecked:isChecked, isItemFoundInLibrary:itemFoundInLibraryVal},null,true,function(){
                     });"/>
                 <bean id="checkout-claimsReturnNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('resetItemForNextTrans',null,null,true,function(){
                 jq('#checkoutItem_control').focus();})"/>
@@ -60,6 +62,20 @@
 
     <bean id="checkoutClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturn"
           p:label="Add note to patron record that claims returned item was loaned?" p:render="true">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="checkoutClaimsReturn-itemFoundInLibrary" parent="Return-Uif-InputField" p:propertyName="itemFoundInLibrary"
+          p:label="Item found in library?">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">

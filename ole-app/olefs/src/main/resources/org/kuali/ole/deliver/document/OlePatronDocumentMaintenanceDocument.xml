@@ -73,6 +73,7 @@
         <property name="items" >
             <list merge="true">
                 <!--<bean id="OlePatronDocument-OleDocumentOverviewSection" parent="Uif-DocumentOverviewSection" p:order="10" p:render="@{maintenanceAction ne 'Delete'}"/>-->
+                <ref bean="Patron_Edit_Bill_Section"/>
                 <ref bean="OlePatronDocument-OverviewSection"/>
                 <ref bean="OlePatronDocument-ContactsSection" />
                 <ref bean="OlePatronDocument-Affiliation-Wrapper" />
@@ -254,7 +255,6 @@
             <list>
                 <ref bean="Patron-FooterBase-Header"/>
                 <ref bean="OlePatronDocument-FooterBase-Header"/>
-                <ref bean="Patron_Edit_Bill_Section"/>
                 <bean id="note" parent="Uif-OleDocumentOverviewSection" p:order="13"/>
                 <bean id="notesec" parent="Uif-OleDocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
                 <bean id="adhoc" parent="Uif-OleDocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
@@ -278,7 +278,8 @@
 
     <bean id="OlePatronDocument-FooterBase-Header" parent="OlePatronDocument-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="11"/>
 
-    <bean id="Patron_Edit_Bill_Section" parent="Uif-HorizontalFieldGroup" p:render="@{document.newMaintainableObject.dataObject.showBillUrlsFlag eq true}" p:order="12">
+    <bean id="Patron_Edit_Bill_Section" parent="Uif-HorizontalFieldGroup" p:render="@{maintenanceAction eq 'Edit'}"
+          p:order="12">
         <property name="items">
             <list>
                 <bean id="createPatronBillLink_edit" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.createBillUrl}"  p:linkText="Create Bill"  p:target="_blank"/>
@@ -1432,7 +1433,7 @@
                     </property>
                 </bean>
                 <bean id="olePhoneNumberSource" parent="OlePatron-InputField" p:propertyName="olePhoneBo.phoneSource"
-                      p:label="Phone Number Source" p:required="true" p:enableAutoDirectInquiry="false">
+                      p:label="Phone Number Source" p:enableAutoDirectInquiry="false">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
                     </property>
@@ -1508,7 +1509,7 @@
                     </property>
                 </bean>
                 <bean id="oleEmailAddressSource" parent="OlePatron-InputField" p:propertyName="oleEmailBo.emailSource"
-                      p:label="Email Address Source" p:required="true" p:enableAutoDirectInquiry="false">
+                      p:label="Email Address Source" p:enableAutoDirectInquiry="false">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
                     </property>

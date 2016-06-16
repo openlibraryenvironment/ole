@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEReturnedItemSearchView" parent="OLEReturnedItemSearchView-parentBean"/>
+    <bean id="OLEReturnedItemSearchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Lost and Returned Item Search"/>
+        <property name="items">
+            <list>
+                <bean id="returnedItemSearchView" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="returnedItemSearchPanel"/>
+                            <ref bean="returnedItemSearchButtons"/>
+                            <ref bean="returnedItemSearchResults"/>
+                            <ref bean="returnedItemSearchCriteria"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/request/scripts/noticesSearch.js</value>
+            </list>
+        </property>
+                <property name="formClass" value="org.kuali.ole.deliver.form.OLEReturnedLostItemForm"/>
+    </bean>
+
+    <bean id="returnedItemSearchPanel" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean id="returnedItemSearch-dateSentFrom" parent="Uif-InputField" p:propertyName="dateSentFrom"
+                      p:label="Checkout Date From" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+                <bean id="returnedItemSearch-dateSentTo" parent="Uif-InputField" p:propertyName="dateSentTo"
+                      p:label="Checkout Date To" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="returnedItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="text-align:center;">
+        <property name="items">
+            <list>
+                <bean id="returnedItem_search_button" parent="Uif-SecondaryActionButton"
+                      p:style="margin-left:50%;"
+                      p:actionScript="
+                            var dateSentFrom = jq.trim(jq('#returnedItemSearch-dateSentFrom_control').val())!='' ? jq('#returnedItemSearch-dateSentFrom_control').valid() : true;
+                            var dateSentTo = jq.trim(jq('#returnedItemSearch-dateSentTo_control').val())!='' ? jq('#returnedItemSearch-dateSentTo_control').valid() : true;
+                            if(dateSentFrom &amp; dateSentTo){
+                                submitForm('search',null,null,null,null);
+                            }else{
+                                submitForm('clearResults',null,null,null,null);
+                            }"
+                      p:actionLabel="Search"/>
+                <bean id="returnedItem_clear_button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="returnedItemSearchResults" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="oleReturnedLostItemResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult" />
+        <property name="items">
+            <list>
+                <bean id="returnedItemSearchResults-itemBarcode" parent="Uif-DataField" p:propertyName="itemBarcode"
+                      p:label="Item Barcode"/>
+                <bean id="returnedItemSearchResults-title" parent="Uif-DataField" p:propertyName="title"
+                      p:label="Item Title"/>
+                <bean id="returnedItemSearchResults-author" parent="Uif-DataField" p:propertyName="itemStatus"
+                      p:label="Item Status"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="returnedItemSearchCriteria" parent="Uif-HorizontalBoxSection" p:style="text-align:center;">
+    <property name="items">
+        <list>
+        <bean id="pageSize" parent="Uif-DataField" p:propertyName="pageSize" p:hidden="true"/>
+        </list>
+    </property>
+    </bean>
+</beans>

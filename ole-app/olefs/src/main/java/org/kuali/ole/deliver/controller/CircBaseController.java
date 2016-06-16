@@ -153,6 +153,7 @@ public class CircBaseController extends OLEUifControllerBase{
         circForm.setRecordNoteForMissingPiece(false);
         circForm.setRecordNoteForDamagedItem(false);
         circForm.setRecordNoteForClaimsReturn(false);
+        circForm.setItemFoundInLibrary(false);
     }
 
     private void setPrincipalInfo(CircForm circForm) {
@@ -175,6 +176,10 @@ public class CircBaseController extends OLEUifControllerBase{
 
     public void showErrorMessageDialog(UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
         showDialog("ptrnValidationErrorMessageDialog", form, request, response);
+    }
+
+    public void showHoldErrorMessageDialog(UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
+        showDialog("holdValidationErrorMessageDialog", form, request, response);
     }
 
     @RequestMapping(params = "methodToCall=clearSession")

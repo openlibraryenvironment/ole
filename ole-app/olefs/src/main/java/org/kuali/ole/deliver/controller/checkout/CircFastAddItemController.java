@@ -30,6 +30,7 @@ import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -109,17 +110,24 @@ public class CircFastAddItemController extends CircBaseController {
             Bib bib = processBibMarcRecord(oleLoanFastAdd);
             org.kuali.ole.docstore.common.document.content.instance.Item item = generateItemRecord(oleLoanFastAdd);
             org.kuali.ole.docstore.common.document.Item itemXml = generateItemXML(item);
-
             OleHoldings oleHoldings = generateHoldingsRecord(oleLoanFastAdd);
             HoldingsTree holdingsTree = processHoldingsTree(itemXml, oleHoldings);
-
-
             BibTree bibTree = new BibTree();
             bibTree.setBib(bib);
             bibTree.getHoldingsTrees().add(holdingsTree);
-
+            if(checkItemAlreadyExist(oleLoanFastAdd.getBarcode())){
+                String script = "jq('#fastAddItemErrorMessage').attr('style','display:inline');jq('#fastAddItemErrorMessage').focus();";
+                circForm.setLightboxScript(script);
+                return getUIFModelAndView(circForm);
+            }
+            else{
+                if(circForm.getViewId().equals("fastAddView")){
+                    circForm.setLightboxScript("submitForm('returnToDeliverTab',null,null,null,null);");
+                }else{
+                    circForm.setLightboxScript("jq.fancybox.close();submitForm('refresh',null,null,null,null);");
+                }
+            }
             NewDocstoreClientLocator.getInstance().getDocstoreClient(true).createBibTree(bibTree);
-
             if (item.getLocation() != null) {
                 String location = getInstanceEditorFormDataHandler().getLocationCode(item.getLocation().getLocationLevel());
                 if (getAsrHelperService().isAnASRItem(location)) {
@@ -147,6 +155,18 @@ public class CircFastAddItemController extends CircBaseController {
             circForm.getDroolsExchange().addToContext("fastAddSuccess","success");
         }
         return getUIFModelAndView(circForm);
+    }
+
+    private boolean checkItemAlreadyExist(String barcode) {
+        boolean exists = false;
+        Map<String,String> itemRecordMap = new HashMap<String,String>();
+        itemRecordMap.put("barCode",barcode);
+        List<ItemRecord> itemRecords = (List<ItemRecord>)getBusinessObjectService().findMatching(ItemRecord.class,itemRecordMap);
+        if(itemRecords.size()>0){
+            exists = true;
+        }
+        return exists;
+
     }
 
     private boolean validFields(OleLoanFastAdd oleLoanFastAdd) {

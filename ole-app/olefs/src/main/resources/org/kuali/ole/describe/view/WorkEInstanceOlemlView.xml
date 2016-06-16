@@ -853,11 +853,10 @@
                                 </property>
                             </bean>
 
-                            <bean id="OleEinstance-materialsSpecified" parent="Uif-InputField"
-                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.materialsSpecified"
-                                  p:label="Materials Specified">
+                            <bean id="OleEinstance-materialsSpecified" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.materialsSpecified"
+                                  p:label="Materials Specified" p:render="@{editable eq 'true'}">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                    <bean parent="Uif-TextAreaControl"  p:maxLength="200" p:rows="1" p:cols="20"/>
                                 </property>
                             </bean>
 

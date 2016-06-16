@@ -1,0 +1,325 @@
+<div class="panel-group" ng-model="matchPointsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#" ng-click="matchPointsPanel.collapsed = !matchPointsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !matchPointsPanel.collapsed, 'glyphicon-chevron-down': matchPointsPanel.collapsed}"></span>
+                    Match Points
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['matchPointDataField_'+matchPointIndex].$dirty && batchProfileForm['matchPointDataField_'+matchPointIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Data/Control Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['matchPointSubField_'+matchPointIndex].$dirty && batchProfileForm['matchPointSubField_'+matchPointIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Sub Field is required for Data Field</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">Source</th>
+                        <th ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Delete'">Doc Type</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">Match Type</th>
+                        <th ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">Match Type Value</th>
+                        <th>Data/Control Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Subfield</th>
+                        <th>Dest Data/Control Field <a href="#" data-toggle="tooltip" uib-tooltip="Allows an incoming Data/Control Field to match on a different existing field; i.e. 001 maps to 035 in OLE."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Ind1 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind1."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Ind2 <a href="#" data-toggle="tooltip" uib-tooltip="Destination Ind2."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Subfield <a href="#" data-toggle="tooltip" uib-tooltip="Destination Subfield"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Repeatable Field</th>
+                        <th>Value</th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="matchPoint in matchPointsPanel">
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                            <select class="form-control" id="matchPointOrderDocumentType_{{$index}}" name="matchPointOrderDocumentType_{{$index}}"
+                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine" style="width: 100px;"
+                                    ng-change="populateMatchPointTypes(matchPoint)">
+                                <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
+                                        ng-repeat="option in matchPoint.matchPointOrderDocTypes" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointDocType"></span>
+                        </td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Bib Import'">
+                            <select class="form-control" id="matchPointDocumentType_{{$index}}" name="matchPointDocumentType_{{$index}}"
+                                    ng-model="matchPoint.matchPointDocType" ng-hide="matchPoint.isAddLine"
+                                    ng-change="populateMatchPointTypes(matchPoint)">
+                                <option value=""></option>
+                                <option ng-selected="{{option.name == matchPoint.matchPointDocType}}"
+                                        ng-repeat="option in matchPoint.matchPointDocTypes" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointDocType"></span>
+                        </td>
+                        <td ng-show="mainSectionPanel.batchProcessType == 'Batch Delete'">
+                            <span id="matchPointDeleteDocumentType_{{$index}}" ng-bind="matchPoint.matchPointDocType"></span>
+                        </td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">
+                            <select class="form-control" id="matchPointType_{{$index}}" name="matchPointType_{{$index}}"
+                                    ng-model="matchPoint.matchPointType"
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine"
+                                    ng-change="populateDestinationFieldValues($index, matchPoint,matchPoint.matchPointDocType, matchPoint.matchPointType)">
+                                <option value=""></option>
+                                <option ng-selected="{{option.name == matchPoint.matchPointType}}"
+                                        ng-repeat="option in matchPoint.matchPointTypes  | orderBy:'name'" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointType"></span>
+                        </td>
+                        <td ng-hide="mainSectionPanel.batchProcessType == 'Batch Delete'">
+                            <select class="form-control" id="matchPointValues_{{$index}}" name="matchPointValues_{{$index}}"
+                                    ng-model="matchPoint.matchPointValue"
+                                    ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine && (matchPoint.matchPointType == 'Call Number Type'
+                                            || matchPoint.matchPointType == 'Holdings Call Number Type'
+                                            || matchPoint.matchPointType == 'Item Type'
+                                            || matchPoint.matchPointType == 'Item Status'
+                                            || matchPoint.matchPointType == 'Donor Code'
+                                            || matchPoint.matchPointType == 'Location Level1'
+                                            || matchPoint.matchPointType == 'Holdings Location Level1'
+                                            || matchPoint.matchPointType == 'Location Level2'
+                                            || matchPoint.matchPointType == 'Holdings Location Level2'
+                                            || matchPoint.matchPointType == 'Location Level3'
+                                            || matchPoint.matchPointType == 'Holdings Location Level3'
+                                            || matchPoint.matchPointType == 'Location Level4'
+                                            || matchPoint.matchPointType == 'Holdings Location Level4'
+                                            || matchPoint.matchPointType == 'Location Level5'
+                                            || matchPoint.matchPointType == 'Holdings Location Level5'
+                                            || matchPoint.matchPointType == 'Bib Status'
+                                            || matchPoint.matchPointType == 'Receipt Status'
+                                            || matchPoint.matchPointType == 'Authentication Type'
+                                            || matchPoint.matchPointType == 'Staff Only'
+                                            || matchPoint.matchPointType == 'Access Location'
+                                            || matchPoint.matchPointType == 'Statistical Code'
+                                            || matchPoint.matchPointType == 'Access Status'
+                                            || matchPoint.matchPointType == 'EResource Name'
+                                            || matchPoint.matchPointType == 'EResource Id'
+                                            || matchPoint.matchPointType == 'Platform'
+                                            || matchPoint.matchPointType == 'Chart Code'
+                                            || matchPoint.matchPointType == 'Org Code'
+                                            || matchPoint.matchPointType == 'Item Chart Code'
+                                            || matchPoint.matchPointType == 'Contract Manager'
+                                            || matchPoint.matchPointType == 'Order Type'
+                                            || matchPoint.matchPointType == 'Funding Source'
+                                            || matchPoint.matchPointType == 'Delivery Campus Code'
+                                            || matchPoint.matchPointType == 'Building Code'
+                                            || matchPoint.matchPointType == 'Building Room Number'
+                                            || matchPoint.matchPointType == 'Vendor Choice'
+                                            || matchPoint.matchPointType == 'Cost Source'
+                                            || matchPoint.matchPointType == 'Default Location'
+                                            || matchPoint.matchPointType == 'Vendor Number'
+                                            || matchPoint.matchPointType == 'Vendor Alias Name'
+                                            || matchPoint.matchPointType == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || matchPoint.matchPointType == 'Requestor Name'
+                                            || matchPoint.matchPointType == 'Discount Type'
+                                            || matchPoint.matchPointType == 'Account Number'
+                                            || matchPoint.matchPointType == 'Object Code'
+                                            || matchPoint.matchPointType == 'Request Source'
+                                            || matchPoint.matchPointType == 'Assign To User'
+                                            || matchPoint.matchPointType == 'Method Of PO Transmission'
+                                            || matchPoint.matchPointType == 'Recurring Payment Type'
+                                            || matchPoint.matchPointType == 'Receiving Required'
+                                            || matchPoint.matchPointType == 'Use Tax Indicator'
+                                            || matchPoint.matchPointType == 'Pay Req Positive Approval Req'
+                                            || matchPoint.matchPointType == 'Purchase Order Confirmation Indicator'
+                                            || matchPoint.matchPointType == 'Route To Requestor'
+                                            || matchPoint.matchPointType == 'Fund Code'
+                                            || matchPoint.matchPointType == 'Currency Type')">
+                                <option value=""></option>
+                                <option ng-selected="{{option.value == matchPoint.matchPointValue}}" value="{{option.value}}">
+                                    {{option.value}}
+                                </option>
+                            </select>
+                            <input class="form-control" id="dataMappingConstant_{{$index}}"
+                                   name="dataMappingConstant_{{$index}}" type="text"
+                                   ng-model="matchPoint.matchPointValue" ng-show="matchPoint.matchPointDocType != 'Bibliographic' && mainSectionPanel.batchProcessType != 'Order Record Import' && !matchPoint.isAddLine && !(matchPoint.matchPointType == 'Call Number Type'
+                                            || matchPoint.matchPointType == 'Holdings Call Number Type'
+                                            || matchPoint.matchPointType == 'Item Type'
+                                            || matchPoint.matchPointType == 'Item Status'
+                                            || matchPoint.matchPointType == 'Donor Code'
+                                            || matchPoint.matchPointType == 'Location Level1'
+                                            || matchPoint.matchPointType == 'Holdings Location Level1'
+                                            || matchPoint.matchPointType == 'Location Level2'
+                                            || matchPoint.matchPointType == 'Holdings Location Level2'
+                                            || matchPoint.matchPointType == 'Location Level3'
+                                            || matchPoint.matchPointType == 'Holdings Location Level3'
+                                            || matchPoint.matchPointType == 'Location Level4'
+                                            || matchPoint.matchPointType == 'Holdings Location Level4'
+                                            || matchPoint.matchPointType == 'Location Level5'
+                                            || matchPoint.matchPointType == 'Holdings Location Level5'
+                                            || matchPoint.matchPointType == 'Bib Status'
+                                            || matchPoint.matchPointType == 'Receipt Status'
+                                            || matchPoint.matchPointType == 'Authentication Type'
+                                            || matchPoint.matchPointType == 'Staff Only'
+                                            || matchPoint.matchPointType == 'Access Location'
+                                            || matchPoint.matchPointType == 'Statistical Code'
+                                            || matchPoint.matchPointType == 'Access Status'
+                                            || matchPoint.matchPointType == 'EResource Name'
+                                            || matchPoint.matchPointType == 'EResource Id'
+                                            || matchPoint.matchPointType == 'Platform'
+                                            || matchPoint.matchPointType == 'Chart Code'
+                                            || matchPoint.matchPointType == 'Org Code'
+                                            || matchPoint.matchPointType == 'Item Chart Code'
+                                            || matchPoint.matchPointType == 'Contract Manager'
+                                            || matchPoint.matchPointType == 'Order Type'
+                                            || matchPoint.matchPointType == 'Funding Source'
+                                            || matchPoint.matchPointType == 'Delivery Campus Code'
+                                            || matchPoint.matchPointType == 'Building Code'
+                                            || matchPoint.matchPointType == 'Building Room Number'
+                                            || matchPoint.matchPointType == 'Vendor Choice'
+                                            || matchPoint.matchPointType == 'Cost Source'
+                                            || matchPoint.matchPointType == 'Default Location'
+                                            || matchPoint.matchPointType == 'Vendor Number'
+                                            || matchPoint.matchPointType == 'Vendor Alias Name'
+                                            || matchPoint.matchPointType == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || matchPoint.matchPointType == 'Requestor Name'
+                                            || matchPoint.matchPointType == 'Discount Type'
+                                            || matchPoint.matchPointType == 'Account Number'
+                                            || matchPoint.matchPointType == 'Object Code'
+                                            || matchPoint.matchPointType == 'Request Source'
+                                            || matchPoint.matchPointType == 'Assign To User'
+                                            || matchPoint.matchPointType == 'Method Of PO Transmission'
+                                            || matchPoint.matchPointType == 'Recurring Payment Type'
+                                            || matchPoint.matchPointType == 'Receiving Required'
+                                            || matchPoint.matchPointType == 'Use Tax Indicator'
+                                            || matchPoint.matchPointType == 'Pay Req Positive Approval Req'
+                                            || matchPoint.matchPointType == 'Purchase Order Confirmation Indicator'
+                                            || matchPoint.matchPointType == 'Route To Requestor'
+                                            || matchPoint.matchPointType == 'Fund Code'
+                                            || matchPoint.matchPointType == 'Currency Type')
+                                            && !dataMapping.isAddLine"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.matchPointValue"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDataField_{{$index}}" name="matchPointDataField_{{$index}}"
+                                   type="text"
+                                   ng-model="matchPoint.dataField"
+                                   ng-hide="matchPoint.isAddLine"
+                                   style="height: 30px; width: 100px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.dataField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointInd1_{{$index}}" name="matchPointInd1_{{$index}}" type="text"
+                                   ng-model="matchPoint.ind1"
+                                   ng-hide="matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.ind1"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointInd2_{{$index}}" name="matchPointInd2_{{$index}}" type="text"
+                                   ng-model="matchPoint.ind2"
+                                   ng-hide="matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.ind2"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointSubField_{{$index}}" name="matchPointSubField_{{$index}}" type="text"
+                                   ng-model="matchPoint.subField"
+                                   ng-hide="matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.subField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestDataField_{{$index}}" name="matchPointDestDataField_{{$index}}" type="text"
+                                   ng-model="matchPoint.destDataField"
+                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || matchPoint.matchPointDocType == 'Bib Marc') && !matchPoint.isAddLine"
+                                   style="height: 30px; width: 100px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destDataField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestInd1_{{$index}}" name="matchPointDestInd1_{{$index}}" type="text"
+                                   ng-model="matchPoint.destInd1"
+                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || matchPoint.matchPointDocType == 'Bib Marc') && !matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destInd1"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestInd2_{{$index}}" name="matchPointDestInd2_{{$index}}" type="text"
+                                   ng-model="matchPoint.destInd2"
+                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || matchPoint.matchPointDocType == 'Bib Marc') && !matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destInd2"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointDestSubField_{{$index}}" name="matchPointDestSubField_{{$index}}" type="text"
+                                   ng-model="matchPoint.destSubField"
+                                   ng-show="(matchPoint.matchPointDocType == 'Bibliographic' || matchPoint.matchPointDocType == 'Bib Marc') && !matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.destSubField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" type="checkbox" name="matchPointIsMultiValue_{{$index}}"
+                                   id="matchPointIsMultiValue_{{$index}}"
+                                   ng-hide="inquiry" ng-model="matchPoint.isMultiValue" style="height: 20px;">
+                            <span ng-show="inquiry" ng-bind="matchPoint.isMultiValue"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="matchPointConstant_{{$index}}" name="matchPointConstant_{{$index}}" type="text"
+                                   ng-model="matchPoint.constant"
+                                   ng-show="(matchPoint.matchPointDocType == 'Holdings' || matchPoint.matchPointDocType == 'Item' || matchPoint.matchPointDocType == 'EHoldings' || matchPoint.matchPointDocType == 'Bib Marc' || matchPoint.matchPointDocType == 'Constant') && !matchPoint.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="matchPoint.isAddLine" ng-bind="matchPoint.constant"></span>
+                        </td>
+                        <td ng-hide="submitted">
+                            <button type="button" id="matchPointAddButton_{{$indshowRemoveex}}"
+                                    name="matchPointAddButton_{{$index}}"
+                                    ng-click="matchPointAdd(matchPoint)" ng-hide="matchPoint.isAddLine || matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="matchPointCopyButton_{{$index}}" name="matchPointCopyButton_{{$index}}"
+                                    ng-click="matchPointCopyRow($index)"
+                                    ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
+                            </button>
+                            <button id="matchPointEditButton_{{$index}}" name="matchPointEditButton_{{$index}}"
+                                    ng-click="matchPointEditRow($index)" ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="matchPointUpdateButton_{{$index}}" name="matchPointUpdateButton_{{$index}}"
+                                    ng-click="matchPointUpdateRow($index)" ng-show="matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="matchPointUpdateCancelButton_{{$index}}" name="matchPointUpdateCancelButton_{{$index}}"
+                                    ng-click="matchPointCancelUpdate($index)" ng-show="matchPoint.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button type="button" id="matchPointRemoveButton_{{$index}}"
+                                    name="matchPointRemoveButton_{{$index}}"
+                                    ng-click="matchPointRemove(matchPoint)"
+                                    ng-show="matchPoint.isAddLine && !matchPoint.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

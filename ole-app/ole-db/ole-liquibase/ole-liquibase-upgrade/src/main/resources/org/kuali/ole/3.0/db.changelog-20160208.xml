@@ -166,69 +166,6 @@
         </addColumn>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDT">
-        <update tableName="CA_SUB_FUND_GRP_T">
-            <column name="SUB_FUND_GRP_CD" value="DEPOSI"/>
-            <where>SUB_FUND_GRP_CD = 'CLRREV'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="CA_SUB_FUND_GRP_T_UPDATE">
-        <update tableName="CA_SUB_FUND_GRP_T">
-            <column name="FUND_GRP_CD" value="DP"/>
-            <column name="SUB_FUND_GRP_DESC" value="DEPOSIT ACCOUNT"/>
-            <where>SUB_FUND_GRP_CD = 'DEPOSI'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="KRCR_PARM_T_UPDATE">
-        <update tableName="KRCR_PARM_T">
-            <column name="VAL" value="DEPOSI"/>
-            <column name="PARM_DESC_TXT" value="Sub Fund Group Code DEPOSI."/>
-            <where>PARM_NM = 'SUB_FUND_GRP_CD'</where>
-        </update>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_ALTER">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="GL_BALANCE_T">
-            <column name="FUND_CD" type="VARCHAR(10)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_BALANCE_T_FK">
-        <addForeignKeyConstraint baseTableCatalogName="ole"
-                                 baseTableSchemaName="ole"
-                                 baseColumnNames="FUND_CD"
-                                 baseTableName="GL_BALANCE_T"
-                                 constraintName="GL_BALANCE_FUND_CD_FK"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="FUND_CD_ID"
-                                 referencedTableName="OLE_FUND_CD_T" />
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_ALTER">
-        <addColumn catalogName="ole"
-                   schemaName="ole"
-                   tableName="GL_ACCT_BALANCES_T">
-            <column name="FUND_CD" type="VARCHAR(10)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="GL_ACCT_BALANCES_T_FK">
-        <addForeignKeyConstraint baseTableCatalogName="ole"
-                                 baseTableSchemaName="ole"
-                                 baseColumnNames="FUND_CD"
-                                 baseTableName="GL_ACCT_BALANCES_T"
-                                 constraintName="GL_ACCT_BALANCES_FUND_CD_FK"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="FUND_CD_ID"
-                                 referencedTableName="OLE_FUND_CD_T" />
-    </changeSet>
-
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_T_ADD_COLUMN">
         <addColumn tableName="OLE_DLVR_PTRN_BILL_T ">
             <column name="MANUAL_BILL" type="varchar(1)"/>
@@ -262,6 +199,484 @@
                 tableName="OLE_LOCN_T">
             <column name="ROW_ACT_IND"   type="VARCHAR(1)" defaultValue="Y"/>
         </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_SUSPENDED', 'Suspended', '9j889f30-96nw-5d7j-8d89-7j17cf97520', '1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_SUSPENDED', 'Suspended', '9j889f30-96nw-5d7j-8d89-7j17cf97520', '1')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_ITEM_AVAIL_STAT_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_S values ()</sql>
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'MISSING', 'MISSING', '1abf3de3-2221-4249-a829-2c386ee9f515', '1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_ITEM_AVAIL_STAT_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_ITEM_AVAIL_STAT_S.NEXTVAL, 'MISSING', 'MISSING', '1abf3de3-2221-4249-a829-2c386ee9f515', '1')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_T_ADD">
+        <addColumn tableName="OLE_DLVR_LOAN_T">
+            <column name="NUM_CLAIMS_RTRN_NOTICES_SENT" type="INTEGER"/>
+            <column name="CLAIMS_SEARCH_COUNT" type="INTEGER"/>
+            <column name="LAST_CLAIMS_RTRN_SEARCH_DT" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALTER_FIELD_SIZE_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_DLVR_LOAN_NOTICE_T MODIFY NTC_TYP varchar(100)</sql>
+        <sql>ALTER TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T MODIFY NTC_TYP varchar(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALTER_FIELD_SIZE_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_DLVR_LOAN_NOTICE_T MODIFY NTC_TYP varchar2(100)</sql>
+        <sql>ALTER TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T MODIFY NTC_TYP varchar2(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T_RNWL_DT_TIME">
+        <addColumn
+                tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+            <column name="RNWL_DT_TIME" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_T_LOST_ITM_PRCS_FEE_AMNT">
+        <addColumn
+                tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="LOST_ITM_PRCS_FEE_AMNT" type="DECIMAL(8)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_S values ()</sql>
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_T (FEE_TYP_ID, FEE_TYP_CD, FEE_TYP_NM, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'LOST_ITEM_PRCS_FEE', 'Lost Item Processing Fee', '0cc1a894-d34e-4ec2-8479-9adf974fd72H', '1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_DLVR_PTRN_FEE_TYPE_T (FEE_TYP_ID, FEE_TYP_CD, FEE_TYP_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_PTRN_FEE_TYPE_S.NEXTVAL, 'LOST_ITEM_PRCS_FEE', 'Lost Item Processing Fee', '0cc1a894-d34e-4ec2-8479-9adf974fd72H', '1')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_T (BAT_PRCS_BIB_OVRL_ADD,BAT_PRCS_BIB_NO_MTCH,BAT_PRCS_INST_OVRL_ADD,BAT_PRCS_INST_NO_MTCH,BAT_PRCS_PRF_DESC,BAT_PRCS_PRF_ID,BAT_PRCS_PRF_NM,OBJ_ID,BAT_PRCS_MARC_ONLY,OLE_BAT_PRCS_TYP,VER_NBR) VALUES ('add','add','keepOldAddNew','add','Default EDI Export Format',last_insert_id(),'Default_EDI_Format','f6f342ca-d6b6-435f-adea-a6bbc10cey','N','EDI Export',1)</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRF_T (BAT_PRCS_BIB_OVRL_ADD,BAT_PRCS_BIB_NO_MTCH,BAT_PRCS_INST_OVRL_ADD,BAT_PRCS_INST_NO_MTCH,BAT_PRCS_PRF_DESC,BAT_PRCS_PRF_ID,BAT_PRCS_PRF_NM,OBJ_ID,BAT_PRCS_MARC_ONLY,OLE_BAT_PRCS_TYP,VER_NBR) VALUES ('add','add','keepOldAddNew','add','Default EDI Export Format',OLE_BAT_PRCS_PRF_S.NEXTVAL,'Default_EDI_Format','f6f342ca-d6b6-435f-adea-a6bbc10cey','N','EDI Export',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_oracle" dbms="oracle">
+        <loadData tableName="OLE_BAT_PRCS_PRFLE_CNST_T" file="org/kuali/ole/3.0/data/ole_bat_prcs_prfle_cnst_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_BAT_PRCS_PRFLE_CNST_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="OLE_BAT_PRCS_PRFLE_CNST_T" file="org/kuali/ole/3.0/data/ole_bat_prcs_prfle_cnst_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_BAT_PRCS_PRFLE_CNST_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="LAST_UPDATE_COLUMN_ADD">
+        <addColumn tableName="OLE_DS_BIB_INFO_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_BIB_HOLDINGS_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ITEM_HOLDINGS_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_CAT_SHVLG_SCHM_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_CAT_RCPT_STAT_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HOLDINGS_URI_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_EXT_OWNERSHIP_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_CAT_TYPE_OWNERSHIP_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_EXT_OWNERSHIP_NOTE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HOLDINGS_NOTE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_CAT_STAT_SRCH_CD_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_CAT_ITM_TYP_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DLVR_ITEM_AVAIL_STAT_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HIGH_DENSITY_STORAGE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ITEM_NOTE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ITM_FORMER_IDENTIFIER_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_LOC_CHECKIN_COUNT_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HOLDINGS_COVERAGE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_PERPETUAL_ACCESS_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ACCESS_LOCATION_CODE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ACCESS_LOCATION_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HOLDINGS_STAT_SEARCH_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ITEM_STAT_SEARCH_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_AUTHENTICATION_TYPE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_ITEM_DONOR_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_HOLDINGS_DONOR_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_DOC_TYPE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_DOC_FORMAT_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_DOC_FIELD_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_SEARCH_RESULT_PAGE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="OLE_DS_SEARCH_FACET_SIZE_T">
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="LAST_UPDATE_TRIGGER_ORACLE" dbms="oracle" >
+        <sql>CREATE OR REPLACE TRIGGER BIB_INFO_TR_INSERT BEFORE INSERT ON OLE_DS_BIB_INFO_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER BIB_INFO_TR_UPDATE BEFORE UPDATE ON OLE_DS_BIB_INFO_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER BIB_HLD_TR_INSERT BEFORE INSERT ON OLE_DS_BIB_HOLDINGS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER BIB_HLD_TR_UPDATE BEFORE UPDATE ON OLE_DS_BIB_HOLDINGS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITM_HLD_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_HOLDINGS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITM_HLD_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_HOLDINGS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER SHVLG_SCHM_TR_INSERT BEFORE INSERT ON OLE_CAT_SHVLG_SCHM_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER SHVLG_SCHM_TR_UPDATE BEFORE UPDATE ON OLE_CAT_SHVLG_SCHM_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER RCPT_STAT_TR_INSERT BEFORE INSERT ON OLE_CAT_RCPT_STAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER RCPT_STAT_TR_UPDATE BEFORE UPDATE ON OLE_CAT_RCPT_STAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HLD_URI_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_URI_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HLD_URI_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_URI_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER EXT_OWNR_TR_INSERT BEFORE INSERT ON OLE_DS_EXT_OWNERSHIP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER EXT_OWNR_TR_UPDATE BEFORE UPDATE ON OLE_DS_EXT_OWNERSHIP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER TYP_OWNR_TR_INSERT BEFORE INSERT ON OLE_CAT_TYPE_OWNERSHIP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER TYP_OWNR_TR_UPDATE BEFORE UPDATE ON OLE_CAT_TYPE_OWNERSHIP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER EXT_OWNR_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_EXT_OWNERSHIP_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER EXT_OWNR_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_EXT_OWNERSHIP_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HLD_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HLD_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER STAT_SRCH_CD_TR_INSERT BEFORE INSERT ON OLE_CAT_STAT_SRCH_CD_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER STAT_SRCH_CD_TR_UPDATE BEFORE UPDATE ON OLE_CAT_STAT_SRCH_CD_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITM_TYP_TR_INSERT BEFORE INSERT ON OLE_CAT_ITM_TYP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITM_TYP_TR_UPDATE BEFORE UPDATE ON OLE_CAT_ITM_TYP_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITEM_AVAIL_STAT_TR_INSERT BEFORE INSERT ON OLE_DLVR_ITEM_AVAIL_STAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITEM_AVAIL_STAT_TR_UPDATE BEFORE UPDATE ON OLE_DLVR_ITEM_AVAIL_STAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HIGH_DEN_STRG_TR_INSERT BEFORE INSERT ON OLE_DS_HIGH_DENSITY_STORAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HIGH_DEN_STRG_TR_UPDATE BEFORE UPDATE ON OLE_DS_HIGH_DENSITY_STORAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITEM_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITEM_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_NOTE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITM_FRMR_ID_TR_INSERT BEFORE INSERT ON OLE_DS_ITM_FORMER_IDENTIFIER_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITM_FRMR_ID_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITM_FORMER_IDENTIFIER_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER LOC_CHKIN_CNT_TR_INSERT BEFORE INSERT ON OLE_DS_LOC_CHECKIN_COUNT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER LOC_CHKIN_CNT_TR_UPDATE BEFORE UPDATE ON OLE_DS_LOC_CHECKIN_COUNT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HLD_COVERAGE_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_COVERAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HLD_COVERAGE_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_COVERAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER PERPETUAL_ACCESS_TR_INSERT BEFORE INSERT ON OLE_DS_PERPETUAL_ACCESS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER PERPETUAL_ACCESS_TR_UPDATE BEFORE UPDATE ON OLE_DS_PERPETUAL_ACCESS_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ACS_LOCN_CODE_TR_INSERT BEFORE INSERT ON OLE_DS_ACCESS_LOCATION_CODE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ACS_LOCN_CODE_TR_UPDATE BEFORE UPDATE ON OLE_DS_ACCESS_LOCATION_CODE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ACS_LOCN_TR_INSERT BEFORE INSERT ON OLE_DS_ACCESS_LOCATION_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ACS_LOCN_TR_UPDATE BEFORE UPDATE ON OLE_DS_ACCESS_LOCATION_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HLD_STAT_SEARCH_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_STAT_SEARCH_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HLD_STAT_SEARCH_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_STAT_SEARCH_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITEM_STAT_SEARCH_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_STAT_SEARCH_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITEM_STAT_SEARCH_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_STAT_SEARCH_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER AUTH_TYPE_TR_INSERT BEFORE INSERT ON OLE_DS_AUTHENTICATION_TYPE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER AUTH_TYPE_TR_UPDATE BEFORE UPDATE ON OLE_DS_AUTHENTICATION_TYPE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER ITEM_DONOR_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_DONOR_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER ITEM_DONOR_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_DONOR_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER HLD_DONOR_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_DONOR_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER HLD_DONOR_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_DONOR_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER DOC_TYPE_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_TYPE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER DOC_TYPE_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_TYPE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER DOC_FORMAT_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_FORMAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER DOC_FORMAT_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_FORMAT_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER DOC_FIELD_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_FIELD_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER DOC_FIELD_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_FIELD_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER SRCH_RESULT_PAGE_TR_INSERT BEFORE INSERT ON OLE_DS_SEARCH_RESULT_PAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER SRCH_RESULT_PAGE_TR_UPDATE BEFORE UPDATE ON OLE_DS_SEARCH_RESULT_PAGE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+        <sql>CREATE OR REPLACE TRIGGER SRCH_FACET_SIZE_TR_INSERT BEFORE INSERT ON OLE_DS_SEARCH_FACET_SIZE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+        <sql>CREATE OR REPLACE TRIGGER SRCH_FACET_SIZE_TR_UPDATE BEFORE UPDATE ON OLE_DS_SEARCH_FACET_SIZE_T FOR EACH ROW  BEGIN :new.DATE_UPDATED := sysdate; END; -- </sql>
+
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="LAST_UPDATE_TRIGGER_MYSQL" dbms="mysql" >
+        <sql>DELIMITER |</sql>
+        <sql>CREATE TRIGGER BIB_INFO_TR_INSERT BEFORE INSERT ON OLE_DS_BIB_INFO_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER BIB_INFO_TR_UPDATE BEFORE UPDATE ON OLE_DS_BIB_INFO_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER BIB_HLD_TR_INSERT BEFORE INSERT ON OLE_DS_BIB_HOLDINGS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER BIB_HLD_TR_UPDATE BEFORE UPDATE ON OLE_DS_BIB_HOLDINGS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITM_HLD_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_HOLDINGS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITM_HLD_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_HOLDINGS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER SHVLG_SCHM_TR_INSERT BEFORE INSERT ON OLE_CAT_SHVLG_SCHM_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER SHVLG_SCHM_TR_UPDATE BEFORE UPDATE ON OLE_CAT_SHVLG_SCHM_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER RCPT_STAT_TR_INSERT BEFORE INSERT ON OLE_CAT_RCPT_STAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER RCPT_STAT_TR_UPDATE BEFORE UPDATE ON OLE_CAT_RCPT_STAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HLD_URI_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_URI_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HLD_URI_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_URI_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER EXT_OWNR_TR_INSERT BEFORE INSERT ON OLE_DS_EXT_OWNERSHIP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER EXT_OWNR_TR_UPDATE BEFORE UPDATE ON OLE_DS_EXT_OWNERSHIP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER TYP_OWNR_TR_INSERT BEFORE INSERT ON OLE_CAT_TYPE_OWNERSHIP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER TYP_OWNR_TR_UPDATE BEFORE UPDATE ON OLE_CAT_TYPE_OWNERSHIP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER EXT_OWNR_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_EXT_OWNERSHIP_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER EXT_OWNR_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_EXT_OWNERSHIP_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HLD_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HLD_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER STAT_SRCH_CD_TR_INSERT BEFORE INSERT ON OLE_CAT_STAT_SRCH_CD_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER STAT_SRCH_CD_TR_UPDATE BEFORE UPDATE ON OLE_CAT_STAT_SRCH_CD_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITM_TYP_TR_INSERT BEFORE INSERT ON OLE_CAT_ITM_TYP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITM_TYP_TR_UPDATE BEFORE UPDATE ON OLE_CAT_ITM_TYP_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITEM_AVAIL_STAT_TR_INSERT BEFORE INSERT ON OLE_DLVR_ITEM_AVAIL_STAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITEM_AVAIL_STAT_TR_UPDATE BEFORE UPDATE ON OLE_DLVR_ITEM_AVAIL_STAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HIGH_DEN_STRG_TR_INSERT BEFORE INSERT ON OLE_DS_HIGH_DENSITY_STORAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HIGH_DEN_STRG_TR_UPDATE BEFORE UPDATE ON OLE_DS_HIGH_DENSITY_STORAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITEM_NOTE_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITEM_NOTE_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_NOTE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITM_FRMR_ID_TR_INSERT BEFORE INSERT ON OLE_DS_ITM_FORMER_IDENTIFIER_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITM_FRMR_ID_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITM_FORMER_IDENTIFIER_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER LOC_CHKIN_CNT_TR_INSERT BEFORE INSERT ON OLE_DS_LOC_CHECKIN_COUNT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER LOC_CHKIN_CNT_TR_UPDATE BEFORE UPDATE ON OLE_DS_LOC_CHECKIN_COUNT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HLD_COVERAGE_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_COVERAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HLD_COVERAGE_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_COVERAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER PERPETUAL_ACCESS_TR_INSERT BEFORE INSERT ON OLE_DS_PERPETUAL_ACCESS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER PERPETUAL_ACCESS_TR_UPDATE BEFORE UPDATE ON OLE_DS_PERPETUAL_ACCESS_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ACS_LOCN_CODE_TR_INSERT BEFORE INSERT ON OLE_DS_ACCESS_LOCATION_CODE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ACS_LOCN_CODE_TR_UPDATE BEFORE UPDATE ON OLE_DS_ACCESS_LOCATION_CODE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ACS_LOCN_TR_INSERT BEFORE INSERT ON OLE_DS_ACCESS_LOCATION_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ACS_LOCN_TR_UPDATE BEFORE UPDATE ON OLE_DS_ACCESS_LOCATION_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HLD_STAT_SEARCH_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_STAT_SEARCH_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HLD_STAT_SEARCH_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_STAT_SEARCH_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITEM_STAT_SEARCH_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_STAT_SEARCH_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITEM_STAT_SEARCH_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_STAT_SEARCH_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER AUTH_TYPE_TR_INSERT BEFORE INSERT ON OLE_DS_AUTHENTICATION_TYPE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER AUTH_TYPE_TR_UPDATE BEFORE UPDATE ON OLE_DS_AUTHENTICATION_TYPE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER ITEM_DONOR_TR_INSERT BEFORE INSERT ON OLE_DS_ITEM_DONOR_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER ITEM_DONOR_TR_UPDATE BEFORE UPDATE ON OLE_DS_ITEM_DONOR_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER HLD_DONOR_TR_INSERT BEFORE INSERT ON OLE_DS_HOLDINGS_DONOR_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER HLD_DONOR_TR_UPDATE BEFORE UPDATE ON OLE_DS_HOLDINGS_DONOR_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER DOC_TYPE_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_TYPE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER DOC_TYPE_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_TYPE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER DOC_FORMAT_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_FORMAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER DOC_FORMAT_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_FORMAT_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER DOC_FIELD_TR_INSERT BEFORE INSERT ON OLE_DS_DOC_FIELD_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER DOC_FIELD_TR_UPDATE BEFORE UPDATE ON OLE_DS_DOC_FIELD_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER SRCH_RESULT_PAGE_TR_INSERT BEFORE INSERT ON OLE_DS_SEARCH_RESULT_PAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER SRCH_RESULT_PAGE_TR_UPDATE BEFORE UPDATE ON OLE_DS_SEARCH_RESULT_PAGE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>CREATE TRIGGER SRCH_FACET_SIZE_TR_INSERT BEFORE INSERT ON OLE_DS_SEARCH_FACET_SIZE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+        <sql>CREATE TRIGGER SRCH_FACET_SIZE_TR_UPDATE BEFORE UPDATE ON OLE_DS_SEARCH_FACET_SIZE_T FOR EACH ROW BEGIN SET new.DATE_UPDATED := now(); END;|</sql>
+
+        <sql>DELIMITER     ; --</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_TYP_T_MYSQL" dbms="mysql">
+        <sql>INSERT INTO OLE_BAT_PRCS_TYP_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_TYP_T (OLE_BAT_PRCS_TYP_ID,OLE_BAT_PRCS_TYP_CODE,OLE_BAT_PRCS_TYP_NM,ACTIVE_IND,OBJ_ID,VER_NBR) VALUES(last_insert_id(),'edi_exp','EDI Export','Y','13','1')</sql>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_TYP_T_ORACLE" dbms="oracle">
+        <sql>INSERT INTO OLE_BAT_PRCS_TYP_T (OLE_BAT_PRCS_TYP_ID,OLE_BAT_PRCS_TYP_CODE,OLE_BAT_PRCS_TYP_NM,ACTIVE_IND,OBJ_ID,VER_NBR) VALUES(OLE_BAT_PRCS_TYP_S.NEXTVAL,'edi_exp','EDI Export','Y','13','1')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_HOLDINGS_T_MODIFY">
+        <sql>ALTER TABLE OLE_DS_HOLDINGS_T MODIFY MATERIALS_SPECIFIED VARCHAR(200) NULL</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_AGREEMENT_T">
+        <createTable tableName="OLE_AGREEMENT_T">
+            <column name="AGR_ID"   type="VARCHAR(40)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="AGR_LICENCE_TITLE" type="VARCHAR(250)"/>
+            <column name="AGR_CONTRACT_NBR"  type="VARCHAR(20)"/>
+            <column name="PO_ID"   type="INTEGER"/>
+            <column name="AGR_STATUS_ID"  type="VARCHAR(40)"/>
+            <column name="AGR_CODINGD_STATUS_ID"   type="VARCHAR(40)"/>
+            <column name="AGR_LICENSOR_ID" type="VARCHAR(40)"/>
+            <column name="AGR_LICENSEE_ID" type="VARCHAR(40)"/>
+            <column name="AGR_GENERAL_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_LICENSE_SITE" type="VARCHAR(250)"/>
+            <column name="AGR_FEE_SCHDLE" type="VARCHAR(250)"/>
+            <column name="AGR_INFLATION_CAP" type="VARCHAR(250)"/>
+            <column name="AGR_PAYMENT_TERM" type="VARCHAR(250)"/>
+            <column name="AGR_GOVRNING_LAW" type="VARCHAR(250)"/>
+            <column name="AGR_NEW_TITLE_ACCESS" type="VARCHAR(250)"/>
+            <column name="AGR_CANCELLATION_RIGHTS" type="VARCHAR(250)"/>
+            <column name="AGR_ADDITIONAL_TERM" type="VARCHAR(250)"/>
+            <column name="AGR_NTC_PER_FOR_TERMN" type="VARCHAR(250)"/>
+            <column name="AGR_PERP_ACCESS"  type="VARCHAR(1)"/>
+            <column name="AGR_PERP_ACC_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_AUTH_USRS" type="VARCHAR(250)"/>
+            <column name="AGR_AUTH_USRS_GEN_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_DEP_IN_JR" type="VARCHAR(1)"/>
+            <column name="AGR_FAIR_USE" type="VARCHAR(1)"/>
+            <column name="AGR_RTS_NT_GR_DE" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_PR" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_EL" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_LON_DOC_PERM" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_NON_PRFT_ONLY" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_SAM_CNTRY_RES" type="VARCHAR(1)"/>
+            <column name="AGR_ILL_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_LIB_RES_ELEC" type="VARCHAR(1)"/>
+            <column name="AGR_LIB_RES_PRI" type="VARCHAR(1)"/>
+            <column name="AGR_LIB_RES_CMS_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_SCOH_SHA" type="VARCHAR(1)"/>
+            <column name="AGR_TXT_MIN" type="VARCHAR(1)"/>
+            <column name="AGR_PERM_RIGHTS" type="VARCHAR(1)"/>
+            <column name="AGR_STR_RIGHTS" type="VARCHAR(1)"/>
+            <column name="AGR_MUL_RIGHTS_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_APC_OFFST" type="VARCHAR(1)"/>
+            <column name="AGR_APC_OFFST_NTE" type="VARCHAR(250)"/>
+            <column name="AGR_START_DT" type="DATE"/>
+            <column name="AGR_END_DT" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_AGREEMENT_S_ORACLE" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_AGREEMENT_S"
+                startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_AGREEMENT_S_MYSQL" dbms="mysql">
+        <createTable tableName="OLE_AGREEMENT_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_AGREEMENT_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER1_ORACLE" dbms="oracle">
+        <sql>ALTER SEQUENCE OLE_BAT_PRCS_PRFLE_CNST_S INCREMENT BY 38</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER2_ORACLE" dbms="oracle">
+        <sql>SELECT OLE_BAT_PRCS_PRFLE_CNST_S.NEXTVAL FROM DUAL</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER3_ORACLE" dbms="oracle">
+        <sql>ALTER SEQUENCE OLE_BAT_PRCS_PRFLE_CNST_S INCREMENT BY 1</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S_ALTER_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE ole.OLE_BAT_PRCS_PRFLE_CNST_S AUTO_INCREMENT=70</sql>
     </changeSet>
 
 </databaseChangeLog>

@@ -26,7 +26,7 @@
         <portal:portalLink displayTitle="true" title="Create New Request"
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverRequestMaintenance?viewTypeName=MAINTENANCE&methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo"/> <br/>
     <portal:portalLink displayTitle="true"   title="Request Search"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
+                       url="${ConfigProperties.application.url}/ole-kr-krad/requestLookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
     <portal:portalLink displayTitle="true" title="Request Re-order"
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverRequestController?viewId=DeliverRequestSearch&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Return"

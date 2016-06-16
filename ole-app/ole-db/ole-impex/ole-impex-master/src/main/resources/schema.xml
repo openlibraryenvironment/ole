@@ -6713,7 +6713,6 @@
         <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR" zz_comment="The long descriptive name. An optional element of the accounting string that allows you to track financial activity within a particular account at a finer level of detail."/>
         <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR" zz_comment="A four character code assigned to transactions to classify the transaction as a specific income, expense, asset, liability or fund balance transaction."/>
         <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR" zz_comment="An optional element of the accounting string related to the university object code that allows you to create finer distinctions within a particular object code for a specific account (for example, income and expense class)."/>
-        <column name="FUND_CD" size="10" type="VARCHAR" zz_comment="Fund Code used for Lookup."/>
         <column name="CURR_BDLN_BAL_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The current budget amount in this account for the selected fiscal year. Appears in Available Balances inquiry and Balances by Consolidation inquiry."/>
         <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The total of all actual activity for a given balance line of the selected fiscal year. Appears in Available Balances inquiry and Balances by Consolidation inquiry."/>
         <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The amount projected to be spent on the incumbent in this account for the rest of the fiscal year."/>
@@ -6728,9 +6727,6 @@
         </foreign-key>
         <foreign-key foreignTable="FS_OPTION_T" name="GL_ACCT_BALANCES_TR6">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-        </foreign-key>
-        <foreign-key foreignTable="OLE_FUND_CD_T" name="GL_ACCT_BALANCES_TR8">
-            <reference foreign="FUND_CD_ID" local="FUND_CD"/>
         </foreign-key>
     </table>
     <table name="GL_BALANCE_HIST_T">
@@ -6785,7 +6781,6 @@
         <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR" zz_comment="An optional element of the accounting string related to the university object code that allows you to create finer distinctions within a particular object code for a specific account (for example, income and expense class)."/>
         <column name="FIN_BALANCE_TYP_CD" primaryKey="true" size="2" type="VARCHAR" zz_comment="The code to categorize different balances. The examples might includeA2    A21 BALANCES - LABOR LEDGER ONLYAC    ACTUALS (BALANCE SHEET)AS    ACTUAL STATISTICSBB    ADJUSTED BASE BUDGETBS    BUDGET STATISTICSCB    CURRENT BUDGETCE    COST SHARE ENCUMBRANCESEX    EXTERNAL ENCUMBRANCEIE    INTERNAL ENCUMBRANCEJB    JULY 1 BUDGETMB    MONTHLY BUDGETNB    CLOSE NOMINAL BALANCEPE    PRE-ENCUMBRANCERE    YEAR END BUDGET REVERSIONTR    TRANSFERS"/>
         <column name="FIN_OBJ_TYP_CD" primaryKey="true" size="2" type="VARCHAR" zz_comment="An attribute of Object Code that is used to identify its general use, such as income, asset, expense, or liability."/>
-        <column name="FUND_CD" size="10" type="VARCHAR" zz_comment="Fund Code used for Lookup."/>
         <column name="ACLN_ANNL_BAL_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The total amount of activity in this account for this balance type across all periods of the selected fiscal year. Appears in Cash Balances inquiry and the General Ledger Balance inquiry."/>
         <column name="FIN_BEG_BAL_LN_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The amount in this account for this balance type at the beginning of the selected fiscal year. Appears in the General Ledger Balance inquiry."/>
         <column name="CONTR_GR_BB_AC_AMT" scale="2" size="19" type="DECIMAL" zz_comment="The rolling total of all expense since any Contract and Grant account (for which the individual has performed any activity) began."/>
@@ -6819,9 +6814,6 @@
         </foreign-key>
         <foreign-key foreignTable="CA_OBJ_TYPE_T" name="GL_BALANCE_TR7">
             <reference foreign="FIN_OBJ_TYP_CD" local="FIN_OBJ_TYP_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="OLE_FUND_CD_T" name="GL_BALANCE_TR8">
-            <reference foreign="FUND_CD_ID" local="FUND_CD"/>
         </foreign-key>
     </table>
     <table name="GL_COR_CHG_GRP_T">
@@ -9181,6 +9173,9 @@
         </index>
         <index name="PUR_PO_ITM_TI5">
             <index-column name="OLE_RQSTR_TYP_ID"/>
+        </index>
+        <index name="PUR_PO_ITM_TI6">
+            <index-column name="OLE_VNDR_IT_ID"/>
         </index>
     </table>
     <table name="PUR_PO_ITM_USE_TAX_T">

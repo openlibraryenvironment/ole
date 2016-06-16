@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.api.*;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -27,6 +28,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -1837,13 +1840,15 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public int getLoanedItemsCountByItemType(String itemType) {
         Integer itemCount = 0;
-        List<OleLoanDocument> oleLoanDocuments = getOleLoanDocuments();
-        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
-            OleLoanDocument oleLoanDocument = iterator.next();
-            String itemId = oleLoanDocument.getItemId();
-            String itemTypeCode = getItemTypeFromItemId(itemId);
-            if (itemTypeCode.equalsIgnoreCase(itemType)) {
+        List<ItemRecord> itemRecords = getItemRecords();
+        if (CollectionUtils.isNotEmpty(itemRecords)) {
+            Boolean includeTowardsLoanCount = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT);
+            for (ItemRecord itemRecord : itemRecords) {
+                if (itemRecord != null && itemRecord.getItemTypeRecord().getCode().equalsIgnoreCase(itemType)
+                        && (!itemRecord.getClaimsReturnedFlag() || (itemRecord.getClaimsReturnedFlag() && includeTowardsLoanCount))) {
                 itemCount = itemCount + 1;
+                }
             }
         }
         return itemCount;
@@ -1901,7 +1906,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         if(CollectionUtils.isNotEmpty(feeTypeList)){
             for (Iterator<FeeType> iterator = feeTypeList.iterator(); iterator.hasNext(); ) {
                 FeeType patronFeeType =  iterator.next();
-                if(patronFeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(feeType)){
+                if (patronFeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(feeType) && !patronFeeType.getOlePaymentStatus().getPaymentStatusCode().equals(OLEConstants.SUSPENDED)) {
                     feeAmount = feeAmount.add(patronFeeType.getBalFeeAmount().bigDecimalValue());
                 }
             }
@@ -1979,14 +1984,13 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     private boolean recallRequestExists(OleLoanDocument oleLoanDocument) {
-
-        List<OleDeliverRequestBo> oleDeliverRequestBos = getOleDeliverRequestBos();
+        Map<String,String> itemMap=new HashMap<>();
+        itemMap.put("itemId",oleLoanDocument.getItemId());
+        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
         for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
             OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
-            if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().equals("Recall") &&
-                    oleDeliverRequestBo.getLoanTransactionRecordNumber().equals(oleLoanDocument.getLoanId())){
+            if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains("Recall")){
                 return true;
-
             }
         }
         return false;
@@ -1994,7 +1998,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public String getTimeDiff(Date dateOne, Date dateTwo) {
         String diff = "";
-        long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+        long timeDiff = dateTwo.getTime() - dateOne.getTime();
         diff = String.format("%d", TimeUnit.MILLISECONDS.toDays(timeDiff),
                 -TimeUnit.HOURS.toDays(timeDiff));
         return diff;
@@ -2030,5 +2034,41 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getNotes());
         return managedLists;
+    }
+
+    public int getTotalOverdueLoanedItemsCount() {
+        int overdueCount = 0;
+        SimpleDateFormat date = new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT);
+        List<ItemRecord> itemRecords = getItemRecords();
+        if (CollectionUtils.isNotEmpty(itemRecords)) {
+            Boolean includeTowardsLoanCount = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT);
+            for (ItemRecord itemRecord : itemRecords) {
+                try {
+                    //checking overdue and claims returned flag
+                    if (itemRecord.getDueDateTime() != null && itemRecord.getDueDateTime().before(date.parse(date.format(new Date())))
+                            && (!itemRecord.getClaimsReturnedFlag() || (itemRecord.getClaimsReturnedFlag() && includeTowardsLoanCount))) {
+                        overdueCount++;
+                    }
+                } catch (ParseException e) {
+                    LOG.info(e.getMessage());
+                }
+            }
+        }
+        return overdueCount;
+    }
+
+    private List<ItemRecord> getItemRecords() {
+        List<ItemRecord> itemRecords = new ArrayList<>();
+        Set<String> itemIds = new HashSet<>();
+        for (OleLoanDocument oleLoanDocument : oleLoanDocuments) {
+            itemIds.add(oleLoanDocument.getItemId());
+        }
+        if (CollectionUtils.isNotEmpty(itemIds)) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("barCode", itemIds);
+            itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, map);
+        }
+        return itemRecords;
     }
 }

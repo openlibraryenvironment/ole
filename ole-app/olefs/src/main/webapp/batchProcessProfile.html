@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Batch Process Profile</title>
+    <script src="framework/jquery/js/jquery-1.11.3.js"></script>
+    <link rel="stylesheet" href="batchFramework/css/bootstrap.min.css">
+    <link rel="stylesheet" href="framework/plugins/css/font-awesome.min.css">
+    <script src="batchFramework/scripts/angular.min.js"></script>
+    <script src="batchFramework/scripts/angular-animate.min.js"></script>
+    <script src="batchFramework/scripts/angular-sanitize.min.js"></script>
+    <script src="batchFramework/scripts/angular-strap.js"></script>
+    <script src="framework/angular/js/ui-bootstrap-tpls-0.14.3.js"></script>
+    <!--<script src="framework/plugins/js/spin.min.js"></script>
+    <script src="framework/angular/js/angular-loading-spinner.js"></script>
+    <script src="framework/angular/js/angular-spinner.min.js"></script>-->
+    <script src="oleng/js/oleng.js"></script>
+    <!--<link rel="stylesheet" href="oleng/css/oleng.css"/>-->
+    <link rel="stylesheet" href="batchFramework/css/batchStyle.css"/>
+    <script src="batchFramework/controllers/olengProfileDropDownValues.js"></script>
+    <script src="batchFramework/controllers/batchViewController.js"></script>
+    <script src="batchFramework/controllers/batchProfileServiceHandler.js"></script>
+    <script src="batchFramework/controllers/batchProfileValidator.js"></script>
+    <script src="batchScheduling/scripts/date.js"></script>
+    <script src="framework/jquery/js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="framework/jquery/css/jquery-ui.css"/>
+</head>
+<body>
+<form name="batchProfileForm" ng-app="batchProcessProfile" ng-controller="batchProfileController" data-ng-init="init()" novalidate>
+    <div class="container col-lg-12">
+        <!--<span us-spinner="{radius:30, width:8, length: 16}"></span>-->
+        <div>
+            <h2 style="display:inline !important; font-weight: bold;">Batch Process Profile</h2>
+            <br><br>
+        </div>
+        <div ng-show="submitted">
+            <span class="messageClass">{{message}}</span>
+            <br><br>
+        </div>
+        <div ng-include="'batchFramework/views/batchMainSection.html'"></div>
+        <div ng-include="'batchFramework/views/batchMatchPoints.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Delete'"></div>
+        <div ng-include="'batchFramework/views/batchMatchAddOverlay.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
+        <div ng-include="'batchFramework/views/batchFieldOperations.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+        <div ng-include="'batchFramework/views/batchFilterCriteria.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Batch Export' && mainSectionPanel.exportScope == 'Filter'"></div>
+        <div ng-include="'batchFramework/views/batchDataMappings.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
+        <div ng-include="'batchFramework/views/batchDataTransformations.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
+        <button id="profileSubmit_button" name="profileSubmit_button" class="btn btn-primary" ng-click="submit()"
+                ng-disabled="submitted || (rowToEdit !== null) || batchProfileForm.$invalid" style="margin-left: 40em;">Submit
+        </button>
+        <button id="profileCancel_button" name="profileCancel_button" class="btn btn-primary" ng-click="cancel()"
+                style="margin-left: 10px;">Cancel
+        </button>
+    </div>
+</form>
+</body>
+</html>

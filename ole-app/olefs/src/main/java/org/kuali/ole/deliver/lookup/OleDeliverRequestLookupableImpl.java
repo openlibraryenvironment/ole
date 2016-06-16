@@ -100,6 +100,11 @@ public class OleDeliverRequestLookupableImpl extends LookupableImpl {
         searchCriteria.remove(OLEConstants.TITLE);
         searchCriteria.remove(OLEConstants.OlePatron.PATRON_FIRST_NAME);
         searchCriteria.remove(OLEConstants.OlePatron.PATRON_LAST_NAME);
+        String itemUuid = searchCriteria.get("itemUuid");
+        if(itemUuid !=null && !itemUuid.isEmpty() && !itemUuid.contains("wio-")){
+                itemUuid = "wio-"+itemUuid;
+                searchCriteria.put("itemUuid",itemUuid);
+            }
         List<OleDeliverRequestBo> displayList = new ArrayList<OleDeliverRequestBo>();
         List<EntityNameBo> entityNameBos = new ArrayList<EntityNameBo>();
         String modifiedBorrowerFirstName = firstName.trim();

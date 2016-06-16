@@ -167,4 +167,19 @@
                         OBJ_ID="f6f342ca-d6b6-435f-adea-a6bb6dc5cedf" BAT_PRCS_MARC_ONLY="N"
                         OLE_BAT_PRCS_TYP="Bib Import" VER_NBR="1"/>
 
+    <OLE_BAT_PRCS_PRF_T BAT_PRCS_BIB_OVRL_ADD="add" BAT_PRCS_BIB_NO_MTCH="add"
+                        BAT_PRCS_INST_OVRL_ADD="keepOldAddNew"
+                        BAT_PRCS_INST_NO_MTCH="add"
+                        BAT_PRCS_PRF_DESC="Default EDI Export Format"
+                        BAT_PRCS_PRF_ID="22" BAT_PRCS_PRF_NM="Default_EDI_Format"
+                        OBJ_ID="f6f342ca-d6b6-435f-adea-a6bbc10cey" BAT_PRCS_MARC_ONLY="N"
+                        OLE_BAT_PRCS_TYP="EDI Export" VER_NBR="1"/>
+
+    <OLE_BAT_PRCS_PRF_T BAT_PRCS_PRF_DESC="Test_Desc_Fund_Record_Import"
+                        BAT_PRCS_PRF_ID="23" BAT_PRCS_PRF_NM="Test_Fund_Record_Import"
+                        IS_BIB_STF_ONLY="N" IS_INST_STF_ONLY="N" IS_ITM_STF_ONLY="N"
+                        KRMS_PRFL_NM="" OBJ_ID="bbe3ef4f-764b-45c5-a875-64f6d674ba10"
+                        OLE_BAT_PRCS_TYP="Fund Record Import" PRPND_003_TO_035="N" BAT_PRCS_MARC_ONLY="N"
+                        PRPND_VAL_TO_035="N" VER_NBR="1"/>
+
 </dataset>

@@ -24,6 +24,7 @@ import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.select.businessobject.OleInvoiceItem;
 import org.kuali.ole.select.document.OleInvoiceDocument;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.form.OLEInvoiceForm;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -72,13 +73,13 @@ public interface OleInvoiceService extends InvoiceService {
 
     public boolean autoApprovePaymentRequest(OleInvoiceDocument doc);
 
-    public OleInvoiceDocument populateInvoiceItems (OleInvoiceDocument invoiceDocument);
+    public OleInvoiceDocument populateInvoiceItems (OleInvoiceDocument invoiceDocument, List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList);
 
     public OleInvoiceDocument populateInvoiceDocument (OleInvoiceDocument invoiceDocument);
 
     public void calculateAccount(PurApItem purapItem);
 
-    public void convertPOItemToInvoiceItem (OleInvoiceDocument oleInvoiceDocument);
+    public void convertPOItemToInvoiceItem(OleInvoiceDocument oleInvoiceDocument, OlePurchaseOrderDocument olePurchaseOrderDocument);
 
     public String createInvoiceNoMatchQuestionText(OleInvoiceDocument invoiceDocument);
 
@@ -94,7 +95,7 @@ public interface OleInvoiceService extends InvoiceService {
 
     public boolean canCollapse(String sectionName,String[] collapseSections);
 
-    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, boolean isBlanketApprove);
+    public boolean isDuplicationExists(OleInvoiceDocument invoiceDocument, OLEInvoiceForm invoiceForm, String actionName);
 
     public String getPaymentMethodType(String paymentId);
 
@@ -119,4 +120,6 @@ public interface OleInvoiceService extends InvoiceService {
     public void deleteInvoiceItem(OleInvoiceDocument oleInvoiceDocument);
 
     public String getPurchaseOrderVendor(String poId);
+
+    public List<String> getRecurringOrderTypes();
 }

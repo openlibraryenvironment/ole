@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_ACC_LOC_T
 # -----------------------------------------------------------------------
@@ -237,6 +238,69 @@ CREATE TABLE OLE_AGR_TYPE_T
         , VER_NBR DECIMAL(8) default 1 NOT NULL
     
     , CONSTRAINT OLE_AGR_TYPE_TP1 PRIMARY KEY(AGR_TYPE_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_AGREEMENT_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_AGREEMENT_T
+/
+
+CREATE TABLE OLE_AGREEMENT_T
+(
+      AGR_ID VARCHAR(40)
+        , AGR_LICENCE_TITLE VARCHAR(250)
+        , AGR_CONTRACT_NBR VARCHAR(20)
+        , PO_ID INTEGER
+        , AGR_STATUS_ID VARCHAR(40)
+        , AGR_CODINGD_STATUS_ID VARCHAR(40)
+        , AGR_LICENSOR_ID VARCHAR(40)
+        , AGR_LICENSEE_ID VARCHAR(40)
+        , AGR_GENERAL_NTE VARCHAR(250)
+        , AGR_LICENSE_SITE VARCHAR(250)
+        , AGR_FEE_SCHDLE VARCHAR(250)
+        , AGR_INFLATION_CAP VARCHAR(250)
+        , AGR_PAYMENT_TERM VARCHAR(250)
+        , AGR_GOVRNING_LAW VARCHAR(250)
+        , AGR_NEW_TITLE_ACCESS VARCHAR(250)
+        , AGR_CANCELLATION_RIGHTS VARCHAR(250)
+        , AGR_ADDITIONAL_TERM VARCHAR(250)
+        , AGR_NTC_PER_FOR_TERMN VARCHAR(250)
+        , AGR_PERP_ACCESS VARCHAR(1)
+        , AGR_PERP_ACC_NTE VARCHAR(250)
+        , AGR_AUTH_USRS VARCHAR(250)
+        , AGR_AUTH_USRS_GEN_NTE VARCHAR(250)
+        , AGR_DEP_IN_JR VARCHAR(1)
+        , AGR_FAIR_USE VARCHAR(1)
+        , AGR_RTS_NT_GR_DE VARCHAR(1)
+        , AGR_ILL_PR VARCHAR(1)
+        , AGR_ILL_EL VARCHAR(1)
+        , AGR_ILL_LON_DOC_PERM VARCHAR(1)
+        , AGR_ILL_NON_PRFT_ONLY VARCHAR(1)
+        , AGR_ILL_SAM_CNTRY_RES VARCHAR(1)
+        , AGR_ILL_NTE VARCHAR(250)
+        , AGR_LIB_RES_ELEC VARCHAR(1)
+        , AGR_LIB_RES_PRI VARCHAR(1)
+        , AGR_LIB_RES_CMS_NTE VARCHAR(250)
+        , AGR_SCOH_SHA VARCHAR(1)
+        , AGR_TXT_MIN VARCHAR(1)
+        , AGR_PERM_RIGHTS VARCHAR(1)
+        , AGR_STR_RIGHTS VARCHAR(1)
+        , AGR_MUL_RIGHTS_NTE VARCHAR(250)
+        , AGR_APC_OFFST VARCHAR(1)
+        , AGR_APC_OFFST_NTE VARCHAR(250)
+        , AGR_START_DT DATETIME
+        , AGR_END_DT DATETIME
+    
+    , CONSTRAINT OLE_AGREEMENT_TP1 PRIMARY KEY(AGR_ID)
 
 
 
@@ -608,6 +672,7 @@ CREATE TABLE OLE_CAT_ITM_TYP_T
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_CAT_ITM_TYP_TP1 PRIMARY KEY(ITM_TYP_CD_ID)
 
@@ -755,6 +820,7 @@ CREATE TABLE OLE_CAT_RCPT_STAT_T
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_CAT_RCPT_STAT_TP1 PRIMARY KEY(RCPT_STAT_ID)
 
@@ -871,6 +937,7 @@ CREATE TABLE OLE_CAT_SHVLG_SCHM_T
         , SRC VARCHAR(100) NOT NULL
         , SRC_DT DATETIME NOT NULL
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_CAT_SHVLG_SCHM_TP1 PRIMARY KEY(SHVLG_SCHM_ID)
 
@@ -1015,6 +1082,7 @@ CREATE TABLE OLE_CAT_STAT_SRCH_CD_T
         , STAT_SRCH_NM VARCHAR(100) NOT NULL
         , SRC VARCHAR(100) NOT NULL
         , SRC_DT DATETIME NOT NULL
+        , DATE_UPDATED DATETIME
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
     
     , CONSTRAINT OLE_CAT_STAT_SRCH_CD_TP1 PRIMARY KEY(STAT_SRCH_CD_ID)
@@ -1045,6 +1113,7 @@ CREATE TABLE OLE_CAT_TYPE_OWNERSHIP_T
         , SRC VARCHAR(100) NOT NULL
         , SRC_DT DATETIME NOT NULL
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_CAT_TYPE_OWNERSHIP_TP1 PRIMARY KEY(TYPE_OWNERSHIP_ID)
 
@@ -1802,6 +1871,7 @@ CREATE TABLE OLE_DLVR_ITEM_AVAIL_STAT_T
         , ITEM_AVAIL_STAT_CD VARCHAR(40) NOT NULL
         , ITEM_AVAIL_STAT_NM VARCHAR(200) NOT NULL
         , ROW_ACT_IND VARCHAR(1) default 'Y' NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DLVR_ITEM_AVAIL_STAT_TP1 PRIMARY KEY(ITEM_AVAIL_STAT_ID)
 
@@ -1872,6 +1942,9 @@ CREATE TABLE OLE_DLVR_LOAN_T
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
         , ITEM_UUID VARCHAR(100) NOT NULL
+        , NUM_CLAIMS_RTRN_NOTICES_SENT INTEGER
+        , CLAIMS_SEARCH_COUNT INTEGER
+        , LAST_CLAIMS_RTRN_SEARCH_DT DATETIME
     
     , CONSTRAINT OLE_DLVR_LOAN_TP1 PRIMARY KEY(LOAN_TRAN_ID)
 
@@ -1881,15 +1954,15 @@ CREATE TABLE OLE_DLVR_LOAN_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX new_fk_constraint2 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX loan_curr_due_date_index (CURR_DUE_DT_TIME )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DLVR_LOAN_TI1 (ITEM_UUID )
 
@@ -1948,6 +2021,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
         , CHECK_OUT_DT_TIME DATETIME
         , CHECK_IN_DT_TIME DATETIME
         , CHECK_IN_DT_TIME_OVR_RD DATETIME
+        , RNWL_DT_TIME DATETIME
         , OPERATOR_ID VARCHAR(40)
         , ITM_TITLE VARCHAR(600)
         , ITM_AUTHOR VARCHAR(200)
@@ -1972,7 +2046,7 @@ CREATE TABLE OLE_DLVR_PTRN_BILL_FEE_TYP_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX FEE_TYP_BILL_ID (PTRN_BILL_ID )
 
@@ -5454,6 +5528,7 @@ CREATE TABLE OLE_DS_DOC_TYPE_T
         , DESCRIPTION VARCHAR(400)
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_DOC_TYPE_TP1 PRIMARY KEY(DOC_TYPE_ID)
 
@@ -5482,6 +5557,7 @@ CREATE TABLE OLE_DS_DOC_FORMAT_T
         , DOC_TYPE_ID INTEGER
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_DOC_FORMAT_TP1 PRIMARY KEY(DOC_FORMAT_ID)
 
@@ -5518,6 +5594,7 @@ CREATE TABLE OLE_DS_DOC_FIELD_T
         , IS_GLOBAL_EDIT VARCHAR(1)
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_DOC_FIELD_TP1 PRIMARY KEY(DOC_FIELD_ID)
 
@@ -5543,6 +5620,7 @@ CREATE TABLE OLE_DS_SEARCH_RESULT_PAGE_T
         , PAGE_SIZE INTEGER
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_SEARCH_RESULT_PAGE_TP1 PRIMARY KEY(DOC_SEARCH_PAGE_SIZE_ID)
 
@@ -5569,6 +5647,7 @@ CREATE TABLE OLE_DS_SEARCH_FACET_SIZE_T
         , LONG_SIZE INTEGER
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_SEARCH_FACET_SIZE_TP1 PRIMARY KEY(DOC_SEARCH_FACET_SIZE_ID)
 
@@ -5592,11 +5671,12 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
       ID VARCHAR(40)
         , LOAN_ID VARCHAR(40)
         , PTRN_ID VARCHAR(37)
-        , NTC_TYP VARCHAR(37)
+        , NTC_TYP VARCHAR(100)
         , NTC_CNTNT_CONFIG_NAME VARCHAR(400)
         , NTC_SND_TYP VARCHAR(37)
         , RQST_ID VARCHAR(37)
         , RPLCMNT_FEE_AMNT DECIMAL(8)
+        , LOST_ITM_PRCS_FEE_AMNT DECIMAL(8)
         , NTC_TO_SND_DT DATETIME
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
@@ -5608,19 +5688,19 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
 
 
     
-                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX NTC_TO_SND_DT_INDX (NTC_TO_SND_DT )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX NTC_TYP_INDX (NTC_TYP )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX PTRN_ID_INDX (PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX ODLN_LOAN_ID_INDX (LOAN_ID )
 
@@ -5641,7 +5721,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
         , PTRN_ID VARCHAR(37)
         , RQST_ID VARCHAR(37)
         , NTC_SNT_DT DATETIME
-        , NTC_TYP VARCHAR(37)
+        , NTC_TYP VARCHAR(100)
         , NTC_SND_TYP VARCHAR(37)
         , NTC_CNTNT LONGTEXT
         , VER_NBR DECIMAL(8)
@@ -6574,6 +6654,108 @@ CREATE TABLE HOLDINGS_AUDIT_T
 
 
 # -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_T
+(
+      PRF_ID INTEGER(10)
+        , PRF_NM VARCHAR(40)
+        , PRF_TYP VARCHAR(40)
+        , CONTENT LONGBLOB
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRF_TP1 PRIMARY KEY(PRF_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_T
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
+(
+      JOB_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , PROFILE_TYPE VARCHAR(40)
+        , PRF_ID INTEGER(10)
+        , JOB_TYPE VARCHAR(40)
+        , CRON_EXP VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , CREATED_ON DATETIME
+        , NEXT_RUN_TIME DATETIME
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_PRCS_JOB_TP1 PRIMARY KEY(JOB_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_T
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
+(
+      JOB_DETAIL_ID INTEGER(10)
+        , JOB_NAME VARCHAR(100)
+        , JOB_ID INTEGER(10)
+        , PROFILE_TYPE VARCHAR(40)
+        , PROFILE_NAME VARCHAR(100)
+        , FILE_NAME VARCHAR(100)
+        , CREATED_BY VARCHAR(40)
+        , START_TIME DATETIME
+        , END_TIME DATETIME
+        , PER_COMPLETED VARCHAR(40)
+        , TIME_SPENT VARCHAR(40)
+        , TOTAL_RECORDS VARCHAR(40)
+        , TOTAL_RECORDS_PRCSD VARCHAR(40)
+        , TOTAL_FAILURE_RECORDS VARCHAR(40)
+        , STATUS VARCHAR(40)
+        , OBJ_ID VARCHAR(36)
+        , VER_NBR INTEGER(8)
+    
+    , CONSTRAINT OLE_NG_BAT_JOB_DETAILS_TP1 PRIMARY KEY(JOB_DETAIL_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                                                                                                                                                        
+                                    
+, INDEX OLE_NG_BAT_JOB_I (JOB_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -6721,6 +6903,20 @@ CREATE TABLE OLE_AGR_TYPE_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_AGR_TYPE_S auto_increment = 6
+/
+
+# -----------------------------------------------------------------------
+# OLE_AGREEMENT_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_AGREEMENT_S
+/
+
+CREATE TABLE OLE_AGREEMENT_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_AGREEMENT_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
@@ -7392,7 +7588,7 @@ CREATE TABLE OLE_DLVR_ITEM_AVAIL_STAT_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_DLVR_ITEM_AVAIL_STAT_S auto_increment = 15
+ALTER TABLE OLE_DLVR_ITEM_AVAIL_STAT_S auto_increment = 16
 /
 
 # -----------------------------------------------------------------------
@@ -7490,7 +7686,7 @@ CREATE TABLE OLE_DLVR_PTRN_FEE_TYPE_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_DLVR_PTRN_FEE_TYPE_S auto_increment = 4
+ALTER TABLE OLE_DLVR_PTRN_FEE_TYPE_S auto_increment = 5
 /
 
 # -----------------------------------------------------------------------
@@ -8162,7 +8358,7 @@ CREATE TABLE OLE_PTRN_PAY_STA_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_PTRN_PAY_STA_S auto_increment = 7
+ALTER TABLE OLE_PTRN_PAY_STA_S auto_increment = 20
 /
 
 # -----------------------------------------------------------------------
@@ -8344,7 +8540,7 @@ CREATE TABLE OLE_BAT_PRCS_PRFLE_CNST_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_S auto_increment = 32
+ALTER TABLE OLE_BAT_PRCS_PRFLE_CNST_S auto_increment = 66
 /
 
 # -----------------------------------------------------------------------
@@ -9367,4 +9563,46 @@ CREATE TABLE HOLDINGS_AUDIT_S
 ) ENGINE MyISAM
 /
 ALTER TABLE HOLDINGS_AUDIT_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRF_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRF_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRF_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRF_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_PRCS_JOB_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_PRCS_JOB_S
+/
+
+CREATE TABLE OLE_NG_BAT_PRCS_JOB_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_PRCS_JOB_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NG_BAT_JOB_DETAILS_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NG_BAT_JOB_DETAILS_S
+/
+
+CREATE TABLE OLE_NG_BAT_JOB_DETAILS_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NG_BAT_JOB_DETAILS_S auto_increment = 1
 /

@@ -23,6 +23,7 @@ public class EInstanceCoverageRecord extends PersistableBusinessObjectBase imple
     private String coverageEndVolume;
     private String coverageEndIssue;
     private HoldingsRecord holdingsRecord;
+    private Timestamp updatedDate;
 
     public String getEInstanceCoverageId() {
         return eInstanceCoverageId;
@@ -96,6 +97,14 @@ public class EInstanceCoverageRecord extends PersistableBusinessObjectBase imple
 
     public void setHoldingsId(String holdingsId) {
         this.holdingsId = holdingsId;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }
 

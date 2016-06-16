@@ -1,0 +1,132 @@
+<div class="panel-group" ng-model="mainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#" ng-click="mainSectionPanel.collapsed = !mainSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': mainSectionPanel.collapsed, 'glyphicon-chevron-down': !mainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm.profileName.$dirty && batchProfileForm.profileName.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Profile name is required</p>
+                <p style="color:red" ng-show="batchProfileForm.batchProcessType.$dirty && batchProfileForm.batchProcessType.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Batch Process Type is required</p>
+                <p style="color:red" ng-show="batchProfileForm.bibImportProfile.$dirty && batchProfileForm.bibImportProfile.$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Bib Import Profile is required</p>
+                <p style="color:red" ng-show="batchProfileForm.requisitionForTitles.$dirty && batchProfileForm.requisitionForTitles.$invalid">Batch Process Type is required</p>
+                <input class="form-control" type="hidden" id="profileId" name="profileId" ng-value="mainSectionPanel.profileId"
+                       ng-model="mainSectionPanel.profileId">
+                <table class="table table-condensed table-bordered batchTable">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Batch Profile Name:</label>
+                            <input class="form-control" id="profileName" name="profileName" type="text"
+                                   ng-model="mainSectionPanel.profileName" style="height: 30px; width: 350px;"
+                                   ng-hide="inquiry" ng-disabled="submitted" required/>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.profileName"></span>
+                        </td>
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Description:</label>
+                            <input class="form-control" id="profileDescription" name="profileDescription" type="text"
+                                   ng-model="mainSectionPanel.profileDescription" style="height: 30px; width: 350px;"
+                                   ng-hide="inquiry" ng-disabled="submitted"/>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.profileDescription"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Batch Process Type:</label>
+                            <select class="form-control" id="batchProcessType" name="batchProcessType"
+                                    ng-model="mainSectionPanel.batchProcessType"
+                                    ng-change="setValuesForBatchProcessType(mainSectionPanel)" ng-disabled="submitted"
+                                    style="width: 170px" ng-hide="inquiry" required>
+                                <option ng-selected="{{option.value == mainSectionPanel.batchProcessType}}"
+                                        ng-repeat="option in mainSectionPanel.batchProcessTypeValues | orderBy:'value'"
+                                        value="{{option.value}}">
+                                    {{option.value}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.batchProcessType"></span>
+                        </td>
+                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'">
+                            <label class="col-sm-4">Bib Import Profile:</label>
+                            <select class="form-control" id="bibImportProfile" name="bibImportProfile"
+                                    ng-model="mainSectionPanel.bibImportProfileForOrderImport"
+                                    ng-disabled="submitted"
+                                    style="width: 170px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option value=""></option>
+                                <option ng-selected="{{option.profileName == mainSectionPanel.bibImportProfileForOrderImport}}"
+                                        ng-repeat="option in bibImportProfileNames  | orderBy:'profileName'"
+                                        value="{{option.profileName}}">
+                                    {{option.profileName}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.bibImportProfileForOrderImport"></span>
+                        </td>
+                        <td class="col-sm-6" ng-show="mainSectionPanel.batchProcessType == 'Batch Export'">
+                            <label class="col-sm-4">Export Scope:</label>
+                            <select class="form-control" id="exportScope" name="exportScope"
+                                    ng-model="mainSectionPanel.exportScope"
+                                    ng-change="enableFilterCriteria(mainSectionPanel.exportScope)"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry">
+                                <option ng-selected="{{option.name == mainSectionPanel.exportScope}}"
+                                        ng-repeat="option in mainSectionPanel.exportScopeOptions"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.exportScope"></span>
+                        </td>
+                    </tr>
+                    <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Requisitions For Titles:</label>
+                            <select class="form-control" id="requisitionForTitles" name="requisitionForTitles"
+                                    ng-model="mainSectionPanel.requisitionForTitlesOption"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option ng-selected="{{option.name == mainSectionPanel.requisitionForTitlesOption}}"
+                                        ng-repeat="option in mainSectionPanel.requisitionForTitlesValues"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.requisitionForTitlesOption"></span>
+                        </td>
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Order Type:</label>
+                            <select class="form-control" id="orderType" name="orderType"
+                                    ng-model="mainSectionPanel.orderType"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option ng-selected="{{option.name == mainSectionPanel.orderType}}"
+                                        ng-repeat="option in mainSectionPanel.orderTypes"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.orderType"></span>
+                        </td>
+                    </tr>
+                    <tr ng-show="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                        <td class="col-sm-6">
+                            <label class="col-sm-4">Match Point to use:</label>
+                            <select class="form-control" id="matchPointToUse" name="matchPointToUse"
+                                    ng-model="mainSectionPanel.matchPointToUse"
+                                    ng-disabled="submitted" style="width: 230px" ng-hide="inquiry" ng-required="mainSectionPanel.batchProcessType == 'Order Record Import'">
+                                <option ng-selected="{{option.name == mainSectionPanel.matchPointToUse}}"
+                                        ng-repeat="option in mainSectionPanel.matchPointToUseOptions"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="inquiry" ng-bind="mainSectionPanel.matchPointToUse"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

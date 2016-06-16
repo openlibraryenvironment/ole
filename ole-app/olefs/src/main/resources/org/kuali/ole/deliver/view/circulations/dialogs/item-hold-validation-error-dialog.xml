@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--OleGenericDialogs-->
+    <bean id="itemHoldValidationErrorMessageDialog" parent="errorMessageDialog">
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <ref bean="itemHoldValidationErrorBtnLayoutSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemHoldValidationErrorBtnLayoutSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="proceed_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:150px"
+                      p:methodToCall="postRequestCheck" p:ajaxSubmit="true"
+                      p:onClickScript="jq.fancybox.close();"
+                      p:successCallback="jq('#checkoutItem_control').focus();"/>
+                <bean id="donNotProceedButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Procced"
+                      p:style="width:300px"
+                      p:methodToCall="clearUI" p:ajaxSubmit="true" p:onClickScript="jq.fancybox.close();"/>
+                <bean id="holdRecordLink" parent="Uif-LinkField" p:target="_blank"
+                       p:style="height:25px;font-size:12px;line-height:2em;"
+                       p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=@{patronDocument.olePatronId}"
+                      p:linkText="&lt;font color='#000000'/&gt;View Hold Items&lt;/font&gt;" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-smallActionButton</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -295,6 +295,30 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         oleHoldings.setUri(uriList);
     }
 
+    public List<ExtentOfOwnership> removeDuplicateAndEmptyExtentOfOwnership(OleHoldings holdingData){
+        List<ExtentOfOwnership> extentOfOwnershipList = holdingData.getExtentOfOwnership();
+        List<ExtentOfOwnership> basic = new ArrayList<>();
+        List<ExtentOfOwnership> supplementary = new ArrayList<>();
+        List<ExtentOfOwnership> indexes = new ArrayList<>();
+        Set<String> extentOwnerShipType = new HashSet<>();
+        for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipList) {
+            if((extentOwnerShipType.add(extentOfOwnership1.getType())) && StringUtils.isNotBlank(extentOfOwnership1.getType())){
+                if (extentOfOwnership1.getType().equalsIgnoreCase("Basic Bibliographic Unit")) {
+                    basic.add(extentOfOwnership1);
+                } else if (extentOfOwnership1.getType().equalsIgnoreCase("Supplementary Material")) {
+                    supplementary.add(extentOfOwnership1);
+                } else if (extentOfOwnership1.getType().equalsIgnoreCase("Indexes")) {
+                    indexes.add(extentOfOwnership1);
+                }
+            }
+        }
+        extentOfOwnershipList.clear();
+        extentOfOwnershipList.addAll(basic);
+        extentOfOwnershipList.addAll(supplementary);
+        extentOfOwnershipList.addAll(indexes);
+        return extentOfOwnershipList;
+    }
+
     @Override
     public EditorForm saveDocument(EditorForm editorForm) {
         WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
@@ -345,6 +369,9 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             bibTree.getHoldingsTrees().addAll(holdingsTreeList);
             Holdings holdings = new PHoldings();
             OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();
+            List<ExtentOfOwnership> extentOfOwnershipList = removeDuplicateAndEmptyExtentOfOwnership(holdingData);
+            holdingData.setExtentOfOwnership(extentOfOwnershipList);
+            workInstanceOlemlForm.setSelectedHolding(holdingData);
             if (!isValidHoldingsData(workInstanceOlemlForm)) {
                 return workInstanceOlemlForm;
             }
@@ -372,6 +399,8 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             holdings.setCategory(editorForm.getDocCategory());
             holdings.setType(editorForm.getDocType());
             holdings.setFormat(editorForm.getDocFormat());
+            holdingsTree.setHoldings(holdings);
+            holdingsTree.getItems().add(getItemRecord());
             long startTime = System.currentTimeMillis();
             try {
                 docstoreClient.updateHoldings(holdings);
@@ -395,6 +424,10 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             workInstanceOlemlForm.setViewId("WorkHoldingsViewPage");
         } else {
 
+            OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();
+            List<ExtentOfOwnership> extentOfOwnershipList = removeDuplicateAndEmptyExtentOfOwnership(holdingData);
+            holdingData.setExtentOfOwnership(extentOfOwnershipList);
+            workInstanceOlemlForm.setSelectedHolding(holdingData);
             if (!isValidHoldingsData(workInstanceOlemlForm)) {
                 return workInstanceOlemlForm;
             }
@@ -657,7 +690,36 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             List<ExtentOfOwnership> extentOfOwnershipForUI = workInstanceOlemlForm.getSelectedHolding().getExtentOfOwnership();
             ExtentOfOwnership extentOfOwnership = new ExtentOfOwnership();
             extentOfOwnership.getNote().add(new Note());
+            Set<String> extentOwnerShipType = new HashSet<>();
+            for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipForUI) {
+                if (!extentOwnerShipType.add(extentOfOwnership1.getType())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId("ExtentOfOwnershipRepeatableSections", OLEConstants.EXTENTOFOWNERSHIP_ALREADY_EXISTS, extentOfOwnership1.getType());
+                    return editorForm;
+                }
+            }
             extentOfOwnershipForUI.add(index, extentOfOwnership);
+            List<ExtentOfOwnership> basic = new ArrayList<>();
+            List<ExtentOfOwnership> supplementary = new ArrayList<>();
+            List<ExtentOfOwnership> indexes = new ArrayList<>();
+            extentOfOwnership = new ExtentOfOwnership();
+            for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipForUI) {
+                if (StringUtils.isNotBlank(extentOfOwnership1.getType())) {
+                    if (extentOfOwnership1.getType().equalsIgnoreCase("Basic Bibliographic Unit")) {
+                        basic.add(extentOfOwnership1);
+                    } else if (extentOfOwnership1.getType().equalsIgnoreCase("Supplementary Material")) {
+                        supplementary.add(extentOfOwnership1);
+                    } else if (extentOfOwnership1.getType().equalsIgnoreCase("Indexes")) {
+                        indexes.add(extentOfOwnership1);
+                    }
+                } else {
+                    extentOfOwnership = extentOfOwnership1;
+                }
+            }
+            extentOfOwnershipForUI.clear();
+            extentOfOwnershipForUI.add(extentOfOwnership);
+            extentOfOwnershipForUI.addAll(basic);
+            extentOfOwnershipForUI.addAll(supplementary);
+            extentOfOwnershipForUI.addAll(indexes);
             editorForm.setDocumentForm(workInstanceOlemlForm);
         } else if (methodName.equalsIgnoreCase("removeExtentOfOwnership")) {
             WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();

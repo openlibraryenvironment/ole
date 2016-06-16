@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Batch Process Profile</title>
+    <link rel="stylesheet" href="../../framework/plugins/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../batchFramework/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container col-lg-12">
+    <div>
+        <h2 style="display:inline !important; font-weight: bold;">Batch Process Profile</h2>
+        <br><br>
+    </div>
+    <div ng-include="'../../batchFramework/views/batchMainSection.html'"></div>
+    <div ng-include="'../../batchFramework/views/batchMatchPoints.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Delete'"></div>
+    <div ng-include="'../../batchFramework/views/batchFilterCriteria.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Batch Export' && mainSectionPanel.exportScope == 'Filter'"></div>
+    <div ng-include="'../../batchFramework/views/batchMatchAddOverlay.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
+    <div ng-include="'../../batchFramework/views/batchFieldOperations.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+    <div ng-include="'../../batchFramework/views/batchDataMappings.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
+    <div ng-include="'../../batchFramework/views/batchDataTransformations.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
+</div>
+</body>
+</html>

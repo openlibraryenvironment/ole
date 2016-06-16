@@ -45,6 +45,8 @@ public class BatchProcessFactory {
             return new OLEBatchProcessSerialRecordImport();
         } else if (processType.equals("GOKB Import")) {
             return new OLEBatchGOKBImport();
+        } else if (processType.equals("Fund Record Import")) {
+            return new BatchProcessFundCodeImport();
         } else {
             return null;
         }

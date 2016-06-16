@@ -153,7 +153,7 @@ public class GlobalEditController extends OLESearchController {
             List<SearchResultDisplayRow> searchResultDisplayRows = globalEditForm.getOriginalSearchResultDisplayRowList();
             int end = Integer.parseInt(globalEditForm.getPageNumber()) * globalEditForm.getPageSize();
             searchParams.setStartIndex(start);
-            if (searchResultDisplayRows.size() >= start) {
+            if (searchResultDisplayRows !=null && searchResultDisplayRows.size() >= start) {
                 if (searchResultDisplayRows.size() > end) {
                     globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(globalEditForm.getStart(), end));
                 } else {
@@ -161,7 +161,7 @@ public class GlobalEditController extends OLESearchController {
                 }
 
             }
-
+            searchDocstoreData(globalEditForm, request);
         } catch (NumberFormatException e) {
             LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);
         }
@@ -190,8 +190,10 @@ public class GlobalEditController extends OLESearchController {
             }
             int start = Math.max(0, lastPage);
             searchParams.setStartIndex(start);
-            globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(start, searchResultDisplayRows.size()));
-
+            if(searchResultDisplayRows!=null){
+                globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(start, searchResultDisplayRows.size()));
+            }
+            searchDocstoreData(globalEditForm, request);
 
         } catch (NumberFormatException e) {
             LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);

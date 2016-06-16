@@ -5,9 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -19,7 +21,7 @@ import java.util.*;
 public class ItemInfoUtil extends OLEUtil {
     private static ItemInfoUtil itemInfoUtil;
 
-
+    private OleLoanDocumentDaoOjb loanDaoOjb;
 
     public enum LEVEL_CODES {
         INSTITUTION(1), CAMPUS(2), LIBRARY(3), COLLECTION(4), SHELVING(5);
@@ -199,27 +201,11 @@ public class ItemInfoUtil extends OLEUtil {
     }
 
     public OleDeliverRequestBo getRequestBO(String itemBarcode) {
-        OleDeliverRequestBo oleDeliverRequestBo = getPrioritizedRequest(itemBarcode);
+        OleDeliverRequestBo oleDeliverRequestBo = getLoanDaoOjb().getPrioritizedRequest(itemBarcode);
         if(null != oleDeliverRequestBo){
             return oleDeliverRequestBo;
         }
         return null;
-    }
-
-    public OleDeliverRequestBo getPrioritizedRequest(String itemId) {
-        Map requestMap = new HashMap();
-        requestMap.put("itemId", itemId);
-        requestMap.put("borrowerQueuePosition", 1);
-        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
-        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
-    }
-
-    public OleDeliverRequestBo getRequestByPatronBarcode(String patronBarcode, String itemBarcode) {
-        Map requestMap = new HashMap();
-        requestMap.put("borrowerBarcode", patronBarcode);
-        requestMap.put("itemId", itemBarcode);
-        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
-        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
     }
 
     public OleDeliverRequestBo getRequestByPatronId(String patronId, String itemBarcode) {
@@ -241,5 +227,15 @@ public class ItemInfoUtil extends OLEUtil {
         }
 
         return itemRecord;
+    }
+    public OleLoanDocumentDaoOjb getLoanDaoOjb() {
+        if (null == loanDaoOjb) {
+            loanDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return loanDaoOjb;
+    }
+
+    public void setLoanDaoOjb(OleLoanDocumentDaoOjb loanDaoOjb) {
+        this.loanDaoOjb = loanDaoOjb;
     }
 }

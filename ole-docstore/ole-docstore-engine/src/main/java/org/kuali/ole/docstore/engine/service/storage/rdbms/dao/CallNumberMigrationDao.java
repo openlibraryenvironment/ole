@@ -36,7 +36,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
     }
 
     private void getHoldingsTotalCount() {
-        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT count(HOLDINGS_ID) as total FROM OLE_DS_HOLDINGS_T");
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT MAX(HOLDINGS_ID) as total FROM OLE_DS_HOLDINGS_T");
         while (totalCountSet.next()) {
             holdingsTotalCount = totalCountSet.getInt("total");
         }
@@ -44,7 +44,7 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
 
 
     private void getItemTotalCount() {
-        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT count(ITEM_ID) as total FROM OLE_DS_ITEM_T");
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT MAX(ITEM_ID)  as total FROM OLE_DS_ITEM_T");
         while (totalCountSet.next()) {
             itemTotalCount = totalCountSet.getInt("total");
         }
@@ -99,9 +99,9 @@ public class CallNumberMigrationDao extends PlatformAwareDaoBaseJdbc {
         int tempItemRecord = itemTotalCount;
         StopWatch stopWatch = new StopWatch();
         List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         stopWatch.start();
-
+        chunkSize = 100000;
         while (start < holdingsTotalCount) {
             tempItemRecord = tempItemRecord - chunkSize;
             if (tempItemRecord < chunkSize) {

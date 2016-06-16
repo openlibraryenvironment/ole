@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.controller.checkout.CheckoutValidationController;
@@ -238,9 +239,68 @@ public class CircController extends CheckoutValidationController {
             oleLoanDocument.setClaimsReturnNote(claimsDescription);
             oleLoanDocument.setClaimsReturnedIndicator(true);
             oleLoanDocument.setClaimsReturnedDate(new Timestamp(new Date().getTime()));
+            fireClaimsReturnedRules(oleLoanDocument);
         }
         createClaimsReturnForItem(circForm, selectedLoanDocumentList, circForm.getPatronDocument());
         return getUIFModelAndView(form);
+    }
+
+    private void fireClaimsReturnedRules(OleLoanDocument oleLoanDocument) {
+        CircUtilController circUtilController = new CircUtilController();
+        ItemRecord itemRecord = circUtilController.getItemRecordByBarcode(oleLoanDocument.getItemId());
+        if (itemRecord != null && !itemRecord.getClaimsReturnedFlag()) {
+            oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
+            oleLoanDocument.setClaimsSearchCount(0);
+            oleLoanDocument.setNoOfClaimsReturnedNoticesSent(0);
+            OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
+            if (StringUtils.isBlank(oleLoanDocument.getItemFullLocation())) {
+                oleLoanDocument.setItemFullLocation(oleItemRecordForCirc.getItemFullPathLocation());
+            }
+            if (oleItemRecordForCirc != null) {
+                DroolsResponse droolsResponse = new DroolsResponse();
+                List<Object> facts = new ArrayList<>();
+                facts.add(oleItemRecordForCirc);
+                facts.add(droolsResponse);
+                circUtilController.fireRules(facts, null, "claims returned validation");
+
+                List<OLEDeliverNotice> oleDeliverNoticeList = createNotices(droolsResponse, oleLoanDocument.getPatronId(), oleLoanDocument.getItemId());
+                if (CollectionUtils.isNotEmpty(oleDeliverNoticeList)) {
+                    oleLoanDocument.getDeliverNotices().addAll(oleDeliverNoticeList);
+                }
+            }
+            sendClaimsReturnedNotice(oleLoanDocument);
+        }
+    }
+
+    private List<OLEDeliverNotice> createNotices(DroolsResponse droolsResponse, String patronId, String itemId) {
+        List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<>();
+        List<String> noticeTypes = new ArrayList<>();
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE);
+        noticeTypes.add(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE);
+
+        for (String noticeType : noticeTypes) {
+            String noticeContentConfigName = null;
+            if (droolsResponse.getDroolsExchange().getFromContext(noticeType) != null) {
+                noticeContentConfigName = (String) droolsResponse.getDroolsExchange().getFromContext(noticeType);
+            }
+            OLEDeliverNotice oleDeliverNotice = createNotice(noticeType, noticeContentConfigName, patronId, itemId);
+            oleDeliverNoticeList.add(oleDeliverNotice);
+        }
+        return oleDeliverNoticeList;
+    }
+
+    private OLEDeliverNotice createNotice(String noticeType, String noticeContentConfigName, String patronId, String itemId) {
+        OLEDeliverNotice oleDeliverNotice = new OLEDeliverNotice();
+        oleDeliverNotice.setNoticeSendType(OLEConstants.EMAIL);
+        oleDeliverNotice.setPatronId(patronId);
+        oleDeliverNotice.setItemBarcode(itemId);
+        oleDeliverNotice.setNoticeType(noticeType);
+        oleDeliverNotice.setNoticeContentConfigName(noticeContentConfigName);
+        return oleDeliverNotice;
     }
 
     @RequestMapping(params = "methodToCall=removeClaimsReturn")
@@ -788,13 +848,32 @@ public class CircController extends CheckoutValidationController {
             circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
         }
         circForm.setErrorMessage(new ErrorMessage());
-        OleLoanDocument currentLoanDocument = getCheckoutUIController(circForm.getFormKey()).getCurrentLoanDocument(circForm.getItemBarcode());
-        List<OleLoanDocument> selectedLoanDocumentList = new ArrayList<>();
-        if (null != currentLoanDocument) {
-            selectedLoanDocumentList.add(currentLoanDocument);
+
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) circForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+        if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+            showDialog("renewLostItemDialogMsg", circForm, request, response);
+        } else {
+            renewItem(circForm, request, response);
         }
-        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
-            DroolsResponse droolsResponse = getRenewController().renewItems(selectedLoanDocumentList, circForm.getPatronDocument());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=proceedForLostItemRenew")
+    public ModelAndView proceedForLostItemRenew(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        renewItem(circForm, request, response);
+        return getUIFModelAndView(form);
+    }
+
+    private void renewItem(CircForm circForm, HttpServletRequest request, HttpServletResponse response) {
+        OleLoanDocument currentLoanDocument = getCheckoutUIController(circForm.getFormKey()).getCurrentLoanDocument(circForm.getItemBarcode());
+        OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) circForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
+        if (oleItemRecordForCirc != null && oleItemRecordForCirc.getItemStatusRecord() != null) {
+            currentLoanDocument.setItemStatus(oleItemRecordForCirc.getItemStatusRecord().getCode());
+        }
+        if (currentLoanDocument != null) {
+            DroolsResponse droolsResponse = getRenewController().renewItems(Arrays.asList(currentLoanDocument), circForm.getPatronDocument());
 
             String messageContentForRenew = getRenewController().analyzeRenewedLoanDocuments(circForm, droolsResponse);
 
@@ -811,7 +890,6 @@ public class CircController extends CheckoutValidationController {
                 circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
             }
         }
-        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=overrideCheckoutRenewItems")
@@ -892,14 +970,21 @@ public class CircController extends CheckoutValidationController {
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         ExecutorService lostNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
         List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
-        if (loanDocumentList.size() > 0) {
+        OLEDeliverNotice oleDeliverNotice;
+         if (loanDocumentList.size() > 0) {
             List<OleLoanDocument> loanDocuments = new ArrayList<>();
             for (OleLoanDocument oleLoanDocument : loanDocumentList) {
                 String itemFullLocation = getItemFullLocation(oleLoanDocument.getItemId());
                 if(itemFullLocation != null) {
                     oleLoanDocument.setItemFullLocation(itemFullLocation);
                 }
+                oleDeliverNotice = getLostNotice(oleLoanDocument.getDeliverNotices());
+                if(oleDeliverNotice!=null)
                 oleLoanDocument.setItemLostNote(itemLostDescription);
+                oleLoanDocument.getDeliverNotices().clear();
+                if(oleDeliverNotice!=null){
+                    oleLoanDocument.getDeliverNotices().add(oleDeliverNotice);
+                }
                 oleLoanDocument.setIsManualBill(true);
                 oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST);
                 loanDocuments.add(oleLoanDocument);
@@ -909,8 +994,27 @@ public class CircController extends CheckoutValidationController {
             lostMap.put(OLEConstants.LOAN_DOCUMENTS, loanDocumentList);
             Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+           for(OleLoanDocument loanDocument : loanDocumentList) {
+                        Map map = new HashMap();
+                map.put("loanId",loanDocument.getLoanId());
+                getBusinessObjectService().deleteMatching(OLEDeliverNotice.class,map);
+            }
         }
         return getUIFModelAndView(circForm);
+    }
+
+
+    public OLEDeliverNotice getLostNotice(List<OLEDeliverNotice> oleDeliverNotices){
+        OLEDeliverNotice oleDeliverNotice = null;
+        if(oleDeliverNotices!=null && oleDeliverNotices.size()>0){
+            for(OLEDeliverNotice oleDeliverNotice1 : oleDeliverNotices){
+                if(oleDeliverNotice1.getNoticeType().equals("Lost")){
+                    oleDeliverNotice = oleDeliverNotice1;
+                    break;
+                }
+            }
+        }
+        return oleDeliverNotice;
     }
 
     public String getItemFullLocation(String itemBarcode) {

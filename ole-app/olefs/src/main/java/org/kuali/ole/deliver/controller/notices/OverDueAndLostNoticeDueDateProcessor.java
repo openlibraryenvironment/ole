@@ -1,5 +1,7 @@
 package org.kuali.ole.deliver.controller.notices;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
@@ -92,14 +94,23 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
 
         Date dateToSentLostNotice = calculateNoticeDueDate(loanDocument.getLoanDueDate(), interval, noticeInfo.getIntervalType());
         lostNotice.setNoticeToBeSendDate(new Timestamp(dateToSentLostNotice.getTime()));
-        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) lostMap.get(DroolsConstants
-                .REPLACEMENT_BILL_AMT))));
-
+        lostNotice.setReplacementFeeAmount(getAmountInBigDecimal(lostMap.get(DroolsConstants.REPLACEMENT_BILL_AMT)));
+        lostNotice.setLostItemProcessingFeeAmount(getAmountInBigDecimal(lostMap.get(DroolsConstants.LOST_ITEM_PROCESSING_FEE_AMT)));
         String noticeContentConfigurationName = (String) lostMap.get(OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME);
         lostNotice.setNoticeContentConfigName(noticeContentConfigurationName);
 
         oleDeliverNotices.add(lostNotice);
         return oleDeliverNotices;
+    }
+
+    private BigDecimal getAmountInBigDecimal(Object fineAmount) {
+        if (fineAmount != null) {
+            String amt = (String) fineAmount;
+            if (StringUtils.isNotBlank(amt) && NumberUtils.isNumber(amt)) {
+                return NumberUtils.createBigDecimal(amt);
+            }
+        }
+        return null;
     }
 
     @Override

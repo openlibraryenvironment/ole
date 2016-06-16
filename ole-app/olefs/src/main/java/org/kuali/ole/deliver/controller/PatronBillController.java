@@ -212,6 +212,14 @@ public class PatronBillController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
             }
+            for (PatronBillPayment patronBillPayment : patronBillPayments) {
+                List<FeeType> feeTypes = patronBillPayment.getFeeType();
+                for (FeeType feeType : feeTypes) {
+                    if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.PAY_NOT_ALLOWED);
+                    }
+                }
+            }
             paymentAmount = patronBillHelperService.billWiseTransaction(patronBillPayments, paymentAmount, patronBillForm.getPaymentMethod(), OLEConstants.FULL_PAID, OLEConstants.PAR_PAID, false, null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else if (patronBillForm.getBillWisePayment().equalsIgnoreCase(OLEConstants.ITEM_WISE)) {
             List<FeeType> feeTypes = patronBillForm.getFeeTypes();
@@ -231,6 +239,11 @@ public class PatronBillController extends UifControllerBase {
             if (paymentAmount != null && paymentAmount.compareTo(patronBillHelperService.getSumOfSelectedFeeTypes(feeTypes)) > 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
+            }
+            for(FeeType feeType : feeTypes) {
+                if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.PAY_NOT_ALLOWED);
+                }
             }
             paymentAmount = patronBillHelperService.itemWiseTransaction(feeTypes, paymentAmount, patronBillForm.getPaymentMethod(), OLEConstants.FULL_PAID, OLEConstants.PAR_PAID, null, null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else {
@@ -305,6 +318,15 @@ public class PatronBillController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
             }
+            for (PatronBillPayment patronBillPayment : patronBillPayments) {
+                List<FeeType> feeTypes = patronBillPayment.getFeeType();
+                for (FeeType feeType : feeTypes) {
+                    if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.FORGIVE_PAY_NOT_ALLOWED);
+                    }
+                }
+            }
+
             paymentAmount = patronBillHelperService.billWiseTransaction(patronBillPayments, paymentAmount, OLEConstants.FORGIVE, OLEConstants.FORGIVEN, OLEConstants.PAR_PAID, false, patronBillForm.getForgiveNote(), patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
         } else if (patronBillForm.getBillWisePayment().equalsIgnoreCase(OLEConstants.ITEM_WISE)) {
             List<FeeType> feeTypes = patronBillForm.getFeeTypes();
@@ -324,6 +346,11 @@ public class PatronBillController extends UifControllerBase {
             if (paymentAmount != null && paymentAmount.compareTo(patronBillHelperService.getSumOfSelectedFeeTypes(feeTypes)) > 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_OVER_PAYMENT);
                 return getUIFModelAndView(form);
+            }
+            for(FeeType feeType : feeTypes) {
+                if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAYMENT_SUSPENDED)) {
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.FORGIVE_PAY_NOT_ALLOWED);
+                }
             }
             paymentAmount = patronBillHelperService.itemWiseTransaction(feeTypes, paymentAmount, OLEConstants.FORGIVE, OLEConstants.FORGIVEN, OLEConstants.PAR_PAID, patronBillForm.getForgiveNote(), null, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getPaidByUser(), patronBillForm.getCurrentSessionTransactions());
 
@@ -902,49 +929,78 @@ public class PatronBillController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=selectAllBill")
     public ModelAndView selectAllBill(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized acceptPayment Method");
-        PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
         PatronBillForm patronBillForm = (PatronBillForm) form;
         KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
-            /*if (patronBillPayment.getUnPaidBalance().bigDecimalValue().compareTo(OLEConstants.BIGDECIMAL_DEF_VALUE)!=0) {
-                patronBillPayment.setSelectBill(true);
-            }*/
-            patronBillPayment.setSelectBill(true);
-            totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(patronBillPayment.getUnPaidBalance().bigDecimalValue()));
-            paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(patronBillPayment.getPaidAmount().bigDecimalValue()));
+            if(patronBillPayment.isSelectBill()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(patronBillPayment.getUnPaidBalance().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(patronBillPayment.getPaidAmount().bigDecimalValue()));
+                totalAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(patronBillPayment.getCreditRemaining().bigDecimalValue()));
+
+            }
         }
         for (FeeType feeType : patronBillForm.getFeeTypes()) {
             feeType.setActiveItem(false);
         }
         patronBillForm.setPaymentAmount(totalAmount);
         patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
         patronBillForm.setBillWisePayment(OLEConstants.BILL_WISE);
         return getUIFModelAndView(patronBillForm);
     }
 
-    @RequestMapping(params = "methodToCall=selectAllItem")
-    public ModelAndView selectAllItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized acceptPayment Method");
-        PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
+    @RequestMapping(params = "methodToCall=selectAllOpenItem")
+    public ModelAndView selectAllOpenItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
         for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
             patronBillPayment.setSelectBill(false);
         }
-        for (FeeType feeType : patronBillForm.getFeeTypes()) {
-            /*if (feeType.getBalFeeAmount().bigDecimalValue().compareTo(OLEConstants.BIGDECIMAL_DEF_VALUE) != 0) {
-                feeType.setActiveItem(true);
-            }*/
-            feeType.setActiveItem(true);
-            totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
-            paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+        for(FeeType feeType : patronBillForm.getClosedFeeTypes()) {
+            feeType.setActiveItem(false);
+        }
+        for(FeeType feeType : patronBillForm.getOpenFeeTypes()) {
+            if(feeType.isActiveItem()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+                transferAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(feeType.getCreditRemaining().bigDecimalValue()));
+            }
         }
         patronBillForm.setPaymentAmount(totalAmount);
         patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
+        patronBillForm.setBillWisePayment(OLEConstants.ITEM_WISE);
+        return getUIFModelAndView(patronBillForm);
+    }
+
+    @RequestMapping(params = "methodToCall=selectAllClosedItem")
+    public ModelAndView selectAllClosedItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        PatronBillForm patronBillForm = (PatronBillForm) form;
+        KualiDecimal totalAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal paidAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        KualiDecimal transferAmount = OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE;
+        for (PatronBillPayment patronBillPayment : patronBillForm.getPatronBillPaymentList()) {
+            patronBillPayment.setSelectBill(false);
+        }
+        for(FeeType feeType : patronBillForm.getOpenFeeTypes()) {
+            feeType.setActiveItem(false);
+        }
+        for(FeeType feeType : patronBillForm.getClosedFeeTypes()) {
+            if(feeType.isActiveItem()) {
+                totalAmount = new KualiDecimal(totalAmount.bigDecimalValue().add(feeType.getBalFeeAmount().bigDecimalValue()));
+                paidAmount = new KualiDecimal(paidAmount.bigDecimalValue().add(feeType.getPaidAmount().bigDecimalValue()));
+                transferAmount = new KualiDecimal(transferAmount.bigDecimalValue().add(feeType.getCreditRemaining().bigDecimalValue()));
+            }
+        }
+        patronBillForm.setPaymentAmount(totalAmount);
+        patronBillForm.setPaidAmount(paidAmount);
+        patronBillForm.setTransferAmount(transferAmount);
         patronBillForm.setBillWisePayment(OLEConstants.ITEM_WISE);
         return getUIFModelAndView(patronBillForm);
     }
@@ -1145,13 +1201,16 @@ public class PatronBillController extends UifControllerBase {
         List<FeeType> feeTypes = patronBillForm.getFeeTypes();
         String billNumbers = patronBillHelperService.getBillNumbers(patronBillForm.getFeeTypes());;
         KualiDecimal creditRefunded = patronBillHelperService.refundItemTypeBills(billNumbers,patronBillForm.getPatronId(), patronBillForm.getTransferAmount(), patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), "Applied Credit", patronBillForm.getCurrentSessionTransactions());
-        if (creditRefunded.isGreaterThan(KualiDecimal.ZERO)) {
+        if (creditRefunded.isGreaterEqual(KualiDecimal.ZERO)) {
             KualiDecimal sumOfCreditRemaining = patronBillHelperService.updateRemainingCreditAmountForItem(creditRefunded, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
             if(sumOfCreditRemaining.isGreaterThan(KualiDecimal.ZERO) ) {
-                sumOfCreditRemaining=sumOfCreditRemaining.subtract(creditRefunded);
-                patronBillForm.getAmountDetails().setAmountRemaining(sumOfCreditRemaining);
+                //sumOfCreditRemaining=creditRefunded;
+                patronBillForm.getAmountDetails().setAmountRemaining(creditRefunded);
                 return showDialogAndRunCustomScript("refundRecordConfirmationDialog", form, "jq('#recordingRefundOKButton').focus()");
             }
+        } else {
+            patronBillHelperService.updateRemainingCreditAmountForItem(KualiDecimal.ZERO, feeTypes, patronBillForm.getTransactionNote(), patronBillForm.getTransactionNumber(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getRefundNote());
+            return showDialogAndRunCustomScript("noRefundConfirmationDialog", form, "jq('#noRefundOKButton').focus()");
         }
         patronBillForm.setPaidAmount(KualiDecimal.ZERO);
         patronBillForm.setTransferAmount(KualiDecimal.ZERO);
@@ -1203,8 +1262,14 @@ public class PatronBillController extends UifControllerBase {
                                        HttpServletRequest request, HttpServletResponse response) {
         PatronBillForm patronBillForm = (PatronBillForm) form;
         patronBillForm.setLightboxScript("jq.fancybox.close();");
+        if(StringUtils.isNotEmpty(patronBillForm.getUserEnteredPatronAddress())) {
+            patronBillForm.setPatronAddressType("userEntered");
+        }
         PatronBillHelperService patronBillHelperService = new PatronBillHelperService();
         String mailContent = patronBillHelperService.getPatronMailContent(patronBillForm);
+        if (LOG.isInfoEnabled()) {
+            LOG.info(("Mail Contenet "+mailContent));
+        }
         if(StringUtils.isNotEmpty(mailContent)) {
             OleCirculationDesk oleCirculationDesk = patronBillHelperService.getDefaultCirculationDesk(GlobalVariables.getUserSession().getPrincipalId());
             if(oleCirculationDesk != null) {
@@ -1217,6 +1282,15 @@ public class PatronBillController extends UifControllerBase {
             }
         }
         return start(patronBillForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=refundComplete")
+    public ModelAndView refundComplete(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        PatronBillForm patronBillForm = (PatronBillForm) form;
+        patronBillForm.setLightboxScript("jq.fancybox.close();");
+        return start(patronBillForm, result, request, response);
+
     }
 
 
@@ -1260,4 +1334,4 @@ public class PatronBillController extends UifControllerBase {
     }
 
 
-}
+    }

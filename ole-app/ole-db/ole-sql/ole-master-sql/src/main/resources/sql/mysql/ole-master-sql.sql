@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # AP_AUTO_APRV_EXCL_T
 # -----------------------------------------------------------------------
@@ -9658,7 +9659,6 @@ CREATE TABLE GL_ACCT_BALANCES_T
         , SUB_ACCT_NBR VARCHAR(5)
         , FIN_OBJECT_CD VARCHAR(4)
         , FIN_SUB_OBJ_CD VARCHAR(3)
-        , FUND_CD VARCHAR(10)
         , CURR_BDLN_BAL_AMT DECIMAL(19,2)
         , ACLN_ACTLS_BAL_AMT DECIMAL(19,2)
         , ACLN_ENCUM_BAL_AMT DECIMAL(19,2)
@@ -9735,7 +9735,6 @@ CREATE TABLE GL_BALANCE_T
         , FIN_SUB_OBJ_CD VARCHAR(3)
         , FIN_BALANCE_TYP_CD VARCHAR(2)
         , FIN_OBJ_TYP_CD VARCHAR(2)
-        , FUND_CD VARCHAR(10)
         , ACLN_ANNL_BAL_AMT DECIMAL(19,2)
         , FIN_BEG_BAL_LN_AMT DECIMAL(19,2)
         , CONTR_GR_BB_AC_AMT DECIMAL(19,2)
@@ -13792,6 +13791,10 @@ CREATE TABLE PUR_PO_ITM_T
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                     
 , INDEX PUR_PO_ITM_TI5 (OLE_RQSTR_TYP_ID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                    
+, INDEX PUR_PO_ITM_TI6 (OLE_VNDR_IT_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /

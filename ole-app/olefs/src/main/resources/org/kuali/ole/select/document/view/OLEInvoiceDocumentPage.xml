@@ -7,14 +7,19 @@
                 <bean id="OleInvoice_POLookup" parent="Uif-InputField" p:propertyName="poId" p:label="Purchase Order  " >
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch"
-                              p:fieldConversions="vendorNumber:vendorNumber,purapDocumentIdentifier:poId" p:lookupParameters="vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,vendorName:vendorName"/>
+                              p:fieldConversions="vendorNumber:vendorNumber,purapDocumentIdentifier:poId" p:lookupParameters="vendorId:vendorName,poId:purapDocumentIdentifier"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                        <bean parent="Uif-TextControl" p:size="50"/>
+                    </property>
+                </bean>
+                <bean id="OleInvoice_addImmediately" parent="Uif-InputField" p:propertyName="addImmediately" p:label="Add Immediately">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
                 <bean id="addProcessItem-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addProcessItem"
-                	p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" p:successCallback="removeDollarSymbolsForProcessItem()" />
+                	p:actionLabel="add"  p:hidden="true" p:refreshId="OLEInvoiceView-processItems-Wrapper" p:successCallback="removeDollarSymbolsForProcessItem()" />
                 	<!--  p:ajaxSubmit="true"
                 	p:successCallback="toggleCollapseAllSections()"/ -->
             </list>
@@ -22,7 +27,7 @@
     </bean>
 
     <bean id="OleInvoiceView-POItems" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false"  p:style="width:auto">
-        <property name="headerText" value="Process Titles"/>
+        <property name="headerText" value="Purchase Orders eligible to add"/>
         <property name="items">
             <list>
                 <bean  id="OLEInvoiceView-processItems-purchaseOrderDocuments"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
@@ -74,7 +79,7 @@
                                 </property>
                             </bean>
 
-                            <ref bean="OLEInvoiceView-poDoc-relatedView"/>
+                            <!--<ref bean="OLEInvoiceView-poDoc-relatedView"/>-->
                             <!--<bean parent="OLEInvoice-ProcessTitle-PurchaseOrder"/>-->
                             <!--<bean parent="OLEInvoice-ProcessTitle-PurchaserOrderLineItemForInvoice"/>
                             <bean parent="OLEInvoice-ProcessTitle-PaymentHistory"/>
@@ -121,7 +126,7 @@
                 <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper"/>
-                <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>
+                <!--<ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>-->
             </list>
         </property>
     </bean>
@@ -130,7 +135,7 @@
         <property name="items">
             <list>
                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
-                <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
+                <ref bean="OLEInvoicePOItemAccountingLine-VerticalBoxSection"/>
 
                 <ref bean="OLEInvoiceView-donors"/>
             </list>
@@ -163,7 +168,7 @@
 		p:fieldBindingObjectPath="purchaseOrderDocuments" p:renderLineActions="false" p:RenderInactiveToggleButton="false"
  		p:renderAddLine="false">
 		<property name="propertyName" value="items" />
-		<property name="header.headerText" value="Current Items" />
+		<property name="header.headerText" value="Line items eligible to add" />
 		<property name="collectionObjectClass"
 			value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
 		<property name="layoutManager">
@@ -229,6 +234,25 @@
         </property>
     </bean>
 
+    <bean id="OLEInvoicePOItemAccountingLine-VerticalBoxSection" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="items">
+            <list>
+                <bean id="invoicePOItem_fundCode" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                              p:fieldConversions="fundCode:fundCode"/>
+                    </property>
+                    <property name="control">
+                        <!--<bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',null,null,null,null);" />-->
+                        <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="if(e.which==13){e.preventDefault();submitForm('populateAccountingLines',{accountingLineIndex:'@{#index}'},null,null,null);};" />
+                    </property>
+                </bean>
+                <ref bean="OLEInvoiceView-poItems-accountingLines"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OLEInvoiceView-accountingLines-parent" abstract="true"
     		parent="OLEInvoiceView-processItems-SubCollection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Accounting Lines" />
@@ -279,6 +303,15 @@
     </bean>
 
     <bean id="OLEInvoiceView-processItems-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addSourceAccountingLine" p:actionLabel="Add" p:title="Add Invoice Accounting Line"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-poItems-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OlePurchaseOrderAccount" />
         <property name="addLineActions">
             <list>
@@ -336,7 +369,7 @@
 		</property>
 		<property name="header">
 			<bean parent="Uif-SubCollectionHeader">
-				<property name="headerText" value="Current Items" />
+				<property name="headerText" value="Line items added to invoice" />
 				<property name="lowerGroup">
 					<bean parent="Uif-InactiveItemsActionsGroup" />
 				</property>
@@ -436,13 +469,13 @@
     <bean id="OLEInvoiceView-invoiceItem-poDetails" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
+                <!--<ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-LineItemReceivingView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-CorrectionView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-PaymentRequestView"/>
                 <ref bean="OLEInvoiceView-InvoiceItem-CreditMemoView"/>
                 <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
-                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>-->
 	        <ref bean="OLEInvoiceView-invoiceNotes"/>
                 <!--<ref bean="OLEInvoiceView-Item-accountingLines"/>-->
                 <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
@@ -453,7 +486,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-invoiceItem-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto">
+    <!--<bean id="OLEInvoiceView-invoiceItem-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto">
         <property name="items">
             <list>
                 <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
@@ -465,9 +498,9 @@
                 <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.PaymentRequestView" />
@@ -478,7 +511,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="PREQ #"  />
@@ -509,7 +542,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="CM #" />
@@ -528,7 +561,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="true"  >
@@ -829,7 +862,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-InvoiceItem-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-InvoiceItem-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
           p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -840,7 +873,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="RequisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -864,7 +897,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="LineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -888,7 +921,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="CorrectionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -912,7 +945,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="PaymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -936,7 +969,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="CreditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -947,7 +980,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
@@ -1000,18 +1033,18 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
+			    <!--<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView" />
 			    		</list>
 			    	</property>
-			    </bean>
+			    </bean>-->
     		</list>
     	</property>
     </bean>
     
-    <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView" parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-RequisitionView" parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterRequisition"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1021,7 +1054,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_requisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1032,7 +1065,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
@@ -1085,18 +1118,18 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
+			  <!--  <bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView" />
 			    		</list>
 			    	</property>
-			    </bean>
+			    </bean>-->
     		</list>
     	</property>
     </bean>
     
-    <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterLineItemReceiving"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1107,7 +1140,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_lineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1118,7 +1151,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
@@ -1171,18 +1204,18 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
+			    <!--<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView" />
 			    		</list>
 			    	</property>
-			    </bean>
+			    </bean>-->
     		</list>
     	</property>
     </bean>
     
-    <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCorrection"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1192,7 +1225,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_correctionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1203,7 +1236,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
@@ -1256,18 +1289,18 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
+			   <!-- <bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView" />
 			    		</list>
 			    	</property>
-			    </bean>
+			    </bean>-->
     		</list>
     	</property>
     </bean>
     
-    <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterPaymentRequest"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1277,7 +1310,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_paymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1288,7 +1321,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
@@ -1328,7 +1361,7 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:render="@{!showCreditMemo(#lineSuffix)}" 
+		      			<bean parent="Uif-ActionLink" p:render="@{!showCreditMemo(#lineSuffix)}"
 		      					p:actionLabel="Credit Memo"
 			      				p:refreshId="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper@{#lineSuffix}" p:methodToCall="refresh">
 		      				<property name="additionalSubmitData">
@@ -1341,18 +1374,18 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <bean parent="Uif-VerticalBoxGroup">
+			    <!--<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView" />
 			    		</list>
 			    	</property>
-			    </bean>
+			    </bean>-->
     		</list>
     	</property>
     </bean>
     
-    <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCreditMemo"
           p:bindingInfo.bindByNamePrefix="purchaseOrderDocuments[@{#index}]">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
@@ -1362,7 +1395,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <!--<property name="collectionLookup.render" value="true"/>-->
+        &lt;!&ndash;<property name="collectionLookup.render" value="true"/>&ndash;&gt;
         <property name="items">
             <list>
                 <bean id="po_creditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
@@ -1373,7 +1406,7 @@
                 <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-Item-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />

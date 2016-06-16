@@ -95,6 +95,7 @@ public class CircForm extends OLEForm {
     private String customDueDateTimeMessageForRenew;
 
     private boolean recordNoteForClaimsReturn;
+    private boolean itemFoundInLibrary;
     private boolean recordNoteForDamagedItem;
     private boolean recordNoteForMissingPiece;
 
@@ -596,5 +597,13 @@ public class CircForm extends OLEForm {
 
     public void setLoanTimeToAllEntries(String loanTimeToAllEntries) {
         this.loanTimeToAllEntries = loanTimeToAllEntries;
+    }
+
+    public boolean isItemFoundInLibrary() {
+        return itemFoundInLibrary;
+    }
+
+    public void setItemFoundInLibrary(boolean itemFoundInLibrary) {
+        this.itemFoundInLibrary = itemFoundInLibrary;
     }
 }

@@ -33,6 +33,9 @@ public class RenewItemControllerUtil extends CircUtilController{
         parameterValues.put("itemUUID", currentLoanDocument.getItemUuid());
         parameterValues.put("loanDueDate", currentLoanDocument.getLoanDueDate());
         parameterValues.put("numRenewals", currentLoanDocument.getNumberOfRenewals());
+        if (StringUtils.isNotBlank(currentLoanDocument.getItemStatus()) && currentLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
+            parameterValues.put("itemStatus", OLEConstants.ITEM_STATUS_CHECKEDOUT);
+        }
         return parameterValues;
     }
 

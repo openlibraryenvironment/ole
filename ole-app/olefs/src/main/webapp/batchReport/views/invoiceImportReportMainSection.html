@@ -1,0 +1,45 @@
+<div class="panel-group" ng-model="invoiceImportreportMainSectionActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="invoiceImportReportMainSectionPanel.collapsed = !invoiceImportReportMainSectionPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': invoiceImportReportMainSectionPanel.collapsed, 'glyphicon-chevron-down': !invoiceImportReportMainSectionPanel.collapsed}"></span>
+                    Main Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div>
+                        <div class="form-group">
+                            <table class="table table-bordered row-border hover">
+                                <thead>
+                                <tr>
+                                    <th>Job Name</th>
+                                    <th>Job Execution Id</th>
+                                    <th ng-show="invoiceImportReportMainSectionPanel.matchedCount > 0">Matched Count</th>
+                                    <th ng-show="invoiceImportReportMainSectionPanel.unmatchedCount > 0">Unmatched Count</th>
+                                    <th ng-show="invoiceImportReportMainSectionPanel.multiMatchedCount > 0">Multiple Matched Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span ng-bind="invoiceImportReportMainSectionPanel.jobName"></span></td>
+                                    <td><span ng-bind="invoiceImportReportMainSectionPanel.jobDetailId"></span></td>
+                                    <td ng-show="invoiceImportReportMainSectionPanel.matchedCount > 0"><span ng-bind="invoiceImportReportMainSectionPanel.matchedCount"></span></td>
+                                    <td ng-show="invoiceImportReportMainSectionPanel.unmatchedCount > 0"><span ng-bind="invoiceImportReportMainSectionPanel.unmatchedCount"></span></td>
+                                    <td ng-show="invoiceImportReportMainSectionPanel.multiMatchedCount > 0"><span ng-bind="invoiceImportReportMainSectionPanel.multiMatchedCount"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

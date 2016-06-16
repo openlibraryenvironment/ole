@@ -346,7 +346,7 @@ public class OleSelectConstant {
     public static final String ERROR_SUBSCIPTION_FROM_DATE_REQUIRED = "error.subscription.from.date.required";
     public static final String ERROR_SUBSCIPTION_TO_DATE_REQUIRED = "error.subscription.to.date.required";
     public static final String ERROR_SUBSCIPTION_FROM_DATE_GREATER_THAN_TO_DATE = "error.subscription.from.date.greater.than.to.date";
-    public static final String ERROR_NO_PO_WILD_CARD_SEARCH = "error.no.po.wild.card.search";
+    public static final String ERROR_PO_INVALID_FORMAT = "error.po.invalid.format";
 
     //Added for Requestor Phone Number Validation
     public static final String REQUESTOR_PERSON_PHONE_NUMBER = "requestorPersonPhoneNumber";
@@ -419,7 +419,9 @@ public class OleSelectConstant {
     public static final BigDecimal MAX_PERCENT = new BigDecimal(100);
     public static final BigDecimal ZERO_PERCENT = new BigDecimal(0);
     public static final String DUPLICATE_INVOICE = "One or more potential duplicate invoices have been identified: " ;
-    public static final String QUES_FOR_DUPLICATE_INVOICE = "Do you want to approve this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_SAVE = "Do you want to save this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_APPROVE = "Do you want to approve this INV anyway?";
+    public static final String QUES_FOR_DUPLICATE_INVOICE_FOR_SUBMIT = "Do you want to submit this INV anyway?";
     public static final String BUDGET_RECORDING_LEVEL_CODE = "O";
     public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";

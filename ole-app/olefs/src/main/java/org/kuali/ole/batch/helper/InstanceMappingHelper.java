@@ -2,6 +2,7 @@ package org.kuali.ole.batch.helper;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo;
@@ -48,7 +49,7 @@ public class InstanceMappingHelper {
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<OLEBatchProcessProfileDataMappingOptionsBo> mappingOptionsBoList = profile.getOleBatchProcessProfileMappingOptionsList().get(0).getOleBatchProcessProfileDataMappingOptionsBoList();
             for (OLEBatchProcessProfileDataMappingOptionsBo mappingOptionsBo : mappingOptionsBoList) {
-                if (mappingOptionsBo.getDataType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_HOLDINGS)) {
+                if (mappingOptionsBo.getDataType().equalsIgnoreCase(BATCH_PROCESS_PROFILE_DATATYPE_HOLDINGS)) {
                     dataFieldsHoldingsMap.put(mappingOptionsBo.getDestinationField(), mappingOptionsBo.getSourceField());
                 } else if (mappingOptionsBo.getDataType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_ITEM)) {
                     if (mappingOptionsBo.getSourceField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)
@@ -82,6 +83,7 @@ public class InstanceMappingHelper {
                             item = itemOlemlRecordProcessor.fromXML(itemDoc.getContent());
                         } else {
                             item = (Item) itemDoc.getContentObject();
+                            item.setItemIdentifier(itemDoc.getId());
                         }
                         List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>());
                         if (!CollectionUtils.isEmpty(dataFieldsItemList))
@@ -107,7 +109,17 @@ public class InstanceMappingHelper {
             }
             for (Map.Entry<String, String> entry : dataFieldsHoldingsMap.entrySet()) {
                 DataField dataField;
-                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
+                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    holdings.setHoldingsIdentifier(holdingsDocument.getId());
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingLocalIdentifier(holdings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingLocalIdentifier(holdings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
@@ -234,7 +246,16 @@ public class InstanceMappingHelper {
             }
             for (Map.Entry<String, String> entry : dataFieldsItemsMap.entrySet()) {
                 DataField dataField;
-                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
+                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateItemLocalIdentifier(item, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (item.getCallNumber() == null) continue;
                     if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
@@ -672,12 +693,54 @@ public class InstanceMappingHelper {
     }
 
     /**
-     * generates the subfields for call number for the given instance
+     * generates the subfields for the Item Local Identifier for the given item
+     *
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateItemLocalIdentifier(Item item, String code, DataField dataField) {
+        try {
+            if (item != null && item.getItemIdentifier() != null) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(DocumentUniqueIDPrefix.getDocumentId(item.getItemIdentifier()));
+                addDataFieldForItem(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateItemLocalIdentifier()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Holding Local Identifier for the given holding
      *
      * @param holdings
      * @param code
      * @param dataField
      */
+    private void generateHoldingLocalIdentifier(OleHoldings holdings, String code, DataField dataField) {
+        try {
+            if (holdings != null && holdings.getHoldingsIdentifier() != null) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(DocumentUniqueIDPrefix.getDocumentId(holdings.getHoldingsIdentifier()));
+                addDataFieldForItem(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(holdings, ex, "generateHoldingLocalIdentifier()");
+        }
+    }
+
+
+
+    /**
+         * generates the subfields for call number for the given instance
+         *
+         * @param holdings
+         * @param code
+         * @param dataField
+         */
     private void generateCallNumber(OleHoldings holdings, String code, DataField dataField) throws Exception {
         SubField subField = new SubField();
         subField.setCode(code);

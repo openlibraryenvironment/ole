@@ -36,6 +36,7 @@
             <list merge="false">
                 <ref bean="checkinClaimsReturnItemNoteMessage"/>
                 <ref bean="checkinClaimsReturn-record-Note"/>
+                <ref bean="checkinClaimsReturn-itemFoundInLibrary"/>
                 <ref bean="checkinClaimsReturn-buttons"/>
             </list>
         </property>
@@ -49,8 +50,9 @@
                 <bean id="checkin-claimsReturnNote-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Ok" p:actionScript="
                    var isChecked = false;
                     isChecked = jq('#checkinClaimsReturn-record-Note_control_0').is(':checked');
+                    var itemFoundInLibraryVal = jq('#checkinClaimsReturn-itemFoundInLibrary_control_0').is(':checked');
                     jq.fancybox.close();
-                    submitForm('processMissingPiece',{recordNoteForClaimChecked:isChecked},null,true,function(){
+                    submitForm('processMissingPiece',{recordNoteForClaimChecked:isChecked, isItemFoundInLibrary:itemFoundInLibraryVal},null,true,function(){
                     });"/>
                 <bean id="checkin-claimsReturnNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('clearUI',null,null,null,null)"/>
             </list>
@@ -59,6 +61,20 @@
 
     <bean id="checkinClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturn"
           p:label="Add note to patron record that claims returned item was returned?" p:render="true">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="checkinClaimsReturn-itemFoundInLibrary" parent="Return-Uif-InputField" p:propertyName="itemFoundInLibrary"
+          p:label="Item found in library?">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">

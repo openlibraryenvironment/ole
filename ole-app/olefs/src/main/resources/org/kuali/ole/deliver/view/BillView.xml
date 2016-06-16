@@ -64,6 +64,7 @@
                 <bean id="refundConfirmationDialog" parent="refundConfirmation"/>
                 <bean id="refundRecordConfirmationDialog" parent="refundRecordConfirmation"/>
                 <bean id="patronMailingAddressDialog" parent="patronMailingAddress"/>
+                <bean id="noRefundConfirmationDialog" parent="noRefundConfirmation"/>
 
             </list>
         </property>
@@ -144,7 +145,7 @@
             <list>
                 <bean id="selectBill" parent="Uif-InputField" p:label="Select Bill" p:width="2%" p:propertyName="selectBill">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},@{#line?.paidAmount},@{#line?.creditRemaining},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''}" />
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},@{#line?.paidAmount},@{#line?.creditRemaining},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''} patronBillView" />
                     </property>
                 </bean>
                 <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="viewBillNumber"/>
@@ -166,17 +167,35 @@
     <bean id="BillView-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean id="BillView_selectBill" parent="Uif-SecondaryActionButton"  p:actionLabel="select all from this page"   p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_selectBill" parent="Uif-SecondaryActionButton"  p:actionLabel="select all from this page" p:ajaxSubmit="true"
+                        p:actionScript="jq('.patronBillView').attr('checked', true);
+                        submitForm('selectAllBill', null, null, null, null);
+                      removeCurrencyPattern();"/>
                 <bean id="BillView_deselectBill" parent="Uif-SecondaryActionButton"    p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
             </list>
         </property>
     </bean>
 
-    <bean id="DetailedBillView-Footer" parent="Uif-FooterBase">
+    <bean id="Detailed-OpenedBillView-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean id="BillView_selectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="select all from this page" p:successCallback="removeCurrencyPattern();" />
-                <bean id="BillView_deselectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_selectOpenItem" parent="Uif-SecondaryActionButton"   p:actionLabel="select all from this page" p:ajaxSubmit="true"
+                        p:actionScript="jq('.patronOpenBillItemView').attr('checked', true);
+                        submitForm('selectAllOpenItem', null, null, null, null);
+                        removeCurrencyPattern();"/>
+                <bean id="BillView_deselectOpenItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Detailed-ClosedBillView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="BillView_selectClosedItem" parent="Uif-SecondaryActionButton" p:actionLabel="select all from this page" p:ajaxSubmit="true"
+                      p:actionScript="jq('.patronClosedBillItemView').attr('checked', true);
+                      submitForm('selectAllClosedItem', null, null, null, null);
+                      removeCurrencyPattern();"/>
+                <bean id="BillView_deselectClosedItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
             </list>
         </property>
     </bean>
@@ -186,7 +205,7 @@
         <property name="items">
             <list>
                 <ref bean="DetailedView-BillSection"/>
-                <ref bean="DetailedBillView-Footer"/>
+                <ref bean="Detailed-OpenedBillView-Footer"/>
             </list>
         </property>
     </bean>
@@ -196,7 +215,7 @@
         <property name="items">
             <list>
                 <ref bean="DetailedView-ClosedBillSection"/>
-                <ref bean="DetailedBillView-Footer"/>
+                <ref bean="Detailed-ClosedBillView-Footer"/>
             </list>
         </property>
     </bean>
@@ -229,7 +248,7 @@
             <list>
                 <bean id="active_item" parent="Uif-InputField" p:label="Select Item" p:width="3%" p:propertyName="activeItem" >
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''} patronOpenBillItemView"/>
                     </property>
                 </bean>
                 <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="7%" p:propertyName="viewBillNumber"/>
@@ -280,7 +299,7 @@
             <list>
                 <bean id="closedBill_active_item" parent="Uif-InputField" p:label="Select Item" p:width="3%" p:propertyName="activeItem" >
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},@{#line?.paidAmount},@{#line?.creditRemaining},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''} patronClosedBillItemView"/>
                     </property>
                 </bean>
                 <bean id="closedBill_billNumber" parent="Uif-DataField" p:label="Bill No" p:width="7%" p:propertyName="viewBillNumber"/>
@@ -329,6 +348,7 @@
                 <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
                 <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
                 <bean id="detailed_Item_View_itemCheckInOverrideDate" parent="Uif-DataField" p:label="Check-In Override Date" p:width="10%" p:propertyName="overrideCheckInDate"/>
+                <bean id="detailed_Item_View_itemRenewalDate" parent="Uif-DataField" p:label="Renewal Date" p:width="10%" p:propertyName="renewalDate"/>
 
               </list>
         </property>

@@ -151,17 +151,17 @@ jq(document).ready(function () {
 
     });
 
-    jq(document).keypress(function(event){
+    jq(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         var type = jq("select[name='searchType']").val();
-        if(keycode == '13' && type == "search"){
+        if (keycode == '13' && type == "search") {
             submitForm('search', null, null, null, null);
-        }else if(keycode == '13'&& type == "browse") {
-            submitForm('browse', null, null, null, null);
+        } else if (keycode == '13' && type == "browse") {
+            submitForm('browse', null, null, true, function () {
+                browse()
+            });
         }
     });
-
-
 });
 
 
@@ -315,14 +315,15 @@ function selectOrUnselectDeLink(id, url) {
 function selectOrUnselect() {
     jq('.sorting_1').live("click", function (event) {
         var id = event.target.id;
-        var line = id.split("line")[1].substr(0, 1);
-        var url = getUrl(line);
-        if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
-            selectOrUnselectDeLink(id, url)
-        } else {
-            selectOrUnselectLink(id, url);
+        if (id != "") {
+            var line = id.split("line")[1].split("_")[0];
+            var url = getUrl(line);
+            if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
+                selectOrUnselectDeLink(id, url)
+            } else {
+                selectOrUnselectLink(id, url);
+            }
         }
-
     });
 }
 

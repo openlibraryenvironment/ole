@@ -128,8 +128,17 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String OnHoldExpirationNoticeContentConfigName;
 
     private String requestNote;
-
+    private boolean select=false;
     private String callNumberPrefix;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     public String getItemInstitution() {
         return itemInstitution;
     }

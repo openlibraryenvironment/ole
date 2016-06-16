@@ -1,0 +1,176 @@
+<div class="panel-group" ng-model="constantsAndDefaultsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="constantsAndDefaultsPanel.collapsed = !constantsAndDefaultsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !constantsAndDefaultsPanel.collapsed, 'glyphicon-chevron-down': constantsAndDefaultsPanel.collapsed}"></span>
+                    Constants And Defaults
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Field Value</th>
+                        <th>Default/Constant</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="constantsAndDefault in constantsAndDefaultsPanel">
+                        <td>
+                            <select class="form-control" name="constantsAndDefaultOrderFields_{{$index}}" id="constantsAndDefaultOrderFields_{{$index}}" style="height: 30px; width: 400px;"
+                                    ng-model="constantsAndDefault.fieldName" ng-hide="constantsAndDefault.isAddLine"
+                                    ng-change="populateDestinationFieldValues($index, constantsAndDefault, constantsAndDefault.fieldName)">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldName}}"
+                                        ng-repeat="option in constantsAndDefault.constantsAndDefaultsFields  | orderBy:'name'"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.fieldName"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="constantsAndDefaultBoolean_{{$index}}"
+                                    id="constantsAndDefaultBoolean_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="(constantsAndDefault.fieldName == 'Receiving Required' || constantsAndDefault.fieldName == 'Use Tax Indicator' || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req' || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator' || constantsAndDefault.fieldName == 'Route To Requestor') && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in booleanOptions"
+                                        value="{{option.value}}">{{option.value}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="constantsAndDefaultDiscountType_{{$index}}"
+                                    id="constantsAndDefaultDiscountType_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="constantsAndDefault.fieldName == 'Discount Type' && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in constantsAndDefault.discountTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="constantsAndDefaultItemStatus_{{$index}}"
+                                    id="constantsAndDefaultItemStatus_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="constantsAndDefault.fieldName == 'Item Status' && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.value == constantsAndDefault.fieldValue}}" value="{{option.value}}">{{option.value}}
+                                </option>
+                            </select>
+                            <select class="form-control" name="constantsAndDefaultFieldValues_{{$index}}"
+                                    id="constantsAndDefaultFieldValues_{{$index}}"
+                                    ng-model="constantsAndDefault.fieldValue"
+                                    ng-show="(constantsAndDefault.fieldName == 'Chart Code'
+                                            || constantsAndDefault.fieldName == 'Org Code'
+                                            || constantsAndDefault.fieldName == 'Item Chart Code'
+                                            || constantsAndDefault.fieldName == 'Contract Manager'
+                                            || constantsAndDefault.fieldName == 'Order Type'
+                                            || constantsAndDefault.fieldName == 'Funding Source'
+                                            || constantsAndDefault.fieldName == 'Delivery Campus Code'
+                                            || constantsAndDefault.fieldName == 'Building Code'
+                                            || constantsAndDefault.fieldName == 'Building Room Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Choice'
+                                            || constantsAndDefault.fieldName == 'Cost Source'
+                                            || constantsAndDefault.fieldName == 'Default Location'
+                                            || constantsAndDefault.fieldName == 'Vendor Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Alias Name'
+                                            || constantsAndDefault.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || constantsAndDefault.fieldName == 'Requestor Name'
+                                            || constantsAndDefault.fieldName == 'Account Number'
+                                            || constantsAndDefault.fieldName == 'Object Code'
+                                            || constantsAndDefault.fieldName == 'Request Source'
+                                            || constantsAndDefault.fieldName == 'Assign To User'
+                                            || constantsAndDefault.fieldName == 'Method Of PO Transmission'
+                                            || constantsAndDefault.fieldName == 'Recurring Payment Type'
+                                            || constantsAndDefault.fieldName == 'Fund Code'
+                                            || constantsAndDefault.fieldName == 'Currency Type') && !constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.fieldValue}}"
+                                        ng-repeat="option in constantAndDefaultFieldValues  | orderBy:'name'"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <input class="form-control" id="constantsAndDefaultValue_{{$index}}" name="constantsAndDefaultValue_{{$index}}"
+                                   type="text"
+                                   ng-model="constantsAndDefault.fieldValue" style="height: 30px; width: 100px;"
+                                   ng-hide="constantsAndDefault.fieldName == 'Chart Code'
+                                            || constantsAndDefault.fieldName == 'Org Code'
+                                            || constantsAndDefault.fieldName == 'Item Chart Code'
+                                            || constantsAndDefault.fieldName == 'Contract Manager'
+                                            || constantsAndDefault.fieldName == 'Order Type'
+                                            || constantsAndDefault.fieldName == 'Funding Source'
+                                            || constantsAndDefault.fieldName == 'Delivery Campus Code'
+                                            || constantsAndDefault.fieldName == 'Building Code'
+                                            || constantsAndDefault.fieldName == 'Building Room Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Choice'
+                                            || constantsAndDefault.fieldName == 'Cost Source'
+                                            || constantsAndDefault.fieldName == 'Default Location'
+                                            || constantsAndDefault.fieldName == 'Vendor Number'
+                                            || constantsAndDefault.fieldName == 'Vendor Alias Name'
+                                            || constantsAndDefault.fieldName == 'Acquisition Unit\'s Vendor account / Vendor Info Customer #'
+                                            || constantsAndDefault.fieldName == 'Requestor Name'
+                                            || constantsAndDefault.fieldName == 'Item Status'
+                                            || constantsAndDefault.fieldName == 'Discount Type'
+                                            || constantsAndDefault.fieldName == 'Account Number'
+                                            || constantsAndDefault.fieldName == 'Object Code'
+                                            || constantsAndDefault.fieldName == 'Request Source'
+                                            || constantsAndDefault.fieldName == 'Assign To User'
+                                            || constantsAndDefault.fieldName == 'Method Of PO Transmission'
+                                            || constantsAndDefault.fieldName == 'Recurring Payment Type'
+                                            || constantsAndDefault.fieldName == 'Receiving Required'
+                                            || constantsAndDefault.fieldName == 'Use Tax Indicator'
+                                            || constantsAndDefault.fieldName == 'Pay Req Positive Approval Req'
+                                            || constantsAndDefault.fieldName == 'Purchase Order Confirmation Indicator'
+                                            || constantsAndDefault.fieldName == 'Route To Requestor'
+                                            || constantsAndDefault.fieldName == 'Fund Code'
+                                            || constantsAndDefault.fieldName == 'Currency Type' || constantsAndDefault.isAddLine"/>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.fieldValue"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="constantsAndDefaultType_{{$index}}" id="constantsAndDefaultType_{{$index}}"
+                                    ng-model="constantsAndDefault.constantOrDefault"
+                                    ng-hide="constantsAndDefault.isAddLine">
+                                <option ng-selected="{{option.name == constantsAndDefault.constantOrDefault}}"
+                                        ng-repeat="option in constantsAndDefault.constantOrDefaultTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="constantsAndDefault.isAddLine"
+                                  ng-bind="constantsAndDefault.constantOrDefault"></span>
+                        </td>
+                        <td>
+                            <button id="constantsAndDefaultAddButton_{{$index}}"
+                                    name="constantsAndDefaultAddButton_{{$index}}"
+                                    ng-click="constantsAndDefaultAdd()" ng-hide="constantsAndDefault.isAddLine || constantsAndDefault.isEdit"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="constantsAndDefaultEditButton_{{$index}}" name="constantsAndDefaultEditButton_{{$index}}"
+                                    ng-click="constantsAndDefaultEditRow($index)" ng-show="constantsAndDefault.isAddLine && !constantsAndDefault.isEdit && !submitted"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="constantsAndDefaultUpdateButton_{{$index}}" name="constantsAndDefaultUpdateButton_{{$index}}"
+                                    ng-click="constantsAndDefaultUpdateRow($index)" ng-show="constantsAndDefault.isEdit"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="constantsAndDefaultUpdateCancelButton_{{$index}}" name="constantsAndDefaultUpdateCancelButton_{{$index}}"
+                                    ng-click="constantsAndDefaultCancelUpdate($index)" ng-show="constantsAndDefault.isEdit"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button id="constantsAndDefaultRemoveButton_{{$index}}"
+                                    name="constantsAndDefaultRemoveButton_{{$index}}"
+                                    ng-click="constantsAndDefaultRemove(constantsAndDefault)"
+                                    ng-show="constantsAndDefault.isAddLine && !constantsAndDefault.isEdit && !submitted" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

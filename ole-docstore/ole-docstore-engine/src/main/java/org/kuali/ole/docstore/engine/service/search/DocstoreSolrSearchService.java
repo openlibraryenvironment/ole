@@ -868,6 +868,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                 }
                 searchCondition = searchConditions.get(i);
                 searchText = searchCondition.getSearchField().getFieldValue();
+                if(searchFieldsMap.get(Bib.AUTHOR).equalsIgnoreCase(searchCondition.getSearchField().getFieldName())){
+                    searchText = searchText.replaceAll("-"," ");
+                }
                 searchScope = searchCondition.getSearchScope();
                 if (StringUtils.isNotEmpty(searchCondition.getOperator()) && searchCondition.getOperator().equalsIgnoreCase("NOT")) {
                     previousOperator = searchCondition.getOperator();
@@ -902,7 +905,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
                         if (searchScope.equalsIgnoreCase("AND")) {
                             searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ AND +");
                         } else if (searchScope.equalsIgnoreCase("OR")) {
-                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ OR +");
+                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+OR+");
                         } else if (searchScope.equalsIgnoreCase("phrase")) {
                             searchTextVal = "\"" + searchText + "\"";
                         } else if (searchScope.equalsIgnoreCase("none")) {

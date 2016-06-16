@@ -13,6 +13,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.alert.document.OleMaintenanceDocumentBase;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.License;
 import org.kuali.ole.docstore.common.document.LicenseAttachment;
@@ -29,10 +30,13 @@ import org.kuali.ole.utility.CompressUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -55,6 +59,7 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private OLEEResourceSearchService oleEResourceSearchService = null;
     private DocstoreClientLocator docstoreClientLocator;
+    private DocumentHeader documentHeader;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (null == docstoreClientLocator) {
@@ -382,10 +387,13 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
             List<DocumentRouteHeaderValue> documentList= ( List<DocumentRouteHeaderValue>)  service.findMatching(DocumentRouteHeaderValue.class,searchCriteria);
             OleLicenseRequestBo licenseRequestBo ;
             for(int i=0;i<documentList.size();i++){
-
-                LicenceRoutingRuleDelegationMaintainable bo = (LicenceRoutingRuleDelegationMaintainable) getDataObjectFromXML(documentList.get(i).getDocContent());
-
-                licenseRequestBo=(OleLicenseRequestBo)bo.getDataObject();
+                //LicenceRoutingRuleDelegationMaintainable bo = (LicenceRoutingRuleDelegationMaintainable) getDataObjectFromXML(documentList.get(i).getDocContent());
+                String documentNumber = documentList.get(i).getDocumentId();
+                Map docIdMap = new HashMap();
+                docIdMap.put("documentNumber",documentNumber);
+                MaintenanceDocumentBase oleMaintenanceDocumentBase = service.findByPrimaryKey(MaintenanceDocumentBase.class,docIdMap);
+                OleMaintenanceDocumentBase oleMaintenanceDocumentBase1 = new OleMaintenanceDocumentBase();
+                licenseRequestBo = (OleLicenseRequestBo)oleMaintenanceDocumentBase1.getDataObjectFromXML("newMaintainableObject",oleMaintenanceDocumentBase.getXmlDocumentContents());
                 list=licenseRequestBo.getAgreementDocumentMetadataList();
 
             }
@@ -432,10 +440,18 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                 OleLicenseRequestBo licenseRequestBo ;
                 for(int i=0;i<documentList.size();i++){
                     add = false;
-                    LicenceRoutingRuleDelegationMaintainable bo = (LicenceRoutingRuleDelegationMaintainable) getDataObjectFromXML(documentList.get(i).getDocContent());
+                    //LicenceRoutingRuleDelegationMaintainable bo = (LicenceRoutingRuleDelegationMaintainable) getDataObjectFromXML(documentList.get(i).getDocContent());
+                    //OleLicenseRequestBo bo =
                     Date createDateInBo=documentList.get(i).getCreateDate();
                     //String strCreateDateInBo=dateFormat.format(createDateInBo);
                     //String lastModifiedDateInBo = dateFormat.format(documentList.get(i).getDateModified());
+
+                    String documentNumber = documentList.get(i).getDocumentId();
+                    Map docIdMap = new HashMap();
+                    docIdMap.put("documentNumber",documentNumber);
+                    MaintenanceDocumentBase oleMaintenanceDocumentBase = service.findByPrimaryKey(MaintenanceDocumentBase.class,docIdMap);
+                    OleMaintenanceDocumentBase oleMaintenanceDocumentBase1 = new OleMaintenanceDocumentBase();
+                    licenseRequestBo = (OleLicenseRequestBo)oleMaintenanceDocumentBase1.getDataObjectFromXML("newMaintainableObject",oleMaintenanceDocumentBase.getXmlDocumentContents());
                     boolean isValidCreateDate = false;
                     boolean  isValidModifiedDate = false;
                     boolean  isDateBlank = false;
@@ -451,22 +467,22 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                         isValidDate = (isValidCreateDate && !(createdFromDate .isEmpty() && createdToDate.isEmpty()))||
                                 (isValidModifiedDate && !(lastModifiedDateFrom.isEmpty() && lastModifiedDateTo.isEmpty()));
                     }
-                    if(bo!=null && (isValidDate || isDateBlank)){
-                        licenseRequestBo =  (OleLicenseRequestBo) bo.getDataObject();
+                    if(licenseRequestBo!=null && (isValidDate || isDateBlank)) {
+                        //licenseRequestBo =  (OleLicenseRequestBo) bo.getDataObject();
                         Map<String, String> tempId = new HashMap<String, String>();
                         tempId.put(OLEConstants.DOC_NUM, licenseRequestBo.geteResourceDocNumber());
                         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
                         if (oleeResourceRecordDocument != null) {
                             licenseRequestBo.seteResourceName(oleeResourceRecordDocument.getTitle());
                         }
-                        if(("".equals(criteria.get(OLEConstants.OleLicenseRequest.ASSIGNEE))) || (licenseRequestBo.getAssignee()!=null&&!licenseRequestBo.getAssignee().isEmpty()
-                                && licenseRequestBo.getAssignee().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.ASSIGNEE)))){
-                            if(("".equals(criteria.get(OLEConstants.OleLicenseRequest.LOCATION_ID))) || (licenseRequestBo.getLocationId()!=null&&!licenseRequestBo.getLocationId().isEmpty()
-                                    &&licenseRequestBo.getLocationId().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.LOCATION_ID)))){
-                                if(("".equals(criteria.get(OLEConstants.OleLicenseRequest.STATUS_CODE))) || (licenseRequestBo.getLicenseRequestStatusCode()!=null
-                                        && !licenseRequestBo.getLicenseRequestStatusCode().isEmpty()&&licenseRequestBo.getOleLicenseRequestStatus().getName().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.STATUS_CODE)))){
-                                    if(("".equals(criteria.get(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_TYPE_ID))) || (licenseRequestBo.getLicenseRequestTypeId()!=null
-                                            && !licenseRequestBo.getLicenseRequestTypeId().isEmpty()&&licenseRequestBo.getLicenseRequestTypeId().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_TYPE_ID)))){
+                        if (("".equals(criteria.get(OLEConstants.OleLicenseRequest.ASSIGNEE))) || (licenseRequestBo.getAssignee() != null && !licenseRequestBo.getAssignee().isEmpty()
+                                && licenseRequestBo.getAssignee().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.ASSIGNEE)))) {
+                            if (("".equals(criteria.get(OLEConstants.OleLicenseRequest.LOCATION_ID))) || (licenseRequestBo.getLocationId() != null && !licenseRequestBo.getLocationId().isEmpty()
+                                    && licenseRequestBo.getLocationId().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.LOCATION_ID)))) {
+                                if (("".equals(criteria.get(OLEConstants.OleLicenseRequest.STATUS_CODE))) || (licenseRequestBo.getLicenseRequestStatusCode() != null
+                                        && !licenseRequestBo.getLicenseRequestStatusCode().isEmpty() && licenseRequestBo.getOleLicenseRequestStatus().getName().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.STATUS_CODE)))) {
+                                    if (("".equals(criteria.get(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_TYPE_ID))) || (licenseRequestBo.getLicenseRequestTypeId() != null
+                                            && !licenseRequestBo.getLicenseRequestTypeId().isEmpty() && licenseRequestBo.getLicenseRequestTypeId().equalsIgnoreCase(criteria.get(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_TYPE_ID)))) {
                                         if (licenseRequestBo.geteResourceName() != null && !licenseRequestBo.geteResourceName().isEmpty()) {
                                             DocumentSearchCriteria.Builder docSearchCriteria = DocumentSearchCriteria.Builder.create();
                                             docSearchCriteria.setDocumentTypeName(OLEConstants.OLEEResourceRecord.OLE_ERS_DOC);
@@ -486,36 +502,37 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                                 }
                             }
                         }
-                        if(add){
-                            OleLicenseRequestBo oleLicenseRequestBo=getOleLicenseRequestBoWithDocNumb(licenseRequestBo);
-                            List<OleLicenseRequestItemTitle> itemTitleList = oleLicenseRequestBo.getOleLicenseRequestItemTitles();
-                            List<OleLicenseRequestItemTitle> newItemTitleList = new ArrayList<OleLicenseRequestItemTitle>();
-                            if(itemTitleList!=null && itemTitleList.size()>0 ){
-                                OleLicenseRequestBo newLicenseRequestBo;
-                                for(int j=0;j<itemTitleList.size();j++){
-                                    newLicenseRequestBo = (OleLicenseRequestBo) ObjectUtils.deepCopy(licenseRequestBo);
-                                    newLicenseRequestBo.setOleLicenseRequestItemTitles(null);
-                                    newItemTitleList.add(itemTitleList.get(j));
-                                    newLicenseRequestBo.setOleLicenseRequestItemTitles(newItemTitleList);
-                                    newLicenseRequestBo.setDocumentNumber(documentList.get(i).getDocumentContent().getDocumentId());
-                                    newLicenseRequestBo.setCreatedDate(documentList.get(i).getCreateDate());
-                                    newLicenseRequestBo.setCreatedDateFrom(documentList.get(i).getCreateDate());
+                        if (add) {
+                            OleLicenseRequestBo oleLicenseRequestBo = getOleLicenseRequestBoWithDocNumb(licenseRequestBo);
+                            if (oleLicenseRequestBo != null) {
+                                List<OleLicenseRequestItemTitle> itemTitleList = oleLicenseRequestBo.getOleLicenseRequestItemTitles();
+                                List<OleLicenseRequestItemTitle> newItemTitleList = new ArrayList<OleLicenseRequestItemTitle>();
+                                if (itemTitleList != null && itemTitleList.size() > 0) {
+                                    OleLicenseRequestBo newLicenseRequestBo;
+                                    for (int j = 0; j < itemTitleList.size(); j++) {
+                                        newLicenseRequestBo = (OleLicenseRequestBo) ObjectUtils.deepCopy(licenseRequestBo);
+                                        newLicenseRequestBo.setOleLicenseRequestItemTitles(null);
+                                        newItemTitleList.add(itemTitleList.get(j));
+                                        newLicenseRequestBo.setOleLicenseRequestItemTitles(newItemTitleList);
+                                        newLicenseRequestBo.setDocumentNumber(documentList.get(i).getDocumentContent().getDocumentId());
+                                        newLicenseRequestBo.setCreatedDate(documentList.get(i).getCreateDate());
+                                        newLicenseRequestBo.setCreatedDateFrom(documentList.get(i).getCreateDate());
                                     /*if(isTitlePresent) {*/
                                         /*if(uuids.size() > 0 && uuids.contains(itemTitleList.get(j).getItemUUID())) {*/
-                                    //String bibliographicTitle= getDescription(itemTitleList.get(j).getItemUUID());
-                                    //newLicenseRequestBo.setBibliographicTitle(bibliographicTitle);
-                                    if (newLicenseRequestBo.getLocationId() != null && !newLicenseRequestBo.getLocationId().isEmpty()) {
-                                        newLicenseRequestBo.setOleLicenseRequestLocation(getLicenseRequestLocation(newLicenseRequestBo.getLocationId()));
-                                    }
-                                    if (newLicenseRequestBo.getLicenseRequestTypeId() != null && !newLicenseRequestBo.getLicenseRequestTypeId().isEmpty()) {
-                                        newLicenseRequestBo.setOleLicenseRequestType(getLicenseRequestType(newLicenseRequestBo.getLicenseRequestTypeId()));
-                                    }
-                                    licenseRequestList.add(newLicenseRequestBo);
+                                        //String bibliographicTitle= getDescription(itemTitleList.get(j).getItemUUID());
+                                        //newLicenseRequestBo.setBibliographicTitle(bibliographicTitle);
+                                        if (newLicenseRequestBo.getLocationId() != null && !newLicenseRequestBo.getLocationId().isEmpty()) {
+                                            newLicenseRequestBo.setOleLicenseRequestLocation(getLicenseRequestLocation(newLicenseRequestBo.getLocationId()));
+                                        }
+                                        if (newLicenseRequestBo.getLicenseRequestTypeId() != null && !newLicenseRequestBo.getLicenseRequestTypeId().isEmpty()) {
+                                            newLicenseRequestBo.setOleLicenseRequestType(getLicenseRequestType(newLicenseRequestBo.getLicenseRequestTypeId()));
+                                        }
+                                        licenseRequestList.add(newLicenseRequestBo);
                                         /*}*/
                                     /*}*/
                                     /*else {*/
-                                    //String bibliographicTitle= getDescription(itemTitleList.get(j).getItemUUID());
-                                    //newLicenseRequestBo.setBibliographicTitle(bibliographicTitle);
+                                        //String bibliographicTitle= getDescription(itemTitleList.get(j).getItemUUID());
+                                        //newLicenseRequestBo.setBibliographicTitle(bibliographicTitle);
                                         /*if (newLicenseRequestBo.getLocationId() != null && !newLicenseRequestBo.getLocationId().isEmpty()) {
                                             newLicenseRequestBo.setOleLicenseRequestLocation(getLicenseRequestLocation(newLicenseRequestBo.getLocationId()));
                                         }
@@ -524,15 +541,15 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                                         }
                                         licenseRequestList.add(newLicenseRequestBo);*/
                                    /* }*/
+                                    }
+                                } else /*if (!isTitlePresent)*/ {
+                                    licenseRequestBo.setDocumentNumber(documentList.get(i).getDocumentContent().getDocumentId());
+                                    licenseRequestBo.setCreatedDate(documentList.get(i).getCreateDate());
+                                    licenseRequestBo.setCreatedDateFrom(documentList.get(i).getCreateDate());
+                                    licenseRequestList.add(licenseRequestBo);
                                 }
-                            }
-                            else /*if (!isTitlePresent)*/{
-                                licenseRequestBo.setDocumentNumber(documentList.get(i).getDocumentContent().getDocumentId());
-                                licenseRequestBo.setCreatedDate(documentList.get(i).getCreateDate());
-                                licenseRequestBo.setCreatedDateFrom(documentList.get(i).getCreateDate());
-                                licenseRequestList.add(licenseRequestBo);
-                            }
 
+                            }
                         }
                     }  }
             }
@@ -605,11 +622,15 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
                 maintXml = maintXml.substring(2,maintXml.length());
                 businessObject = KRADServiceLocator.getXmlObjectSerializerService().fromXml(maintXml);
             }
-            return businessObject;                                                                            }
+            return businessObject;
+        }
         else{
             return null;
         }
     }
+
+
+
 
     /**
      * This method returns the bibliographic title for the given uuid
@@ -765,4 +786,6 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
         map.put(OLEConstants.OLEEResourceRecord.ERESOURCE_DOC_NUMBER,oleLicenseRequestBo.geteResourceDocNumber());
         return KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OleLicenseRequestBo.class,map);
     }
+
+
 }

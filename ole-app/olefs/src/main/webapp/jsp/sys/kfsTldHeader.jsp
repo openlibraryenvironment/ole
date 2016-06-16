@@ -57,6 +57,7 @@
 <%--<%@ taglib tagdir="/WEB-INF/tags/portal/channel/oleLicensing" prefix="oleLicensingChannel"%>--%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/oleSelectAcquire" prefix="oleSelectAcquireChannel"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/oleMaintenance" prefix="oleMaintenanceChannel"%>
+<%@ taglib tagdir="/WEB-INF/tags/portal/channel/oleNewBatch" prefix="oleNewBatchChannel"%>
 <%-- utility web functions --%>
 <%@ taglib uri="/WEB-INF/tlds/kfsfunc.tld" prefix="kfsfunc" %>
 

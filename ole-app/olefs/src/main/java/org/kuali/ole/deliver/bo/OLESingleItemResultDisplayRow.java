@@ -4,6 +4,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturn
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class OLESingleItemResultDisplayRow {
     private String author;
     private String publication;
     private String itemStatusDate;
+    private Timestamp lastBorrowerItemStatusDate;
     private String dueDate;
     private String noOfPieces;
     private String holdingsLocation;
@@ -42,12 +44,18 @@ public class OLESingleItemResultDisplayRow {
 
     private String currentBorrowerId;
     private String patronBarcode;
+    private String lastBorrowerType;
+    private String lastBorrowerExpDate;
     private String patronType;
     private String patronExpDate;
     private String patronFirstName;
     private String patronMiddleName;
     private String patronLastName;
+    private String lastBorrowerFirstName;
+    private String lastBorrowerMiddleName;
+    private String lastBorrowerLastName;
     private String patronURL;
+    private String lastBorrowerURL;
     private String proxyBorrowerId;
     private String proxyPatronBarcode;
     private String proxyPatronName;
@@ -69,6 +77,9 @@ public class OLESingleItemResultDisplayRow {
     private String finalStatus;
     private Date finalStatusDate;
     private String originalDueDate;
+    private String lastBorrower;
+    private Timestamp lastCheckinDate;
+    private Timestamp createDate;
 
     private List<OLEDeliverRequestResultDisplayRow> oleDeliverRequestResultDisplayRowList = new ArrayList<>();
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
@@ -549,5 +560,85 @@ public class OLESingleItemResultDisplayRow {
 
     public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
         this.itemDamagedRecords = itemDamagedRecords;
+    }
+
+    public String getLastBorrower() {
+        return lastBorrower;
+    }
+
+    public void setLastBorrower(String lastBorrower) {
+        this.lastBorrower = lastBorrower;
+    }
+
+    public Timestamp getLastCheckinDate() {
+        return lastCheckinDate;
+    }
+
+    public void setLastCheckinDate(Timestamp lastCheckinDate) {
+        this.lastCheckinDate = lastCheckinDate;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getLastBorrowerFirstName() {
+        return lastBorrowerFirstName;
+    }
+
+    public void setLastBorrowerFirstName(String lastBorrowerFirstName) {
+        this.lastBorrowerFirstName = lastBorrowerFirstName;
+    }
+
+    public String getLastBorrowerMiddleName() {
+        return lastBorrowerMiddleName;
+    }
+
+    public void setLastBorrowerMiddleName(String lastBorrowerMiddleName) {
+        this.lastBorrowerMiddleName = lastBorrowerMiddleName;
+    }
+
+    public String getLastBorrowerLastName() {
+        return lastBorrowerLastName;
+    }
+
+    public void setLastBorrowerLastName(String lastBorrowerLastName) {
+        this.lastBorrowerLastName = lastBorrowerLastName;
+    }
+
+    public String getLastBorrowerType() {
+        return lastBorrowerType;
+    }
+
+    public void setLastBorrowerType(String lastBorrowerType) {
+        this.lastBorrowerType = lastBorrowerType;
+    }
+
+    public String getLastBorrowerExpDate() {
+        return lastBorrowerExpDate;
+    }
+
+    public void setLastBorrowerExpDate(String lastBorrowerExpDate) {
+        this.lastBorrowerExpDate = lastBorrowerExpDate;
+    }
+
+    public String getLastBorrowerURL() {
+        return lastBorrowerURL;
+    }
+
+    public void setLastBorrowerURL(String lastBorrowerURL) {
+        this.lastBorrowerURL = lastBorrowerURL;
+    }
+
+    public Timestamp getLastBorrowerItemStatusDate() {
+        return lastBorrowerItemStatusDate;
+    }
+
+    public void setLastBorrowerItemStatusDate(Timestamp lastBorrowerItemStatusDate) {
+        this.lastBorrowerItemStatusDate = lastBorrowerItemStatusDate;
     }
 }

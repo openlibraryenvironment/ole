@@ -1,0 +1,36 @@
+<div>
+    <div class="form-group">
+        <font color="green"> File Name : {{batchReportViewer.fileName}}</font>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('mrc') != -1 || batchReportViewer.fileName.indexOf('FailureMessages') != -1 || batchReportViewer.fileName.indexOf('ErrorMessages') != -1">
+        <textarea type="text" class="form-control" style="height: 350px" id="reportContent" ng-model="batchReportViewer.reportContent" readonly></textarea>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('BibImport') != -1">
+        <div ng-include="'batchReport/views/batchReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportBibSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportHoldingsSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportItemSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportEHoldingsSection.html'"></div>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('OrderImport') != -1">
+        <div ng-include="'batchReport/views/orderImportReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportRequisitionOnlySection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportReqAndPoSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportNeitherReqNorPoSection.html'"></div>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('InvoiceImport') != -1">
+        <div ng-include="'batchReport/views/invoiceImportReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchReportInvoiceSection.html'"></div>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('BatchDelete') != -1">
+        <div ng-include="'batchReport/views/batchDeleteReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchDeleteReportSuccessSection.html'"></div>
+        <div ng-include="'batchReport/views/batchDeleteReportFailureSection.html'"></div>
+    </div>
+    <div ng-show="batchReportViewer.fileName.indexOf('BatchExport') != -1">
+        <div ng-include="'batchReport/views/batchExportReportMainSection.html'"></div>
+        <div ng-include="'batchReport/views/batchExportReportSuccessSection.html'"></div>
+        <div ng-include="'batchReport/views/batchExportReportFailureSection.html'"></div>
+    </div>
+</div>
+

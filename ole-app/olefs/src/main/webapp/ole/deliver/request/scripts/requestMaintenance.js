@@ -15,3 +15,15 @@ jq(document).ready(function(){
 
 
 });
+jq("#selectAll").live("click",function(){
+    jq("input:checkbox").attr('checked',true);
+
+});
+
+jq("#deSelectAll").live("click",function(){
+    jq("input:checkbox").attr('checked',false);
+
+});
+
+
+

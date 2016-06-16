@@ -32,6 +32,7 @@ function sessionStorageData() {
         jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val("");
         jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val("");
         jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").val("");
         jq('#hiddenButtonRefresh').focus().click();
 
     })
@@ -92,6 +93,12 @@ function sessionStorageData() {
     jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").live("blur", function () {
         sessionStorage.setItem("profile", "Serial Record Import");
         sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Fund Record Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_fundRecordImport_control").val());
 
     });
 }
@@ -418,6 +425,9 @@ function refreshPageUser(){
         jq('#profileConstants_attributeValue_add_control').val('');
         jq('#hiddenButtonRefresh').focus().click();
     });
+    jq("#constant-datatype-orderImport_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
     jq("#constant-datatype-invoiceImport_add_control").live("change",function() {
         jq('#orderImport_oldAttributeName_add_control').val(null);
         jq('#profileConstants_attributeValue_add_control').val('');
@@ -430,10 +440,16 @@ function refreshPageUser(){
         jq('#profileConstants_attributeValue_add_control').val('');
         jq('#hiddenButtonRefresh').focus().click();
     });
+    jq("#constant-datatype-ediExport_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
     jq("#orderImport_dataType_add_control").live("change",function() {
         jq('#hiddenButtonRefresh').focus().click();
     });
     jq("#invoiceImport_dataType_add_control").live("change",function() {
+        jq('#hiddenButtonRefresh').focus().click();
+    });
+    jq("#ediExport_dataType_add_control").live("change",function() {
         jq('#hiddenButtonRefresh').focus().click();
     });
 }

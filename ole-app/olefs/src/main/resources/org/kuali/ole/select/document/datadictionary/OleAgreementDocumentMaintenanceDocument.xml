@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleAgreementRecordMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleAgreementRecordMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OleAgreementRecord"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="OLE_AGR_REC"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <!--<property name="businessRulesClass" value="org.kuali.ole.select.rule.OleAgreementRecordRule"/>-->
+        <property name="lockingKeys">
+            <list>
+                <value>agreementId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleAgreementRecord-MaintenanceView" parent="Uif-OleMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleAgreementRecord"/>
+        <property name="headerText" value="Agreement"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s07.html#_Agreement"/>
+                <!--<property name="tooltipHelpContent" value="[Help] maintenance help"/>-->
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="OleAgreementRecordSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleAgreementRecordSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="GeneralSection"/>
+                <ref bean="BusinessSection"/>
+                <ref bean="ContinuingAccessSection"/>
+                <ref bean="UseSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GeneralSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="General" />
+        <property name="items">
+            <list>
+                <bean id="agreement_general_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean id="Agreement-LicenseTitle" parent="Uif-InputField" p:propertyName="licenseTitle" p:label="License Title" p:required="true">
+                                    <property name="control">
+                                        <bean parent="Uif-TextControl" p:size="50" p:maxLength="250"/>
+                                    </property>
+                            </bean>
+
+                            <bean id="Agreement-ContractNumber" parent="Uif-InputField" p:propertyName="contractNumber" p:label="Contract Number">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-AgreementStatus" parent="Uif-InputField" p:propertyName="agreementStatusId" p:label="Agreement Status">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OleAgreementStatusKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-CodingStatus" parent="Uif-InputField" p:propertyName="codingStatus" p:label="Coding Status" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Active" p:value="Active"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="InActive" p:value="InActive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-PONumber" parent="Uif-InputField" p:propertyName="purchaseOrderId" p:label="PO Number">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch"
+                                          p:fieldConversions="purapDocumentIdentifier:purchaseOrderId"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+
+
+                            <bean id="Agreement-Licensor" parent="Uif-InputField" p:propertyName="licensor"  p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="200"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-Licensee" parent="Uif-InputField" p:propertyName="licensee">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                                          p:fieldConversions="principalName:Licensee"/>
+                                </property>
+                            </bean>
+
+
+                            <bean id="AgreementStartDate" parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:enableAutoQuickfinder="false">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="20" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+
+                            <bean id="AgreementEndDate" parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:enableAutoQuickfinder="false" >
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="20" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-LicenseeSite" parent="Uif-InputField" p:propertyName="licenseeSite" p:label="Licensee Site">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="250"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-GeneralNotes" parent="Uif-InputField" p:propertyName="generalNotes" p:label="General Notes">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BusinessSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Business" />
+        <property name="items">
+            <list>
+                <bean id="agreement_business_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="Agreement-FeeSchedule" parent="Uif-InputField" p:propertyName="feeSchedule" p:label="Fee Schedule">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-InflationClap" parent="Uif-InputField" p:propertyName="inflationCap" p:label="Inflation Cap">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="250"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-PaymentTerms" parent="Uif-InputField" p:propertyName="paymentTerms" p:label="Payment Terms" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-GoverningLaw" parent="Uif-InputField" p:propertyName="governingLaw" p:label="Governing Law" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-NewTitleAccess" parent="Uif-InputField" p:propertyName="newTitleAccess" p:label="New Title Access" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-CancellationRights" parent="Uif-InputField" p:propertyName="cancellationRights" p:label="Cancellation Rights" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-AdditionalTerms" parent="Uif-InputField" p:propertyName="additionalTerms" p:label="Additional Terms" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-NoticePeriodTermation" parent="Uif-InputField" p:propertyName="noticePeriodTermination" p:label="Notice Period for Termination" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ContinuingAccessSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Continuing Access" />
+        <property name="items">
+            <list>
+                <bean id="agreement_continuingaccess_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="Agreement-PerpectualAccess" parent="Uif-InputField" p:propertyName="perpectualAccess" p:label="Perpectual Access" p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-PerpectualArchivalAccessNotes" parent="Uif-InputField" p:propertyName="perpectualAccessNotes" p:label="Perpectual/Archival Access Notes" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UseSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Use" />
+        <property name="items">
+            <list>
+                <bean id="agreement_use_section" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean id="Agreement-AuthorizedUsers" parent="Uif-InputField" p:propertyName="authorizedUsers" p:label="Authorized Users" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalCheckboxesControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OleAgreementAuthUserKeyValues" />
+                                </property>
+                            </bean>
+                            <bean id="Agreement-AuthorizedUsersGeneralNotes" parent="Uif-InputField" p:propertyName="authorizedUsersGenNotes" p:label="Authorized Users General Notes">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-DepositInIR" parent="Uif-InputField" p:propertyName="depositInIR" p:label="Deposit In IR"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+
+                            <bean id="Agreement-FairUse" parent="Uif-InputField" p:propertyName="fairUse" p:label="Fair Use"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-RightsNotGranted" parent="Uif-InputField" p:propertyName="rightsGranted" p:label="Rights Not Expressly Granted Denied" p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLPrint" parent="Uif-InputField" p:propertyName="illPrint" p:label="ILL (print)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLElectronic" parent="Uif-InputField" p:propertyName="illElectronic" p:label="ILL (electronic)" p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLLoansomeDocPermitted" parent="Uif-InputField" p:propertyName="illLoansame" p:label="ILL (Loansome Doc Permitted)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLNonProfit" parent="Uif-InputField" p:propertyName="illNonProfit" p:label="ILL (Non-profit only)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLSameContryRestrictions" parent="Uif-InputField" p:propertyName="illSameCuntRest" p:label="ILL (same contry restrictions)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ILLNotes" parent="Uif-InputField" p:propertyName="illNotes" p:label="ILL Notes">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-LibraryReserves" parent="Uif-InputField" p:propertyName="libResCMSys" p:label="Library Reserves/Course Managment System (electronic)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-LibraryReservesPrint" parent="Uif-InputField" p:propertyName="libRes" p:label="Library Reserves(Print)"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-LibraryReservesCMSNote" parent="Uif-InputField" p:propertyName="cmNotes" p:label="library Reserves/CMS Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ScholarlySharing" parent="Uif-InputField" p:propertyName="scholShar" p:label="Scholarly Sharing"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-TextMining" parent="Uif-InputField" p:propertyName="textMining" p:label="Text Mining"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-PerformanceRights" parent="Uif-InputField" p:propertyName="perfomanceRights" p:label="Performance Rights"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-StreamingRights" parent="Uif-InputField" p:propertyName="streamingRights" p:label="Streaming Rights"  p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-MultimediaRightsNote" parent="Uif-InputField" p:propertyName="multimediaRightsNote" p:label="Multimedia Rights Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-NotesOnAPCAgreement" parent="Uif-InputField" p:propertyName="notesOnAPCAgreement" p:label="Notes On APC Agreement" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="250"/>
+                                </property>
+                            </bean>
+                            <bean id="Agreement-ApcOffsetAgreement" parent="Uif-InputField" p:propertyName="apcOffsetAgreement" p:label="APC Offset Agreement" p:defaultValue="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

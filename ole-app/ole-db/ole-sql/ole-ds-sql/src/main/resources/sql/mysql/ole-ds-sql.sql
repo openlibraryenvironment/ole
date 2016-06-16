@@ -10,6 +10,7 @@ CREATE TABLE OLE_DS_ACCESS_LOCATION_CODE_T
       ACCESS_LOCATION_CODE_ID INTEGER
         , CODE VARCHAR(100)
         , NAME VARCHAR(500)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ACCESS_LOCATION_CODEP1 PRIMARY KEY(ACCESS_LOCATION_CODE_ID)
 
@@ -33,6 +34,7 @@ CREATE TABLE OLE_DS_AUTHENTICATION_TYPE_T
       AUTHENTICATION_TYPE_ID INTEGER
         , CODE VARCHAR(100)
         , NAME VARCHAR(500)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_AUTHENTICATION_TYPE_P1 PRIMARY KEY(AUTHENTICATION_TYPE_ID)
 
@@ -56,6 +58,7 @@ CREATE TABLE OLE_DS_BIB_HOLDINGS_T
       BIB_HOLDINGS_ID INTEGER
         , HOLDINGS_ID INTEGER NOT NULL
         , BIB_ID INTEGER NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_BIB_HOLDINGS_TP1 PRIMARY KEY(BIB_HOLDINGS_ID)
 
@@ -64,11 +67,11 @@ CREATE TABLE OLE_DS_BIB_HOLDINGS_T
 
 
     
-                                                                                                                
+                                                                                                                                    
                                     
 , INDEX OLE_DS_BIB_HOLDINGS_TI1 (BIB_ID )
     
-                                                                                                                
+                                                                                                                                    
                                     
 , INDEX OLE_DS_BIB_HOLDINGS_TI2 (HOLDINGS_ID )
 
@@ -123,6 +126,7 @@ CREATE TABLE OLE_DS_BIB_INFO_T
         , AUTHOR VARCHAR(4000)
         , PUBLISHER VARCHAR(4000)
         , ISXN VARCHAR(100)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_BIB_INFO_TP1 PRIMARY KEY(BIB_ID_STR)
 
@@ -131,7 +135,7 @@ CREATE TABLE OLE_DS_BIB_INFO_T
 
 
     
-                                                                                                                                                                            
+                                                                                                                                                                                                
                                     
 , INDEX OLE_DS_BIB_INFO_TI1 (BIB_ID )
 
@@ -155,6 +159,7 @@ CREATE TABLE OLE_DS_HOLDINGS_COVERAGE_T
         , COVERAGE_END_DATE VARCHAR(100)
         , COVERAGE_END_VOLUME VARCHAR(100)
         , COVERAGE_END_ISSUE VARCHAR(100)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HOLDINGS_COVERAGE_TP1 PRIMARY KEY(HOLDINGS_COVERAGE_ID)
 
@@ -179,6 +184,7 @@ CREATE TABLE OLE_DS_EXT_OWNERSHIP_NOTE_T
         , TYPE VARCHAR(20)
         , NOTE VARCHAR(4000)
         , EXT_OWNERSHIP_ID INTEGER NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_EXT_OWNERSHIP_NOTE_TP1 PRIMARY KEY(EXT_OWNERSHIP_NOTE_ID)
 
@@ -204,6 +210,7 @@ CREATE TABLE OLE_DS_EXT_OWNERSHIP_T
         , EXT_OWNERSHIP_TYPE_ID INTEGER
         , ORD INTEGER
         , TEXT VARCHAR(4000)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_EXT_OWNERSHIP_TP1 PRIMARY KEY(EXT_OWNERSHIP_ID)
 
@@ -212,7 +219,7 @@ CREATE TABLE OLE_DS_EXT_OWNERSHIP_T
 
 
     
-                                                                                                                                                        
+                                                                                                                                                                            
                                     
 , INDEX OLE_DS_EXT_OWNERSHIP_TI1 (HOLDINGS_ID )
 
@@ -232,6 +239,7 @@ CREATE TABLE OLE_DS_ITM_FORMER_IDENTIFIER_T
         , ITEM_ID INTEGER
         , TYPE VARCHAR(100)
         , VALUE VARCHAR(500)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ITM_FORMER_IDENTIFIEP1 PRIMARY KEY(ITEM_FORMER_IDENTIFIER_ID)
 
@@ -257,6 +265,7 @@ CREATE TABLE OLE_DS_HIGH_DENSITY_STORAGE_T
         , HIGH_DENSITY_MODULE VARCHAR(30)
         , HIGH_DENSITY_SHELF VARCHAR(30)
         , HIGH_DENSITY_TRAY VARCHAR(30)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HIGH_DENSITY_STORAGEP1 PRIMARY KEY(HIGH_DENSITY_STORAGE_ID)
 
@@ -280,6 +289,7 @@ CREATE TABLE OLE_DS_ACCESS_LOCATION_T
       ACCESS_LOCATION_ID INTEGER
         , HOLDINGS_ID INTEGER
         , ACCESS_LOCATION_CODE_ID INTEGER
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ACCESS_LOCATION_TP1 PRIMARY KEY(ACCESS_LOCATION_ID)
 
@@ -304,6 +314,7 @@ CREATE TABLE OLE_DS_HOLDINGS_URI_T
         , HOLDINGS_ID INTEGER NOT NULL
         , URI VARCHAR(400)
         , TEXT VARCHAR(400)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HOLDINGS_URI_TP1 PRIMARY KEY(HOLDINGS_URI_ID)
 
@@ -329,6 +340,7 @@ CREATE TABLE OLE_DS_HOLDINGS_DONOR_T
         , DONOR_CODE VARCHAR(40)
         , DONOR_DISPLAY_NOTE VARCHAR(4000)
         , DONOR_NOTE VARCHAR(4000)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HOLDINGS_DONOR_TP1 PRIMARY KEY(HOLDINGS_DONOR_ID)
 
@@ -353,6 +365,7 @@ CREATE TABLE OLE_DS_HOLDINGS_NOTE_T
         , HOLDINGS_ID INTEGER NOT NULL
         , TYPE VARCHAR(100)
         , NOTE VARCHAR(4000)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HOLDINGS_NOTE_TP1 PRIMARY KEY(HOLDINGS_NOTE_ID)
 
@@ -376,6 +389,7 @@ CREATE TABLE OLE_DS_HOLDINGS_STAT_SEARCH_T
       HOLDINGS_STAT_SEARCH_ID INTEGER
         , HOLDINGS_ID INTEGER
         , STAT_SEARCH_CODE_ID INTEGER
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_HOLDINGS_STAT_SEARCHP1 PRIMARY KEY(HOLDINGS_STAT_SEARCH_ID)
 
@@ -399,6 +413,7 @@ CREATE TABLE OLE_DS_ITEM_HOLDINGS_T
       ITEM_HOLDINGS_ID INTEGER
         , HOLDINGS_ID INTEGER NOT NULL
         , ITEM_ID INTEGER NOT NULL
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ITEM_HOLDINGS_TP1 PRIMARY KEY(ITEM_HOLDINGS_ID)
 
@@ -408,11 +423,11 @@ CREATE TABLE OLE_DS_ITEM_HOLDINGS_T
 
 
     
-                                                                                                                
+                                                                                                                                    
                                     
 , INDEX OLE_DS_ITEM_HOLDINGS_TI1 (HOLDINGS_ID )
     
-                                                                                                                
+                                                                                                                                    
                                     
 , INDEX OLE_DS_ITEM_HOLDINGS_TI2 (ITEM_ID )
 
@@ -466,7 +481,7 @@ CREATE TABLE OLE_DS_HOLDINGS_T
         , ADMIN_PASSWORD VARCHAR(100)
         , ACCESS_USERNAME VARCHAR(100)
         , ACCESS_PASSWORD VARCHAR(100)
-        , MATERIALS_SPECIFIED VARCHAR(100)
+        , MATERIALS_SPECIFIED VARCHAR(200)
         , FIRST_INDICATOR VARCHAR(20)
         , SECOND_INDICATOR VARCHAR(20)
         , CREATED_BY VARCHAR(40)
@@ -501,6 +516,7 @@ CREATE TABLE OLE_DS_ITEM_DONOR_T
         , DONOR_CODE VARCHAR(10)
         , DONOR_DISPLAY_NOTE VARCHAR(4000)
         , DONOR_NOTE VARCHAR(4000)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ITEM_DONOR_TP1 PRIMARY KEY(ITEM_DONOR_ID)
 
@@ -525,6 +541,7 @@ CREATE TABLE OLE_DS_ITEM_NOTE_T
         , ITEM_ID INTEGER
         , TYPE VARCHAR(50)
         , NOTE VARCHAR(4000)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ITEM_NOTE_TP1 PRIMARY KEY(ITEM_NOTE_ID)
 
@@ -548,6 +565,7 @@ CREATE TABLE OLE_DS_ITEM_STAT_SEARCH_T
       ITEM_STAT_SEARCH_ID INTEGER
         , ITEM_ID INTEGER
         , STAT_SEARCH_CODE_ID INTEGER
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_ITEM_STAT_SEARCH_TP1 PRIMARY KEY(ITEM_STAT_SEARCH_ID)
 
@@ -626,11 +644,11 @@ CREATE TABLE OLE_DS_ITEM_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DS_ITEM_TI1 (BARCODE )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_DS_ITEM_TI2 (HOLDINGS_ID )
 
@@ -651,6 +669,7 @@ CREATE TABLE OLE_DS_LOC_CHECKIN_COUNT_T
         , LOCATION_NAME VARCHAR(200)
         , LOCATION_COUNT INTEGER(20)
         , LOCATION_IN_HOUSE_COUNT INTEGER(20)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_LOC_CHECKIN_COUNT_TP1 PRIMARY KEY(CHECK_IN_LOCATION_ID)
 
@@ -679,6 +698,7 @@ CREATE TABLE OLE_DS_PERPETUAL_ACCESS_T
         , PERPETUAL_ACCESS_END_DATE VARCHAR(100)
         , PERPETUAL_ACCESS_END_VOLUME VARCHAR(100)
         , PERPETUAL_ACCESS_END_ISSUE VARCHAR(100)
+        , DATE_UPDATED DATETIME
     
     , CONSTRAINT OLE_DS_PERPETUAL_ACCESS_TP1 PRIMARY KEY(HOLDINGS_PERPETUAL_ACCESS_ID)
 

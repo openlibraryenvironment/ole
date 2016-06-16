@@ -246,7 +246,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private void handleNoticeTablePopulation(ItemRecord itemRecord) {
-        List<OLEDeliverNotice> deliverNotices = processNotices(currentLoanDocument, itemRecord);
+        List<OLEDeliverNotice> deliverNotices = processNotices(currentLoanDocument, itemRecord, null);
 
         //OJB mapping will take care of persisting notice records once the loan document is saved.
         currentLoanDocument.setDeliverNotices(deliverNotices);

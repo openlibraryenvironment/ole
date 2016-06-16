@@ -1,0 +1,202 @@
+<div class="panel-group" ng-model="dataTransformationsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="dataTransformationsPanel.collapsed = !dataTransformationsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !dataTransformationsPanel.collapsed, 'glyphicon-chevron-down': dataTransformationsPanel.collapsed}"></span>
+                    Marc Data Transformations
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationSourceDataField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationSourceDataField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Source Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationSourceSubField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationSourceSubField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Source Subfield is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationOperation_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Operation is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationDestDataField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationDestDataField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationDestSubField_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationDestSubField_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Subfield is required</p>
+                <p style="color:red" ng-show="batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$dirty && batchProfileForm['dataTransformationConstant_'+dataTransformIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Destination Value is required</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th>Doc Type</th>
+                        <th>Data/Control Field</th>
+                        <th>Ind1</th>
+                        <th>Ind2</th>
+                        <th>Subfield</th>
+                        <th>Operation <a href="#" data-toggle="tooltip" uib-tooltip="1. Delete - This deletes a tag completely 2. Move - This removes a tag value (source) and adds a new tag value (destination) 3. New - Add a new source tag 4. Prepend with Prefix -
+                         This takes the value of the source tag and prepends it to the destination tag enclosed within () 5. Replace - This replaces the destination tag value with the source tag value"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Dest Data/Control Field</th>
+                        <th>Dest Ind1</th>
+                        <th>Dest Ind2</th>
+                        <th>Dest Subfield</th>
+                        <th>Value <a href="#" data-toggle="tooltip" style="align-content: left" uib-tooltip="Add or remove specific values; Example: Remove ocm,ocn from 001 tag."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th>Step <a href="#" data-toggle="tooltip" uib-tooltip="Steps define the order in which the transormations are executed."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="dataTransformation in dataTransformationsPanel">
+                        <td>
+                            <select class="form-control" name="dataTransformationDocumentType_{{$index}}"
+                                    id="dataTransformationDocumentType_{{$index}}"
+                                    ng-model="dataTransformation.dataTransformationDocType"
+                                    ng-hide="dataTransformation.isAddLine"
+                                    ng-change="setDefaultsDataTransformation(dataTransformation)">
+                                <option ng-selected="{{option.name == dataTransformation.dataTransformationDocType}}"
+                                        ng-repeat="option in dataTransformation.dataTransformationDocTypes"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationDocType"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationSourceDataField_{{$index}}" name="dataTransformationSourceDataField_{{$index}}"
+                                   type="text"
+                                   ng-model="dataTransformation.dataField"
+                                   ng-hide="dataTransformation.isAddLine"
+                                   style="height: 30px; width: 100px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.dataField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationSourceInd1_{{$index}}" name="dataTransformationSourceInd1_{{$index}}" type="text"
+                                   ng-model="dataTransformation.ind1"
+                                   ng-hide="dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.ind1"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationSourceInd2_{{$index}}" name="dataTransformationSourceInd2_{{$index}}" type="text"
+                                   ng-model="dataTransformation.ind2"
+                                   ng-hide="dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.ind2"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationSourceSubField_{{$index}}" name="dataTransformationSourceSubField_{{$index}}" type="text"
+                                   ng-model="dataTransformation.subField"
+                                   ng-hide="dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.subField"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" id="dataTransformationOperation_{{$index}}"
+                                    name="dataTransformationOperation_{{$index}}"
+                                    ng-model="dataTransformation.dataTransformationOperation"
+                                    ng-show="!dataTransformation.isAddLine"
+                                    ng-change="clearDataTransformationValidations()">
+                                <option ng-selected="{{option.name == dataTransformation.dataTransformationOperation}}"
+                                        ng-repeat="option in dataTransformation.dataTransformationOperations  | orderBy:'name'"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationOperation"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationDestDataField_{{$index}}" name="dataTransformationDestDataField_{{$index}}" type="text"
+                                   ng-model="dataTransformation.destDataField"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 100px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.destDataField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationDestInd1_{{$index}}" name="dataTransformationDestInd1_{{$index}}" type="text"
+                                   ng-model="dataTransformation.destInd1"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.destInd1"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationDestInd2_{{$index}}" name="dataTransformationDestInd2_{{$index}}" type="text"
+                                   ng-model="dataTransformation.destInd2"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.destInd2"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationDestSubField_{{$index}}" name="dataTransformationDestSubField_{{$index}}" type="text"
+                                   ng-model="dataTransformation.destSubField"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine" ng-bind="dataTransformation.destSubField"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationConstant_{{$index}}"
+                                   name="dataTransformationConstant_{{$index}}" type="text"
+                                   ng-model="dataTransformation.dataTransformationConstant"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 150px;"/>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationConstant"></span>
+                        </td>
+                        <td>
+                            <input class="form-control" id="dataTransformationStep_{{$index}}"
+                                   name="dataTransformationStep_{{$index}}" type="text"
+                                   ng-model="dataTransformation.dataTransformationStep"
+                                   ng-show="!dataTransformation.isAddLine"
+                                   style="height: 30px; width: 50px;"/>
+                            <span ng-show="dataTransformation.isAddLine"
+                                  ng-bind="dataTransformation.dataTransformationStep"></span>
+                        </td>
+                        <td ng-hide="submitted">
+                            <button id="dataTransformationAddButton_{{$index}}"
+                                    name="dataTransformationAddButton_{{$index}}"
+                                    ng-click="dataTransformationAdd(dataTransformation)"
+                                    ng-hide="dataTransformation.isAddLine || dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="dataTransformationCopyButton_{{$index}}" name="dataTransformationCopyButton_{{$index}}"
+                                    ng-click="dataTransformationCopyRow($index)"
+                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
+                            </button>
+                            <button id="dataTransformationEditButton_{{$index}}" name="dataTransformationEditButton_{{$index}}"
+                                    ng-click="dataTransformationEditRow($index)" ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="dataTransformationUpdateButton_{{$index}}" name="dataTransformationUpdateButton_{{$index}}"
+                                    ng-click="dataTransformationUpdateRow($index)" ng-show="dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="dataTransformationUpdateCancelButton_{{$index}}" name="dataTransformationUpdateCancelButton_{{$index}}"
+                                    ng-click="dataTransformationCancelUpdate($index)" ng-show="dataTransformation.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button id="dataTransformationRemoveButton_{{$index}}"
+                                    name="dataTransformationRemoveButton_{{$index}}"
+                                    ng-click="dataTransformationRemove(dataTransformation)"
+                                    ng-show="dataTransformation.isAddLine && !dataTransformation.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -627,6 +627,8 @@ public class OLEConstants {
         public static final String GOKB_IMPORT = "GOKB Import";
         public static final String SERIAL_RECORD_IMPORT = "Serial Record Import";
         public static final String LOCATION_IMPORT = "Location Import";
+        public static final String FUND_RECORD_IMPORT = "Fund Record Import";
+        public static final String FUND_RECORD_SUCCESS = "Fund Record File uploaded successfully.";
         public static final String BATCH_PROCESS_PROFILE_ID = "batchProcessProfileId";
         public static final String CHECKIN = "checkIn";
         public static final String INSTANCE_INGEST = "instanceIngest";
@@ -652,6 +654,7 @@ public class OLEConstants {
         public static final String DESTINATION_FIELD_DONOR_CODE = "Donor Code";
         public static final String SOURCE_FIELD_DATE_CREATED = "Date Created";
         public static final String LCC = "LCC";
+        public static final String LOCAL_IDENTIFIER = "Local Identifier";
         public static final String DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE = "Call Number Type";
         public static final String DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX = "Call Number Prefix";
         public static final String DESTINATION_FIELD_HOLDING_LOCATION = "Location";
@@ -679,7 +682,7 @@ public class OLEConstants {
         public static final String DESTINATION_FIELD_STATISTICAL_CODE = "Statistical Code";
         public static final String DESTINATION_FIELD_ACCESS_STATUS_CODE = "Access Status";
         public static final String DESTINATION_FIELD_MATIRIAL_SPECIFIED = "Materials Specified";
-        public static final String DESTINATION_FIELD_FIRST_INDICATOR = "Firist Indicator";
+        public static final String DESTINATION_FIELD_FIRST_INDICATOR = "First Indicator";
         public static final String DESTINATION_FIELD_SECOND_INICATOR = "Second Indicator";
         public static final String DESTINATION_FIELD_PLATFORM = "Platform";
         public static final String DESTINATION_FIELD_ERESOURCE_NAME = "EResource Name";
@@ -763,6 +766,15 @@ public class OLEConstants {
         public static final String SERIAL_TYPE_NAME = "SERIAL_TYPE_CSV_NAME";
         public static final String SERIAL_HISTORY_NAME = "SERIAL_HISTORY_CSV_NAME";
         public static final String SERIAL_RECORD_DATE_FORMAT = "SERIAL_RECORD_DATE_FORMAT";
+        public static final String FUND_RECORD_NAME = "FUND_RECORD_CSV_NAME";
+        public static final String FUND_ACCOUNTING_LINE_RECORD_NAME = "FUND_ACCOUNTING_LINE_RECORD_CSV_NAME";
+        public static final String FUND_RECORD_UPLOAD_CSV = "error.fund.record.upload.csv";
+        public static final String FUND_ACCOUNT_RECORD_UPLOAD_CSV = "error.fund.account.upload.csv";
+        public static final String FUND_RECORD_TYPE_CSV = "error.fund.record.csv";
+        public static final String FUND_ACCOUNT_RECORD_TYPE_CSV = "error.fund.account.record.csv";
+        public static final String FUND_RECORD_NAME_MISMATCH = "error.fund.record.name.mismatch";
+        public static final String FUND_ACCOUNT_RECORD_NAME_MISMATCH = "error.fund.account.name.mismatch";
+        public static final String FUND_CODE_IMPORT_DIR_PATH = "batch.fund.import.directory";
 
         public static final String BATCH_DELETE_DIR_PATH = "batch.delete.directory";
         public static final String BATCH_BIB_IMPORT_DIR_PATH = "batch.bibImport.directory";
@@ -835,6 +847,7 @@ public class OLEConstants {
         public static final String PERCENT = "percent";
         public static final String DEFAULT_LOCATION = "defaultLocation";
         public static final String LIST_PRICE = "listPrice";
+        public static final String SINGLE_COPY_NUMBER = "singleCopyNumber";
         public static final String VENDOR_NUMBER = "vendorNumber";
         public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
         public static final String QUANTITY = "quantity";
@@ -1046,6 +1059,8 @@ public class OLEConstants {
         public static final String E_HOLDINGS_PUBLISHER = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $j";
         public static final String E_HOLDINGS_IMPRINT = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $k";
 
+        public static final String REQUISITION_SOURCE = "requisitionSource";
+        public static final String ITEM_PRICE_SOURCE = "itemPriceSource";
     }
 
     public static final class OlePatron {
@@ -1152,6 +1167,8 @@ public class OLEConstants {
         public static final String OLE_PTRN_BILL_MAIN_DOC_SER = "olePatronBillMaintenanceDocumentService";
         public static final String NOT_ELIGIBLE_FOR_CREDIT = "error.not.eligible.for.credit";
         public static final String POSITIVE_VAL_NOT_ALLOWED = "error.positive.value.not.allowed";
+        public static final String PATRON_BILL_OLE_KR_KRAD = "/ole-kr-krad/";
+        public static final String PATRON_BILL_URL = "/portal.do?channelTitle=PatronBill&amp;channelUrl=";
         //patronMerge
         public static final String PATRON_MERGE_SURVIVOR_SELECT = "error.select.survivor";
         public static final String PATRON_MERGE_DUPLICATE_PATRON_SELECT = "error.select.dyingPatron";
@@ -1295,6 +1312,7 @@ public class OLEConstants {
     public static final String CIR_LOC_NULL = "Please select your circulation location.";
     public static final String OVERDUE_FINE = "Overdue Fine";
     public static final String REPLACEMENT_FEE = "Replacement Fee";
+    public static final String LOST_ITEM_PROCESSING_FEE = "Lost Item Processing Fee";
     public static final String SERVICE_FEE = "Service Fee";
     public static final String ADMIN_USER = "admin";
     public static final String CLAIMS_RETURNED_MESSAGE = "Claims Returned item has been found.";
@@ -1775,6 +1793,7 @@ public class OLEConstants {
     public static final String FEE_TYPE_CODE = "feeTypeCode";
     public static final String FEE_TYPE_CODE_OVERDUE = "OVR_DUE";
     public static final String FEE_TYPE_CODE_REPL_FEE = "REPL_FEE";
+    public static final String LOST_ITEM_PRCS_FEE = "LOST_ITEM_PRCS_FEE";
     public static final String LOANED_ITEM_COUNT = "loanedItemCount";
     public static final String FEE_TYPE_PATRON_ID = "patronBillPayment.patronId";
     public static final String ITEM_LOCATION = "itemLocation";
@@ -1958,6 +1977,7 @@ public class OLEConstants {
     public static final String FORGIVEN = "PAY_FORGIVEN";
     public static final String FORGIVE = getParameter("PAYMENT_MODE_FORGIVE");
     public static final String CANCELLED = "PAY_CANCELLED";
+    public static final String SUSPENDED = "PAY_SUSPENDED";
     public static final String CANCEL = "Cancel";
     public static final String CANCEL_MESSAGE = "This Bill has been Cancelled ";
     public static final String CANCEL_MESSAGE_AMT = "This bill has been Cancelled with an amount ";
@@ -2034,6 +2054,7 @@ public class OLEConstants {
         public static final String ITEM_IN_LOAN = "error.deliver.request.item.loan";
         public static final String REQUEST_ID_INVALID = "error.deliver.request.item.invalidrequest";
         public static final String ITEM_ID = "itemId";
+        public static final String LOAN_TRANS_ID = "loanTransactionId";
         public static final String FLAG = "flag";
         public static final String ITEM_UUID = "itemUUID";
         public static final String REQUEST_ID = "requestId";
@@ -2106,6 +2127,12 @@ public class OLEConstants {
         public static final String EXP_HOLD_NOTICE_CONTENT = "EXP_HOLD_NOTICE_CONTENT";
         public static final String COURTESY_NOTICE_CONTENT = "COURTESY_NOTICE_CONTENT";
         public static final String OVERDUE_NOTICE_CONTENT = "OVERDUE_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOTICE_CONTENT = "CLAIMS_RETURNED_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT = "CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT = "CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT";
+        public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT = "CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT";
         public static final String PAYMENT_STATUS_NAME = "paymentStatusName";
         public static final String MISSING = "Missing";
         public static final String ONHOLD = "OnHold";
@@ -2116,6 +2143,7 @@ public class OLEConstants {
         public static final String BORROWER_CODE = "borrowerCode";
         public static final String BORROWER_BARCODE = "borrowerBarcode";
         public static final String INVALID_PATRON_BARCODE = "error.deliver.request.invalidPatronBarcode";
+        public static final String REQUEST_OUTCOME_STATUS = "requestOutComeStatus";
     }
 
     public static final class OlePatronBill {
@@ -2160,6 +2188,12 @@ public class OLEConstants {
     public static final String COURTESY_NOTICE = "Courtesy Notice";
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
+    public static final String CLAIMS_RETURNED_NOTICE = "Claims Returned Notice";
+    public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE = "Claims Returned Found No Fees Notice";
+    public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE = "Claims Returned Found Fines Owed Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE = "Claims Returned Not Found Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE = "Claims Returned Not Found No Fees Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE = "Claims Returned Not Found Fines Owed Notice";
     public static final String RETURN_MISSING_PIECE_NOTICE = "Return With Missing Piece Notice";
     public static final String LOST_NOTICE = "Lost Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
@@ -2878,6 +2912,8 @@ public class OLEConstants {
     public static final String EXTENTOFOWNERSHIP_NOTE_VALUE_DISPLAY = "ExtentOfOwnership_Note_Value_display";
     public static final String EXTENTOFOWNERSHIP_NOTE_TYPE_DISPLAY = "ExtentOfOwnership_Note_Type_display";
     public static final String EXTENTOFOWNERSHIP_Type_display = "ExtentOfOwnership_Type_display";
+    public static final String EXTENTOFOWNERSHIP_ALREADY_EXISTS = "error.extentOfOwnership.already.exists";
+
     public static final String URI_SEARCH = "Uri_search";
     public static final String URI_DISPLAY = "Uri_display";
 
@@ -3042,7 +3078,37 @@ public class OLEConstants {
         public static final String ACTIVE = "ACTIVE";
 
     }
-
+    public static final class EDIBatchProfile {
+        public static final String DEFAULT_EDI_FORMAT="Default_EDI_Format";
+        public static final String LINE_ITEM = "Line Item";
+        public static final String PURAP_DOCUMENT_IDENTIFIER = "Purap Document Identifier";
+        public static final String UNIQUE_REF_NUMBER = "Unique Ref Number";
+        public static final String DATE_TIME_FORMAT_YYMMDDHHMM = "yyMMdd:HHmm";
+        public static final String INTERCHANGE_DETAILS = "Interchange Details";
+        public static final String DEFAULT_SEGMENT = "Default Segment";
+        public static final String ORDER_DATE = "Order Date";
+        public static final String VENDOR_USERNAME = "Vendor Username";
+        public static final String VENDOR_SAN = "Vendor SAN";
+        public static final String CURRENCY_CODE = "Currency Code";
+        public static final String PURCHASE_LINE_ITEM = "Purchase Line Item";
+        public static final String ITEM_PRICE = "Item Price";
+        public static final String ITEM_PUBLISHER = "Item Publisher";
+        public static final String ITEM_PUBLISHER_DATE = "Item Publisher Date";
+        public static final String ITEM_QUANTITY = "Item Quantity";
+        public static final String REFERENCE_QUALIFIER_1 ="Reference Qualifier 1";
+        public static final String REFERENCE_QUALIFIER_2 = "Reference Qualifier 2";
+        public static final String ITEM_LOCATION = "Item Location";
+        public static final String DELIVERY_ADDRESS = "Delivery Address";
+        public static final String OTHER_ADDRESS = "Other Address";
+        public static final String SECTION_IDENTIFICATION = "Section Identification";
+        public static final String CONTROL_QUALIFIER_1 = "Control Qualifier 1";
+        public static final String CONTROL_QUALIFIER_2 = "Control Qualifier 2";
+        public static final String NUMBER_OF_SEGMENTS = "Number of Segments";
+        public static final String INTERCHANGE_CONTROL_COUNT = "Interchange Control count";
+        public static final String NUM_0001 = "0001";
+        public static final String SYMBOL_ASTERISK = "*";
+        public static final String DOC_LOOKUP_SERVICE = "docLookupService";
+    }
     public static final class OleSerialReceivingTypeLoader {
         public static final String SER_RCPT_HIS_REC_ID = "SER_RCPT_HIS_REC_ID";
         public static final String SER_RCV_REC_ID = "SER_RCV_REC_ID";
@@ -3601,6 +3667,8 @@ public class OLEConstants {
     public static final String OVERDUE_NOTICE_TO_DATE = "OVERDUE_NOTICE_TO_DATE";
     public static final String OLE_LOAN_DAO = "oleLoanDao";
     public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
+    public static final String LOAN_HISTORY_DAO = "loanHistoryDAO";
+    public static final String REQUEST_NOTICE_DAO="requestNoticeDAO";
     public static final String POBA_DIRECTORY = "poba";
     public static final String SUCCESSFULLEY_UPLOADED = "success.file.upload";
 
@@ -3779,6 +3847,10 @@ public class OLEConstants {
     public static final String NUMBER_OF_WORKING_HOURS = "numberOfWorkingHours";
     public static final String MAIN_REC_REC_TYP = "Main";
     public static final String MESSAGE_UNSAVED_CHANGES = "message.unsaved.changes";
+
+
+    public static final String MAX_NO_OF_THREAD_FOR_ORDER_IMPORT = "MAX_NO_OF_THREAD_FOR_ORDER_IMPORT";
+    public static final String CHUNK_SIZE_FOR_ORDER_IMPORT = "CHUNK_SIZE_FOR_ORDER_IMPORT";
     public static final String NOT_ELIGIBLE_FOR_DEBIT = "error.not.eligible.transfer";
     public static final String REQUIRED_TRANSFER_AMT = "transfer.amt.required";
     public static final String REFUND_NOT_APPLICABLE = "error.refund.not.applicable";
@@ -3799,11 +3871,37 @@ public class OLEConstants {
     public static final String PAY_PAR_REFUNDED ="PAY_PAR_REFUNDED";
     public static final String PAY_REFUNDED_APPLIED ="Refund Applied";
     public static final String PAY_FULLY_PAID_CRDT ="PAY_FULLY_PAID_CRDT";
-    public static final String PAY_PAR_PAID_CRDT ="PAY_FULLY_PAID_CRDT";
+    public static final String PAY_PAR_PAID_CRDT ="PAY_PAR_PAID_CRDT";
     public static final String PAY_REFUNDED_ISSUED ="Refund Issued";
     public static final String PAY_APPL_CRDT = "Applied Credit";
     public static final String RECALL_DELIVERY_REQUEST="Recall/Delivery Request";
     public static final String RECALL_HOLD_REQUEST="Recall/Hold Request";
     public static final String OVER_PAYMENT="refund.over.payment";
     public static final String ENTRR_REFUND_AMT="enter.refund.amount";
+    public static final String NOTIFY_CLAIMS_RETURNED_TO_PATRON="NOTIFY_CLAIMS_RETURNED_TO_PATRON";
+    public static final String CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT="CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT";
+    public static final String ERROR_SELECT_ANY_ITEM="error.select.any.item";
+    public static final String RECORD_UPDATED_SUCCESSFULLY="record.updated.successfully";
+    public static final String CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED="CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED";
+    public static final String ERROR_CIRC_DESK_REQUIRED = "error.circulation.desk.required";
+    public static final String FORGIVE_LOST_FEES = "FORGIVE_LOST_FEES";
+    public static final String ERROR_FROM_DATE = "error.from.date";
+    public static final String ERROR_TO_DATE = "error.to.date";
+    public static final String REPLACMENT_FEE="REPL_FEE";
+    public static final String ITEM_BARCODE_OR_UUID_REQUIRED= "item.barcode.or.uuid.required";
+    public static final String NO_RESULTS_FOUND = "no.result.found";
+    public static final String PAYMENT_SUSPENDED = "PAY_SUSPENDED";
+    public static final String PAY_NOT_ALLOWED = "error.pay.not.allowed";
+    public static final String FORGIVE_PAY_NOT_ALLOWED = "error.forgive.pay.not.allowed";
+    public static final String BILL_NOTE = "note";
+    public static final String CLAIM_BILL_NOTE = "The fee was created as the end of a claim";
+    public static final String CLAIMS_RETURN_FOUND_IN_LIB = "Claims Returned: [0]  found in library and checked in [1] at [2]";
+    public static final String CLAIMS_RETURN_NOT_FOUND_IN_LIB = "Claims Returned: [0]  returned by patron and checked in [1] at [2]";
+    public static final String BILL_SUSPENDED_NOTE = "The bill has been unsuspended as the result of the end of the claims process";
+    public static final String ITEM_MISSING_IN_PATRON = "Claims Returned: [0] not found, waived and marked missing [1] at [2] ";
+    public static final String ITEM_NOT_FOUND_IN_PATRON = "Claims Returned: [0] not found,  billed for replacement  [1] at [2] ";
+
+    public static final String AGREEMENT_AUTH_USERS="AGREEMENT_AUTH_USERS";
+    public static final String AGREEMENT_RECORD="agreementRecord";
+
 }

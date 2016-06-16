@@ -85,4 +85,11 @@
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"
           p:resourceLoaderPath="classpath:/org/kuali/ole/batch/emails/"
           p:preferFileSystemAccess="false"/>
+
+    <bean id="oleFundCodePreparedStatementCachingDao" parent="abstractFundCodePreparedStatementCachingDaoJdbc" class="org.kuali.ole.batch.dataaccess.impl.OleFundCodePreparedStatementCachingDaoJdbc" />
+
+    <bean id="abstractFundCodePreparedStatementCachingDaoJdbc" abstract="true"
+          class="org.kuali.ole.sys.batch.dataaccess.impl.AbstractFundCodePreparedStatementCachingDaoJdbc">
+    </bean>
+
 </beans>

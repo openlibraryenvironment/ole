@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEClaimedReturnedItemsView" parent="OLEClaimedReturnedItemsView-parentBean" />
+    <bean id="OLEClaimedReturnedItemsView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Claimed Returned Items"/>
+        <property name="items">
+            <list>
+                <bean id="OLEClaimedReturnedItemsViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="ClaimedReturnedSearchPanel"/>
+                            <ref bean="ClaimedReturnedItemButtons"/>
+                            <ref bean="ClaimedReturnedItemResultSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEClaimedReturnedItemsForm"/>
+        <property name="dialogs">
+            <list>
+                <bean id="ClaimsReturnPopupDialog" parent="ClaimsReturnOperatorPopupDialog"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimedReturnedSearchPanel" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="circulationDeskId" p:label="Circulation Desk" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimedReturnedItemResultSection" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEClaimedReturnedItemResult"/>
+        <property name="propertyName" value="claimedReturnedItemResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Select" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"
+                              p:onClickScript="jq('input:checkbox').click(function () {
+                                    jq('input:checkbox').not(this).removeAttr('checked');
+                              });"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="itemId" p:label="Item Id"/>
+                <bean parent="Uif-DataField" p:propertyName="itemBarcode" p:label="Item Barcode"/>
+                <bean parent="Uif-DataField" p:propertyName="patronBarcode" p:label="Patron ID"/>
+                <bean parent="Uif-DataField" p:propertyName="callNumber" p:label="Call Number"/>
+                <bean parent="Uif-DataField" p:propertyName="title" p:label="Title"/>
+                <bean parent="Uif-DataField" p:propertyName="copyNumber" p:label="Copy Number"/>
+                <bean parent="Uif-DataField" p:propertyName="enumeration" p:label="Enumeration"/>
+                <bean parent="Uif-DataField" p:propertyName="chronology" p:label="Chronology"/>
+                <bean parent="Uif-DataField" p:propertyName="location" p:label="Location"/>
+                <bean parent="Uif-DataField" p:propertyName="dateOfClaim" p:label="Date Of Claim"/>
+                <bean parent="Uif-DataField" p:propertyName="claimReturnNote" p:label="Claim Return Note"/>
+                <bean parent="Uif-DataField" p:propertyName="oleLoanDocument.noOfClaimsReturnedNoticesSent" p:label="Number Of Claim Notices Sent"/>
+                <bean parent="Uif-DataField" p:propertyName="oleLoanDocument.claimsSearchCount" p:label="Claim Search Count"/>
+                <bean parent="Uif-DataField" p:propertyName="oleLoanDocument.lastClaimsReturnedSearchedDate" p:label="Last Claims Returned Searched Date"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimedReturnedItemButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:style="margin-left:45%;"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:methodToCall="searchedNotFound" p:actionLabel="Searched Not Found"
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

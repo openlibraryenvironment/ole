@@ -108,4 +108,9 @@ public class CheckInAPIController extends CheckinBaseController {
     public String getOperatorId(OLEForm oleForm) {
         return (String) oleForm.getDroolsExchange().getContext().get("operatorId");
     }
+
+    @Override
+    public boolean isItemFoundInLibrary(OLEForm oleForm) {
+        return false;
+    }
 }

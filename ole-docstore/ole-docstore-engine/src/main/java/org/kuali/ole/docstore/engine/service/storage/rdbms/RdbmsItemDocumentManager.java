@@ -194,6 +194,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 JSONObject request = new JSONObject();
                 request.put("oldBarcode", oldBarcode);
                 request.put("newBarcode", newBarcode);
+                request.put("itemId",oldItemRecord.getItemId());
                 oleHttpRestClient.sendPostRequest(url,request.toString(),"json");
             }
         } catch (ClassNotFoundException e) {
@@ -270,7 +271,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
     }
 
 
-    protected Item buildItemContent(ItemRecord itemRecord) {
+    public Item buildItemContent(ItemRecord itemRecord) {
 
         org.kuali.ole.docstore.common.document.content.instance.Item item = new org.kuali.ole.docstore.common.document.content.instance.Item();
         item.setItemIdentifier(DocumentUniqueIDPrefix.getPrefixedId(itemRecord.getUniqueIdPrefix(), itemRecord.getItemId()));
@@ -857,7 +858,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             }
         }
         if (item.getTemporaryItemType() != null) {
-            ItemTypeRecord tempItemTypeRecord = saveItemTypeRecord(item.getTemporaryItemType());
+            ItemTypeRecord tempItemTypeRecord = saveTemporaryItemTypeRecord(item.getTemporaryItemType());
             itemRecord.setTempItemTypeId(tempItemTypeRecord == null ? null : tempItemTypeRecord.getItemTypeId());
             itemRecord.setItemTempTypeRecord(tempItemTypeRecord);
         }
@@ -1019,10 +1020,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setMissingPieceFlag(item.isMissingPieceFlag());
         getBusinessObjectService().save(itemRecord);
 
-        if (item.getStatisticalSearchingCode() != null) {
+        if (CollectionUtils.isNotEmpty(item.getStatisticalSearchingCode())) {
             ItemStatisticalSearchRecord itemStatisticalSearchRecord = saveItemStatisticalSearchCode(item.getStatisticalSearchingCode() , itemRecord.getItemId());
             List<ItemStatisticalSearchRecord> statisticalSearchRecords = new ArrayList<>();
-            statisticalSearchRecords.add(itemStatisticalSearchRecord);
+            if (null != statisticalSearchRecords) {
+                statisticalSearchRecords.add(itemStatisticalSearchRecord);
+            }
             itemRecord.setItemStatisticalSearchRecords((statisticalSearchRecords));
         }
         if (item.getFormerIdentifier() != null && item.getFormerIdentifier().size() > 0 && item.getFormerIdentifier().get(0).getIdentifier() != null) {
@@ -1497,6 +1500,31 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             String itemTypeCode = getParameter(APPL_ID_OLE, DESC_NMSPC, DESCRIBE_COMPONENT, DEFAULT_ITEM_TYPE_CODE);
             map.put("code", itemTypeCode);
         }
+        List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
+        if (itemTypeRecords.size() == 0) {
+            if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {
+                ItemTypeRecord itemTypeRecord = new ItemTypeRecord();
+                itemTypeRecord.setCode(itemType.getCodeValue());
+                itemTypeRecord.setName(itemType.getFullValue());
+                try {
+                    getBusinessObjectService().save(itemTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Item Type :: " +itemType.getCodeValue());
+                }
+                return itemTypeRecord;
+            } else {
+                return null;
+            }
+        }
+        return itemTypeRecords.get(0);
+
+    }
+
+
+    protected ItemTypeRecord saveTemporaryItemTypeRecord(ItemType itemType) {
+        Map map = new HashMap();
+        map.put("code", itemType.getCodeValue());
+
         List<ItemTypeRecord> itemTypeRecords = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
         if (itemTypeRecords.size() == 0) {
             if (itemType.getCodeValue() != null && !"".equals(itemType.getCodeValue())) {

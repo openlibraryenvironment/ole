@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -23,6 +24,7 @@ public class EInstancePerpetualAccessRecord extends PersistableBusinessObjectBas
     private String perpetualAccessEndVolume;
     private String perpetualAccessEndIssue;
     private HoldingsRecord holdingsRecord;
+    private Timestamp updatedDate;
 
     public String getEInstancePerpetualAccessId() {
         return eInstancePerpetualAccessId;
@@ -94,5 +96,13 @@ public class EInstancePerpetualAccessRecord extends PersistableBusinessObjectBas
 
     public void setHoldingsRecord(HoldingsRecord holdingsRecord) {
         this.holdingsRecord = holdingsRecord;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

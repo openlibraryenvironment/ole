@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms.pojo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,7 @@ public class HighDensityStorageRecord extends PersistableBusinessObjectBase
     private String module;
     private String shelf;
     private String tray;
+    private Timestamp updatedDate;
 
     public String getHighDensityStorageId() {
         return highDensityStorageId;
@@ -58,5 +60,13 @@ public class HighDensityStorageRecord extends PersistableBusinessObjectBase
 
     public void setTray(String tray) {
         this.tray = tray;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

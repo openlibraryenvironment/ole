@@ -117,7 +117,9 @@ public abstract class CheckinItemServiceImpl implements CheckinItemService{
                 String checkinErrorMessage = droolsResponse.getErrorMessage().getErrorMessage();
                 String responseMessage = null;
                 if (droolsResponse.retriveErrorCode() != null) {
-                    if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
+                    if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST)) {
+                        responseMessage = getLostItemResponseMessage();
+                    } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
                         responseMessage = "Item is Claims Returned";
                     } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
                         responseMessage = "Item has missing pieces";
@@ -206,4 +208,6 @@ public abstract class CheckinItemServiceImpl implements CheckinItemService{
     public abstract String prepareResponse();
 
     public abstract String getOperatorId(String operatorId);
+
+    public abstract String getLostItemResponseMessage();
 }

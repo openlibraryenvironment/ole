@@ -15,6 +15,7 @@ import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.ncip.service.impl.NonSip2RenewItemService;
 import org.kuali.ole.ncip.service.impl.RenewItemsService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -44,70 +45,79 @@ public class RenewController extends CircUtilController {
 
                 oleLoanDocument.setPastDueDate(oleLoanDocument.getLoanDueDate());
                 ItemRecord itemRecord = getItemRecordByBarcode(oleLoanDocument.getItemId());
-                OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
+                if (itemRecord !=null && !itemRecord.getClaimsReturnedFlag()){
+                    OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
+                    NoticeInfo noticeInfo = new NoticeInfo();
+                    facts.add(oleLoanDocument);
+                    facts.add(olePatronDocument);
+                    facts.add(oleItemRecordForCirc);
+                    facts.add(droolsResponse);
+                    facts.add(noticeInfo);
+                    fireRules(facts, null, "renewal validation");
 
-                NoticeInfo noticeInfo = new NoticeInfo();
-                facts.add(oleLoanDocument);
-                facts.add(olePatronDocument);
-                facts.add(oleItemRecordForCirc);
-                facts.add(droolsResponse);
-                facts.add(noticeInfo);
-                fireRules(facts, null, "renewal validation");
+                    Boolean fineCalcWhileRenew = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                            .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_CALC_WHILE_RENEW);
+                    if (fineCalcWhileRenew){
+                        ItemFineRate itemFineRate = fireFineRules(oleLoanDocument, oleItemRecordForCirc, olePatronDocument);
+                        oleLoanDocument.setItemFineRate(itemFineRate);
+                    }
 
-                Boolean fineCalcWhileRenew = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
-                        .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_CALC_WHILE_RENEW);
-                if (fineCalcWhileRenew){
-                    ItemFineRate itemFineRate = fireFineRules(oleLoanDocument, oleItemRecordForCirc, olePatronDocument);
-                    oleLoanDocument.setItemFineRate(itemFineRate);
-                }
+                    if (droolsResponse.isRuleMatched()) {
+                        if (StringUtils.isBlank(droolsResponse.retrieveErrorMessage())) {
+                            boolean pastAndRenewDueDateSame = false;
+                            try {
+                                pastAndRenewDueDateSame = oleLoanDocument.isPastAndRenewDueDateSame();
+                                if (!pastAndRenewDueDateSame) {
+                                    Integer numRenewals = getRenewItemControllerUtil().incrementRenewalCount(oleLoanDocument);
+                                    oleLoanDocument.setNumberOfRenewals(numRenewals.toString());
+                                List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord(), null);
+                                    oleLoanDocument.setDeliverNotices(oleDeliverNotices);
+                                    if (null != oleLoanDocument.getLoanId()) {
+                                        Item itemForUpdate = getItemForUpdate(oleLoanDocument);
+                                        if (null != itemForUpdate) {
+                                            itemList.add(itemForUpdate);
+                                            droolsResponse.setSucessMessage("Successfully Renewed");
+                                            droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                                            finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
 
-                if (droolsResponse.isRuleMatched()) {
-                    if (StringUtils.isBlank(droolsResponse.retrieveErrorMessage())) {
-                        boolean pastAndRenewDueDateSame = false;
-                        try {
-                            pastAndRenewDueDateSame = oleLoanDocument.isPastAndRenewDueDateSame();
-                            if (!pastAndRenewDueDateSame) {
-                                Integer numRenewals = getRenewItemControllerUtil().incrementRenewalCount(oleLoanDocument);
-                                oleLoanDocument.setNumberOfRenewals(numRenewals.toString());
-                                List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, oleItemRecordForCirc.getItemRecord());
-                                oleLoanDocument.setDeliverNotices(oleDeliverNotices);
-                                if (null != oleLoanDocument.getLoanId()) {
-                                    Item itemForUpdate = getItemForUpdate(oleLoanDocument);
-                                    if (null != itemForUpdate) {
-                                        itemList.add(itemForUpdate);                                        
-                                        droolsResponse.setSucessMessage("Successfully Renewed");
-                                        droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                                        finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
-
-                                        generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                            generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                            if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
+                                                oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
+                                                processLostItem(GlobalVariables.getUserSession().getPrincipalId(), oleLoanDocument, true);
+                                            }
+                                        }
                                     }
+                                } else {
+                                    droolsResponse.addErrorMessageCode("PastAndNewDueDateSame");
+                                    droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                                    finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
                                 }
-                            } else {
-                                droolsResponse.addErrorMessageCode("PastAndNewDueDateSame");
-                                droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                                finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
+                            } catch (Exception e) {
+                                if (e.getMessage().equalsIgnoreCase("No Fixed Due Date found for the renewal policy")) {
+                                    oleLoanDocument.setLoanDueDate(new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                    droolsResponse.addErrorMessageCode("InvalidFixedDueDateMapping");
+                                    droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                                    finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
+                                } else {
+                                    oleLoanDocument.setLoanDueDate(new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                    droolsResponse.addErrorMessageCode("InternalException");
+                                    droolsResponse.addErrorMessage(e.getMessage());
+                                    droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                                    finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
+                                }
                             }
-                        } catch (Exception e) {
-                            if (e.getMessage().equalsIgnoreCase("No Fixed Due Date found for the renewal policy")) {
-                                oleLoanDocument.setLoanDueDate(new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
-                                droolsResponse.addErrorMessageCode("InvalidFixedDueDateMapping");
-                                droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                                finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
-                            } else {
-                                oleLoanDocument.setLoanDueDate(new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
-                                droolsResponse.addErrorMessageCode("InternalException");
-                                droolsResponse.addErrorMessage(e.getMessage());
-                                droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
-                                finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
-                            }
+                        } else {
+                            droolsResponse.addErrorMessageCode("ErrorMessageFromRule");
+                            droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                            finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
                         }
                     } else {
-                        droolsResponse.addErrorMessageCode("ErrorMessageFromRule");
+                        droolsResponse.addErrorMessageCode("No renewal policy found");
                         droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
                         finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
                     }
                 } else {
-                    droolsResponse.addErrorMessageCode("No renewal policy found");
+                    droolsResponse.addErrorMessageCode("claimsReturned");
                     droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
                     finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
                 }
@@ -199,6 +209,11 @@ public class RenewController extends CircUtilController {
                     OleLoanDocument individualLoanDocument = (OleLoanDocument) individualResponseMap.get(key);
                     String content = "Item (" + individualLoanDocument.getItemId() + ") wasn't renewed. Items on indefinite loan do not need to be renewed.";
                     appendContentToStrinBuilder(messageContentForRenew, content);
+                } else if (individualDroolResponse.retriveErrorCode().equalsIgnoreCase("claimsReturned")) {
+                    Map<String, Object> individualResponseMap = individualDroolResponse.getDroolsExchange().getContext();
+                    OleLoanDocument individualLoanDocument = (OleLoanDocument) individualResponseMap.get(key);
+                    String content = "Item (" + individualLoanDocument.getItemId() + ") wasn't renewed because the item is claims returned.";
+                    appendContentToStrinBuilder(messageContentForRenew, content);
                 } else if (individualDroolResponse.retriveErrorCode().equalsIgnoreCase("InvalidFixedDueDateMapping")) {
                     Map<String, Object> individualResponseMap = individualDroolResponse.getDroolsExchange().getContext();
                     OleLoanDocument individualLoanDocument = (OleLoanDocument) individualResponseMap.get(key);
@@ -251,6 +266,10 @@ public class RenewController extends CircUtilController {
                     appendContentToStrinBuilder(stringBuilder, content);
 
                     generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                    if (StringUtils.isNotBlank(oleLoanDocument.getItemStatus()) && oleLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
+                        oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
+                        processLostItem(GlobalVariables.getUserSession().getPrincipalId(), oleLoanDocument, true);
+                    }
                 } else {
                     OleLoanDocument oleLoanDocument = (OleLoanDocument) individualDroolResponse.getDroolsExchange().getContext().get(key);
                     String content = "Renewed failed for item (" + oleLoanDocument.getItemId() + ")";

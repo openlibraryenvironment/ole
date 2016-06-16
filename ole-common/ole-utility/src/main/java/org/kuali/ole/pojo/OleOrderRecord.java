@@ -27,6 +27,8 @@ public class OleOrderRecord {
     private String bibId;
     private BibId bibTree;
     private String linkToOrderOption;
+    private String bibImportProfileName;
+    private Integer recordIndex;
 
     public String getBibId() {
         return bibId;
@@ -168,6 +170,22 @@ public class OleOrderRecord {
         result = 31 * result + originalRecord.hashCode();
         result = 31 * result + messageMap.hashCode();
         return result;
+    }
+
+    public String getBibImportProfileName() {
+        return bibImportProfileName;
+    }
+
+    public void setBibImportProfileName(String bibImportProfileName) {
+        this.bibImportProfileName = bibImportProfileName;
+    }
+
+    public Integer getRecordIndex() {
+        return recordIndex;
+    }
+
+    public void setRecordIndex(Integer recordIndex) {
+        this.recordIndex = recordIndex;
     }
 }
 

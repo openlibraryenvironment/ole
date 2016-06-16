@@ -425,6 +425,7 @@
     <param name="ole.editor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
     <param name="ole.platform.url">${ole.fs.url.base}/portal.do?channelTitle=Platform&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
     <param name="ole.eresource.url">${ole.fs.url.base}/portal.do?channelTitle=eresource&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.license.url">${ole.fs.url.base}/oleportal.do?channelTitle=Agreement Record&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/maintenance?methodToCall=start&amp;dataObjectClassName=org.kuali.ole.select.bo.OleAgreementRecord&amp;returnLocation=${ole.fs.url.base}/portal.do&amp;hideReturnLink=true&amp;showMaintenanceLinks=true</param>
     <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
     <param name="docSearchURL">${ole.docstore.url.base}</param>
     <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
@@ -460,6 +461,7 @@
     <param name="batch.orderRecord.directory">${staging.directory}/batchOrderRecord</param>
     <param name="batch.export.directory">${staging.directory}/export</param>
     <param name="batch.serial.import.directory">${staging.directory}/batchSerialImport</param>
+    <param name="batch.fund.import.directory">${staging.directory}/batchFundCodeImport</param>
 
 
     <!-- Locaion ingest Directory -->
@@ -492,4 +494,15 @@
 
     <param name="ole.reports.url">${ole.reports.url.base}</param>
 
+  <param name="solr.core.name">bib</param>
+  <param name="solr.url">${ole.docstore.url.base}/${solr.core.name}</param>
+
+
+  <param name="report.directory">${project.home}/reports</param>
+  <param name="batchUploadLocation">${project.home}/batch/batchUploadLocation</param>
+  <param name="schedulerUploadLocation">${project.home}/batch/schedulerUploadLocation</param>
+
+    <!-- Config for OCLC -->
+    <param name="oclc.port">10001</param>
+    <param name="oclc.url">${application.url}</param>
 </config>

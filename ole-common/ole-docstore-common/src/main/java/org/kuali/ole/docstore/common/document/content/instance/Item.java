@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import javax.xml.bind.annotation.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -228,6 +229,10 @@ public class Item {
     @XmlAttribute
     @XStreamAsAttribute
     protected String resourceIdentifier;
+    @XmlTransient
+    protected String lastBorrower;
+    @XmlTransient
+    protected Timestamp lastCheckinDate;
 
     public String getLoanDueDate() {
         return loanDueDate;
@@ -235,6 +240,22 @@ public class Item {
 
     public void setLoanDueDate(String loanDueDate) {
         this.loanDueDate = loanDueDate;
+    }
+
+    public String getLastBorrower() {
+        return lastBorrower;
+    }
+
+    public void setLastBorrower(String lastBorrower) {
+        this.lastBorrower = lastBorrower;
+    }
+
+    public Timestamp getLastCheckinDate() {
+        return lastCheckinDate;
+    }
+
+    public void setLastCheckinDate(Timestamp lastCheckinDate) {
+        this.lastCheckinDate = lastCheckinDate;
     }
 
     protected NumberOfCirculations numberOfCirculations;
