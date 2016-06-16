@@ -12,6 +12,7 @@ import org.kuali.ole.batch.helper.InstanceMappingHelper;
 import org.kuali.ole.batch.helper.OLEBatchProcessDataHelper;
 import org.kuali.ole.batch.marc.OLEMarcReader;
 import org.kuali.ole.batch.marc.OLEMarcXmlReader;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.BibTrees;
@@ -22,8 +23,7 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.DataField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.common.util.BatchExportStatistics;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
+import org.marc4j.MarcSplitStreamWriter;
 import org.marc4j.marc.Record;
 
 import java.io.ByteArrayInputStream;
@@ -335,7 +335,7 @@ public class BatchExportFetch {
             }
         }
         BibMarcRecordProcessor recordProcessor = new BibMarcRecordProcessor();
-        MarcWriter writer = new MarcStreamWriter(fileOutputStream, "UTF-8");
+        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,70000,"880");
 
         for (String bibContent : batchProcessExportData.getBibDocList()) {
             InputStream input = new ByteArrayInputStream(bibContent.getBytes());
