@@ -70,7 +70,7 @@ public class ExportDataServiceImpl implements ExportDataService {
         for (SearchResult searchResult : searchResultList) {
             try {
                 for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                    if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                    if (searchResultField != null &&  "bibIdentifier".equalsIgnoreCase(searchResultField.getFieldName())) {
                         String bibId = searchResultField.getFieldValue();
                         if (bibIdList.contains(bibId)) continue;
                         bibIdList.add(bibId);
