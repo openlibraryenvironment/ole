@@ -625,6 +625,39 @@
         <field-descriptor name="operatorId" column="OPERATOR_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.ole.docstore.common.document.content.instance.OleLocationLevel" table="ole_locn_level_t">
+        <field-descriptor name="levelId" column="LEVEL_ID " jdbc-type="VARCHAR" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="ole_locn_level_s"></field-descriptor>
+        <field-descriptor name="levelCode" column="LEVEL_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="levelName" column="LEVEL_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="parentLevelId" column="PARENT_LEVEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleLocationLevel" class-ref="org.kuali.ole.docstore.common.document.content.instance.OleLocationLevel"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="parentLevelId" target-field-ref="levelCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.content.instance.OleLocation" table="ole_locn_t">
+        <field-descriptor name="locationId" column="LOCN_ID " jdbc-type="VARCHAR" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="ole_locn_s"></field-descriptor>
+        <field-descriptor name="locationCode" column="LOCN_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="locationName" column="LOCN_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="parentLocationId" column="PARENT_LOCN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="levelId" column="LEVEL_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleLocation" class-ref="org.kuali.ole.docstore.common.document.content.instance.OleLocation" auto-retrieve="true"
+                              auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="parentLocationId" target-field-ref="locationId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleLocationLevel" class-ref="org.kuali.ole.docstore.common.document.content.instance.OleLocationLevel"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="levelId" target-field-ref="levelId"/>
+        </reference-descriptor>
+    </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.audit.ItemAudit" table="ITEM_AUDIT_T">
         <field-descriptor name="auditId" column="AUDIT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="ITEM_AUDIT_S"/>
