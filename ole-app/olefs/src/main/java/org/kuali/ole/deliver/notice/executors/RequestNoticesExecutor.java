@@ -10,6 +10,9 @@ import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.service.NoticesExecutor;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 
 import java.util.*;
@@ -151,7 +154,15 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         if (StringUtils.isNotBlank(mailContent)) {
             System.out.println(mailContent);
 
-            sendMail(mailContent);
+            if (noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
+                if (getParameterValue(OLEConstants.HOLD_COUR_NOT_TYP).equals(OLEConstants.EMAIL_NOT_TYP)) {
+                    sendMail(mailContent);
+                }
+            } else {
+                sendMail(mailContent);
+            }
+
+
 
             saveOLEDeliverNoticeHistory(filteredDeliverNotices, mailContent);
 
@@ -185,6 +196,13 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         }
         parameterMap.put("itemBarcodes",itemBarcodes);
         return parameterMap;
+    }
+
+    public String getParameterValue(String key) {
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.DLVR_NMSPC,"Deliver" , key);
+        //org.kuali.ole.OLEConstants.DELIVER_COMPONENT
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
     }
 
 
