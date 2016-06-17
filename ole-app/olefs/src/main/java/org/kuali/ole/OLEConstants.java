@@ -2779,6 +2779,7 @@ public class OLEConstants {
     public static final String ASSIGN_REQUESTOR_INQUIRY = "inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.ole.deliver.bo.OLEPatronEntityViewBo&patronId=";
 
     public static final String DESCRIBE_COMPONENT = "Describe";
+    public static final String DELIVER_COMPONENT = "Deliver";
     public static final String DESCRIBE_EFFECTIVE_DATE = " 00:00:00";
 
     public static final String INSTANCE_EDITOR_DELETE_EINSTANCE = "INSTANCE_EDITOR_DELETE_EINSTANCE";
@@ -3885,6 +3886,9 @@ public class OLEConstants {
     public static final String CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED="CR_ITEM_SEARCH_COUNT_BEFORE_ITEM_BILLED";
     public static final String ERROR_CIRC_DESK_REQUIRED = "error.circulation.desk.required";
     public static final String FORGIVE_LOST_FEES = "FORGIVE_LOST_FEES";
+    public static final String ON_HOLD_EXP_NOTICE = "On Hold Expiration Notice";
+    public static final String HOLD_COUR_NOT_TYP = "HOLDCOURTESY_NOTICE_TYPE";
+    public static final String EMAIL_NOT_TYP = "email";
     public static final String ERROR_FROM_DATE = "error.from.date";
     public static final String ERROR_TO_DATE = "error.to.date";
     public static final String REPLACMENT_FEE="REPL_FEE";

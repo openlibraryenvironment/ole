@@ -317,13 +317,13 @@ public class BatchDeleteHandler extends BatchUtil {
     private boolean verifyIfDeletable(String bibId, Map batchDeleteMap) {
         SolrDocumentList holdingsSolrDocumentList = new SolrDocumentList();
         SolrDocumentList itemSolrDocumentList = new SolrDocumentList();
-        if (checkForMultipleHoldings(bibId, holdingsSolrDocumentList, batchDeleteMap)) {
+        if (checkForAcquisitionAndDeliverLinks(bibId, itemSolrDocumentList, batchDeleteMap)) {
+            return false;
+        }else if (checkForMultipleHoldings(bibId, holdingsSolrDocumentList, batchDeleteMap)) {
             return false;
         } else if (checkForBoundWithAndSeries(bibId, holdingsSolrDocumentList, batchDeleteMap)) {
             return false;
         } else if (checkForAnalyticItem(bibId, itemSolrDocumentList, batchDeleteMap)) {
-            return false;
-        } else if (checkForAcquisitionAndDeliverLinks(bibId, itemSolrDocumentList, batchDeleteMap)) {
             return false;
         }
         return true;
@@ -341,7 +341,14 @@ public class BatchDeleteHandler extends BatchUtil {
                         batchDeleteMap.put(OleNGConstants.FAILURE, OleNGConstants.ERR_MULTIPLE_HOLDINGS_FOUND);
                         return true;
                     }
-                } else if (OleNGConstants.E_HOLDINGS.equalsIgnoreCase((String) holdingsSolrDocument.getFieldValue(OleNGConstants.DOCTYPE))) {
+                }
+            }
+        }
+
+        holdingsSolrDocumentList.addAll(getSolrDocsForBibIdByDocType(bibId, DocType.EHOLDINGS.getCode()));
+        if (holdingsSolrDocumentList.size() > 0) {
+            for (SolrDocument holdingsSolrDocument : holdingsSolrDocumentList) {
+                if (OleNGConstants.E_HOLDINGS.equalsIgnoreCase((String) holdingsSolrDocument.getFieldValue(OleNGConstants.DOCTYPE))) {
                     eHoldingsCount++;
                     if (eHoldingsCount > 1) {
                         batchDeleteMap.put(OleNGConstants.FAILURE, OleNGConstants.ERR_MULTIPLE_EHOLDINGS_FOUND);
