@@ -1,11 +1,17 @@
 package org.kuali.ole.docstore.common.document.content.instance;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 
 /**
@@ -38,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
         "name",
         "level",
         "code",
+        "fullName",
         "locationLevel",
 
 })
@@ -51,6 +58,8 @@ public class LocationLevel {
     protected String level;
     //@XmlElement(name = "locationLevel")
     protected LocationLevel locationLevel;
+    @XmlElement(required = true)
+    protected String fullName;
 
     /**
      * Gets the value of the name property.
@@ -70,6 +79,7 @@ public class LocationLevel {
      */
     public void setName(String value) {
         this.name = value;
+        fullName = findOutFullName();
     }
 
     /**
@@ -118,5 +128,23 @@ public class LocationLevel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+
+    /**
+     * 
+     * Finds the full name for the location code
+     *
+     * @return The full name as string
+     */
+    private String findOutFullName(){
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("locationCode", name);
+        List<OleLocation> oleLocation = (List<OleLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class, criteria);
+
+        if (oleLocation.size() > 0){
+            return oleLocation.get(0).getLocationName();
+        }
+        return null;
     }
 }
