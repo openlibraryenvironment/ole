@@ -47,6 +47,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -274,9 +276,18 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
             for (OLEItemDonorRecord oleItemDonorRecord : itemRecord.getDonorList()) {
                 DonorInfo donorInfo = new DonorInfo();
-                donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
-                donorInfo.setDonorPublicDisplay(oleItemDonorRecord.getDonorPublicDisplay());
-                donorInfo.setDonorNote(oleItemDonorRecord.getDonorNote());
+                 donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
+                 if(oleItemDonorRecord.getDonorPublicDisplay() != null || oleItemDonorRecord.getDonorNote() != null) {
+                    donorInfo.setDonorPublicDisplay(oleItemDonorRecord.getDonorPublicDisplay());
+                    donorInfo.setDonorNote(oleItemDonorRecord.getDonorNote());
+                }
+                else {
+                     Map donorMap = new HashMap();
+                     donorMap.put("donorCode", oleItemDonorRecord.getDonorCode());
+                     OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
+                     donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
+                     donorInfo.setDonorNote(oleDonor.getDonorNote());
+                }
                 donorInfoList.add(donorInfo);
             }
         }else {
@@ -938,7 +949,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             saveCheckInLocationRecord(item.getNumberOfCirculations().getCheckInLocation(), itemRecord.getItemId());
         }
         if (item.getDonorInfo() != null && item.getDonorInfo().size() >= 0) {
-            itemRecord.setDonorList(saveItemDonorList(item.getDonorInfo(), itemRecord.getItemId()));
+            itemRecord = saveItemDonorList(item.getDonorInfo(), itemRecord);
         }
         itemRecord.setNumberOfRenew(item.getNumberOfRenew());
         getBusinessObjectService().save(itemRecord);
@@ -1361,31 +1372,37 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
 
     }
 
-    private List<OLEItemDonorRecord> saveItemDonorList(List<DonorInfo> donorslist, String itemId) {
+    private ItemRecord saveItemDonorList(List<DonorInfo> donorslist, ItemRecord itemRecord) {
         Map map = new HashMap();
-        map.put("itemId", itemId);
+        map.put("itemId", itemRecord.getItemId());
         List<OLEItemDonorRecord> itemDonorRecordList = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
+        List<OLEItemDonorRecord> itemDonorRecordListRemoved = (List<OLEItemDonorRecord>) getBusinessObjectService().findMatching(OLEItemDonorRecord.class, map);
         if(itemDonorRecordList!=null && itemDonorRecordList.size() >= 0) {
-            getBusinessObjectService().delete(itemDonorRecordList);
-            itemDonorRecordList.clear();
+            for(OLEItemDonorRecord oleItemDonorRecord : itemDonorRecordList) {
+                itemDonorRecordListRemoved.remove(oleItemDonorRecord);
+            }
+            itemRecord.setDonorList(itemDonorRecordListRemoved);
+            getBusinessObjectService().save(itemRecord);
         }
         if (donorslist.size() > 0) {
+            List<OLEItemDonorRecord> oleItemDonorRecordsList = new ArrayList<>();
             for (int i = 0; i < donorslist.size(); i++) {
-                DonorInfo donorinfo = donorslist.get(i);
+                 DonorInfo donorinfo = donorslist.get(i);
                 if (StringUtils.isNotBlank(donorinfo.getDonorCode()) || StringUtils.isNotBlank(donorinfo.getDonorNote()) || StringUtils.isNotBlank(donorinfo.getDonorPublicDisplay())) {
                     OLEItemDonorRecord oleItemDonorRecord = new OLEItemDonorRecord();
                     oleItemDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleItemDonorRecord.setDonorCode(donorinfo.getDonorCode());
                     oleItemDonorRecord.setDonorNote(donorinfo.getDonorNote());
-                    oleItemDonorRecord.setItemId(itemId);
-                    itemDonorRecordList.add(oleItemDonorRecord);
+                    oleItemDonorRecord.setItemId(itemRecord.getItemId());
+                    oleItemDonorRecordsList.add(oleItemDonorRecord);
                 }
             }
-            if (itemDonorRecordList.size() > 0) {
-                getBusinessObjectService().save(itemDonorRecordList);
+            itemRecord.setDonorList(oleItemDonorRecordsList);
+            if (oleItemDonorRecordsList.size() > 0) {
+                getBusinessObjectService().save(oleItemDonorRecordsList);
             }
         }
-        return itemDonorRecordList;
+        return itemRecord;
     }
 
     protected ItemTypeRecord saveItemTypeRecord(ItemType itemType) {
