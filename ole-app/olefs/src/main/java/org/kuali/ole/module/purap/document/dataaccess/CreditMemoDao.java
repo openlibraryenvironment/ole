@@ -91,4 +91,7 @@ public interface CreditMemoDao {
      * @return
      */
     public List<String> getActiveCreditMemoDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
+
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer purchaseOrderId);
+
 }
