@@ -21,6 +21,7 @@ import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.describe.bo.InstanceEditorFormDataHandler;
 import org.kuali.ole.describe.form.InstanceEditorForm;
+import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.OLEEResourceInstance;
@@ -378,13 +379,20 @@ public class WorkEInstanceOlemlEditor
                 List<DonorInfo> donorInfos = eHoldings.getDonorInfo();
                 if(donorInfos.size() > 0) {
                     for (DonorInfo donorInformation : donorInfos) {
-                        if (null != donorInformation.getDonorNote()) {
-                            String modifiedValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
-                            donorInformation.setDonorNote(modifiedValue);
+                        if(donorInformation.getDonorPublicDisplay() != null || donorInformation.getDonorNote() != null) {
+                            String modifiedDonorNoteValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                            String modifiedDonorDisplayValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                            donorInformation.setDonorNote(modifiedDonorNoteValue);
+                            donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
                         }
-                        if (null != donorInformation.getDonorPublicDisplay()) {
-                            String modifiedValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
-                            donorInformation.setDonorPublicDisplay(modifiedValue);
+                        else {
+                            Map donorMap = new HashMap();
+                            donorMap.put("donorCode", donorInformation.getDonorCode());
+                            OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
+                            String modifiedDonorNoteValue = oleDonor.getDonorNote().replaceAll("\"","&quot;");
+                            String modifiedDonorDisplayValue = oleDonor.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                            donorInformation.setDonorNote(modifiedDonorNoteValue);
+                            donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
                         }
                     }
                     eHoldings.setDonorInfo(donorInfos);
