@@ -352,5 +352,6 @@ public class OleNGConstants {
     public static final String MONTHLY = "Monthly";
 
     public static final String _VERSION_ = "_version_";
+    public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Holdings record is linked with Requisition/PO";
 
 }
