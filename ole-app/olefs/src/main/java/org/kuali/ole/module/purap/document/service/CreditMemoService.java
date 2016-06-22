@@ -171,5 +171,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      */
     public boolean hasActiveCreditMemosForPurchaseOrder(Integer purchaseOrderIdentifier);
 
+    public List<VendorCreditMemoDocument> getCreditMemoDocumentsByPurchaseOrderId(Integer poDocId);
+
 }
 

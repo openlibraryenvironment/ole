@@ -371,7 +371,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      */
     public void generateEntriesCreateCreditMemo(VendorCreditMemoDocument cm) {
         LOG.debug("generateEntriesCreateCreditMemo() started");
-        generateEntriesCreditMemo(cm, CREATE_CREDIT_MEMO);
+        List<SourceAccountingLine> encumbrances = relieveEncumbrance(cm);
+        List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotalsNoUseTax(cm);
+        //   generateEntriesCreditMemo(cm, CREATE_CREDIT_MEMO);
+        generateEntriesCreditMemo(cm, encumbrances, summaryAccounts, CREATE_CREDIT_MEMO);
+
     }
 
     /**
@@ -732,6 +736,78 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
         LOG.debug("generateEntriesCreditMemo() ended");
         return success;
+    }
+
+    protected boolean generateEntriesCreditMemo(VendorCreditMemoDocument cm, List encumbrances, List summaryAccounts, boolean isCancel) {
+
+        LOG.debug("generateEntriesCreditMemo() started");
+        cm.setGeneralLedgerPendingEntries(new ArrayList());
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(cm.getDocumentNumber()));
+
+        if (!cm.isSourceVendor()) {
+            LOG.debug("generateEntriesCreditMemo() create encumbrance entries for CM against a PO or PREQ (not vendor)");
+            PurchaseOrderDocument po = null;
+            if (cm.isSourceDocumentPurchaseOrder()) {
+                LOG.debug("generateEntriesCreditMemo() PO type");
+                po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPurchaseOrderIdentifier());
+            } else if (cm.isSourceDocumentPaymentRequest()) {
+                LOG.debug("generateEntriesCreditMemo() PREQ type");
+                po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPaymentRequestDocument().getPurchaseOrderIdentifier());
+            }
+
+            if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus()))) {
+                if (encumbrances != null) {
+                    cm.setGenerateEncumbranceEntries(true);
+                    cm.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+                    for (Iterator iter = encumbrances.iterator(); iter.hasNext(); ) {
+                        AccountingLine accountingLine = (AccountingLine) iter.next();
+                        if (accountingLine.getAmount().compareTo(ZERO) != 0) {
+                            cm.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
+                            sequenceHelper.increment(); // increment for the next line
+                        }
+                    }
+                }
+            }
+        }
+        if (summaryAccounts != null) {
+            LOG.debug("generateEntriesCreditMemo() now book the actuals");
+            cm.setGenerateEncumbranceEntries(false);
+
+            if (!isCancel) {
+                // on create, use CREDIT code
+                cm.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+            } else {
+                // on cancel, use DEBIT code
+                cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+            }
+
+            for (Iterator iter = summaryAccounts.iterator(); iter.hasNext(); ) {
+                SummaryAccount summaryAccount = (SummaryAccount) iter.next();
+                cm.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
+                sequenceHelper.increment(); // increment for the next line
+            }
+            // generate offset accounts for use tax if it exists (useTaxContainers will be empty if not a use tax document)
+            List<UseTaxContainer> useTaxContainers = purapAccountingService.generateUseTaxAccount(cm);
+            for (UseTaxContainer useTaxContainer : useTaxContainers) {
+                PurApItemUseTax offset = useTaxContainer.getUseTax();
+                List<SourceAccountingLine> accounts = useTaxContainer.getAccounts();
+                for (SourceAccountingLine sourceAccountingLine : accounts) {
+                    cm.generateGeneralLedgerPendingEntries(sourceAccountingLine, sequenceHelper, useTaxContainer.getUseTax());
+                    sequenceHelper.increment(); // increment for the next line
+                }
+
+            }
+
+            // manually save cm account change tables (CAMS needs this)
+            if (!isCancel) {
+                SpringContext.getBean(PurapAccountRevisionService.class).saveCreditMemoAccountRevisions(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
+            } else {
+                SpringContext.getBean(PurapAccountRevisionService.class).cancelCreditMemoAccountRevisions(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
+            }
+        }
+        saveGLEntries(cm.getGeneralLedgerPendingEntries());
+        LOG.debug("generateEntriesCreditMemo() ended");
+        return Boolean.TRUE;
     }
 
     /**
@@ -1370,6 +1446,285 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     poItem.setItemOutstandingEncumberedAmount(newOutstandingEncumberedAmount);
 
                     KualiDecimal newInvoicedTotalAmount = poItem.getItemInvoicedTotalAmount().add(preqItemTotalAmount);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " New Invoiced Total Amount is: " + newInvoicedTotalAmount);
+                    }
+                    poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
+
+                    // Sort accounts
+                    Collections.sort((List) poItem.getSourceAccountingLines());
+
+                    // make the list of accounts for the disencumbrance entry
+                    PurchaseOrderAccount lastAccount = null;
+                    KualiDecimal accountTotal = ZERO;
+                    for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext(); ) {
+                        PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
+                        if (!account.isEmpty()) {
+                            KualiDecimal encumbranceAmount = null;
+                            SourceAccountingLine acctString = account.generateSourceAccountingLine();
+                            if (takeAll) {
+                                // fully paid; remove remaining encumbrance
+                                encumbranceAmount = account.getItemAccountOutstandingEncumbranceAmount();
+                                account.setItemAccountOutstandingEncumbranceAmount(ZERO);
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("relieveEncumbrance() " + logItmNbr + " take all");
+                                }
+                            } else {
+                                // amount = item disencumber * account percent / 100
+                                encumbranceAmount = itemDisEncumber.multiply(new KualiDecimal(account.getAccountLinePercent().toString())).divide(HUNDRED);
+
+                                account.setItemAccountOutstandingEncumbranceAmount(account.getItemAccountOutstandingEncumbranceAmount().subtract(encumbranceAmount));
+
+                                // For rounding check at the end
+                                accountTotal = accountTotal.add(encumbranceAmount);
+
+                                // If we are zeroing out the encumbrance, we don't need to adjust for rounding
+                                if (!takeAll) {
+                                    lastAccount = account;
+                                }
+                            }
+
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " " + acctString + " = " + encumbranceAmount);
+                            }
+                            if (ObjectUtils.isNull(encumbranceAccountMap.get(acctString))) {
+                                encumbranceAccountMap.put(acctString, encumbranceAmount);
+                            } else {
+                                KualiDecimal amt = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                                encumbranceAccountMap.put(acctString, amt.add(encumbranceAmount));
+                            }
+
+                        }
+                    }
+
+                    // account for rounding by adjusting last account as needed
+                    if (lastAccount != null) {
+                        KualiDecimal difference = itemDisEncumber.subtract(accountTotal);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("relieveEncumbrance() difference: " + logItmNbr + " " + difference);
+                        }
+
+                        SourceAccountingLine acctString = lastAccount.generateSourceAccountingLine();
+                        KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                        if (ObjectUtils.isNull(amount)) {
+                            encumbranceAccountMap.put(acctString, difference);
+                        } else {
+                            encumbranceAccountMap.put(acctString, amount.add(difference));
+                        }
+
+                        lastAccount.setItemAccountOutstandingEncumbranceAmount(lastAccount.getItemAccountOutstandingEncumbranceAmount().subtract(difference));
+                    }
+                }
+            }
+        }// endfor
+
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+
+        List<SourceAccountingLine> encumbranceAccounts = new ArrayList();
+        for (Iterator iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext(); ) {
+            SourceAccountingLine acctString = (SourceAccountingLine) iter.next();
+            KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+            if (amount.doubleValue() != 0) {
+                acctString.setAmount(amount);
+                encumbranceAccounts.add(acctString);
+            }
+        }
+        //SpringContext.getBean(BusinessObjectService.class).save(po);
+        return encumbranceAccounts;
+    }
+
+    protected List<SourceAccountingLine> relieveEncumbrance(VendorCreditMemoDocument cm) {
+        LOG.debug("relieveEncumbrance() for Credit Memo Started");
+
+        Map encumbranceAccountMap = new HashMap();
+        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPurchaseOrderIdentifier());
+
+        // Get each item one by one
+        for (Iterator items = cm.getItems().iterator(); items.hasNext(); ) {
+            CreditMemoItem cmItem = (CreditMemoItem) items.next();
+            PurchaseOrderItem poItem = getPoItem(po, cmItem.getItemLineNumber(), cmItem.getItemType());
+
+            boolean takeAll = false; // Set this true if we relieve the entire encumbrance
+            KualiDecimal itemDisEncumber = null; // Amount to disencumber for this item
+
+            String logItmNbr = "Item # " + cmItem.getItemLineNumber();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("relieveEncumbrance() " + logItmNbr);
+            }
+
+            // If there isn't a PO item or the extended price is 0, we don't need encumbrances
+            if (poItem == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " No encumbrances required because po item is null");
+                }
+            } else {
+                final KualiDecimal cmItemTotalAmount = (cmItem.getTotalAmount() == null) ? KualiDecimal.ZERO : cmItem.getTotalAmount();
+                if (ZERO.compareTo(cmItemTotalAmount) == 0) {
+                    /*
+                     * This is a specialized case where Credit Memo item being processed must adjust the PO item's outstanding encumbered
+                     * quantity. This kind of scenario is mostly seen on warranty type items. The following must be true to do this:
+                     * Credit Memo  item Extended Price must be ZERO, Credit Memo item invoice quantity must be not empty and not ZERO, and PO item
+                     * is quantity based PO item unit cost is ZERO
+                     */
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " No GL encumbrances required because extended price is ZERO");
+                    }
+                    if ((poItem.getItemQuantity() != null) && ((BigDecimal.ZERO.compareTo(poItem.getItemUnitPrice())) == 0)) {
+                        // po has order quantity and unit price is ZERO... reduce outstanding encumbered quantity
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate po oustanding encumbrance");
+                        }
+
+                        // Do encumbrance calculations based on quantity
+                        if ((cmItem.getItemQuantity() != null) && ((ZERO.compareTo(cmItem.getItemQuantity())) != 0)) {
+                            KualiDecimal invoiceQuantity = cmItem.getItemQuantity();
+                            KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
+
+                            KualiDecimal encumbranceQuantity;
+                            if (invoiceQuantity.compareTo(outstandingEncumberedQuantity) > 0) {
+                                // We bought more than the quantity on the PO
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                                }
+                                encumbranceQuantity = outstandingEncumberedQuantity;
+                                poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            } else {
+                                encumbranceQuantity = invoiceQuantity;
+                                poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("relieveEncumbrance() " + logItmNbr + " adjusting oustanding encunbrance qty - encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
+                                }
+                            }
+
+                            if (poItem.getItemInvoicedTotalQuantity() == null) {
+                                poItem.setItemInvoicedTotalQuantity(invoiceQuantity);
+                            } else {
+                                poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
+                            }
+                        }
+                    }
+
+
+                } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance GL entries");
+                    }
+
+                    // Do we calculate the encumbrance amount based on quantity or amount?
+                    if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on quantity");
+                        }
+
+                        // Do encumbrance calculations based on quantity
+                        KualiDecimal invoiceQuantity = cmItem.getItemQuantity() == null ? ZERO : cmItem.getItemQuantity();
+                        KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
+
+                        KualiDecimal encumbranceQuantity;
+
+                        if (invoiceQuantity.compareTo(outstandingEncumberedQuantity) > 0) {
+                            // We bought more than the quantity on the PO
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                            }
+                            encumbranceQuantity = outstandingEncumberedQuantity;
+                            poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            takeAll = true;
+                        }
+                        else if (outstandingEncumberedQuantity.isLessEqual(new KualiDecimal(0))) {
+                            // We bought more than the quantity on the PO
+                            //  if (LOG.isDebugEnabled()) {
+                            LOG.info("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                            // }
+                            encumbranceQuantity = poItem.getItemQuantity();
+                            poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            takeAll = true;
+                        }
+
+                        else {
+                            encumbranceQuantity = invoiceQuantity;
+                            poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
+                            if (ZERO.compareTo(poItem.getItemOutstandingEncumberedQuantity()) == 0) {
+                                takeAll = true;
+                            }
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
+                            }
+                        }
+
+                        if (poItem.getItemInvoicedTotalQuantity() == null) {
+                            poItem.setItemInvoicedTotalQuantity(invoiceQuantity);
+                        } else {
+                            poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
+                        }
+
+                        itemDisEncumber = new KualiDecimal(encumbranceQuantity.bigDecimalValue().multiply(poItem.getItemUnitPrice()));
+
+                        //add tax for encumbrance
+                        KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
+                        KualiDecimal encumbranceTaxAmount = encumbranceQuantity.divide(poItem.getItemQuantity()).multiply(itemTaxAmount);
+                        itemDisEncumber = itemDisEncumber.add(encumbranceTaxAmount);
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
+                        }
+
+                        // Do encumbrance calculations based on amount only
+                        if ((poItem.getItemOutstandingEncumberedAmount().bigDecimalValue().signum() == -1) && (cmItemTotalAmount.bigDecimalValue().signum() == -1)) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is negative: " + poItem.getItemOutstandingEncumberedAmount());
+                            }
+                            if (cmItemTotalAmount.compareTo(poItem.getItemOutstandingEncumberedAmount()) >= 0) {
+                                // extended price is equal to or greater than outstanding encumbered
+                                itemDisEncumber = cmItemTotalAmount;
+                            }
+                            else if (poItem.getItemOutstandingEncumberedAmount().isLessEqual(new KualiDecimal(0))) {
+                                // We bought more than the quantity on the PO
+                                //  if (LOG.isDebugEnabled()) {
+                                LOG.info("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                                //  }
+                                itemDisEncumber = poItem.getItemQuantity().multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                                poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                                takeAll = true;
+                            }
+
+                            else {
+                                // extended price is less than outstanding encumbered
+                                takeAll = true;
+                                itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
+                            }
+                        } else {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is positive or ZERO: " + poItem.getItemOutstandingEncumberedAmount());
+                            }
+                            if (poItem.getItemOutstandingEncumberedAmount().compareTo(cmItemTotalAmount) >= 0) {
+                                // outstanding amount is equal to or greater than extended price
+                                itemDisEncumber = cmItemTotalAmount;
+                            } else {
+                                // outstanding amount is less than extended price
+                                takeAll = true;
+                                itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
+                            }
+                        }
+                    }
+
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
+                    }
+
+                    KualiDecimal newOutstandingEncumberedAmount = new KualiDecimal(0);
+                    if (poItem.getItemOutstandingEncumberedAmount().isLessEqual(new KualiDecimal(0))) {
+                        newOutstandingEncumberedAmount = itemDisEncumber;
+                    }
+                    else {
+                        newOutstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount().subtract(itemDisEncumber);
+                    }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " New Outstanding Encumbered amount is : " + newOutstandingEncumberedAmount);
+                    }
+                    poItem.setItemOutstandingEncumberedAmount(newOutstandingEncumberedAmount);
+
+                    KualiDecimal newInvoicedTotalAmount = poItem.getItemInvoicedTotalAmount().add(cmItemTotalAmount);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("relieveEncumbrance() " + logItmNbr + " New Invoiced Total Amount is: " + newInvoicedTotalAmount);
                     }

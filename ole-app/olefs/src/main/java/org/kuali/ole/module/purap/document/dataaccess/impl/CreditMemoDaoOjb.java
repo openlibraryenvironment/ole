@@ -198,4 +198,13 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         returnList = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
         return returnList;
     }
+
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId);
+        returnList = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
+
+        return returnList;
+    }
 }
