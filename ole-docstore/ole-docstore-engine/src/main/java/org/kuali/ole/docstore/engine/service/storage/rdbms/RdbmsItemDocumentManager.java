@@ -40,6 +40,8 @@ import org.kuali.ole.docstore.engine.service.DocstoreDateTimeUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
+import org.kuali.ole.select.bo.OLEDonor;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.ole.utility.OleHttpRestClient;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -337,8 +339,17 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             for (OLEItemDonorRecord oleItemDonorRecord : itemRecord.getDonorList()) {
                 DonorInfo donorInfo = new DonorInfo();
                 donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
-                donorInfo.setDonorPublicDisplay(oleItemDonorRecord.getDonorPublicDisplay());
-                donorInfo.setDonorNote(oleItemDonorRecord.getDonorNote());
+                if(oleItemDonorRecord.getDonorPublicDisplay() != null || oleItemDonorRecord.getDonorNote() != null) {
+                    donorInfo.setDonorPublicDisplay(oleItemDonorRecord.getDonorPublicDisplay());
+                    donorInfo.setDonorNote(oleItemDonorRecord.getDonorNote());
+                }
+                else {
+                    Map donorMap = new HashMap();
+                    donorMap.put("donorCode", oleItemDonorRecord.getDonorCode());
+                    OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
+                    donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
+                    donorInfo.setDonorNote(oleDonor.getDonorNote());
+                }
                 donorInfoList.add(donorInfo);
             }
         }else {
