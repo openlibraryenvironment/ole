@@ -24,6 +24,8 @@ import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.PaymentRequestDocument;
+import org.kuali.ole.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.ole.module.purap.document.service.CreditMemoService;
 import org.kuali.ole.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderSplitDocument;
@@ -383,10 +385,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // The PO must have at least one PREQ against it.
         Integer poDocId = document.getPurapDocumentIdentifier();
         List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
+        List<VendorCreditMemoDocument> cms = SpringContext.getBean(CreditMemoService.class).getCreditMemoDocumentsByPurchaseOrderId(poDocId);
         if (ObjectUtils.isNotNull(pReqs)) {
-            if (pReqs.size() == 0) {
+           /* if (pReqs.size() == 0) {
                 valid = false;
-            } else {
+            }*/
+            if(pReqs.size() > 0) {
                 boolean checkInProcess = true;
                 boolean hasInProcess = false;
 
@@ -410,6 +414,28 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                     }
                 }
                 if (checkInProcess && hasInProcess) {
+                    valid = false;
+                }
+            }
+        }
+        if (valid && ObjectUtils.isNotNull(cms)) {
+            if (cms.size() == 0) {
+                valid = false;
+            }
+            else {
+                boolean checkInProcess = true;
+                boolean hasInProcess = false;
+
+                for (VendorCreditMemoDocument cm : cms) {
+                    // skip exception docs
+                    if (cm.getDocumentHeader().getWorkflowDocument().isException()) {
+                        continue;
+                    }
+                    if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cm)) {
+                        hasInProcess = true;
+                    }
+                }
+                if (hasInProcess) {
                     valid = false;
                 }
             }
