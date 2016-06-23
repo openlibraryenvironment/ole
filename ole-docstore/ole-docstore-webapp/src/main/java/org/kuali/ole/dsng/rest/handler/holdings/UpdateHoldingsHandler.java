@@ -69,6 +69,9 @@ public class UpdateHoldingsHandler extends Handler {
                     HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                     holdingsRecord.setUpdatedDate(updatedDate);
                     holdingsRecord.setUpdatedBy(updatedBy);
+                    if(holdingsRecord.getStaffOnlyFlag()==null){
+                        holdingsRecord.setStaffOnlyFlag(false);
+                    }
                     exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
                     JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
                     if (null != dataMappingByValue) {
