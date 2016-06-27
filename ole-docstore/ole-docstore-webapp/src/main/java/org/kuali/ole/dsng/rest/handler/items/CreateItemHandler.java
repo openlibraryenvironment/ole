@@ -78,6 +78,7 @@ public class CreateItemHandler extends Handler {
         itemRecord.setCreatedBy(createdBy);
         itemRecord.setCreatedDate(createdDate);
         itemRecord.setUpdatedDate(createdDate);
+        itemRecord.setFastAddFlag(false);
         if(itemRecord.getStaffOnlyFlag()==null){
             itemRecord.setStaffOnlyFlag(false);
         }
