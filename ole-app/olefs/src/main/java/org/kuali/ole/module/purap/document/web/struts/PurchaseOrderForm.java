@@ -27,6 +27,8 @@ import org.kuali.ole.module.purap.document.PaymentRequestDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderSplitDocument;
+import org.kuali.ole.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.ole.module.purap.document.service.CreditMemoService;
 import org.kuali.ole.module.purap.document.service.PaymentRequestService;
 import org.kuali.ole.module.purap.document.service.PurapService;
 import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
@@ -383,38 +385,64 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // The PO must have at least one PREQ against it.
         Integer poDocId = document.getPurapDocumentIdentifier();
         List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
-        if (ObjectUtils.isNotNull(pReqs)) {
-            if (pReqs.size() == 0) {
-                valid = false;
-            } else {
-                boolean checkInProcess = true;
-                boolean hasInProcess = false;
+        List<VendorCreditMemoDocument> cms = SpringContext.getBean(CreditMemoService.class).getCreditMemoDocumentsByPurchaseOrderId(poDocId);
+        if(pReqs.size() == 0 && cms.size() == 0) {
+            valid = false;
+        }
+        else {
+            if (ObjectUtils.isNotNull(pReqs)) {
+                /*if (pReqs.size() == 0) {
+                    valid = false;
+                }*/
+                if(pReqs.size() > 0) {
+                    boolean checkInProcess = true;
+                    boolean hasInProcess = false;
 
-                for (PaymentRequestDocument pReq : pReqs) {
-                    // skip exception docs
-                    if (pReq.getDocumentHeader().getWorkflowDocument().isException()) {
-                        continue;
+                    for (PaymentRequestDocument pReq : pReqs) {
+                        // skip exception docs
+                        if (pReq.getDocumentHeader().getWorkflowDocument().isException()) {
+                            continue;
+                        }
+                        // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
+                        // being tied to AwaitingFiscal (in case full entry is moved)
+                        // look for a doc that is currently routing, that will probably be the one that called this close if called from
+                        // preq (with close po box)
+                        if (StringUtils.equalsIgnoreCase(pReq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
+                            // terminate the search since this close doc is probably being called by this doc, a doc should never be In
+                            // Process and enroute in any other case
+                            checkInProcess = false;
+                            break;
+                        }
+                        if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(pReq)) {
+                            hasInProcess = true;
+                        }
                     }
-                    // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
-                    // being tied to AwaitingFiscal (in case full entry is moved)
-                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
-                    // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
-                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
-                        // Process and enroute in any other case
-                        checkInProcess = false;
-                        break;
-                    }
-                    if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(pReq)) {
-                        hasInProcess = true;
+                    if (checkInProcess && hasInProcess) {
+                        valid = false;
                     }
                 }
-                if (checkInProcess && hasInProcess) {
+            }
+            if (valid && ObjectUtils.isNotNull(cms)) {
+                /* if (cms.size() == 0) {
                     valid = false;
+                }*/
+                if (cms.size() > 0) {
+                    boolean hasInProcess = false;
+                    for (VendorCreditMemoDocument cm : cms) {
+                        // skip exception docs
+                        if (cm.getDocumentHeader().getWorkflowDocument().isException()) {
+                            continue;
+                        }
+                        if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cm)) {
+                            hasInProcess = true;
+                        }
+                    }
+                    if (hasInProcess) {
+                        valid = false;
+                    }
                 }
             }
         }
-
         return valid;
     }
 

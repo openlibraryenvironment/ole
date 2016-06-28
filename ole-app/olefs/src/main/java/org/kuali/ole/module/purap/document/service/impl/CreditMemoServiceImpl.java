@@ -415,6 +415,34 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return getCreditMemoByDocumentNumber(creditMemoDao.getDocumentNumberByCreditMemoId(purchasingDocumentIdentifier));
     }
 
+    public List<VendorCreditMemoDocument> getCreditMemoDocumentsByPurchaseOrderId(Integer poDocId) {
+        List<VendorCreditMemoDocument> cmList = new ArrayList<VendorCreditMemoDocument>();
+        List<String> docNumbers  = creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(poDocId);
+        for (String docNumber : docNumbers) {
+            VendorCreditMemoDocument cm = getCreditMemoDocumentByDocumentNumber(docNumber);
+            if (ObjectUtils.isNotNull(cm)) {
+                cmList.add(cm);
+            }
+        }
+        return cmList;
+    }
+
+    public VendorCreditMemoDocument getCreditMemoDocumentByDocumentNumber(String documentNumber) {
+        LOG.debug("getCreditMemoDocumentByDocumentNumber() started");
+
+        if (ObjectUtils.isNotNull(documentNumber)) {
+            try {
+                VendorCreditMemoDocument doc = (VendorCreditMemoDocument) documentService.getByDocumentHeaderId(documentNumber);
+                return doc;
+            } catch (WorkflowException e) {
+                String errorMessage = "Error getting Credit Memo document from document service";
+                LOG.error("getCreditMemoDocumentByDocumentNumber() " + errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
+            }
+        }
+        return null;
+    }
+
     /**
      * @see org.kuali.ole.module.purap.document.service.CreditMemoService#saveDocument(org.kuali.ole.module.purap.document.CreditMemoDocument)
      */
