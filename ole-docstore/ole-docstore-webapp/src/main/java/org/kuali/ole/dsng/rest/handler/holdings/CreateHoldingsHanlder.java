@@ -78,9 +78,11 @@ public class CreateHoldingsHanlder extends Handler {
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         holdingsRecord.setCreatedBy(createdBy);
         holdingsRecord.setCreatedDate(createdDate);
-
+        holdingsRecord.setUpdatedDate(createdDate);
         setHoldingType(holdingsRecord);
-
+        if(holdingsRecord.getStaffOnlyFlag()==null){
+            holdingsRecord.setStaffOnlyFlag(false);
+        }
         holdingsRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML);
     }
 
