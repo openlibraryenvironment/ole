@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.batch.profile.model;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -45,9 +46,16 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     @JsonProperty("matchPointToUse")
     private String matchPointToUse;
 
+    @JsonProperty("exportScope")
+    private String exportScope;
+
     @JsonIgnore
     private byte[] content;
 
+    @JsonIgnore
+    private boolean uploadExportInputFile = false;
+
+    private List<BatchProfileFilterCriteria> batchProfileFilterCriteriaList = new ArrayList<>();
     private List<BatchProfileMatchPoint> batchProfileMatchPointList = new ArrayList<>();
     private List<BatchProfileAddOrOverlay> batchProfileAddOrOverlayList = new ArrayList<>();
     private List<BatchProfileFieldOperation> batchProfileFieldOperationList = new ArrayList<>();
@@ -69,6 +77,14 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setBatchProcessProfileName(String batchProcessProfileName) {
         this.batchProcessProfileName = batchProcessProfileName;
+    }
+
+    public List<BatchProfileFilterCriteria> getBatchProfileFilterCriteriaList() {
+        return batchProfileFilterCriteriaList;
+    }
+
+    public void setBatchProfileFilterCriteriaList(List<BatchProfileFilterCriteria> batchProfileFilterCriteriaList) {
+        this.batchProfileFilterCriteriaList = batchProfileFilterCriteriaList;
     }
 
     public List<BatchProfileMatchPoint> getBatchProfileMatchPointList() {
@@ -189,5 +205,26 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setMatchPointToUse(String matchPointToUse) {
         this.matchPointToUse = matchPointToUse;
+    }
+
+    public String getExportScope() {
+        return exportScope;
+    }
+
+    public void setExportScope(String exportScope) {
+        this.exportScope = exportScope;
+    }
+
+    public boolean isUploadExportInputFile() {
+        if (CollectionUtils.isNotEmpty(getBatchProfileFilterCriteriaList())) {
+            if ("Bib Local Id From File".equalsIgnoreCase(getBatchProfileFilterCriteriaList().get(0).getFieldName())) {
+                uploadExportInputFile = true;
+            }
+        }
+        return uploadExportInputFile;
+    }
+
+    public void setUploadExportInputFile(boolean uploadExportInputFile) {
+        this.uploadExportInputFile = uploadExportInputFile;
     }
 }

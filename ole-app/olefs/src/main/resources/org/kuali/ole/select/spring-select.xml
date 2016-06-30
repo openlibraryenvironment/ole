@@ -777,4 +777,6 @@
 
     <bean id="receivingQueueDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.ReceivingQueueDAOServiceimpl" />
 
+    <bean id="exportDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.oleng.dao.export.ExportDao" />
+
 </beans>

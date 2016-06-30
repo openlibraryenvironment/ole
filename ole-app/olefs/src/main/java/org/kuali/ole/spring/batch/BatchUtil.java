@@ -5,20 +5,23 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.response.BibFailureResponse;
-import org.kuali.ole.docstore.common.response.InvoiceFailureResponse;
-import org.kuali.ole.docstore.common.response.OrderFailureResponse;
+import org.kuali.ole.converter.MarcXMLConverter;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.docstore.common.response.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileMatchPoint;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.dao.impl.DescribeDAOImpl;
 import org.kuali.ole.oleng.util.OleNgUtil;
@@ -30,16 +33,19 @@ import org.marc4j.marc.Record;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by SheikS on 12/8/2015.
  */
-public class BatchUtil extends OleNgUtil{
+public class BatchUtil extends OleNgUtil {
     private OleDsNgRestClient oleDsNgRestClient;
     SolrRequestReponseHandler solrRequestReponseHandler;
     private MarcRecordUtil marcRecordUtil;
     public static Map<String, BatchJobDetails> BATCH_JOB_EXECUTION_DETAILS_MAP = new HashMap<>();
+    private MarcXMLConverter marcXMLConverter;
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -72,6 +78,17 @@ public class BatchUtil extends OleNgUtil{
 
     public void setMarcRecordUtil(MarcRecordUtil marcRecordUtil) {
         this.marcRecordUtil = marcRecordUtil;
+    }
+
+    public MarcXMLConverter getMarcXMLConverter() {
+        if(null == marcXMLConverter) {
+            marcXMLConverter = new MarcXMLConverter();
+        }
+        return marcXMLConverter;
+    }
+
+    public void setMarcXMLConverter(MarcXMLConverter marcXMLConverter) {
+        this.marcXMLConverter = marcXMLConverter;
     }
 
     public Map<String, List<ValueByPriority>> getvalueByPriorityMapForDataMapping(Record marcRecord, List<BatchProfileDataMapping> batchProfileDataMappingList, List<String> mappingTypes) {
@@ -234,7 +251,7 @@ public class BatchUtil extends OleNgUtil{
         String detailedMessage = getDetailedMessage(exception);
         newOrderFailureResponse.setDetailedMessage(detailedMessage);
         orderFailureResponses.add(newOrderFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE,orderFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, orderFailureResponses);
 
     }
 
@@ -255,7 +272,7 @@ public class BatchUtil extends OleNgUtil{
         String detailedMessage = getDetailedMessage(exception);
         newInvoiceFailureResponse.setDetailedMessage(detailedMessage);
         invoiceFailureResponses.add(newInvoiceFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE,invoiceFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, invoiceFailureResponses);
 
     }
 
@@ -300,7 +317,7 @@ public class BatchUtil extends OleNgUtil{
         String detailedMessage = getDetailedMessage(exception);
         newBibFailureResponse.setDetailedMessage(detailedMessage);
         bibFailureResponses.add(newBibFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE,bibFailureResponses);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, bibFailureResponses);
 
     }
 
@@ -318,6 +335,80 @@ public class BatchUtil extends OleNgUtil{
             }
             queryBuilder.append(query);
         }
+    }
+
+    public void updateBatchJob(BatchJobDetails batchJobDetails) {
+        updatePercentCompleted(batchJobDetails);
+        updateTimeSpent(batchJobDetails);
+        if (batchJobDetails.getJobId() != 0 && batchJobDetails.getJobDetailId() != 0) {
+            getBusinessObjectService().save(batchJobDetails);
+        }
+    }
+
+    private void updatePercentCompleted(BatchJobDetails batchJobDetails) {
+        String total = batchJobDetails.getTotalRecords();
+        float totRec = Float.parseFloat(total == null ? "0" : total);
+        if (totRec == 0.0) return;
+        String noProcessed = batchJobDetails.getTotalRecordsProcessed();
+        if (StringUtils.isEmpty(noProcessed)) return;
+        float perCompleted = (Float.valueOf(noProcessed) / Float.valueOf(total)) * 100;
+        batchJobDetails.setPerCompleted(String.format("%.2f", perCompleted) + OleNGConstants.PERCENT);
+    }
+
+    private void updateTimeSpent(BatchJobDetails batchJobDetails) {
+        Timestamp startTime = batchJobDetails.getStartTime();
+        long diff = Calendar.getInstance().getTime().getTime() - startTime.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        StringBuffer sb = new StringBuffer();
+        sb.append(diffHours + ":" + diffMinutes + ":" + diffSeconds);
+        batchJobDetails.setTimeSpent(sb.toString());
+    }
+
+    public BatchProfileMatchPoint getMatchPointFromProfile(BatchProcessProfile batchProcessProfile) {
+        BatchProfileMatchPoint batchProfileMatchPoint = null;
+        if (CollectionUtils.isNotEmpty(batchProcessProfile.getBatchProfileMatchPointList())) {
+            batchProfileMatchPoint = batchProcessProfile.getBatchProfileMatchPointList().get(0);
+        }
+        return batchProfileMatchPoint;
+    }
+
+    public String getMatchPoint(BatchProfileMatchPoint batchProfileMatchPoint) {
+        String matchPoint = null;
+        if (StringUtils.isNotBlank(batchProfileMatchPoint.getDestDataField())) {
+            matchPoint = batchProfileMatchPoint.getDestDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDestDataField()) ? "" : batchProfileMatchPoint.getDestSubField());
+        } else if (StringUtils.isNotBlank(batchProfileMatchPoint.getDataField())) {
+            matchPoint = batchProfileMatchPoint.getDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDataField()) ? "" : batchProfileMatchPoint.getSubField());
+        }
+        return matchPoint;
+    }
+
+    public String getSourceMatchPoint(BatchProfileMatchPoint batchProfileMatchPoint) {
+        String sourceMatchPoint = null;
+        if (StringUtils.isNotBlank(batchProfileMatchPoint.getDataField())) {
+            sourceMatchPoint = batchProfileMatchPoint.getDataField() + (OleNGConstants.TAG_001.equalsIgnoreCase(batchProfileMatchPoint.getDataField()) ? "" : batchProfileMatchPoint.getSubField());
+        }
+        return sourceMatchPoint;
+    }
+
+
+
+
+
+    public void addBatchExportFailureResponseToExchange(Exception exception, String bibId, Exchange exchange) {
+        String message = exception.toString();
+        List<ExportFailureResponse> exportFailureResponses = (List<ExportFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);
+        if(null == exportFailureResponses) {
+            exportFailureResponses = new ArrayList<>();
+        }
+        ExportFailureResponse exportFailureResponse = new ExportFailureResponse();
+        String detailedMessage = getDetailedMessage(exception);
+        exportFailureResponse.setDetailedMessage(detailedMessage);
+        exportFailureResponse.setFailureMessage(message);
+        exportFailureResponse.setFailedBibId(bibId);
+        exportFailureResponses.add(exportFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, exportFailureResponse);
     }
 
     public String writeBatchRunningStatusToFile(String directoryPath, String status, String totalTimeTaken) {
@@ -355,6 +446,8 @@ public class BatchUtil extends OleNgUtil{
         batchJobDetails.setStatus(OleNGConstants.RUNNING);
         batchJobDetails.setFileName(fileName);
         batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+        batchJobDetails.setNumOfRecordsInFile(batchProcessJob.getNumOfRecordsInFile());
+        batchJobDetails.setOutputFileFormat(batchProcessJob.getOutputFileFormat());
         return batchJobDetails;
     }
 
@@ -362,6 +455,29 @@ public class BatchUtil extends OleNgUtil{
         Map map = new HashedMap();
         map.put(OleNGConstants.JOB_ID, jobId);
         return getBusinessObjectService().findByPrimaryKey(BatchProcessJob.class, map);
+    }
+
+    public String getSolrDate(String dateStr, boolean isFrom) throws ParseException {
+        SimpleDateFormat solrDtFormat = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
+        SimpleDateFormat userFormat = new SimpleDateFormat(OleNGConstants.FILTER_DATE_FORMAT);
+        try {
+            if (isFrom) {
+                Date date = userFormat.parse(dateStr);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), 0, 0, 0);
+                return solrDtFormat.format(cal.getTime());
+            } else {
+                Date date = userFormat.parse(dateStr);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), 23, 59, 59);
+                return solrDtFormat.format(cal.getTime());
+            }
+        } catch (ParseException e) {
+            //LOG.error("Error while parsing user entered date::" + dateStr, e);
+            throw e;
+        }
     }
 
     public BatchJobDetails getJobDetailsById(Long jobDetailsId) {
@@ -383,5 +499,16 @@ public class BatchUtil extends OleNgUtil{
         return running;
 
     }
+
+    public int getBatchChunkSize() {
+        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.CHUNK_SIZE_FOR_BATCH_PROCESSING);
+        if(NumberUtils.isDigits(parameterValue)) {
+            return Integer.valueOf(parameterValue);
+        }
+        return 1000;
+    }
+
+
 
 }

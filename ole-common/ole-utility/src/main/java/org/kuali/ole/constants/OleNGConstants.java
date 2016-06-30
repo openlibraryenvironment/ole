@@ -256,6 +256,7 @@ public class OleNGConstants {
     public static final String FAILED = "FAILED";
     public static final String RUNNING = "RUNNING";
     public static final String STOPPED = "STOPPED";
+    public static final String UPLOAD_EXPORT_INPUT_FILE = "exportInputFile";
 
     public static final String BATCH_PROCESS_PROFILE_NAME = "batchProcessProfileName";
     public static final String BATCH_PROCESS_PROFILE_TYPE = "batchProcessType";
@@ -278,6 +279,7 @@ public class OleNGConstants {
     public static final String UPDATE_HOLDINGS = "/updateHolding";
     public static final String CREATE_ITEM = "/createItem";
     public static final String UPDATE_ITEM = "/updateItem";
+    public static final String PROCESS_DELETE_BIBS = "/processDeleteBibs";
     public static final String PROCESS_BIB_HOLDINGS_ITEMS = "/processBibHoldingsItems";
     public static final String RETRIEVE_BIB_BY_ID = "/retrieveBibById";
 
@@ -299,6 +301,10 @@ public class OleNGConstants {
     public static final String ITEMS_UPDATED = "itemRecordsToUpdate";
     public static final String PUBLIC = "public";
     public static final String NON_PUBLIC = "nonPublic";
+    public static final String MATERIALS_SPECIFIED = "materialsSpecified";
+    public static final String FIRST_INDICATOR = "firstIndicator";
+    public static final String SECOND_INDICATOR = "secondIndicator";
+
     public static final String HOLDINGS_MATCH_FOUND = "holdingsMatchFound";
     public static final String EHOLDINGS_MATCH_FOUND = "eholdingsMatchFound";
 
@@ -306,12 +312,63 @@ public class OleNGConstants {
     public final static String UPDATED = "Updated";
     public final static String DISCARDED = "Discarded";
     public final static String RECORD_INDEX = "recordIndex";
+    public final static String FILE = "file";
+    public final static String OUTPUT_FORMAT = "outputFormat";
+    public final static String NO_OF_RECORDS_IN_FILE = "numOfRecordsInFile";
     public final static String MARC = "mrc";
     public final static String EDI = "edi";
     public final static String INV = "inv";
+    public final static String TXT = "txt";
+    public final static String XML = "xml";
     public final static String BIB_IMPORT = "Bib Import";
     public final static String ORDER_RECORD_IMPORT = "Order Record Import";
     public final static String INVOICE_IMPORT = "Invoice Import";
+    public final static String BATCH_DELETE = "Batch Delete";
+    public final static String BATCH_EXPORT = "Batch Export";
+    public final static String IS_BOUNDWITH = "isBoundwith";
+    public final static String IS_ANALYTIC = "isAnalytic";
+    public final static String IS_SERIES = "isSeries";
+    public final static String BIB_ID = "bibId";
+    public final static String BIB_IDENTIFIER = "bibIdentifier";
+    public final static String BIB_ID_STR = "bibIdStr";
+    public final static String HOLDINGS_ID = "holdingsId";
+    public final static String ITEM_ID = "itemId";
+    public final static String PERCENT = "%";
+    public final static String PROFILEID = "ProfileId : ";
+    public final static String COLON = ":";
+    public final static String DOCTYPE = "DocType";
+    public final static String E_HOLDINGS = "eHoldings";
+    public final static String BIB_PREFIX = "wbm";
+    public final static String ITEM_IDENTIFIER = "itemIdentifier";
+    public final static String ITEM_UUID = "itemUuid";
+    public final static String FAILED_BIB_ID = "failedBibId";
+    public final static String DELETED = "Deleted";
+    public final static String FULL_EXPORT = "Full";
+    public final static String FULL_EXCEPT_STAFF_ONLY = "Full except staff-only";
+    public final static String INCREMENTAL = "Incremental";
+    public final static String INCREMENTAL_EXCEPT_STAFF_ONLY = "Incremental except staff-only";
+    public final static String FILTER = "Filter";
+    public final static String SOLR_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public final static String FILTER_DATE_FORMAT = "MM/dd/yyyy";
+    public final static String UTC_TIME_ZONE = "UTC";
+    public final static String LOCAL_ID_DISPLAY = "LocalId_display";
+    public final static String PRINT = "print";
+
+    public final static String ERR_NO_MATCH_POINT = "Match point data is not available in marc record";
+    public final static String ERR_BIB_NOT_FOUND = "Bib record not found";
+    public final static String ERR_MULTIPLE_BIBS_FOUND = "Multiple bib records are found";
+    public final static String ERR_MULTIPLE_HOLDINGS_FOUND = "Bib record contains more than one Holdings record";
+    public final static String ERR_MULTIPLE_EHOLDINGS_FOUND = "Bib record contains more than one Eholdings record";
+    public final static String ERR_BIB_BOUND_WITH = "Bib record is bound with other record";
+    public final static String ERR_BIB_HAS_SERIES_HOLDING = "Bib record contains series holdings which is in Analytic relation";
+    public final static String ERR_BIB_HAS_ANALYTIC_ITEM = "Bib record contains items which is in Analytic relation";
+    public final static String ERR_BIB_HAS_REQ_OR_PO = "Bib record is linked with Requisition/PO";
+    public final static String ERR_BIB_ITEM_LOANED = "Bib record contains loaned item";
+    public final static String ERR_BIB_ITEM_REQUESTED = "Bib record contains requested item";
+    public final static String ERR_DUPLICATE_LINE_DATA = "Duplicate line data in File";
+    public final static String ERR_DUPLICATE_LOCAL_ID = "Duplicate bib local id";
+    public final static String ERR_DELETING_FROM_DB = "Exception while deleting bib record from database";
+    public final static String ERR_DELETING_FROM_SOLR = "Exception while deleting bib record from solr";
 
     public static final String FORWARD_SLASH = "/";
 
@@ -328,6 +385,7 @@ public class OleNGConstants {
     public static final String NO_OF_FAILURE_HOLDINGS = "noOfFailureHoldings";
     public static final String NO_OF_FAILURE_ITEM = "noOfFailureItems";
     public static final String NO_OF_FAILURE_EHOLDINGS = "noOfFailureEHoldings";
+    public static final String BIB_NOT_AVAILABLE = "bibNotAvailable";
 
     public static final String MARC_SPLIT = "\u001E\u001D";
     public static Object BIB_RESPONSE = "BIB_RESPONSE";
@@ -350,6 +408,7 @@ public class OleNGConstants {
     public static final String DAILY = "Daily";
     public static final String WEEKLY = "Weekly";
     public static final String MONTHLY = "Monthly";
+    public static final String INVALID_LEADER="Invalid Leader Field - ";
 
     public static final String _VERSION_ = "_version_";
     public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Holdings record is linked with Requisition/PO";

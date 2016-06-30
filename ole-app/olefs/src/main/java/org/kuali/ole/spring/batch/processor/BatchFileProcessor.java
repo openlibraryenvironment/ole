@@ -116,14 +116,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
         }
     }
 
-    private int getBatchChunkSize() {
-        String parameterValue = ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.CHUNK_SIZE_FOR_BATCH_PROCESSING);
-        if(NumberUtils.isDigits(parameterValue)) {
-            return Integer.valueOf(parameterValue);
-        }
-        return 1000;
-    }
+
 
     private Map<Integer, RecordDetails> getRecordDetailsMap(String rawContent) {
         Map<Integer, RecordDetails> recordDetailsMap = new HashMap<>();

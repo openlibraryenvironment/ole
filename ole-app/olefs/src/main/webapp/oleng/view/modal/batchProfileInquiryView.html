@@ -14,15 +14,17 @@
     </div>
     <div ng-include="'../../batchFramework/views/batchMainSection.html'"></div>
     <div ng-include="'../../batchFramework/views/batchMatchPoints.html'"
-         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'"></div>
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Delete'"></div>
+    <div ng-include="'../../batchFramework/views/batchFilterCriteria.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Batch Export' && mainSectionPanel.exportScope == 'Filter'"></div>
     <div ng-include="'../../batchFramework/views/batchMatchAddOverlay.html'"
          ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
     <div ng-include="'../../batchFramework/views/batchFieldOperations.html'"
          ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
     <div ng-include="'../../batchFramework/views/batchDataMappings.html'"
-         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import'"></div>
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
     <div ng-include="'../../batchFramework/views/batchDataTransformations.html'"
-         ng-show="mainSectionPanel.batchProcessType == 'Bib Import'"></div>
+         ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
 </div>
 </body>
 </html>
