@@ -3317,6 +3317,15 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">First Indicator</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"> Optional. The MARC first
+                                                indicator of the 856 field. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells">Local Persistent Link</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -3348,42 +3357,21 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Username</para>
+                                            <para role="Table Cells">Material Specified</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative user name
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
+                                            <para role="Table Cells">Optional.  The MARC 856 $3
+                                                field</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin Password</para>
+                                            <para role="Table Cells">Second Indicator</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative password
-                                                used to access the platform portal to manage the
-                                                electronic resource.</para>
+                                            <para role="Table Cells">Optional. The MARC second
+                                                indicator of the 856 field.</para>
                                         </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Admin URL</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The administrative URL to
-                                                access the platform portal to manage the electronic
-                                                resource. This is site users would go to enter their
-                                                IP ranges, input their link-resolver URL, manage the
-                                                look and feel of the platform for their users,
-                                                gather usage stats, etc. See <link
-                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
-                                                  URIs in the E-Holdings Editor</link></para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"/>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top"/>
                                     </row>
                                 </tbody>
                             </tgroup>

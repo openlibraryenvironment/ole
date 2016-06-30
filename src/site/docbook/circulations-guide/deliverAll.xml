@@ -3551,7 +3551,7 @@
                         <para>Click <inlinemediaobject>
                                 <alt>Send Notice</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-33.png"/>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-245.png"/>
                                 </imageobject>
                             </inlinemediaobject> to send the notice.</para>
                     </section>
@@ -3809,9 +3809,11 @@
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Check the bill from the <emphasis
-                                    role="bold">Bills</emphasis> tab or the line item from the
-                                    <emphasis role="bold">Bills in Detail</emphasis> tab that the
-                                patron would like to pay.</para>
+                                    role="bold">Open Bills In Detail</emphasis> tab.  This includes
+                                all bills and fees with either outstanding amounts owed or a credit
+                                remaining amount.  In the <emphasis role="bold">Closed Bills in
+                                    Detail</emphasis> tab, you can see any bills already paid or
+                                credits fully resolved.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">From the <emphasis role="bold">Payment and
@@ -3824,40 +3826,97 @@
                                     Amount</emphasis>.</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Accept</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-107.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> to receive a payment.</para>
+                            <para>As needed, enter a <emphasis role="bold">Credit Remaining
+                                    Amount</emphasis>.</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Forgive</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-108.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> to forgive an amount.</para>
-                            <note>
-                                <para>This button could also read "Waive" if your institution has
-                                    implemented the internationalization changes described under
-                                    Patron Bill. For more information about this change, see <link
-                                        linkend="patronBillImplementation">the Patron Bill's
-                                        Implementation Information</link>.</para>
-                            </note>
-                        </listitem>
-                        <listitem>
-                            <para role="List Paragraph">Click <inlinemediaobject>
-                                    <alt>Error</alt>
-                                    <imageobject>
-                                        <imagedata fileref="../images/DeliverNoTitlePage-109.png"/>
-                                    </imageobject>
-                                </inlinemediaobject> when the charge was made in error. </para>
+                            <para>Click one of the button options:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para role="List Paragraph">Click <inlinemediaobject>
+                                            <alt>Accept</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-107.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to receive a payment.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph">Click <inlinemediaobject>
+                                            <alt>Forgive</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-108.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to forgive an amount.</para>
+                                    <note>
+                                        <para>This button could also read "Waive" if your
+                                            institution has implemented the internationalization
+                                            changes described under Patron Bill. For more
+                                            information about this change, see <link
+                                                linkend="patronBillImplementation">the Patron Bill's
+                                                Implementation Information</link>.</para>
+                                    </note>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph">Click <inlinemediaobject>
+                                            <alt>Error</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-109.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> when the charge was made in error.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Click <inlinemediaobject>
+                                            <alt>Credit</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-246.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to apply a full or partial credit to
+                                        the account.  If no payment has been made or the amount has
+                                        already been transferred to an outside system, OLE will not
+                                        allow you to credit the bill.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Click <inlinemediaobject>
+                                            <alt>Transfer Debit</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-247.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to record that an outstanding amount
+                                        has been resolved by being transferred (rather than being
+                                        paid, forgiven or credited).</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Click <inlinemediaobject>
+                                            <alt>Refund</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-248.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to document that a refund has been
+                                        resolved by being applied to an outstanding fee.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Click <inlinemediaobject>
+                                            <alt>Cancel Credit</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-249.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to cancel a credit, partially or fully,
+                                        rather than issue a refund.</para>
+                                </listitem>
+                            </itemizedlist>
                         </listitem>
                     </orderedlist>
-                    <para>When selecting cancel, error, or forgive, you must enter a note in the
-                        pop-up box and click <emphasis role="bold">ok</emphasis>. This note has a
-                        limit of 500 characters.</para>
+                    <para>When selecting these choices, you must enter a note in the pop-up box and
+                        click <emphasis role="bold">ok</emphasis>. This note has a limit of 500
+                        characters.</para>
                     <para role="Normal"/>
                 </section>
                 <section>
@@ -5517,7 +5576,8 @@
                                         <para role="Table Cells">Renew Lost Item</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells"/>
+                                        <para role="Table Cells">Indicates whether this circulation
+                                            desk allows lost items to be renewed.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -5581,6 +5641,14 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Staffed</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"/>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Reply-To Email</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
@@ -5604,7 +5672,11 @@
                                         <para role="Table Cells">Default Pickup Location</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells"/>
+                                        <para role="Table Cells">Optional. Select a default pickup
+                                            location for requests associated with the Circulation
+                                            Desk.  If blank, the default location (set in the
+                                            parameter DEFAULT_PICK_UP_LOCATION) will be used
+                                            instead.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -5612,7 +5684,10 @@
                                         <para role="Table Cells">Default Request Type</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells"/>
+                                        <para role="Table Cells">Optional. Select a default request
+                                            type for requests associated with the Circulation Desk.
+                                            If blank, the default request type (set in the parameter
+                                            DEFAULT_REQUEST_TYPE) will be used instead.</para>
                                     </entry>
                                 </row>
                             </tbody>

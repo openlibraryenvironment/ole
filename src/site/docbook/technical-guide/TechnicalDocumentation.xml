@@ -18,6 +18,17 @@
                                 Accounts (COA)</link></para>
                     </listitem>
                     <listitem>
+                        <para><link xlink:href="../../../pdfs/GlobalEditsTechnicalDocument.pdf"
+                                >Global Edits (Account, Account Delegate, Object Code, Sub Object
+                                Code, Organization Reversion)</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/EncumbranceMatrix.pdf">Encumbrance Matrix</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/eResourceTechnicalDocument.pdf">E-Resource</link></para>
+                    </listitem>
+                    <listitem>
                         <para><link xlink:href="../../../pdfs/FYMakerJobTechDoc.pdf">Fiscal Year
                                 Maker Job</link></para>
                     </listitem>
@@ -26,12 +37,31 @@
                                 Error Correction</link></para>
                     </listitem>
                     <listitem>
+                        <para><link xlink:href="../../../pdfs/InvoiceTechnicalDocument.pdf">Invoice, PREQ, and CM</link></para>
+                    </listitem>
+                    <listitem>
                         <para><link xlink:href="../../../pdfs/LicensingTechnicalDocument.pdf"
                                 >Licensing</link></para>
                     </listitem>
                     <listitem>
                         <para><link xlink:href="../../../pdfs/POBulkAmend.pdf">PO Bulk
                             Amend</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/ReceivingTechnicalDocument.pdf"
+                            >Receiving</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/RequisitionPurchaseOrder.pdf"
+                            >Requisitions / Purchase Orders</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/TransferofFundsTechnicalDocument.pdf"
+                            >Transfer of Funds</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/VendorTechnicalDocument.pdf"
+                            >Vendor</link></para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -96,6 +126,10 @@
                             Circulation Rules</link></para>
                 </listitem>
                 <listitem>
+                    <para><link xlink:href="../../../pdfs/LoanTechnicalDocument.pdf">KRMS for
+                        Circulation Rules</link></para>
+                </listitem>
+                <listitem>
                     <para><link xlink:href="../../../pdfs/EDIinOLETechnicalDocument.pdf">EDI in
                             OLE</link></para>
                 </listitem>
@@ -158,6 +192,10 @@
                 <listitem>
                     <para><link xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
                             >Internationalization</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LoadBalancinginOLE.pdf"
+                        >Load Balancing (LB) in OLE</link></para>
                 </listitem>
             </itemizedlist>
         </listitem>
