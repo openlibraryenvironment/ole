@@ -49,6 +49,9 @@ public class CreateBibHandler extends BibHandler {
                 Timestamp createdDate = getDateTimeStamp(createdDateString);
 
                 bibRecord.setDateCreated(createdDate);
+                bibRecord.setDateEntered(createdDate);
+                bibRecord.setFassAddFlag(false);
+                bibRecord.setStaffOnlyFlag(false);
                 BibRecord createdBibRecord = getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
 
                 String modifiedcontent = process001And003(record, createdBibRecord.getBibId());

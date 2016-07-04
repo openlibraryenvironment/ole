@@ -77,6 +77,11 @@ public class CreateItemHandler extends Handler {
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         itemRecord.setCreatedBy(createdBy);
         itemRecord.setCreatedDate(createdDate);
+        itemRecord.setUpdatedDate(createdDate);
+        itemRecord.setFastAddFlag(false);
+        if(itemRecord.getStaffOnlyFlag()==null){
+            itemRecord.setStaffOnlyFlag(false);
+        }
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
     }
 

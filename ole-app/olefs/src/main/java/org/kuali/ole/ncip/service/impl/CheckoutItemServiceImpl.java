@@ -191,6 +191,7 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
                     getOleCheckOutItem().setRenewalCount(oleLoanDocument.getNumberOfRenewals());
                     getOleCheckOutItem().setUserType(getOlePatronDocument().getBorrowerTypeName());
                     getOleCheckOutItem().setBarcode(oleLoanDocument.getItemId());
+                    getOleCheckOutItem().setTitleIdentifier(oleLoanDocument.getTitle());
                     getOleCheckOutItem().setPatronId(getOlePatronDocument().getOlePatronId());
                     getOleCheckOutItem().setPatronBarcode(getOlePatronDocument().getBarcode());
                     if (oleLoanDocument.getOleItem() != null && oleLoanDocument.getOleItem().getItemType() != null) {

@@ -56,7 +56,9 @@ public class UpdateBibHandler extends BibHandler {
                     Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
                     bibRecord.setDateEntered(updatedDate);
-
+                    if(bibRecord.getStaffOnlyFlag()==null){
+                        bibRecord.setStaffOnlyFlag(false);
+                    }
                     String newContent = process001And003(record, bibId);
 
                     newContent = processFieldOptions(bibRecord.getContent(), newContent, requestJsonObject);
