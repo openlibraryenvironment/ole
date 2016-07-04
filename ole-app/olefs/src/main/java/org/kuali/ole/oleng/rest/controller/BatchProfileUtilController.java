@@ -85,4 +85,10 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getBatchJobs() {
         return batchProfileRequestHandler.prepareBatchJobs();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getFilterNames", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getFilterNames() {
+        return batchProfileRequestHandler.prepareFilterNames();
+    }
 }

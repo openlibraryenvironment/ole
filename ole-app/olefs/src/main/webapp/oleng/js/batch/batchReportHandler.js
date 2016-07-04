@@ -38,6 +38,16 @@ function initializePanels($scope) {
     $scope.reportInvoiceSectionPanel = [];
     $scope.invoiceImportReportMainSectionPanel.collapsed = false;
     $scope.reportInvoiceSectionPanel.collapsed = false;
+
+    $scope.batchDeleteReportMainSectionActivePanel = [0];
+    $scope.batchDeleteReportSuccessSectionActivePanel = [];
+    $scope.batchDeleteReportFailureSectionActivePanel = [];
+    $scope.batchDeleteReportMainSectionPanel = [];
+    $scope.batchDeleteReportSuccessSectionPanel = [];
+    $scope.batchDeleteReportFailureSectionPanel = [];
+    $scope.batchDeleteReportMainSectionPanel.collapsed = false;
+    $scope.batchDeleteReportSuccessSectionPanel.collapsed = false;
+    $scope.batchDeleteReportFailureSectionPanel.collapsed = false;
 }
 
 function populateBibImportReportFromContent(fileContent, $scope) {
@@ -135,6 +145,20 @@ function populateInvoiceImportReportFromContent(fileContent, $scope) {
     $scope.reportInvoiceSectionPanel = getInvoiceSectionContent(fileContent);
 }
 
+function populateBatchDeleteReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForBatchDelete(fileContent);
+    $scope.batchDeleteReportMainSectionPanel = mainSectionContent;
+    $scope.batchDeleteReportSuccessSectionPanel = getDeleteSuccessSectionContent(fileContent);
+    $scope.batchDeleteReportFailureSectionPanel = getDeleteFailureSectionContent(fileContent);
+}
+
+function populateBatchExportReportFromContent(fileContent, $scope) {
+    var mainSectionContent = getMainSectionContentForBatchExport(fileContent);
+    $scope.batchExportReportMainSectionPanel = mainSectionContent;
+    $scope.batchExportReportSuccessSectionPanel = getExportSuccessSectionContent(fileContent);
+    $scope.batchExportReportFailureSectionPanel = getExportFailureSectionContent(fileContent);
+}
+
 function getMainSectionContent(fileContent) {
     var mainSectionContent = {
         "bibImportProfileName": fileContent["bibImportProfileName"],
@@ -156,6 +180,28 @@ function getMainSectionContent(fileContent) {
     return mainSectionContent;
 }
 
+
+function getMainSectionContentForBatchDelete(fileContent) {
+    var mainSectionContent = {
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
+        "deletedBibsCount": fileContent["deletedBibsCount"],
+        "failedBibsCount": fileContent["failedBibsCount"],
+        "totalRecordsCount": fileContent["totalRecordsCount"]
+    };
+    return mainSectionContent;
+}
+
+function getMainSectionContentForBatchExport(fileContent) {
+    var mainSectionContent = {
+        "jobName": fileContent["jobName"],
+        "jobDetailId": fileContent["jobDetailId"],
+        "successBibsCount": fileContent["successBibsCount"],
+        "failedBibsCount": fileContent["failedBibsCount"],
+        "totalRecordsCount": fileContent["totalRecordsCount"]
+    };
+    return mainSectionContent;
+}
 
 function getMainSectionContentForOrderAndInvoiceImport(fileContent) {
     var mainSectionContent = {
@@ -280,3 +326,70 @@ function getInvoiceFromResponse(invoiceResponse) {
     };
     return invoice;
 }
+
+function getDeleteSuccessSectionContent(fileContent) {
+    var deleteSuccessSectionContent = [];
+    var deleteSuccessResponses = fileContent["deleteSuccessResponses"];
+    if (deleteSuccessResponses != null && deleteSuccessResponses != undefined) {
+        for (var q = 0; q < deleteSuccessResponses.length; q++) {
+            var deleteSuccessMessage = getDeleteMessageFromResponse(deleteSuccessResponses[q]);
+            deleteSuccessSectionContent.push(deleteSuccessMessage);
+        }
+    }
+    return deleteSuccessSectionContent;
+}
+
+function getDeleteMessageFromResponse(deleteMessage) {
+    var deleteMessage = {
+        "matchPoint" : deleteMessage["matchPoint"],
+        "matchPointValue" : deleteMessage["matchPointValue"],
+        "bibId" : deleteMessage["bibId"],
+        "message" : deleteMessage["message"]
+    };
+    return deleteMessage;
+}
+
+function getDeleteFailureSectionContent(fileContent) {
+    var deleteFailureSectionContent = [];
+    var deleteFailureResponses = fileContent["deleteFailureResponses"];
+    if (deleteFailureResponses != null && deleteFailureResponses != undefined) {
+        for (var q = 0; q < deleteFailureResponses.length; q++) {
+            var deleteFailureMessage = getDeleteMessageFromResponse(deleteFailureResponses[q]);
+            deleteFailureSectionContent.push(deleteFailureMessage);
+        }
+    }
+    return deleteFailureSectionContent;
+}
+
+function getExportSuccessSectionContent(fileContent) {
+    var exportSuccessSectionContent = [];
+    var exportSuccessResponses = fileContent["exportSuccessResponses"];
+    if (exportSuccessResponses != null && exportSuccessResponses != undefined) {
+        for (var q = 0; q < exportSuccessResponses.length; q++) {
+            var exportSuccessMessage = getExportMessageFromResponse(exportSuccessResponses[q]);
+            exportSuccessSectionContent.push(exportSuccessMessage);
+        }
+    }
+    return exportSuccessSectionContent;
+}
+
+function getExportMessageFromResponse(exportMessage) {
+    var exportMessage = {
+        "bibId" : exportMessage["bibId"],
+        "message" : exportMessage["message"]
+    };
+    return exportMessage;
+}
+
+function getExportFailureSectionContent(fileContent) {
+    var exportFailureSectionContent = [];
+    var exportFailureResponses = fileContent["exportFailureResponses"];
+    if (exportFailureResponses != null && exportFailureResponses != undefined) {
+        for (var q = 0; q < exportFailureResponses.length; q++) {
+            var exportFailureMessage = getExportMessageFromResponse(exportFailureResponses[q]);
+            exportFailureSectionContent.push(exportFailureMessage);
+        }
+    }
+    return exportFailureSectionContent;
+}
+

@@ -5,8 +5,11 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -139,15 +142,20 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
 
     public String prepareItemStatus(){
         List<OleItemAvailableStatus> itemStatusList = batchProfileService.fetchAllItemStatus();
+        String excludeItemStatus = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID, OLEConstants
+                .SELECT_NMSPC, OLEConstants.SELECT_CMPNT, OLEConstants.EXCLUDE_ITEM_STATUS);
+        List<String> excludeItemStatusList = StringUtils.isNotBlank(excludeItemStatus) ? Arrays.asList(excludeItemStatus.split(",")) : new ArrayList<String>();
         JSONArray jsonArray = new JSONArray();
         try {
             if(CollectionUtils.isNotEmpty(itemStatusList)) {
                 for (Iterator<OleItemAvailableStatus> iterator = itemStatusList.iterator(); iterator.hasNext(); ) {
                     OleItemAvailableStatus availableStatus = iterator.next();
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
-                    jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusName());
-                    jsonArray.put(jsonObject);
+                    if (availableStatus!=null && !excludeItemStatusList.contains(availableStatus.getItemAvailableStatusCode())){
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put(OleNGConstants.ID,availableStatus.getItemAvailableStatusId());
+                        jsonObject.put(OleNGConstants.VALUE,availableStatus.getItemAvailableStatusName());
+                        jsonArray.put(jsonObject);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -167,6 +175,10 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put(OleNGConstants.PROFILE_ID,batchProcessProfile.getBatchProcessProfileId());
                         jsonObject.put(OleNGConstants.PROFILE_NAME,batchProcessProfile.getBatchProcessProfileName());
+                        if (OleNGConstants.BATCH_EXPORT.equalsIgnoreCase(batchProcessProfile.getBatchProcessType())) {
+                            batchProcessProfile = getObjectMapper().readValue(batchProcessProfile.getContent(), BatchProcessProfile.class);
+                        }
+                        jsonObject.put(OleNGConstants.UPLOAD_EXPORT_INPUT_FILE, batchProcessProfile.isUploadExportInputFile());
                         jsonArray.put(jsonObject);
                     }
                 }
@@ -237,6 +249,14 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.NEXT_RUN_TIME, batchProcessJob.getNextRunTime());
                     jsonObject.put(OleNGConstants.JOB_TYPE, batchProcessJob.getJobType());
                     jsonObject.put(OleNGConstants.CRON_EXPRESSION, batchProcessJob.getCronExpression());
+                    if (OleNGConstants.BATCH_EXPORT.equalsIgnoreCase(batchProcessJob.getProfileType())) {
+                        if (null != batchProcessJob.getBatchProcessProfile()) {
+                            BatchProcessProfile profile = getObjectMapper().readValue(batchProcessJob.getBatchProcessProfile().getContent(), BatchProcessProfile.class);
+                            batchProcessJob.setBatchProcessProfile(profile);
+                            //batchProcessJob.setUploadExportInputFile(profile.isUploadExportInputFile());
+                        }
+                    }
+                    jsonObject.put(OleNGConstants.UPLOAD_EXPORT_INPUT_FILE, batchProcessJob.isUploadExportInputFile());
                     List<BatchJobDetails> batchJobDetailsList = batchProcessJob.getBatchJobDetailsList();
                     sortExecutions(batchJobDetailsList);
                     jsonObject.put(OleNGConstants.EXECUTION_COUNT, batchJobDetailsList.size());
@@ -275,6 +295,31 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     jsonObject.put(OleNGConstants.TOTAL_RECORDS_PROCESSED, batchJob.getTotalRecordsProcessed());
                     jsonObject.put(OleNGConstants.TOTAL_FAILURE_RECORDS, batchJob.getTotalFailureRecords());
                     jsonObject.put(OleNGConstants.JOB_STATUS, batchJob.getStatus());
+                    jsonArray.put(jsonObject);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
+
+    public String prepareFilterNames() {
+        List<OLEBatchProcessFilterCriteriaBo> oleBatchProcessFilterCriteriaBos = batchProfileService.getAllBatchProcessFilterCriterias();
+        Map<String, String> filterNames = new HashMap<>();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            if(CollectionUtils.isNotEmpty(oleBatchProcessFilterCriteriaBos)) {
+                for(OLEBatchProcessFilterCriteriaBo oleBatchProcessFilterCriteriaBo : oleBatchProcessFilterCriteriaBos) {
+                    filterNames.put(oleBatchProcessFilterCriteriaBo.getFieldDisplayName(), oleBatchProcessFilterCriteriaBo.getFieldDisplayName());
+                }
+            }
+            if (!filterNames.isEmpty()) {
+                for (Iterator iterator = filterNames.entrySet().iterator(); iterator.hasNext(); ) {
+                    Map.Entry<String, String> fieldValue = (Map.Entry<String, String>) iterator.next();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(OleNGConstants.ID, fieldValue.getKey());
+                    jsonObject.put(OleNGConstants.VALUE, fieldValue.getValue());
                     jsonArray.put(jsonObject);
                 }
             }

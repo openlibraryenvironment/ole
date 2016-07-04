@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.service;
 
 import org.codehaus.jettison.json.JSONArray;
+import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
@@ -30,5 +31,6 @@ public interface BatchProfileService {
     public BatchProcessProfile saveProfile(BatchProcessProfile batchProcessProfile);
     public List<BatchProcessJob> getAllBatchProcessJobs();
     public List<BatchJobDetails> getAllBatchJobs();
+    public List<OLEBatchProcessFilterCriteriaBo> getAllBatchProcessFilterCriterias();
 
 }

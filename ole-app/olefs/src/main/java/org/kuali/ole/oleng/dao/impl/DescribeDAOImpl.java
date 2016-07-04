@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.dao.impl;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
@@ -114,6 +115,11 @@ public class DescribeDAOImpl extends BusinessObjectServiceHelperUtil implements 
     @Override
     public <T extends PersistableBusinessObject> T save(T bo) {
         return getBusinessObjectService().save(bo);
+    }
+
+    @Override
+    public List<OLEBatchProcessFilterCriteriaBo> fetchAllBatchProcessFilterCriterias() {
+        return (List< OLEBatchProcessFilterCriteriaBo>) getBusinessObjectService().findAll(OLEBatchProcessFilterCriteriaBo.class);
     }
 
 }

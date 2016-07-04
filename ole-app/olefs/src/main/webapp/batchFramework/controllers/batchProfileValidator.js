@@ -130,6 +130,21 @@ isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
     return isValid;
 };
 
+isValidFilterCriteriaRow = function(filterCriteriaRow, index, $scope) {
+    var isValid = true;
+    if(isFieldEmpty(filterCriteriaRow.filterFieldName)) {
+        $scope.batchProfileForm['filterFieldName_' + index].$dirty = true;
+        $scope.batchProfileForm['filterFieldName_' + index].$invalid = true;
+        isValid = false;
+    }
+    return isValid;
+};
+
+makeFilterCriteriaValid = function($scope) {
+    $scope.batchProfileForm['filterFieldName_0'].$dirty = true;
+    $scope.batchProfileForm['filterFieldName_0'].$invalid = true;
+};
+
 makeMatchPointValid = function ($scope) {
     $scope.batchProfileForm['matchPointDataField_0'].$dirty = false;
     $scope.batchProfileForm['matchPointDataField_0'].$invalid = false;

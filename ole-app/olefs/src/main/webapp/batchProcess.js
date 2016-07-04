@@ -53,6 +53,8 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
 batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$http', function($scope, fileUpload,$http){
 
     $scope.batchProcessTypes = BATCH_CONSTANTS.PROFILE_TYPES;
+    $scope.outputFormats = BATCH_CONSTANTS.OUTPUT_FORMATS;
+    $scope.outputFormat = 'Marc';
 
     $scope.profileNames = [];
     var url = "rest/batch/upload";
@@ -60,6 +62,8 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
         var file = $scope.selectedFile;
         var profileName = $scope.profileName;
         var batchType = $scope.batchType;
+        var outputFormat = $scope.outputFormat;
+        var numOfRecordsInFile = $scope.numOfRecordsInFile;
         console.log('file is ' );
         console.log('Profile Name is '  + profileName);
         console.dir(file);
@@ -71,19 +75,36 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
             var data = response.data;
             $scope.profileNames = data;
         });
-    }
+    };
 
     $scope.setSessionData = function() {
         sessionStorage.setItem("batchType", $scope.batchType);
         sessionStorage.setItem("profileName", $scope.profileName);
-    }
+        sessionStorage.setItem("exportInputFile", $scope.exportInputFile);
+    };
 
-    if(sessionStorage.getItem("batchType") != null && sessionStorage.getItem("batchType") != "undefined") {
-        $scope.batchType = sessionStorage.getItem("batchType");
-        $scope.populationProfileNames();
-        if(sessionStorage.getItem("profileName") != null && sessionStorage.getItem("batchType") != "undefined") {
-            $scope.profileName = sessionStorage.getItem("profileName");
+    $scope.checkToEnableInputFile = function(profileId) {
+        angular.forEach($scope.profileNames, function (profile) {
+            if (profile.profileId == profileId) {
+                $scope.exportInputFile = profile.exportInputFile;
+                return;
+            }
+        }, "");
+    };
+
+    $scope.init = function() {
+        if (sessionStorage.getItem("batchType") != null && sessionStorage.getItem("batchType") != "undefined") {
+            $scope.batchType = sessionStorage.getItem("batchType");
+            $scope.populationProfileNames();
+            if (sessionStorage.getItem("profileName") != null && sessionStorage.getItem("profileName") != "undefined") {
+                $scope.profileName = sessionStorage.getItem("profileName");
+                if (sessionStorage.getItem("exportInputFile") != null && sessionStorage.getItem("exportInputFile") != "undefined") {
+                    console.log("Input session : " + sessionStorage.getItem("exportInputFile"));
+                    $scope.exportInputFile = sessionStorage.getItem("exportInputFile");
+                }
+            }
         }
-    }
+    };
+
 
 }]);

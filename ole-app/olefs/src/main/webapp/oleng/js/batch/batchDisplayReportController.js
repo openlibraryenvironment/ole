@@ -9,8 +9,8 @@ batchDisplayReportApp.controller('batchDisplayReportController', ['$scope', '$ht
     $scope.batchReportViewer = {};
 
     $scope.init = function() {
-        $scope.batchReportViewer.profileTypeValues = batchProcessTypeValues;
-    }
+        $scope.batchReportViewer.profileTypeValues = BATCH_CONSTANTS.PROFILE_TYPES;
+    };
 
     $scope.showReportPopUp = function() {
         $scope.batchReportViewer.showModal = false;
@@ -42,6 +42,8 @@ batchDisplayReportApp.controller('batchDisplayReportController', ['$scope', '$ht
                     populateOrderImportReportFromContent(fileContent, $scope);
                 } else if (profileType.indexOf('Invoice') != -1) {
                     populateInvoiceImportReportFromContent(fileContent, $scope);
+                } else if (profileType.indexOf('Batch Export') != -1) {
+                    populateBatchExportReportFromContent(fileContent, $scope);
                 }
             }
         };

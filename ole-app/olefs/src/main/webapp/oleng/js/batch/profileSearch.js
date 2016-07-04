@@ -37,8 +37,11 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
                 $scope.mainSectionPanel.bibImportProfileForOrderImport = profile.bibImportProfileForOrderImport;
                 $scope.mainSectionPanel.requisitionForTitlesOption = profile.requisitionForTitlesOption;
                 $scope.mainSectionPanel.matchPointToUse = profile.matchPointToUse;
+                $scope.mainSectionPanel.dataToExport = profile.dataToExport;
+                $scope.mainSectionPanel.exportScope = profile.exportScope;
                 $scope.mainSectionPanel.orderType = profile.orderType;
                 $scope.mainSectionPanel.marcOnly = profile.marcOnly;
+                $scope.filterCriteriaPanel = profile.batchProfileFilterCriteriaList;
                 $scope.matchPointsPanel = profile.batchProfileMatchPointList;
                 $scope.addOrOverlayPanel = profile.batchProfileAddOrOverlayList;
                 $scope.fieldOperationsPanel = profile.batchProfileFieldOperationList;
@@ -72,18 +75,21 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
 
     function initializeProfilePanels() {
         $scope.mainSectionActivePanel = [0];
+        $scope.filterCriteriaActivePanel = [];
         $scope.matchPointsActivePanel = [];
         $scope.addOrOverlayActivePanel = [];
         $scope.fieldOperationsActivePanel = [];
         $scope.dataMappingsActivePanel = [];
         $scope.dataTransformationsActivePanel = [];
         $scope.mainSectionPanel = [];
+        $scope.filterCriteriaPanel = [];
         $scope.matchPointsPanel = [];
         $scope.addOrOverlayPanel = [];
         $scope.fieldOperationsPanel = [];
         $scope.dataMappingsPanel = [];
         $scope.dataTransformationsPanel = [];
         $scope.mainSectionPanel.collapsed = false;
+        $scope.filterCriteriaPanel.collapsed = false;
         $scope.matchPointsPanel.collapsed = false;
         $scope.addOrOverlayPanel.collapsed = false;
         $scope.fieldOperationsPanel.collapsed = false;

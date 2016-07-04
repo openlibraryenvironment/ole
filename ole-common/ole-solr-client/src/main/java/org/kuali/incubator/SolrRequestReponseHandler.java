@@ -115,6 +115,28 @@ public class SolrRequestReponseHandler {
         return sdl;
     }
 
+    public SolrDocumentList getSolrDocumentList(String queryString, int start, int rows, String fieldList) {
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
+        SolrDocumentList sdl = null;
+
+        server = getHttpSolrServer();
+
+        SolrQuery query = new SolrQuery();
+        query.setQuery(queryString);
+        query.setStart(start);
+        query.setRows(rows);
+        query.setFields(fieldList);
+        query.setIncludeScore(true);
+
+        try {
+            QueryResponse qr = server.query(query);
+            sdl = qr.getResults();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+        return sdl;
+    }
+
     private HttpSolrServer getHttpSolrServer() {
         if (null == server) {
             try {

@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.service.impl;
 
 import org.codehaus.jettison.json.JSONArray;
+import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.oleng.DropDownValueProvidersForBatchProfile;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
@@ -100,5 +101,10 @@ public class BatchProfileServiceImpl implements BatchProfileService{
     @Override
     public List<BatchJobDetails> getAllBatchJobs() {
         return describeDAO.fetchAllBatchJobDetails();
+    }
+
+    @Override
+    public List<OLEBatchProcessFilterCriteriaBo> getAllBatchProcessFilterCriterias() {
+        return describeDAO.fetchAllBatchProcessFilterCriterias();
     }
 }
