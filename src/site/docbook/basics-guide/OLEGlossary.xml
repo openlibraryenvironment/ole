@@ -1036,6 +1036,15 @@
                     an entity is generated.</para>
             </glossdef>
         </glossentry>
+        <glossentry xml:id="credit">
+            <glossterm>Credit</glossterm>
+            <glossdef>
+                <para>On patron bills, used by an operator to issue a credit for an amount already
+                    collected.</para>
+                <glossseealso otherterm="fullcredit">Full credit issued / Partial credit
+                    issued</glossseealso>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="customer">
             <glossterm>Customer</glossterm>
             <glossdef>
@@ -1776,6 +1785,14 @@
                 <para>The interval at which a serial appears, e.g., daily, weekly, monthly,
                     quarterly, etc. </para>
                 <glossseealso otherterm="serial">Serial</glossseealso>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="fullcredit">
+            <glossterm>Full credit issued / Partial credit issued</glossterm>
+            <glossdef>
+                <para>Payment statuses that documents a fee has been fully or partially credited via
+                    the credit payment mode.</para>
+                <glossseealso otherterm="credit">Credit</glossseealso>
             </glossdef>
         </glossentry>
         <glossentry xml:id="fspec">
