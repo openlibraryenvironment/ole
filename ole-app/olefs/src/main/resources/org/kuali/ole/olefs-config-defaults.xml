@@ -233,7 +233,7 @@
   <!-- Scheduler properties -->
   <param name="use.quartz.scheduling" override="false">true</param>
   <param name="use.quartz.jdbc.jobstore" override="false">false</param>
-  <param name="batch.schedule.cron.expression" override="false">00 00 23 ? * *</param>
+  <param name="batch.schedule.cron.expression" override="true">00 00 23 ? * *</param>
   <param name="batch.quartz.thread.pool.size" override="false">8</param>
   <param name="batch.quartz.trigger.check.interval" override="false">30000</param>
 
