@@ -2,6 +2,7 @@ package org.kuali.ole.oleng.service;
 
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.OleFundCode;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.module.purap.businessobject.ItemType;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
@@ -44,4 +45,5 @@ public interface OleNGMemorizeService {
     public List<OleVendorAccountInfo> getVendorAccountInfo(String code);
     public List<Account> getAccount(String accountNumber);
     public List<OleFundCode> getFundCode(String fundCode);
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName);
 }

@@ -3,7 +3,10 @@ package org.kuali.ole.oleng.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.oleng.exception.ValidationException;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
+import org.kuali.ole.oleng.service.impl.OleNGMemorizeServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
@@ -14,6 +17,7 @@ import org.kuali.ole.spring.batch.BatchUtil;
  */
 public class OleNGPOValidationUtil {
     private BatchUtil batchUtil;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     public boolean validateOleOrderRecord(OleOrderRecord oleOrderRecord, Exchange exchange, Integer recordIndex) {
         boolean valid = true;
@@ -159,12 +163,18 @@ public class OleNGPOValidationUtil {
 
     private boolean validateItemStatus(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         String itemStatus = oleTxRecord.getItemStatus();
-        if (StringUtils.isBlank(itemStatus)){
-            getBatchUtil().addOrderFaiureResponseToExchange(
-                    new ValidationException("Item Status cannot be blank or null"), recordIndex, exchange);
-            return false;
+        if (StringUtils.isNotBlank(itemStatus)) {
+            ItemStatusRecord itemStatusRecord = getOleNGMemorizeService().fetchItemStatusByName(itemStatus);
+            if (null == itemStatusRecord) {
+                getBatchUtil().addOrderFaiureResponseToExchange(
+                        new ValidationException("Invalid Item Status : " + itemStatus), recordIndex, exchange);
+                oleTxRecord.setItemStatus(null);
+            } else {
+                oleTxRecord.setItemStatus(itemStatusRecord.getCode());
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     private boolean validateOrganizationCode(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
@@ -238,5 +248,16 @@ public class OleNGPOValidationUtil {
             batchUtil = new BatchUtil();
         }
         return batchUtil;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 }

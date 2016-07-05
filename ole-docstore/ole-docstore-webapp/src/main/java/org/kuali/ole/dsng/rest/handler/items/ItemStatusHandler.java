@@ -8,7 +8,6 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.Exchange;
-import org.kuali.ole.dsng.util.ItemUtil;
 
 import java.util.Iterator;
 import java.util.List;
